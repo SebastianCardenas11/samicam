@@ -1,7 +1,7 @@
 <?php
 require_once 'Models/UsuarioModel.php';
 
-class UsuarioController {
+class Usuario {
     private $usuarioModel;
 
     public function __construct() {

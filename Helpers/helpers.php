@@ -12,7 +12,7 @@ function base_url()
 //Retorna la URL base de la carpeta de Assets definida en Config/Config.php
 function media()
 {
-    return BASE_URL . "/Assets"; // Concatena BASE_URL con la ruta a la carpeta Assets
+    return BASE_URL . "/Assets/"; // Concatena BASE_URL con la ruta a la carpeta Assets
 }
 
 //Incluye el archivo de encabezado para la interfaz de administración

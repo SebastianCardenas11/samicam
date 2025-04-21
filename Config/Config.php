@@ -1,5 +1,5 @@
 <?php
-define('BASE_URL', "http://localhost/SamiCAM");
+define('BASE_URL', "http://localhost/samicam");
 
 //Zona horaria
 date_default_timezone_set('America/Bogota');
