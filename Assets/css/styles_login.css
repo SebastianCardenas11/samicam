@@ -1,0 +1,447 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+    overflow: hidden;/* Evita scroll innecesario */
+    font-family: 'Montserrat', sans-serif;
+
+    background-image: url('../images/ia.png');
+    background-size: cover;/* Escala bien la imagen sin deformar */
+    background-position: center center;/* Mejor precisión en el centrado */
+    background-repeat: no-repeat;
+    background-attachment: fixed;/* Hace que la imagen se quede fija al hacer scroll */
+    background-blend-mode: overlay;/* Mezcla suave si le añades color */
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+    font-weight: bold;
+    margin: 0;
+}
+
+p {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+}
+
+span {
+    font-size: 12px;
+}
+
+
+
+
+.container {
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 765px;
+    /* largo horizontal login */
+    max-width: 100%;
+    min-height: 480px;
+    /* largo vertical login */
+    padding: 20px;
+    /* Ajusta el espacio interno del contenedor */
+    border-radius: 25px;
+    /* Bordes redondeados */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    /* Añade una sombra para darle profundidad */
+}
+
+
+/* Estilos para la imagen del logo de la alcaldia */
+.form-img {
+    width: 122px;
+    /* Ajusta el tamaño según necesites */
+    height: auto;
+    display: block;
+    margin-top: -73px;
+    /* Ajusta hacia arriba */
+    position: relative;
+    left: 0px;
+    /* Mueve la imagen hacia la izquierda */
+    
+}
+
+
+h1 {
+    margin-top: 19px;
+    /* para colocar iniciar sesion separado del logo - hacia abajo */
+
+}
+
+/* Estilos para la imagen del logo de la alcaldia */
+
+
+
+/* estilos imupt */
+input {
+    background-color: #d5e8fa;
+    /* Azul claro, puedes cambiarlo */
+    border: 1px solid #d5e8fa;
+    /* Borde del mismo tono pero más oscuro */
+    padding: 10px;
+    /* Asegura que el texto dentro se vea bien */
+    outline: none;
+    /* Elimina el borde azul de selección */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+}
+
+/* estilos imput */
+
+
+
+
+
+
+
+
+
+
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.sign-up-container {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.overlay {
+    background: #7DA0CA;
+    background: -webkit-linear-gradient(to right, #C1E8FF, #7DA0CA);
+    background: linear-gradient(to right, #C1E8FF, #7DA0CA);
+    color: #000000d5;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+
+
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.ghost {
+    background-color: transparent;
+    border-color: #ffffff;
+    color: #FFFFFF;
+}
+
+.social-container {
+    margin: 20px 0;
+}
+
+.social-container a {
+    background: #7DA0CA;
+    background: -webkit-linear-gradient(to right, #C1E8FF, #7DA0CA);
+    background: linear-gradient(to right, #C1E8FF, #7DA0CA);
+    color: #000000d5;
+    border: 1px solid #DDDDDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+}
+
+button {
+    border-radius: 20px;
+    border: 1px solid #8fbdd8;
+    /* Color bordes iniciar sesión */
+    background-color: #8fbdd8;
+    /* Color botón iniciar sesión */
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    cursor: pointer;
+    /* Cambia el cursor a mano */
+    margin-top: 15px;
+}
+button:hover {
+    background-color: #5d8ec5;
+    transform: scale(1.02);
+}
+
+
+button:active {
+    transform: scale(1.12);
+    /* Hace que los botones de inicio se agranden al oprimir */
+}
+
+button:focus {
+    outline: none;
+}
+
+button.ghost {
+    background-color: transparent;
+    border-color: #FFFFFF;
+}
+
+
+
+/* Estilo lado izquierdo login */
+form {
+
+    background: linear-gradient(to right, #b0dffd, #a8dadc, #457b9d);
+    /* Verde muy claro, azul claro, azul medio (tonos más presentes) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color: #000000;/* negro para contraste */
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra elegante */
+}
+
+/* Estilo lado izquierdo login */
+
+
+/* Estilo lado derecho */
+.overlay-panel {
+    background: #1d3557;
+    /* Azul oscuro representativo */
+    background: -webkit-linear-gradient(to right, #457b9d, #1d3557);
+    /* Azul medio a azul oscuro */
+    background: linear-gradient(to right, #457b9d, #1d3557);
+    /* Azul medio a azul oscuro */
+    color: #fff;
+    /* Blanco para contraste */
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Estilo lado derecho */
+
+
+
+
+
+
+
+
+/* ESTILO DE LOS IMPUTS - LOGIN */
+
+input {
+    background-color: #ffffff;
+    /* Blanco limpio */
+    border: 1px solid #ced4da;
+    /* Gris claro profesional */
+    border-radius: 6px;
+    /* Radio de borde sutil */
+    padding: 10px 16px;
+    /* Ajuste de padding para un aspecto más compacto si es necesario */
+    margin: 8px 0;
+    width: 92%;
+    /* Ajusté el ancho a 70% para hacerlo más delgado */
+    max-width: 400px;
+    /* Opcional: Limita el ancho máximo en pantallas grandes */
+    font-size: 15px;
+    /* Tamaño de fuente legible */
+    color: #000000;
+    /* Color de texto profesional */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    /* Sombra interna sutil */
+    outline: none;
+}
+
+input:focus {
+    border-color: #007bff;
+    /* Azul de enfoque profesional */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+input::placeholder {
+    color: #6c757d;
+}
+
+
+/* ESTILOS DE LOS IMPUT - LUGIN */
+
+
+
+/* Estilo cuando el usuario hace foco en el input */
+input:focus {
+    border-color: #7DA0CA;
+    box-shadow: 0 0 0 3px rgba(125, 160, 202, 0.3);
+    background-color: #ffffff;
+}
+
+.overlay-right {
+    transform: translateX(0);
+}
+
+.container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+}
+
+.container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+.container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+}
+
+.container.right-panel-active .overlay {
+    transform: translateX(50%);
+}
+
+@keyframes show {
+
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+
+/* Estilo para marcar los inputs en rojo cuando hay error */
+input.error {
+    border: 2px solid red;
+}
+
+
+
+
+/* Estilos logos samicam lado derecho */
+.logo-samicam {
+    max-width: 335px;
+    height: auto;
+    margin-top: -111px;/* Ajusta hacia arriba */
+    display: block;
+    object-fit: contain;
+
+}
+
+/* Estilos logos samicam lado derecho */
+
+
+
+
+/* AJUSTA EL HOLA sin afectar el fondo - LOGIN */
+.hola {
+    margin-top: -130px;
+    /* Mueve solo la imagen hacia arriba */
+
+}
+
+
+
+
+
+
+
+
+
+
+/* Estilo animacion hola */
+
+.floating-hola {
+    position: absolute;
+    font-size: 30px;
+    /* Más grande */
+    font-weight: bold;
+    /* Negrita */
+    animation: flotar 2s ease-out forwards;
+    pointer-events: none;
+    z-index: 999;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    /* Brillo/sombra */
+}
+
+@keyframes flotar {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Estilo animacion hola */
