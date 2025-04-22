@@ -1,26 +1,23 @@
 <?php
-require_once "Config/Config.php"; // Importamos la configuración
+class Conexion
+{
+    private $conect;
 
-class Database {
-    private $conexion;
-    private $host = DB_HOST;
-    private $user = DB_USER;
-    private $password = DB_PASSWORD;
-    private $db = DB_NAME;
-    private $charset = DB_CHARSET;
-
-    public function __construct() {
+    public function __construct()
+    {
+        $connectionString = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         try {
-            $dsn = "mysql:host=".$this->host.";dbname=".$this->db.";charset=".$this->charset;
-            $this->conexion = new PDO($dsn, $this->user, $this->password);
-            $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conect = new PDO($connectionString, DB_USER, DB_PASSWORD);
+            $this->conect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // echo "conexión exitosa";
         } catch (PDOException $e) {
-            die("Error en la conexión: " . $e->getMessage());
+            $this->conect = 'Error de conexión';
+            echo "ERROR: " . $e->getMessage();
         }
     }
 
-    public function connect() {
-        return $this->conexion;
+    public function conect()
+    {
+        return $this->conect;
     }
 }
-?>

@@ -1,16 +1,49 @@
 <?php
-define('BASE_URL', "http://localhost/samicam");
+const BASE_URL = "http://localhost/samicam";
 
 //Zona horaria
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-define('DB_HOST', 'localhost:3306'); // Servidor de la BD
-define('DB_USER', 'root'); // Usuario de la BD (cámbialo si es necesario)
-define('DB_PASSWORD', ''); // Contraseña de la BD (déjala vacía si no tiene)
-define('DB_NAME', 'samicam'); // Nombre de la base de datos
-define('DB_CHARSET', 'utf8mb4'); // Codificación de caracteres
+const DB_HOST = "localhost:3307";
+const DB_NAME = "sigma";
+const DB_USER = "root";
+const DB_PASSWORD = "";
+const DB_CHARSET = "utf8";
 
-// Ruta a la carpeta de vistas
-define('VIEWS', 'Views/');
-?>
+//Datos envio de correo
+const NOMBRE_REMITENTE = "SENA La Jagua";
+const EMAIL_REMITENTE = "sena.lajagua@sena.edu.co";
+const NOMBRE_EMPESA = "SENA";
+const WEB_EMPRESA = "www.sena.edu.co";
+
+const DESCRIPCION = "Servicio Nacional de Aprendizaje";
+const SHAREDHASH = "Servicio Nacional de Aprendizaje";
+
+//Datos Empresa
+const DIRECCION = "La Jagua - Cesar, Colombia";
+const TELEMPRESA = "3114689298";
+const WHATSAPP = "3114689298";
+const EMAIL_EMPRESA = "sena.lajagua@sena.edu.co";
+const EMAIL_CONTACTO = "sena.lajagua@sena.edu.co";
+
+const CAT_SLIDER = "1,2,3";
+const CAT_BANNER = "4,5,6";
+const CAT_FOOTER = "1,2,3,4,5";
+
+//Datos para Encriptar / Desencriptar
+const KEY = 'joseramos';
+const METHODENCRIPT = "AES-128-ECB";
+
+//Módulos
+const MDASHBOARD = 1;
+const MUSUARIOS = 2;
+const MROLES= 3;
+const MPROGRAMAS= 4;
+
+//Páginas
+const PINICIO = 1;
+
+//Roles
+const RADMINISTRADOR = 1;
+const RCOORDINADOR = 2;

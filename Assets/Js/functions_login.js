@@ -1,73 +1,62 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var divLoading = document.querySelector("#divLoading");
+$('.login-content [data-toggle="flip"]').click(function() {
+	$('.login-box').toggleClass('flipped');
+	return false;
+});
 
-    if (document.querySelector("#loginForm")) {
-        
-        let loginForm = document.querySelector("#loginForm");
+var divLoading = document.querySelector("#divLoading");
+document.addEventListener('DOMContentLoaded', function(){
+	if(document.querySelector("#formLogin")){
+		let formLogin = document.querySelector("#formLogin");
+		formLogin.onsubmit = function(e) {
+			e.preventDefault();
 
-        loginForm.onsubmit = function(e) {
-            e.preventDefault();
+			let strIdentificacion = document.querySelector('#txtIdentificacion').value;
+			let strPassword = document.querySelector('#txtPassword').value;
 
-            let strIdentificacion = document.querySelector('#txtCorreo').value;
-            let strPassword = document.querySelector('#txtPassword').value;
-            console.log(strPassword);
-            document.querySelector('#txtCorreo').classList.remove('is-invalid', 'animate-error');
-            document.querySelector('#txtPassword').classList.remove('is-invalid', 'animate-error');
+			if(strIdentificacion == "" && strPassword == "")
+			{
+				Swal.fire.fire({   title: "Por favor",   text: "Digite su identificación y contraseña",  imageUrl: "Assets/images/iconos/login.png" });
+				return false;
+			}
+			if(strIdentificacion == "")
+				{
+					Swal.fire({   title: "Por favor",   text: "Digite su identificación",  imageUrl: "Assets/images/iconos/usuario.png" });
+					return false;
+				}
+			else if(strPassword == "")
+				{
+					Swal.fire({   title: "Por favor",   text: "Digite su contraseña",    imageUrl: "Assets/images/iconos/password.png" });
+					return false;
+				}
+			else{
+				var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+				var ajaxUrl = base_url+'/Login/loginUser'; 
+				var formData = new FormData(formLogin);
+				request.open("POST",ajaxUrl,true);
+				request.send(formData);
+				request.onreadystatechange = function(){
+					if(request.readyState != 4) return;
+					if(request.status == 200){
+						var objData = JSON.parse(request.responseText);
+						if(objData.status)
+						{
+							window.location = base_url+'/dashboard';
+							// Swal.fire("Bien", objData.msg, "success");
+							// window.location.reload(false);
+						}else{
+							Swal.fire("Atención", objData.msg, "error");
+							// Swal.fire({   title: "Por favor",   text: "Digite tu identificación",  imageUrl: "Assets/images/iconos/usuario.png" });
+							document.querySelector('#txtPassword').value = "";
+						}
+					}else{
+						Swal.fire("Atención","Error en el proceso", "error");
+					}
+					divLoading.style.display = "none";
+					return false;
+				}
+			}
+		}
+	}
 
-            let hasError = false;
-            let errorMessage = "";
 
-            if (strIdentificacion == "" && strPassword == "") {
-                document.querySelector('#txtCorreo').classList.add('is-invalid', 'animate-error');
-                document.querySelector('#txtPassword').classList.add('is-invalid', 'animate-error');
-                errorMessage = "Escribe la identificación y la contraseña";
-                hasError = true;
-            } else if (strIdentificacion == "") {
-                document.querySelector('#txtCorreo').classList.add('is-invalid', 'animate-error');
-                errorMessage = "Escribe la identificación";
-                hasError = true;
-            } else if (strPassword == "") {
-                document.querySelector('#txtPassword').classList.add('is-invalid', 'animate-error');
-                errorMessage = "Escribe la contraseña";
-                hasError = true;
-            }
-
-            if (hasError) {
-               
-                setTimeout(() => {
-                    document.querySelector('#txtCorreo').classList.remove('animate-error');
-                    document.querySelector('#txtPassword').classList.remove('animate-error');
-                }, 400);
-
-                return false;
-            } else {
-                var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                var ajaxUrl = base_url + '/Login/loginUser';
-                var formData = new FormData(loginForm);
-                request.open("POST", ajaxUrl, true);
-                request.send(formData);
-                request.onreadystatechange = function() {
-                    if (request.readyState != 4) return;
-                    if (request.status == 200) {
-                        console.log(this.responseText);
-                        
-                        var objData = JSON.parse(request.responseText);
-                        if (objData.status) {
-                            window.location = base_url + '/dashboard';
-                        } else {
-                            document.querySelector('#txtPassword').classList.add('is-invalid', 'animate-error');
-                            document.querySelector('#txtCorreo').classList.add('is-invalid', 'animate-error');
-                            document.querySelector('#txtPassword').value = "";
-                            setTimeout(() => {
-                                document.querySelector('#txtCorreo').classList.remove('animate-error');
-                                document.querySelector('#txtPassword').classList.remove('animate-error');
-                            }, 400);
-                        }
-                    }
-                    divLoading.style.display = "none";
-                    return false;
-                }
-            }
-        }
-    }
 }, false);

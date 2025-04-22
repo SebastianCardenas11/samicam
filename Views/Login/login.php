@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="SamiCam">
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="<?= media(); ?>css/styles_login.css" media="all">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="author" content="Sigma">
+
+    
+    <link rel="stylesheet" type="text/css" href="<?=mediaSami();?>/css/styles_login.css">
+    <!-- ACTUALIZACIÓN ICONOS BOOTSTRAP-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-sweetalert@1.0.1/dist/sweetalert.min.css" rel="stylesheet">
+
+    <title><?=$data['page_tag'];?></title>
 </head>
 
-
-
 <body>
+    
 <div class="container">
     <div class="form-container sign-in-container">
-        <form name="loginForm" id="loginForm" method="POST" action="">
+        <form name="formLogin" id="formLogin" method="POST" action="">
             <img src="Assets/images/Escudo_de_La_Jagua_de_Ibirico.svg.png" alt="Logo" class="form-img">
             <h1>Iniciar Sesión</h1>
 
-            
-
             <div class="input-group flex-nowrap mb-3">
-                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                <input id="txtCorreo" name="txtCorreo" type="text" class="form-control"
-                    placeholder="Correo electrónico" required autocomplete="off" />
+                <input id="txtIdentificacion" name="txtIdentificacion" type="text" class="form-control"
+                    placeholder="Correo" required autocomplete="off" autofocus />
             </div>
 
             <div class="input-group flex-nowrap mb-3">
-                <span class="input-group-text"><i class="bi bi-key"></i></span>
                 <input id="txtPassword" name="txtPassword" type="password" class="form-control"
                     placeholder="Contraseña" required autocomplete="off" />
             </div>
 
             <div id="alertLogin" class="text-center mb-3"></div>
+
+           
 
             <button type="submit" class="btn btn-primary w-100">
                 <i class="bi bi-door-open me-2" style="font-size: 1rem; color: white;"></i> Iniciar Sesión
@@ -54,11 +58,26 @@
 </div>
 
 
-<script>
-    const base_url = '<?php echo base_url();?>'
-</script>
-    <!-- ANIMACION AL UNDIR HOLA EN EL LOGIN -->
-    <script src="Assets/js/hola-login.js"></script>
-    <script src="<?php echo  media();?>js/functions_login.js"></script>
+    <!-- ORIGINAL -->
+    <script>
+    const base_url = "<?=base_url();?>";
+    </script>
+
+    <!-- Essential javascripts for application to work-->
+    <script src="<?=media();?>/js/jquery-3.7.0.min.js"></script>
+
+    <script src="<?=media();?>/js/popper.min.js"></script>
+
+    <script src="<?=media();?>/js/bootstrap.min.js"></script>
+
+    <script src="<?=media();?>/js/main.js"></script>
+    <script src="<?=mediaSami();?>/js/hola-login.js"></script>
+
+    <!-- <script src="<?=media();?>/js/plugins/sweetalert.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="<?=media();?>/js/<?=$data['page_functions_js'];?>"></script>
+
 </body>
+
 </html>

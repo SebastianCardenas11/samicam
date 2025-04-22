@@ -2,21 +2,14 @@
 
 class Views
 {
-    private string $ruta;
-
-    public function __construct(string $ruta)
+    public function getView($controller, $view, $data = "")
     {
-        $this->ruta = $ruta;
-    }
-
-    public function display(string $vista, array $datos = []): void
-    {
-        $pathView = $this->ruta . $vista . '.php';
-        if (file_exists($pathView)) {
-            extract($datos);
-            require_once $pathView;
+        $controller = get_class($controller);
+        if ($controller == "Home") {
+            $view = "Views/" . $view . ".php";
         } else {
-            die('La vista ' . $vista . ' no existe en la ruta ' . $pathView);
+            $view = "Views/" . $controller . "/" . $view . ".php";
         }
+        require_once $view;
     }
 }

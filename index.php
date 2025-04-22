@@ -1,28 +1,27 @@
 <?php
 require_once "Config/Config.php";
-require_once "Libraries/Core/Autoload.php";
-require_once "Helpers/helpers.php"; // Incluye el archivo de helpers
-
-
+require_once "Helpers/Helpers.php";
+// $url = !empty($_GET['url']) ? $_GET['url'] : 'home/home';
 $url = !empty($_GET['url']) ? $_GET['url'] : 'login';
-$arrUrl = explode("/", filter_var($url, FILTER_SANITIZE_URL));
+$arrUrl = explode("/", $url);
+$controller = $arrUrl[0];
+$method = $arrUrl[0];
+$params = "";
 
-$controller = ucfirst($arrUrl[0]) . "Controller";
-$method = isset($arrUrl[1]) && $arrUrl[1] !== '' ? $arrUrl[1] : "index";
-$params = array_slice($arrUrl, 2);
-
-$controllerFile = "Controllers/" . $controller . ".php";
-if (file_exists($controllerFile)) {
-    require_once $controllerFile;
-    $controller = new $controller();
-
-    if (method_exists($controller, $method)) {
-        call_user_func_array([$controller, $method], $params);
-    } else {
-        echo "Error: Método <b>$method</b> no encontrado en el controlador <b>" . get_class($controller) . "</b>";
+if (!empty($arrUrl[1])) {
+    if ($arrUrl[1] != "") {
+        $method = $arrUrl[1];
     }
-} else {
-    echo "Error: Controlador <b>$controller</b> no encontrado en la ruta <b>$controllerFile</b>";
-    die();
 }
-?>
+
+if (!empty($arrUrl[2])) {
+    if ($arrUrl[2] != "") {
+        for ($i = 2; $i < count($arrUrl); $i++) {
+            $params .= $arrUrl[$i] . ',';
+            # code...
+        }
+        $params = trim($params, ',');
+    }
+}
+require_once "Libraries/Core/Autoload.php";
+require_once "Libraries/Core/Load.php";
