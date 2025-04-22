@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
 			if(strIdentificacion == "" && strPassword == "")
 			{
-				Swal.fire.fire({   title: "Por favor",   text: "Digite su identificación y contraseña",  imageUrl: "Assets/images/iconos/login.png" });
+				Swal.fire.fire({   title: "Por favor",   text: "Digite su correo y contraseña",  imageUrl: "Assets/images/iconos/login.png" });
 				return false;
 			}
 			if(strIdentificacion == "")
 				{
-					Swal.fire({   title: "Por favor",   text: "Digite su identificación",  imageUrl: "Assets/images/iconos/usuario.png" });
+					Swal.fire({   title: "Por favor",   text: "Digite su correo",  imageUrl: "Assets/images/iconos/usuario.png" });
 					return false;
 				}
 			else if(strPassword == "")
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function(){
 							// window.location.reload(false);
 						}else{
 							Swal.fire("Atención", objData.msg, "error");
-							// Swal.fire({   title: "Por favor",   text: "Digite tu identificación",  imageUrl: "Assets/images/iconos/usuario.png" });
+							// Swal.fire({   title: "Por favor",   text: "Digite tu correo",  imageUrl: "Assets/images/iconos/usuario.png" });
 							document.querySelector('#txtPassword').value = "";
 						}
 					}else{

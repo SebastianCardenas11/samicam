@@ -8,7 +8,7 @@
     <meta name="author" content="Sigma">
 
     
-    <link rel="stylesheet" type="text/css" href="<?=mediaSami();?>/css/styles_login.css">
+    <link rel="stylesheet" type="text/css" href="<?=media();?>/css/styles_login.css">
     <!-- ACTUALIZACIÓN ICONOS BOOTSTRAP-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -71,9 +71,9 @@
     <script src="<?=media();?>/js/bootstrap.min.js"></script>
 
     <script src="<?=media();?>/js/main.js"></script>
-    <script src="<?=mediaSami();?>/js/hola-login.js"></script>
+    <script src="<?=media();?>/js/hola-login.js"></script>
 
-    <!-- <script src="<?=media();?>/js/plugins/sweetalert.min.js"></script> -->
+     <script src="<?=media();?>/js/plugins/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="<?=media();?>/js/<?=$data['page_functions_js'];?>"></script>

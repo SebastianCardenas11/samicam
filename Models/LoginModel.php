@@ -3,7 +3,7 @@
 class LoginModel extends Mysql
 {
     private $intIdUsuario;
-    private $strIdentificacion;
+    private $strCorreo;
     private $strPassword;
 
     public function __construct()
@@ -11,12 +11,12 @@ class LoginModel extends Mysql
         parent::__construct();
     }
 
-    public function loginUser(string $identificacion, string $password)
+    public function loginUser(string $correo, string $password)
     {
-        $this->strIdentificacion = $identificacion;
+        $this->strCorreo = $correo;
         $this->strPassword = $password;
         $sql = "SELECT ideusuario,status FROM tbl_usuarios WHERE
-					identificacion = '$this->strIdentificacion' and
+					correo = '$this->strCorreo' and
 					password = '$this->strPassword' and
 					status != 0 ";
         $request = $this->select($sql);
@@ -28,7 +28,7 @@ class LoginModel extends Mysql
         $this->intIdUsuario = $iduser;
         //BUSCAR ROL
         $sql = "SELECT tu.ideusuario,
-							tu.identificacion,
+							tu.correo,
 							tu.nombres,
 							tu.imgperfil,
 							r.idrol,

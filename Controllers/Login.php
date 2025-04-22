@@ -28,9 +28,9 @@ class Login extends Controllers
             if (empty($_POST['txtIdentificacion']) || empty($_POST['txtPassword'])) {
                 $arrResponse = array('status' => false, 'msg' => 'Error de datos');
             } else {
-                $strIdentificacion = strtolower(strClean($_POST['txtIdentificacion']));
+                $strCorreo = strtolower(strClean($_POST['txtIdentificacion']));
                 $strPassword = hash("SHA256", $_POST['txtPassword']);
-                $requestUser = $this->model->loginUser($strIdentificacion, $strPassword);
+                $requestUser = $this->model->loginUser($strCorreo, $strPassword);
                 if (empty($requestUser)) {
                     $arrResponse = array('status' => false, 'msg' => 'Las credenciales son incorrectas');
                 } else {

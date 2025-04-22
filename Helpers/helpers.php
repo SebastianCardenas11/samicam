@@ -13,10 +13,6 @@ function media()
 {
     return BASE_URL . "/Assets";
 }
-function mediaSami()
-{
-    return BASE_URL . "/Assets-sami";
-}
 function headerAdmin($data = "")
 {
     $view_header = "Views/Template/header_admin.php";
