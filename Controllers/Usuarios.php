@@ -36,6 +36,7 @@ class Usuarios extends Controllers
                 $intIdeUsuario = intval($_POST['ideUsuario']);
                 $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
                 $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
+                $strpassword = strClean($_POST['txtContrasenaUsuario']);
                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
                 $intStatus = intval(strClean($_POST['listStatus']));
 

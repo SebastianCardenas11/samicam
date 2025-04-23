@@ -21,17 +21,15 @@
                                 <hr>
                                 <p class="text-primary">Datos del Usuario</p>
                             </div>
-
-                        
-
                             <div class="modal-body">
                                 <label for="txtCorreoUsuario">Correos<span class=" required">*</span></label>
                                 <input type="email" class="form-control " id="txtCorreoUsuario"
                                     name="txtCorreoUsuario" required="" >
                             </div>
-                            <div class="modal-body">
+
+                            <div class="modal-body contrasena">
                                 <label for="txtContrasenaUsuario">Contraseña<span class=" required">*</span></label>
-                                <input type="email" class="form-control " id="txtContrasenaUsuario"
+                                <input type="password" class="form-control " id="txtContrasenaUsuario"
                                     name="txtContrasenaUsuario" required="" >
                             </div>
 
@@ -94,8 +92,8 @@
                                     <td id="celIdeUsuario">233104</td>
                                 </tr>
                                 <tr>
-                                    <td>Identificación:</td>
-                                    <td id="celIdentificacionUsuario">233104</td>
+                                    <td>Correo:</td>
+                                    <td id="celCorreoUsuario">233104</td>
                                 </tr>
                                 <tr>
                                     <td>Nombres:</td>

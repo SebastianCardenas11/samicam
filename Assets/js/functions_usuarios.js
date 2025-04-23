@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
         formUsuario.onsubmit = function(e) {
             e.preventDefault();
             var intIdeUsuario = document.querySelector('#ideUsuario').value;
-            let strIdentificacionUsuario = document.querySelector('#txtCorreoUsuario').value;
+            let strCorreoUsuario = document.querySelector('#txtCorreoUsuario').value;
             let strNombresUsuario = document.querySelector('#txtNombresUsuario').value;
             // $('#txtRolUsuario').picker();
             // $('#txtRolUsuario').picker({search : true});
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function(){
             $('#listStatus').picker();
             let intStatus = document.querySelector('#listStatus').value;
 
-            if(strIdentificacionUsuario == '' || strNombresUsuario == '' || strRolUsuario == '')
+            if(strCorreoUsuario == '' || strNombresUsuario == '' || strRolUsuario == '')
             {
                 Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
                 return false;
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function(){
                             '<span class="badge text-bg-success">Activo</span>' : 
                             '<span class="badge text-bg-danger">Inactivo</span>';
                             // tableUsuarios.api().ajax.reload();
-                           rowTable.cells[1].textContent =  strIdentificacionUsuario;
+                           rowTable.cells[1].textContent =  strCorreoUsuario;
                         //    rowTable.cells[2].textContent =  strRolUsuario;
                            rowTable.cells[2].textContent = document.querySelector("#txtRolUsuario").selectedOptions[0].text;
                             rowTable.cells[3].innerHTML = htmlStatus;
@@ -147,9 +147,9 @@ function fntViewInfo(ideusuario){
                 '<span class="badge text-bg-danger">Inactivo</span>';
 
                 document.querySelector("#celIdeUsuario").innerHTML = objData.data.ideusuario;
-                document.querySelector("#celIdentificacionUsuario").innerHTML = objData.data.identificacion;
+                document.querySelector("#celCorreoUsuario").innerHTML = objData.data.correo;
                 document.querySelector("#celNombresUsuario").innerHTML = objData.data.nombres;
-                document.querySelector("#celRolUsuario").innerHTML = objData.data.rolid;
+                document.querySelector("#celRolUsuario").innerHTML = objData.data.nombrerol;
                 document.querySelector("#celEstadoUsuario").innerHTML = estadoUsuario;
                 
                 $('#modalViewUsuario').modal('show');
@@ -166,6 +166,7 @@ function fntEditInfo(element, ideusuario){
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
     document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";
+    document.querySelector('.contrasena').classList.add("contrasena","d-none");
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Usuarios/getUsuario/'+ideusuario;
     request.open("GET",ajaxUrl,true);
@@ -177,9 +178,9 @@ function fntEditInfo(element, ideusuario){
             if(objData.status)
             {
                 document.querySelector("#ideUsuario").value = objData.data.ideusuario;
-                document.querySelector("#txtCorreoUsuario").value = objData.data.identificacion;
+                document.querySelector("#txtCorreoUsuario").value = objData.data.correo;
                 document.querySelector("#txtNombresUsuario").value = objData.data.nombres;
-                document.querySelector("#txtRolUsuario").value =objData.data.idrol;
+                document.querySelector("#txtRolUsuario").value = objData.data.idrol;
                 
                 // ESTADO ACTIVO O INACTIVO
                 if(objData.data.status == 1){
