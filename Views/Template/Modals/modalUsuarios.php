@@ -25,13 +25,18 @@
                         
 
                             <div class="modal-body">
-                                <label for="txtCorreoUsuario"">Nombres<span class=" required">*</span></label>
+                                <label for="txtCorreoUsuario">Correos<span class=" required">*</span></label>
                                 <input type="email" class="form-control " id="txtCorreoUsuario"
                                     name="txtCorreoUsuario" required="" >
                             </div>
+                            <div class="modal-body">
+                                <label for="txtContrasenaUsuario">Contraseña<span class=" required">*</span></label>
+                                <input type="email" class="form-control " id="txtContrasenaUsuario"
+                                    name="txtContrasenaUsuario" required="" >
+                            </div>
 
                             <div class="modal-body">
-                                <label for="txtNombresUsuario"">Nombres<span class=" required">*</span></label>
+                                <label for="txtNombresUsuario">Nombres<span class=" required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombresUsuario"
                                     name="txtNombresUsuario" required="" maxlength="30">
                             </div>

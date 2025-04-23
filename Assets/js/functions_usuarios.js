@@ -24,11 +24,6 @@ document.addEventListener('DOMContentLoaded', function(){
         'dom': 'lBfrtip',
         'buttons': [
             {
-                "extend": "copyHtml5",
-                "text": "<i class='far fa-copy'></i> Copiar",
-                "titleAttr":"Copiar",
-                "className": "btn btn-warning mt-3"
-            },{
                 "extend": "excelHtml5",
                 "text": "<i class='fas fa-file-excel'></i> Excel",
                 "titleAttr":"Exportar a Excel",
@@ -38,12 +33,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 "text": "<i class='fas fa-file-pdf'></i> PDF",
                 "titleAttr":"Exportar a PDF",
                 "className": "btn btn-danger mt-3"
-            },{
-                "extend": "csvHtml5",
-                "text": "<i class='fas fa-file-csv'></i> CSV",
-                "titleAttr":"Exportar a CSV",
-                "className": "btn btn-info mt-3"
             }
+            
         ],
         "responsive":"true",
         "bDestroy": true,
