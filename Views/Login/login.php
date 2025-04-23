@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?=media();?>/css/styles_login.css">
     <!-- ACTUALIZACIÓN ICONOS BOOTSTRAP-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="shortcut icon" href="<?=media();?>/images/Escudo_de_La_Jagua_de_Ibirico.svg.png" type="image/x-icon">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-sweetalert@1.0.1/dist/sweetalert.min.css" rel="stylesheet">
 
@@ -22,7 +23,7 @@
 <div class="container">
     <div class="form-container sign-in-container">
         <form name="formLogin" id="formLogin" method="POST" action="">
-            <img src="Assets/images/Escudo_de_La_Jagua_de_Ibirico.svg.png" alt="Logo" class="form-img">
+            <img src="<?=media();?>/images/Escudo_de_La_Jagua_de_Ibirico.svg.png" alt="Logo" class="form-img">
             <h1>Iniciar Sesión</h1>
 
             <div class="input-group flex-nowrap mb-3">

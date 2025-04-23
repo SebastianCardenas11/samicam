@@ -7,7 +7,7 @@
                 <i class="bi bi-house"></i>
                 </i> Inicio
             </h1>
-            <p>Sistema de Información para la Gestión de Módulos Académicos - SIGMA</p>
+            <p> Sistema Administrativo de Módulos de Información del Centro Administrativo</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
@@ -60,25 +60,6 @@
     </div>
     <?php }?>
 
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="tile">
-                <h3 class="tile-title">Avance de las Fichas</h3>
-                <div class="ratio ratio-16x9">
-                    <div id="main" style="width: 600px; height: 300px;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="tile">
-                <h3 class="tile-title">Horas Instructores</h3>
-                <div class="ratio ratio-16x9">
-                    <div id="mainInstructores" style="width: 600px; height: 300px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </main>
 <?php footerAdmin($data);?>
