@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"identificacion"},
+            {"data":"correo"},
             {"data":"nombres"},
             {"data":"nombrerol"},
             {"data":"status"},
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function(){
         formUsuario.onsubmit = function(e) {
             e.preventDefault();
             var intIdeUsuario = document.querySelector('#ideUsuario').value;
-            let strIdentificacionUsuario = document.querySelector('#txtIdentificacionUsuario').value;
+            let strIdentificacionUsuario = document.querySelector('#txtCorreoUsuario').value;
             let strNombresUsuario = document.querySelector('#txtNombresUsuario').value;
             // $('#txtRolUsuario').picker();
             // $('#txtRolUsuario').picker({search : true});
@@ -186,7 +186,7 @@ function fntEditInfo(element, ideusuario){
             if(objData.status)
             {
                 document.querySelector("#ideUsuario").value = objData.data.ideusuario;
-                document.querySelector("#txtIdentificacionUsuario").value = objData.data.identificacion;
+                document.querySelector("#txtCorreoUsuario").value = objData.data.identificacion;
                 document.querySelector("#txtNombresUsuario").value = objData.data.nombres;
                 document.querySelector("#txtRolUsuario").value =objData.data.idrol;
                 

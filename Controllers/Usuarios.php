@@ -30,11 +30,11 @@ class Usuarios extends Controllers
     {
         error_reporting(0);
         if ($_POST) {
-            if (empty($_POST['txtIdentificacionUsuario'])) {
+            if (empty($_POST['txtCorreoUsuario'])) {
                 $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
             } else {
                 $intIdeUsuario = intval($_POST['ideUsuario']);
-                $strIdentificacionUsuario = strClean($_POST['txtIdentificacionUsuario']);
+                $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
                 $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
                 $intStatus = intval(strClean($_POST['listStatus']));
@@ -43,7 +43,7 @@ class Usuarios extends Controllers
                 $request_user = "";
                 if ($intIdeUsuario == 0) {
                     $option = 1;
-                    $strPassword =  empty($_POST['txtIdentificacionUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtIdentificacionUsuario']);
+                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
                     if ($_SESSION['permisosMod']['w']) {
                         $request_user = $this->model->insertUsuario(
                             $strIdentificacionUsuario,
@@ -56,7 +56,7 @@ class Usuarios extends Controllers
                     }
                 } else {
                     $option = 2;
-                    $strPassword =  empty($_POST['txtIdentificacionUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtIdentificacionUsuario']);
+                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
                     if ($_SESSION['permisosMod']['u']) {
                         $request_user = $this->model->updateUsuario(
                             $intIdeUsuario,

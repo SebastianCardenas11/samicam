@@ -22,12 +22,12 @@
                                 <p class="text-primary">Datos del Usuario</p>
                             </div>
 
+                        
+
                             <div class="modal-body">
-                                <label for="txtIdentificacionUsuario"">Identificación<span class="
-                                    required">*</span></label>
-                                <input type="text" class="form-control valid validNumber" id="txtIdentificacionUsuario"
-                                    name="txtIdentificacionUsuario" required="" maxlength="10"
-                                    onkeypress="return controlTag(event);">
+                                <label for="txtCorreoUsuario"">Nombres<span class=" required">*</span></label>
+                                <input type="email" class="form-control " id="txtCorreoUsuario"
+                                    name="txtCorreoUsuario" required="" >
                             </div>
 
                             <div class="modal-body">
