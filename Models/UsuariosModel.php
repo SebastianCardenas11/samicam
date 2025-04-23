@@ -2,7 +2,7 @@
 class UsuariosModel extends Mysql
 {
     private $intIdeUsuario;
-    private $strIdentificacionUsuario;
+    private $strCorreoUsuario;
     private $strNombresUsuario;
     private $strPassword;
     private $strRolUsuario;
@@ -14,13 +14,13 @@ class UsuariosModel extends Mysql
     }
 
     public function insertUsuario(
-        string $identificacion,
+        string $correo,
         string $nombres,
         string $password,
         string $rol,
         string $status
     ) {
-        $this->strIdentificacionUsuario = $identificacion;
+        $this->strCorreoUsuario = $correo;
         $this->strNombresUsuario = $nombres;
         $this->strPassword = $password;
         $this->strRolUsuario = $rol;
@@ -28,17 +28,17 @@ class UsuariosModel extends Mysql
 
         $return = 0;
         $sql = "SELECT * FROM tbl_usuarios WHERE
-				identificacion = '{$this->strIdentificacionUsuario}'";
+				correo = '{$this->strCorreoUsuario}'";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
 
             // $rs = 1;
-            $query_insert = "INSERT INTO tbl_usuarios(identificacion,nombres,password,rolid,status)
+            $query_insert = "INSERT INTO tbl_usuarios(correo,nombres,password,rolid,status)
             VALUES(?,?,?,?,?)";
 
             $arrData = array(
-                $this->strIdentificacionUsuario,
+                $this->strCorreoUsuario,
                 $this->strNombresUsuario,
                 $this->strPassword,
                 $this->strRolUsuario,
@@ -60,7 +60,7 @@ class UsuariosModel extends Mysql
         if($_SESSION['idUser'] != 1 ){
             $whereAdmin = " and u.ideusuario != 1 ";
         }
-        $sql = "SELECT u.ideusuario,u.identificacion,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol 
+        $sql = "SELECT u.ideusuario,u.correo,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol 
                 FROM tbl_usuarios u 
                 INNER JOIN rol r
                 ON u.rolid = r.idrol 
@@ -72,7 +72,7 @@ class UsuariosModel extends Mysql
 
     public function selectUsuario(int $ideusuario){
         $this->intIdeUsuario = $ideusuario;
-        $sql = "SELECT u.ideusuario,u.identificacion,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol
+        $sql = "SELECT u.ideusuario,u.correo,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol
                 FROM tbl_usuarios u
                 INNER JOIN rol r
                 ON u.rolid = r.idrol
@@ -84,30 +84,30 @@ class UsuariosModel extends Mysql
     //ACTUALIZAR USUARIO
     public function updateUsuario(
         int $ideusuario,
-        string $identificacion,
+        string $correo,
         string $nombres,
         string $rol,
         string $status
     ) {
 
         $this->intIdeUsuario = $ideusuario;
-        $this->strIdentificacionUsuario = $identificacion;
+        $this->strCorreoUsuario = $correo;
         $this->strNombresUsuario = $nombres;
         $this->strRolUsuario = $rol;
         $this->strStatus = $status;
 
-        $sql = "SELECT * FROM tbl_usuarios WHERE (identificacion = '{$this->strIdentificacionUsuario}' AND ideusuario != $this->intIdeUsuario)";
+        $sql = "SELECT * FROM tbl_usuarios WHERE (correo = '{$this->strCorreoUsuario}' AND ideusuario != $this->intIdeUsuario)";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
             // TODO PENDIENTE LA VALIDACIÓN SI EL CODIGO ES IGUAL QUE EL CODIGO DE OTRO USUARIO
-            if ($this->strIdentificacionUsuario != "" ) {
+            if ($this->strCorreoUsuario != "" ) {
 
-                $sql = "UPDATE tbl_usuarios SET identificacion=?, nombres=?, rolid=?, status=?
+                $sql = "UPDATE tbl_usuarios SET correo=?, nombres=?, rolid=?, status=?
 						WHERE ideusuario = $this->intIdeUsuario ";
 
                 $arrData = array(
-                    $this->strIdentificacionUsuario,
+                    $this->strCorreoUsuario,
                     $this->strNombresUsuario,
                     $this->strRolUsuario,
                     $this->strStatus
