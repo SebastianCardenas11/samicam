@@ -28,11 +28,6 @@
 
         <?php if (!empty($_SESSION['permisos'][1]['r'])) { ?>
             <li>
-<<<<<<< Updated upstream
-                <a class="treeview-item" href="<?= base_url(); ?>/roles">
-                    <i class="app-menu__icon bi bi-sliders2-vertical"></i>
-                    Roles
-=======
                 <a class="app-menu__item" href="<?= base_url(); ?>/roles">
                 <i class="app-menu__icon bi bi-sliders2-vertical"></i>
                     <span class="app-menu__label">Roles</span>
@@ -44,7 +39,6 @@
                 <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosOps">
                 <i class="bi bi-person-fill-gear"></i>
                     <span class="app-menu__label">Funcionarios OPS</span>
->>>>>>> Stashed changes
                 </a>
             </li>
         <?php } ?>

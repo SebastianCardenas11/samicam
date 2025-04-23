@@ -1,6 +1,6 @@
 <?php
 
-class FuncionariosPermisos extends Controllers
+class FuncionariosOps extends Controllers
 {
     public function __construct()
     {
@@ -14,15 +14,15 @@ class FuncionariosPermisos extends Controllers
         getPermisos(MDASHBOARD);
     }
 
-    public function FuncionariosPermisos()
+    public function FuncionariosOps()
     {
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
-        $data['page_tag'] = "Permisos";
-        $data['page_title'] = "Permisos";
-        $data['page_name'] = "Permisos";
-        $data['page_functions_js'] = "functions_FuncionariosPermisos.js";
-        $this->views->getView($this, "funcionariosPermisos", $data);
+        $data['page_tag'] = "Funcionarios Ops";
+        $data['page_title'] = "Funcionarios Ops";
+        $data['page_name'] = "Funcionarios Ops";
+        $data['page_functions_js'] = "functions_Funcionariosops.js";
+        $this->views->getView($this, "funcionariosops", $data);
     }
 }
