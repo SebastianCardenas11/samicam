@@ -23,6 +23,6 @@ class FuncionariosPermisos extends Controllers
         $data['page_title'] = "Permisos";
         $data['page_name'] = "Permisos";
         $data['page_functions_js'] = "functions_FuncionariosPermisos.js";
-        $this->views->getView($this, "funcionariosPermisos", $data);
+        $this->views->getView($this, "funcionariospermisos", $data);
     }
 }
