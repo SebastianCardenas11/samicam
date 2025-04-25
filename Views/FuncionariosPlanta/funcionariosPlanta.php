@@ -10,7 +10,8 @@ headerAdmin($data);
 
         <!-- Botones de Permisos de Salida y Viáticos -->
         <div class="d-flex gap-2 mt-3">
-            <?php if ($_SESSION['permisosMod']['w']) { ?>
+            
+        <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
                 <a href="<?= base_url(); ?>/funcionariospermisos">
                     <button class="btn btn-warning" type="button">
                         <i class="bi bi-door-open"></i> Permisos

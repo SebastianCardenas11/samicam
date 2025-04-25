@@ -29,6 +29,7 @@
                                                 <th>Ver</th>
                                                 <th>Crear</th>
                                                 <th>Actualizar</th>
+                                                <th>Eliminar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -41,7 +42,7 @@
                                                 $rCheck = $permisos['r'] == 1 ? " checked " : "";
                                                 $wCheck = $permisos['w'] == 1 ? " checked " : "";
                                                 $uCheck = $permisos['u'] == 1 ? " checked " : "";
-                                                // $dCheck = $permisos['d'] == 1 ? " checked " : "";
+                                                $dCheck = $permisos['d'] == 1 ? " checked " : "";
 
                                                 $idmod = $modulos[$i]['idmodulo'];
                                                 ?>
@@ -84,7 +85,7 @@
                                                             </label>
                                                         </div>
                                                     </td>
-                                                    <!-- <td>
+                                                    <td>
                                                         <div class="form-check form-switch">
                                                             <label>
                                                                 <input class="form-check-input" role="switch"
@@ -93,7 +94,7 @@
                                                                     data-toggle-on="ON" data-toggle-off="OFF"></span>
                                                             </label>
                                                         </div>
-                                                    </td> -->
+                                                    </td>
                                                 </tr>
                                                 <?php
                                                 $no++;

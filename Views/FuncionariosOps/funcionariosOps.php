@@ -7,14 +7,14 @@ headerAdmin($data);
         <div>
             <h1><i class="bi bi-person-fill-gear"></i> <?=$data['page_title']?></h1>
         </div>
-        <!-- <div class="d-grid gap-2 d-md-block">
-            <?php if ($_SESSION['permisosMod']['w']) {?>
+        <div class="d-grid gap-2 d-md-block">
+            
+        <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
             <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
                 <i class="bi bi-plus-lg"></i>
                 Nuevo Usuario</button>
             <?php }?>
-        </div> -->
-
+        </div>
 
        
     </div>

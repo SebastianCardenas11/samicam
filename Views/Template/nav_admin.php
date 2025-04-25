@@ -1,4 +1,3 @@
-<!-- Sidebar menu-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
     <div class="app-sidebar__user">
@@ -17,7 +16,7 @@
             </a>
         </li>
 
-        <?php if (!empty($_SESSION['permisos'][1]['r'])) { ?>
+        <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/usuarios">
                     <i class="app-menu__icon bi bi-people-fill"></i>
@@ -26,35 +25,32 @@
             </li>
         <?php } ?>
 
-        <?php if (!empty($_SESSION['permisos'][1]['r'])) { ?>
+        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/roles">
-                <i class="app-menu__icon bi bi-sliders2-vertical"></i>
+                    <i class="app-menu__icon bi bi-sliders2-vertical"></i>
                     <span class="app-menu__label">Roles</span>
                 </a>
             </li>
         <?php } ?>
-        <?php if (!empty($_SESSION['permisos'][1]['r'])) { ?>
+
+        <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosOps">
-                <i class="bi bi-person-fill-gear"></i>
+                    <i class="bi bi-person-fill-gear"></i>
                     <span class="app-menu__label">Funcionarios OPS</span>
                 </a>
             </li>
         <?php } ?>
-        <?php if (!empty($_SESSION['permisos'][1]['r'])) { ?>
+
+        <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosPlanta">
-                <i class="bi bi-person-fill-gear"></i>
+                    <i class="bi bi-person-fill-gear"></i>
                     <span class="app-menu__label">Funcionarios Planta</span>
                 </a>
             </li>
         <?php } ?>
-
-
-
-
-  
 
         <a class="bg-danger app-menu__item" href="<?= base_url(); ?>/logout">
             <i class="app-menu__icon bi bi-x-circle-fill"></i>

@@ -17,8 +17,8 @@ class Dashboard extends Controllers
     public function dashboard()
     {
         $data['page_id'] = 2;
-        $data['page_tag'] = "Administrador - Sigma";
-        $data['page_title'] = " Administrador - Sigma";
+        $data['page_tag'] = "Administrador - Samicam";
+        $data['page_title'] = " Administrador - Samicam";
         $data['page_name'] = "Administrador";
         $data['page_functions_js'] = "functions_dashboard.js";
         $data['usuarios'] = $this->model->cantUsuarios();
