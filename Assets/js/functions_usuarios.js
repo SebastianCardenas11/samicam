@@ -98,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         $('#modalFormUsuario').modal("hide");
                         formUsuario.reset();
                         Swal.fire("Usuario", objData.msg ,"success");
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
                     }else{
                         Swal.fire("Error", objData.msg , "error");
                     }
@@ -166,7 +169,6 @@ function fntEditInfo(element, ideusuario){
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
     document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";
-    document.querySelector('.contrasena').classList.add("contrasena","d-none");
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Usuarios/getUsuario/'+ideusuario;
     request.open("GET",ajaxUrl,true);
@@ -192,7 +194,9 @@ function fntEditInfo(element, ideusuario){
             }
         }
         $('#modalFormUsuario').modal('show');
+        
     }
+    
 }
 
 function fntDelInfo(ideusuario){

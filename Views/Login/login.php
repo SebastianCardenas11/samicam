@@ -28,12 +28,12 @@
 
             <div class="input-group flex-nowrap mb-3">
                 <input id="txtIdentificacion" name="txtIdentificacion" type="text" class="form-control"
-                    placeholder="Correo" required autocomplete="off" autofocus />
+                    placeholder="Correo" required autocomplete="off" autofocus value="admin.ntic@gmail.com.co" />
             </div>
 
             <div class="input-group flex-nowrap mb-3">
                 <input id="txtPassword" name="txtPassword" type="password" class="form-control"
-                    placeholder="Contraseña" required autocomplete="off" />
+                    placeholder="Contraseña" required autocomplete="off" value="123456" />
             </div>
 
             <div id="alertLogin" class="text-center mb-3"></div>

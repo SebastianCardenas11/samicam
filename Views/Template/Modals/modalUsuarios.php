@@ -27,12 +27,6 @@
                                     name="txtCorreoUsuario" required="" >
                             </div>
 
-                            <div class="modal-body contrasena">
-                                <label for="txtContrasenaUsuario">Contraseña<span class=" required">*</span></label>
-                                <input type="password" class="form-control " id="txtContrasenaUsuario"
-                                    name="txtContrasenaUsuario" required="" >
-                            </div>
-
                             <div class="modal-body">
                                 <label for="txtNombresUsuario">Nombres<span class=" required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombresUsuario"

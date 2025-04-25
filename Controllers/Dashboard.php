@@ -22,8 +22,8 @@ class Dashboard extends Controllers
         $data['page_name'] = "Administrador";
         $data['page_functions_js'] = "functions_dashboard.js";
         $data['usuarios'] = $this->model->cantUsuarios();
-        $data['programas'] = $this->model->cantProgramas();
-        $data['fichas'] = $this->model->cantFichas();
+        // $data['funcionariosops'] = $this->model->cantFuncOps();
+        // $data['funcionariosplanta'] = $this->model->cantFuncPlanta();
 
         if ($_SESSION['userData']['idrol'] == RCOORDINADOR) {
             $this->views->getView($this, "dashboardCoordinador", $data);

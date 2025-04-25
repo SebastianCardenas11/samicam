@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 			if(strIdentificacion == "" && strPassword == "")
 			{
-				Swal.fire.fire({   title: "Por favor",   text: "Digite su correo y contraseña",  imageUrl: "Assets/images/iconos/login.png" });
+				swal.fire({   title: "Por favor",   text: "Digite su correo y contraseña",  imageUrl: "Assets/images/iconos/login.png" });
 				return false;
 			}
 			if(strIdentificacion == "")

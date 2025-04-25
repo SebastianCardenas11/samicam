@@ -1,3 +1,8 @@
+function reload(time) {
+    setTimeout(() => {
+        location.reload();
+    }, time);
+}
 var tableRoles;
 let rowTable = "";
 var divLoading = document.querySelector("#divLoading");
@@ -37,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var intStatus = document.querySelector('#listStatus').value;        
         if(strNombre == '' || strDescripcion == '' || intStatus == '')
         {
-            Swal.fire.fire("Atención", "Todos los campos son obligatorios." , "error");
+            Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
             return false;
         }
         divLoading.style.display = "flex";
@@ -54,10 +59,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 {
                     $('#modalFormRol').modal("hide");
                     formRol.reset();
-                    Swal.fire.fire("Roles de usuario", objData.msg ,"success");
+                    Swal.fire("Roles de usuario", objData.msg ,"success");
                     tableRoles.api().ajax.reload();
+                    reload( 1500);
                 }else{
-                    Swal.fire.fire("Error", objData.msg , "error");
+                    Swal.fire("Error", objData.msg , "error");
                 }              
             } 
             divLoading.style.display = "none";
@@ -118,7 +124,7 @@ function fntEditRol(idrol){
 
                 $('#modalFormRol').modal('show');
             }else{
-                Swal.fire.fire("Error", objData.msg , "error");
+                Swal.fire("Error", objData.msg , "error");
             }
         }
     }
@@ -127,7 +133,7 @@ function fntEditRol(idrol){
 
 function fntDelRol(idrol){
     var idrol = idrol;
-        Swal.fire.fire({
+        Swal.fire({
             title: "Eliminar Rol",
             text: "¿Está seguro?",
             imageUrl: "Assets/images/iconos/eliminar.png" ,
@@ -152,7 +158,7 @@ function fntDelRol(idrol){
                     var objData = JSON.parse(request.responseText);
                     if(objData.status)
                     {
-                        Swal.fire.fire("Eliminado", objData.msg , "success");
+                        Swal.fire("Eliminado", objData.msg , "success");
                         // tableRoles.ajax.reload();
                         tableRoles.api().ajax.reload();
                         // tableRoles.api().ajax.reload(function(){
@@ -161,7 +167,7 @@ function fntDelRol(idrol){
                         //     fntPermisos();
                         // });
                     }else{
-                        Swal.fire.fire("Atención!", objData.msg , "error");
+                        Swal.fire("Atención!", objData.msg , "error");
                     }
                 }
             }
@@ -204,10 +210,10 @@ function fntSavePermisos(evnet){
 
                 $('#modalFormPermiso').modal("hide");
                 formPermiso.reset();
-                Swal.fire.fire("Permisos", objData.msg ,"success");
-
+                Swal.fire("Permisos", objData.msg ,"success");
+                reload(1500);
             }else{
-                Swal.fire.fire("Error", objData.msg , "error");
+                Swal.fire("Error", objData.msg , "error");
             }
         }
     }

@@ -29,15 +29,15 @@
         </div>
         <?php }?>
 
-
+<!-- 
         <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
         <div class="col-md-6 col-lg-6">
-            <a href="<?=base_url()?>/programas" class="link-info">
+            <a href="<?=base_url()?>/funcionariosops" class="link-info">
                 <div class="widget-small info coloured-icon">
                     <i class="icon bi bi-list-stars fs-1"></i>
                     <div class="info">
-                        <h4>Programas</h4>
-                        <p><b><?=$data['programas']?></b></p>
+                        <h4>Funcionarios Ops</h4>
+                        <p><b><?=$data['funcionariosops']?></b></p>
                     </div>
                 </div>
         </div>
@@ -58,7 +58,7 @@
     </div>
     </a>
     </div>
-    <?php }?>
+    <?php }?> -->
 
 
 </main>
