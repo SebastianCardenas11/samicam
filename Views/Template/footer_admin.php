@@ -57,8 +57,5 @@ $('#sampleTable').DataTable();
 
 </body>
 
-<footer>
-    &copy; 2024 Técnico en Programación de Software, Ficha 2875079 - La Jagua de Ibirico, Cesar.
-</footer>
 
 </html>

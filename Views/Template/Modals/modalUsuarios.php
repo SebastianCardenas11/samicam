@@ -21,17 +21,20 @@
                                 <hr>
                                 <p class="text-primary">Datos del Usuario</p>
                             </div>
-
                             <div class="modal-body">
-                                <label for="txtIdentificacionUsuario"">Identificación<span class="
-                                    required">*</span></label>
-                                <input type="text" class="form-control valid validNumber" id="txtIdentificacionUsuario"
-                                    name="txtIdentificacionUsuario" required="" maxlength="10"
-                                    onkeypress="return controlTag(event);">
+                                <label for="txtCorreoUsuario">Correos<span class=" required">*</span></label>
+                                <input type="email" class="form-control " id="txtCorreoUsuario"
+                                    name="txtCorreoUsuario" required="" >
+                            </div>
+
+                            <div class="modal-body contrasena">
+                                <label for="txtContrasenaUsuario">Contraseña<span class=" required">*</span></label>
+                                <input type="password" class="form-control " id="txtContrasenaUsuario"
+                                    name="txtContrasenaUsuario" required="" >
                             </div>
 
                             <div class="modal-body">
-                                <label for="txtNombresUsuario"">Nombres<span class=" required">*</span></label>
+                                <label for="txtNombresUsuario">Nombres<span class=" required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombresUsuario"
                                     name="txtNombresUsuario" required="" maxlength="30">
                             </div>
@@ -89,8 +92,8 @@
                                     <td id="celIdeUsuario">233104</td>
                                 </tr>
                                 <tr>
-                                    <td>Identificación:</td>
-                                    <td id="celIdentificacionUsuario">233104</td>
+                                    <td>Correo:</td>
+                                    <td id="celCorreoUsuario">233104</td>
                                 </tr>
                                 <tr>
                                     <td>Nombres:</td>

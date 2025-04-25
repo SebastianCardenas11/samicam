@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Sigma">
+    <meta name="description" content="samicam">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="TPS La Jagua de Ibirico">
-    <link rel="shortcut icon" href="<?=media();?>/images/favicon.ico">
+    <meta name="author" content="SamiCAM">
+    <link rel="shortcut icon" href="<?=media();?>/images/Escudo_de_La_Jagua_de_Ibirico.svg.png">
     <title><?=$data['page_tag']?></title>
 
     <!-- Main CSS-->
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="<?=base_url();?>/dashboard">SigmaSoft</a>
+    <header class="app-header"><a class="app-header__logo" href="<?=base_url();?>/dashboard">SAMICAM</a>
         <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
             aria-label="Hide Sidebar"></a>
         <!-- Navbar Menu-->

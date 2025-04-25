@@ -29,7 +29,7 @@ headerAdmin($data);
                         <table class="table table-hover cell-border" id="tableUsuarios">
                             <thead class="table-success">
                                 <tr>
-                                    <th class="text-center">Identificación</th>
+                                    <th class="text-center">Correo</th>
                                     <th class="text-center">Nombres</th>
                                     <th class="text-center">Rol</th>
                                     <th class="text-center">Estado</th>
