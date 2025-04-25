@@ -9,7 +9,7 @@ headerAdmin($data);
         </div>
         <div class="d-grid gap-2 d-md-block">
             
-        <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
+        <?php if ($_SESSION['permisosMod']['w']) {?>
             <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
                 <i class="bi bi-plus-lg"></i>
                 Nuevo Usuario</button>
