@@ -64,12 +64,12 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="modalViewFuncionario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content ">
             <div class="modal-header header-primary">
-                <h5 class="modal-title" id="titleModal">Datos del Usuario</h5>
+                <h5 class="modal-title" id="titleModal">Datos del Funcionario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
@@ -79,30 +79,103 @@
                     <div class="tile-body">
 
 
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>ID:</td>
-                                    <td id="celIdeUsuario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Correo:</td>
-                                    <td id="celCorreoUsuario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombres:</td>
-                                    <td id="celNombresUsuario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Rol:</td>
-                                    <td id="celRolUsuario">2875079</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado:</td>
-                                    <td id="celEstadoUsuario">Programación de Software</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>ID:</td>
+            <td id="celIdeFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Correo:</td>
+            <td id="celCorreoFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Nombre Completo:</td>
+            <td id="celNombresFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Estado:</td>
+            <td id="celEstadoUsuario">0</td>
+        </tr>
+        <tr>
+            <td>Identificación:</td>
+            <td id="celIdentificacionFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Cargo:</td>
+            <td id="celCargoFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Dependencia:</td>
+            <td id="celDependenciaFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Celular:</td>
+            <td id="celCelularFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Dirección:</td>
+            <td id="celDireccionFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Fecha de Ingreso:</td>
+            <td id="celFechaIngresoFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Vacaciones:</td>
+            <td id="celVacacionesFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Hijos:</td>
+            <td id="celHijosFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Nombres de Hijos:</td>
+            <td id="celNombresHijosFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Sexo:</td>
+            <td id="celSexoFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Lugar de Residencia:</td>
+            <td id="celLugarResidenciaFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Edad:</td>
+            <td id="celEdadFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Estado Civil:</td>
+            <td id="celEstadoCivilFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Religión:</td>
+            <td id="celReligionFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Nivel Escolar:</td>
+            <td id="celNivelEscolarFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Carrera:</td>
+            <td id="celCarreraFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Especialidad:</td>
+            <td id="celEspecialidadFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Maestría:</td>
+            <td id="celMaestriaFuncionario">0</td>
+        </tr>
+        <tr>
+            <td>Doctorado:</td>
+            <td id="celDoctoradoFuncionario">0</td>
+        </tr>
+    </tbody>
+</table>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i

@@ -122,7 +122,7 @@ class FuncionariosModel extends Mysql
     }
 
     // Seleccionar todos los usuarios (con nuevos campos)
-public function selectFuncionario()
+public function selectFuncionarios()
 {
     $whereAdmin = "";
     if ($_SESSION['idUser'] != 1) {
