@@ -8,15 +8,20 @@
 body {
 
     margin: 0;
-    overflow: hidden;/* Evita scroll innecesario */
+    overflow: hidden;
+    /* Evita scroll innecesario */
     font-family: 'Montserrat', sans-serif;
 
     background-image: url('../images/ia.png');
-    background-size: cover;/* Escala bien la imagen sin deformar */
-    background-position: center center;/* Mejor precisión en el centrado */
+    background-size: cover;
+    /* Escala bien la imagen sin deformar */
+    background-position: center center;
+    /* Mejor precisión en el centrado */
     background-repeat: no-repeat;
-    background-attachment: fixed;/* Hace que la imagen se quede fija al hacer scroll */
-    background-blend-mode: overlay;/* Mezcla suave si le añades color */
+    background-attachment: fixed;
+    /* Hace que la imagen se quede fija al hacer scroll */
+    background-blend-mode: overlay;
+    /* Mezcla suave si le añades color */
     min-height: 100vh;
 
     display: flex;
@@ -30,17 +35,41 @@ h1 {
     margin: 0;
 }
 
+/* AJUSTA EL HOLA sin afectar el fondo - LOGIN */
+.hola {
+    margin-top: 80px;
+    /* aumentamos el margen - separa del sami hacia abajo */
+    font-size: 32px;
+    /* opcional: para que se vea mejor */
+}
+
 p {
+
     font-size: 14px;
     font-weight: 100;
     line-height: 20px;
     letter-spacing: 0.5px;
-    margin: 20px 0 30px;
+    margin: 1px 0 15px;
+
 }
 
 span {
     font-size: 12px;
 }
+
+/* Estilos logos samicam lado derecho */
+.logo-samicam {
+    max-width: 315px;
+    height: auto;
+    margin-top: -75px;
+    /* Ajusta hacia arriba */
+    display: block;
+    object-fit: contain;
+
+}
+
+/* Estilos logos samicam lado derecho */
+
 
 
 
@@ -66,16 +95,13 @@ span {
 
 /* Estilos para la imagen del logo de la alcaldia */
 .form-img {
-    width: 122px;
-    /* Ajusta el tamaño según necesites */
+
+    width: 145px; /* Ajusta el tamaño */
     height: auto;
     display: block;
-    margin-top: -73px;
-    /* Ajusta hacia arriba */
+    margin-top: -45px;  /* Ajusta hacia arriba */
     position: relative;
-    left: 0px;
-    /* Mueve la imagen hacia la izquierda */
-    
+    left: 0px;  /* Mueve la imagen hacia la izquierda */
 }
 
 
@@ -213,6 +239,7 @@ button {
     /* Cambia el cursor a mano */
     margin-top: 15px;
 }
+
 button:hover {
     background-color: #5d8ec5;
     transform: scale(1.02);
@@ -249,10 +276,12 @@ form {
     text-align: center;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    color: #000000;/* negro para contraste */
+    color: #000000;
+    /* negro para contraste */
     position: relative;
     z-index: 1;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra elegante */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    /* Sombra elegante */
 }
 
 /* Estilo lado izquierdo login */
@@ -376,40 +405,6 @@ input:focus {
         z-index: 5;
     }
 }
-
-
-/* Estilo para marcar los inputs en rojo cuando hay error */
-input.error {
-    border: 2px solid red;
-}
-
-
-
-
-/* Estilos logos samicam lado derecho */
-.logo-samicam {
-    max-width: 335px;
-    height: auto;
-    margin-top: -111px;/* Ajusta hacia arriba */
-    display: block;
-    object-fit: contain;
-
-}
-
-/* Estilos logos samicam lado derecho */
-
-
-
-
-/* AJUSTA EL HOLA sin afectar el fondo - LOGIN */
-.hola {
-    margin-top: -130px;
-    /* Mueve solo la imagen hacia arriba */
-
-}
-
-
-
 
 
 
