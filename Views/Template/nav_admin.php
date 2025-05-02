@@ -11,7 +11,7 @@
     <ul class="app-menu">
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>/dashboard">
-                <i class="app-menu__icon bi bi-house-fill"></i>
+                <i class="app-menu__icon bi bi-house-door"></i>
                 <span class="app-menu__label">Inicio</span>
             </a>
         </li>
@@ -19,7 +19,7 @@
         <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/usuarios">
-                    <i class="app-menu__icon bi bi-people-fill"></i>
+                    <i class="app-menu__icon bi bi-people"></i>
                     <span class="app-menu__label">Usuarios</span>
                 </a>
             </li>
@@ -37,7 +37,7 @@
         <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosOps">
-                    <i class="bi bi-person-fill-gear"></i>
+                    <i class="app-menu__icon bi bi-person-gear"></i>
                     <span class="app-menu__label">Funcionarios OPS</span>
                 </a>
             </li>
@@ -46,14 +46,14 @@
         <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosPlanta">
-                    <i class="bi bi-person-fill-gear"></i>
+                    <i class="app-menu__icon bi bi-person-gear"></i>
                     <span class="app-menu__label">Funcionarios Planta</span>
                 </a>
             </li>
         <?php } ?>
 
         <a class="bg-danger app-menu__item" href="<?= base_url(); ?>/logout">
-            <i class="app-menu__icon bi bi-x-circle-fill"></i>
+            <i class="app-menu__icon bi bi-x-circle"></i>
             <span class="app-menu__label">Salir</span>
         </a>
     </ul>

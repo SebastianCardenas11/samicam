@@ -11,7 +11,7 @@ headerAdmin($data);
         <div class="d-flex gap-2 mt-3">
             <!-- Botón para crear nuevo funcionario -->
             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
+                <button class="btn btn-info" type="button" data-bs-toggle="modal" onclick="openModal();">
                     <i class="bi bi-plus-lg"></i>
                     Nuevo Funcionario</button>
             <?php } ?>
@@ -31,10 +31,10 @@ headerAdmin($data);
             <?php } ?>
         </div>
 
-        <ul class="app-breadcrumb breadcrumb">
+        <!-- <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
             <li class="breadcrumb-item"><a href="<?=base_url();?>/funcionarios"><?=$data['page_title']?></a></li>
-        </ul>
+        </ul> -->
     </div>
 
     <div class="row">
