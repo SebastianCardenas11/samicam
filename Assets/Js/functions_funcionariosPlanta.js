@@ -151,57 +151,55 @@ document.addEventListener('DOMContentLoaded', function () {
 // }
 // }
 
-function fntViewInfo(ideFuncionario) {
+function fntViewInfo(idefuncionario) {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/Funcionarios/getFuncionario/' + ideFuncionario;
+    let ajaxUrl = base_url + '/funcionariosPlanta/getFuncionarios/' + idefuncionario;
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
             try {
                 let objData = JSON.parse(request.responseText);
-
+                console.log(request.responseText);
+                console.log(objData.status);
+                
                 if (objData.status) {
                     let estadoFuncionario = objData.data.status == 1
-                        ? '<span class="badge text-bg-success">Activo</span>'
-                        : '<span class="badge text-bg-danger">Inactivo</span>';
-
+                    ? '<span class="badge text-bg-success">Activo</span>'
+                    : '<span class="badge text-bg-danger">Inactivo</span>';
+                    
                     document.querySelector("#celIdeFuncionario").innerHTML = objData.data.ideFuncionario;
-                    document.querySelector("#celCorreoFuncionario").innerHTML = objData.data.correo;
-                    document.querySelector("#celNombresFuncionario").innerHTML = objData.data.nombres;
-                    document.querySelector("#celRolFuncionario").innerHTML = objData.data.nombrerol;
+                    // document.querySelector("#celCorreoFuncionario").innerHTML = objData.data.correo;
+                    // document.querySelector("#celNombresFuncionario").innerHTML = objData.data.nombres;
+                    // document.querySelector("#celRolFuncionario").innerHTML = objData.data.nombrerol;
                     document.querySelector("#celEstadoFuncionario").innerHTML = estadoFuncionario;
 
-                    document.querySelector("#celIdentificacionFuncionario").innerHTML = objData.data.nm_identificacion;
-                    document.querySelector("#celCargoFuncionario").innerHTML = objData.data.cargo_fk;
-                    document.querySelector("#celDependenciaFuncionario").innerHTML = objData.data.dependencia_fk;
-                    document.querySelector("#celCelularFuncionario").innerHTML = objData.data.celular;
-                    document.querySelector("#celDireccionFuncionario").innerHTML = objData.data.direccion;
-                    document.querySelector("#celFechaIngresoFuncionario").innerHTML = objData.data.fecha_ingreso;
-                    document.querySelector("#celVacacionesFuncionario").innerHTML = objData.data.vacaciones;
+                    // document.querySelector("#celIdentificacionFuncionario").innerHTML = objData.data.nm_identificacion;
+                    // document.querySelector("#celCargoFuncionario").innerHTML = objData.data.cargo_fk;
+                    // document.querySelector("#celDependenciaFuncionario").innerHTML = objData.data.dependencia_fk;
+                    // document.querySelector("#celCelularFuncionario").innerHTML = objData.data.celular;
+                    // document.querySelector("#celDireccionFuncionario").innerHTML = objData.data.direccion;
+                    // document.querySelector("#celFechaIngresoFuncionario").innerHTML = objData.data.fecha_ingreso;
+                    // document.querySelector("#celVacacionesFuncionario").innerHTML = objData.data.vacaciones;
 
-                    document.querySelector("#celHijosFuncionario").innerHTML = objData.data.hijos;
-                    document.querySelector("#celNombresHijosFuncionario").innerHTML = objData.data.nombres_de_hijos;
-                    document.querySelector("#celSexoFuncionario").innerHTML = objData.data.sexo;
-                    document.querySelector("#celLugarResidenciaFuncionario").innerHTML = objData.data.lugar_de_residencia;
-                    document.querySelector("#celEdadFuncionario").innerHTML = objData.data.edad;
-                    document.querySelector("#celEstadoCivilFuncionario").innerHTML = objData.data.estado_civil;
-                    document.querySelector("#celReligionFuncionario").innerHTML = objData.data.religion;
-                    document.querySelector("#celNivelEscolarFuncionario").innerHTML = objData.data.nivel_escolar;
-                    document.querySelector("#celCarreraFuncionario").innerHTML = objData.data.carrera;
-                    document.querySelector("#celEspecialidadFuncionario").innerHTML = objData.data.especialidad;
-                    document.querySelector("#celMaestriaFuncionario").innerHTML = objData.data.maestria;
-                    document.querySelector("#celDoctoradoFuncionario").innerHTML = objData.data.doctorado;
+                    // document.querySelector("#celHijosFuncionario").innerHTML = objData.data.hijos;
+                    // document.querySelector("#celNombresHijosFuncionario").innerHTML = objData.data.nombres_de_hijos;
+                    // document.querySelector("#celSexoFuncionario").innerHTML = objData.data.sexo;
+                    // document.querySelector("#celLugarResidenciaFuncionario").innerHTML = objData.data.lugar_de_residencia;
+                    // document.querySelector("#celEdadFuncionario").innerHTML = objData.data.edad;
+                    // document.querySelector("#celEstadoCivilFuncionario").innerHTML = objData.data.estado_civil;
+                    // document.querySelector("#celReligionFuncionario").innerHTML = objData.data.religion;
+                    // document.querySelector("#celNivelEscolarFuncionario").innerHTML = objData.data.nivel_escolar;
+                    // document.querySelector("#celCarreraFuncionario").innerHTML = objData.data.carrera;
+                    // document.querySelector("#celEspecialidadFuncionario").innerHTML = objData.data.especialidad;
+                    // document.querySelector("#celMaestriaFuncionario").innerHTML = objData.data.maestria;
+                    // document.querySelector("#celDoctoradoFuncionario").innerHTML = objData.data.doctorado;
 
                     $('#modalViewFuncionario').modal('show');
-                } else {
-                    Swal.fire("Error", objData.msg, "error");
                 }
 
             } catch (error) {
-                console.error("Error al procesar la respuesta JSON:", error);
-                console.error("Respuesta recibida:", request.responseText);
-                Swal.fire("Error", "El servidor no devolvió datos válidos. Verifica la consola para más detalles.", "error");
+                Swal.fire("Error", error);
             }
         }
     }

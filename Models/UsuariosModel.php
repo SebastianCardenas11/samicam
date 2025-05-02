@@ -77,7 +77,7 @@ class UsuariosModel extends Mysql
                 INNER JOIN rol r
                 ON u.rolid = r.idrol
                 WHERE u.ideusuario = $this->intIdeUsuario ";
-        $request = $tbhis->select($sql);
+        $request = $this->select($sql);
         return $request;
     }
 

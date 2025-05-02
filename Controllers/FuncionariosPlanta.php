@@ -24,7 +24,7 @@ class FuncionariosPlanta extends Controllers
         $data['page_tag'] = "Funcionarios Planta";
         $data['page_title'] = "Funcionarios Planta";
         $data['page_name'] = "Funcionarios Planta";
-        $data['page_functions_js'] = "functions_funcionarios.js";
+        $data['page_functions_js'] = "functions_funcionariosPlanta.js";
         $this->views->getView($this, "funcionariosPlanta", $data);
     }
 
