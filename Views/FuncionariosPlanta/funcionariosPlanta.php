@@ -42,7 +42,7 @@ headerAdmin($data);
             <div class="tile">
                 <div class="tile-body">
                     <div class="table-responsive">
-                        <table class="table table-hover cell-border" id="tableFuncionarios">
+                        <table class="table table-estilo" id="tableFuncionarios">
                             <thead class="table-success">
                                 <tr>
                                     <th class="text-center">id</th> 
