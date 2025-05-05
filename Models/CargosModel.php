@@ -3,8 +3,9 @@ class CargosModel extends Mysql
 {
     private $intIdeCargos;
     private $strNombresCargos;
-    private $intNivel;
+    private $strNivel;
     private $intSalario;
+    private $intEstatus;
 
     public function __construct()
     {
@@ -15,11 +16,14 @@ class CargosModel extends Mysql
         string $nombre,
         string $nivel,
         string $salario,
-     
+        string $status,
+       
     ) {
         $this->strNombresCargos = $nombre;
-        $this->intNivel = $nivel;
+        $this->strNivel = $nivel;
         $this->intSalario = $salario;
+        $this->intEstatus = $status;
+       
        
         $return = 0;
         $sql = "SELECT * FROM tbl_cargos WHERE
@@ -29,13 +33,15 @@ class CargosModel extends Mysql
         if (empty($request)) {
 
             // $rs = 1;
-            $query_insert = "INSERT INTO tbl_cargos(nombre,nivel,salario)
-            VALUES(?,?,?)";
+            $query_insert = "INSERT INTO tbl_cargos(nombre,nivel,salario,status)
+            VALUES(?,?,?,?)";
 
             $arrData = array(
                 $this->strNombresCargos,
-                $this->intNivel,
-                $this->intSalario
+                $this->strNivel,
+                $this->intSalario,
+                $this->intEstatus
+
             );
 
             $request_insert = $this->insert($query_insert, $arrData);
@@ -46,72 +52,72 @@ class CargosModel extends Mysql
         return $return;
     }
 
-    // // LISTADO DE LA TABLA
-    // public function selectCargos()
-    // {
-    //     $whereAdmin = "";
-    //     if($_SESSION['idUser'] != 1 ){
-    //         $whereAdmin = " and u.ideusuario != 1 ";
-    //     }
-    //     $sql = "SELECT u.ideusuario,u.correo,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol 
-    //             FROM tbl_usuarios u 
-    //             INNER JOIN rol r
-    //             ON u.rolid = r.idrol 
-    //             WHERE u.status != 0 ".$whereAdmin;
-    //             $request = $this->select_all($sql);
-    //             return $request;
-    //             // -- ON u.rolid = r.idrol ".$whereAdmin
-    // }
+    public function selectCargos()
+    {
+        $whereAdmin = "";
+        if ($_SESSION['idUser'] != 1) {
+        $whereAdmin = " AND u.idecargos != 1 ";
+        }
+    
+        // Ajustando el SELECT para incluir los nuevos campos
+            $sql = "SELECT u.idecargos, u.nombre, u.nivel, u.salario, u.estatus
+            FROM tbl_cargos u
+            WHERE u.estatus != 0 " . $whereAdmin;
 
-    // public function selectCargos(int $ideusuario){
-    //     $this->intIdeUsuario = $ideusuario;
-    //     $sql = "SELECT u.ideusuario,u.correo,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol
-    //             FROM tbl_usuarios u
-    //             INNER JOIN rol r
-    //             ON u.rolid = r.idrol
-    //             WHERE u.ideusuario = $this->intIdeUsuario ";
-    //     $request = $tbhis->select($sql);
-    //     return $request;
-    // }
+        // Ejecutar la consulta y obtener el resultado
+        $request = $this->select_all($sql);
+        return $request;
+    }
 
-    // //ACTUALIZAR USUARIO
-    // public function updateUsuario(
-    //     int $ideusuario,
-    //     string $correo,
-    //     string $nombres,
-    //     string $rol,
-    //     string $status
-    // ) {
 
-    //     $this->intIdeUsuario = $ideusuario;
-    //     $this->strCorreoUsuario = $correo;
-    //     $this->strNombresUsuario = $nombres;
-    //     $this->strRolUsuario = $rol;
-    //     $this->strStatus = $status;
+    // Seleccionar un usuario específico (con nuevos campos)
+    public function selectCargo(int $idecargos)
+    {
+        $this->intIdeCargos = $idecargos;
+        $sql = "SELECT u.idecargos, u.nombre, u.nivel, u.estatus
+                FROM tbl_funcionarios u
+                WHERE u.idecargos = $this->intIdeCargos";
+        $request = $this->select($sql);
+        return $request;
+    }
+    //ACTUALIZAR USUARIO
+    public function updateUsuario(
+        int $idecargos,
+        string $nombre,
+        string $nivel,
+        string $salario,
+        string $status
+    ) {
 
-    //     $sql = "SELECT * FROM tbl_usuarios WHERE (correo = '{$this->strCorreoUsuario}' AND ideusuario != $this->intIdeUsuario)";
-    //     $request = $this->select_all($sql);
+        $this->intIdeCargos = $idecargos;
+        $this->strNombresCargos = $nombre;
+        $this->strNivel = $nivel;
+        $this->intSalario = $salario;
+        $this->intEstatus = $status;
 
-    //     if (empty($request)) {
-    //         // TODO PENDIENTE LA VALIDACIÓN SI EL CODIGO ES IGUAL QUE EL CODIGO DE OTRO USUARIO
-    //         if ($this->strCorreoUsuario != "" ) {
+        $sql = "SELECT * FROM tbl_cargos WHERE (nombre = '{$this->strNombresCargos}' AND idecargos != $this->intIdeCargos)";
+        $request = $this->select_all($sql);
 
-    //             $sql = "UPDATE tbl_usuarios SET correo=?, nombres=?, rolid=?, status=?
-	// 					WHERE ideusuario = $this->intIdeUsuario ";
+        if (empty($request)) {
+            // TODO PENDIENTE LA VALIDACIÓN SI EL CODIGO ES IGUAL QUE EL CODIGO DE OTRO USUARIO
+            if ($this->strNombresCargos != "" ) {
 
-    //             $arrData = array(
-    //                 $this->strCorreoUsuario,
-    //                 $this->strNombresUsuario,
-    //                 $this->strRolUsuario,
-    //                 $this->strStatus
-    //             );
-    //         } 
-    //         $request = $this->update($sql, $arrData);
-    //     } else {
-    //         $request = "exist";
-    //     }
-    //     return $request;
-    // }
+                $sql = "UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, status=?
+						WHERE idecargos = $this->intIdeCargos ";
+
+                $arrData = array(
+                    $this->strNombresCargos,
+                    $this->strNivel,
+                    $this->intSalario,
+                    $this->intEstatus
+                );
+            } 
+            $request = $this->update($sql, $arrData);
+        } else {
+            $request = "exist";
+        }
+        return $request;
+    }
 
     // public function deleteUsuario(int $intIdeUsuario)
     // {

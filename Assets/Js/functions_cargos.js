@@ -15,9 +15,12 @@ document.addEventListener('DOMContentLoaded', function(){
         },
         "columns":[
             
+            
             {"data":"nombre"},
             {"data":"nivel"},
-            {"data":"salario"}
+            {"data":"salario"},
+            {"data":"estatus"},
+            {"data":"options"}
 
         ],
         'dom': 'lBfrtip',
@@ -45,19 +48,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	if(document.querySelector("#formCargos")){
         let formCargos = document.querySelector("#formCargos");
-        formUsuario.onsubmit = function(e) {
+        formCargos.onsubmit = function(e) {
             e.preventDefault();
-            var intIdeUsuario = document.querySelector('#ideUsuario').value;
-            let strCorreoUsuario = document.querySelector('#txtCorreoUsuario').value;
-            let strNombresUsuario = document.querySelector('#txtNombresUsuario').value;
+            var intIdeCargos = document.querySelector('#ideCargos').value;
+            let strNombresCargos = document.querySelector('#txtNombresCargos').value;
+            let strNivel = document.querySelector('#txtNivel').value;
             // $('#txtRolUsuario').picker();
             // $('#txtRolUsuario').picker({search : true});
-            let strRolUsuario = document.querySelector('#txtRolUsuario').value;
+            let intSalario = document.querySelector('#txtSalario').value;
             
             $('#listStatus').picker();
-            let intStatus = document.querySelector('#listStatus').value;
+            let intEstatus = document.querySelector('#listStatus').value;
 
-            if(strCorreoUsuario == '' || strNombresUsuario == '' || strRolUsuario == '')
+            if(strNombresCargos == '' || strNivel == '' || intSalario == '')
             {
                 Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
                 return false;
@@ -71,32 +74,33 @@ document.addEventListener('DOMContentLoaded', function(){
             } 
             divLoading.style.display = "flex";
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Usuarios/setUsuario'; 
-            let formData = new FormData(formUsuario);
+            let ajaxUrl = base_url+'/Cargos/setCargos'; 
+            let formData = new FormData(formCargos);
             request.open("POST",ajaxUrl,true);
             request.send(formData);
             request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
+                if(request.readyState == 5 && request.status == 200){
+                     let objData = JSON.parse(request.responseText);
                     if(objData.status)
                     {
                         if(rowTable == ""){
-                            tableUsuarios.api().ajax.reload();
-                            // tableUsuarios.DataTable().ajax.reload();
+                            tableCargos.api().ajax.reload();
+                            // tableCargos.DataTable().ajax.reload();
                         }else{
-                            htmlStatus = intStatus == 1 ? 
+                            htmlStatus = intEstatus == 1 ? 
                             '<span class="badge text-bg-success">Activo</span>' : 
                             '<span class="badge text-bg-danger">Inactivo</span>';
                             // tableUsuarios.api().ajax.reload();
-                           rowTable.cells[1].textContent =  strCorreoUsuario;
-                        //    rowTable.cells[2].textContent =  strRolUsuario;
-                           rowTable.cells[2].textContent = document.querySelector("#txtRolUsuario").selectedOptions[0].text;
-                            rowTable.cells[3].innerHTML = htmlStatus;
+                           rowTable.cells[1].textContent =  strNombresCargos;
+                           rowTable.cells[2].textContent =  strNivel;
+                           //    rowTable.cells[2].textContent = document.querySelector("#txtRolUsuario").selectedOptions[0].text;
+                           rowTable.cells[3].textContent =  strSalario;
+                            rowTable.cells[4].innerHTML = htmlStatus;
                            rowTable = "";
                         }
-                        $('#modalFormUsuario').modal("hide");
-                        formUsuario.reset();
-                        Swal.fire("Usuario", objData.msg ,"success");
+                        $('#modalFormCargos').modal("hide");
+                        formCargos.reset();
+                        Swal.fire("Cargos", objData.msg ,"success");
                         setTimeout(() => {
                             location.reload();
                         }, 1500);
@@ -112,26 +116,26 @@ document.addEventListener('DOMContentLoaded', function(){
 
 }, false);
 
-window.addEventListener('load', function() {
-    fntRolesUsuario();
-}, false);
+// window.addEventListener('load', function() {
+//     fntRolesUsuario();
+// }, false);
 
-function fntRolesUsuario(){
-if(document.querySelector('#txtRolUsuario')){
-    let ajaxUrl = base_url+'/Roles/getSelectRoles';
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    request.open("GET",ajaxUrl,true);
-    request.send();
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
-            $('#txtRolUsuario').picker({search : true});
-            // $('.txtRolUsuario').selectpicker('refresh');
-            // $('#txtRolUsuario').picker();
-        }
-    }
-}
-}
+// function fntRolesUsuario(){
+// if(document.querySelector('#txtRolUsuario')){
+//     let ajaxUrl = base_url+'/Roles/getSelectRoles';
+//     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+//     request.open("GET",ajaxUrl,true);
+//     request.send();
+//     request.onreadystatechange = function(){
+//         if(request.readyState == 4 && request.status == 200){
+//             document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
+//             $('#txtRolUsuario').picker({search : true});
+//             // $('.txtRolUsuario').selectpicker('refresh');
+//             // $('#txtRolUsuario').picker();
+//         }
+//     }
+// }
+// }
 
 function fntViewInfo(ideusuario){
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -139,6 +143,7 @@ function fntViewInfo(ideusuario){
     request.open("GET",ajaxUrl,true);
     request.send();
     request.onreadystatechange = function(){
+
         if(request.readyState == 4 && request.status == 200){
             let objData = JSON.parse(request.responseText);
             if(objData.status)
@@ -192,7 +197,7 @@ function fntEditInfo(element, ideusuario){
                 
             }
         }
-        $('#modalFormUsuario').modal('show');
+        $('#modalFormCragos').modal('show');
         
     }
     
@@ -238,7 +243,7 @@ function fntDelInfo(ideusuario){
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log('La página está completamente cargada');
-    var myModal = new bootstrap.Modal(document.getElementById('modalFormUsuario'));
+    var myModal = new bootstrap.Modal(document.getElementById('modalFormCargos'));
     // myModal.show();
 });
 
@@ -246,13 +251,13 @@ document.addEventListener('DOMContentLoaded', function () {
 function openModal()
 {
     rowTable = "";
-    document.querySelector('#ideUsuario').value ="";
+    document.querySelector('#ideCargos').value ="";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
     document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
     document.querySelector('#btnText').innerHTML ="Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
-    document.querySelector("#formUsuario").reset();
-    $('#modalFormUsuario').modal('show');
+    document.querySelector("#formCargos").reset();
+    $('#modalFormCargos').modal('show');
 }
 
 
