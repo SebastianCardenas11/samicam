@@ -14,28 +14,28 @@ document.addEventListener('DOMContentLoaded', function () {
             "dataSrc": ""
         },
         "columns": [
-            { "data": "idefuncionario" },
+            // { "data": "idefuncionario" },
             { "data": "nombre_completo" },
             { "data": "nm_identificacion" },
             { "data": "cargo_fk" },
             { "data": "dependencia_fk" },
-            { "data": "celular" },
-            { "data": "direccion" },
+            // { "data": "celular" },
+            // { "data": "direccion" },
             { "data": "correo_elc" },
-            { "data": "fecha_ingreso" },
-            { "data": "vacaciones" },
-            { "data": "hijos" },
-            { "data": "nombres_de_hijos" },
-            { "data": "sexo" },
-            { "data": "lugar_de_residencia" },
-            { "data": "edad" },
-            { "data": "estado_civil" },
-            { "data": "religion" },
-            { "data": "nivel_escolar" },
-            { "data": "carrera" },
-            { "data": "especialidad" },
-            { "data": "maestria" },
-            { "data": "doctorado" },
+            // { "data": "fecha_ingreso" },
+            // { "data": "vacaciones" },
+            // { "data": "hijos" },
+            // { "data": "nombres_de_hijos" },
+            // { "data": "sexo" },
+            // { "data": "lugar_de_residencia" },
+            // { "data": "edad" },
+            // { "data": "estado_civil" },
+            // { "data": "religion" },
+            // { "data": "nivel_escolar" },
+            // { "data": "carrera" },
+            // { "data": "especialidad" },
+            // { "data": "maestria" },
+            // { "data": "doctorado" },
             { "data": "status" },
             { "data": "options" }
 
@@ -63,143 +63,118 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // if (document.querySelector("#formFuncionario")) {
-    //     let formFuncionario = document.querySelector("#formFuncionario");
-    //     formFuncionario.onsubmit = function (e) {
-    //         e.preventDefault();
-    //         var intIdeFuncionario = document.querySelector('#ideFuncionario').value;
-    //         let strCorreoFuncionario = document.querySelector('#txtCorreoFuncionario').value;
-    //         let strNombresFuncionario = document.querySelector('#txtNombresFuncionario').value;
-    //         // $('#txtRolFuncionario').picker();
-    //         // $('#txtRolFuncionario').picker({search : true});
-    //         let strRolFuncionario = document.querySelector('#txtRolFuncionario').value;
+    if (document.querySelector("#formFuncionario")) {
+        let formFuncionario = document.querySelector("#formFuncionario");
+        formFuncionario.onsubmit = function (e) {
+            e.preventDefault();
+            var intIdeFuncionario = document.querySelector('#ideFuncionario').value;
+            let strCorreoFuncionario = document.querySelector('#txtCorreoFuncionario').value;
+            let strNombresFuncionario = document.querySelector('#txtNombresFuncionario').value;
+            // $('#txtRolFuncionario').picker();
+            // $('#txtRolFuncionario').picker({search : true});
+            let strRolFuncionario = document.querySelector('#txtRolFuncionario').value;
 
-    //         $('#listStatus').picker();
-    //         let intStatus = document.querySelector('#listStatus').value;
+            $('#listStatus').picker();
+            let intStatus = document.querySelector('#listStatus').value;
 
-    //         if (strCorreoFuncionario == '' || strNombresFuncionario == '' || strRolFuncionario == '') {
-    //             Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-    //             return false;
-    //         }
-    //         let elementsValid = document.getElementsByClassName("valid");
-    //         for (let i = 0; i < elementsValid.length; i++) {
-    //             if (elementsValid[i].classList.contains('is-invalid')) {
-    //                 Swal.fire("Atención", "Por favor verifique los campos en rojo.", "error");
-    //                 return false;
-    //             }
-    //         }
-    //         divLoading.style.display = "flex";
-    //         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    //         let ajaxUrl = base_url + '/Funcionarios/setFuncionario';
-    //         let formData = new FormData(formFuncionario);
-    //         request.open("POST", ajaxUrl, true);
-    //         request.send(formData);
-    //         request.onreadystatechange = function () {
-    //             if (request.readyState == 4 && request.status == 200) {
-    //                 let objData = JSON.parse(request.responseText);
-    //                 if (objData.status) {
-    //                     if (rowTable == "") {
-    //                         tableFuncionarios.api().ajax.reload();
-    //                         // tableFuncionarios.DataTable().ajax.reload();
-    //                     } else {
-    //                         htmlStatus = intStatus == 1 ?
-    //                             '<span class="badge text-bg-success">Activo</span>' :
-    //                             '<span class="badge text-bg-danger">Inactivo</span>';
-    //                         // tableFuncionarios.api().ajax.reload();
-    //                         rowTable.cells[1].textContent = strCorreoFuncionario;
-    //                         //    rowTable.cells[2].textContent =  strRolFuncionario;
-    //                         // rowTable.cells[2].textContent = document.querySelector("#txtRolFuncionario").selectedOptions[0].text;
-    //                         rowTable.cells[3].innerHTML = htmlStatus;
-    //                         rowTable = "";
-    //                     }
-    //                     $('#modalFormFuncionario').modal("hide");
-    //                     formFuncionario.reset();
-    //                     Swal.fire("Funcionario", objData.msg, "success");
-    //                     setTimeout(() => {
-    //                         location.reload();
-    //                     }, 1500);
-    //                 } else {
-    //                     Swal.fire("Error", objData.msg, "error");
-    //                 }
-    //             }
-    //             divLoading.style.display = "none";
-    //             return false;
-    //         }
-    //     }
-    // }
+            if (strCorreoFuncionario == '' || strNombresFuncionario == '' || strRolFuncionario == '') {
+                Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+                return false;
+            }
+            let elementsValid = document.getElementsByClassName("valid");
+            for (let i = 0; i < elementsValid.length; i++) {
+                if (elementsValid[i].classList.contains('is-invalid')) {
+                    Swal.fire("Atención", "Por favor verifique los campos en rojo.", "error");
+                    return false;
+                }
+            }
+            divLoading.style.display = "flex";
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url + '/Funcionarios/setFuncionario';
+            let formData = new FormData(formFuncionario);
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    let objData = JSON.parse(request.responseText);
+                    if (objData.status) {
+                        if (rowTable == "") {
+                            tableFuncionarios.api().ajax.reload();
+                            // tableFuncionarios.DataTable().ajax.reload();
+                        } else {
+                            htmlStatus = intStatus == 1 ?
+                                '<span class="badge text-bg-success">Activo</span>' :
+                                '<span class="badge text-bg-danger">Inactivo</span>';
+                            // tableFuncionarios.api().ajax.reload();
+                            rowTable.cells[1].textContent = strCorreoFuncionario;
+                            //    rowTable.cells[2].textContent =  strRolFuncionario;
+                            // rowTable.cells[2].textContent = document.querySelector("#txtRolFuncionario").selectedOptions[0].text;
+                            rowTable.cells[3].innerHTML = htmlStatus;
+                            rowTable = "";
+                        }
+                        $('#modalFormFuncionario').modal("hide");
+                        formFuncionario.reset();
+                        Swal.fire("Funcionario", objData.msg, "success");
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        Swal.fire("Error", objData.msg, "error");
+                    }
+                }
+                divLoading.style.display = "none";
+                return false;
+            }
+        }
+    }
 
 }, false);
 
-// window.addEventListener('load', function() {
-//     fntRolesFuncionario();
-// }, false);
 
-// function fntRolesFuncionario(){
-// if(document.querySelector('#txtRolFuncionario')){
-//     let ajaxUrl = base_url+'/Roles/getSelectRoles';
-//     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-//     request.open("GET",ajaxUrl,true);
-//     request.send();
-//     request.onreadystatechange = function(){
-//         if(request.readyState == 4 && request.status == 200){
-//             document.querySelector('#txtRolFuncionario').innerHTML = request.responseText;
-//             $('#txtRolFuncionario').picker({search : true});
-//             // $('.txtRolFuncionario').selectpicker('refresh');
-//             // $('#txtRolFuncionario').picker();
-//         }
-//     }
-// }
-// }
 
 function fntViewInfo(idefuncionario) {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/funcionariosPlanta/getFuncionarios/' + idefuncionario;
+    let ajaxUrl = base_url + '/funcionariosPlanta/getFuncionario/'+idefuncionario;
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-            try {
-                let objData = JSON.parse(request.responseText);
-                console.log(request.responseText);
-                console.log(objData.status);
-                
-                if (objData.status) {
+            // console.log(request.responseText);
+            let objData = JSON.parse(request.responseText);
+            
+            if (objData.status) 
+                {
                     let estadoFuncionario = objData.data.status == 1
                     ? '<span class="badge text-bg-success">Activo</span>'
                     : '<span class="badge text-bg-danger">Inactivo</span>';
                     
-                    document.querySelector("#celIdeFuncionario").innerHTML = objData.data.ideFuncionario;
-                    // document.querySelector("#celCorreoFuncionario").innerHTML = objData.data.correo;
-                    // document.querySelector("#celNombresFuncionario").innerHTML = objData.data.nombres;
-                    // document.querySelector("#celRolFuncionario").innerHTML = objData.data.nombrerol;
+                    document.querySelector("#celIdeFuncionario").innerHTML = objData.data.idefuncionario;
+                    document.querySelector("#celCorreoFuncionario").innerHTML = objData.data.correo_elc;
+                    document.querySelector("#celNombresFuncionario").innerHTML = objData.data.nombre_completo;
                     document.querySelector("#celEstadoFuncionario").innerHTML = estadoFuncionario;
-
-                    // document.querySelector("#celIdentificacionFuncionario").innerHTML = objData.data.nm_identificacion;
-                    // document.querySelector("#celCargoFuncionario").innerHTML = objData.data.cargo_fk;
-                    // document.querySelector("#celDependenciaFuncionario").innerHTML = objData.data.dependencia_fk;
-                    // document.querySelector("#celCelularFuncionario").innerHTML = objData.data.celular;
-                    // document.querySelector("#celDireccionFuncionario").innerHTML = objData.data.direccion;
-                    // document.querySelector("#celFechaIngresoFuncionario").innerHTML = objData.data.fecha_ingreso;
-                    // document.querySelector("#celVacacionesFuncionario").innerHTML = objData.data.vacaciones;
-
-                    // document.querySelector("#celHijosFuncionario").innerHTML = objData.data.hijos;
-                    // document.querySelector("#celNombresHijosFuncionario").innerHTML = objData.data.nombres_de_hijos;
-                    // document.querySelector("#celSexoFuncionario").innerHTML = objData.data.sexo;
-                    // document.querySelector("#celLugarResidenciaFuncionario").innerHTML = objData.data.lugar_de_residencia;
-                    // document.querySelector("#celEdadFuncionario").innerHTML = objData.data.edad;
-                    // document.querySelector("#celEstadoCivilFuncionario").innerHTML = objData.data.estado_civil;
-                    // document.querySelector("#celReligionFuncionario").innerHTML = objData.data.religion;
-                    // document.querySelector("#celNivelEscolarFuncionario").innerHTML = objData.data.nivel_escolar;
-                    // document.querySelector("#celCarreraFuncionario").innerHTML = objData.data.carrera;
-                    // document.querySelector("#celEspecialidadFuncionario").innerHTML = objData.data.especialidad;
-                    // document.querySelector("#celMaestriaFuncionario").innerHTML = objData.data.maestria;
-                    // document.querySelector("#celDoctoradoFuncionario").innerHTML = objData.data.doctorado;
+                    document.querySelector("#celIdentificacionFuncionario").innerHTML = objData.data.nm_identificacion;
+                    document.querySelector("#celCargoFuncionario").innerHTML = objData.data.cargo_fk;
+                    document.querySelector("#celDependenciaFuncionario").innerHTML = objData.data.dependencia_fk;
+                    document.querySelector("#celCelularFuncionario").innerHTML = objData.data.celular;
+                    document.querySelector("#celDireccionFuncionario").innerHTML = objData.data.direccion;
+                    document.querySelector("#celFechaIngresoFuncionario").innerHTML = objData.data.fecha_ingreso;
+                    document.querySelector("#celVacacionesFuncionario").innerHTML = objData.data.vacaciones;
+                    document.querySelector("#celHijosFuncionario").innerHTML = objData.data.hijos;
+                    document.querySelector("#celNombresHijosFuncionario").innerHTML = objData.data.nombres_de_hijos;
+                    document.querySelector("#celSexoFuncionario").innerHTML = objData.data.sexo;
+                    document.querySelector("#celLugarResidenciaFuncionario").innerHTML = objData.data.lugar_de_residencia;
+                    document.querySelector("#celEdadFuncionario").innerHTML = objData.data.edad;
+                    document.querySelector("#celEstadoCivilFuncionario").innerHTML = objData.data.estado_civil;
+                    document.querySelector("#celReligionFuncionario").innerHTML = objData.data.religion;
+                    document.querySelector("#celNivelEscolarFuncionario").innerHTML = objData.data.nivel_escolar;
+                    document.querySelector("#celCarreraFuncionario").innerHTML = objData.data.carrera;
+                    document.querySelector("#celEspecialidadFuncionario").innerHTML = objData.data.especialidad;
+                    document.querySelector("#celMaestriaFuncionario").innerHTML = objData.data.maestria;
+                    document.querySelector("#celDoctoradoFuncionario").innerHTML = objData.data.doctorado;
 
                     $('#modalViewFuncionario').modal('show');
-                }
-
-            } catch (error) {
-                Swal.fire("Error", error);
+            }else{
+                Swal.fire("Error", objData.msg , "error");
             }
         }
     }
