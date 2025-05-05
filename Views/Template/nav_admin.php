@@ -34,6 +34,15 @@
             </li>
         <?php } ?>
 
+        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
+            <li>
+                <a class="app-menu__item" href="<?= base_url(); ?>/cargos">
+                    <i class="app-menu__icon bi bi-sliders2-vertical"></i>
+                    <span class="app-menu__label">Cargos</span>
+                </a>
+            </li>
+        <?php } ?>
+
         <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
             <li>
                 <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosOps">
