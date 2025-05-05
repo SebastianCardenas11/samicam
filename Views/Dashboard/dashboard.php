@@ -1,10 +1,10 @@
-<?php headerAdmin($data); ?>
+<?php headerAdmin($data);?>
 
 <main class="app-content">
     <div class="app-title">
         <div>
             <h1>
-                <i class="bi bi-house-door"></i>
+                <i class="bi bi-house"></i>
                 </i> Inicio
             </h1>
             <p> Sistema Administrativo de Módulos de Información del Centro Administrativo</p>
@@ -16,39 +16,50 @@
     </div>
     <div class="row">
 
-        <?php if (!empty($_SESSION['permisos'][2]['d'])) { ?>
-            <div class="col-md-6 col-lg-3 mb-4">
-                <a href="<?= base_url() ?>/usuarios" class="text-decoration-none">
-                    <div class="card shadow-sm animate-card">
-                        <div class="card-body text-center">
-                            <i class="bi bi-people fs-1 text-primary mb-3"></i>
-                            <h5 class="card-title mb-2">Usuarios</h5>
-
-                            <p class="card-text fs-2"><b><?= $data['usuarios'] ?></b></p>
-                        </div>
+        <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
+        <div class="col-md-6 col-lg-6">
+            <a href="<?=base_url()?>/usuarios" class="linkw">
+                <div class="widget-small primary coloured-icon"><i class="icon bi bi-people fs-1"></i>
+                    <div class="info">
+                        <h4>Usuarios</h4>
+                        <p><b><?=$data['usuarios']?></b></p>
                     </div>
-                </a>
-            </div>
-        <?php } ?>
+                </div>
+            </a>
+        </div>
+        <?php }?>
 
-
-        <?php if (!empty($_SESSION['permisos'][2]['d'])) { ?>
-            <div class="col-md-6 col-lg-3 mb-4">
-                <a href="<?= base_url() ?>/usuarios" class="text-decoration-none">
-                    <div class="card shadow-sm animate-card">
-                        <div class="card-body text-center">
-                            <i class="bi bi-people fs-1 text-primary mb-3"></i>
-                            <h5 class="card-title mb-2">Roles</h5>
-
-                            <p class="card-text fs-2"><b><?= $data['usuarios'] ?></b></p>
-                        </div>
+<!-- 
+        <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
+        <div class="col-md-6 col-lg-6">
+            <a href="<?=base_url()?>/funcionariosops" class="link-info">
+                <div class="widget-small info coloured-icon">
+                    <i class="icon bi bi-list-stars fs-1"></i>
+                    <div class="info">
+                        <h4>Funcionarios Ops</h4>
+                        <p><b><?=$data['funcionariosops']?></b></p>
                     </div>
-                </a>
-            </div>
-        <?php } ?>
-
-
-
+                </div>
+        </div>
+        </a>
     </div>
+    <?php }?>
+
+    <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
+    <div class="col-md-6 col-lg-6">
+        <a href="<?=base_url()?>/fichas" class="link-info">
+            <div class="widget-small warning coloured-icon">
+                <i class="icon bi bi-bookmark-star"></i>
+                <div class="info">
+                    <h4>Fichas</h4>
+                    <p><b><?=$data['fichas']?></b></p>
+                </div>
+            </div>
+    </div>
+    </a>
+    </div>
+    <?php }?> -->
+
+
 </main>
-<?php footerAdmin($data); ?>
+<?php footerAdmin($data);?>
