@@ -1,5 +1,5 @@
 <?php
-class FuncionariosModel extends Mysql
+class FuncionariosOpsModel extends Mysql
 {
     private $intIdeFuncionario;
     private $strCorreoFuncionario;
