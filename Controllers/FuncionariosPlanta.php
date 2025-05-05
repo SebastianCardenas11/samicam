@@ -29,64 +29,64 @@ class FuncionariosPlanta extends Controllers
     }
 
 
-   public function setFuncionario()
-    {
-        error_reporting(0);
-        if ($_POST) {
-            if (empty($_POST['txtCorreoUsuario'])) {
-                $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
-            } else {
-                $intidefuncionario = intval($_POST['idefuncionario']);
-                $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
-                $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
-                $strpassword = strClean($_POST['txtContrasenaUsuario']);
-                $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
-                $intStatus = intval(strClean($_POST['listStatus']));
+//    public function setFuncionario()
+//     {
+//         error_reporting(0);
+//         if ($_POST) {
+//             if (empty($_POST['txtCorreoUsuario'])) {
+//                 $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+//             } else {
+//                 $intidefuncionario = intval($_POST['idefuncionario']);
+//                 $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
+//                 $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
+//                 $strpassword = strClean($_POST['txtContrasenaUsuario']);
+//                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
+//                 $intStatus = intval(strClean($_POST['listStatus']));
 
-                // $intTipoId = 5;
-                $request_user = "";
-                if ($intidefuncionario == 0) {
-                    $option = 1;
-                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
-                    if ($_SESSION['permisosMod']['w']) {
-                        $request_user = $this->model->insertUsuario(
-                            $strIdentificacionUsuario,
-                            $strNombresUsuario,
-                            $strPassword,
-                            $strRolUsuario,
-                            $intStatus
+//                 // $intTipoId = 5;
+//                 $request_user = "";
+//                 if ($intidefuncionario == 0) {
+//                     $option = 1;
+//                     $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
+//                     if ($_SESSION['permisosMod']['w']) {
+//                         $request_user = $this->model->insertUsuario(
+//                             $strIdentificacionUsuario,
+//                             $strNombresUsuario,
+//                             $strPassword,
+//                             $strRolUsuario,
+//                             $intStatus
 
-                        );
-                    }
-                } else {
-                    $option = 2;
-                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
-                    if ($_SESSION['permisosMod']['u']) {
-                        $request_user = $this->model->updateUsuario(
-                            $intidefuncionario,
-                            $strIdentificacionUsuario,
-                            $strNombresUsuario,
-                            $strRolUsuario,
-                            $intStatus
-                        );
-                    }
-                }
-                if ($request_user > 0) {
-                    if ($option == 1) {
-                        $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
-                    } else {
-                        $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
-                    }
-                } else if ($request_user == 'exist') {
-                    $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
-                } else {
-                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-                }
-            }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
+//                         );
+//                     }
+//                 } else {
+//                     $option = 2;
+//                     $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
+//                     if ($_SESSION['permisosMod']['u']) {
+//                         $request_user = $this->model->updateUsuario(
+//                             $intidefuncionario,
+//                             $strIdentificacionUsuario,
+//                             $strNombresUsuario,
+//                             $strRolUsuario,
+//                             $intStatus
+//                         );
+//                     }
+//                 }
+//                 if ($request_user > 0) {
+//                     if ($option == 1) {
+//                         $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
+//                     } else {
+//                         $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
+//                     }
+//                 } else if ($request_user == 'exist') {
+//                     $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
+//                 } else {
+//                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+//                 }
+//             }
+//             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+//         }
+//         die();
+//     }
 
     public function getFuncionarios()
     {
@@ -105,15 +105,15 @@ class FuncionariosPlanta extends Controllers
                 }
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Usuario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
+                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
                 }
-                if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                // if ($_SESSION['permisosMod']['d']) {
+                //     $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
-                }
+                // }
 
                 
 

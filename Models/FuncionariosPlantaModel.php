@@ -121,30 +121,25 @@ class FuncionariosPlantaModel extends Mysql
         return $return;
     }
 
-    // Seleccionar todos los usuarios (con nuevos campos)
 public function selectFuncionarios()
 {
     $whereAdmin = "";
     if ($_SESSION['idUser'] != 1) {
-        $whereAdmin = " AND u.idefuncionario != 1 ";
+        $whereAdmin = " and u.idefuncionario != 1 ";
     }
-    
-    // Ajustando el SELECT para incluir los nuevos campos
     $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso, u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
             FROM tbl_funcionarios u
             WHERE u.status != 0 " . $whereAdmin;
-
-    // Ejecutar la consulta y obtener el resultado
-    $request = $this->select_all($sql);
-    return $request;
+            $request = $this->select_all($sql);
+            return $request;
 }
 
 
     // Seleccionar un usuario específico (con nuevos campos)
-    public function selectFuncionario(int $ideFuncionario)
+    public function selectFuncionario(int $idefuncionario)
     {
         $this->intIdeFuncionario = $idefuncionario;
-        $sql = "SELECT u.idefuncionario, u.correo, u.nombres, u.status, u.identificacion, u.cargo, u.dependencia, u.celular, u.direccion, u.fecha_ingreso, u.vacaciones, u.hijos, u.nombre_hijos, u.sexo, u.lugar_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
+        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso, u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
                 FROM tbl_funcionarios u
                 WHERE u.idefuncionario = $this->intIdeFuncionario";
         $request = $this->select($sql);

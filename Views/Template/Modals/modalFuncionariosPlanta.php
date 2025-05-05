@@ -173,6 +173,10 @@
             <td>Doctorado:</td>
             <td id="celDoctoradoFuncionario">0</td>
         </tr>
+        <tr>
+            <td>Estado:</td>
+            <td id="celEstadoFuncionario">0</td>
+        </tr>
     </tbody>
 </table>
 

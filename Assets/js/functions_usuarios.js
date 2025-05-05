@@ -143,6 +143,8 @@ function fntViewInfo(ideusuario){
         // console.log(request.responseText);
         if(request.readyState == 4 && request.status == 200){
             let objData = JSON.parse(request.responseText);
+           
+            
             if(objData.status)
             {
 
