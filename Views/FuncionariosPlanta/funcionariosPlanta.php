@@ -42,7 +42,7 @@ headerAdmin($data);
             <div class="tile">
                 <div class="tile-body">
                     <div class="table-responsive">
-                        <table class="table table-hover cell-border" id="tableFuncionarios">
+                        <table class="table table-estilo" id="tableFuncionarios">
                             <thead class="table-success">
                                 <tr>
                                     <th class="text-center">id</th> 
@@ -57,7 +57,7 @@ headerAdmin($data);
                                     <th class="text-center">Vacaciones</th>
                                     <th class="text-center">Hijos</th>
                                     <th class="text-center">Nombre de hijos</th>
-                                    <th class="text-center">Sexo</th>
+                                     <th class="text-center">Sexo</th>
                                     <th class="text-center">Lugar de recidencia</th>
                                     <th class="text-center">Edad</th>
                                     <th class="text-center">Estado civil</th>
@@ -68,7 +68,7 @@ headerAdmin($data);
                                     <th class="text-center">Maestria</th>
                                     <th class="text-center">Doctorado</th>
                                     <th class="text-center">Estado</th>
-                                    <th class="text-center">Acciones</th>
+                                    <th class="text-center">Acciones</th> 
                              </tr>
                             </thead>
                             <tbody class="table-group-divider text-center">
