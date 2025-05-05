@@ -63,24 +63,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    if (document.querySelector("#formFuncionario")) {
-        let formFuncionario = document.querySelector("#formFuncionario");
+    if (document.querySelector("#modalFormFuncionario")) {
+        let formFuncionario = document.querySelector("#modalFormFuncionario");
         formFuncionario.onsubmit = function (e) {
             e.preventDefault();
+    
             var intIdeFuncionario = document.querySelector('#ideFuncionario').value;
             let strCorreoFuncionario = document.querySelector('#txtCorreoFuncionario').value;
             let strNombresFuncionario = document.querySelector('#txtNombresFuncionario').value;
-            // $('#txtRolFuncionario').picker();
-            // $('#txtRolFuncionario').picker({search : true});
-            let strRolFuncionario = document.querySelector('#txtRolFuncionario').value;
-
-            $('#listStatus').picker();
-            let intStatus = document.querySelector('#listStatus').value;
-
-            if (strCorreoFuncionario == '' || strNombresFuncionario == '' || strRolFuncionario == '') {
-                Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+    
+            // Campos adicionales
+            let strIdentificacion = document.querySelector('#txtIdentificacionFuncionario').value;
+            let strCelular = document.querySelector('#txtCelularFuncionario').value;
+            let strDireccion = document.querySelector('#txtDireccionFuncionario').value;
+            let strFechaIngreso = document.querySelector('#txtFechaIngresoFuncionario').value;
+            let strVacaciones = document.querySelector('#txtVacacionesFuncionario').value;
+            let strHijos = document.querySelector('#txtHijosFuncionario').value;
+            let strNombresHijos = document.querySelector('#txtNombresHijosFuncionario').value;
+            let strSexo = document.querySelector('#txtSexoFuncionario').value;
+            let strLugarResidencia = document.querySelector('#txtLugarResidenciaFuncionario').value;
+            let intEdad = document.querySelector('#txtEdadFuncionario').value;
+            let strEstadoCivil = document.querySelector('#txtEstadoCivilFuncionario').value;
+            let strReligion = document.querySelector('#txtReligionFuncionario').value;
+            let strNivelEscolar = document.querySelector('#txtNivelEscolarFuncionario').value;
+            let strCarrera = document.querySelector('#txtCarreraFuncionario').value;
+            let strEspecialidad = document.querySelector('#txtEspecialidadFuncionario').value;
+            let strMaestria = document.querySelector('#txtMaestriaFuncionario').value;
+            let strDoctorado = document.querySelector('#txtDoctoradoFuncionario').value;
+    
+            // Validación básica (puedes agregar más campos requeridos aquí si lo deseas)
+            if (strCorreoFuncionario == '' || strNombresFuncionario == '' || strIdentificacion == '') {
+                Swal.fire("Atención", "Todos los campos obligatorios deben ser completados.", "error");
                 return false;
             }
+    
+            // Validaciones de clase is-invalid
             let elementsValid = document.getElementsByClassName("valid");
             for (let i = 0; i < elementsValid.length; i++) {
                 if (elementsValid[i].classList.contains('is-invalid')) {
@@ -88,30 +105,31 @@ document.addEventListener('DOMContentLoaded', function () {
                     return false;
                 }
             }
+    
             divLoading.style.display = "flex";
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url + '/Funcionarios/setFuncionario';
             let formData = new FormData(formFuncionario);
+    
             request.open("POST", ajaxUrl, true);
             request.send(formData);
+    
             request.onreadystatechange = function () {
                 if (request.readyState == 4 && request.status == 200) {
                     let objData = JSON.parse(request.responseText);
                     if (objData.status) {
                         if (rowTable == "") {
                             tableFuncionarios.api().ajax.reload();
-                            // tableFuncionarios.DataTable().ajax.reload();
                         } else {
-                            htmlStatus = intStatus == 1 ?
+                            let htmlStatus = intStatus == 1 ?
                                 '<span class="badge text-bg-success">Activo</span>' :
                                 '<span class="badge text-bg-danger">Inactivo</span>';
-                            // tableFuncionarios.api().ajax.reload();
+    
                             rowTable.cells[1].textContent = strCorreoFuncionario;
-                            //    rowTable.cells[2].textContent =  strRolFuncionario;
-                            // rowTable.cells[2].textContent = document.querySelector("#txtRolFuncionario").selectedOptions[0].text;
                             rowTable.cells[3].innerHTML = htmlStatus;
                             rowTable = "";
                         }
+    
                         $('#modalFormFuncionario').modal("hide");
                         formFuncionario.reset();
                         Swal.fire("Funcionario", objData.msg, "success");
@@ -127,10 +145,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+    
 
 }, false);
-
-
 
 function fntViewInfo(idefuncionario) {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -181,14 +198,14 @@ function fntViewInfo(idefuncionario) {
 }
 
 
-function fntEditInfo(element, ideFuncionario) {
+function fntEditInfo(element, idefuncionario) {
     rowTable = element.parentNode.parentNode.parentNode;
     document.querySelector('#titleModal').innerHTML = "Actualizar Funcionario";
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
     document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
     document.querySelector('#btnText').innerHTML = "Actualizar";
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/Funcionarios/getFuncionario/' + ideFuncionario;
+    let ajaxUrl =base_url + '/funcionariosPlanta/getFuncionario/'+idefuncionario;
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function () {
@@ -196,10 +213,30 @@ function fntEditInfo(element, ideFuncionario) {
         if (request.readyState == 4 && request.status == 200) {
             let objData = JSON.parse(request.responseText);
             if (objData.status) {
-                document.querySelector("#ideFuncionario").value = objData.data.ideFuncionario;
+                document.querySelector("#ideFuncionario").value = objData.data.idefuncionario;
                 document.querySelector("#txtCorreoFuncionario").value = objData.data.correo;
                 document.querySelector("#txtNombresFuncionario").value = objData.data.nombres;
-                document.querySelector("#txtRolFuncionario").value = objData.data.idrol;
+                document.querySelector("#txtEstadoFuncionario").value = estadoFuncionario;
+                document.querySelector("#txtIdentificacionFuncionario").value = objData.data.nm_identificacion;
+                document.querySelector("#txtCargoFuncionario").value = objData.data.cargo_fk;
+                document.querySelector("#txtDependenciaFuncionario").value = objData.data.dependencia_fk;
+                document.querySelector("#txtCelularFuncionario").value = objData.data.celular;
+                document.querySelector("#txtDireccionFuncionario").value = objData.data.direccion;
+                document.querySelector("#txtFechaIngresoFuncionario").value = objData.data.fecha_ingreso;
+                document.querySelector("#txtVacacionesFuncionario").value = objData.data.vacaciones;
+                document.querySelector("#txtHijosFuncionario").value = objData.data.hijos;
+                document.querySelector("#txtNombresHijosFuncionario").value = objData.data.nombres_de_hijos;
+                document.querySelector("#txtSexoFuncionario").value = objData.data.sexo;
+                document.querySelector("#txtLugarResidenciaFuncionario").value = objData.data.lugar_de_residencia;
+                document.querySelector("#txtEdadFuncionario").value = objData.data.edad;
+                document.querySelector("#txtEstadoCivilFuncionario").value = objData.data.estado_civil;
+                document.querySelector("#txtReligionFuncionario").value = objData.data.religion;
+                document.querySelector("#txtNivelEscolarFuncionario").value = objData.data.nivel_escolar;
+                document.querySelector("#txtCarreraFuncionario").value = objData.data.carrera;
+                document.querySelector("#txtEspecialidadFuncionario").value = objData.data.especialidad;
+                document.querySelector("#txtMaestriaFuncionario").value = objData.data.maestria;
+                document.querySelector("#txtDoctoradoFuncionario").value = objData.data.doctorado;
+                
 
                 // ESTADO ACTIVO O INACTIVO
                 if (objData.data.status == 1) {
@@ -262,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function openModal() {
     rowTable = "";
-    document.querySelector('#ideFuncionario').value = "";
+    document.querySelector('#idefuncionario').value = "";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
     document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
     document.querySelector('#btnText').innerHTML = "Guardar";

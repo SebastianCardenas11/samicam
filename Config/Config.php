@@ -5,17 +5,9 @@ const BASE_URL = "http://localhost/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-<<<<<<< HEAD
+
 const DB_HOST = "localhost:3306";
-=======
-<<<<<<< HEAD
-const DB_HOST = "localhost:3306";
-const DB_NAME = "samica";
-=======
-const DB_HOST = "localhost:3307";
->>>>>>> 4c8c833aa95c5f8de52450238669681089fc5480
 const DB_NAME = "samicam";
->>>>>>> dd56bfb011e5949b0ab136e3042068e560f9479c
 const DB_USER = "root";
 const DB_PASSWORD = "";
 const DB_CHARSET = "utf8";
