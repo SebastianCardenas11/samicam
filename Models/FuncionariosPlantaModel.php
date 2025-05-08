@@ -162,8 +162,6 @@ public function selectFuncionarios()
         string $celular,
         string $direccion,
         string $fechaIngreso,
-        string $fechaVacaciones,
-        string $vacaciones,
         int $hijos,
         string $nombreHijos,
         string $sexo,
@@ -187,8 +185,6 @@ public function selectFuncionarios()
         $this->strCelular = $celular;
         $this->strDireccion = $direccion;
         $this->strFechaIngreso = $fechaIngreso;
-        $this->strFechaVacaciones = $fechaVacaciones;
-        $this->strVacaciones = $vacaciones;
         $this->intHijos = $hijos;
         $this->strNombreHijos = $nombreHijos;
         $this->strSexo = $sexo;
@@ -202,7 +198,7 @@ public function selectFuncionarios()
         $this->strMaestria = $maestria;
         $this->strDoctorado = $doctorado;
 
-        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, celular=?, direccion=?, fecha_ingreso=?, vacaciones=?,fecha_vacaciones=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, nivel_escolar=?, carrera=?, especialidad=?, maestria=?, doctorado=? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, nivel_escolar=?, carrera=?, especialidad=?, maestria=?, doctorado=? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(
             $this->strCorreoFuncionarios,
             $this->strNombresFuncionarios,
@@ -213,8 +209,6 @@ public function selectFuncionarios()
             $this->strCelular,
             $this->strDireccion,
             $this->strFechaIngreso,
-            $this->strVacaciones,
-            $this->strFechaVacaciones,
             $this->intHijos,
             $this->strNombreHijos,
             $this->strSexo,
