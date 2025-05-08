@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="modalFormFuncionario" tabindex="-1" aria-labelledby="modalFormUsuario" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    data-bs-backdrop="static" data-bs-keyboard="false">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -12,11 +12,12 @@
             <div class="modal-body">
                 <div class="tile">
                     <div class="tile-body">
-                        <form id="formFuncionario" name=" formFuncionario" enctype="multipart/form-data" method="POST">
-                            <input type="hidden" id="ideFuncionario" name=" ideFuncionario" value="">
+                        <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
+                            <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
                             <!-- Nombre completo -->
                             <div class="modal-body">
-                                <label for="txtNombreFuncionario">Nombre completo <span class="required">*</span></label>
+                                <label for="txtNombreFuncionario">Nombre completo <span
+                                        class="required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombreFuncionario"
                                     name="txtNombreFuncionario" required maxlength="100">
                             </div>
@@ -24,8 +25,8 @@
                             <!-- Correo -->
                             <div class="modal-body">
                                 <label for="txtCorreoFuncionario">Correo <span class="required">*</span></label>
-                                <input type="email" class="form-control" id="txtCorreoFuncionario" name="txtCorreoFuncionario"
-                                    required>
+                                <input type="email" class="form-control" id="txtCorreoFuncionario"
+                                    name="txtCorreoFuncionario" required>
                             </div>
 
                             <!-- Cargo -->
@@ -71,8 +72,8 @@
                             </div>
 
                             <!-- Vacaciones -->
-                            <div class="modal-body">
-                                <label for="txtVacacionesFuncionario">Vacaciones</label>
+                            <div class="modal-body d-none">
+                                <label for="txtVacacionesFuncionario">Fecha Vacaciones</label>
                                 <input type="text" class="form-control" id="txtVacacionesFuncionario"
                                     name="txtVacacionesFuncionario">
                             </div>
@@ -160,11 +161,16 @@
                                 <input type="text" class="form-control" id="txtDoctoradoFuncionario"
                                     name="txtDoctoradoFuncionario">
                             </div>
-
+                            <div class="modal-body form-select-lg mb-3">
+                                <label for="listStatus">Estado</label>
+                                <select class="form-select" id="listStatus" name="listStatus">
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+                                </select>
+                            </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button id="btnActionForm" class="btn btn-success" type="submit"><i class="bi bi-floppy"></i>
                     <span id="btnText">Guardar</span></button>
@@ -211,10 +217,7 @@
                                     <td>Nombre Completo:</td>
                                     <td id="celNombresFuncionario">0</td>
                                 </tr>
-                                <tr>
-                                    <td>Estado:</td>
-                                    <td id="celEstadoUsuario">0</td>
-                                </tr>
+
                                 <tr>
                                     <td>Identificación:</td>
                                     <td id="celIdentificacionFuncionario">0</td>
