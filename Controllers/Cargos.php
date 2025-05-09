@@ -31,13 +31,13 @@ class Cargos extends Controllers
         error_reporting(0);
         if ($_POST) {
             if (empty($_POST['txtNombresCargos'])) {
-                $arrResponse = array("estatus" => false, "msg" => '``Datos incorrectos.');
+                $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
             } else {
-                $intIdeCargos = intval($_POST['idecargo']);
+$intIdeCargos = intval($_POST['ideCargos']);
                 $strNombresCargos = strClean($_POST['txtNombresCargos']);
-                $strNivel = intval(strClean($_POST['txtNivel']));
-                $intSalario = intval(strClean($_POST['txtsalario']));
-                $intEstatus = intval(strClean($_POST['txtstatus']));
+                $strNivel = (strClean($_POST['txtNivel']));
+                $intSalario = intval(strClean($_POST['txtSalario']));
+                $intEstatus = intval(strClean($_POST['listStatus']));
 
                 // $intTipoId = 5;
                 $request_user = "";
@@ -56,6 +56,7 @@ class Cargos extends Controllers
                     $option = 2;
                     if ($_SESSION['permisosMod']['u']) {
                         $request_user = $this->model->updateCargos(
+                            $intIdeCargos,
                             $strNombresCargos,
                             $strNivel,
                             $intSalario,
@@ -82,6 +83,8 @@ class Cargos extends Controllers
 
     public function getCargos()
     {
+        
+        
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectCargos();
             for ($i = 0; $i < count($arrData); $i++) {
@@ -102,19 +105,11 @@ class Cargos extends Controllers
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idecargos'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
                 }
-                // if ($_SESSION['permisosMod']['d']) {
-                //     $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idecargos'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
-                // }
+                }
 
-                // if($_SESSION['permisosMod']['d']){
-                //     if(($_SESSION['userData']['idecargos'] != $arrData[$i]['idecargos'] )
-                //          ){
-                //             $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idecargos'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-                //     }else{
-                //         $btnDelete = '<button class="btn btn-secondary" disabled ><i class="bi bi-trash3"></i></button>';
-                //     }
-                // }
 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
@@ -140,21 +135,21 @@ class Cargos extends Controllers
         die();
     }
 
-    // public function delUsuario()
-    // {
-    //     if ($_POST) {
-    //         if ($_SESSION['permisosMod']['d']) {
-    //             $intIdeUsuario = intval($_POST['ideUsuario']);
-    //             $requestDelete = $this->model->deleteUsuario($intIdeUsuario);
-    //             if ($requestDelete) {
-    //                 $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
-    //             } else {
-    //                 $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
-    //             }
-    //             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-    //         }
-    //     }
-    //     die();
-    // }
+    public function delCargos()
+    {
+        if ($_POST) {
+            if ($_SESSION['permisosMod']['d']) {
+                $intIdeCargos = intval($_POST['ideCargos']);
+                $requestDelete = $this->model->deleteCargos($intIdeCargos);
+                if ($requestDelete) {
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
 
 }

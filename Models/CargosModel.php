@@ -33,7 +33,7 @@ class CargosModel extends Mysql
         if (empty($request)) {
 
             // $rs = 1;
-            $query_insert = "INSERT INTO tbl_cargos(nombre,nivel,salario,status)
+            $query_insert = "INSERT INTO tbl_cargos(nombre,nivel,salario,estatus)
             VALUES(?,?,?,?)";
 
             $arrData = array(
@@ -74,26 +74,26 @@ class CargosModel extends Mysql
     public function selectCargo(int $idecargos)
     {
         $this->intIdeCargos = $idecargos;
-        $sql = "SELECT u.idecargos, u.nombre, u.nivel, u.estatus
-                FROM tbl_funcionarios u
+        $sql = "SELECT u.idecargos, u.nombre, u.nivel, u.salario, u.estatus
+                FROM tbl_cargos u
                 WHERE u.idecargos = $this->intIdeCargos";
         $request = $this->select($sql);
         return $request;
     }
-    //ACTUALIZAR USUARIO
-    public function updateUsuario(
+    //ACTUALIZAR CARGO
+    public function updateCargos(
         int $idecargos,
         string $nombre,
         string $nivel,
         string $salario,
-        string $status
+        string $estatus
     ) {
 
         $this->intIdeCargos = $idecargos;
         $this->strNombresCargos = $nombre;
         $this->strNivel = $nivel;
         $this->intSalario = $salario;
-        $this->intEstatus = $status;
+        $this->intEstatus = $estatus;
 
         $sql = "SELECT * FROM tbl_cargos WHERE (nombre = '{$this->strNombresCargos}' AND idecargos != $this->intIdeCargos)";
         $request = $this->select_all($sql);
@@ -102,7 +102,7 @@ class CargosModel extends Mysql
             // TODO PENDIENTE LA VALIDACIÓN SI EL CODIGO ES IGUAL QUE EL CODIGO DE OTRO USUARIO
             if ($this->strNombresCargos != "" ) {
 
-                $sql = "UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, status=?
+                $sql = "UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
 						WHERE idecargos = $this->intIdeCargos ";
 
                 $arrData = array(
@@ -111,21 +111,23 @@ class CargosModel extends Mysql
                     $this->intSalario,
                     $this->intEstatus
                 );
-            } 
-            $request = $this->update($sql, $arrData);
+                $request = $this->update($sql, $arrData);
+            } else {
+                $request = false;
+            }
         } else {
             $request = "exist";
         }
         return $request;
     }
 
-    // public function deleteUsuario(int $intIdeUsuario)
-    // {
-    //     $this->intIdeUsuario = $intIdeUsuario;
-    //     $sql = "UPDATE tbl_usuarios SET status = ? WHERE ideusuario = $this->intIdeUsuario ";
-    //     $arrData = array(0);
-    //     $request = $this->update($sql, $arrData);
-    //     return $request;
-    // }
+    public function deleteCargos(int $intIdeCargos)
+    {
+        $this->intIdeCargos = $intIdeCargos;
+        $sql = "UPDATE tbl_cargos SET estatus = ? WHERE idecargos = $this->intIdeCargos ";
+        $arrData = array(0);
+        $request = $this->update($sql, $arrData);
+        return $request;
+      }
 
 }

@@ -12,8 +12,8 @@
             <div class="modal-body">
                 <div class="tile">
                     <div class="tile-body">
-                        <form id="formCargos"" name=" formCargos"" enctype="multipart/form-data" method="POST">
-                            <input type="hidden" id="ideCargos"" name=" ideCargos"" value="">
+                        <form id="formCargos" name="formCargos" enctype="multipart/form-data" method="POST">
+                            <input type="hidden" id="ideCargos" name="ideCargos" value="">
                             <div class="modal-body">
                                 <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son
                                     obligatorios.
@@ -26,15 +26,14 @@
                                 <input type="text" class="form-control " id="txtNombresCargos"
                                     name="txtNombresCargos" required="30" >
                             </div>
-
                             <div class="modal-body">
                                 <label for="txtNivel">Nivel<span class=" required">*</span></label>
                                 <input type="text" class="form-control " id="txtNivel"
-                                    name="txtNivel" required="" maxlength="30">
+                                    name="txtNivel" required="30" >
                             </div>
 
                             <div class="modal-body">
-                                <label for="txtRolUsuario">Salario</label>
+                                <label for="txtSalario">Salario</label>
                                 <input type="text" class="form-control " id="txtSalario" name="txtSalario" 
                                 required="" maxlength="30">
                                 
@@ -84,19 +83,19 @@
                             <tbody>
                                 <tr>
                                     <td>Cargo:</td>
-                                    <td id="celIdeUsuario">233104</td>
+                                    <td id="celNombre">233104</td>
                                 </tr>
                                 <tr>
                                     <td>Nivel:</td>
-                                    <td id="celCorreoUsuario">233104</td>
+                                    <td id="celNivel">233104</td>
                                 </tr>
                                 <tr>
                                     <td>Salario:</td>
-                                    <td id="celNombresUsuario">233104</td>
+                                    <td id="celSalario">233104</td>
                                 </tr>
                                 <tr>
                                     <td>Estado:</td>
-                                    <td id="celEstadoUsuario">Programación de Software</td>
+                                    <td id="celEstadoCargo">Programación de Software</td>
                                 </tr>
                             </tbody>
                         </table>
