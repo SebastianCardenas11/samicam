@@ -29,19 +29,42 @@
                                     name="txtCorreoFuncionario" required>
                             </div>
 
-                            <!-- Cargo -->
                             <div class="modal-body">
-                                <label for="txtCargoFuncionario">Cargo</label>
-                                <input type="text" class="form-control" id="txtCargoFuncionario"
-                                    name="txtCargoFuncionario">
+                                <label for="txtCargoFuncionario">Cargos</label>
+                                <select class="form-select" id="txtCargoFuncionario" name="txtCargoFuncionario">
+                                    <?php foreach ($data['cargos'] as $car): ?>
+                                    <option value="<?= $car['idecargos'] ?>"><?= $car['nombre'] ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
-                            <!-- Dependencia -->
                             <div class="modal-body">
                                 <label for="txtDependenciaFuncionario">Dependencia</label>
-                                <input type="text" class="form-control" id="txtDependenciaFuncionario"
+                                <select class="form-select" id="txtDependenciaFuncionario"
                                     name="txtDependenciaFuncionario">
+                                    <?php foreach ($data['dependencias'] as $dep): ?>
+                                    <option value="<?= $dep['dependencia_pk'] ?>"><?= $dep['nombre'] ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
+                            <div class="modal-body">
+                                <label for="txtContrato">Tipo de Contrato</label>
+                                <select class="form-select" id="txtContrato"
+                                    name="txtContrato">
+                                    <?php foreach ($data['contrato'] as $cont): ?>
+                                    <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?>
+                                    </option>
+                                    <script>
+                                        console.log('<?= $cont['id_contrato'] ?>');
+                                    </script>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+
+
 
                             <!-- Identificación -->
                             <div class="modal-body">
@@ -92,13 +115,14 @@
                                     name="txtNombresHijosFuncionario">
                             </div>
 
-                            <!-- Sexo -->
-                            <div class="modal-body">
+                           <div class="modal-body">
                                 <label for="txtSexoFuncionario">Sexo</label>
-                                <input type="text" class="form-control" id="txtSexoFuncionario"
-                                    name="txtSexoFuncionario">
+                                <select class="form-select" id="txtSexoFuncionario"name="txtSexoFuncionario">
+                                    <option value="masculino">Masculino</option>
+                                    <option value="femenino">Femenino</option>
+                                </select>
                             </div>
-
+                        
                             <!-- Lugar de residencia -->
                             <div class="modal-body">
                                 <label for="txtLugarResidenciaFuncionario">Lugar de residencia</label>
@@ -129,38 +153,25 @@
 
                             <!-- Nivel escolar -->
                             <div class="modal-body">
-                                <label for="txtNivelEscolarFuncionario">Nivel escolar</label>
-                                <input type="text" class="form-control" id="txtNivelEscolarFuncionario"
-                                    name="txtNivelEscolarFuncionario">
+                                <label for="txtFormacionFuncionario">Formacion academica</label>
+                                <select class="form-select" id="txtFormacionFuncionario"name="txtFormacionFuncionario">
+                                    <option value="bachiller">Bachiller</option>
+                                    <option value="tecnico">Técnico</option>
+                                    <option value="tecnologo">Técnologo</option>
+                                    <option value="ingieneria">Ingieneria</option>
+                                    <option value="licenciatura">Licenciatura</option>
+                                    <option value="maestria">Maestría</option>
+                                    <option value="doctorado">Doctorado</option>
+                                </select>
                             </div>
 
-                            <!-- Carrera -->
+                            <!-- Nombre del titulo -->
                             <div class="modal-body">
-                                <label for="txtCarreraFuncionario">Carrera</label>
-                                <input type="text" class="form-control" id="txtCarreraFuncionario"
-                                    name="txtCarreraFuncionario">
+                                <label for="txtNombreFormacion">Nombre de la formacion</label>
+                                <input type="text" class="form-control" id="txtNombreFormacion"
+                                    name="txtNombreFormacion">
                             </div>
 
-                            <!-- Especialidad -->
-                            <div class="modal-body">
-                                <label for="txtEspecialidadFuncionario">Especialidad</label>
-                                <input type="text" class="form-control" id="txtEspecialidadFuncionario"
-                                    name="txtEspecialidadFuncionario">
-                            </div>
-
-                            <!-- Maestría -->
-                            <div class="modal-body">
-                                <label for="txtMaestriaFuncionario">Maestría</label>
-                                <input type="text" class="form-control" id="txtMaestriaFuncionario"
-                                    name="txtMaestriaFuncionario">
-                            </div>
-
-                            <!-- Doctorado -->
-                            <div class="modal-body">
-                                <label for="txtDoctoradoFuncionario">Doctorado</label>
-                                <input type="text" class="form-control" id="txtDoctoradoFuncionario"
-                                    name="txtDoctoradoFuncionario">
-                            </div>
                             <div class="modal-body form-select-lg mb-3">
                                 <label for="listStatus">Estado</label>
                                 <select class="form-select" id="listStatus" name="listStatus">
@@ -275,29 +286,18 @@
                                     <td id="celReligionFuncionario">0</td>
                                 </tr>
                                 <tr>
-                                    <td>Nivel Escolar:</td>
-                                    <td id="celNivelEscolarFuncionario">0</td>
+                                    <td>Formacion academica:</td>
+                                    <td id="celFormacionAcademica">0</td>
                                 </tr>
                                 <tr>
-                                    <td>Carrera:</td>
-                                    <td id="celCarreraFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Especialidad:</td>
-                                    <td id="celEspecialidadFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Maestría:</td>
-                                    <td id="celMaestriaFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Doctorado:</td>
-                                    <td id="celDoctoradoFuncionario">0</td>
+                                    <td>Nombre de la formacion:</td>
+                                    <td id="celNombreFormacion">0</td>
                                 </tr>
                                 <tr>
                                     <td>Estado:</td>
                                     <td id="celEstadoFuncionario">0</td>
                                 </tr>
+                               
                             </tbody>
                         </table>
 

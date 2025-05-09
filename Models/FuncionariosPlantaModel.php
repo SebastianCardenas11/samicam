@@ -20,11 +20,8 @@ class FuncionariosPlantaModel extends Mysql
     private $intEdad;
     private $strEstadoCivil;
     private $strReligion;
-    private $strNivelEscolar;
-    private $strCarrera;
-    private $strEspecialidad;
-    private $strMaestria;
-    private $strDoctorado;
+    private $strFormacionAcademica;
+    private $strNombreFormacion;
 
     public function __construct()
     {
@@ -41,8 +38,6 @@ class FuncionariosPlantaModel extends Mysql
         string $celular,
         string $direccion,
         string $fechaIngreso,
-        // string $fechaVacaciones,
-        // string $vacaciones,
         int $hijos,
         string $nombreHijos,
         string $sexo,
@@ -50,11 +45,8 @@ class FuncionariosPlantaModel extends Mysql
         int $edad,
         string $estadoCivil,
         string $religion,
-        string $nivelEscolar,
-        string $carrera,
-        string $especialidad,
-        string $maestria,
-        string $doctorado
+        string $formacion,
+        string $nombreformacion,
     ) {
         // Asignar los valores de los campos
         $this->strCorreoFuncionarios = $correo;
@@ -73,11 +65,8 @@ class FuncionariosPlantaModel extends Mysql
         $this->intEdad = $edad;
         $this->strEstadoCivil = $estadoCivil;
         $this->strReligion = $religion;
-        $this->strNivelEscolar = $nivelEscolar;
-        $this->strCarrera = $carrera;
-        $this->strEspecialidad = $especialidad;
-        $this->strMaestria = $maestria;
-        $this->strDoctorado = $doctorado;
+        $this->strFormacionAcademica = $formacion;
+        $this->strNombreFormacion = $nombreformacion;
 
         // Verificar si ya existe el correo
         $return = 0;
@@ -85,15 +74,14 @@ class FuncionariosPlantaModel extends Mysql
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            $query_insert = "INSERT INTO tbl_funcionarios(
-                correo_elc, nombre_completo, status, nm_identificacion,
-                cargo_fk, dependencia_fk, celular, direccion, fecha_ingreso,
-                hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-                edad, estado_civil, religion, nivel_escolar, carrera, especialidad,
-                maestria, doctorado
-            ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query_insert = "INSERT INTO tbl_funcionarios(
+    correo_elc, nombre_completo, status, nm_identificacion,
+    cargo_fk, dependencia_fk, celular, direccion, fecha_ingreso,
+    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+    edad, estado_civil, religion, formacion_academica, nombre_formacion
+) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
             
-        
         
         $arrData = array(
             $this->strCorreoFuncionarios,
@@ -112,11 +100,8 @@ class FuncionariosPlantaModel extends Mysql
             $this->intEdad,
             $this->strEstadoCivil,
             $this->strReligion,
-            $this->strNivelEscolar,
-            $this->strCarrera,
-            $this->strEspecialidad,
-            $this->strMaestria,
-            $this->strDoctorado
+            $this->strFormacionAcademica,
+            $this->strNombreFormacion
             );
 
             $request_insert = $this->insert($query_insert, $arrData);
@@ -127,24 +112,22 @@ class FuncionariosPlantaModel extends Mysql
         return $return;
     }
 
-public function selectFuncionarios()
-{
+    public function selectFuncionarios()
+    {
     $whereAdmin = "";
     if ($_SESSION['idUser'] != 1) {
         $whereAdmin = " and u.idefuncionario != 1 ";
     }
-    $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.vacaciones ,u.fecha_ingreso, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
-            FROM tbl_funcionarios u
+    $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.vacaciones ,u.fecha_ingreso, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.formacion_academica, u.nombre_formacion FROM tbl_funcionarios u
             WHERE u.status != 0 " . $whereAdmin;
             $request = $this->select_all($sql);
             return $request;
-}
-
+    }
 
     public function selectFuncionario(int $idefuncionarios)
     {
         $this->intIdeFuncionarios = $idefuncionarios;
-        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso,u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
+        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso,u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.formacion_academica, u.nombre_formacion
                 FROM tbl_funcionarios u
                 WHERE u.idefuncionario = $this->intIdeFuncionarios";
         $request = $this->select($sql);
@@ -192,13 +175,10 @@ public function selectFuncionarios()
         $this->intEdad = $edad;
         $this->strEstadoCivil = $estadoCivil;
         $this->strReligion = $religion;
-        $this->strNivelEscolar = $nivelEscolar;
-        $this->strCarrera = $carrera;
-        $this->strEspecialidad = $especialidad;
-        $this->strMaestria = $maestria;
-        $this->strDoctorado = $doctorado;
+        $this->strFormacionAcademica = $formacion;
+        $this->strNombreFormacion = $nombreformacion;
 
-        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, nivel_escolar=?, carrera=?, especialidad=?, maestria=?, doctorado=? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(
             $this->strCorreoFuncionarios,
             $this->strNombresFuncionarios,
@@ -216,11 +196,8 @@ public function selectFuncionarios()
             $this->intEdad,
             $this->strEstadoCivil,
             $this->strReligion,
-            $this->strNivelEscolar,
-            $this->strCarrera,
-            $this->strEspecialidad,
-            $this->strMaestria,
-            $this->strDoctorado
+            $this->strFormacionAcademica,
+            $this->strNombreFormacion
         );
 
         $request = $this->update($sql, $arrData);
@@ -235,4 +212,27 @@ public function selectFuncionarios()
         $request = $this->update($sql, $arrData);
         return $request;
     }
+    public function selectDependencias(){
+        $sql = "SELECT dependencia_pk, nombre FROM tbl_dependencia";
+        $request = $this->select_all($sql);
+        return $request;
+    }
+
+    public function selectCargos() {
+    $sql = "SELECT idecargos, nombre, nivel, salario FROM tbl_cargos WHERE status = 1";
+    $request = $this->select_all($sql);
+    return $request;
+    }
+    public function selectContratoPlanta() {
+    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato";
+    $request = $this->select_all($sql);
+    return $request;
+    }
+    public function selectContratoOps() {
+    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont IN ('Ops', 'Otros')";
+
+    $request = $this->select_all($sql);
+    return $request;
+    }
+
 }

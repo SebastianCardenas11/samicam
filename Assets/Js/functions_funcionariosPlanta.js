@@ -14,28 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
             "dataSrc": ""
         },
         "columns": [
-            // { "data": "idefuncionario" },
             { "data": "nombre_completo" },
             { "data": "nm_identificacion" },
             { "data": "cargo_fk" },
             { "data": "dependencia_fk" },
-            // { "data": "celular" },
-            // { "data": "direccion" },
             { "data": "correo_elc" },
-            // { "data": "fecha_ingreso" },
-            // { "data": "vacaciones" },
-            // { "data": "hijos" },
-            // { "data": "nombres_de_hijos" },
-            // { "data": "sexo" },
-            // { "data": "lugar_de_residencia" },
-            // { "data": "edad" },
-            // { "data": "estado_civil" },
-            // { "data": "religion" },
-            // { "data": "nivel_escolar" },
-            // { "data": "carrera" },
-            // { "data": "especialidad" },
-            // { "data": "maestria" },
-            // { "data": "doctorado" },
             { "data": "status" },
             { "data": "options" }
 
@@ -77,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
             let strCelular = document.querySelector('#txtCelularFuncionario').value;
             let strDireccion = document.querySelector('#txtDireccionFuncionario').value;
             let strFechaIngreso = document.querySelector('#txtFechaIngresoFuncionario').value;
-            // let strVacaciones = document.querySelector('#txtVacacionesFuncionario').value;
             let strHijos = document.querySelector('#txtHijosFuncionario').value;
             let strNombresHijos = document.querySelector('#txtNombresHijosFuncionario').value;
             let strSexo = document.querySelector('#txtSexoFuncionario').value;
@@ -85,13 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
             let intEdad = document.querySelector('#txtEdadFuncionario').value;
             let strEstadoCivil = document.querySelector('#txtEstadoCivilFuncionario').value;
             let strReligion = document.querySelector('#txtReligionFuncionario').value;
-            let strNivelEscolar = document.querySelector('#txtNivelEscolarFuncionario').value;
-            let strCarrera = document.querySelector('#txtCarreraFuncionario').value;
-            let strEspecialidad = document.querySelector('#txtEspecialidadFuncionario').value;
-            let strMaestria = document.querySelector('#txtMaestriaFuncionario').value;
-            let strDoctorado = document.querySelector('#txtDoctoradoFuncionario').value;
+            let strFormacionAcademica = document.querySelector('#txtFormacionFuncionario').value;
+            let strContrato = document.querySelector('#txtContrato').value;
+            let strNombreFormacion = document.querySelector('#txtNombreFormacion').value;
 
-            // Validación de todos los campos
             if (
                 strCorreoFuncionario === '' ||
                 strNombresFuncionario === '' ||
@@ -99,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 strCelular === '' ||
                 strDireccion === '' ||
                 strFechaIngreso === '' ||
-                // strVacaciones === '' ||
                 strHijos === '' ||
                 strNombresHijos === '' ||
                 strSexo === '' ||
@@ -107,18 +85,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 intEdad === '' ||
                 strEstadoCivil === '' ||
                 strReligion === '' ||
-                strNivelEscolar === '' ||
-                strCarrera === '' ||
-                strEspecialidad === '' ||
-                strMaestria === '' ||
-                strDoctorado === ''
+                strFormacionAcademica === '' ||
+                strContrato === '' ||
+                strNombreFormacion === ''
             ) {
                 Swal.fire("Atención", "Todos los campos deben ser completados.", "error");
                 return false;
             }
 
 
-            // Validaciones de clase is-invalid
             let elementsValid = document.getElementsByClassName("valid");
             for (let i = 0; i < elementsValid.length; i++) {
                 if (elementsValid[i].classList.contains('is-invalid')) {
@@ -218,11 +193,8 @@ function fntViewInfo(idefuncionario) {
                 document.querySelector("#celEdadFuncionario").innerHTML = objData.data.edad;
                 document.querySelector("#celEstadoCivilFuncionario").innerHTML = objData.data.estado_civil;
                 document.querySelector("#celReligionFuncionario").innerHTML = objData.data.religion;
-                document.querySelector("#celNivelEscolarFuncionario").innerHTML = objData.data.nivel_escolar;
-                document.querySelector("#celCarreraFuncionario").innerHTML = objData.data.carrera;
-                document.querySelector("#celEspecialidadFuncionario").innerHTML = objData.data.especialidad;
-                document.querySelector("#celMaestriaFuncionario").innerHTML = objData.data.maestria;
-                document.querySelector("#celDoctoradoFuncionario").innerHTML = objData.data.doctorado;
+                document.querySelector("#celFormacionAcademica").innerHTML = objData.data.formacion_academica;
+                document.querySelector("#celNombreFormacion").innerHTML = objData.data.nombre_formacion;
 
                 $('#modalViewFuncionario').modal('show');
             } else {

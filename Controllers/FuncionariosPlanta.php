@@ -21,6 +21,9 @@ class FuncionariosPlanta extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
+        $data['dependencias'] = $this->model->selectDependencias();
+        $data['cargos'] = $this->model->selectCargos();
+        $data['contrato'] = $this->model->selectContratoPlanta();
         $data['page_tag'] = "Funcionarios Planta";
         $data['page_title'] = "Funcionarios Planta";
         $data['page_name'] = "Funcionarios Planta";
@@ -48,21 +51,17 @@ class FuncionariosPlanta extends Controllers
                 $strCelular = strClean($_POST['txtCelularFuncionario']);
                 $strDireccion = strClean($_POST['txtDireccionFuncionario']);
                 $strFechaIngreso = strClean($_POST['txtFechaIngresoFuncionario']);
-                // $strFechaVacaciones = strClean($_POST['txtVacacionesFuncionario']);
                 $strHijos = intval($_POST['txtHijosFuncionario']);
                 $strNombresHijos = strClean($_POST['txtNombresHijosFuncionario']);
+                $strCargo = strClean($_POST['txtCargoFuncionario']);
+                $strDependencia = strClean($_POST['txtDependenciaFuncionario']);
                 $strSexo = strClean($_POST['txtSexoFuncionario']);
                 $strLugarResidencia = strClean($_POST['txtLugarResidenciaFuncionario']);
                 $intEdad = intval($_POST['txtEdadFuncionario']);
                 $strEstadoCivil = strClean($_POST['txtEstadoCivilFuncionario']);
                 $strReligion = strClean($_POST['txtReligionFuncionario']);
-                $strNivelEscolar = strClean($_POST['txtNivelEscolarFuncionario']);
-                $strCarrera = strClean($_POST['txtCarreraFuncionario']);
-                $strEspecialidad = strClean($_POST['txtEspecialidadFuncionario']);
-                $strMaestria = strClean($_POST['txtMaestriaFuncionario']);
-                $strDoctorado = strClean($_POST['txtDoctoradoFuncionario']);
-                $strCargo = strClean($_POST['txtCargoFuncionario']);
-                $strDependencia = strClean($_POST['txtDependenciaFuncionario']);
+                $strFormacionAcademica = strClean($_POST['txtFormacionFuncionario']);
+                $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
     
                 $request = "";
@@ -86,11 +85,8 @@ class FuncionariosPlanta extends Controllers
                             $intEdad,
                             $strEstadoCivil,
                             $strReligion,
-                            $strNivelEscolar,
-                            $strCarrera,
-                            $strEspecialidad,
-                            $strMaestria,
-                            $strDoctorado
+                            $strFormacionAcademica,
+                            $strNombreFormacion,
                         );                        
                     }
                 } else {
@@ -115,11 +111,8 @@ class FuncionariosPlanta extends Controllers
                             $intEdad,
                             $strEstadoCivil,
                             $strReligion,
-                            $strNivelEscolar,
-                            $strCarrera,
-                            $strEspecialidad,
-                            $strMaestria,
-                            $strDoctorado
+                            $strFormacionAcademica,
+                            $strNombreFormacion,
                         );
                     }
                 }
@@ -209,4 +202,5 @@ class FuncionariosPlanta extends Controllers
         }
         die();
     }
+    
 }
