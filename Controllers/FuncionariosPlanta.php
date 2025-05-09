@@ -2,7 +2,7 @@
 
 class FuncionariosPlanta extends Controllers
 {
-    // Private $FuncionariosPlanta;
+    // $FuncionariosPlanta;
 
     public function __construct()
     {
@@ -29,64 +29,116 @@ class FuncionariosPlanta extends Controllers
     }
 
 
-//    public function setFuncionario()
-//     {
-//         error_reporting(0);
-//         if ($_POST) {
-//             if (empty($_POST['txtCorreoUsuario'])) {
-//                 $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
-//             } else {
-//                 $intidefuncionario = intval($_POST['idefuncionario']);
-//                 $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
-//                 $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
-//                 $strpassword = strClean($_POST['txtContrasenaUsuario']);
-//                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
-//                 $intStatus = intval(strClean($_POST['listStatus']));
-
-//                 // $intTipoId = 5;
-//                 $request_user = "";
-//                 if ($intidefuncionario == 0) {
-//                     $option = 1;
-//                     $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
-//                     if ($_SESSION['permisosMod']['w']) {
-//                         $request_user = $this->model->insertUsuario(
-//                             $strIdentificacionUsuario,
-//                             $strNombresUsuario,
-//                             $strPassword,
-//                             $strRolUsuario,
-//                             $intStatus
-
-//                         );
-//                     }
-//                 } else {
-//                     $option = 2;
-//                     $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
-//                     if ($_SESSION['permisosMod']['u']) {
-//                         $request_user = $this->model->updateUsuario(
-//                             $intidefuncionario,
-//                             $strIdentificacionUsuario,
-//                             $strNombresUsuario,
-//                             $strRolUsuario,
-//                             $intStatus
-//                         );
-//                     }
-//                 }
-//                 if ($request_user > 0) {
-//                     if ($option == 1) {
-//                         $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
-//                     } else {
-//                         $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
-//                     }
-//                 } else if ($request_user == 'exist') {
-//                     $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
-//                 } else {
-//                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-//                 }
-//             }
-//             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-//         }
-//         die();
-//     }
+    public function setFuncionario()
+    {
+        // error_reporting(0);
+    
+        if ($_POST) {
+            if (
+                empty($_POST['txtCorreoFuncionario']) ||
+                empty($_POST['txtNombreFuncionario']) ||
+                empty($_POST['txtIdentificacionFuncionario'])
+            ) {
+                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
+            } else {
+                $intIdeFuncionario = intval($_POST['ideFuncionario']);
+                $strCorreo = strClean($_POST['txtCorreoFuncionario']);
+                $strNombre = strClean($_POST['txtNombreFuncionario']);
+                $strIdentificacion = strClean($_POST['txtIdentificacionFuncionario']);
+                $strCelular = strClean($_POST['txtCelularFuncionario']);
+                $strDireccion = strClean($_POST['txtDireccionFuncionario']);
+                $strFechaIngreso = strClean($_POST['txtFechaIngresoFuncionario']);
+                // $strFechaVacaciones = strClean($_POST['txtVacacionesFuncionario']);
+                $strHijos = intval($_POST['txtHijosFuncionario']);
+                $strNombresHijos = strClean($_POST['txtNombresHijosFuncionario']);
+                $strSexo = strClean($_POST['txtSexoFuncionario']);
+                $strLugarResidencia = strClean($_POST['txtLugarResidenciaFuncionario']);
+                $intEdad = intval($_POST['txtEdadFuncionario']);
+                $strEstadoCivil = strClean($_POST['txtEstadoCivilFuncionario']);
+                $strReligion = strClean($_POST['txtReligionFuncionario']);
+                $strNivelEscolar = strClean($_POST['txtNivelEscolarFuncionario']);
+                $strCarrera = strClean($_POST['txtCarreraFuncionario']);
+                $strEspecialidad = strClean($_POST['txtEspecialidadFuncionario']);
+                $strMaestria = strClean($_POST['txtMaestriaFuncionario']);
+                $strDoctorado = strClean($_POST['txtDoctoradoFuncionario']);
+                $strCargo = strClean($_POST['txtCargoFuncionario']);
+                $strDependencia = strClean($_POST['txtDependenciaFuncionario']);
+                $intStatus = intval($_POST['listStatus']);
+    
+                $request = "";
+                if ($intIdeFuncionario == 0) {
+                    $option = 1;
+                    if ($_SESSION['permisosMod']['w']) {
+                        $request = $this->model->insertFuncionario(
+                            $strCorreo,
+                            $strNombre,
+                            $intStatus,
+                            $strIdentificacion,
+                            $strCargo,
+                            $strDependencia,
+                            $strCelular,
+                            $strDireccion,
+                            $strFechaIngreso,
+                            $strHijos,
+                            $strNombresHijos,
+                            $strSexo,
+                            $strLugarResidencia,
+                            $intEdad,
+                            $strEstadoCivil,
+                            $strReligion,
+                            $strNivelEscolar,
+                            $strCarrera,
+                            $strEspecialidad,
+                            $strMaestria,
+                            $strDoctorado
+                        );                        
+                    }
+                } else {
+                    
+                    $option = 2;
+                    if ($_SESSION['permisosMod']['u']) {
+                        $request = $this->model->updateFuncionario(
+                            $intIdeFuncionario,
+                            $strCorreo,
+                            $strNombre,
+                            $intStatus,
+                            $strIdentificacion,
+                            $strCargo,
+                            $strDependencia,
+                            $strCelular,
+                            $strDireccion,
+                            $strFechaIngreso,
+                            $strHijos,
+                            $strNombresHijos,
+                            $strSexo,
+                            $strLugarResidencia,
+                            $intEdad,
+                            $strEstadoCivil,
+                            $strReligion,
+                            $strNivelEscolar,
+                            $strCarrera,
+                            $strEspecialidad,
+                            $strMaestria,
+                            $strDoctorado
+                        );
+                    }
+                }
+    
+                if ($request > 0) {
+                    $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
+                    $arrResponse = array("status" => true, "msg" => $msg);
+                } else if ($request == 'exist') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El funcionario ya existe.');
+                } else {
+                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                }
+            }
+    
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
 
     public function getFuncionarios()
     {
@@ -110,10 +162,10 @@ class FuncionariosPlanta extends Controllers
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
                 }
-                // if ($_SESSION['permisosMod']['d']) {
-                //     $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
-                // }
+                }
 
                 
 
@@ -146,7 +198,7 @@ class FuncionariosPlanta extends Controllers
         if ($_POST) {
             if ($_SESSION['permisosMod']['d']) {
                 $intidefuncionario = intval($_POST['idefuncionario']);
-                $requestDelete = $this->model->deleteUsuario($intidefuncionario);
+                $requestDelete = $this->model->deleteFuncionario($intidefuncionario);
                 if ($requestDelete) {
                     $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
                 } else {

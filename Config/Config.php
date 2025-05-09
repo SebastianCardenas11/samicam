@@ -5,9 +5,15 @@ const BASE_URL = "http://localhost/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
+<<<<<<< HEAD
 const DB_HOST = "localhost:3306";
 const DB_NAME = "samica";
 
+=======
+
+const DB_HOST = "localhost:3306";
+const DB_NAME = "samicam";
+>>>>>>> 987b40e5de62fb1d275e1efa7f1cca4dc741dc21
 const DB_USER = "root";
 const DB_PASSWORD = "";
 const DB_CHARSET = "utf8";
@@ -22,7 +28,7 @@ const DESCRIPCION = "Alcaldia de la jagua de ibirico";
 const SHAREDHASH = "Alcaldia de la jagua de ibirico";
 
 //Datos Empresa
-const DIRECCION = "La Jagua - Cesar, Colombia";
+const DIRECCION = "La Jagua - Cesar, Colombia"; 
 const TELEMPRESA = "3148691240";
 const WHATSAPP = "3148691240";
 const EMAIL_INSTITUCIONAL = "Alcaldia@lajaguadeibirico-cesar.gov.co";

@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div class="tile">
                     <div class="tile-body">
-                        <form id="formUsuario"" name=" formUsuario"" enctype="multipart/form-data" method="POST">
+                        <form id="formUsuario" name=" formUsuario"" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideUsuario"" name=" ideUsuario"" value="">
                             <div class="modal-body">
                                 <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son

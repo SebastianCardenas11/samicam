@@ -1,17 +1,18 @@
 <?php
 class FuncionariosPlantaModel extends Mysql
 {
-    private $intIdeFuncionario;
-    private $strCorreoFuncionario;
-    private $strNombresFuncionario;
-    private $strStatusFuncionario;
+    private $intIdeFuncionarios;
+    private $strCorreoFuncionarios;
+    private $strNombresFuncionarios;
+    private $strStatusFuncionarios;
     private $strIdentificacion;
     private $strCargo;
     private $strDependencia;
     private $strCelular;
     private $strDireccion;
     private $strFechaIngreso;
-    private $intVacaciones;
+    private $strFechaVacaciones;
+    private $strVacaciones;
     private $intHijos;
     private $strNombreHijos;
     private $strSexo;
@@ -30,18 +31,18 @@ class FuncionariosPlantaModel extends Mysql
         parent::__construct();
     }
 
-    // Insertar usuario con los nuevos campos
-    public function insertFuncionarios(
+    public function insertFuncionario(
         string $correo,
         string $nombres,
-        string $status,
+        int $status,
         string $identificacion,
         string $cargo,
         string $dependencia,
         string $celular,
         string $direccion,
         string $fechaIngreso,
-        int $vacaciones,
+        // string $fechaVacaciones,
+        // string $vacaciones,
         int $hijos,
         string $nombreHijos,
         string $sexo,
@@ -65,7 +66,6 @@ class FuncionariosPlantaModel extends Mysql
         $this->strCelular = $celular;
         $this->strDireccion = $direccion;
         $this->strFechaIngreso = $fechaIngreso;
-        $this->intVacaciones = $vacaciones;
         $this->intHijos = $hijos;
         $this->strNombreHijos = $nombreHijos;
         $this->strSexo = $sexo;
@@ -81,36 +81,42 @@ class FuncionariosPlantaModel extends Mysql
 
         // Verificar si ya existe el correo
         $return = 0;
-        $sql = "SELECT * FROM tbl_funcionarios WHERE correo = '{$this->strCorreoFuncionarios}'";
+        $sql = "SELECT * FROM tbl_funcionarios WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            // Insertar en la tabla de funcionarios
-            $query_insert = "INSERT INTO tbl_funcionarios(correo_elc, nombre_completo, status, nm_identificacion, cargo_fk, dependencia_fk, celular, direccion, fecha_ingreso, vacaciones,fecha_vacaciones, hijos, nombre_de_hijos, sexo, lugar_de_residencia, edad, estado_civil, religion, nivel_escolar, carrera, especialidad, maestria, doctorado)
-                            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            $arrData = array(
-                $this->strCorreoFuncionarios,
-                $this->strNombresFuncionarios,
-                $this->strStatusFuncionarios,
-                $this->strIdentificacion,
-                $this->strCargo,
-                $this->strDependencia,
-                $this->strCelular,
-                $this->strDireccion,
-                $this->strFechaIngreso,
-                $this->intVacaciones,
-                $this->intHijos,
-                $this->strNombreHijos,
-                $this->strSexo,
-                $this->strLugarResidencia,
-                $this->intEdad,
-                $this->strEstadoCivil,
-                $this->strReligion,
-                $this->strNivelEscolar,
-                $this->strCarrera,
-                $this->strEspecialidad,
-                $this->strMaestria,
-                $this->strDoctorado
+            $query_insert = "INSERT INTO tbl_funcionarios(
+                correo_elc, nombre_completo, status, nm_identificacion,
+                cargo_fk, dependencia_fk, celular, direccion, fecha_ingreso,
+                hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                edad, estado_civil, religion, nivel_escolar, carrera, especialidad,
+                maestria, doctorado
+            ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            
+        
+        
+        $arrData = array(
+            $this->strCorreoFuncionarios,
+            $this->strNombresFuncionarios,
+            $this->strStatusFuncionarios,
+            $this->strIdentificacion,
+            $this->strCargo,
+            $this->strDependencia,
+            $this->strCelular,
+            $this->strDireccion,
+            $this->strFechaIngreso,
+            $this->intHijos,
+            $this->strNombreHijos,
+            $this->strSexo,
+            $this->strLugarResidencia,
+            $this->intEdad,
+            $this->strEstadoCivil,
+            $this->strReligion,
+            $this->strNivelEscolar,
+            $this->strCarrera,
+            $this->strEspecialidad,
+            $this->strMaestria,
+            $this->strDoctorado
             );
 
             $request_insert = $this->insert($query_insert, $arrData);
@@ -127,7 +133,7 @@ public function selectFuncionarios()
     if ($_SESSION['idUser'] != 1) {
         $whereAdmin = " and u.idefuncionario != 1 ";
     }
-    $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso, u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
+    $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.vacaciones ,u.fecha_ingreso, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
             FROM tbl_funcionarios u
             WHERE u.status != 0 " . $whereAdmin;
             $request = $this->select_all($sql);
@@ -135,104 +141,98 @@ public function selectFuncionarios()
 }
 
 
-    // Seleccionar un usuario específico (con nuevos campos)
-    public function selectFuncionario(int $idefuncionario)
+    public function selectFuncionario(int $idefuncionarios)
     {
-        $this->intIdeFuncionario = $idefuncionario;
-        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso, u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
+        $this->intIdeFuncionarios = $idefuncionarios;
+        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso,u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.nivel_escolar, u.carrera, u.especialidad, u.maestria, u.doctorado
                 FROM tbl_funcionarios u
-                WHERE u.idefuncionario = $this->intIdeFuncionario";
+                WHERE u.idefuncionario = $this->intIdeFuncionarios";
         $request = $this->select($sql);
         return $request;
     }
 
-    // Actualizar un usuario (con nuevos campos)
-    // public function updateUsuario(
-    //     int $ideusuario,
-    //     string $correo,
-    //     string $nombres,
-    //     string $status,
-    //     string $identificacion,
-    //     string $cargo,
-    //     string $dependencia,
-    //     string $celular,
-    //     string $direccion,
-    //     string $fechaIngreso,
-    //     int $vacaciones,
-    //     int $hijos,
-    //     string $nombreHijos,
-    //     string $sexo,
-    //     string $lugarResidencia,
-    //     int $edad,
-    //     string $estadoCivil,
-    //     string $religion,
-    //     string $nivelEscolar,
-    //     string $carrera,
-    //     string $especialidad,
-    //     string $maestria,
-    //     string $doctorado
-    // ) {
-    //     $this->intIdeUsuario = $ideusuario;
-    //     $this->strCorreoFuncionarios = $correo;
-    //     $this->strNombresFuncionarios = $nombres;
-    //     $this->strStatusFuncionarios = $status;
-    //     $this->strIdentificacion = $identificacion;
-    //     $this->strCargo = $cargo;
-    //     $this->strDependencia = $dependencia;
-    //     $this->strCelular = $celular;
-    //     $this->strDireccion = $direccion;
-    //     $this->strFechaIngreso = $fechaIngreso;
-    //     $this->intVacaciones = $vacaciones;
-    //     $this->intHijos = $hijos;
-    //     $this->strNombreHijos = $nombreHijos;
-    //     $this->strSexo = $sexo;
-    //     $this->strLugarResidencia = $lugarResidencia;
-    //     $this->intEdad = $edad;
-    //     $this->strEstadoCivil = $estadoCivil;
-    //     $this->strReligion = $religion;
-    //     $this->strNivelEscolar = $nivelEscolar;
-    //     $this->strCarrera = $carrera;
-    //     $this->strEspecialidad = $especialidad;
-    //     $this->strMaestria = $maestria;
-    //     $this->strDoctorado = $doctorado;
+    public function updateFuncionario(
+        int $idefuncionarios,
+        string $correo,
+        string $nombres,
+        int $status,
+        string $identificacion,
+        string $cargo,
+        string $dependencia,
+        string $celular,
+        string $direccion,
+        string $fechaIngreso,
+        int $hijos,
+        string $nombreHijos,
+        string $sexo,
+        string $lugarResidencia,
+        int $edad,
+        string $estadoCivil,
+        string $religion,
+        string $nivelEscolar,
+        string $carrera,
+        string $especialidad,
+        string $maestria,
+        string $doctorado
+    ) {
+        $this->intIdeFuncionarios = $idefuncionarios;
+        $this->strCorreoFuncionarios = $correo;
+        $this->strNombresFuncionarios = $nombres;
+        $this->strStatusFuncionarios = $status;
+        $this->strIdentificacion = $identificacion;
+        $this->strCargo = $cargo;
+        $this->strDependencia = $dependencia;
+        $this->strCelular = $celular;
+        $this->strDireccion = $direccion;
+        $this->strFechaIngreso = $fechaIngreso;
+        $this->intHijos = $hijos;
+        $this->strNombreHijos = $nombreHijos;
+        $this->strSexo = $sexo;
+        $this->strLugarResidencia = $lugarResidencia;
+        $this->intEdad = $edad;
+        $this->strEstadoCivil = $estadoCivil;
+        $this->strReligion = $religion;
+        $this->strNivelEscolar = $nivelEscolar;
+        $this->strCarrera = $carrera;
+        $this->strEspecialidad = $especialidad;
+        $this->strMaestria = $maestria;
+        $this->strDoctorado = $doctorado;
 
-    //     $sql = "UPDATE tbl_funcionarios SET correo=?, nombres=?, status=?, identificacion=?, cargo=?, dependencia=?, celular=?, direccion=?, fecha_ingreso=?, vacaciones=?, hijos=?, nombre_hijos=?, sexo=?, lugar_residencia=?, edad=?, estado_civil=?, religion=?, nivel_escolar=?, carrera=?, especialidad=?, maestria=?, doctorado=? WHERE ideusuario = $this->intIdeUsuario";
-    //     $arrData = array(
-    //         $this->strCorreoFuncionarios,
-    //         $this->strNombresFuncionarios,
-    //         $this->strStatusFuncionarios,
-    //         $this->strIdentificacion,
-    //         $this->strCargo,
-    //         $this->strDependencia,
-    //         $this->strCelular,
-    //         $this->strDireccion,
-    //         $this->strFechaIngreso,
-    //         $this->intVacaciones,
-    //         $this->intHijos,
-    //         $this->strNombreHijos,
-    //         $this->strSexo,
-    //         $this->strLugarResidencia,
-    //         $this->intEdad,
-    //         $this->strEstadoCivil,
-    //         $this->strReligion,
-    //         $this->strNivelEscolar,
-    //         $this->strCarrera,
-    //         $this->strEspecialidad,
-    //         $this->strMaestria,
-    //         $this->strDoctorado
-    //     );
+        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, nivel_escolar=?, carrera=?, especialidad=?, maestria=?, doctorado=? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $arrData = array(
+            $this->strCorreoFuncionarios,
+            $this->strNombresFuncionarios,
+            $this->strStatusFuncionarios,
+            $this->strIdentificacion,
+            $this->strCargo,
+            $this->strDependencia,
+            $this->strCelular,
+            $this->strDireccion,
+            $this->strFechaIngreso,
+            $this->intHijos,
+            $this->strNombreHijos,
+            $this->strSexo,
+            $this->strLugarResidencia,
+            $this->intEdad,
+            $this->strEstadoCivil,
+            $this->strReligion,
+            $this->strNivelEscolar,
+            $this->strCarrera,
+            $this->strEspecialidad,
+            $this->strMaestria,
+            $this->strDoctorado
+        );
 
-    //     $request = $this->update($sql, $arrData);
-    //     return $request;
-    // }
+        $request = $this->update($sql, $arrData);
+        return $request;
+    }
 
-    // Eliminar usuario (cambiar status)
-    // public function deleteUsuario(int $intIdeUsuario)
-    // {
-    //     $this->intIdeUsuario = $intIdeUsuario;
-    //     $sql = "UPDATE tbl_funcionarios SET status = ? WHERE ideusuario = $this->intIdeUsuario ";
-    //     $arrData = array(0);
-    //     $request = $this->update($sql, $arrData);
-    //     return $request;
-    // }
+    public function deleteFuncionario(int $intIdeFuncionarios)
+    {
+        $this->intIdeFuncionarios = $intIdeFuncionarios;
+        $sql = "UPDATE tbl_funcionarios SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios ";
+        $arrData = array(0);
+        $request = $this->update($sql, $arrData);
+        return $request;
+    }
 }
