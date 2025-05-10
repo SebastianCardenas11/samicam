@@ -34,7 +34,7 @@ class FuncionariosPlanta extends Controllers
 
     public function setFuncionario()
     {
-        // error_reporting(0);
+        error_reporting(0);
     
         if ($_POST) {
             if (
@@ -53,8 +53,9 @@ class FuncionariosPlanta extends Controllers
                 $strFechaIngreso = strClean($_POST['txtFechaIngresoFuncionario']);
                 $strHijos = intval($_POST['txtHijosFuncionario']);
                 $strNombresHijos = strClean($_POST['txtNombresHijosFuncionario']);
-                $strCargo = strClean($_POST['txtCargoFuncionario']);
-                $strDependencia = strClean($_POST['txtDependenciaFuncionario']);
+                $intCargo = intval($_POST['txtCargoFuncionario']);
+                $intDependencia = intval($_POST['txtDependenciaFuncionario']);
+                $intContrato = intval($_POST['txtContrato']);
                 $strSexo = strClean($_POST['txtSexoFuncionario']);
                 $strLugarResidencia = strClean($_POST['txtLugarResidenciaFuncionario']);
                 $intEdad = intval($_POST['txtEdadFuncionario']);
@@ -73,8 +74,9 @@ class FuncionariosPlanta extends Controllers
                             $strNombre,
                             $intStatus,
                             $strIdentificacion,
-                            $strCargo,
-                            $strDependencia,
+                            $intCargo,
+                            $intDependencia,
+                            $intContrato,
                             $strCelular,
                             $strDireccion,
                             $strFechaIngreso,
@@ -99,8 +101,9 @@ class FuncionariosPlanta extends Controllers
                             $strNombre,
                             $intStatus,
                             $strIdentificacion,
-                            $strCargo,
-                            $strDependencia,
+                            $intCargo,
+                            $intDependencia,
+                            $intContrato,
                             $strCelular,
                             $strDireccion,
                             $strFechaIngreso,

@@ -32,9 +32,10 @@
                             <div class="modal-body">
                                 <label for="txtCargoFuncionario">Cargos</label>
                                 <select class="form-select" id="txtCargoFuncionario" name="txtCargoFuncionario">
+                                    <option>Seleciona tu opcion</option>
                                     <?php foreach ($data['cargos'] as $car): ?>
-                                    <option value="<?= $car['idecargos'] ?>"><?= $car['nombre'] ?>
-                                    </option>
+                                        <option value="<?= $car['idecargos'] ?>"><?= $car['nombre'] ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -43,22 +44,24 @@
                                 <label for="txtDependenciaFuncionario">Dependencia</label>
                                 <select class="form-select" id="txtDependenciaFuncionario"
                                     name="txtDependenciaFuncionario">
+                                    <option>Seleciona tu opcion</option>
                                     <?php foreach ($data['dependencias'] as $dep): ?>
-                                    <option value="<?= $dep['dependencia_pk'] ?>"><?= $dep['nombre'] ?>
-                                    </option>
+                                        <option value="<?= $dep['dependencia_pk'] ?>"><?= $dep['nombre'] ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="modal-body">
                                 <label for="txtContrato">Tipo de Contrato</label>
-                                <select class="form-select" id="txtContrato"
-                                    name="txtContrato">
+
+                                <select class="form-select" id="txtContrato" name="txtContrato">
+                                    <option>Seleciona tu opcion</option>
                                     <?php foreach ($data['contrato'] as $cont): ?>
-                                    <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?>
-                                    </option>
-                                    <script>
-                                        console.log('<?= $cont['id_contrato'] ?>');
-                                    </script>
+                                        <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?>
+                                        </option>
+                                        <script>
+                                            console.log('<?= $cont['id_contrato'] ?>');
+                                        </script>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -69,15 +72,15 @@
                             <!-- Identificación -->
                             <div class="modal-body">
                                 <label for="txtIdentificacionFuncionario">Identificación</label>
-                                <input type="text" class="form-control" id="txtIdentificacionFuncionario"
+                                <input type="number" class="form-control" id="txtIdentificacionFuncionario"
                                     name="txtIdentificacionFuncionario">
                             </div>
 
                             <!-- Celular -->
                             <div class="modal-body">
                                 <label for="txtCelularFuncionario">Celular</label>
-                                <input type="text" class="form-control" id="txtCelularFuncionario"
-                                    name="txtCelularFuncionario">
+                                <input type="number" class="form-control" id="txtCelularFuncionario"
+                                    name="txtCelularFuncionario" maxlength="10" minlength="1">
                             </div>
 
                             <!-- Dirección -->
@@ -94,12 +97,11 @@
                                     name="txtFechaIngresoFuncionario">
                             </div>
 
-                            <!-- Vacaciones -->
-                            <div class="modal-body d-none">
-                                <label for="txtVacacionesFuncionario">Fecha Vacaciones</label>
+                            <!-- <div class="modal-body user-select-none pe-none">
+                                <label for="txtVacacionesFuncionario" class="pe-none" >Fecha Vacaciones</label>
                                 <input type="text" class="form-control" id="txtVacacionesFuncionario"
                                     name="txtVacacionesFuncionario">
-                            </div>
+                            </div> -->
 
                             <!-- Número de hijos -->
                             <div class="modal-body">
@@ -109,20 +111,33 @@
                             </div>
 
                             <!-- Nombres de los hijos -->
-                            <div class="modal-body">
+                            <div class="modal-body d-none">
                                 <label for="txtNombresHijosFuncionario">Nombres de los hijos</label>
                                 <input type="text" class="form-control" id="txtNombresHijosFuncionario"
                                     name="txtNombresHijosFuncionario">
                             </div>
+                            <script>
+                                let txtHijosFuncionario = document.getElementById('txtHijosFuncionario');
+                                let divNombresHijosFuncionario = document.querySelector('.modal-body.d-none');
 
-                           <div class="modal-body">
+                                txtHijosFuncionario.addEventListener('input', function () {
+                                    if (txtHijosFuncionario.value > 0) {
+                                        divNombresHijosFuncionario.classList.remove('d-none'); 
+                                    } else {
+                                        divNombresHijosFuncionario.classList.add('d-none'); 
+                                    }
+                                });
+                            </script>
+
+                            <div class="modal-body">
                                 <label for="txtSexoFuncionario">Sexo</label>
-                                <select class="form-select" id="txtSexoFuncionario"name="txtSexoFuncionario">
+                                <select class="form-select" id="txtSexoFuncionario" name="txtSexoFuncionario">
+                                    <option>Seleciona tu opcion</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="femenino">Femenino</option>
                                 </select>
                             </div>
-                        
+
                             <!-- Lugar de residencia -->
                             <div class="modal-body">
                                 <label for="txtLugarResidenciaFuncionario">Lugar de residencia</label>
@@ -134,15 +149,23 @@
                             <div class="modal-body">
                                 <label for="txtEdadFuncionario">Edad</label>
                                 <input type="number" class="form-control" id="txtEdadFuncionario"
-                                    name="txtEdadFuncionario">
+                                    name="txtEdadFuncionario" maxlength="2">
                             </div>
 
                             <!-- Estado civil -->
                             <div class="modal-body">
                                 <label for="txtEstadoCivilFuncionario">Estado civil</label>
-                                <input type="text" class="form-control" id="txtEstadoCivilFuncionario"
+                                <select class="form-select" id="txtEstadoCivilFuncionario"
                                     name="txtEstadoCivilFuncionario">
+                                    <option>Seleciona tu opcion</option>
+                                    <option value="soltero">Soltero</option>
+                                    <option value="casado">Casado</option>
+                                    <option value="divorciado">Divorciado</option>
+                                    <option value="viudo">Viudo</option>
+                                    <option value="union_libre">Unión libre</option>
+                                </select>
                             </div>
+
 
                             <!-- Religión -->
                             <div class="modal-body">
@@ -154,7 +177,8 @@
                             <!-- Nivel escolar -->
                             <div class="modal-body">
                                 <label for="txtFormacionFuncionario">Formacion academica</label>
-                                <select class="form-select" id="txtFormacionFuncionario"name="txtFormacionFuncionario">
+                                <select class="form-select" id="txtFormacionFuncionario" name="txtFormacionFuncionario">
+                                    <option>Seleciona tu opcion</option>
                                     <option value="bachiller">Bachiller</option>
                                     <option value="tecnico">Técnico</option>
                                     <option value="tecnologo">Técnologo</option>
@@ -166,7 +190,7 @@
                             </div>
 
                             <!-- Nombre del titulo -->
-                            <div class="modal-body">
+                            <div class="modal-body d-none">
                                 <label for="txtNombreFormacion">Nombre de la formacion</label>
                                 <input type="text" class="form-control" id="txtNombreFormacion"
                                     name="txtNombreFormacion">
@@ -297,7 +321,7 @@
                                     <td>Estado:</td>
                                     <td id="celEstadoFuncionario">0</td>
                                 </tr>
-                               
+
                             </tbody>
                         </table>
 

@@ -6,8 +6,9 @@ class FuncionariosPlantaModel extends Mysql
     private $strNombresFuncionarios;
     private $strStatusFuncionarios;
     private $strIdentificacion;
-    private $strCargo;
-    private $strDependencia;
+    private $intCargo;
+    private $intDependencia;
+    private $intContrato;
     private $strCelular;
     private $strDireccion;
     private $strFechaIngreso;
@@ -33,8 +34,9 @@ class FuncionariosPlantaModel extends Mysql
         string $nombres,
         int $status,
         string $identificacion,
-        string $cargo,
-        string $dependencia,
+        int $cargo,
+        int $dependencia,
+        int $contrato,
         string $celular,
         string $direccion,
         string $fechaIngreso,
@@ -46,15 +48,16 @@ class FuncionariosPlantaModel extends Mysql
         string $estadoCivil,
         string $religion,
         string $formacion,
-        string $nombreformacion,
+        string $nombreformacion
     ) {
         // Asignar los valores de los campos
         $this->strCorreoFuncionarios = $correo;
         $this->strNombresFuncionarios = $nombres;
         $this->strStatusFuncionarios = $status;
         $this->strIdentificacion = $identificacion;
-        $this->strCargo = $cargo;
-        $this->strDependencia = $dependencia;
+        $this->intCargo = $cargo;
+        $this->intDependencia = $dependencia;
+        $this->intContrato = $contrato;
         $this->strCelular = $celular;
         $this->strDireccion = $direccion;
         $this->strFechaIngreso = $fechaIngreso;
@@ -67,7 +70,6 @@ class FuncionariosPlantaModel extends Mysql
         $this->strReligion = $religion;
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
-
         // Verificar si ya existe el correo
         $return = 0;
         $sql = "SELECT * FROM tbl_funcionarios WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
@@ -76,10 +78,10 @@ class FuncionariosPlantaModel extends Mysql
         if (empty($request)) {
         $query_insert = "INSERT INTO tbl_funcionarios(
     correo_elc, nombre_completo, status, nm_identificacion,
-    cargo_fk, dependencia_fk, celular, direccion, fecha_ingreso,
+    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
     hijos, nombres_de_hijos, sexo, lugar_de_residencia,
     edad, estado_civil, religion, formacion_academica, nombre_formacion
-) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             
         
@@ -88,8 +90,9 @@ class FuncionariosPlantaModel extends Mysql
             $this->strNombresFuncionarios,
             $this->strStatusFuncionarios,
             $this->strIdentificacion,
-            $this->strCargo,
-            $this->strDependencia,
+            $this->intCargo,
+            $this->intDependencia,
+            $this->intContrato,
             $this->strCelular,
             $this->strDireccion,
             $this->strFechaIngreso,
@@ -118,7 +121,7 @@ class FuncionariosPlantaModel extends Mysql
     if ($_SESSION['idUser'] != 1) {
         $whereAdmin = " and u.idefuncionario != 1 ";
     }
-    $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.vacaciones ,u.fecha_ingreso, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.formacion_academica, u.nombre_formacion FROM tbl_funcionarios u
+    $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.contrato_fk, u.celular, u.direccion, u.vacaciones ,u.fecha_ingreso, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.formacion_academica, u.nombre_formacion FROM tbl_funcionarios u
             WHERE u.status != 0 " . $whereAdmin;
             $request = $this->select_all($sql);
             return $request;
@@ -127,7 +130,7 @@ class FuncionariosPlantaModel extends Mysql
     public function selectFuncionario(int $idefuncionarios)
     {
         $this->intIdeFuncionarios = $idefuncionarios;
-        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.celular, u.direccion, u.fecha_ingreso,u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.formacion_academica, u.nombre_formacion
+        $sql = "SELECT u.idefuncionario, u.correo_elc, u.nombre_completo, u.status, u.nm_identificacion, u.cargo_fk, u.dependencia_fk, u.contrato_fk, u.celular, u.direccion, u.fecha_ingreso,u.vacaciones, u.fecha_vacaciones, u.hijos, u.nombres_de_hijos, u.sexo, u.lugar_de_residencia, u.edad, u.estado_civil, u.religion, u.formacion_academica, u.nombre_formacion
                 FROM tbl_funcionarios u
                 WHERE u.idefuncionario = $this->intIdeFuncionarios";
         $request = $this->select($sql);
@@ -140,8 +143,9 @@ class FuncionariosPlantaModel extends Mysql
         string $nombres,
         int $status,
         string $identificacion,
-        string $cargo,
-        string $dependencia,
+        int $cargo,
+        int $dependencia,
+        int $contrato,
         string $celular,
         string $direccion,
         string $fechaIngreso,
@@ -152,19 +156,17 @@ class FuncionariosPlantaModel extends Mysql
         int $edad,
         string $estadoCivil,
         string $religion,
-        string $nivelEscolar,
-        string $carrera,
-        string $especialidad,
-        string $maestria,
-        string $doctorado
+        string $formacion,
+        string $nombreformacion
     ) {
         $this->intIdeFuncionarios = $idefuncionarios;
         $this->strCorreoFuncionarios = $correo;
         $this->strNombresFuncionarios = $nombres;
         $this->strStatusFuncionarios = $status;
         $this->strIdentificacion = $identificacion;
-        $this->strCargo = $cargo;
-        $this->strDependencia = $dependencia;
+        $this->intCargo = $cargo;
+        $this->intDependencia = $dependencia;
+        $this->intContrato = $contrato;
         $this->strCelular = $celular;
         $this->strDireccion = $direccion;
         $this->strFechaIngreso = $fechaIngreso;
@@ -178,14 +180,15 @@ class FuncionariosPlantaModel extends Mysql
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
 
-        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(
             $this->strCorreoFuncionarios,
             $this->strNombresFuncionarios,
             $this->strStatusFuncionarios,
             $this->strIdentificacion,
-            $this->strCargo,
-            $this->strDependencia,
+            $this->intCargo,
+            $this->intDependencia,
+            $this->intContrato,
             $this->strCelular,
             $this->strDireccion,
             $this->strFechaIngreso,
