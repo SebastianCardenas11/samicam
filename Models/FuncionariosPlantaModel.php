@@ -202,7 +202,6 @@ class FuncionariosPlantaModel extends Mysql
             $this->strFormacionAcademica,
             $this->strNombreFormacion
         );
-
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -210,7 +209,7 @@ class FuncionariosPlantaModel extends Mysql
     public function deleteFuncionario(int $intIdeFuncionarios)
     {
         $this->intIdeFuncionarios = $intIdeFuncionarios;
-        $sql = "UPDATE tbl_funcionarios SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios ";
+        $sql = "UPDATE tbl_funcionarios SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(0);
         $request = $this->update($sql, $arrData);
         return $request;

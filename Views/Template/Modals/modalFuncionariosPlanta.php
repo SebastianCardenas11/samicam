@@ -6,7 +6,6 @@
         <div class="modal-content">
             <div class="modal-header headerRegister">
                 <h5 class="modal-title" id="titleModal">Nuevo Funcionario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
@@ -16,21 +15,21 @@
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
                             <!-- Nombre completo -->
                             <div class="modal-body">
-                                <label for="txtNombreFuncionario">Nombre completo <span
-                                        class="required">*</span></label>
+                                <label for="txtNombreFuncionario">Nombre completo <b
+                                        class="required text-danger">*</b></label>
                                 <input type="text" class="form-control valid validText" id="txtNombreFuncionario"
-                                    name="txtNombreFuncionario" required maxlength="100">
+                                    name="txtNombreFuncionario" required maxlength="50">
                             </div>
 
                             <!-- Correo -->
                             <div class="modal-body">
-                                <label for="txtCorreoFuncionario">Correo <span class="required">*</span></label>
+                                <label for="txtCorreoFuncionario">Correo <b class="required text-danger">*</b></label>
                                 <input type="email" class="form-control" id="txtCorreoFuncionario"
                                     name="txtCorreoFuncionario" required>
                             </div>
 
                             <div class="modal-body">
-                                <label for="txtCargoFuncionario">Cargos</label>
+                                <label for="txtCargoFuncionario">Cargos <b class="required text-danger">*</b></label>
                                 <select class="form-select" id="txtCargoFuncionario" name="txtCargoFuncionario">
                                     <option>Seleciona tu opcion</option>
                                     <?php foreach ($data['cargos'] as $car): ?>
@@ -41,7 +40,8 @@
                             </div>
 
                             <div class="modal-body">
-                                <label for="txtDependenciaFuncionario">Dependencia</label>
+                                <label for="txtDependenciaFuncionario">Dependencia <b
+                                        class="required text-danger">*</b></label>
                                 <select class="form-select" id="txtDependenciaFuncionario"
                                     name="txtDependenciaFuncionario">
                                     <option>Seleciona tu opcion</option>
@@ -52,47 +52,43 @@
                                 </select>
                             </div>
                             <div class="modal-body">
-                                <label for="txtContrato">Tipo de Contrato</label>
-
+                                <label for="txtContrato">Tipo de Contrato <b class="required text-danger">*</b></label>
                                 <select class="form-select" id="txtContrato" name="txtContrato">
                                     <option>Seleciona tu opcion</option>
                                     <?php foreach ($data['contrato'] as $cont): ?>
                                         <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?>
                                         </option>
-                                        <script>
-                                            console.log('<?= $cont['id_contrato'] ?>');
-                                        </script>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
-
-
-
                             <!-- Identificación -->
                             <div class="modal-body">
-                                <label for="txtIdentificacionFuncionario">Identificación</label>
+                                <label for="txtIdentificacionFuncionario">Identificación <b
+                                        class="required text-danger">*</b></label>
                                 <input type="number" class="form-control" id="txtIdentificacionFuncionario"
                                     name="txtIdentificacionFuncionario">
                             </div>
 
                             <!-- Celular -->
                             <div class="modal-body">
-                                <label for="txtCelularFuncionario">Celular</label>
+                                <label for="txtCelularFuncionario">Celular <b class="required text-danger">*</b></label>
                                 <input type="number" class="form-control" id="txtCelularFuncionario"
-                                    name="txtCelularFuncionario" maxlength="10" minlength="1">
+                                    name="txtCelularFuncionario">
                             </div>
 
                             <!-- Dirección -->
                             <div class="modal-body">
-                                <label for="txtDireccionFuncionario">Dirección</label>
+                                <label for="txtDireccionFuncionario">Dirección <b
+                                        class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtDireccionFuncionario"
                                     name="txtDireccionFuncionario">
                             </div>
 
                             <!-- Fecha de ingreso -->
                             <div class="modal-body">
-                                <label for="txtFechaIngresoFuncionario">Fecha de ingreso</label>
+                                <label for="txtFechaIngresoFuncionario">Fecha de ingreso <b
+                                        class="required text-danger">*</b></label>
                                 <input type="date" class="form-control" id="txtFechaIngresoFuncionario"
                                     name="txtFechaIngresoFuncionario">
                             </div>
@@ -105,32 +101,22 @@
 
                             <!-- Número de hijos -->
                             <div class="modal-body">
-                                <label for="txtHijosFuncionario">Cantidad de hijos</label>
+                                <label for="txtHijosFuncionario">Cantidad de hijos <b
+                                        class="required text-danger">*</b></label>
                                 <input type="number" class="form-control" id="txtHijosFuncionario"
                                     name="txtHijosFuncionario">
                             </div>
 
                             <!-- Nombres de los hijos -->
                             <div class="modal-body d-none">
-                                <label for="txtNombresHijosFuncionario">Nombres de los hijos</label>
+                                <label for="txtNombresHijosFuncionario">Nombres de los hijos <b
+                                        class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtNombresHijosFuncionario"
                                     name="txtNombresHijosFuncionario">
                             </div>
-                            <script>
-                                let txtHijosFuncionario = document.getElementById('txtHijosFuncionario');
-                                let divNombresHijosFuncionario = document.querySelector('.modal-body.d-none');
-
-                                txtHijosFuncionario.addEventListener('input', function () {
-                                    if (txtHijosFuncionario.value > 0) {
-                                        divNombresHijosFuncionario.classList.remove('d-none'); 
-                                    } else {
-                                        divNombresHijosFuncionario.classList.add('d-none'); 
-                                    }
-                                });
-                            </script>
 
                             <div class="modal-body">
-                                <label for="txtSexoFuncionario">Sexo</label>
+                                <label for="txtSexoFuncionario">Sexo <b class="required text-danger">*</b></label>
                                 <select class="form-select" id="txtSexoFuncionario" name="txtSexoFuncionario">
                                     <option>Seleciona tu opcion</option>
                                     <option value="masculino">Masculino</option>
@@ -140,21 +126,23 @@
 
                             <!-- Lugar de residencia -->
                             <div class="modal-body">
-                                <label for="txtLugarResidenciaFuncionario">Lugar de residencia</label>
+                                <label for="txtLugarResidenciaFuncionario">Lugar de residencia <b
+                                        class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtLugarResidenciaFuncionario"
                                     name="txtLugarResidenciaFuncionario">
                             </div>
 
                             <!-- Edad -->
                             <div class="modal-body">
-                                <label for="txtEdadFuncionario">Edad</label>
+                                <label for="txtEdadFuncionario">Edad <b class="required text-danger">*</b></label>
                                 <input type="number" class="form-control" id="txtEdadFuncionario"
-                                    name="txtEdadFuncionario" maxlength="2">
+                                    name="txtEdadFuncionario">
                             </div>
 
                             <!-- Estado civil -->
                             <div class="modal-body">
-                                <label for="txtEstadoCivilFuncionario">Estado civil</label>
+                                <label for="txtEstadoCivilFuncionario">Estado civil <b
+                                        class="required text-danger">*</b></label>
                                 <select class="form-select" id="txtEstadoCivilFuncionario"
                                     name="txtEstadoCivilFuncionario">
                                     <option>Seleciona tu opcion</option>
@@ -166,17 +154,18 @@
                                 </select>
                             </div>
 
-
                             <!-- Religión -->
                             <div class="modal-body">
-                                <label for="txtReligionFuncionario">Religión</label>
+                                <label for="txtReligionFuncionario">Religión <b
+                                        class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtReligionFuncionario"
                                     name="txtReligionFuncionario">
                             </div>
 
                             <!-- Nivel escolar -->
                             <div class="modal-body">
-                                <label for="txtFormacionFuncionario">Formacion academica</label>
+                                <label for="txtFormacionFuncionario">Formacion academica <b
+                                        class="required text-danger">*</b></label>
                                 <select class="form-select" id="txtFormacionFuncionario" name="txtFormacionFuncionario">
                                     <option>Seleciona tu opcion</option>
                                     <option value="bachiller">Bachiller</option>
@@ -190,8 +179,9 @@
                             </div>
 
                             <!-- Nombre del titulo -->
-                            <div class="modal-body d-none">
-                                <label for="txtNombreFormacion">Nombre de la formacion</label>
+                            <div class="modal-body ">
+                                <label for="txtNombreFormacion">Nombre de la formacion <b
+                                        class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtNombreFormacion"
                                     name="txtNombreFormacion">
                             </div>
@@ -232,12 +222,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
-
             <div class="modal-body">
                 <div class="tile">
                     <div class="tile-body">
-
-
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -336,3 +323,18 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    let txtHijosFuncionario = document.getElementById('txtHijosFuncionario');
+    let divNombresHijosFuncionario = document.querySelector('.modal-body.d-none');
+
+    txtHijosFuncionario.addEventListener('input', function () {
+        if (txtHijosFuncionario.value > 0) {
+            divNombresHijosFuncionario.classList.remove('d-none');
+        } else {
+            divNombresHijosFuncionario.classList.add('d-none');
+        }
+    });
+
+</script>

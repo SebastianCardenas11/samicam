@@ -2,8 +2,6 @@
 
 class FuncionariosPlanta extends Controllers
 {
-    // $FuncionariosPlanta;
-
     public function __construct()
     {
         parent::__construct();
@@ -88,7 +86,7 @@ class FuncionariosPlanta extends Controllers
                             $strEstadoCivil,
                             $strReligion,
                             $strFormacionAcademica,
-                            $strNombreFormacion,
+                            $strNombreFormacion
                         );                        
                     }
                 } else {
@@ -99,8 +97,8 @@ class FuncionariosPlanta extends Controllers
                             $intIdeFuncionario,
                             $strCorreo,
                             $strNombre,
-                            $intStatus,
                             $strIdentificacion,
+                            $intStatus,
                             $intCargo,
                             $intDependencia,
                             $intContrato,
@@ -115,7 +113,7 @@ class FuncionariosPlanta extends Controllers
                             $strEstadoCivil,
                             $strReligion,
                             $strFormacionAcademica,
-                            $strNombreFormacion,
+                            $strNombreFormacion
                         );
                     }
                 }
@@ -193,12 +191,12 @@ class FuncionariosPlanta extends Controllers
     {
         if ($_POST) {
             if ($_SESSION['permisosMod']['d']) {
-                $intidefuncionario = intval($_POST['idefuncionario']);
+                $intidefuncionario = intval($_POST['ideFuncionario']);
                 $requestDelete = $this->model->deleteFuncionario($intidefuncionario);
                 if ($requestDelete) {
-                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Funcionario');
                 } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Funcionario.');
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
