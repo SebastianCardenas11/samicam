@@ -253,6 +253,10 @@
                                     <td id="celDependenciaFuncionario">0</td>
                                 </tr>
                                 <tr>
+                                    <td>Contrato:</td>
+                                    <td id="celContrato">0</td>
+                                </tr>
+                                <tr>
                                     <td>Celular:</td>
                                     <td id="celCelularFuncionario">0</td>
                                 </tr>

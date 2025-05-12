@@ -17,8 +17,8 @@ document.addEventListener(
         "columns":[
             { "data": "nombre_completo" },
             { "data": "nm_identificacion" },
-            { "data": "cargo_fk" },
-            { "data": "dependencia_fk" },
+            { "data": "cargo_nombre" },
+            { "data": "dependencia_nombre" },
             { "data": "correo_elc" },
             { "data": "status" },
             { "data": "options" }
@@ -181,7 +181,7 @@ function fntViewInfo(idefuncionario) {
   request.send();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
-      // console.log(request.responseText);
+      console.log(request.responseText);
       let objData = JSON.parse(request.responseText);
         
       if (objData.status) {
@@ -224,9 +224,11 @@ function fntViewInfo(idefuncionario) {
         document.querySelector("#celIdentificacionFuncionario").innerHTML =
           objData.data.nm_identificacion;
         document.querySelector("#celCargoFuncionario").innerHTML =
-          objData.data.cargo_fk;
+          objData.data.cargo_nombre;
         document.querySelector("#celDependenciaFuncionario").innerHTML =
-          objData.data.dependencia_fk;
+          objData.data.dependencia_nombre;
+        document.querySelector("#celContrato").innerHTML =
+          objData.data.contrato_nombre;
         document.querySelector("#celCelularFuncionario").innerHTML =
           objData.data.celular;
         document.querySelector("#celDireccionFuncionario").innerHTML =
