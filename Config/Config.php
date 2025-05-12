@@ -2,9 +2,14 @@
 const BASE_URL = "http://localhost/samicam";
 
 //Zona horaria
+
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 const DB_HOST = "localhost:3306";
 const DB_NAME = "samicam";
 const DB_USER = "root";
