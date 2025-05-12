@@ -33,6 +33,7 @@ headerAdmin($data);
                                     <th class="text-center">Cargo</th>
                                     <th class="text-center">Nivel</th>
                                     <th class="text-center">Salario</th>
+                                    <th class="text-center">Estatus</th>
                                     <th class="text-center">Acciones</th>
                                     
                                 </tr>

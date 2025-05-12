@@ -26,65 +26,65 @@ class Cargos extends Controllers
         $this->views->getView($this, "cargos", $data);
     }
 
-    // public function setCargos()
-    // {
-    //     error_reporting(0);
-    //     if ($_POST) {
-    //         if (empty($_POST['txtNombresCargos'])) {
-    //             $arrResponse = array("status" => false, "msg" => '``Datos incorrectos.');
-    //         } else {
-    //             $intIdeCargos = intval($_POST['id_cargo']);
-    //             $strNombresCargos = strClean($_POST['txtNombresCargos']);
-    //             $strNivel = intval(strClean($_POST['txtNivel']));
-    //             $intSalario = intval(strClean($_POST['txtsalario']));
+    public function setCargos()
+    {
+        error_reporting(0);
+        if ($_POST) {
+            if (empty($_POST['txtNombresCargos'])) {
+                $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
+            } else {
+$intIdeCargos = intval($_POST['ideCargos']);
+                $strNombresCargos = strClean($_POST['txtNombresCargos']);
+                $strNivel = (strClean($_POST['txtNivel']));
+                $intSalario = intval(strClean($_POST['txtSalario']));
+                $intEstatus = intval(strClean($_POST['listStatus']));
 
-    //             // $intTipoId = 5;
-    //             $request_user = "";
-    //             if ($intIdeCargos == 0) {
-    //                 $option = 1;
-    //                 $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
-    //                 if ($_SESSION['permisosMod']['w']) {
-    //                     $request_user = $this->model->insertUsuario(
-    //                         $strIdentificacionUsuario,
-    //                         $strNombresUsuario,
-    //                         $strPassword,
-    //                         $strRolUsuario,
-    //                         $intStatus
+                // $intTipoId = 5;
+                $request_user = "";
+                if ($intIdeCargos == 0) {
+                    $option = 1;
+                    if ($_SESSION['permisosMod']['w']) {
+                        $request_user = $this->model->insertCargos(
+                            $strNombresCargos,
+                            $strNivel,
+                            $intSalario,
+                            $intEstatus
 
-    //                     );
-    //                 }
-    //             } else {
-    //                 $option = 2;
-    //                 $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
-    //                 if ($_SESSION['permisosMod']['u']) {
-    //                     $request_user = $this->model->updateUsuario(
-    //                         $intIdeUsuario,
-    //                         $strIdentificacionUsuario,
-    //                         $strNombresUsuario,
-    //                         $strRolUsuario,
-    //                         $intStatus
-    //                     );
-    //                 }
-    //             }
-    //             if ($request_user > 0) {
-    //                 if ($option == 1) {
-    //                     $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
-    //                 } else {
-    //                     $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
-    //                 }
-    //             } else if ($request_user == 'exist') {
-    //                 $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
-    //             } else {
-    //                 $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-    //             }
-    //         }
-    //         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-    //     }
-    //     die();
-    // } 
+                        );
+                    }
+                } else {
+                    $option = 2;
+                    if ($_SESSION['permisosMod']['u']) {
+                        $request_user = $this->model->updateCargos(
+                            $intIdeCargos,
+                            $strNombresCargos,
+                            $strNivel,
+                            $intSalario,
+                            $intEstatus
+                        );
+                    }
+                }
+                if ($request_user > 0) {
+                    if ($option == 1) {
+                        $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
+                    } else {
+                        $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
+                    }
+                } else if ($request_user == 'exist') {
+                    $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
+                } else {
+                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                }
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    } 
 
     public function getCargos()
     {
+        
+        
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectCargos();
             for ($i = 0; $i < count($arrData); $i++) {
@@ -92,34 +92,24 @@ class Cargos extends Controllers
                 $btnEdit = '';
                 $btnDelete = '';
 
-                if($arrData[$i]['status'] == 1)
+                if($arrData[$i]['estatus'] == 1)
                 {
-                    $arrData[$i]['status'] = '<span class="badge text-bg-success">Activo</span>';
+                    $arrData[$i]['estatus'] = '<span class="badge text-bg-success">Activo</span>';
                 }else{
-                    $arrData[$i]['status'] = '<span class="badge text-bg-danger">Inactivo</span>';
+                    $arrData[$i]['estatus'] = '<span class="badge text-bg-danger">Inactivo</span>';
                 }
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['ideusuario'] . ')" title="Ver Usuario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idecargos'] . ')" title="Ver Usuario"><i class="bi bi-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['ideusuario'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
+                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idecargos'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
                 }
-                // if ($_SESSION['permisosMod']['d']) {
-                //     $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idecargos'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
-                // }
-
-                if($_SESSION['permisosMod']['d']){
-                    if(($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) ||
-                        ($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) and
-                        ($_SESSION['userData']['ideusuario'] != $arrData[$i]['ideusuario'] )
-                         ){
-                            $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-                    }else{
-                        $btnDelete = '<button class="btn btn-secondary" disabled ><i class="bi bi-trash3"></i></button>';
-                    }
                 }
+
 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
@@ -128,38 +118,38 @@ class Cargos extends Controllers
         die();
     }
 
-    // public function getUsuario($ideusuario)
-    // {
-    //     if ($_SESSION['permisosMod']['r']) {
-    //         $ideusuario = intval($ideusuario);
-    //         if ($ideusuario > 0) {
-    //             $arrData = $this->model->selectUsuario($ideusuario);
-    //             if (empty($arrData)) {
-    //                 $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
-    //             } else {
-    //                 $arrResponse = array('status' => true, 'data' => $arrData);
-    //             }
-    //             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-    //         }
-    //     }
-    //     die();
-    // }
+    public function getCargo($idecargos)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idecargos = intval($idecargos);
+            if ($idecargos > 0) {
+                $arrData = $this->model->selectCargo($idecargos);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
 
-    // public function delUsuario()
-    // {
-    //     if ($_POST) {
-    //         if ($_SESSION['permisosMod']['d']) {
-    //             $intIdeUsuario = intval($_POST['ideUsuario']);
-    //             $requestDelete = $this->model->deleteUsuario($intIdeUsuario);
-    //             if ($requestDelete) {
-    //                 $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
-    //             } else {
-    //                 $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
-    //             }
-    //             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-    //         }
-    //     }
-    //     die();
-    // }
+    public function delCargos()
+    {
+        if ($_POST) {
+            if ($_SESSION['permisosMod']['d']) {
+                $intIdeCargos = intval($_POST['ideCargos']);
+                $requestDelete = $this->model->deleteCargos($intIdeCargos);
+                if ($requestDelete) {
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
 
 }
