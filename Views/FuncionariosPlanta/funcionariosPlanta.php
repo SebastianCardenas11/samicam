@@ -50,23 +50,8 @@ headerAdmin($data);
                                     <th class="text-center">Identificacion</th> 
                                     <th class="text-center">Cargo</th> 
                                     <th class="text-center">Dependencia</th> 
-                                    <!-- <th class="text-center">Celular</th>  -->
-                                    <!-- <th class="text-center">Direccion</th>  -->
+                                    <th class="text-center">Contrato</th> 
                                     <th class="text-center">Correo electronico</th> 
-                                    <!-- <th class="text-center">Fecha de ingreso</th> -->
-                                    <!-- <th class="text-center">Vacaciones</th> -->
-                                    <!-- <th class="text-center">Hijos</th> -->
-                                    <!-- <th class="text-center">Nombre de hijos</th> -->
-                                     <!-- <th class="text-center">Sexo</th> -->
-                                    <!-- <th class="text-center">Lugar de recidencia</th> -->
-                                    <!-- <th class="text-center">Edad</th> -->
-                                    <!-- <th class="text-center">Estado civil</th>
-                                    <th class="text-center">Religion</th>
-                                    <th class="text-center">Nivel escolar</th>
-                                    <th class="text-center">Carrera</th>
-                                    <th class="text-center">Especialidad</th>
-                                    <th class="text-center">Maestria</th>
-                                    <th class="text-center">Doctorado</th> -->
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Acciones</th> 
                              </tr>

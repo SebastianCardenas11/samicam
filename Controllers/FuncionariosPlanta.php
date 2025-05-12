@@ -2,8 +2,6 @@
 
 class FuncionariosPlanta extends Controllers
 {
-    // $FuncionariosPlanta;
-
     public function __construct()
     {
         parent::__construct();
@@ -21,6 +19,9 @@ class FuncionariosPlanta extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
+        $data['dependencias'] = $this->model->selectDependencias();
+        $data['cargos'] = $this->model->selectCargos();
+        $data['contrato'] = $this->model->selectContratoPlanta();
         $data['page_tag'] = "Funcionarios Planta";
         $data['page_title'] = "Funcionarios Planta";
         $data['page_name'] = "Funcionarios Planta";
@@ -31,7 +32,7 @@ class FuncionariosPlanta extends Controllers
 
     public function setFuncionario()
     {
-        // error_reporting(0);
+        error_reporting(0);
     
         if ($_POST) {
             if (
@@ -48,21 +49,18 @@ class FuncionariosPlanta extends Controllers
                 $strCelular = strClean($_POST['txtCelularFuncionario']);
                 $strDireccion = strClean($_POST['txtDireccionFuncionario']);
                 $strFechaIngreso = strClean($_POST['txtFechaIngresoFuncionario']);
-                // $strFechaVacaciones = strClean($_POST['txtVacacionesFuncionario']);
                 $strHijos = intval($_POST['txtHijosFuncionario']);
                 $strNombresHijos = strClean($_POST['txtNombresHijosFuncionario']);
+                $intCargo = intval($_POST['txtCargoFuncionario']);
+                $intDependencia = intval($_POST['txtDependenciaFuncionario']);
+                $intContrato = intval($_POST['txtContrato']);
                 $strSexo = strClean($_POST['txtSexoFuncionario']);
                 $strLugarResidencia = strClean($_POST['txtLugarResidenciaFuncionario']);
                 $intEdad = intval($_POST['txtEdadFuncionario']);
                 $strEstadoCivil = strClean($_POST['txtEstadoCivilFuncionario']);
                 $strReligion = strClean($_POST['txtReligionFuncionario']);
-                $strNivelEscolar = strClean($_POST['txtNivelEscolarFuncionario']);
-                $strCarrera = strClean($_POST['txtCarreraFuncionario']);
-                $strEspecialidad = strClean($_POST['txtEspecialidadFuncionario']);
-                $strMaestria = strClean($_POST['txtMaestriaFuncionario']);
-                $strDoctorado = strClean($_POST['txtDoctoradoFuncionario']);
-                $strCargo = strClean($_POST['txtCargoFuncionario']);
-                $strDependencia = strClean($_POST['txtDependenciaFuncionario']);
+                $strFormacionAcademica = strClean($_POST['txtFormacionFuncionario']);
+                $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
     
                 $request = "";
@@ -74,8 +72,9 @@ class FuncionariosPlanta extends Controllers
                             $strNombre,
                             $intStatus,
                             $strIdentificacion,
-                            $strCargo,
-                            $strDependencia,
+                            $intCargo,
+                            $intDependencia,
+                            $intContrato,
                             $strCelular,
                             $strDireccion,
                             $strFechaIngreso,
@@ -86,11 +85,8 @@ class FuncionariosPlanta extends Controllers
                             $intEdad,
                             $strEstadoCivil,
                             $strReligion,
-                            $strNivelEscolar,
-                            $strCarrera,
-                            $strEspecialidad,
-                            $strMaestria,
-                            $strDoctorado
+                            $strFormacionAcademica,
+                            $strNombreFormacion
                         );                        
                     }
                 } else {
@@ -101,10 +97,11 @@ class FuncionariosPlanta extends Controllers
                             $intIdeFuncionario,
                             $strCorreo,
                             $strNombre,
-                            $intStatus,
                             $strIdentificacion,
-                            $strCargo,
-                            $strDependencia,
+                            $intStatus,
+                            $intCargo,
+                            $intDependencia,
+                            $intContrato,
                             $strCelular,
                             $strDireccion,
                             $strFechaIngreso,
@@ -115,11 +112,8 @@ class FuncionariosPlanta extends Controllers
                             $intEdad,
                             $strEstadoCivil,
                             $strReligion,
-                            $strNivelEscolar,
-                            $strCarrera,
-                            $strEspecialidad,
-                            $strMaestria,
-                            $strDoctorado
+                            $strFormacionAcademica,
+                            $strNombreFormacion
                         );
                     }
                 }
@@ -197,16 +191,17 @@ class FuncionariosPlanta extends Controllers
     {
         if ($_POST) {
             if ($_SESSION['permisosMod']['d']) {
-                $intidefuncionario = intval($_POST['idefuncionario']);
+                $intidefuncionario = intval($_POST['ideFuncionario']);
                 $requestDelete = $this->model->deleteFuncionario($intidefuncionario);
                 if ($requestDelete) {
-                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Funcionario');
                 } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Funcionario.');
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
         }
         die();
     }
+    
 }

@@ -11,7 +11,7 @@ document.addEventListener(
             "url": "./es.json"
         },
         "ajax":{
-            "url": " "+base_url+"/funcionariosPlanta/getFuncionarios",
+            "url": " "+base_url+"/funcionariosOps/getFuncionarios",
             "dataSrc":""
         },
         "columns":[
