@@ -12,6 +12,15 @@ headerAdmin($data);
             <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
             <li class="breadcrumb-item"><a href="<?=base_url();?>/funcionarios"><?=$data['page_title']?></a></li>
         </ul>
+        <div class="d-flex gap-2 mt-3">
+        <!-- Botón para crear nuevo funcionario -->
+        <?php if ($_SESSION['permisosMod']['w']) { ?>
+            <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
+                <i class="bi bi-plus-lg"></i>
+                Nuevo Funcionario</button>
+        <?php } ?>
+    </div>
+        
     </div>
 
     <div class="row">
@@ -26,9 +35,8 @@ headerAdmin($data);
                                     <th class="text-center">Nombre completo</th>
                                     <th class="text-center">Identificacion</th> 
                                     <th class="text-center">Cargo</th> 
-                                    <th class="text-center">Dependencia</th> 
-                                    <th class="text-center">Contrato</th> 
-                                    <th class="text-center">Correo electronico</th>
+                                    <th class="text-center">Dependencia</th>
+                                    <th class="text-center">Permisos</th>
                                     <th class="text-center">Acciones</th>
                              </tr>
                             </thead>

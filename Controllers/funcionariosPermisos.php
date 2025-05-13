@@ -32,31 +32,21 @@ class FuncionariosPermisos extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectFuncionarios();
             for ($i = 0; $i < count($arrData); $i++) {
+             
                 $btnView = '';
-                $btnEdit = '';
-                $btnDelete = '';
+                $btnPermit = '';
 
-                if($arrData[$i]['status'] == 1)
-                {
-                    $arrData[$i]['status'] = '<span class="badge text-bg-success">Activo</span>';
-                }else{
-                    $arrData[$i]['status'] = '<span class="badge text-bg-danger">Inactivo</span>';
-                }
+            
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Permiso"><i class="bi bi-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
+                    $btnPermit = '<button class="btn btn-warning" onClick="fntPermitInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Crear Permiso"><i class="bi bi-plus-lg"></i></button>';
                 }
-                if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-       
-                }
-
-                
-
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+               
+            
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPermit .  '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
