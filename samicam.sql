@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 15-05-2025 a las 02:52:28
+-- Servidor: 127.0.0.1:3307
+-- Tiempo de generación: 15-05-2025 a las 03:59:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -215,8 +215,7 @@ CREATE TABLE `tbl_funcionarios` (
 --
 
 INSERT INTO `tbl_funcionarios` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `vacaciones`, `fecha_vacaciones`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`) VALUES
-(1, 'carlos Lopez', 1, 30, 1, 1, 123, '123', 'carloslxpxz@gmail.com', '2025-05-01', '2', '2025-05-31', 3, 'carlos, juan , fredy', 'masculino', 'la jagua de ibirico', 23, 'soltero', 'catolico', 'tecnico', 'ninguna', 1, 1),
-(5, 'Luigui de jesus', 1, 3, 1, 3, 123456, '123456', 'luis@gmail.Ntic.com', '2023-05-12', NULL, NULL, 1, 'Luigui jr', 'masculino', 'la jagua de ibirico', 43, 'union_libre', 'catolico', 'tecnico', 'Electronica telecomunicaciones', 3, 1);
+(6, 'Juan Jose pertuz', 23456, 3, 1, 1, 123456, '12312312', 'juanjoper_truz@gmail.comm', '2025-05-14', NULL, NULL, 0, '', 'masculino', 'la jagua de ibirico', 21, 'soltero', 'catolica', 'ingieneria', 'Secretaria Ocupacional', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -240,9 +239,31 @@ CREATE TABLE `tbl_historial_permisos` (
 --
 
 INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `fecha_registro`) VALUES
-(1, 1, '2025-05-14', 5, 2025, 'dolor', 'Aprobado', '2025-05-14 19:20:37'),
-(2, 1, '2025-05-14', 5, 2025, 'fiebre', 'Aprobado', '2025-05-14 19:21:24'),
-(3, 1, '2025-05-14', 5, 2025, 'Muerte familiar', 'Aprobado', '2025-05-14 19:21:52');
+(5, 6, '2025-05-14', 5, 2025, 'Asunto familiar', 'Aprobado', '2025-05-14 20:40:05');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_motivos_permisos`
+--
+
+CREATE TABLE `tbl_motivos_permisos` (
+  `id` int(11) NOT NULL,
+  `motivo` varchar(300) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_motivos_permisos`
+--
+
+INSERT INTO `tbl_motivos_permisos` (`id`, `motivo`, `status`) VALUES
+(1, 'Medicina General', 1),
+(2, 'Cita médica especialista', 1),
+(3, 'Calamidad doméstica', 1),
+(4, 'Diligencia personal', 1),
+(5, 'Asunto familiar', 1),
+(6, 'Muerte familiar', 1);
 
 -- --------------------------------------------------------
 
@@ -279,11 +300,7 @@ CREATE TABLE `tbl_permisos` (
 --
 
 INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`) VALUES
-(1, 0, '2025-05-01', 0, 0, 'Medicina General', 'Aprobado'),
-(3, 0, '2025-05-01', 0, 0, 'Medicina General', 'Aprobado'),
-(5, 1, '2025-05-14', 5, 2025, 'dolor', 'Aprobado'),
-(6, 1, '2025-05-14', 5, 2025, 'fiebre', 'Aprobado'),
-(7, 1, '2025-05-14', 5, 2025, 'Muerte familiar', 'Aprobado');
+(9, 6, '2025-05-14', 5, 2025, 'Asunto familiar', 'Aprobado');
 
 -- --------------------------------------------------------
 
@@ -369,6 +386,12 @@ ALTER TABLE `tbl_historial_permisos`
   ADD KEY `id_funcionario` (`id_funcionario`);
 
 --
+-- Indices de la tabla `tbl_motivos_permisos`
+--
+ALTER TABLE `tbl_motivos_permisos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `tbl_notificaciones`
 --
 ALTER TABLE `tbl_notificaciones`
@@ -426,25 +449,31 @@ ALTER TABLE `tbl_dependencia`
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios`
 --
 ALTER TABLE `tbl_funcionarios`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_motivos_permisos`
+--
+ALTER TABLE `tbl_motivos_permisos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_notificaciones`
 --
 ALTER TABLE `tbl_notificaciones`
-  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
