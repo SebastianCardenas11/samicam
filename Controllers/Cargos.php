@@ -33,7 +33,7 @@ class Cargos extends Controllers
             if (empty($_POST['txtNombresCargos'])) {
                 $arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
             } else {
-$intIdeCargos = intval($_POST['ideCargos']);
+                $intIdeCargos = intval($_POST['ideCargos']);
                 $strNombresCargos = strClean($_POST['txtNombresCargos']);
                 $strNivel = (strClean($_POST['txtNivel']));
                 $intSalario = intval(strClean($_POST['txtSalario']));
