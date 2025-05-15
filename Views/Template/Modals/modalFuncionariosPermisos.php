@@ -11,6 +11,10 @@
             <div class="modal-body">
                 <div class="tile">
                     <div class="tile-body">
+                        <!-- Foto del funcionario -->
+                        <div class="text-center mb-3">
+                            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png" alt="Foto funcionario" class="img-thumbnail rounded-circle" style="width:150px; height:150px;">
+                        </div>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -112,6 +116,10 @@
                 <div class="tile">
                     <div class="tile-body">
                         <h6 id="funcionarioHistorial"></h6>
+                        <!-- Foto del funcionario -->
+                        <div class="text-center mb-3">
+                            <img id="imgFuncionarioHistorial" src="<?= media(); ?>/images/funcionarios/user.png" alt="Foto funcionario" class="img-thumbnail rounded-circle" style="width:100px; height:100px;">
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm">
                                 <thead>
