@@ -80,21 +80,6 @@
 
     <!-- Gráficas -->
     <div class="row">
-        <!-- Gráfica de usuarios por rol -->
-        <div class="col-md-6">
-            <div class="tile">
-                <div class="tile-title-w-btn">
-                    <h3 class="title">Distribución de Usuarios por Rol</h3>
-                </div>
-                <div class="tile-body">
-                    <div class="chart-container" style="position: relative; height:300px;">
-                        <canvas id="graficaUsuariosPorRol"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gráfica de funcionarios por cargo -->
         <div class="col-md-6">
             <div class="tile">
                 <div class="tile-title-w-btn">
@@ -107,11 +92,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <!-- Gráfica de funcionarios por tipo de contrato -->
-        <div class="col-md-12">
+         <div class="col-md-6">
             <div class="tile">
                 <div class="tile-title-w-btn">
                     <h3 class="title">Funcionarios por Tipo de Contrato</h3>
@@ -124,7 +105,6 @@
             </div>
         </div>
     </div>
-
  
 
     
