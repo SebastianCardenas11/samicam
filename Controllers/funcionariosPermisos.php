@@ -80,11 +80,16 @@ class FuncionariosPermisos extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             $idefuncionario = intval($idefuncionario);
             if ($idefuncionario > 0) {
-                $arrData = $this->model->getPermisosHistorial($idefuncionario);
-                if (empty($arrData)) {
-                    $arrResponse = array('status' => false, 'msg' => 'No hay permisos registrados.');
-                } else {
-                    $arrResponse = array('status' => true, 'data' => $arrData);
+                try {
+                    $arrData = $this->model->getPermisosHistorial($idefuncionario);
+                    if (empty($arrData)) {
+                        $arrResponse = array('status' => false, 'msg' => 'No hay permisos registrados.');
+                    } else {
+                        $arrResponse = array('status' => true, 'data' => $arrData);
+                    }
+                } catch (Exception $e) {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al obtener el historial de permisos.');
+                    error_log("Error en getHistorialPermisos: " . $e->getMessage());
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
@@ -96,23 +101,42 @@ class FuncionariosPermisos extends Controllers
     {
         if ($_SESSION['permisosMod']['u']) {
             if ($_POST) {
-                if (empty($_POST['idFuncionario']) || empty($_POST['txtFechaPermiso']) || empty($_POST['txtMotivoPermiso'])) {
+                if (empty($_POST['idFuncionario']) || empty($_POST['txtFechaPermiso']) || empty($_POST['listMotivoPermiso'])) {
                     $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
                 } else {
-                    $idFuncionario = intval($_POST['idFuncionario']);
-                    $fechaPermiso = $_POST['txtFechaPermiso'];
-                    $motivoPermiso = $_POST['txtMotivoPermiso'];
-                    
-                    $request = $this->model->insertPermiso($idFuncionario, $fechaPermiso, $motivoPermiso);
-                    
-                    if ($request['status']) {
-                        $arrResponse = array('status' => true, 'msg' => $request['msg']);
-                    } else {
-                        $arrResponse = array('status' => false, 'msg' => $request['msg']);
+                    try {
+                        $idFuncionario = intval($_POST['idFuncionario']);
+                        $fechaPermiso = $_POST['txtFechaPermiso'];
+                        $idMotivoPermiso = intval($_POST['listMotivoPermiso']);
+                        
+                        $request = $this->model->insertPermiso($idFuncionario, $fechaPermiso, $idMotivoPermiso);
+                        
+                        if ($request['status']) {
+                            $arrResponse = array('status' => true, 'msg' => $request['msg']);
+                        } else {
+                            $arrResponse = array('status' => false, 'msg' => $request['msg']);
+                        }
+                    } catch (Exception $e) {
+                        $arrResponse = array('status' => false, 'msg' => 'Error al registrar el permiso. Intente nuevamente.');
+                        error_log("Error en setPermiso: " . $e->getMessage());
                     }
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
+        }
+        die();
+    }
+    
+    public function getMotivosPermisos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->selectMotivosPermisos();
+            if (empty($arrData)) {
+                $arrResponse = array('status' => false, 'msg' => 'No hay motivos de permisos registrados.');
+            } else {
+                $arrResponse = array('status' => true, 'data' => $arrData);
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }

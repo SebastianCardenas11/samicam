@@ -72,8 +72,10 @@
                             </div>
                             
                             <div class="form-group mb-3">
-                                <label for="txtMotivoPermiso" class="form-label">Motivo <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="txtMotivoPermiso" name="txtMotivoPermiso" rows="3" required></textarea>
+                                <label for="listMotivoPermiso" class="form-label">Motivo <span class="text-danger">*</span></label>
+                                <select class="form-select" id="listMotivoPermiso" name="listMotivoPermiso" required>
+                                    <option value="">Seleccione un motivo</option>
+                                </select>
                             </div>
                             
                             <div class="alert alert-info" role="alert">

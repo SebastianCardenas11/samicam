@@ -22,9 +22,33 @@ document.addEventListener(
             { "data": "options" }
         ]
     });
+    
+    // Cargar los motivos de permisos al iniciar
+    fntGetMotivosPermisos();
   },
   false
 );
+
+function fntGetMotivosPermisos() {
+  let request = window.XMLHttpRequest
+    ? new XMLHttpRequest()
+    : new ActiveXObject("Microsoft.XMLHTTP");
+  let ajaxUrl = base_url + "/funcionariosPermisos/getMotivosPermisos";
+  request.open("GET", ajaxUrl, true);
+  request.send();
+  request.onreadystatechange = function () {
+    if (request.readyState == 4 && request.status == 200) {
+      let objData = JSON.parse(request.responseText);
+      if (objData.status) {
+        let htmlOptions = '<option value="">Seleccione un motivo</option>';
+        objData.data.forEach(function(item) {
+          htmlOptions += `<option value="${item.id}">${item.motivo}</option>`;
+        });
+        document.querySelector("#listMotivoPermiso").innerHTML = htmlOptions;
+      }
+    }
+  };
+}
 
 function fntViewInfo(idefuncionario) {
   let request = window.XMLHttpRequest
@@ -68,7 +92,6 @@ function fntPermitInfo(idefuncionario) {
       if (objData.status) {
         document.querySelector("#idFuncionario").value = objData.data.idefuncionario;
         document.querySelector("#txtNombreFuncionario").value = objData.data.nombre_completo;
-        document.querySelector("#permisosUsados").innerHTML = objData.data.permisos_mes_actual;
         
         // Establecer fecha mínima como hoy
         let today = new Date();
@@ -89,7 +112,7 @@ function fntPermitInfo(idefuncionario) {
           document.querySelector("#btnActionForm").disabled = false;
           document.querySelector("#permisosMesInfo").classList.remove("alert-danger");
           document.querySelector("#permisosMesInfo").classList.add("alert-info");
-          document.querySelector("#permisosMesInfo").innerHTML = "Permisos utilizados este mes: <span id='permisosUsados'>" + objData.data.permisos_mes_actual + "</span>/3";
+          document.querySelector("#permisosMesInfo").innerHTML = "Permisos utilizados este mes: " + objData.data.permisos_mes_actual + "/3";
         }
 
         $("#modalFormPermiso").modal("show");
@@ -111,6 +134,7 @@ function fntViewHistorial(idefuncionario) {
   request.send();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
+      
       let objData = JSON.parse(request.responseText);
       
       if (objData.status) {
@@ -138,11 +162,12 @@ function fntViewHistorial(idefuncionario) {
                   <td>${item.estado}</td>
                 </tr>`;
               });
+              document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             } else {
               htmlHistorial = `<tr><td colspan="3" class="text-center">No hay permisos registrados</td></tr>`;
+              document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             }
             
-            document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             $("#modalHistorialPermisos").modal("show");
           }
         };
@@ -161,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let idFuncionario = document.querySelector('#idFuncionario').value;
     let fechaPermiso = document.querySelector('#txtFechaPermiso').value;
-    let motivoPermiso = document.querySelector('#txtMotivoPermiso').value;
+    let motivoPermiso = document.querySelector('#listMotivoPermiso').value;
     
     if (idFuncionario == '' || fechaPermiso == '' || motivoPermiso == '') {
       Swal.fire("Error", "Todos los campos son obligatorios", "error");

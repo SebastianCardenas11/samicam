@@ -31,7 +31,7 @@ class FuncionariosPermisosModel extends Mysql
     private $dateFechaPermiso;
     private $intMes;
     private $intAnio;
-    private $strMotivo;
+    private $intIdMotivo;
     private $strEstado;
 
     public function __construct()
@@ -151,11 +151,11 @@ class FuncionariosPermisosModel extends Mysql
         return $request['total'];
     }
 
-    public function insertPermiso(int $idFuncionario, string $fecha, string $motivo)
+    public function insertPermiso(int $idFuncionario, string $fecha, int $idMotivo)
     {
         $this->intIdFuncionario = $idFuncionario;
         $this->dateFechaPermiso = $fecha;
-        $this->strMotivo = $motivo;
+        $this->intIdMotivo = $idMotivo;
         $this->intMes = date('n', strtotime($fecha));
         $this->intAnio = date('Y', strtotime($fecha));
         
@@ -168,6 +168,9 @@ class FuncionariosPermisosModel extends Mysql
             return ["status" => false, "msg" => "El funcionario ya ha utilizado los 3 permisos permitidos para este mes."];
         }
         
+        // Obtener el motivo para el historial
+        $motivo = $this->getMotivo($this->intIdMotivo);
+        
         $query_insert = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado) 
                         VALUES(?,?,?,?,?,?)";
         
@@ -176,7 +179,7 @@ class FuncionariosPermisosModel extends Mysql
             $this->dateFechaPermiso,
             $this->intMes,
             $this->intAnio,
-            $this->strMotivo,
+            $motivo,
             'Aprobado'
         );
         
@@ -197,21 +200,34 @@ class FuncionariosPermisosModel extends Mysql
         }
     }
 
+    private function getMotivo(int $idMotivo)
+    {
+        $sql = "SELECT motivo FROM tbl_motivos_permisos WHERE id = $idMotivo";
+        $request = $this->select($sql);
+        return $request['motivo'];
+    }
+
     private function registrarHistorial(int $idFuncionario, string $fecha, int $mes, int $anio, string $motivo, string $estado)
     {
-        $query_insert = "INSERT INTO tbl_historial_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado) 
-                        VALUES(?,?,?,?,?,?)";
-        
-        $arrData = array(
-            $idFuncionario,
-            $fecha,
-            $mes,
-            $anio,
-            $motivo,
-            $estado
-        );
-        
-        $this->insert($query_insert, $arrData);
+        try {
+            $query_insert = "INSERT INTO tbl_historial_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado) 
+                            VALUES(?,?,?,?,?,?)";
+            
+            $arrData = array(
+                $idFuncionario,
+                $fecha,
+                $mes,
+                $anio,
+                $motivo,
+                $estado
+            );
+            
+            return $this->insert($query_insert, $arrData);
+        } catch (Exception $e) {
+            // Registrar el error pero continuar con la ejecución
+            error_log("Error al registrar historial: " . $e->getMessage());
+            return false;
+        }
     }
 
     private function crearNotificacion(int $idFuncionario, string $mensaje)
@@ -225,5 +241,12 @@ class FuncionariosPermisosModel extends Mysql
         );
         
         $this->insert($query_insert, $arrData);
+    }
+    
+    public function selectMotivosPermisos()
+    {
+        $sql = "SELECT id, motivo FROM tbl_motivos_permisos WHERE status = 1 ORDER BY motivo ASC";
+        $request = $this->select_all($sql);
+        return $request;
     }
 }
