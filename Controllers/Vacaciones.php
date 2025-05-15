@@ -195,7 +195,7 @@ class Vacaciones extends Controllers
                 $historial = $this->model->getHistorialVacaciones($idFuncionario);
                 
                 // Incluir la librería FPDF
-                require_once 'Libraries/fpdf/fpdf.php';
+                require_once 'Libraries/pdf/fpdf.php';
                 
                 // Crear nuevo documento PDF
                 $pdf = new FPDF('P', 'mm', 'A4');
@@ -288,8 +288,13 @@ class Vacaciones extends Controllers
                     $pdf->Cell(0, 10, 'No hay registros de vacaciones para este funcionario.', 0, 1, 'L');
                 }
                 
+                // Configurar encabezados para forzar la descarga
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: attachment; filename="Historial_Vacaciones_'.$funcionario['nombre_completo'].'.pdf"');
+                header('Cache-Control: max-age=0');
+                
                 // Generar el PDF
-                $pdf->Output('Historial_Vacaciones_'.$funcionario['nombre_completo'].'.pdf', 'I');
+                $pdf->Output('Historial_Vacaciones_'.$funcionario['nombre_completo'].'.pdf', 'D');
             } else {
                 echo "Parámetro inválido";
             }

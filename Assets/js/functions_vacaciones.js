@@ -22,7 +22,15 @@ document.addEventListener(
             { "data": "anos_servicio" },
             { "data": "periodos_disponibles" },
             { "data": "options" }
-        ]
+        ],
+        "bProcessing": true,
+        "bLengthChange": true,
+        "bFilter": true,
+        "bSort": true,
+        "bInfo": true,
+        "bAutoWidth": false,
+        "iDisplayLength": 10,
+        "order": [[1, "asc"]]
     });
     
     // Actualizar estado de vacaciones al cargar la página
@@ -109,8 +117,6 @@ function fntVacacionesInfo(idefuncionario) {
         let localISOEndTime = new Date(endDate.getTime() - (endDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
         document.querySelector("#txtFechaFin").setAttribute("min", localISOTime);
         document.querySelector("#txtFechaFin").value = localISOEndTime;
-        document.querySelector("#txtFechaFin").setAttribute("min", today);
-        document.querySelector("#txtFechaFin").value = defaultEndDate;
         
         // Mostrar períodos disponibles
         document.querySelector("#periodosDisponibles").innerHTML = objData.data.periodos_disponibles;
@@ -342,7 +348,13 @@ function generarPDF() {
   if (idFuncionario) {
     try {
       // Redirigir a la URL para generar el PDF
-      window.open(base_url + '/vacaciones/generarPDF/' + idFuncionario, '_blank');
+      let pdfUrl = base_url + '/vacaciones/generarPDF/' + idFuncionario;
+      let newWindow = window.open(pdfUrl, '_blank');
+      
+      // Verificar si la ventana se abrió correctamente
+      if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+        Swal.fire("Error", "El navegador bloqueó la ventana emergente. Por favor, permita ventanas emergentes para este sitio.", "error");
+      }
     } catch (error) {
       console.error("Error al generar PDF:", error);
       Swal.fire("Error", "Hubo un problema al generar el PDF. Por favor, intente nuevamente.", "error");

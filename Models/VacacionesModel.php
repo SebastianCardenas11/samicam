@@ -19,7 +19,7 @@ class VacacionesModel extends Mysql
         if ($_SESSION['idUser'] != 1) {
             $whereAdmin = " and u.idefuncionario != 1 ";
         }
-        $sql = "SELECT 
+        $sql = "SELECT DISTINCT
             u.idefuncionario,
             u.nombre_completo,
             u.imagen,
@@ -39,7 +39,8 @@ class VacacionesModel extends Mysql
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
         WHERE u.status != 0 
-          AND ct.tipo_cont IN ('Carrera', 'Libre Nombramiento') " . $whereAdmin;
+          AND ct.tipo_cont IN ('Carrera', 'Libre Nombramiento') " . $whereAdmin . "
+        GROUP BY u.idefuncionario";
 
         $request = $this->select_all($sql);
         return $request;
@@ -119,8 +120,8 @@ class VacacionesModel extends Mysql
         
         // Verificar si el funcionario tiene períodos disponibles
         $funcionario = $this->selectFuncionario($idFuncionario);
-        if ($funcionario['periodos_disponibles'] <= 0) {
-            return ["status" => false, "msg" => "El funcionario no tiene períodos de vacaciones disponibles."];
+        if ($funcionario['periodos_disponibles'] < $periodo) {
+            return ["status" => false, "msg" => "El funcionario no tiene suficientes períodos de vacaciones disponibles."];
         }
         
         // Determinar el estado inicial de las vacaciones
@@ -149,7 +150,7 @@ class VacacionesModel extends Mysql
         if ($request_insert > 0) {
             // Actualizar períodos tomados por el funcionario
             $sql_update = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones + ? WHERE idefuncionario = ?";
-            $arrData_update = array($periodo, $idFuncionario);
+            $arrData_update = array($this->intPeriodo, $idFuncionario);
             $this->update($sql_update, $arrData_update);
             
             return ["status" => true, "msg" => "Vacaciones registradas correctamente", "id" => $request_insert];
