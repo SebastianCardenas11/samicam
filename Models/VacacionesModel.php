@@ -72,6 +72,9 @@ class VacacionesModel extends Mysql
 
     public function getHistorialVacaciones(int $idFuncionario)
     {
+        // Primero actualizamos el estado de las vacaciones que ya han finalizado
+        $this->actualizarEstadoVacaciones();
+        
         $sql = "SELECT 
                 id_vacaciones,
                 fecha_inicio,
@@ -86,9 +89,27 @@ class VacacionesModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+    
+    public function actualizarEstadoVacaciones()
+    {
+        // Usar la fecha y hora actual del servidor con zona horaria correcta
+        date_default_timezone_set('America/Bogota');
+        $fechaActual = date('Y-m-d');
+        
+        // Actualizar vacaciones que ya han finalizado a estado "Cumplidas"
+        $sql = "UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '$fechaActual'";
+        
+        return $this->update($sql, []);
+    }
 
     public function insertVacaciones(int $idFuncionario, string $fechaInicio, string $fechaFin, int $periodo)
     {
+        // Asegurar que estamos usando la zona horaria correcta
+        date_default_timezone_set('America/Bogota');
+        
         $this->intIdFuncionario = $idFuncionario;
         $this->dateFechaInicio = $fechaInicio;
         $this->dateFechaFin = $fechaFin;
@@ -100,6 +121,15 @@ class VacacionesModel extends Mysql
             return ["status" => false, "msg" => "El funcionario no tiene períodos de vacaciones disponibles."];
         }
         
+        // Determinar el estado inicial de las vacaciones
+        $fechaActual = date('Y-m-d');
+        $estado = 'Aprobado';
+        
+        // Si la fecha de fin es hoy o ya pasó, marcar como cumplidas
+        if ($this->dateFechaFin <= $fechaActual) {
+            $estado = 'Cumplidas';
+        }
+        
         // Insertar registro de vacaciones
         $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado) 
                         VALUES(?,?,?,?,?)";
@@ -109,7 +139,7 @@ class VacacionesModel extends Mysql
             $this->dateFechaInicio,
             $this->dateFechaFin,
             $this->intPeriodo,
-            'Aprobado'
+            $estado
         );
         
         $request_insert = $this->insert($query_insert, $arrData);
@@ -131,11 +161,16 @@ class VacacionesModel extends Mysql
         $this->intIdVacaciones = $idVacaciones;
         
         // Obtener información de las vacaciones
-        $sql = "SELECT id_funcionario, periodo FROM tbl_vacaciones WHERE id_vacaciones = $this->intIdVacaciones";
+        $sql = "SELECT id_funcionario, periodo, estado, fecha_fin FROM tbl_vacaciones WHERE id_vacaciones = $this->intIdVacaciones";
         $vacacion = $this->select($sql);
         
         if (empty($vacacion)) {
             return ["status" => false, "msg" => "Registro de vacaciones no encontrado."];
+        }
+        
+        // Verificar si las vacaciones ya están cumplidas
+        if ($vacacion['estado'] == 'Cumplidas') {
+            return ["status" => false, "msg" => "No se pueden cancelar vacaciones que ya han sido cumplidas."];
         }
         
         // Actualizar estado de las vacaciones

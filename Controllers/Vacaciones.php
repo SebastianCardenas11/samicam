@@ -152,11 +152,30 @@ class Vacaciones extends Controllers
         die();
     }
     
+    public function actualizarEstadoVacaciones()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            try {
+                // Llamar al método del modelo para actualizar el estado de las vacaciones
+                $this->model->actualizarEstadoVacaciones();
+                $arrResponse = array('status' => true, 'msg' => 'Estado de vacaciones actualizado correctamente');
+            } catch (Exception $e) {
+                $arrResponse = array('status' => false, 'msg' => 'Error al actualizar el estado de las vacaciones');
+                error_log("Error en actualizarEstadoVacaciones: " . $e->getMessage());
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
     public function generarPDF($params)
     {
         if ($_SESSION['permisosMod']['r']) {
             if (isset($params) && is_numeric($params)) {
                 $idFuncionario = intval($params);
+                
+                // Actualizar estado de vacaciones antes de generar el PDF
+                $this->model->actualizarEstadoVacaciones();
                 
                 // Obtener datos del funcionario
                 $funcionario = $this->model->selectFuncionario($idFuncionario);
@@ -230,14 +249,26 @@ class Vacaciones extends Controllers
                     // Datos de la tabla
                     $pdf->SetFont('Arial', '', 10);
                     foreach ($historial as $item) {
-                        $fechaInicio = date('d/m/Y', strtotime($item['fecha_inicio']));
-                        $fechaFin = date('d/m/Y', strtotime($item['fecha_fin']));
-                        $fechaRegistro = date('d/m/Y', strtotime($item['fecha_registro']));
+                        // Ajustar fechas para mostrar correctamente en el PDF
+                        $fechaInicioObj = new DateTime($item['fecha_inicio']);
+                        $fechaFinObj = new DateTime($item['fecha_fin']);
+                        $fechaRegistroObj = new DateTime($item['fecha_registro']);
+                        
+                        $fechaInicio = $fechaInicioObj->format('d/m/Y');
+                        $fechaFin = $fechaFinObj->format('d/m/Y');
+                        $fechaRegistro = $fechaRegistroObj->format('d/m/Y');
                         
                         $pdf->Cell(35, 8, $fechaInicio, 1, 0, 'C');
                         $pdf->Cell(35, 8, $fechaFin, 1, 0, 'C');
                         $pdf->Cell(30, 8, $item['periodo'], 1, 0, 'C');
-                        $pdf->Cell(40, 8, utf8_decode($item['estado']), 1, 0, 'C');
+                        
+                        // Ajustar el texto del estado para el PDF
+                        $estadoTexto = $item['estado'];
+                        if ($estadoTexto == 'Cumplidas') {
+                            $estadoTexto = 'Cumplida';
+                        }
+                        
+                        $pdf->Cell(40, 8, utf8_decode($estadoTexto), 1, 0, 'C');
                         $pdf->Cell(50, 8, $fechaRegistro, 1, 1, 'C');
                     }
                 } else {

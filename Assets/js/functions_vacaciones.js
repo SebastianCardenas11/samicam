@@ -23,9 +23,32 @@ document.addEventListener(
             { "data": "options" }
         ]
     });
+    
+    // Actualizar estado de vacaciones al cargar la página
+    actualizarEstadoVacaciones();
   },
   false
 );
+
+// Función para actualizar el estado de las vacaciones
+function actualizarEstadoVacaciones() {
+    if (typeof base_url !== 'undefined') {
+        let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url + '/vacaciones/actualizarEstadoVacaciones';
+        
+        request.open("GET", ajaxUrl, true);
+        request.send();
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                console.log("Estado de vacaciones actualizado");
+                // Recargar la tabla para mostrar los cambios
+                if (typeof tableFuncionarios !== 'undefined') {
+                    tableFuncionarios.api().ajax.reload(null, false);
+                }
+            }
+        }
+    }
+}
 
 function fntViewInfo(idefuncionario) {
   let request = window.XMLHttpRequest
@@ -73,22 +96,18 @@ function fntVacacionesInfo(idefuncionario) {
         document.querySelector("#idFuncionario").value = objData.data.idefuncionario;
         document.querySelector("#txtNombreFuncionario").value = objData.data.nombre_completo;
         
-        // Establecer fecha mínima como hoy
+        // Establecer fecha mínima como hoy usando formato ISO para evitar problemas de zona horaria
         let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0');
-        let yyyy = today.getFullYear();
-        today = yyyy + '-' + mm + '-' + dd;
-        document.querySelector("#txtFechaInicio").setAttribute("min", today);
-        document.querySelector("#txtFechaInicio").value = today;
+        let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+        document.querySelector("#txtFechaInicio").setAttribute("min", localISOTime);
+        document.querySelector("#txtFechaInicio").value = localISOTime;
         
         // Calcular fecha fin por defecto (15 días después)
         let endDate = new Date();
         endDate.setDate(endDate.getDate() + 15);
-        let endDD = String(endDate.getDate()).padStart(2, '0');
-        let endMM = String(endDate.getMonth() + 1).padStart(2, '0');
-        let endYYYY = endDate.getFullYear();
-        let defaultEndDate = endYYYY + '-' + endMM + '-' + endDD;
+        let localISOEndTime = new Date(endDate.getTime() - (endDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+        document.querySelector("#txtFechaFin").setAttribute("min", localISOTime);
+        document.querySelector("#txtFechaFin").value = localISOEndTime;
         document.querySelector("#txtFechaFin").setAttribute("min", today);
         document.querySelector("#txtFechaFin").value = defaultEndDate;
         
@@ -146,19 +165,45 @@ function fntViewHistorial(idefuncionario) {
             
             if (objDataHistorial.status) {
               objDataHistorial.data.forEach(function(item) {
-                let fechaInicio = new Date(item.fecha_inicio).toLocaleDateString();
-                let fechaFin = new Date(item.fecha_fin).toLocaleDateString();
+                // Corregir el problema de zona horaria en la visualización de fechas
+                let fechaInicioObj = new Date(item.fecha_inicio);
+                let fechaFinObj = new Date(item.fecha_fin);
+                
+                // Ajustar para mostrar la fecha correcta
+                fechaInicioObj.setDate(fechaInicioObj.getDate() + 1);
+                fechaFinObj.setDate(fechaFinObj.getDate() + 1);
+                
+                let fechaInicio = fechaInicioObj.toLocaleDateString();
+                let fechaFin = fechaFinObj.toLocaleDateString();
                 let btnCancelar = '';
                 
                 if (item.estado === 'Aprobado') {
                   btnCancelar = `<button class="btn btn-danger btn-sm" onclick="fntCancelarVacaciones(${item.id_vacaciones})" title="Cancelar"><i class="bi bi-x-circle"></i></button>`;
                 }
                 
+                // Verificar si la fecha de fin ya pasó para mostrar como cumplida
+                let fechaFinDate = new Date(item.fecha_fin);
+                fechaFinDate.setDate(fechaFinDate.getDate() + 1); // Ajustar para compensar el problema de zona horaria
+                let hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+                fechaFinDate.setHours(0, 0, 0, 0);
+                
+                // Aplicar clase de estilo según el estado y texto a mostrar
+                let estadoClass = '';
+                let estadoTexto = item.estado;
+                
+                if (item.estado === 'Cumplidas' || (item.estado === 'Aprobado' && fechaFinDate <= hoy)) {
+                  estadoClass = 'text-success fw-bold';
+                  estadoTexto = 'Cumplida';
+                } else if (item.estado === 'Cancelado') {
+                  estadoClass = 'text-danger';
+                }
+                
                 htmlHistorial += `<tr>
                   <td>${fechaInicio}</td>
                   <td>${fechaFin}</td>
                   <td>${item.periodo}</td>
-                  <td>${item.estado}</td>
+                  <td><span class="${estadoClass}">${estadoTexto}</span></td>
                   <td>${btnCancelar}</td>
                 </tr>`;
               });
@@ -234,6 +279,14 @@ document.addEventListener('DOMContentLoaded', function() {
       return false;
     }
     
+    // Convertir fechas para comparación
+    let fechaInicioObj = new Date(fechaInicio);
+    let fechaFinObj = new Date(fechaFin);
+    
+    // Ajustar zona horaria para evitar problemas con las fechas
+    fechaInicioObj.setHours(12, 0, 0, 0);
+    fechaFinObj.setHours(12, 0, 0, 0);
+    
     let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/vacaciones/setVacaciones';
     let formData = new FormData(formVacaciones);
@@ -270,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let fechaFin = document.querySelector("#txtFechaFin").value;
     if (fechaFin < fechaInicio) {
       // Calcular fecha 15 días después
-      let endDate = new Date(fechaInicio);
+      let endDate = new Date(fechaInicio + "T12:00:00");
       endDate.setDate(endDate.getDate() + 15);
       let endDD = String(endDate.getDate()).padStart(2, '0');
       let endMM = String(endDate.getMonth() + 1).padStart(2, '0');

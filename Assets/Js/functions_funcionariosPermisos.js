@@ -162,7 +162,7 @@ function fntViewHistorial(idefuncionario) {
                 htmlHistorial += `<tr>
                   <td>${fechaFormateada}</td>
                   <td>${item.motivo}</td>
-                  <td>${item.estado}</td>
+                  <td class="text-success">${item.estado}</td>
                 </tr>`;
               });
               document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
