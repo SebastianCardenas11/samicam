@@ -16,9 +16,9 @@ class Mysql extends Conexion
     public function insert(string $query, array $arrValues)
     {
         $this->strquery = $query;
-        $this->arrVAlues = $arrValues;
+        $this->arrValues = $arrValues;
         $insert = $this->conexion->prepare($this->strquery);
-        $resInsert = $insert->execute($this->arrVAlues);
+        $resInsert = $insert->execute($this->arrValues);
         if ($resInsert) {
             $lastInsert = $this->conexion->lastInsertId();
         } else {
@@ -26,39 +26,46 @@ class Mysql extends Conexion
         }
         return $lastInsert;
     }
+    
     //Busca un registro
-    public function select(string $query)
+    public function select(string $query, array $arrValues = [])
     {
         $this->strquery = $query;
+        $this->arrValues = $arrValues;
         $result = $this->conexion->prepare($this->strquery);
-        $result->execute();
+        $result->execute($this->arrValues);
         $data = $result->fetch(PDO::FETCH_ASSOC);
         return $data;
     }
+    
     //Devuelve todos los registros
-    public function select_all(string $query)
+    public function select_all(string $query, array $arrValues = [])
     {
         $this->strquery = $query;
+        $this->arrValues = $arrValues;
         $result = $this->conexion->prepare($this->strquery);
-        $result->execute();
+        $result->execute($this->arrValues);
         $data = $result->fetchall(PDO::FETCH_ASSOC);
         return $data;
     }
+    
     //Actualiza registros
     public function update(string $query, array $arrValues)
     {
         $this->strquery = $query;
-        $this->arrVAlues = $arrValues;
+        $this->arrValues = $arrValues;
         $update = $this->conexion->prepare($this->strquery);
-        $resExecute = $update->execute($this->arrVAlues);
+        $resExecute = $update->execute($this->arrValues);
         return $resExecute;
     }
+    
     //Eliminar un registros
-    public function delete(string $query)
+    public function delete(string $query, array $arrValues = [])
     {
         $this->strquery = $query;
+        $this->arrValues = $arrValues;
         $result = $this->conexion->prepare($this->strquery);
-        $del = $result->execute();
+        $del = $result->execute($this->arrValues);
         return $del;
     }
 }

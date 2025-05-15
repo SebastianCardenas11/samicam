@@ -1,0 +1,51 @@
+/* Estilos para el módulo de viáticos */
+
+/* Quitar el efecto hover de las tablas */
+.table-bordered tbody tr:hover {
+    background-color: transparent !important;
+}
+
+/* Quitar el efecto hover de DataTables */
+table.dataTable tbody tr:hover {
+    background-color: transparent !important;
+}
+
+/* Quitar el efecto hover de DataTables en filas impares */
+table.dataTable tbody tr.odd:hover {
+    background-color: #f9f9f9 !important;
+}
+
+/* Quitar el efecto hover de DataTables en filas pares */
+table.dataTable tbody tr.even:hover {
+    background-color: white !important;
+}
+
+/* Quitar efectos de hover y animaciones en las cards */
+.card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px;
+    border: none;
+    transition: none !important;
+    transform: none !important;
+}
+
+.card:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    transform: none !important;
+    transform: translateY(0) !important;
+    transition: none !important;
+}
+
+/* Quitar cualquier animación en elementos dentro de las cards */
+.card * {
+    transition: none !important;
+}
+
+/* Estilos para los botones sin animaciones */
+.btn {
+    transition: none !important;
+}
+
+.btn:hover {
+    transform: none !important;
+}
