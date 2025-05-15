@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-05-2025 a las 22:02:18
+-- Tiempo de generación: 15-05-2025 a las 02:52:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -221,22 +221,69 @@ INSERT INTO `tbl_funcionarios` (`idefuncionario`, `nombre_completo`, `nm_identif
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_historial_permisos`
+--
+
+CREATE TABLE `tbl_historial_permisos` (
+  `id_historial` int(25) NOT NULL,
+  `id_funcionario` int(11) NOT NULL,
+  `fecha_permiso` date NOT NULL,
+  `mes` int(2) NOT NULL,
+  `anio` int(4) NOT NULL,
+  `motivo` varchar(300) NOT NULL,
+  `estado` varchar(20) NOT NULL,
+  `fecha_registro` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_historial_permisos`
+--
+
+INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `fecha_registro`) VALUES
+(1, 1, '2025-05-14', 5, 2025, 'dolor', 'Aprobado', '2025-05-14 19:20:37'),
+(2, 1, '2025-05-14', 5, 2025, 'fiebre', 'Aprobado', '2025-05-14 19:21:24'),
+(3, 1, '2025-05-14', 5, 2025, 'Muerte familiar', 'Aprobado', '2025-05-14 19:21:52');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_notificaciones`
+--
+
+CREATE TABLE `tbl_notificaciones` (
+  `id_notificacion` int(11) NOT NULL,
+  `id_funcionario` int(11) NOT NULL,
+  `mensaje` varchar(300) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `leido` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_permisos`
 --
 
 CREATE TABLE `tbl_permisos` (
   `id_permiso` int(25) NOT NULL,
+  `id_funcionario` int(11) NOT NULL,
   `fecha_permiso` date NOT NULL,
-  `motivo` varchar(300) NOT NULL
+  `mes` int(2) NOT NULL,
+  `anio` int(4) NOT NULL,
+  `motivo` varchar(300) NOT NULL,
+  `estado` varchar(20) NOT NULL DEFAULT 'Aprobado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_permisos`
 --
 
-INSERT INTO `tbl_permisos` (`id_permiso`, `fecha_permiso`, `motivo`) VALUES
-(1, '2025-05-01', 'Medicina General'),
-(3, '2025-05-01', 'Medicina General');
+INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`) VALUES
+(1, 0, '2025-05-01', 0, 0, 'Medicina General', 'Aprobado'),
+(3, 0, '2025-05-01', 0, 0, 'Medicina General', 'Aprobado'),
+(5, 1, '2025-05-14', 5, 2025, 'dolor', 'Aprobado'),
+(6, 1, '2025-05-14', 5, 2025, 'fiebre', 'Aprobado'),
+(7, 1, '2025-05-14', 5, 2025, 'Muerte familiar', 'Aprobado');
 
 -- --------------------------------------------------------
 
@@ -315,6 +362,20 @@ ALTER TABLE `tbl_funcionarios`
   ADD KEY `permisos_fk` (`permisos_fk`);
 
 --
+-- Indices de la tabla `tbl_historial_permisos`
+--
+ALTER TABLE `tbl_historial_permisos`
+  ADD PRIMARY KEY (`id_historial`),
+  ADD KEY `id_funcionario` (`id_funcionario`);
+
+--
+-- Indices de la tabla `tbl_notificaciones`
+--
+ALTER TABLE `tbl_notificaciones`
+  ADD PRIMARY KEY (`id_notificacion`),
+  ADD KEY `id_funcionario` (`id_funcionario`);
+
+--
 -- Indices de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
@@ -368,10 +429,22 @@ ALTER TABLE `tbl_funcionarios`
   MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
+--
+ALTER TABLE `tbl_historial_permisos`
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_notificaciones`
+--
+ALTER TABLE `tbl_notificaciones`
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
@@ -403,6 +476,18 @@ ALTER TABLE `tbl_funcionarios`
   ADD CONSTRAINT `tbl_funcionarios_ibfk_2` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_funcionarios_ibfk_3` FOREIGN KEY (`contrato_fk`) REFERENCES `tbl_contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_funcionarios_ibfk_4` FOREIGN KEY (`permisos_fk`) REFERENCES `tbl_permisos` (`id_permiso`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_historial_permisos`
+--
+ALTER TABLE `tbl_historial_permisos`
+  ADD CONSTRAINT `tbl_historial_permisos_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionarios` (`idefuncionario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_notificaciones`
+--
+ALTER TABLE `tbl_notificaciones`
+  ADD CONSTRAINT `tbl_notificaciones_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionarios` (`idefuncionario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_usuarios`
