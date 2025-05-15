@@ -96,6 +96,107 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
+    
+    public function generarPDF($idefuncionario)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idefuncionario = intval($idefuncionario);
+            if ($idefuncionario > 0) {
+                // Obtener datos del funcionario
+                $funcionario = $this->model->selectFuncionario($idefuncionario);
+                if (empty($funcionario)) {
+                    echo "Funcionario no encontrado";
+                    die();
+                }
+                
+                // Obtener historial de permisos
+                $permisos = $this->model->getPermisosHistorial($idefuncionario);
+                
+                // Cargar la librería TCPDF
+                require_once 'Libraries/pdf/tcpdf.php';
+                
+                // Crear nuevo documento PDF
+                $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+                
+                // Establecer información del documento
+                $pdf->SetCreator('SAMICAM');
+                $pdf->SetAuthor('Sistema SAMICAM');
+                $pdf->SetTitle('Historial de Permisos');
+                $pdf->SetSubject('Historial de Permisos del Funcionario');
+                
+                // Establecer márgenes
+                $pdf->SetMargins(15, 15, 15);
+                $pdf->SetHeaderMargin(5);
+                $pdf->SetFooterMargin(10);
+                
+                // Eliminar cabecera y pie de página predeterminados
+                $pdf->setPrintHeader(false);
+                $pdf->setPrintFooter(false);
+                
+                // Agregar una página
+                $pdf->AddPage();
+                
+                // Establecer fuente
+                $pdf->SetFont('helvetica', 'B', 14);
+                
+                // Título
+                $pdf->Cell(0, 10, 'HISTORIAL DE PERMISOS', 0, 1, 'C');
+                $pdf->Ln(5);
+                
+                // Información del funcionario
+                $pdf->SetFont('helvetica', 'B', 12);
+                $pdf->Cell(0, 8, 'Datos del Funcionario:', 0, 1);
+                $pdf->SetFont('helvetica', '', 11);
+                $pdf->Cell(40, 8, 'Nombre:', 0, 0);
+                $pdf->Cell(0, 8, $funcionario['nombre_completo'], 0, 1);
+                $pdf->Cell(40, 8, 'Identificación:', 0, 0);
+                $pdf->Cell(0, 8, $funcionario['nm_identificacion'], 0, 1);
+                $pdf->Cell(40, 8, 'Cargo:', 0, 0);
+                $pdf->Cell(0, 8, $funcionario['cargo_nombre'], 0, 1);
+                $pdf->Cell(40, 8, 'Dependencia:', 0, 0);
+                $pdf->Cell(0, 8, $funcionario['dependencia_nombre'], 0, 1);
+                $pdf->Ln(5);
+                
+                // Tabla de permisos
+                $pdf->SetFont('helvetica', 'B', 12);
+                $pdf->Cell(0, 8, 'Historial de Permisos:', 0, 1);
+                $pdf->Ln(2);
+                
+                // Cabecera de la tabla
+                $pdf->SetFont('helvetica', 'B', 10);
+                $pdf->SetFillColor(230, 230, 230);
+                $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
+                $pdf->Cell(100, 8, 'Motivo', 1, 0, 'C', true);
+                $pdf->Cell(40, 8, 'Estado', 1, 1, 'C', true);
+                
+                // Contenido de la tabla
+                $pdf->SetFont('helvetica', '', 10);
+                if (!empty($permisos)) {
+                    foreach ($permisos as $permiso) {
+                        $fecha = date('d/m/Y', strtotime($permiso['fecha_permiso']));
+                        $pdf->Cell(40, 8, $fecha, 1, 0, 'C');
+                        $pdf->Cell(100, 8, $permiso['motivo'], 1, 0, 'L');
+                        $pdf->Cell(40, 8, $permiso['estado'], 1, 1, 'C');
+                    }
+                } else {
+                    $pdf->Cell(180, 8, 'No hay permisos registrados', 1, 1, 'C');
+                }
+                
+                // Fecha de generación
+                $pdf->Ln(10);
+                $pdf->SetFont('helvetica', 'I', 8);
+                $pdf->Cell(0, 5, 'Documento generado el: ' . date('d/m/Y H:i:s'), 0, 1, 'R');
+                
+                // Generar el PDF
+                $pdf->Output('Historial_Permisos_' . $funcionario['nombre_completo'] . '.pdf', 'I');
+            } else {
+                echo "ID de funcionario inválido";
+            }
+        } else {
+            header("Location:" . base_url() . '/dashboard');
+        }
+        die();
+    }
 
     public function setPermiso()
     {

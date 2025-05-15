@@ -127,6 +127,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnGenerarPDF">
+                            <i class="bi bi-file-pdf"></i> Generar PDF
+                        </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg"></i> Cerrar
                         </button>

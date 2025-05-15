@@ -140,6 +140,9 @@ function fntViewHistorial(idefuncionario) {
       if (objData.status) {
         document.querySelector("#funcionarioHistorial").innerHTML = "Funcionario: " + objData.data.nombre_completo;
         
+        // Guardar el ID del funcionario para el botón de PDF
+        document.querySelector("#btnGenerarPDF").setAttribute("data-id", idefuncionario);
+        
         // Ahora obtenemos el historial de permisos
         let requestHistorial = window.XMLHttpRequest
           ? new XMLHttpRequest()
@@ -214,4 +217,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+  
+  // Botón para generar PDF
+  document.querySelector("#btnGenerarPDF").addEventListener('click', function() {
+    generarPDF();
+  });
 });
+
+function generarPDF() {
+  // Obtener el ID del funcionario directamente del botón
+  let idFuncionario = document.querySelector("#btnGenerarPDF").getAttribute("data-id");
+  
+  if (idFuncionario) {
+    // Redirigir a la URL para generar el PDF
+    window.open(base_url + '/funcionariosPermisos/generarPDF/' + idFuncionario, '_blank');
+  } else {
+    Swal.fire("Error", "No se pudo identificar el funcionario para generar el PDF", "error");
+  }
+}
