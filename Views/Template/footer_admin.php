@@ -24,12 +24,8 @@ const base_url = "<?=base_url();?>";
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script> -->
-<!-- Incluye ECharts desde CDN -->
-<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-
-
-
+<!-- Chart.js para gráficas -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- DATA TABLE PLUGINS-->
 <script type="text/javascript" src="<?=media();?>/js/plugins/jquery.dataTables.min.js"></script>

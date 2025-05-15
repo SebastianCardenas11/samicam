@@ -286,8 +286,13 @@ function generarPDF() {
   let idFuncionario = document.querySelector("#btnGenerarPDF").getAttribute("data-id");
   
   if (idFuncionario) {
-    // Redirigir a la URL para generar el PDF
-    window.open(base_url + '/vacaciones/generarPDF/' + idFuncionario, '_blank');
+    try {
+      // Redirigir a la URL para generar el PDF
+      window.open(base_url + '/vacaciones/generarPDF/' + idFuncionario, '_blank');
+    } catch (error) {
+      console.error("Error al generar PDF:", error);
+      Swal.fire("Error", "Hubo un problema al generar el PDF. Por favor, intente nuevamente.", "error");
+    }
   } else {
     Swal.fire("Error", "No se pudo identificar el funcionario para generar el PDF", "error");
   }

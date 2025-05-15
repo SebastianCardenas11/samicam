@@ -14,10 +14,16 @@
             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
         </ul>
     </div>
-    <div class="row">
 
+    <style>
+        h4{
+            color: #000 !important;
+        }
+    </style>
+    <!-- Widgets de resumen -->
+    <div class="row">
         <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-3">
             <a href="<?=base_url()?>/usuarios" class="linkw">
                 <div class="widget-small primary coloured-icon"><i class="icon bi bi-people fs-1"></i>
                     <div class="info">
@@ -29,37 +35,99 @@
         </div>
         <?php }?>
 
-<!-- 
-        <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
-        <div class="col-md-6 col-lg-6">
-            <a href="<?=base_url()?>/funcionariosops" class="link-info">
+        <?php if (!empty($_SESSION['permisos'][4]['r'])) {?>
+        <div class="col-md-6 col-lg-3">
+            <a href="<?=base_url()?>/funcionariosOps" class="linkw">
                 <div class="widget-small info coloured-icon">
-                    <i class="icon bi bi-list-stars fs-1"></i>
+                    <i class="icon bi bi-person-fill-gear fs-1"></i>
                     <div class="info">
-                        <h4>Funcionarios Ops</h4>
+                        <h4>Funcionarios OPS</h4>
                         <p><b><?=$data['funcionariosops']?></b></p>
                     </div>
                 </div>
+            </a>
         </div>
-        </a>
-    </div>
-    <?php }?>
+        <?php }?>
 
-    <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
-    <div class="col-md-6 col-lg-6">
-        <a href="<?=base_url()?>/fichas" class="link-info">
-            <div class="widget-small warning coloured-icon">
-                <i class="icon bi bi-bookmark-star"></i>
-                <div class="info">
-                    <h4>Fichas</h4>
-                    <p><b><?=$data['fichas']?></b></p>
+        <?php if (!empty($_SESSION['permisos'][5]['r'])) {?>
+        <div class="col-md-6 col-lg-3">
+            <a href="<?=base_url()?>/funcionariosPlanta" class="linkw">
+                <div class="widget-small warning coloured-icon">
+                    <i class="icon bi bi-person-fill fs-1"></i>
+                    <div class="info">
+                        <h4>Funcionarios Planta</h4>
+                        <p><b><?=$data['funcionariosplanta']?></b></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <?php }?>
+
+        <?php if (!empty($_SESSION['permisos'][5]['r'])) {?>
+        <div class="col-md-6 col-lg-3">
+            <a href="<?=base_url()?>/vacaciones" class="linkw">
+                <div class="widget-small danger coloured-icon">
+                    <i class="icon bi bi-calendar-week fs-1"></i>
+                    <div class="info">
+                        <h4>Vacaciones Activas</h4>
+                        <p><b><?=$data['estadisticas']['vacacionesActivas']?></b></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <?php }?>
+    </div>
+
+    <!-- Gráficas -->
+    <div class="row">
+        <!-- Gráfica de usuarios por rol -->
+        <div class="col-md-6">
+            <div class="tile">
+                <div class="tile-title-w-btn">
+                    <h3 class="title">Distribución de Usuarios por Rol</h3>
+                </div>
+                <div class="tile-body">
+                    <div class="chart-container" style="position: relative; height:300px;">
+                        <canvas id="graficaUsuariosPorRol"></canvas>
+                    </div>
                 </div>
             </div>
-    </div>
-    </a>
-    </div>
-    <?php }?> -->
+        </div>
 
+        <!-- Gráfica de funcionarios por cargo -->
+        <div class="col-md-6">
+            <div class="tile">
+                <div class="tile-title-w-btn">
+                    <h3 class="title">Funcionarios por Cargo</h3>
+                </div>
+                <div class="tile-body">
+                    <div class="chart-container" style="position: relative; height:300px;">
+                        <canvas id="graficaFuncionariosPorCargo"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <!-- Gráfica de funcionarios por tipo de contrato -->
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-title-w-btn">
+                    <h3 class="title">Funcionarios por Tipo de Contrato</h3>
+                </div>
+                <div class="tile-body">
+                    <div class="chart-container" style="position: relative; height:300px;">
+                        <canvas id="graficaFuncionariosPorTipoContrato"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+
+    
 </main>
+
 <?php footerAdmin($data);?>

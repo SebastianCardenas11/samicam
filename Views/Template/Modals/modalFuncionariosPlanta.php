@@ -108,7 +108,7 @@
                             </div>
 
                             <!-- Nombres de los hijos -->
-                            <div class="modal-body d-none">
+                            <div class="modal-body">
                                 <label for="txtNombresHijosFuncionario">Nombres de los hijos <b
                                         class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtNombresHijosFuncionario"
@@ -268,10 +268,10 @@
                                     <td>Fecha de Ingreso:</td>
                                     <td id="celFechaIngresoFuncionario">0</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Vacaciones:</td>
                                     <td id="celVacacionesFuncionario">0</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Hijos:</td>
                                     <td id="celHijosFuncionario">0</td>

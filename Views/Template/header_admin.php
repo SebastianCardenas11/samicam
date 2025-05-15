@@ -13,6 +13,7 @@
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="<?=media();?>/css/main.css">
     <link rel="stylesheet" href="<?=media();?>/css/selectpicker/picker.css">
+    <link rel="stylesheet" href="<?=media();?>/css/dashboard-custom.css">
 
     <!-- TODO BOOTSTRAP 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"

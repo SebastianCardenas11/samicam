@@ -194,27 +194,8 @@ function fntViewInfo(idefuncionario) {
             ? '<span class="badge text-bg-success">Activo</span>'
             : '<span class="badge text-bg-danger">Inactivo</span>';
 
-            let fechaIngreso = new Date(objData.data.fecha_ingreso);
-            let fechaActual = new Date();
             
-            let diferenciaTiempo = fechaActual - fechaIngreso; 
-            let diasPasados = diferenciaTiempo / (1000 * 60 * 60 * 24); 
             
-            let vacacionesFuncionario = "";
-            
-            if (diasPasados >= 1095) { 
-              vacacionesFuncionario =
-                '<span class="badge text-bg-success">3 periodos cumplidos</span>';
-            } else if (diasPasados >= 730) { 
-              vacacionesFuncionario =
-                '<span class="badge text-bg-success">2 periodos cumplidos</span>';
-            } else if (diasPasados >= 365) {
-              vacacionesFuncionario =
-                '<span class="badge text-bg-success">Cumplidas</span>';
-            } else {
-              vacacionesFuncionario =
-                '<span class="badge text-bg-danger">No cumplidas</span>';
-            }
             
 
         document.querySelector("#celIdeFuncionario").innerHTML =
@@ -239,8 +220,8 @@ function fntViewInfo(idefuncionario) {
           objData.data.direccion;
         document.querySelector("#celFechaIngresoFuncionario").innerHTML =
           objData.data.fecha_ingreso;
-        document.querySelector("#celVacacionesFuncionario").innerHTML =
-          vacacionesFuncionario;
+        // document.querySelector("#celVacacionesFuncionario").innerHTML =
+        //   vacacionesFuncionario;
         document.querySelector("#celHijosFuncionario").innerHTML =
           objData.data.hijos;
         document.querySelector("#celNombresHijosFuncionario").innerHTML =

@@ -22,8 +22,9 @@ class Dashboard extends Controllers
         $data['page_name'] = "Administrador";
         $data['page_functions_js'] = "functions_dashboard.js";
         $data['usuarios'] = $this->model->cantUsuarios();
-        // $data['funcionariosops'] = $this->model->cantFuncOps();
-        // $data['funcionariosplanta'] = $this->model->cantFuncPlanta();
+        $data['funcionariosops'] = $this->model->cantFuncionariosOps();
+        $data['funcionariosplanta'] = $this->model->cantFuncionariosPlanta();
+        $data['estadisticas'] = $this->model->getEstadisticasGenerales();
 
         if ($_SESSION['userData']['idrol'] == RCOORDINADOR) {
             $this->views->getView($this, "dashboardCoordinador", $data);
@@ -37,10 +38,28 @@ class Dashboard extends Controllers
         header('Content-Type: application/json');
         echo json_encode($data);
     }
+    
     public function getHorasPorInstructor() {
         $data = $this->model->getHorasPorInstructorModel();
         header('Content-Type: application/json');
         echo json_encode($data);
     }
-
+    
+    public function getUsuariosPorRol() {
+        $data = $this->model->getUsuariosPorRolModel();
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+    
+    public function getFuncionariosPorCargo() {
+        $data = $this->model->getFuncionariosPorCargoModel();
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+    
+    public function getFuncionariosPorTipoContrato() {
+        $data = $this->model->getFuncionariosPorTipoContratoModel();
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
 }
