@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function(){
                             htmlStatus = intEstatus == 1 ? 
                             '<span class="badge text-bg-success">Activo</span>' : 
                             '<span class="badge text-bg-danger">Inactivo</span>';
-                            // tableUsuarios.api().ajax.reload();
                             rowTable.cells[0].textContent =  strNombresCargos;
                             rowTable.cells[1].textContent =  strNivel;
                             rowTable.cells[2].textContent =  intSalario;
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         Swal.fire("Cargos", objData.msg ,"success");
                         setTimeout(() => {
                             location.reload();
-                        }, 1500);
+                        }, 2000);
                     }else{
                         Swal.fire("Error", objData.msg , "error");
                     }
@@ -115,26 +114,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 }, false);
 
-// window.addEventListener('load', function() {
-//     fntRolesUsuario();
-// }, false);
-
-// function fntRolesUsuario(){
-// if(document.querySelector('#txtRolUsuario')){
-//     let ajaxUrl = base_url+'/Roles/getSelectRoles';
-//     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-//     request.open("GET",ajaxUrl,true);
-//     request.send();
-//     request.onreadystatechange = function(){
-//         if(request.readyState == 4 && request.status == 200){
-//             document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
-//             $('#txtRolUsuario').picker({search : true});
-//             // $('.txtRolUsuario').selectpicker('refresh');
-//             // $('#txtRolUsuario').picker();
-//         }
-//     }
-// }
-// }
 
 function fntViewInfo(idecargos){
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -169,7 +148,7 @@ function fntViewInfo(idecargos){
 
 function fntEditInfo(element, idecargos){
     rowTable = element.parentNode.parentNode.parentNode;
-    document.querySelector('#titleModal').innerHTML ="Actualizar Usuario";
+    document.querySelector('#titleModal').innerHTML ="Actualizar Cargos";
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
     document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";
@@ -249,7 +228,7 @@ function openModal()
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
     document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
     document.querySelector('#btnText').innerHTML ="Guardar";
-    document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
+    document.querySelector('#titleModal').innerHTML = "Nuevo Cargos";
     document.querySelector("#formCargos").reset();
     $('#modalFormCargos').modal('show');
 }

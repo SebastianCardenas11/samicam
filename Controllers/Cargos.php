@@ -36,7 +36,7 @@ class Cargos extends Controllers
                 $intIdeCargos = intval($_POST['ideCargos']);
                 $strNombresCargos = strClean($_POST['txtNombresCargos']);
                 $strNivel = (strClean($_POST['txtNivel']));
-                $intSalario = intval(strClean($_POST['txtSalario']));
+                $intSalario = floatval(strClean($_POST['txtSalario']));
                 $intEstatus = intval(strClean($_POST['listStatus']));
 
                 // $intTipoId = 5;
@@ -91,6 +91,9 @@ class Cargos extends Controllers
                 $btnView = '';
                 $btnEdit = '';
                 $btnDelete = '';
+                
+                // Formatear el salario como peso colombiano
+                $arrData[$i]['salario'] = '$ ' . number_format($arrData[$i]['salario'], 2, ',', '.');
 
                 if($arrData[$i]['estatus'] == 1)
                 {
@@ -127,6 +130,8 @@ class Cargos extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
+                    // Formatear el salario como peso colombiano
+                    $arrData['salario'] = '$ ' . number_format($arrData['salario'], 2, ',', '.');
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
