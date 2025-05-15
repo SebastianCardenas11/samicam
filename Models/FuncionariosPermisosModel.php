@@ -46,7 +46,7 @@ class FuncionariosPermisosModel extends Mysql
         if ($_SESSION['idUser'] != 1) {
             $whereAdmin = " and u.idefuncionario != 1 ";
         }
-        $sql = "SELECT 
+        $sql = "SELECT DISTINCT
             u.idefuncionario,
             u.correo_elc,
             u.nombre_completo,
@@ -75,7 +75,8 @@ class FuncionariosPermisosModel extends Mysql
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-        WHERE u.status != 0 " . $whereAdmin;
+        WHERE u.status != 0 " . $whereAdmin . "
+        GROUP BY u.idefuncionario";
 
         $request = $this->select_all($sql);
         return $request;
