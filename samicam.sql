@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 15-05-2025 a las 05:58:26
+-- Tiempo de generación: 15-05-2025 a las 06:24:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -135,8 +135,8 @@ CREATE TABLE `tbl_cargos` (
 INSERT INTO `tbl_cargos` (`idecargos`, `nombre`, `nivel`, `salario`, `estatus`) VALUES
 (1, 'Alcalde', 'Directivo', 8000000, 0),
 (3, 'Técnico Administrativo', 'Técnico', 2825000, 1),
-(13, 'carlos', 'tecnico', 883, 1),
-(30, 'aguita', 'de maiz', 7777, 1),
+(13, 'carlos', 'tecnico', 883, 0),
+(30, 'aguita', 'de maiz', 7777, 0),
 (31, 'luiji', 'lleva', 111, 0);
 
 -- --------------------------------------------------------
@@ -216,7 +216,7 @@ CREATE TABLE `tbl_funcionarios` (
 --
 
 INSERT INTO `tbl_funcionarios` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `vacaciones`, `fecha_vacaciones`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
-(6, 'Juan Jose pertuz', 23456, 3, 1, 1, 123456, '12312312', 'juanjoper_truz@gmail.comm', '2021-05-14', NULL, NULL, 0, '', 'masculino', 'la jagua de ibirico', 21, 'soltero', 'catolica', 'ingieneria', 'Secretaria Ocupacional', NULL, 1, 2),
+(6, 'Juan Jose pertuz', 1, 3, 1, 1, 123456, '12312312', 'juanjoper_truz@gmail.comm', '2020-05-14', NULL, NULL, 0, '0', 'masculino', 'la jagua de ibirico', 21, 'soltero', 'catolica', 'ingieneria', 'Secretaria Ocupacional', NULL, 1, 4),
 (7, 'carlos Lopez', 1123123, 3, 1, 3, 123123123, 'calle #4 barrio camilo torres', 'sofi_castillo@gmail.Ntic.co.com', '2025-05-14', NULL, NULL, 1, '', 'masculino', 'la jagua de ibirico', 26, 'soltero', 'catolica', 'tecnico', 'Medicina', NULL, 1, 0);
 
 -- --------------------------------------------------------
@@ -371,7 +371,10 @@ INSERT INTO `tbl_vacaciones` (`id_vacaciones`, `id_funcionario`, `fecha_inicio`,
 (6, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:32:13'),
 (7, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:32:36'),
 (8, 6, '2025-05-14', '2025-05-14', 1, 'Cancelado', '2025-05-14 22:32:42'),
-(9, 6, '2025-05-14', '2025-05-29', 2, 'Aprobado', '2025-05-14 22:54:28');
+(9, 6, '2025-05-14', '2025-05-29', 2, 'Cancelado', '2025-05-14 22:54:28'),
+(10, 6, '2025-05-14', '2025-05-29', 1, 'Aprobado', '2025-05-14 23:14:44'),
+(11, 6, '2025-05-14', '2025-05-29', 2, 'Aprobado', '2025-05-14 23:14:49'),
+(12, 6, '2025-05-14', '2025-05-29', 1, 'Aprobado', '2025-05-14 23:14:53');
 
 --
 -- Índices para tablas volcadas
@@ -539,7 +542,7 @@ ALTER TABLE `tbl_usuarios`
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
-  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas
