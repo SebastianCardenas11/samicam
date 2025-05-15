@@ -128,10 +128,9 @@ class FuncionariosPermisosModel extends Mysql
         $sql = "SELECT 
                 p.id_permiso,
                 p.fecha_permiso,
-                m.motivo,
+                p.motivo,
                 p.estado
             FROM tbl_permisos p
-            INNER JOIN tbl_motivos_permiso m ON p.id_motivo = m.id
             WHERE p.id_funcionario = $idFuncionario
             ORDER BY p.fecha_permiso DESC";
         
@@ -161,14 +160,21 @@ class FuncionariosPermisosModel extends Mysql
             return ["status" => false, "msg" => "El funcionario ya ha utilizado los 3 permisos permitidos para este mes."];
         }
         
+        // Obtener el texto del motivo
+        $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = $this->intIdMotivo";
+        $motivo_result = $this->select($sql_motivo);
+        $motivo_texto = $motivo_result ? $motivo_result['descripcion'] : "Otro";
+        
         // Insertar registro de permiso
-        $query_insert = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, id_motivo, estado) 
-                        VALUES(?,?,?,?)";
+        $query_insert = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado) 
+                        VALUES(?,?,?,?,?,?)";
         
         $arrData = array(
             $this->intIdFuncionario,
             $this->dateFechaPermiso,
-            $this->intIdMotivo,
+            $this->intMes,
+            $this->intAnio,
+            $motivo_texto,
             'Aprobado'
         );
         
@@ -183,7 +189,7 @@ class FuncionariosPermisosModel extends Mysql
 
     public function getMotivosPermisos()
     {
-        $sql = "SELECT id, motivo FROM tbl_motivos_permiso WHERE status = 1";
+        $sql = "SELECT id_motivo as id, descripcion as motivo FROM tbl_motivo_permiso WHERE status = 1";
         $request = $this->select_all($sql);
         return $request;
     }
