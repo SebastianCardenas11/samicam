@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+   document.addEventListener('DOMContentLoaded', function () {
     const anioActual = new Date().getFullYear();
     document.getElementById('anioActual').textContent = anioActual;
 
@@ -22,7 +22,10 @@ function cargarCapitalDisponible(anio) {
 
             // Crear gráfico con Chart.js
             const ctx = document.getElementById('chartCapitalDisponible').getContext('2d');
-            new Chart(ctx, {
+            if(window.chartInstance) {
+                window.chartInstance.destroy();
+            }
+            window.chartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Disponible', 'Usado'],

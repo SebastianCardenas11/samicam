@@ -13,6 +13,86 @@ class FuncionariosViaticosModel extends Mysql
     {
         parent::__construct();
     }
+     // Insertar nuevo viático
+    public function insertViatico(
+
+        int $funci_fk,
+        string $descripcion,
+        float $monto,
+        string $fecha,
+        string $uso,
+        string $estatus,
+    ){
+    
+
+         $this->intIdFuncionario = $funci_fk;
+         $this->strDescripcion = $descripcion;
+         $this->floatMonto = $monto;
+         $this->strFechaUso = $fecha;
+         $this->strUso = $uso;
+         $this->intEstatus = $estatus;
+
+
+        $return = 0;
+        $sql = "SELECT * FROM tbl_viaticos WHERE
+             funci_fk = '{$this->intIdFuncionario}'";
+        $request = $this->select_all($sql);    
+
+        if (empty($request)) {
+
+
+         $sql = "INSERT INTO tbl_viaticos (funci_fk, descripcion, monto, fecha, uso, estatus) VALUES (?, ?, ?, ?, ?, ?)";
+
+            $arrData = array(
+                $this->intIdFuncionario, 
+                $this->strDescripcion, 
+                $this->floatMonto, 
+                $this->strFechaUso, 
+                $this->strUso, 
+                $this->intEstatus
+            );
+
+         $request = $this->insert($sql, $arrData);
+         return $request;
+
+        } else {
+            $return = "exist";
+        }
+        return $return;
+    }
+
+    // Obtener histórico de viáticos otorgados por funcionario para el año
+    public function getHistoricoViaticos($year)
+    {
+        $sql = "SELECT f.ide_func, f.nombre_completo, SUM(v.monto) as total_viaticos
+                FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.ide_func
+                WHERE YEAR(v.fecha) = ? AND v.estatus = 1
+                GROUP BY f.ide_func, f.nombre_completo";
+        $request = $this->select_all($sql, [$year]);
+        return $request;
+    }
+
+    // Obtener detalle de viáticos otorgados a funcionarios con descripción y uso
+    public function getDetalleViaticos($year)
+    {
+        $sql = "SELECT v.idViatico, f.nombre_completo, v.descripcion, v.monto, v.fecha, v.uso
+                FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.ide_func
+                WHERE YEAR(v.fecha) = ? AND v.estatus = 1
+                ORDER BY v.fecha DESC";
+        $request = $this->select_all($sql, [$year]);
+        return $request;
+    }
+
+
+    // Obtener funcionarios con tipo de contrato Carrera o Libre nombramiento
+    public function getFuncionariosValidos()
+    {
+        $sql = "SELECT ide_func, nombre_completo FROM tbl_funcionarios WHERE contrato_fk IN ('1', '2') AND estatus = 1";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 
     // Obtener capital disponible para el año actual
     public function getCapitalDisponible($year)
@@ -39,51 +119,5 @@ class FuncionariosViaticosModel extends Mysql
         return $request;
     }
 
-    // Obtener histórico de viáticos otorgados por funcionario para el año
-    public function getHistoricoViaticos($year)
-    {
-        $sql = "SELECT f.idFuncionario, f.nombre, SUM(v.monto) as total_viaticos
-                FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idFuncionario
-                WHERE YEAR(v.fecha) = ? AND v.estatus = 1
-                GROUP BY f.idFuncionario, f.nombre";
-        $request = $this->select_all($sql, [$year]);
-        return $request;
-    }
-
-    // Obtener detalle de viáticos otorgados a funcionarios con descripción y uso
-    public function getDetalleViaticos($year)
-    {
-        $sql = "SELECT v.idViatico, f.nombre, v.descripcion, v.monto, v.fecha, v.uso
-                FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idFuncionario
-                WHERE YEAR(v.fecha) = ? AND v.estatus = 1
-                ORDER BY v.fecha DESC";
-        $request = $this->select_all($sql, [$year]);
-        return $request;
-    }
-
-    // Insertar nuevo viático
-    public function insertViatico(int $idFuncionario, string $descripcion, float $monto, string $fecha, string $uso)
-    {
-        $this->intIdFuncionario = $idFuncionario;
-        $this->strDescripcion = $descripcion;
-        $this->floatMonto = $monto;
-        $this->strFechaUso = $fecha;
-        $this->strUso = $uso;
-        $this->intEstatus = 1;
-
-        $sql = "INSERT INTO tbl_viaticos (idFuncionario, descripcion, monto, fecha, uso, estatus) VALUES (?, ?, ?, ?, ?, ?)";
-        $arrData = array($this->intIdFuncionario, $this->strDescripcion, $this->floatMonto, $this->strFechaUso, $this->strUso, $this->intEstatus);
-        $request = $this->insert($sql, $arrData);
-        return $request;
-    }
-
-    // Obtener funcionarios con tipo de contrato Carrera o Libre nombramiento
-    public function getFuncionariosValidos()
-    {
-        $sql = "SELECT idFuncionario, nombre FROM tbl_funcionarios WHERE tipoContrato IN ('Carrera', 'Libre nombramiento') AND estatus = 1";
-        $request = $this->select_all($sql);
-        return $request;
-    }
+    
 }

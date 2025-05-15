@@ -41,6 +41,9 @@ class FuncionariosViaticos extends Controllers
     {
         if ($_SESSION['permisosMod']['r']) {
             $year = intval($year);
+            if ($year <= 0) {
+                $year = date('Y');
+            }
             $request = $this->model->getHistoricoViaticos($year);
             echo json_encode($request, JSON_UNESCAPED_UNICODE);
         }
@@ -51,6 +54,9 @@ class FuncionariosViaticos extends Controllers
     {
         if ($_SESSION['permisosMod']['r']) {
             $year = intval($year);
+            if ($year <= 0) {
+                $year = date('Y');
+            }
             $request = $this->model->getDetalleViaticos($year);
             echo json_encode($request, JSON_UNESCAPED_UNICODE);
         }
@@ -69,7 +75,7 @@ class FuncionariosViaticos extends Controllers
     public function setViatico()
     {
         if ($_POST) {
-            $idFuncionario = intval($_POST['idFuncionario']);
+            $idFuncionario = intval($_POST['funci_fk']);
             $descripcion = strClean($_POST['descripcion']);
             $monto = floatval($_POST['monto']);
             $fecha = strClean($_POST['fecha']);
