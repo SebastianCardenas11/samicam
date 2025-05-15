@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 15-05-2025 a las 06:24:56
+-- Tiempo de generación: 15-05-2025 a las 09:01:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -43,7 +43,8 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 (2, 'Usuarios', 'Usuarios', 1),
 (3, 'Roles', 'Roles', 1),
 (4, 'Funcionarios Ops', 'Usuarios', 1),
-(5, 'Funcionarios Planta', 'Funionarios Ops', 1);
+(5, 'Funcionarios Planta', 'Funionarios Ops', 1),
+(6, 'Notificaciones', 'Notificaciones', 1);
 
 -- --------------------------------------------------------
 
@@ -187,6 +188,7 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 CREATE TABLE `tbl_funcionarios` (
   `idefuncionario` int(11) NOT NULL,
   `nombre_completo` varchar(255) DEFAULT NULL,
+  `imagen` varchar(300) DEFAULT NULL,
   `nm_identificacion` int(255) DEFAULT NULL,
   `cargo_fk` int(11) DEFAULT NULL,
   `dependencia_fk` int(255) DEFAULT NULL,
@@ -215,9 +217,8 @@ CREATE TABLE `tbl_funcionarios` (
 -- Volcado de datos para la tabla `tbl_funcionarios`
 --
 
-INSERT INTO `tbl_funcionarios` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `vacaciones`, `fecha_vacaciones`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
-(6, 'Juan Jose pertuz', 1, 3, 1, 1, 123456, '12312312', 'juanjoper_truz@gmail.comm', '2020-05-14', NULL, NULL, 0, '0', 'masculino', 'la jagua de ibirico', 21, 'soltero', 'catolica', 'ingieneria', 'Secretaria Ocupacional', NULL, 1, 4),
-(7, 'carlos Lopez', 1123123, 3, 1, 3, 123123123, 'calle #4 barrio camilo torres', 'sofi_castillo@gmail.Ntic.co.com', '2025-05-14', NULL, NULL, 1, '', 'masculino', 'la jagua de ibirico', 26, 'soltero', 'catolica', 'tecnico', 'Medicina', NULL, 1, 0);
+INSERT INTO `tbl_funcionarios` (`idefuncionario`, `nombre_completo`, `imagen`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `vacaciones`, `fecha_vacaciones`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
+(9, 'Carlos Lopez', 'func_8a5a01ffae55015f6321d7d4b067ddea.jpg', 1, 3, 1, 2, 1, '1', 'carlos@gmail.com', '2025-05-15', NULL, NULL, 1, 'carlos jr do santos aveiro', 'masculino', 'la jagua de ibirico', 19, 'divorciado', 'Ipuc', 'ingieneria', 'Software', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -235,16 +236,6 @@ CREATE TABLE `tbl_historial_permisos` (
   `estado` varchar(20) NOT NULL,
   `fecha_registro` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_historial_permisos`
---
-
-INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `fecha_registro`) VALUES
-(5, 6, '2025-05-14', 5, 2025, 'Asunto familiar', 'Aprobado', '2025-05-14 20:40:05'),
-(6, 6, '2025-05-14', 5, 2025, 'Calamidad doméstica', 'Aprobado', '2025-05-14 20:59:55'),
-(7, 6, '2025-05-14', 5, 2025, 'Muerte familiar', 'Aprobado', '2025-05-14 21:00:02'),
-(8, 6, '2025-05-14', 5, 2025, 'Calamidad doméstica', 'Aprobado', '2025-05-14 22:31:03');
 
 -- --------------------------------------------------------
 
@@ -279,18 +270,11 @@ INSERT INTO `tbl_motivos_permisos` (`id`, `motivo`, `status`) VALUES
 CREATE TABLE `tbl_notificaciones` (
   `id_notificacion` int(11) NOT NULL,
   `id_funcionario` int(11) NOT NULL,
-  `mensaje` varchar(300) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `tipo` varchar(50) NOT NULL,
+  `mensaje` varchar(255) NOT NULL,
+  `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp(),
   `leido` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_notificaciones`
---
-
-INSERT INTO `tbl_notificaciones` (`id_notificacion`, `id_funcionario`, `mensaje`, `fecha`, `leido`) VALUES
-(3, 6, 'El funcionario ha utilizado sus 3 permisos para el mes 5/2025', '2025-05-14 21:00:02', 0),
-(4, 6, 'El funcionario ha utilizado sus 3 permisos para el mes 5/2025', '2025-05-14 22:31:03', 0);
 
 -- --------------------------------------------------------
 
@@ -307,16 +291,6 @@ CREATE TABLE `tbl_permisos` (
   `motivo` varchar(300) NOT NULL,
   `estado` varchar(20) NOT NULL DEFAULT 'Aprobado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_permisos`
---
-
-INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`) VALUES
-(9, 6, '2025-05-14', 5, 2025, 'Asunto familiar', 'Aprobado'),
-(10, 6, '2025-05-14', 5, 2025, 'Calamidad doméstica', 'Aprobado'),
-(11, 6, '2022-05-14', 5, 2022, 'Muerte familiar', 'Aprobado'),
-(12, 6, '2025-05-14', 5, 2025, 'Calamidad doméstica', 'Aprobado');
 
 -- --------------------------------------------------------
 
@@ -359,22 +333,27 @@ CREATE TABLE `tbl_vacaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tbl_vacaciones`
+-- Disparadores `tbl_vacaciones`
 --
-
-INSERT INTO `tbl_vacaciones` (`id_vacaciones`, `id_funcionario`, `fecha_inicio`, `fecha_fin`, `periodo`, `estado`, `fecha_registro`) VALUES
-(1, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 21:12:24'),
-(2, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 21:12:30'),
-(3, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:07:27'),
-(4, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:07:33'),
-(5, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:32:08'),
-(6, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:32:13'),
-(7, 6, '2025-05-14', '2025-05-29', 1, 'Cancelado', '2025-05-14 22:32:36'),
-(8, 6, '2025-05-14', '2025-05-14', 1, 'Cancelado', '2025-05-14 22:32:42'),
-(9, 6, '2025-05-14', '2025-05-29', 2, 'Cancelado', '2025-05-14 22:54:28'),
-(10, 6, '2025-05-14', '2025-05-29', 1, 'Aprobado', '2025-05-14 23:14:44'),
-(11, 6, '2025-05-14', '2025-05-29', 2, 'Aprobado', '2025-05-14 23:14:49'),
-(12, 6, '2025-05-14', '2025-05-29', 1, 'Aprobado', '2025-05-14 23:14:53');
+DELIMITER $$
+CREATE TRIGGER `check_vacaciones_fin` BEFORE UPDATE ON `tbl_vacaciones` FOR EACH ROW BEGIN
+    DECLARE nombre_func VARCHAR(255);
+    
+    -- Si el estado cambia a 'Cumplidas' y antes era 'Aprobado'
+    IF NEW.estado = 'Aprobado' AND DATEDIFF(NEW.fecha_fin, CURDATE()) = 1 THEN
+        -- Obtener el nombre del funcionario
+        SELECT nombre_completo INTO nombre_func 
+        FROM tbl_funcionarios 
+        WHERE idefuncionario = NEW.id_funcionario;
+        
+        -- Insertar notificación
+        INSERT INTO tbl_notificaciones (id_funcionario, tipo, mensaje)
+        VALUES (NEW.id_funcionario, 'vacaciones_fin', 
+                CONCAT('Las vacaciones de ', nombre_func, ' terminan mañana (', NEW.fecha_fin, ')'));
+    END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Índices para tablas volcadas
@@ -506,7 +485,7 @@ ALTER TABLE `tbl_dependencia`
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios`
 --
 ALTER TABLE `tbl_funcionarios`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
@@ -524,7 +503,7 @@ ALTER TABLE `tbl_motivos_permisos`
 -- AUTO_INCREMENT de la tabla `tbl_notificaciones`
 --
 ALTER TABLE `tbl_notificaciones`
-  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
@@ -542,7 +521,7 @@ ALTER TABLE `tbl_usuarios`
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
-  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
@@ -579,7 +558,7 @@ ALTER TABLE `tbl_historial_permisos`
 -- Filtros para la tabla `tbl_notificaciones`
 --
 ALTER TABLE `tbl_notificaciones`
-  ADD CONSTRAINT `tbl_notificaciones_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionarios` (`idefuncionario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_notificaciones_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionarios` (`idefuncionario`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_usuarios`
