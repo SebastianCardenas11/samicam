@@ -6,7 +6,6 @@ class FuncionariosPermisos extends Controllers
     {
         parent::__construct();
         session_start();
-        //session_regenerate_id(true);
         if (empty($_SESSION['login'])) {
             header('Location: ' . base_url() . '/login');
             die();
@@ -23,34 +22,34 @@ class FuncionariosPermisos extends Controllers
         $data['page_title'] = "Permisos";
         $data['page_name'] = "Permisos";
         $data['page_functions_js'] = "functions_funcionariosPermisos.js";
-        $this->views->getView($this, "funcionariospermisos", $data);
+        $this->views->getView($this, "funcionariosPermisos", $data);
     }
-    
 
     public function getFuncionarios()
     {
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectFuncionarios();
             for ($i = 0; $i < count($arrData); $i++) {
-             
                 $btnView = '';
                 $btnPermit = '';
                 $btnHistorial = '';
 
-                // Mostrar permisos del mes actual
-                $permisosUsados = $arrData[$i]['permisos_mes_actual'] ?? 0;
-                $arrData[$i]['permisos'] = $permisosUsados . "/3";
+                // Agregar imagen del funcionario
+                $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
+                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
+
+                // Formatear el número de permisos como "X/3"
+                $arrData[$i]['permisos'] = $arrData[$i]['permisos_mes_actual'] . "/3";
 
                 if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
                 }
-                if ($_SESSION['permisosMod']['u']) {
-                    $btnPermit = '<button class="btn btn-warning" onClick="fntPermitInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Crear Permiso"><i class="bi bi-plus-lg"></i></button>';
+                if ($_SESSION['permisosMod']['u'] && $arrData[$i]['permisos_mes_actual'] < 3) {
+                    $btnPermit = '<button class="btn btn-success" onClick="fntPermitInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Registrar Permiso"><i class="bi bi-door-open"></i></button>';
                 }
                 
                 $btnHistorial = '<button class="btn btn-secondary" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
-               
-            
+                
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPermit . ' ' . $btnHistorial . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
@@ -67,6 +66,8 @@ class FuncionariosPermisos extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
+                    // Agregar URL de la imagen
+                    $arrData['url_imagen'] = media().'/images/funcionarios/'.$arrData['imagen'];
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -81,7 +82,7 @@ class FuncionariosPermisos extends Controllers
             $idefuncionario = intval($idefuncionario);
             if ($idefuncionario > 0) {
                 try {
-                    $arrData = $this->model->getPermisosHistorial($idefuncionario);
+                    $arrData = $this->model->getHistorialPermisos($idefuncionario);
                     if (empty($arrData)) {
                         $arrResponse = array('status' => false, 'msg' => 'No hay permisos registrados.');
                     } else {
@@ -96,104 +97,22 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
-    
-    public function generarPDF($idefuncionario)
+
+    public function getMotivosPermisos()
     {
         if ($_SESSION['permisosMod']['r']) {
-            $idefuncionario = intval($idefuncionario);
-            if ($idefuncionario > 0) {
-                // Obtener datos del funcionario
-                $funcionario = $this->model->selectFuncionario($idefuncionario);
-                if (empty($funcionario)) {
-                    echo "Funcionario no encontrado";
-                    die();
-                }
-                
-                // Obtener historial de permisos
-                $permisos = $this->model->getPermisosHistorial($idefuncionario);
-                
-                // Cargar la librería TCPDF
-                require_once 'Libraries/pdf/tcpdf.php';
-                
-                // Crear nuevo documento PDF
-                $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-                
-                // Establecer información del documento
-                $pdf->SetCreator('SAMICAM');
-                $pdf->SetAuthor('Sistema SAMICAM');
-                $pdf->SetTitle('Historial de Permisos');
-                $pdf->SetSubject('Historial de Permisos del Funcionario');
-                
-                // Establecer márgenes
-                $pdf->SetMargins(15, 15, 15);
-                $pdf->SetHeaderMargin(5);
-                $pdf->SetFooterMargin(10);
-                
-                // Eliminar cabecera y pie de página predeterminados
-                $pdf->setPrintHeader(false);
-                $pdf->setPrintFooter(false);
-                
-                // Agregar una página
-                $pdf->AddPage();
-                
-                // Establecer fuente
-                $pdf->SetFont('helvetica', 'B', 14);
-                
-                // Título
-                $pdf->Cell(0, 10, 'HISTORIAL DE PERMISOS', 0, 1, 'C');
-                $pdf->Ln(5);
-                
-                // Información del funcionario
-                $pdf->SetFont('helvetica', 'B', 12);
-                $pdf->Cell(0, 8, 'Datos del Funcionario:', 0, 1);
-                $pdf->SetFont('helvetica', '', 11);
-                $pdf->Cell(40, 8, 'Nombre:', 0, 0);
-                $pdf->Cell(0, 8, $funcionario['nombre_completo'], 0, 1);
-                $pdf->Cell(40, 8, 'Identificación:', 0, 0);
-                $pdf->Cell(0, 8, $funcionario['nm_identificacion'], 0, 1);
-                $pdf->Cell(40, 8, 'Cargo:', 0, 0);
-                $pdf->Cell(0, 8, $funcionario['cargo_nombre'], 0, 1);
-                $pdf->Cell(40, 8, 'Dependencia:', 0, 0);
-                $pdf->Cell(0, 8, $funcionario['dependencia_nombre'], 0, 1);
-                $pdf->Ln(5);
-                
-                // Tabla de permisos
-                $pdf->SetFont('helvetica', 'B', 12);
-                $pdf->Cell(0, 8, 'Historial de Permisos:', 0, 1);
-                $pdf->Ln(2);
-                
-                // Cabecera de la tabla
-                $pdf->SetFont('helvetica', 'B', 10);
-                $pdf->SetFillColor(230, 230, 230);
-                $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
-                $pdf->Cell(100, 8, 'Motivo', 1, 0, 'C', true);
-                $pdf->Cell(40, 8, 'Estado', 1, 1, 'C', true);
-                
-                // Contenido de la tabla
-                $pdf->SetFont('helvetica', '', 10);
-                if (!empty($permisos)) {
-                    foreach ($permisos as $permiso) {
-                        $fecha = date('d/m/Y', strtotime($permiso['fecha_permiso']));
-                        $pdf->Cell(40, 8, $fecha, 1, 0, 'C');
-                        $pdf->Cell(100, 8, $permiso['motivo'], 1, 0, 'L');
-                        $pdf->Cell(40, 8, $permiso['estado'], 1, 1, 'C');
-                    }
+            try {
+                $arrData = $this->model->getMotivosPermisos();
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'No hay motivos de permisos registrados.');
                 } else {
-                    $pdf->Cell(180, 8, 'No hay permisos registrados', 1, 1, 'C');
+                    $arrResponse = array('status' => true, 'data' => $arrData);
                 }
-                
-                // Fecha de generación
-                $pdf->Ln(10);
-                $pdf->SetFont('helvetica', 'I', 8);
-                $pdf->Cell(0, 5, 'Documento generado el: ' . date('d/m/Y H:i:s'), 0, 1, 'R');
-                
-                // Generar el PDF
-                $pdf->Output('Historial_Permisos_' . $funcionario['nombre_completo'] . '.pdf', 'I');
-            } else {
-                echo "ID de funcionario inválido";
+            } catch (Exception $e) {
+                $arrResponse = array('status' => false, 'msg' => 'Error al obtener los motivos de permisos.');
+                error_log("Error en getMotivosPermisos: " . $e->getMessage());
             }
-        } else {
-            header("Location:" . base_url() . '/dashboard');
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -208,9 +127,9 @@ class FuncionariosPermisos extends Controllers
                     try {
                         $idFuncionario = intval($_POST['idFuncionario']);
                         $fechaPermiso = $_POST['txtFechaPermiso'];
-                        $idMotivoPermiso = intval($_POST['listMotivoPermiso']);
+                        $idMotivo = intval($_POST['listMotivoPermiso']);
                         
-                        $request = $this->model->insertPermiso($idFuncionario, $fechaPermiso, $idMotivoPermiso);
+                        $request = $this->model->insertPermiso($idFuncionario, $fechaPermiso, $idMotivo);
                         
                         if ($request['status']) {
                             $arrResponse = array('status' => true, 'msg' => $request['msg']);
@@ -228,16 +147,100 @@ class FuncionariosPermisos extends Controllers
         die();
     }
     
-    public function getMotivosPermisos()
+    public function generarPDF($params)
     {
         if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectMotivosPermisos();
-            if (empty($arrData)) {
-                $arrResponse = array('status' => false, 'msg' => 'No hay motivos de permisos registrados.');
+            if (isset($params) && is_numeric($params)) {
+                $idFuncionario = intval($params);
+                
+                // Obtener datos del funcionario
+                $funcionario = $this->model->selectFuncionario($idFuncionario);
+                if (empty($funcionario)) {
+                    echo "Funcionario no encontrado";
+                    return;
+                }
+                
+                // Obtener historial de permisos
+                $historial = $this->model->getHistorialPermisos($idFuncionario);
+                
+                // Incluir la librería FPDF
+                require_once 'Libraries/fpdf/fpdf.php';
+                
+                // Crear nuevo documento PDF
+                $pdf = new FPDF('P', 'mm', 'A4');
+                
+                // Agregar una página
+                $pdf->AddPage();
+                
+                // Configurar fuentes
+                $pdf->SetFont('Arial', 'B', 16);
+                
+                // Título
+                $pdf->Cell(0, 10, 'Historial de Permisos', 0, 1, 'C');
+                $pdf->Ln(5);
+                
+                // Información del funcionario
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(0, 10, 'Información del Funcionario', 0, 1, 'L');
+                
+                // Imagen del funcionario
+                $imagePath = 'Assets/images/funcionarios/'.$funcionario['imagen'];
+                if(file_exists($imagePath)){
+                    $pdf->Image($imagePath, 160, 20, 30, 30);
+                }
+                
+                $pdf->SetFont('Arial', '', 10);
+                
+                // Datos del funcionario
+                $pdf->Cell(40, 8, 'Nombre:', 1);
+                $pdf->Cell(150, 8, utf8_decode($funcionario['nombre_completo']), 1, 1);
+                
+                $pdf->Cell(40, 8, 'Identificación:', 1);
+                $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
+                
+                $pdf->Cell(40, 8, 'Cargo:', 1);
+                $pdf->Cell(150, 8, utf8_decode($funcionario['cargo_nombre']), 1, 1);
+                
+                $pdf->Cell(40, 8, 'Dependencia:', 1);
+                $pdf->Cell(150, 8, utf8_decode($funcionario['dependencia_nombre']), 1, 1);
+                
+                $pdf->Cell(40, 8, 'Permisos mes actual:', 1);
+                $pdf->Cell(150, 8, $funcionario['permisos_mes_actual'] . '/3', 1, 1);
+                
+                $pdf->Ln(10);
+                
+                // Historial de permisos
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(0, 10, 'Registro de Permisos', 0, 1, 'L');
+                
+                if (!empty($historial)) {
+                    // Encabezados de la tabla
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C');
+                    $pdf->Cell(100, 8, 'Motivo', 1, 0, 'C');
+                    $pdf->Cell(50, 8, 'Estado', 1, 1, 'C');
+                    
+                    // Datos de la tabla
+                    $pdf->SetFont('Arial', '', 10);
+                    foreach ($historial as $item) {
+                        $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
+                        
+                        $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
+                        $pdf->Cell(100, 8, utf8_decode($item['motivo']), 1, 0, 'L');
+                        $pdf->Cell(50, 8, utf8_decode($item['estado']), 1, 1, 'C');
+                    }
+                } else {
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(0, 10, 'No hay registros de permisos para este funcionario.', 0, 1, 'L');
+                }
+                
+                // Generar el PDF
+                $pdf->Output('Historial_Permisos_'.$funcionario['nombre_completo'].'.pdf', 'I');
             } else {
-                $arrResponse = array('status' => true, 'data' => $arrData);
+                echo "Parámetro inválido";
             }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } else {
+            header("Location:".base_url().'/dashboard');
         }
         die();
     }

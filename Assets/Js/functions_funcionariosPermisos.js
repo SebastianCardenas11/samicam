@@ -14,6 +14,7 @@ document.addEventListener(
             "dataSrc": ""
         },
         "columns": [
+            { "data": "imagen" },
             { "data": "nombre_completo" },
             { "data": "nm_identificacion" },
             { "data": "cargo_nombre" },
@@ -68,6 +69,9 @@ function fntViewInfo(idefuncionario) {
         document.querySelector("#celCargoFuncionario").innerHTML = objData.data.cargo_nombre;
         document.querySelector("#celDependenciaFuncionario").innerHTML = objData.data.dependencia_nombre;
         document.querySelector("#celPermisosMes").innerHTML = objData.data.permisos_mes_actual + "/3";
+        
+        // Mostrar la imagen del funcionario
+        document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
 
         $("#modalViewFuncionario").modal("show");
       } else {
@@ -95,12 +99,9 @@ function fntPermitInfo(idefuncionario) {
         
         // Establecer fecha mínima como hoy
         let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0');
-        let yyyy = today.getFullYear();
-        today = yyyy + '-' + mm + '-' + dd;
-        document.querySelector("#txtFechaPermiso").setAttribute("min", today);
-        document.querySelector("#txtFechaPermiso").value = today;
+        let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+        document.querySelector("#txtFechaPermiso").setAttribute("min", localISOTime);
+        document.querySelector("#txtFechaPermiso").value = localISOTime;
         
         // Verificar si ya usó los 3 permisos
         if (objData.data.permisos_mes_actual >= 3) {
@@ -140,6 +141,9 @@ function fntViewHistorial(idefuncionario) {
       if (objData.status) {
         document.querySelector("#funcionarioHistorial").innerHTML = "Funcionario: " + objData.data.nombre_completo;
         
+        // Mostrar imagen del funcionario
+        document.querySelector("#imgFuncionarioHistorial").src = objData.data.url_imagen;
+        
         // Guardar el ID del funcionario para el botón de PDF
         document.querySelector("#btnGenerarPDF").setAttribute("data-id", idefuncionario);
         
@@ -158,7 +162,7 @@ function fntViewHistorial(idefuncionario) {
             
             if (objDataHistorial.status) {
               objDataHistorial.data.forEach(function(item) {
-                let fechaFormateada = new Date(item.fecha_permiso).toLocaleDateString();
+                let fechaFormateada = new Date(item.fecha_permiso + "T12:00:00").toLocaleDateString();
                 htmlHistorial += `<tr>
                   <td>${fechaFormateada}</td>
                   <td>${item.motivo}</td>

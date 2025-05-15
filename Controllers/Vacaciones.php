@@ -25,6 +25,7 @@ class Vacaciones extends Controllers
         $this->views->getView($this, "vacaciones", $data);
     }
 
+
     public function getFuncionarios()
     {
         if ($_SESSION['permisosMod']['r']) {
@@ -33,6 +34,10 @@ class Vacaciones extends Controllers
                 $btnView = '';
                 $btnVacaciones = '';
                 $btnHistorial = '';
+
+                // Agregar imagen del funcionario
+                $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
+                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
 
                 if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
@@ -59,6 +64,8 @@ class Vacaciones extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
+                    // Agregar URL de la imagen
+                    $arrData['url_imagen'] = media().'/images/funcionarios/'.$arrData['imagen'];
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -207,6 +214,12 @@ class Vacaciones extends Controllers
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->Cell(0, 10, 'Información del Funcionario', 0, 1, 'L');
                 
+                // Imagen del funcionario
+                $imagePath = 'Assets/images/funcionarios/'.$funcionario['imagen'];
+                if(file_exists($imagePath)){
+                    $pdf->Image($imagePath, 160, 20, 30, 30);
+                }
+                
                 $pdf->SetFont('Arial', '', 10);
                 
                 // Datos del funcionario
@@ -258,16 +271,15 @@ class Vacaciones extends Controllers
                         $fechaFin = $fechaFinObj->format('d/m/Y');
                         $fechaRegistro = $fechaRegistroObj->format('d/m/Y');
                         
-                        $pdf->Cell(35, 8, $fechaInicio, 1, 0, 'C');
-                        $pdf->Cell(35, 8, $fechaFin, 1, 0, 'C');
-                        $pdf->Cell(30, 8, $item['periodo'], 1, 0, 'C');
-                        
                         // Ajustar el texto del estado para el PDF
                         $estadoTexto = $item['estado'];
                         if ($estadoTexto == 'Cumplidas') {
                             $estadoTexto = 'Cumplida';
                         }
                         
+                        $pdf->Cell(35, 8, $fechaInicio, 1, 0, 'C');
+                        $pdf->Cell(35, 8, $fechaFin, 1, 0, 'C');
+                        $pdf->Cell(30, 8, $item['periodo'], 1, 0, 'C');
                         $pdf->Cell(40, 8, utf8_decode($estadoTexto), 1, 0, 'C');
                         $pdf->Cell(50, 8, $fechaRegistro, 1, 1, 'C');
                     }

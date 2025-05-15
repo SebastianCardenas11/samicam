@@ -6,11 +6,11 @@ headerAdmin($data);
 <main class="app-content">
     <div class="app-title">
         <div>
-            <h1><i class="bi bi-calendar-check"></i> <?=$data['page_title']?></h1>
+            <h1><i class="bi bi-door-open"></i> <?=$data['page_title']?></h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
-            <li class="breadcrumb-item"><a href="<?=base_url();?>/funcionariosPermisos"><?=$data['page_title']?></a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url();?>/funcionariospermisos"><?=$data['page_title']?></a></li>
         </ul>
     </div>
 
@@ -22,11 +22,12 @@ headerAdmin($data);
                         <table class="table table-estilo" id="tableFuncionarios">
                             <thead class="table-success">
                                 <tr>
+                                    <th class="text-center">Foto</th>
                                     <th class="text-center">Nombre completo</th>
                                     <th class="text-center">Identificación</th> 
                                     <th class="text-center">Cargo</th> 
-                                    <th class="text-center">Dependencia</th>
-                                    <th class="text-center">Permisos (mes)</th>
+                                    <th class="text-center">Dependencia</th> 
+                                    <th class="text-center">Permisos</th>
                                     <th class="text-center">Acciones</th>
                              </tr>
                             </thead>

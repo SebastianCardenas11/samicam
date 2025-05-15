@@ -4,6 +4,7 @@ class FuncionariosOpsModel extends Mysql
     private $intIdeFuncionarios;
     private $strCorreoFuncionarios;
     private $strNombresFuncionarios;
+    private $strImagen;
     private $strStatusFuncionarios;
     private $strIdentificacion;
     private $intCargo;
@@ -32,6 +33,7 @@ class FuncionariosOpsModel extends Mysql
     public function insertFuncionario(
         string $correo,
         string $nombres,
+        string $imagen,
         int $status,
         string $identificacion,
         int $cargo,
@@ -53,6 +55,7 @@ class FuncionariosOpsModel extends Mysql
         // Asignar los valores de los campos
         $this->strCorreoFuncionarios = $correo;
         $this->strNombresFuncionarios = $nombres;
+        $this->strImagen = $imagen;
         $this->strStatusFuncionarios = $status;
         $this->strIdentificacion = $identificacion;
         $this->intCargo = $cargo;
@@ -77,17 +80,18 @@ class FuncionariosOpsModel extends Mysql
 
         if (empty($request)) {
         $query_insert = "INSERT INTO tbl_funcionarios(
-    correo_elc, nombre_completo, status, nm_identificacion,
+    correo_elc, nombre_completo, imagen, status, nm_identificacion,
     cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
     hijos, nombres_de_hijos, sexo, lugar_de_residencia,
     edad, estado_civil, religion, formacion_academica, nombre_formacion
-) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             
         
         $arrData = array(
             $this->strCorreoFuncionarios,
             $this->strNombresFuncionarios,
+            $this->strImagen,
             $this->strStatusFuncionarios,
             $this->strIdentificacion,
             $this->intCargo,
@@ -125,6 +129,7 @@ class FuncionariosOpsModel extends Mysql
         u.idefuncionario,
         u.correo_elc,
         u.nombre_completo,
+        u.imagen,
         u.status,
         u.nm_identificacion,
         c.nombre AS cargo_nombre,
@@ -149,7 +154,7 @@ class FuncionariosOpsModel extends Mysql
     INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
     INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
     WHERE u.status != 0 
-      AND ct.tipo_cont NOT IN ('Carrera', 'Libre Nombramiento') " . $whereAdmin;
+      AND ct.tipo_cont = 'Prestacion de servicios' " . $whereAdmin;
 
 
             $request = $this->select_all($sql);
@@ -164,6 +169,7 @@ class FuncionariosOpsModel extends Mysql
                 u.idefuncionario,
                 u.correo_elc,
                 u.nombre_completo,
+                u.imagen,
                 u.status,
                 u.nm_identificacion,
                 u.cargo_fk,
@@ -201,6 +207,7 @@ class FuncionariosOpsModel extends Mysql
         int $idefuncionarios,
         string $correo,
         string $nombres,
+        string $imagen,
         int $status,
         string $identificacion,
         int $cargo,
@@ -222,6 +229,7 @@ class FuncionariosOpsModel extends Mysql
         $this->intIdeFuncionarios = $idefuncionarios;
         $this->strCorreoFuncionarios = $correo;
         $this->strNombresFuncionarios = $nombres;
+        $this->strImagen = $imagen;
         $this->strStatusFuncionarios = $status;
         $this->strIdentificacion = $identificacion;
         $this->intCargo = $cargo;
@@ -240,10 +248,11 @@ class FuncionariosOpsModel extends Mysql
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
 
-        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(
             $this->strCorreoFuncionarios,
             $this->strNombresFuncionarios,
+            $this->strImagen,
             $this->strStatusFuncionarios,
             $this->strIdentificacion,
             $this->intCargo,
@@ -285,8 +294,8 @@ class FuncionariosOpsModel extends Mysql
     $request = $this->select_all($sql);
     return $request;
     }
-    public function selectContratoPlanta() {
-    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont NOT IN ('Carrera', 'Libre Nombramiento')";
+    public function selectContratoOps() {
+    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont = 'Prestacion de servicios'";
     $request = $this->select_all($sql);
     return $request;
 }

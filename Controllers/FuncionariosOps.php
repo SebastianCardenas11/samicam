@@ -21,7 +21,7 @@ class FuncionariosOps extends Controllers
         }
         $data['dependencias'] = $this->model->selectDependencias();
         $data['cargos'] = $this->model->selectCargos();
-        $data['contrato'] = $this->model->selectContratoPlanta();
+        $data['contrato'] = $this->model->selectContratoOps();
         $data['page_tag'] = "Funcionarios Ops";
         $data['page_title'] = "Funcionarios Ops";
         $data['page_name'] = "Funcionarios Ops";
@@ -62,6 +62,15 @@ class FuncionariosOps extends Controllers
                 $strFormacionAcademica = strClean($_POST['txtFormacionFuncionario']);
                 $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
+                
+                // Manejar la imagen
+                $foto = $_FILES['foto'];
+                $nombre_foto = $foto['name'];
+                $strImagen = 'user.png'; // Imagen por defecto
+                
+                if($nombre_foto != ''){
+                    $strImagen = 'func_'.md5(date('Y-m-d H:i:s')).'.jpg';
+                }
     
                 $request = "";
                 if ($intIdeFuncionario == 0) {
@@ -70,6 +79,7 @@ class FuncionariosOps extends Controllers
                         $request = $this->model->insertFuncionario(
                             $strCorreo,
                             $strNombre,
+                            $strImagen,
                             $intStatus,
                             $strIdentificacion,
                             $intCargo,
@@ -90,6 +100,12 @@ class FuncionariosOps extends Controllers
                         );                        
                     }
                 } else {
+                    // Para actualización, verificar si hay una nueva imagen
+                    if($nombre_foto == ''){
+                        if($_POST['foto_actual'] != '' && $_POST['foto_remove'] == 0){
+                            $strImagen = $_POST['foto_actual'];
+                        }
+                    }
                     
                     $option = 2;
                     if ($_SESSION['permisosMod']['u']) {
@@ -97,8 +113,9 @@ class FuncionariosOps extends Controllers
                             $intIdeFuncionario,
                             $strCorreo,
                             $strNombre,
-                            $strIdentificacion,
+                            $strImagen,
                             $intStatus,
+                            $strIdentificacion,
                             $intCargo,
                             $intDependencia,
                             $intContrato,
@@ -119,6 +136,13 @@ class FuncionariosOps extends Controllers
                 }
     
                 if ($request > 0) {
+                    // Subir la imagen si existe
+                    if($nombre_foto != ''){
+                        $uploadDir = 'Assets/images/funcionarios/';
+                        $uploadFile = $uploadDir . $strImagen;
+                        move_uploaded_file($foto['tmp_name'], $uploadFile);
+                    }
+                    
                     $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
                     $arrResponse = array("status" => true, "msg" => $msg);
                 } else if ($request == 'exist') {
@@ -142,6 +166,10 @@ class FuncionariosOps extends Controllers
                 $btnView = '';
                 $btnEdit = '';
                 $btnDelete = '';
+
+                // Agregar imagen del funcionario
+                $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
+                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
 
                 if($arrData[$i]['status'] == 1)
                 {
@@ -179,6 +207,8 @@ class FuncionariosOps extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
+                    // Agregar URL de la imagen
+                    $arrData['url_imagen'] = media().'/images/funcionarios/'.$arrData['imagen'];
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
