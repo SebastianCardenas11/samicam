@@ -23,6 +23,7 @@ class FuncionariosPermisosModel extends Mysql
     private $strReligion;
     private $strFormacionAcademica;
     private $strNombreFormacion;
+    private $strPermiso;
 
     public function __construct()
     {
@@ -57,7 +58,8 @@ class FuncionariosPermisosModel extends Mysql
         u.estado_civil,
         u.religion,
         u.formacion_academica,
-        u.nombre_formacion
+        u.nombre_formacion,
+        u.permisos_fk
     FROM tbl_funcionarios u
     INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
     INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -70,7 +72,7 @@ class FuncionariosPermisosModel extends Mysql
             return $request;
     }
 
-  public function selectFuncionario(int $idefuncionarios)
+ public function selectFuncionario(int $idefuncionarios)
 {
     $this->intIdeFuncionarios = $idefuncionarios;
 
@@ -99,15 +101,20 @@ class FuncionariosPermisosModel extends Mysql
                 u.estado_civil,
                 u.religion,
                 u.formacion_academica,
-                u.nombre_formacion
+                u.nombre_formacion,
+                u.permisos_fk,
+                p.fecha_permiso AS permiso_fecha,
+                p.motivo AS permiso_descripcion
             FROM tbl_funcionarios u
             INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
             INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
             INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
+            LEFT JOIN tbl_permisos p ON u.permisos_fk = p.id_permiso
             WHERE u.idefuncionario = $this->intIdeFuncionarios";
 
     $request = $this->select($sql);
     return $request;
 }
+
 
 }

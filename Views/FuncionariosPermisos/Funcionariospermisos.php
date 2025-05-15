@@ -51,6 +51,6 @@ headerAdmin($data);
 </main>
 
 <?php 
-// getModal('modalFuncionariosPlanta', $data);
+getModal('modalFuncionariosPermisos', $data);
 footerAdmin($data);
 ?>
