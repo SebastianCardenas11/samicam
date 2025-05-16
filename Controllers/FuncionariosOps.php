@@ -169,6 +169,11 @@ class FuncionariosOps extends Controllers
 
                 // Agregar imagen del funcionario
                 $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
+                // Verificar si existe la imagen
+                $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
+                if(!file_exists($rutaImagen)){
+                    $urlImagen = media().'/images/sinimagen.png';
+                }
                 $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
 
                 if($arrData[$i]['status'] == 1)
@@ -208,7 +213,13 @@ class FuncionariosOps extends Controllers
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
                     // Agregar URL de la imagen
-                    $arrData['url_imagen'] = media().'/images/funcionarios/'.$arrData['imagen'];
+                    $urlImagen = media().'/images/funcionarios/'.$arrData['imagen'];
+                    // Verificar si existe la imagen
+                    $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
+                    if(!file_exists($rutaImagen)){
+                        $urlImagen = media().'/images/sinimagen.png';
+                    }
+                    $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

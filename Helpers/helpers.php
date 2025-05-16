@@ -306,3 +306,14 @@ function viewPage(int $idpagina)
         return false;
     }
 }
+
+// Función para verificar si existe una imagen, si no existe devuelve la imagen por defecto
+function getImage($imagen, $tipo = "funcionarios")
+{
+    $urlImagen = "Assets/images/" . $tipo . "/" . $imagen;
+    if(file_exists($urlImagen)){
+        return media() . "/images/" . $tipo . "/" . $imagen;
+    }else{
+        return media() . "/images/sinimagen.png";
+    }
+}
