@@ -72,6 +72,7 @@
                     <div class="tile-body">
                         <form id="formVacaciones" name="formVacaciones" method="POST">
                             <input type="hidden" id="idFuncionario" name="idFuncionario" value="">
+                            <input type="hidden" id="listPeriodo" name="listPeriodo" value="1">
                             
                             <div class="form-group mb-3">
                                 <label for="txtNombreFuncionario" class="form-label">Funcionario</label>
@@ -86,13 +87,6 @@
                             <div class="form-group mb-3">
                                 <label for="txtFechaFin" class="form-label">Fecha de Fin <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
-                            </div>
-                            
-                            <div class="form-group mb-3 ">
-                                <label for="listPeriodo" class="form-label">Período <span class="text-danger">*</span></label>
-                                <select class="form-select d" id="listPeriodo" name="listPeriodo" required>
-                                    <option value="1">Período</option>
-                                </select>
                             </div>
                             
                             <div class="alert alert-info" role="alert">

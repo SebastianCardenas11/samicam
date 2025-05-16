@@ -146,15 +146,6 @@ function fntVacacionesInfo(idefuncionario) {
             
             // Mostrar períodos disponibles
             document.querySelector("#periodosDisponibles").innerHTML = objData.data.periodos_disponibles;
-            
-            // Limitar opciones de períodos según disponibilidad
-            let selectPeriodo = document.querySelector("#listPeriodo");
-            selectPeriodo.innerHTML = '<option value="">Seleccione</option>';
-            
-            // Ahora solo mostramos una opción de "Período" sin numeración
-            if (objData.data.periodos_disponibles > 0) {
-                selectPeriodo.innerHTML += `<option value="1">Período</option>`;
-            }
 
             $("#modalFormVacaciones").modal("show");
           }
