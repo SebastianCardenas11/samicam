@@ -116,6 +116,16 @@ class VacacionesModel extends Mysql
             return ["status" => false, "msg" => "El funcionario no tiene suficientes períodos de vacaciones disponibles."];
         }
         
+        // Verificar si ya hay vacaciones pendientes o aprobadas para este funcionario
+        $sql_check = "SELECT COUNT(*) as total FROM tbl_vacaciones 
+                     WHERE id_funcionario = $this->intIdFuncionario 
+                     AND estado IN ('Pendiente', 'Aprobado')";
+        
+        $result_check = $this->select($sql_check);
+        if ($result_check['total'] > 0) {
+            return ["status" => false, "msg" => "El funcionario ya tiene vacaciones pendientes o aprobadas. No se pueden crear más hasta que se completen o cancelen las existentes."];
+        }
+        
         // Establecer el estado inicial como Pendiente
         $estado = 'Pendiente';
         
@@ -165,8 +175,8 @@ class VacacionesModel extends Mysql
         
         if ($request) {
             // Actualizar períodos tomados por el funcionario
-            $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones + ? WHERE idefuncionario = ?";
-            $arrData_func = array($vacacion['periodo'], $vacacion['id_funcionario']);
+            $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones + 1 WHERE idefuncionario = ?";
+            $arrData_func = array($vacacion['id_funcionario']);
             $this->update($sql_update_func, $arrData_func);
             
             return ["status" => true, "msg" => "Vacaciones aprobadas correctamente"];
@@ -200,8 +210,8 @@ class VacacionesModel extends Mysql
         if ($request) {
             // Solo devolver los períodos al funcionario si estaban aprobadas
             if ($vacacion['estado'] == 'Aprobado') {
-                $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones - ? WHERE idefuncionario = ?";
-                $arrData_func = array($vacacion['periodo'], $vacacion['id_funcionario']);
+                $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones - 1 WHERE idefuncionario = ?";
+                $arrData_func = array($vacacion['id_funcionario']);
                 $this->update($sql_update_func, $arrData_func);
             }
             
