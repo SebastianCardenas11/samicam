@@ -249,4 +249,108 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
+
+    public function generarPermisoPDF($idPermiso)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            if (isset($idPermiso) && is_numeric($idPermiso)) {
+                $idPermiso = intval($idPermiso);
+                
+                // Obtener datos del permiso
+                $permiso = $this->model->getPermiso($idPermiso);
+                if (empty($permiso)) {
+                    echo "Permiso no encontrado";
+                    return;
+                }
+                
+                // Obtener datos del funcionario
+                $funcionario = $this->model->selectFuncionario($permiso['id_funcionario']);
+                if (empty($funcionario)) {
+                    echo "Funcionario no encontrado";
+                    return;
+                }
+                
+                // Incluir la librería FPDF
+                require_once 'Libraries/pdf/fpdf.php';
+                
+                // Crear nuevo documento PDF
+                $pdf = new FPDF('P', 'mm', 'A4');
+                
+                // Agregar una página
+                $pdf->AddPage();
+                
+                // Configurar fuentes
+                $pdf->SetFont('Arial', 'B', 16);
+                
+                // Título
+                $pdf->Cell(0, 10, 'Comprobante de Permiso', 0, 1, 'C');
+                $pdf->Ln(5);
+                
+                // Información del funcionario
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(0, 10, 'Información del Funcionario', 0, 1, 'L');
+                
+                // Imagen del funcionario
+                $imagePath = 'Assets/images/funcionarios/'.$funcionario['imagen'];
+                if(file_exists($imagePath)){
+                    $pdf->Image($imagePath, 160, 20, 30, 30);
+                }
+                
+                $pdf->SetFont('Arial', '', 10);
+                
+                // Datos del funcionario
+                $pdf->Cell(40, 8, 'Nombre:', 1);
+                $pdf->Cell(150, 8, $funcionario['nombre_completo'], 1, 1);
+                
+                $pdf->Cell(40, 8, 'Identificación:', 1);
+                $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
+                
+                $pdf->Cell(40, 8, 'Cargo:', 1);
+                $pdf->Cell(150, 8, $funcionario['cargo_nombre'], 1, 1);
+                
+                $pdf->Cell(40, 8, 'Dependencia:', 1);
+                $pdf->Cell(150, 8, $funcionario['dependencia_nombre'], 1, 1);
+                
+                $pdf->Ln(10);
+                
+                // Detalles del permiso
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(0, 10, 'Detalles del Permiso', 0, 1, 'L');
+                
+                $pdf->SetFont('Arial', '', 10);
+                
+                // Formatear fecha
+                $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
+                
+                $pdf->Cell(40, 8, 'Fecha:', 1);
+                $pdf->Cell(150, 8, $fechaPermiso, 1, 1);
+                
+                $pdf->Cell(40, 8, 'Motivo:', 1);
+                $pdf->Cell(150, 8, $permiso['motivo'], 1, 1);
+                
+                $pdf->Cell(40, 8, 'Estado:', 1);
+                $pdf->Cell(150, 8, $permiso['estado'], 1, 1);
+                
+                $pdf->Ln(20);
+                
+                // Firmas
+                $pdf->Cell(95, 8, '___________________________', 0, 0, 'C');
+                $pdf->Cell(95, 8, '___________________________', 0, 1, 'C');
+                $pdf->Cell(95, 8, 'Firma del Funcionario', 0, 0, 'C');
+                $pdf->Cell(95, 8, 'Firma del Jefe Inmediato', 0, 1, 'C');
+                
+                // Configurar encabezados para forzar la descarga
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: inline; filename="Permiso_'.$funcionario['nombre_completo'].'_'.$fechaPermiso.'.pdf"');
+                
+                // Generar el PDF
+                $pdf->Output('Permiso_'.$funcionario['nombre_completo'].'_'.$fechaPermiso.'.pdf', 'I');
+            } else {
+                echo "Parámetro inválido";
+            }
+        } else {
+            header("Location:".base_url().'/dashboard');
+        }
+        die();
+    }
 }

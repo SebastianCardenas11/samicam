@@ -139,6 +139,21 @@ class FuncionariosPermisosModel extends Mysql
         return $request;
     }
 
+    public function getPermiso(int $idPermiso)
+    {
+        $sql = "SELECT 
+                p.id_permiso,
+                p.id_funcionario,
+                p.fecha_permiso,
+                p.motivo,
+                p.estado
+            FROM tbl_permisos p
+            WHERE p.id_permiso = $idPermiso";
+        
+        $request = $this->select($sql);
+        return $request;
+    }
+
     public function insertPermiso(int $idFuncionario, string $fechaPermiso, int $idMotivo)
     {
         $this->intIdFuncionario = $idFuncionario;
