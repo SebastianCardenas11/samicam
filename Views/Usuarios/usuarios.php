@@ -1,40 +1,42 @@
 <?php
 headerAdmin($data);
 ?>
+<div id="contentAjax"></div>
 <main class="app-content">
-    <div class="app-title d-flex justify-content-between align-items-center">
+    <div class="app-title">
         <div>
-            <h1><i class="bi bi-people"></i> <?= $data['page_title'] ?></h1>
+            <h1><i class="bi bi-people"></i> <?=$data['page_title']?></h1>
         </div>
-        <?php if ($_SESSION['permisosMod']['w']) { ?>
-            <div>
-                <button class="btn-usuarios-add" type="button" data-bs-toggle="modal" onclick="openModal();">
-                    <i class="bi bi-plus-lg"></i>
-                    Nuevo Usuario
-                </button>
-            </div>
-        <?php } ?>
+        <div class="d-grid gap-2 d-md-block">
+            <?php if ($_SESSION['permisosMod']['w']) {?>
+            <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
+                <i class="bi bi-plus-lg"></i>
+                Nuevo Usuario</button>
+            <?php }?>
+        </div>
+
+
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
+            <li class="breadcrumb-item"><a href="<?=base_url();?>/usuarios"><?=$data['page_title']?></a></li>
+        </ul>
     </div>
-
-
-
     <div class="row">
         <div class="col-md-12">
-            <div class="usuarios-box">
-                <div class="usuarios-box-body">
-                    <div class="usuarios-table-responsive">
-                        <table class="usuarios-table" id="tableUsuarios">
-                            <thead>
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive ">
+                        <table class="table table-hover cell-border" id="tableUsuarios">
+                            <thead class="table-success">
                                 <tr>
-                                    <th>Correo</th>
-                                    <th>Nombres</th>
-                                    <th>Rol</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
+                                    <th class="text-center">Correo</th>
+                                    <th class="text-center">Nombres</th>
+                                    <th class="text-center">Rol</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- contenido generado dinámicamente -->
+                            <tbody class="table-group-divider text-center">
                             </tbody>
                         </table>
                     </div>
@@ -43,7 +45,7 @@ headerAdmin($data);
         </div>
     </div>
 </main>
-<?php
+<?php 
 getModal('modalUsuarios', $data);
 footerAdmin($data);
 ?>

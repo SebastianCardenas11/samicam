@@ -1,30 +1,49 @@
 <?php
 headerAdmin($data);
 ?>
+<div id="contentAjax"></div>
+
 <main class="app-content">
-    <div class="app-title d-flex justify-content-between align-items-center">
+    <div class="app-title">
         <div>
-            <h1><i class="bi bi-people"></i> <?= $data['page_title'] ?></h1>
+            <h1><i class="bi bi-person-fill"></i> <?=$data['page_title']?></h1>
         </div>
-        <?php if ($_SESSION['permisosMod']['w']) { ?>
-            <div>
-                <button class="btn-usuarios-add" type="button" data-bs-toggle="modal" onclick="openModal();">
+        <div class="d-flex gap-2 mt-3">
+            <!-- Botón para crear nuevo funcionario -->
+            <?php if ($_SESSION['permisosMod']['w']) { ?>
+                <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
                     <i class="bi bi-plus-lg"></i>
-                    Nuevo Usuario
-                </button>
-            </div>
-        <?php } ?>
+                    Nuevo Funcionario</button>
+            <?php } ?>
+            
+            <!-- Botones para Permisos y Viáticos -->
+            <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
+                <a href="<?= base_url(); ?>/funcionariospermisos">
+                    <button class="btn btn-warning" type="button">
+                        <i class="bi bi-door-open"></i> Permisos
+                    </button>
+                </a>
+                <a href="<?= base_url(); ?>/funcionariosviaticos">
+                    <button class="btn btn-warning" type="button">
+                        <i class="bi bi-cash-coin"></i> Viáticos
+                    </button>
+                </a>
+            <?php } ?>
+        </div>
+
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
+            <li class="breadcrumb-item"><a href="<?=base_url();?>/funcionarios"><?=$data['page_title']?></a></li>
+        </ul>
     </div>
-
-
 
     <div class="row">
         <div class="col-md-12">
-            <div class="usuarios-box">
-                <div class="usuarios-box-body">
-                    <div class="usuarios-table-responsive">
-                        <table class="usuarios-table" id="tableUsuarios">
-                            <thead>
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-estilo" id="tableFuncionarios">
+                            <thead class="table-success">
                                 <tr>
                                     <th class="text-center">Foto</th>
                                     <th class="text-center">Nombre completo</th>
@@ -37,8 +56,7 @@ headerAdmin($data);
                                     <th class="text-center">Acciones</th> 
                              </tr>
                             </thead>
-                            <tbody>
-                                <!-- contenido generado dinámicamente -->
+                            <tbody class="table-group-divider text-center">
                             </tbody>
                         </table>
                     </div>
@@ -47,7 +65,8 @@ headerAdmin($data);
         </div>
     </div>
 </main>
-<?php
-getModal('modalUsuarios', $data);
+
+<?php 
+getModal('modalFuncionariosPlanta', $data);
 footerAdmin($data);
 ?>
