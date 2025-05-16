@@ -13,12 +13,21 @@
                     <div class="tile-body">
                         <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
+                            
                             <!-- Nombre completo -->
                             <div class="modal-body">
                                 <label for="txtNombreFuncionario">Nombre completo <b
                                         class="required text-danger">*</b></label>
                                 <input type="text" class="form-control valid validText" id="txtNombreFuncionario"
                                     name="txtNombreFuncionario" required maxlength="50">
+                            </div>
+                            
+                            <!-- Foto -->
+                            <div class="modal-body">
+                                <label for="foto">Foto</label>
+                                <input type="file" class="form-control" id="foto" name="foto" accept="image/jpeg,image/png">
+                                <input type="hidden" id="foto_actual" name="foto_actual" value="">
+                                <input type="hidden" id="foto_remove" name="foto_remove" value="0">
                             </div>
 
                             <!-- Correo -->
@@ -108,7 +117,7 @@
                             </div>
 
                             <!-- Nombres de los hijos -->
-                            <div class="modal-body d-none">
+                            <div class="modal-body">
                                 <label for="txtNombresHijosFuncionario">Nombres de los hijos <b
                                         class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtNombresHijosFuncionario"
@@ -225,6 +234,10 @@
             <div class="modal-body">
                 <div class="tile">
                     <div class="tile-body">
+                        <!-- Foto del funcionario -->
+                        <div class="text-center mb-3">
+                            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png" alt="Foto funcionario" class="img-thumbnail rounded-circle" style="width:150px; height:150px;">
+                        </div>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -268,10 +281,10 @@
                                     <td>Fecha de Ingreso:</td>
                                     <td id="celFechaIngresoFuncionario">0</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Vacaciones:</td>
                                     <td id="celVacacionesFuncionario">0</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Hijos:</td>
                                     <td id="celHijosFuncionario">0</td>

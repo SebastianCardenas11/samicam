@@ -26,12 +26,16 @@ headerAdmin($data);
                         <table class="usuarios-table" id="tableUsuarios">
                             <thead>
                                 <tr>
-                                    <th>Correo</th>
-                                    <th>Nombres</th>
-                                    <th>Rol</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
+                                    <th class="text-center">Foto</th>
+                                    <th class="text-center">Nombre completo</th>
+                                    <th class="text-center">Identificacion</th> 
+                                    <th class="text-center">Cargo</th> 
+                                    <th class="text-center">Dependencia</th> 
+                                    <th class="text-center">Contrato</th> 
+                                    <th class="text-center">Correo electronico</th> 
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th> 
+                             </tr>
                             </thead>
                             <tbody>
                                 <!-- contenido generado dinámicamente -->

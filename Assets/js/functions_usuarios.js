@@ -3,7 +3,8 @@ let rowTable = "";
 let divLoading = document.querySelector("#divLoading");
 document.addEventListener('DOMContentLoaded', function(){
 
-    tableUsuarios = $('#tableUsuarios').dataTable( {
+    tableUsuarios 
+    = $('#tableUsuarios').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
         "language": {
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 }, false);
 
+
 window.addEventListener('load', function() {
     fntRolesUsuario();
 }, false);
@@ -143,6 +145,8 @@ function fntViewInfo(ideusuario){
         // console.log(request.responseText);
         if(request.readyState == 4 && request.status == 200){
             let objData = JSON.parse(request.responseText);
+           
+            
             if(objData.status)
             {
 
