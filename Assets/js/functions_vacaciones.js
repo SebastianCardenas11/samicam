@@ -123,10 +123,11 @@ function fntVacacionesInfo(idefuncionario) {
         
         // Limitar opciones de períodos según disponibilidad
         let selectPeriodo = document.querySelector("#listPeriodo");
-        selectPeriodo.innerHTML = '<option value="">Seleccione un período</option>';
+        selectPeriodo.innerHTML = '<option value="">Seleccione</option>';
         
-        for (let i = 1; i <= Math.min(3, objData.data.periodos_disponibles); i++) {
-            selectPeriodo.innerHTML += `<option value="${i}">${i} Período${i > 1 ? 's' : ''}</option>`;
+        // Ahora solo mostramos una opción de "Período" sin numeración
+        if (objData.data.periodos_disponibles > 0) {
+            selectPeriodo.innerHTML += `<option value="1">Período</option>`;
         }
 
         $("#modalFormVacaciones").modal("show");
@@ -182,10 +183,16 @@ function fntViewHistorial(idefuncionario) {
                 
                 let fechaInicio = fechaInicioObj.toLocaleDateString();
                 let fechaFin = fechaFinObj.toLocaleDateString();
-                let btnCancelar = '';
+                let btnAcciones = '';
                 
-                if (item.estado === 'Aprobado') {
-                  btnCancelar = `<button class="btn btn-danger btn-sm" onclick="fntCancelarVacaciones(${item.id_vacaciones})" title="Cancelar"><i class="bi bi-x-circle"></i></button>`;
+                // Botones según el estado
+                if (item.estado === 'Pendiente') {
+                  btnAcciones = `
+                    <button class="btn btn-success btn-sm" onclick="fntAprobarVacaciones(${item.id_vacaciones})" title="Aprobar"><i class="bi bi-check-circle"></i></button>
+                    <button class="btn btn-danger btn-sm" onclick="fntCancelarVacaciones(${item.id_vacaciones})" title="Cancelar"><i class="bi bi-x-circle"></i></button>
+                  `;
+                } else {
+                  btnAcciones = ''; // No hay acciones para estados Aprobado, Cumplidas o Cancelado
                 }
                 
                 // Verificar si la fecha de fin ya pasó para mostrar como cumplida
@@ -204,14 +211,18 @@ function fntViewHistorial(idefuncionario) {
                   estadoTexto = 'Cumplida';
                 } else if (item.estado === 'Cancelado') {
                   estadoClass = 'text-danger';
+                } else if (item.estado === 'Pendiente') {
+                  estadoClass = 'text-warning text-orange';
+                } else if (item.estado === 'Aprobado') {
+                  estadoClass = 'text-success';
                 }
                 
                 htmlHistorial += `<tr>
                   <td>${fechaInicio}</td>
                   <td>${fechaFin}</td>
-                  <td>${item.periodo}</td>
+                  <td>Período</td>
                   <td><span class="${estadoClass}">${estadoTexto}</span></td>
-                  <td>${btnCancelar}</td>
+                  <td>${btnAcciones}</td>
                 </tr>`;
               });
               document.querySelector("#tableHistorialVacaciones").innerHTML = htmlHistorial;
@@ -230,10 +241,50 @@ function fntViewHistorial(idefuncionario) {
   };
 }
 
+function fntAprobarVacaciones(idVacaciones) {
+  Swal.fire({
+    title: "¿Aprobar Vacaciones?",
+    text: "¿Está seguro de aprobar estas vacaciones? Esta acción asignará los períodos al funcionario.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, aprobar",
+    cancelButtonText: "No, regresar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      let ajaxUrl = base_url + '/vacaciones/aprobarVacaciones';
+      let formData = new FormData();
+      formData.append('idVacaciones', idVacaciones);
+      
+      request.open("POST", ajaxUrl, true);
+      request.send(formData);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+          let objData = JSON.parse(request.responseText);
+          
+          if (objData.status) {
+            // Cerrar el modal actual
+            $("#modalHistorialVacaciones").modal("hide");
+            
+            Swal.fire("Vacaciones", objData.msg, "success");
+            
+            // Recargar la tabla
+            tableFuncionarios.api().ajax.reload();
+          } else {
+            Swal.fire("Error", objData.msg, "error");
+          }
+        }
+      }
+    }
+  });
+}
+
 function fntCancelarVacaciones(idVacaciones) {
   Swal.fire({
     title: "¿Cancelar Vacaciones?",
-    text: "¿Está seguro de cancelar estas vacaciones? Esta acción devolverá los períodos al funcionario.",
+    text: "¿Está seguro de cancelar estas vacaciones?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",

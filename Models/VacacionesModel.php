@@ -124,14 +124,8 @@ class VacacionesModel extends Mysql
             return ["status" => false, "msg" => "El funcionario no tiene suficientes períodos de vacaciones disponibles."];
         }
         
-        // Determinar el estado inicial de las vacaciones
-        $fechaActual = date('Y-m-d');
-        $estado = 'Aprobado';
-        
-        // Si la fecha de fin es hoy o ya pasó, marcar como cumplidas
-        if ($this->dateFechaFin <= $fechaActual) {
-            $estado = 'Cumplidas';
-        }
+        // Establecer el estado inicial como Pendiente
+        $estado = 'Pendiente';
         
         // Insertar registro de vacaciones
         $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado) 
@@ -148,14 +142,44 @@ class VacacionesModel extends Mysql
         $request_insert = $this->insert($query_insert, $arrData);
         
         if ($request_insert > 0) {
-            // Actualizar períodos tomados por el funcionario
-            $sql_update = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones + ? WHERE idefuncionario = ?";
-            $arrData_update = array($this->intPeriodo, $idFuncionario);
-            $this->update($sql_update, $arrData_update);
-            
-            return ["status" => true, "msg" => "Vacaciones registradas correctamente", "id" => $request_insert];
+            // No actualizamos los períodos tomados hasta que se aprueben las vacaciones
+            return ["status" => true, "msg" => "Vacaciones registradas correctamente. Pendientes de aprobación.", "id" => $request_insert];
         } else {
             return ["status" => false, "msg" => "Error al registrar las vacaciones"];
+        }
+    }
+
+    public function aprobarVacaciones(int $idVacaciones)
+    {
+        $this->intIdVacaciones = $idVacaciones;
+        
+        // Obtener información de las vacaciones
+        $sql = "SELECT id_funcionario, periodo, estado FROM tbl_vacaciones WHERE id_vacaciones = $this->intIdVacaciones";
+        $vacacion = $this->select($sql);
+        
+        if (empty($vacacion)) {
+            return ["status" => false, "msg" => "Registro de vacaciones no encontrado."];
+        }
+        
+        // Verificar si las vacaciones están en estado pendiente
+        if ($vacacion['estado'] != 'Pendiente') {
+            return ["status" => false, "msg" => "Solo se pueden aprobar vacaciones en estado pendiente."];
+        }
+        
+        // Actualizar estado de las vacaciones
+        $sql_update = "UPDATE tbl_vacaciones SET estado = ? WHERE id_vacaciones = ?";
+        $arrData = array('Aprobado', $this->intIdVacaciones);
+        $request = $this->update($sql_update, $arrData);
+        
+        if ($request) {
+            // Actualizar períodos tomados por el funcionario
+            $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones + ? WHERE idefuncionario = ?";
+            $arrData_func = array($vacacion['periodo'], $vacacion['id_funcionario']);
+            $this->update($sql_update_func, $arrData_func);
+            
+            return ["status" => true, "msg" => "Vacaciones aprobadas correctamente"];
+        } else {
+            return ["status" => false, "msg" => "Error al aprobar las vacaciones"];
         }
     }
 
@@ -182,10 +206,12 @@ class VacacionesModel extends Mysql
         $request = $this->update($sql_update, $arrData);
         
         if ($request) {
-            // Devolver los períodos al funcionario
-            $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones - ? WHERE idefuncionario = ?";
-            $arrData_func = array($vacacion['periodo'], $vacacion['id_funcionario']);
-            $this->update($sql_update_func, $arrData_func);
+            // Solo devolver los períodos al funcionario si estaban aprobadas
+            if ($vacacion['estado'] == 'Aprobado') {
+                $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones - ? WHERE idefuncionario = ?";
+                $arrData_func = array($vacacion['periodo'], $vacacion['id_funcionario']);
+                $this->update($sql_update_func, $arrData_func);
+            }
             
             return ["status" => true, "msg" => "Vacaciones canceladas correctamente"];
         } else {

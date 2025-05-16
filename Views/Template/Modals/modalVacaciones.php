@@ -89,17 +89,16 @@
                             </div>
                             
                             <div class="form-group mb-3">
-                                <label for="listPeriodo" class="form-label">Período a utilizar <span class="text-danger">*</span></label>
+                                <label for="listPeriodo" class="form-label">Período <span class="text-danger">*</span></label>
                                 <select class="form-select" id="listPeriodo" name="listPeriodo" required>
-                                    <option value="">Seleccione un período</option>
-                                    <option value="1">1 Período</option>
-                                    <option value="2">2 Períodos</option>
-                                    <option value="3">3 Períodos</option>
+                                    <option value="">Seleccione</option>
+                                    <option value="1">Período</option>
                                 </select>
                             </div>
                             
                             <div class="alert alert-info" role="alert">
                                 <p id="periodosInfo">Períodos disponibles: <span id="periodosDisponibles">0</span>/3</p>
+                                <p class="mb-0">Las vacaciones quedarán en estado "Pendiente" hasta su aprobación.</p>
                             </div>
                             
                             <div class="modal-footer">

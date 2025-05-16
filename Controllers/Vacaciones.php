@@ -132,6 +132,33 @@ class Vacaciones extends Controllers
         die();
     }
 
+    public function aprobarVacaciones()
+    {
+        if ($_SESSION['permisosMod']['u']) {
+            if ($_POST) {
+                if (empty($_POST['idVacaciones'])) {
+                    $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+                } else {
+                    try {
+                        $idVacaciones = intval($_POST['idVacaciones']);
+                        $request = $this->model->aprobarVacaciones($idVacaciones);
+                        
+                        if ($request['status']) {
+                            $arrResponse = array('status' => true, 'msg' => $request['msg']);
+                        } else {
+                            $arrResponse = array('status' => false, 'msg' => $request['msg']);
+                        }
+                    } catch (Exception $e) {
+                        $arrResponse = array('status' => false, 'msg' => 'Error al aprobar las vacaciones. Intente nuevamente.');
+                        error_log("Error en aprobarVacaciones: " . $e->getMessage());
+                    }
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
     public function cancelarVacaciones()
     {
         if ($_SESSION['permisosMod']['u']) {
