@@ -1,42 +1,49 @@
-<?php
-headerAdmin($data);
-?>
-<div id="contentAjax"></div>
-<main class="app-content">
-    <div class="app-title">
-        <div>
-            <h1><i class="bi bi-toggles"></i> <?=$data['page_title']?></h1>
-        </div>
+<?php headerAdmin($data); ?>
 
-        <div class="d-grid gap-2 d-md-block">
-            <?php if ($_SESSION['permisosMod']['w']) {?>
-            <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
-                <i class="bi bi-plus-lg"></i>
-                Nuevo Rol</button>
-            <?php }?>
-        </div>
-
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
-            <li class="breadcrumb-item"><a href="<?=base_url();?>/roles"><?=$data['page_title']?></a></li>
-        </ul>
-    </div>
-
+<div class="container-fluid py-4">
     <div class="row">
-        <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-body">
-                    <div class="table-responsive mt-2">
-                        <table class="table table-hover cell-border " id="tableRoles">
-                            <thead class="table-success">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Roles</h6>
+                </div>
+                <!-- Botón Agregar Nuevo Usuario -->
+                <div class="button-nuevo">
+                    <button data-bs-toggle="modal" data-bs-target="#addUserModal" class="btn btn-info" title="Agregar usuario">
+                        <i class="bi bi-plus-lg"></i> Nuevo Usuario
+                    </button>
+                </div>
+                <!-- Botones de Excel y PDF -->
+                <div class="button-ex">
+                    <button class="btn btn-success" id="exportExcel" title="Exportar a Excel">
+                        <i class="bi bi-file-earmark-excel"></i> Excel
+                    </button>
+                    <button class="btn btn-danger" id="exportPDF" title="Exportar un PDF">
+                        <i class="bi bi-file-earmark-pdf"></i> PDF
+                    </button>
+                </div>
+
+
+
+
+
+
+
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
                                 <tr>
-                                    <th class="text-center">Rol</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">Estado</th>
-                                    <th class="text-center">Acciones</th>
+                                    <th class="text-center text-secondary-override">CORREO</th>
+                                    <th class="text-center text-secondary-override">NOMBRE</th>
+                                    <th class="text-center text-secondary-override">ROL</th>
+                                    <th class="text-center text-secondary-override">ESTADO</th>
+                                    <th class="text-center text-secondary-override">ACCIONES</th>
+                                </tr>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider text-center">
+                                <!-- Aquí cargas dinámicamente los funcionarios -->
                             </tbody>
                         </table>
                     </div>
@@ -44,7 +51,6 @@ headerAdmin($data);
             </div>
         </div>
     </div>
-</main>
-<?php 
-getModal('modalRoles', $data);
-footerAdmin($data);?>
+</div>
+
+<?php footerAdmin($data); ?>

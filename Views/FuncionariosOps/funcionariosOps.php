@@ -1,49 +1,40 @@
 <?php
 headerAdmin($data);
 ?>
-<div id="contentAjax"></div>
-
 <main class="app-content">
-    <div class="app-title">
+    <div class="app-title d-flex justify-content-between align-items-center">
         <div>
-            <h1><i class="bi bi-person-fill"></i> <?=$data['page_title']?></h1>
+            <h1><i class="bi bi-people"></i> <?= $data['page_title'] ?></h1>
         </div>
-        <div class="d-flex gap-2 mt-3">
-            <!-- Botón para crear nuevo funcionario -->
-            <?php if ($_SESSION['permisosMod']['w']) { ?>
-                <button class="btn btn-warning" type="button" data-bs-toggle="modal" onclick="openModal();">
+        <?php if ($_SESSION['permisosMod']['w']) { ?>
+            <div>
+                <button class="btn-usuarios-add" type="button" data-bs-toggle="modal" onclick="openModal();">
                     <i class="bi bi-plus-lg"></i>
-                    Nuevo Funcionario</button>
-            <?php } ?>
-            
-        </div>
-
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
-            <li class="breadcrumb-item"><a href="<?=base_url();?>/funcionarios"><?=$data['page_title']?></a></li>
-        </ul>
+                    Nuevo Usuario
+                </button>
+            </div>
+        <?php } ?>
     </div>
+
+
 
     <div class="row">
         <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-body">
-                    <div class="table-responsive">
-                        <table class="table table-estilo" id="tableFuncionarios">
-                            <thead class="table-success">
+            <div class="usuarios-box">
+                <div class="usuarios-box-body">
+                    <div class="usuarios-table-responsive">
+                        <table class="usuarios-table" id="tableUsuarios">
+                            <thead>
                                 <tr>
-                                    <th class="text-center">Foto</th>
-                                    <th class="text-center">Nombre completo</th>
-                                    <th class="text-center">Identificacion</th> 
-                                    <th class="text-center">Cargo</th> 
-                                    <th class="text-center">Dependencia</th> 
-                                    <th class="text-center">Contrato</th> 
-                                    <th class="text-center">Correo electronico</th> 
-                                    <th class="text-center">Estado</th>
-                                    <th class="text-center">Acciones</th> 
-                             </tr>
+                                    <th>Correo</th>
+                                    <th>Nombres</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
                             </thead>
-                            <tbody class="table-group-divider text-center">
+                            <tbody>
+                                <!-- contenido generado dinámicamente -->
                             </tbody>
                         </table>
                     </div>
@@ -52,8 +43,7 @@ headerAdmin($data);
         </div>
     </div>
 </main>
-
-<?php 
-getModal('modalFuncionariosOps', $data);
+<?php
+getModal('modalUsuarios', $data);
 footerAdmin($data);
 ?>
