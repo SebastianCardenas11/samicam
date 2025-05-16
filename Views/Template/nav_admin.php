@@ -68,6 +68,14 @@
                 </a>
             </li>
         <?php } ?>
+        <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
+            <li>
+                <a class="app-menu__item" href="<?= base_url(); ?>/funcionariosviaticos">
+                    <i class="bi bi-cash-coin"></i>
+                    <span class="app-menu__label">&nbsp; Viaticos</span>
+                </a>
+            </li>
+        <?php } ?>
 
         <a class="bg-danger app-menu__item" href="<?= base_url(); ?>/logout">
             <i class="app-menu__icon bi bi-x-circle-fill"></i>

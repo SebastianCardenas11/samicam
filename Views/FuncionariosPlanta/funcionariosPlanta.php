@@ -23,11 +23,6 @@ headerAdmin($data);
                         <i class="bi bi-door-open"></i> Permisos
                     </button>
                 </a>
-                <a href="<?= base_url(); ?>/funcionariosviaticos">
-                    <button class="btn btn-warning" type="button">
-                        <i class="bi bi-cash-coin"></i> Viáticos
-                    </button>
-                </a>
             <?php } ?>
         </div>
 

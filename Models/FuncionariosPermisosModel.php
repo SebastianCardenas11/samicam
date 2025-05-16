@@ -75,7 +75,8 @@ class FuncionariosPermisosModel extends Mysql
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-        WHERE u.status != 0 " . $whereAdmin . "
+        WHERE u.status != 0 
+        AND ct.tipo_cont IN ('Carrera', 'Libre Nombramiento')" . $whereAdmin . "
         GROUP BY u.idefuncionario";
 
         $request = $this->select_all($sql);

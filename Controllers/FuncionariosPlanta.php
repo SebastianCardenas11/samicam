@@ -66,7 +66,7 @@ class FuncionariosPlanta extends Controllers
                 // Manejar la imagen
                 $foto = $_FILES['foto'];
                 $nombre_foto = $foto['name'];
-                $strImagen = 'user.png'; // Imagen por defecto
+                $strImagen = 'sinimagen.png'; // Imagen por defecto
                 
                 if($nombre_foto != ''){
                     $strImagen = 'func_'.md5(date('Y-m-d H:i:s')).'.jpg';
