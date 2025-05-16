@@ -185,6 +185,14 @@ class FuncionariosViaticosModel extends Mysql
             $arrData = [$year, $capitalTotal, $capitalTotal];
             $request = $this->insert($sqlInsert, $arrData);
         }
+        return $request; 
+    }
+    public function selectFuncionariosPlanta() {
+        $sql = "SELECT idefuncionario, nombre_completo, contrato_fk 
+                FROM tbl_funcionarios 
+                WHERE contrato_fk IN (1, 2)";
+        $request = $this->select_all($sql);
         return $request;
     }
+
 }
