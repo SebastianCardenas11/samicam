@@ -166,6 +166,16 @@ class FuncionariosPermisosModel extends Mysql
         $this->intMes = $fecha->format('m');
         $this->intAnio = $fecha->format('Y');
         
+        // Verificar si el funcionario ya tiene un permiso en la misma fecha
+        $sql_check_same_day = "SELECT COUNT(*) as total FROM tbl_permisos 
+                    WHERE id_funcionario = $this->intIdFuncionario 
+                    AND fecha_permiso = '$this->dateFechaPermiso'";
+        
+        $result_same_day = $this->select($sql_check_same_day);
+        if ($result_same_day['total'] > 0) {
+            return ["status" => false, "msg" => "¡Ya existe un permiso registrado para este funcionario en la misma fecha!"];
+        }
+        
         // Verificar si el funcionario ya tiene 3 permisos en el mes actual
         $sql_check = "SELECT COUNT(*) as total FROM tbl_permisos 
                     WHERE id_funcionario = $this->intIdFuncionario 
