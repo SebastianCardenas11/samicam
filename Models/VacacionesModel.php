@@ -29,11 +29,7 @@ class VacacionesModel extends Mysql
             u.fecha_ingreso,
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
-            CASE 
-                WHEN TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) > 0 THEN 
-                    LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones)
-                ELSE 0
-            END as periodos_disponibles
+            LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones) as periodos_disponibles
         FROM tbl_funcionarios u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -58,11 +54,7 @@ class VacacionesModel extends Mysql
             u.fecha_ingreso,
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
-            CASE 
-                WHEN TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) > 0 THEN 
-                    LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones)
-                ELSE 0
-            END as periodos_disponibles
+            LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones) as periodos_disponibles
         FROM tbl_funcionarios u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk

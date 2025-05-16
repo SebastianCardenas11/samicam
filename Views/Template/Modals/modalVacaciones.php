@@ -88,10 +88,9 @@
                                 <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
                             </div>
                             
-                            <div class="form-group mb-3">
+                            <div class="form-group mb-3 ">
                                 <label for="listPeriodo" class="form-label">Período <span class="text-danger">*</span></label>
-                                <select class="form-select" id="listPeriodo" name="listPeriodo" required>
-                                    <option value="">Seleccione</option>
+                                <select class="form-select d" id="listPeriodo" name="listPeriodo" required>
                                     <option value="1">Período</option>
                                 </select>
                             </div>
