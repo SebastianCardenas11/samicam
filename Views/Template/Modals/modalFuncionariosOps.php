@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div >
                     <div class="tile-body">
                         <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
@@ -255,7 +255,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <!-- Foto del funcionario -->
                         <div class="text-center mb-3">

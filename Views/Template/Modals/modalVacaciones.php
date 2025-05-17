@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <table class="table table-bordered">
                             <tbody>
@@ -68,7 +68,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <form id="formVacaciones" name="formVacaciones" method="POST">
                             <input type="hidden" id="idFuncionario" name="idFuncionario" value="">
@@ -121,7 +121,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <h6 id="funcionarioHistorial"></h6>
                         <div class="table-responsive">

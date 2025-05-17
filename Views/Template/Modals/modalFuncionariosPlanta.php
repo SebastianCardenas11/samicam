@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+               
                     <div class="tile-body">
                         <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
@@ -226,7 +226,6 @@
                                 </select>
                             </div>
                     </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button id="btnActionForm" class="btn btn-success" type="submit"><i class="bi bi-floppy"></i>
@@ -255,7 +254,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
                     <div class="tile-body">
                         <!-- Foto del funcionario -->
                         <div class="text-center mb-3">
@@ -359,8 +357,6 @@
                         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i
                                 class="bi bi-check2"></i>Listo</button>
                     </div>
-
-                </div>
             </div>
         </div>
     </div>

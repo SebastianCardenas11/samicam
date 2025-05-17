@@ -16,7 +16,7 @@ headerAdmin($data);
 
     <div class="row">
         <div class="col-md-12">
-            <div class="tile">
+            <div class="">
                 <div class="tile-body">
                     <div class="table-responsive">
                         <table class="table table-estilo" id="tableFuncionarios">

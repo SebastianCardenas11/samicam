@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <!-- Foto del funcionario -->
                         <div class="text-center mb-3">
@@ -113,7 +113,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <h6 id="funcionarioHistorial"></h6>
                         <!-- Foto del funcionario -->

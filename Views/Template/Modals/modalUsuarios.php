@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <form id="formUsuario" name=" formUsuario"" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideUsuario"" name=" ideUsuario"" value="">
@@ -33,11 +33,12 @@
                                     name="txtNombresUsuario" required="" maxlength="30">
                             </div>
 
-                            <div class="modal-body mb-3">
+                            <div class="modal-body">
                                 <label for="txtRolUsuario">Selecciona el Rol</label>
-                                <select class="form-control selectpicker" id="txtRolUsuario" name="txtRolUsuario">
+                                <select class="form-control form-select selectpicker required" id="txtRolUsuario" name="txtRolUsuario">
                                 </select>
                             </div>
+
 
                             <div class="modal-body form-select-lg mb-3">
                                 <label for="listStatus">Estado</label>
@@ -75,7 +76,7 @@
             </div>
 
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
 
 
