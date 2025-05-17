@@ -13,7 +13,7 @@
                     <div class="tile-body">
                         <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
-                            
+
                             <!-- Nombre completo -->
                             <div class="modal-body">
                                 <label for="txtNombreFuncionario">Nombre completo <b
@@ -21,11 +21,12 @@
                                 <input type="text" class="form-control valid validText" id="txtNombreFuncionario"
                                     name="txtNombreFuncionario" required maxlength="50">
                             </div>
-                            
+
                             <!-- Foto -->
                             <div class="modal-body">
                                 <label for="foto">Foto</label>
-                                <input type="file" class="form-control" id="foto" name="foto" accept="image/jpeg,image/png">
+                                <input type="file" class="form-control" id="foto" name="foto"
+                                    accept="image/jpeg,image/png">
                                 <input type="hidden" id="foto_actual" name="foto_actual" value="">
                                 <input type="hidden" id="foto_remove" name="foto_remove" value="0">
                             </div>
@@ -108,21 +109,35 @@
                                     name="txtVacacionesFuncionario">
                             </div> -->
 
-                            <!-- Número de hijos -->
                             <div class="modal-body">
                                 <label for="txtHijosFuncionario">Cantidad de hijos <b
                                         class="required text-danger">*</b></label>
                                 <input type="number" class="form-control" id="txtHijosFuncionario"
-                                    name="txtHijosFuncionario">
+                                    name="txtHijosFuncionario" min="0">
                             </div>
 
-                            <!-- Nombres de los hijos -->
-                            <div class="modal-body">
+                            <!-- Campo oculto inicialmente -->
+                            <div class="modal-body" id="nombresHijosContainer" style="display: none;">
                                 <label for="txtNombresHijosFuncionario">Nombres de los hijos <b
                                         class="required text-danger">*</b></label>
                                 <input type="text" class="form-control" id="txtNombresHijosFuncionario"
                                     name="txtNombresHijosFuncionario">
                             </div>
+
+                            <script>
+                                const cantidadHijosInput = document.getElementById("txtHijosFuncionario");
+                                const nombresHijosContainer = document.getElementById("nombresHijosContainer");
+
+                                cantidadHijosInput.addEventListener("input", () => {
+                                    const cantidad = parseInt(cantidadHijosInput.value);
+                                    if (cantidad > 0) {
+                                        nombresHijosContainer.style.display = "block";
+                                    } else {
+                                        nombresHijosContainer.style.display = "none";
+                                    }
+                                });
+                            </script>
+
 
                             <div class="modal-body">
                                 <label for="txtSexoFuncionario">Sexo <b class="required text-danger">*</b></label>
@@ -167,9 +182,17 @@
                             <div class="modal-body">
                                 <label for="txtReligionFuncionario">Religión <b
                                         class="required text-danger">*</b></label>
-                                <input type="text" class="form-control" id="txtReligionFuncionario"
-                                    name="txtReligionFuncionario">
+                                <select class="form-select" id="txtReligionFuncionario" name="txtReligionFuncionario"
+                                    required>
+                                    <option value="">Selecciona una opcion</option>
+                                    <option value="catolico">Católico</option>
+                                    <option value="cristiano">Cristiano</option>
+                                    <option value="ateo">Ateo</option>
+                                    <option value="no_creyente">No creyente</option>
+                                    <option value="otro">Otro</option>
+                                </select>
                             </div>
+
 
                             <!-- Nivel escolar -->
                             <div class="modal-body">
@@ -236,7 +259,9 @@
                     <div class="tile-body">
                         <!-- Foto del funcionario -->
                         <div class="text-center mb-3">
-                            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png" alt="Foto funcionario" class="img-thumbnail rounded-circle" style="width:150px; height:150px;">
+                            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
+                                alt="Foto funcionario" class="img-thumbnail rounded-circle"
+                                style="width:150px; height:150px;">
                         </div>
                         <table class="table table-bordered">
                             <tbody>
