@@ -6,7 +6,7 @@ const BASE_URL = "http://localhost/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = "localhost:3306";
+const DB_HOST = "localhost";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
@@ -42,6 +42,7 @@ const MUSUARIOS = 2;
 const MROLES= 3;
 const MFUNCIONARIOSOPS= 4;
 const MFUNCIONARIOSPLANTA= 4;
+const MVIATICOS = 7;
 
 //Páginas
 const PINICIO = 1;

@@ -16,6 +16,22 @@
     transform: none !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
+
+/* Quitar cualquier efecto de zoom en las tablas */
+table, tr, td, th {
+    transform: none !important;
+    transition: none !important;
+    transform-origin: center !important;
+    perspective: none !important;
+}
+
+/* Quitar hover en DataTables */
+table.dataTable tbody tr:hover {
+    transform: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    z-index: auto !important;
+}
 </style>
 
 <div class="app-content content">
@@ -33,33 +49,11 @@
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Capital Disponible para el Año <span id="anioActual"></span></h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <canvas id="chartCapitalDisponible" height="200"></canvas>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mt-3">
-                                        <p><strong>Total Presupuesto:</strong> <span id="totalViaticos" class="text-success"></span></p>
-                                        <p><strong>Viáticos Usados:</strong> <span id="viaticosDescontados" class="text-danger"></span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Filtrar por Año</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <select id="selectAnio" class="form-select">
+                        <div class="card-header p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Capital Disponible <span id="anioActual"></span></h5>
+                                <div class="d-flex">
+                                    <select id="selectAnio" class="form-select form-select-sm me-1" style="width: auto;">
                                         <?php 
                                         $currentYear = date('Y');
                                         for($i = $currentYear - 2; $i <= $currentYear + 1; $i++) {
@@ -68,9 +62,20 @@
                                         }
                                         ?>
                                     </select>
+                                    <button id="btnFiltrar" class="btn btn-sm btn-primary">Filtrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <canvas id="chartCapitalDisponible" height="150"></canvas>
                                 </div>
                                 <div class="col-md-6">
-                                    <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+                                    <div class="mt-2">
+                                        <p class="mb-1"><strong>Total:</strong> <span id="totalViaticos" class="text-success"></span></p>
+                                        <p class="mb-1"><strong>Usado:</strong> <span id="viaticosDescontados" class="text-danger"></span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +116,7 @@
                                     <th>Monto</th>
                                     <th>Fecha</th>
                                     <th>Uso</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -124,17 +130,18 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Quitar cualquier efecto hover o animación de las cards
-    document.querySelectorAll('.card').forEach(card => {
-        card.style.transition = 'none';
-        card.style.transform = 'none';
-        card.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+    // Quitar cualquier efecto hover o animación de las cards y tablas
+    document.querySelectorAll('.card, table, tr, td, th').forEach(element => {
+        element.style.transition = 'none';
+        element.style.transform = 'none';
+        element.style.boxShadow = element.classList.contains('card') ? '0 1px 3px rgba(0, 0, 0, 0.1)' : 'none';
     });
     
     // Aplicar estilos para quitar hover en tablas
     document.querySelectorAll('.table-bordered tr').forEach(row => {
         row.addEventListener('mouseenter', function() {
             this.style.backgroundColor = 'transparent';
+            this.style.transform = 'none';
         });
     });
     

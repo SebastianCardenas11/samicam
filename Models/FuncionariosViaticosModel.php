@@ -32,7 +32,7 @@ class FuncionariosViaticosModel extends Mysql
         $return = 0;
         
         // Verificar que el funcionario existe
-        $sqlFunc = "SELECT idefuncionario FROM tbl_funcionarios WHERE idefuncionario = ? AND estatus = 1";
+        $sqlFunc = "SELECT idefuncionario FROM tbl_funcionarios WHERE idefuncionario = ? AND status = 1";
         $requestFunc = $this->select($sqlFunc, [$this->intIdFuncionario]);
         
         if (empty($requestFunc)) {
@@ -63,6 +63,43 @@ class FuncionariosViaticosModel extends Mysql
         return $return;
     }
 
+    // Eliminar un viático
+    public function deleteViatico(int $idViatico)
+    {
+        // Primero obtenemos el monto y la fecha del viático para actualizar el capital disponible
+        $sql = "SELECT monto, fecha FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
+        $request = $this->select($sql, [$idViatico]);
+        
+        if (empty($request)) {
+            return false;
+        }
+        
+        $monto = $request['monto'];
+        $year = date('Y', strtotime($request['fecha']));
+        
+        // Actualizamos el estatus del viático a 0 (eliminado)
+        $sql = "UPDATE tbl_viaticos SET estatus = 0 WHERE idViatico = ?";
+        $request = $this->update($sql, [$idViatico]);
+        
+        if ($request) {
+            // Devolvemos el monto al capital disponible
+            $sqlCapital = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
+            $requestCapital = $this->select($sqlCapital, [$year]);
+            
+            if ($requestCapital) {
+                $capitalDisponible = $requestCapital['capital_disponible'];
+                $nuevoCapital = $capitalDisponible + $monto;
+                
+                $sqlUpdate = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
+                $this->update($sqlUpdate, [$nuevoCapital, $year]);
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
+
     // Obtener histórico de viáticos otorgados por funcionario para el año
     public function getHistoricoViaticos($year)
     {
@@ -90,33 +127,14 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener funcionarios con tipo de contrato Carrera o Libre nombramiento
     public function getFuncionariosValidos()
     {
-        try {
-            // Verificar si la tabla existe
-            $sqlCheck = "SHOW TABLES LIKE 'tbl_funcionarios'";
-            $tableExists = $this->select_all($sqlCheck);
-            
-            if (empty($tableExists)) {
-                return [];
-            }
-            
-            // Verificar si la columna contrato_fk existe
-            $sqlColumns = "SHOW COLUMNS FROM tbl_funcionarios LIKE 'contrato_fk'";
-            $columnExists = $this->select_all($sqlColumns);
-            
-            if (empty($columnExists)) {
-                // Si no existe la columna, seleccionar todos los funcionarios activos
-                $sql = "SELECT idefuncionario, nombre_completo FROM tbl_funcionarios WHERE estatus = 1";
-            } else {
-                // Si existe la columna, filtrar por tipo de contrato
-                $sql = "SELECT idefuncionario, nombre_completo FROM tbl_funcionarios WHERE contrato_fk IN ('1', '2') AND estatus = 1";
-            }
-            
-            $request = $this->select_all($sql);
-            return $request;
-        } catch (Exception $e) {
-            error_log("Error en getFuncionariosValidos: " . $e->getMessage());
-            return [];
-        }
+        // Consulta directa para obtener funcionarios con contrato de tipo 1 (Carrera) o 2 (Libre Nombramiento)
+        $sql = "SELECT f.idefuncionario, f.nombre_completo, c.tipo_cont 
+                FROM tbl_funcionarios f 
+                INNER JOIN tbl_contrato c ON f.contrato_fk = c.id_contrato 
+                WHERE f.contrato_fk IN (1, 2) AND f.status = 1";
+        
+        $request = $this->select_all($sql);
+        return $request;
     }
 
     // Obtener capital disponible para el año actual
