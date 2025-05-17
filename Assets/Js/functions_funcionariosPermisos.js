@@ -167,11 +167,16 @@ function fntViewHistorial(idefuncionario) {
                   <td>${fechaFormateada}</td>
                   <td>${item.motivo}</td>
                   <td class="text-success">${item.estado}</td>
+                  <td>
+                    <button class="btn btn-primary btn-sm" onclick="generarPermisoPDF(${item.id_permiso})" title="Descargar PDF">
+                      <i class="bi bi-file-pdf"></i>
+                    </button>
+                  </td>
                 </tr>`;
               });
               document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             } else {
-              htmlHistorial = `<tr><td colspan="3" class="text-center">No hay permisos registrados</td></tr>`;
+              htmlHistorial = `<tr><td colspan="4" class="text-center">No hay permisos registrados</td></tr>`;
               document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             }
             
@@ -237,5 +242,14 @@ function generarPDF() {
     window.open(base_url + '/funcionariosPermisos/generarPDF/' + idFuncionario, '_blank');
   } else {
     Swal.fire("Error", "No se pudo identificar el funcionario para generar el PDF", "error");
+  }
+}
+
+function generarPermisoPDF(idPermiso) {
+  if (idPermiso) {
+    // Redirigir a la URL para generar el PDF del permiso individual
+    window.open(base_url + '/funcionariosPermisos/generarPermisoPDF/' + idPermiso, '_blank');
+  } else {
+    Swal.fire("Error", "No se pudo identificar el permiso para generar el PDF", "error");
   }
 }

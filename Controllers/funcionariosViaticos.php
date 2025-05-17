@@ -20,6 +20,7 @@ class FuncionariosViaticos extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
+        $data['funcionarios_planta'] = $this->model->selectFuncionariosPlanta();
         $data['page_tag'] = "Viaticos";
         $data['page_title'] = "Viaticos";
         $data['page_name'] = "Viaticos";

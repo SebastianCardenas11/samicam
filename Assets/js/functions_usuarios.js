@@ -52,8 +52,6 @@ document.addEventListener('DOMContentLoaded', function(){
             var intIdeUsuario = document.querySelector('#ideUsuario').value;
             let strCorreoUsuario = document.querySelector('#txtCorreoUsuario').value;
             let strNombresUsuario = document.querySelector('#txtNombresUsuario').value;
-            // $('#txtRolUsuario').picker();
-            // $('#txtRolUsuario').picker({search : true});
             let strRolUsuario = document.querySelector('#txtRolUsuario').value;
             
             $('#listStatus').picker();
@@ -128,7 +126,6 @@ if(document.querySelector('#txtRolUsuario')){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
-            $('#txtRolUsuario').picker({search : true});
             // $('.txtRolUsuario').selectpicker('refresh');
             // $('#txtRolUsuario').picker();
         }

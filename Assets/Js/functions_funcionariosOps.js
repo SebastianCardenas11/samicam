@@ -196,8 +196,12 @@ function fntEditInfo(element, idefuncionario) {
         document.querySelector("#listStatus").value = objData.data.status;
         
         // Mostrar la imagen actual
-        document.querySelector('#foto_actual').value = objData.data.imagen;
-        document.querySelector('#img_funcionario').src = objData.data.url_imagen;
+        if(document.querySelector('#foto_actual')){
+          document.querySelector('#foto_actual').value = objData.data.imagen;
+        }
+        if(document.querySelector('#img_funcionario')){
+          document.querySelector('#img_funcionario').src = objData.data.url_imagen;
+        }
       }
     }
     $("#modalFormFuncionario").modal("show");
@@ -250,11 +254,6 @@ function openModal() {
   document.querySelector("#btnText").innerHTML = "Guardar";
   document.querySelector("#titleModal").innerHTML = "Nuevo Funcionario";
   document.querySelector("#formFuncionario").reset();
-  
-  // Resetear imagen
-  document.querySelector('#img_funcionario').src = media() + '/images/funcionarios/user.png';
-  document.querySelector('#foto_actual').value = '';
-  document.querySelector('#foto_remove').value = 0;
   
   $("#modalFormFuncionario").modal("show");
 }

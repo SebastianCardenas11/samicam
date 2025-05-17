@@ -9,7 +9,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <form id="formRol" name="formRol">
                             <input type="hidden" id="idRol" name="idRol" value="">

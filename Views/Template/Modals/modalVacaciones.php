@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <table class="table table-bordered">
                             <tbody>
@@ -68,10 +68,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <form id="formVacaciones" name="formVacaciones" method="POST">
                             <input type="hidden" id="idFuncionario" name="idFuncionario" value="">
+                            <input type="hidden" id="listPeriodo" name="listPeriodo" value="1">
                             
                             <div class="form-group mb-3">
                                 <label for="txtNombreFuncionario" class="form-label">Funcionario</label>
@@ -88,18 +89,9 @@
                                 <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
                             </div>
                             
-                            <div class="form-group mb-3">
-                                <label for="listPeriodo" class="form-label">Período a utilizar <span class="text-danger">*</span></label>
-                                <select class="form-select" id="listPeriodo" name="listPeriodo" required>
-                                    <option value="">Seleccione un período</option>
-                                    <option value="1">1 Período</option>
-                                    <option value="2">2 Períodos</option>
-                                    <option value="3">3 Períodos</option>
-                                </select>
-                            </div>
-                            
                             <div class="alert alert-info" role="alert">
                                 <p id="periodosInfo">Períodos disponibles: <span id="periodosDisponibles">0</span>/3</p>
+                                <p class="mb-0">Las vacaciones quedarán en estado "Pendiente" hasta su aprobación.</p>
                             </div>
                             
                             <div class="modal-footer">
@@ -129,7 +121,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <h6 id="funcionarioHistorial"></h6>
                         <div class="table-responsive">

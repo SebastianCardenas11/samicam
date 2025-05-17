@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <form id="formCargos" name="formCargos" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideCargos" name="ideCargos" value="">
@@ -75,7 +75,7 @@
             </div>
 
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
 
 

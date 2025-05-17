@@ -102,34 +102,54 @@ function fntVacacionesInfo(idefuncionario) {
       let objData = JSON.parse(request.responseText);
         
       if (objData.status) {
-        document.querySelector("#idFuncionario").value = objData.data.idefuncionario;
-        document.querySelector("#txtNombreFuncionario").value = objData.data.nombre_completo;
+        // Verificar si el funcionario ya tiene vacaciones pendientes o aprobadas
+        let requestCheck = window.XMLHttpRequest
+          ? new XMLHttpRequest()
+          : new ActiveXObject("Microsoft.XMLHTTP");
+        let ajaxUrlCheck = base_url + "/vacaciones/getHistorialVacaciones/" + idefuncionario;
         
-        // Establecer fecha mínima como hoy usando formato ISO para evitar problemas de zona horaria
-        let today = new Date();
-        let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-        document.querySelector("#txtFechaInicio").setAttribute("min", localISOTime);
-        document.querySelector("#txtFechaInicio").value = localISOTime;
-        
-        // Calcular fecha fin por defecto (15 días después)
-        let endDate = new Date();
-        endDate.setDate(endDate.getDate() + 15);
-        let localISOEndTime = new Date(endDate.getTime() - (endDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-        document.querySelector("#txtFechaFin").setAttribute("min", localISOTime);
-        document.querySelector("#txtFechaFin").value = localISOEndTime;
-        
-        // Mostrar períodos disponibles
-        document.querySelector("#periodosDisponibles").innerHTML = objData.data.periodos_disponibles;
-        
-        // Limitar opciones de períodos según disponibilidad
-        let selectPeriodo = document.querySelector("#listPeriodo");
-        selectPeriodo.innerHTML = '<option value="">Seleccione un período</option>';
-        
-        for (let i = 1; i <= Math.min(3, objData.data.periodos_disponibles); i++) {
-            selectPeriodo.innerHTML += `<option value="${i}">${i} Período${i > 1 ? 's' : ''}</option>`;
-        }
+        requestCheck.open("GET", ajaxUrlCheck, true);
+        requestCheck.send();
+        requestCheck.onreadystatechange = function() {
+          if (requestCheck.readyState == 4 && requestCheck.status == 200) {
+            let historialData = JSON.parse(requestCheck.responseText);
+            
+            // Verificar si hay vacaciones pendientes o aprobadas
+            let tienePendientesOAprobadas = false;
+            if (historialData.status) {
+              tienePendientesOAprobadas = historialData.data.some(item => 
+                item.estado === 'Pendiente' || item.estado === 'Aprobado'
+              );
+            }
+            
+            if (tienePendientesOAprobadas) {
+              Swal.fire("Aviso", "El funcionario ya tiene vacaciones pendientes o aprobadas. No se pueden crear más hasta que se completen o cancelen las existentes.", "warning");
+              return;
+            }
+            
+            // Continuar con el proceso normal
+            document.querySelector("#idFuncionario").value = objData.data.idefuncionario;
+            document.querySelector("#txtNombreFuncionario").value = objData.data.nombre_completo;
+            
+            // Establecer fecha mínima como hoy usando formato ISO para evitar problemas de zona horaria
+            let today = new Date();
+            let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+            document.querySelector("#txtFechaInicio").setAttribute("min", localISOTime);
+            document.querySelector("#txtFechaInicio").value = localISOTime;
+            
+            // Calcular fecha fin por defecto (15 días después)
+            let endDate = new Date();
+            endDate.setDate(endDate.getDate() + 15);
+            let localISOEndTime = new Date(endDate.getTime() - (endDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+            document.querySelector("#txtFechaFin").setAttribute("min", localISOTime);
+            document.querySelector("#txtFechaFin").value = localISOEndTime;
+            
+            // Mostrar períodos disponibles
+            document.querySelector("#periodosDisponibles").innerHTML = objData.data.periodos_disponibles;
 
-        $("#modalFormVacaciones").modal("show");
+            $("#modalFormVacaciones").modal("show");
+          }
+        };
       } else {
         Swal.fire("Error", objData.msg, "error");
       }
@@ -182,10 +202,16 @@ function fntViewHistorial(idefuncionario) {
                 
                 let fechaInicio = fechaInicioObj.toLocaleDateString();
                 let fechaFin = fechaFinObj.toLocaleDateString();
-                let btnCancelar = '';
+                let btnAcciones = '';
                 
-                if (item.estado === 'Aprobado') {
-                  btnCancelar = `<button class="btn btn-danger btn-sm" onclick="fntCancelarVacaciones(${item.id_vacaciones})" title="Cancelar"><i class="bi bi-x-circle"></i></button>`;
+                // Botones según el estado
+                if (item.estado === 'Pendiente') {
+                  btnAcciones = `
+                    <button class="btn btn-success btn-sm" onclick="fntAprobarVacaciones(${item.id_vacaciones})" title="Aprobar"><i class="bi bi-check-circle"></i></button>
+                    <button class="btn btn-danger btn-sm" onclick="fntCancelarVacaciones(${item.id_vacaciones})" title="Cancelar"><i class="bi bi-x-circle"></i></button>
+                  `;
+                } else {
+                  btnAcciones = ''; // No hay acciones para estados Aprobado, Cumplidas o Cancelado
                 }
                 
                 // Verificar si la fecha de fin ya pasó para mostrar como cumplida
@@ -204,14 +230,18 @@ function fntViewHistorial(idefuncionario) {
                   estadoTexto = 'Cumplida';
                 } else if (item.estado === 'Cancelado') {
                   estadoClass = 'text-danger';
+                } else if (item.estado === 'Pendiente') {
+                  estadoClass = 'text-warning text-orange';
+                } else if (item.estado === 'Aprobado') {
+                  estadoClass = 'text-success';
                 }
                 
                 htmlHistorial += `<tr>
                   <td>${fechaInicio}</td>
                   <td>${fechaFin}</td>
-                  <td>${item.periodo}</td>
+                  <td>Período</td>
                   <td><span class="${estadoClass}">${estadoTexto}</span></td>
-                  <td>${btnCancelar}</td>
+                  <td>${btnAcciones}</td>
                 </tr>`;
               });
               document.querySelector("#tableHistorialVacaciones").innerHTML = htmlHistorial;
@@ -230,10 +260,50 @@ function fntViewHistorial(idefuncionario) {
   };
 }
 
+function fntAprobarVacaciones(idVacaciones) {
+  Swal.fire({
+    title: "¿Aprobar Vacaciones?",
+    text: "¿Está seguro de aprobar estas vacaciones? Esta acción reducirá los períodos disponibles del funcionario.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, aprobar",
+    cancelButtonText: "No, regresar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      let ajaxUrl = base_url + '/vacaciones/aprobarVacaciones';
+      let formData = new FormData();
+      formData.append('idVacaciones', idVacaciones);
+      
+      request.open("POST", ajaxUrl, true);
+      request.send(formData);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+          let objData = JSON.parse(request.responseText);
+          
+          if (objData.status) {
+            // Cerrar el modal actual
+            $("#modalHistorialVacaciones").modal("hide");
+            
+            Swal.fire("Vacaciones", objData.msg, "success");
+            
+            // Recargar la tabla
+            tableFuncionarios.api().ajax.reload();
+          } else {
+            Swal.fire("Error", objData.msg, "error");
+          }
+        }
+      }
+    }
+  });
+}
+
 function fntCancelarVacaciones(idVacaciones) {
   Swal.fire({
     title: "¿Cancelar Vacaciones?",
-    text: "¿Está seguro de cancelar estas vacaciones? Esta acción devolverá los períodos al funcionario.",
+    text: "¿Está seguro de cancelar estas vacaciones?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",

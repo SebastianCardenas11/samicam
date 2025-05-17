@@ -125,7 +125,7 @@ class FuncionariosOpsModel extends Mysql
     if ($_SESSION['idUser'] != 1) {
         $whereAdmin = " and u.idefuncionario != 1 ";
     }
-    $sql = "SELECT 
+    $sql = "SELECT DISTINCT
         u.idefuncionario,
         u.correo_elc,
         u.nombre_completo,
@@ -154,7 +154,9 @@ class FuncionariosOpsModel extends Mysql
     INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
     INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
     WHERE u.status != 0 
-      AND ct.tipo_cont = 'Prestacion de servicios' " . $whereAdmin;
+      AND ct.tipo_cont IN ('Ops', 'Otros') " . $whereAdmin . "
+    GROUP BY u.idefuncionario";
+
 
 
             $request = $this->select_all($sql);
@@ -290,15 +292,17 @@ class FuncionariosOpsModel extends Mysql
     }
 
     public function selectCargos() {
-    $sql = "SELECT idecargos, nombre, nivel, salario FROM tbl_cargos WHERE estatus = 1";
-    $request = $this->select_all($sql);
-    return $request;
+        $sql = "SELECT idecargos, nombre, nivel, salario FROM tbl_cargos WHERE estatus = 1";
+        $request = $this->select_all($sql);
+        return $request;
     }
-    public function selectContratoOps() {
-    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont = 'Prestacion de servicios'";
+   public function selectContratoOps() {
+    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont IN ('Ops', 'Otros')";
     $request = $this->select_all($sql);
     return $request;
 }
+
+
 
    
 

@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <!-- Foto del funcionario -->
                         <div class="text-center mb-3">
@@ -113,7 +113,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="tile">
+                <div class="">
                     <div class="tile-body">
                         <h6 id="funcionarioHistorial"></h6>
                         <!-- Foto del funcionario -->
@@ -127,6 +127,7 @@
                                         <th>Fecha</th>
                                         <th>Motivo</th>
                                         <th>Estado</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableHistorialPermisos">
@@ -136,7 +137,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btnGenerarPDF">
-                            <i class="bi bi-file-pdf"></i> Generar PDF
+                            <i class="bi bi-file-pdf"></i> Generar PDF Completo
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg"></i> Cerrar

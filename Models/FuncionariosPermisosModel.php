@@ -46,7 +46,7 @@ class FuncionariosPermisosModel extends Mysql
         if ($_SESSION['idUser'] != 1) {
             $whereAdmin = " and u.idefuncionario != 1 ";
         }
-        $sql = "SELECT 
+        $sql = "SELECT DISTINCT
             u.idefuncionario,
             u.correo_elc,
             u.nombre_completo,
@@ -75,7 +75,9 @@ class FuncionariosPermisosModel extends Mysql
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-        WHERE u.status != 0 " . $whereAdmin;
+        WHERE u.status != 0 
+        AND ct.tipo_cont IN ('Carrera', 'Libre Nombramiento')" . $whereAdmin . "
+        GROUP BY u.idefuncionario";
 
         $request = $this->select_all($sql);
         return $request;
@@ -138,6 +140,21 @@ class FuncionariosPermisosModel extends Mysql
         return $request;
     }
 
+    public function getPermiso(int $idPermiso)
+    {
+        $sql = "SELECT 
+                p.id_permiso,
+                p.id_funcionario,
+                p.fecha_permiso,
+                p.motivo,
+                p.estado
+            FROM tbl_permisos p
+            WHERE p.id_permiso = $idPermiso";
+        
+        $request = $this->select($sql);
+        return $request;
+    }
+
     public function insertPermiso(int $idFuncionario, string $fechaPermiso, int $idMotivo)
     {
         $this->intIdFuncionario = $idFuncionario;
@@ -148,6 +165,16 @@ class FuncionariosPermisosModel extends Mysql
         $fecha = new DateTime($fechaPermiso);
         $this->intMes = $fecha->format('m');
         $this->intAnio = $fecha->format('Y');
+        
+        // Verificar si el funcionario ya tiene un permiso en la misma fecha
+        $sql_check_same_day = "SELECT COUNT(*) as total FROM tbl_permisos 
+                    WHERE id_funcionario = $this->intIdFuncionario 
+                    AND fecha_permiso = '$this->dateFechaPermiso'";
+        
+        $result_same_day = $this->select($sql_check_same_day);
+        if ($result_same_day['total'] > 0) {
+            return ["status" => false, "msg" => "¡Ya existe un permiso registrado para este funcionario en la misma fecha!"];
+        }
         
         // Verificar si el funcionario ya tiene 3 permisos en el mes actual
         $sql_check = "SELECT COUNT(*) as total FROM tbl_permisos 

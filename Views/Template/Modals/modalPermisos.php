@@ -9,7 +9,7 @@
             <div class="modal-body">
 
                 <div class="modal-body">
-                    <div class="tile">
+                    <div class="">
                         <div class="tile-body">
                             <form action="" id="formPermiso" name="formPermiso">
                                 <input type="hidden" id="idrol" name="idrol" value="<?= $data['idrol']; ?>" required="">
