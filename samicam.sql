@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 15-05-2025 a las 09:01:46
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 16-05-2025 a las 02:49:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -118,6 +118,28 @@ INSERT INTO `rol` (`idrol`, `nombrerol`, `descripcion`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_capital_viaticos`
+--
+
+CREATE TABLE `tbl_capital_viaticos` (
+  `idCapital` int(11) NOT NULL,
+  `anio` int(4) NOT NULL,
+  `capital_total` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `capital_disponible` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_capital_viaticos`
+--
+
+INSERT INTO `tbl_capital_viaticos` (`idCapital`, `anio`, `capital_total`, `capital_disponible`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 2025, 22999999.99, 22999999.99, '2025-05-15 19:38:53', '2025-05-15 20:14:23');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_cargos`
 --
 
@@ -125,7 +147,7 @@ CREATE TABLE `tbl_cargos` (
   `idecargos` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `nivel` varchar(255) NOT NULL,
-  `salario` bigint(255) NOT NULL,
+  `salario` decimal(15,2) NOT NULL,
   `estatus` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -134,11 +156,13 @@ CREATE TABLE `tbl_cargos` (
 --
 
 INSERT INTO `tbl_cargos` (`idecargos`, `nombre`, `nivel`, `salario`, `estatus`) VALUES
-(1, 'Alcalde', 'Directivo', 8000000, 0),
-(3, 'Técnico Administrativo', 'Técnico', 2825000, 1),
-(13, 'carlos', 'tecnico', 883, 0),
-(30, 'aguita', 'de maiz', 7777, 0),
-(31, 'luiji', 'lleva', 111, 0);
+(1, 'Alcalde', 'Directivo', 8000000.00, 0),
+(3, 'Técnico Administrativo', 'Técnico', 2800000.00, 1),
+(13, 'carlos', 'tecnico', 883.00, 0),
+(30, 'aguita', 'de maiz', 7777.00, 0),
+(31, 'luiji', 'lleva', 111.00, 0),
+(32, '1', '1', 1000000.00, 0),
+(33, 'Tecnico Telecomunicaciones', 'Técnico', 1000000.00, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +242,7 @@ CREATE TABLE `tbl_funcionarios` (
 --
 
 INSERT INTO `tbl_funcionarios` (`idefuncionario`, `nombre_completo`, `imagen`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `vacaciones`, `fecha_vacaciones`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
-(9, 'Carlos Lopez', 'func_8a5a01ffae55015f6321d7d4b067ddea.jpg', 1, 3, 1, 2, 1, '1', 'carlos@gmail.com', '2025-05-15', NULL, NULL, 1, 'carlos jr do santos aveiro', 'masculino', 'la jagua de ibirico', 19, 'divorciado', 'Ipuc', 'ingieneria', 'Software', NULL, 1, 0);
+(10, 'Carlos Lopez', 'user.png', 1, 33, 1, 1, 1, '1', 'Carlos@gmail.com', '2023-10-15', NULL, NULL, 1, '1', 'masculino', '1', 21, 'casado', 'cato', 'bachiller', '1', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -240,24 +264,24 @@ CREATE TABLE `tbl_historial_permisos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tbl_motivos_permisos`
+-- Estructura de tabla para la tabla `tbl_motivo_permiso`
 --
 
-CREATE TABLE `tbl_motivos_permisos` (
-  `id` int(11) NOT NULL,
-  `motivo` varchar(300) NOT NULL,
+CREATE TABLE `tbl_motivo_permiso` (
+  `id_motivo` int(11) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tbl_motivos_permisos`
+-- Volcado de datos para la tabla `tbl_motivo_permiso`
 --
 
-INSERT INTO `tbl_motivos_permisos` (`id`, `motivo`, `status`) VALUES
-(1, 'Medicina General', 1),
-(2, 'Cita médica especialista', 1),
-(3, 'Calamidad doméstica', 1),
-(4, 'Diligencia personal', 1),
+INSERT INTO `tbl_motivo_permiso` (`id_motivo`, `descripcion`, `status`) VALUES
+(1, 'Cita médica', 1),
+(2, 'Calamidad doméstica', 1),
+(3, 'Diligencia personal', 1),
+(4, 'Capacitación', 1),
 (5, 'Asunto familiar', 1),
 (6, 'Muerte familiar', 1);
 
@@ -333,6 +357,17 @@ CREATE TABLE `tbl_vacaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `tbl_vacaciones`
+--
+
+INSERT INTO `tbl_vacaciones` (`id_vacaciones`, `id_funcionario`, `fecha_inicio`, `fecha_fin`, `periodo`, `estado`, `fecha_registro`) VALUES
+(30, 10, '2025-05-15', '2025-05-30', 1, 'Cancelado', '2025-05-15 16:24:18'),
+(31, 10, '2025-05-15', '2025-05-30', 1, 'Cancelado', '2025-05-15 16:33:42'),
+(32, 10, '2025-05-15', '2025-05-30', 1, 'Cancelado', '2025-05-15 16:42:01'),
+(33, 10, '2025-05-15', '2025-05-30', 1, 'Pendiente', '2025-05-15 16:55:53'),
+(34, 10, '2025-05-15', '2025-05-30', 1, 'Cancelado', '2025-05-15 16:56:36');
+
+--
 -- Disparadores `tbl_vacaciones`
 --
 DELIMITER $$
@@ -354,6 +389,23 @@ CREATE TRIGGER `check_vacaciones_fin` BEFORE UPDATE ON `tbl_vacaciones` FOR EACH
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_viaticos`
+--
+
+CREATE TABLE `tbl_viaticos` (
+  `idViatico` int(11) NOT NULL,
+  `funci_fk` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `monto` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `fecha` date NOT NULL,
+  `uso` text NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT 1,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -378,6 +430,13 @@ ALTER TABLE `permisos`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`idrol`);
+
+--
+-- Indices de la tabla `tbl_capital_viaticos`
+--
+ALTER TABLE `tbl_capital_viaticos`
+  ADD PRIMARY KEY (`idCapital`),
+  ADD UNIQUE KEY `anio_unique` (`anio`);
 
 --
 -- Indices de la tabla `tbl_cargos`
@@ -415,10 +474,10 @@ ALTER TABLE `tbl_historial_permisos`
   ADD KEY `id_funcionario` (`id_funcionario`);
 
 --
--- Indices de la tabla `tbl_motivos_permisos`
+-- Indices de la tabla `tbl_motivo_permiso`
 --
-ALTER TABLE `tbl_motivos_permisos`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `tbl_motivo_permiso`
+  ADD PRIMARY KEY (`id_motivo`);
 
 --
 -- Indices de la tabla `tbl_notificaciones`
@@ -448,6 +507,13 @@ ALTER TABLE `tbl_vacaciones`
   ADD KEY `id_funcionario` (`id_funcionario`);
 
 --
+-- Indices de la tabla `tbl_viaticos`
+--
+ALTER TABLE `tbl_viaticos`
+  ADD PRIMARY KEY (`idViatico`),
+  ADD KEY `funci_fk` (`funci_fk`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -464,10 +530,16 @@ ALTER TABLE `rol`
   MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_capital_viaticos`
+--
+ALTER TABLE `tbl_capital_viaticos`
+  MODIFY `idCapital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_cargos`
 --
 ALTER TABLE `tbl_cargos`
-  MODIFY `idecargos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `idecargos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_contrato`
@@ -485,7 +557,7 @@ ALTER TABLE `tbl_dependencia`
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios`
 --
 ALTER TABLE `tbl_funcionarios`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
@@ -494,10 +566,10 @@ ALTER TABLE `tbl_historial_permisos`
   MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `tbl_motivos_permisos`
+-- AUTO_INCREMENT de la tabla `tbl_motivo_permiso`
 --
-ALTER TABLE `tbl_motivos_permisos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+ALTER TABLE `tbl_motivo_permiso`
+  MODIFY `id_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_notificaciones`
@@ -509,7 +581,7 @@ ALTER TABLE `tbl_notificaciones`
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
@@ -521,7 +593,13 @@ ALTER TABLE `tbl_usuarios`
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
-  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_viaticos`
+--
+ALTER TABLE `tbl_viaticos`
+  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -571,6 +649,12 @@ ALTER TABLE `tbl_usuarios`
 --
 ALTER TABLE `tbl_vacaciones`
   ADD CONSTRAINT `fk_vacaciones_funcionario` FOREIGN KEY (`id_funcionario`) REFERENCES `tbl_funcionarios` (`idefuncionario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_viaticos`
+--
+ALTER TABLE `tbl_viaticos`
+  ADD CONSTRAINT `tbl_viaticos_ibfk_1` FOREIGN KEY (`funci_fk`) REFERENCES `tbl_funcionarios` (`idefuncionario`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
