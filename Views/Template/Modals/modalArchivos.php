@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="modalFormArchivo" tabindex="-1" aria-labelledby="modalFormArchivo" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    data-bs-backdrop="static" data-bs-keyboard="false">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -10,44 +10,42 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="">
-                    <div class="tile-body">
-                        <form id="formArchivo" name="formArchivo" enctype="multipart/form-data" method="POST">
-                            <input type="hidden" id="idArchivo" name="idArchivo" value="">
-                            <div class="modal-body">
-                                <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son
-                                    obligatorios.
-                                </p>
-                                <hr>
-                                <p class="text-primary">Datos del Archivo</p>
-                            </div>
-                            <div class="modal-body">
-                                <label for="txtNombre">Nombre<span class="required">*</span></label>
-                                <input type="text" class="form-control" id="txtNombre"
-                                    name="txtNombre" required="">
-                            </div>
+                <div class="tile-body">
+                    <form id="formArchivo" name="formArchivo" enctype="multipart/form-data" method="POST">
+                        <input type="hidden" id="idArchivo" name="idArchivo" value="">
+                        <div class="modal-body">
+                            <p class="text-primary">Los campos con asterisco (<span class="required text-danger">*</span>) son
+                                obligatorios.
+                            </p>
+                            <hr>
+                            <p class="text-primary">Datos del Archivo</p>
+                        </div>
+                        <div class="modal-body">
+                            <label for="txtNombre">Nombre<span class="required text-danger">*</span></label>
+                            <input type="text" class="form-control" id="txtNombre"
+                                name="txtNombre" required="">
+                        </div>
 
-                            <div class="modal-body">
-                                <label for="txtDescripcion">Descripción</label>
-                                <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="3"></textarea>
-                            </div>
+                        <div class="modal-body">
+                            <label for="txtDescripcion">Descripción</label>
+                            <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="3"></textarea>
+                        </div>
 
-                            <div class="modal-body">
-                                <label for="fileArchivo">Archivo<span class="required">*</span></label>
-                                <input type="file" class="form-control" id="fileArchivo" name="fileArchivo" required="">
-                                <small class="text-muted">Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, JPG, JPEG, PNG, GIF</small>
-                            </div>
+                        <div class="modal-body">
+                            <label for="fileArchivo">Archivo<span class="required text-danger">*</span></label>
+                            <input type="file" class="form-control" id="fileArchivo" name="fileArchivo" required="">
+                            <small class="text-muted">Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, JPG, JPEG, PNG, GIF</small>
+                        </div>
 
-                            <div class="modal-footer">
-                                <button id="btnActionForm" class="btn btn-success" type="submit"><i
-                                        class="bi bi-floppy"></i>
-                                    <span id="btnText">Guardar</span></button>
+                        <div class="modal-footer">
+                            <button id="btnActionForm" class="btn btn-success" type="submit"><i
+                                    class="bi bi-floppy"></i>
+                                <span id="btnText">Guardar</span></button>
 
-                                <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i
-                                        class="bi bi-x-lg"></i>Cerrar</button>
-                            </div>
-                        </form>
-                    </div>
+                            <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i
+                                    class="bi bi-x-lg"></i>Cerrar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -99,8 +97,8 @@
           <a id="btnDownload" href="#" class="btn btn-primary" download>
             <i class="bi bi-download"></i> Descargar
           </a>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="bi bi-x-lg"></i> Cerrar
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <i class="bi bi-check2"></i> Listo
           </button>
         </div>
       </div>
