@@ -1,8 +1,8 @@
 <div class="modal fade" id="modalPresupuestoViaticos" tabindex="-1" aria-labelledby="modalPresupuestoViaticosLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <div class="modal-content text-dark">
             <form id="formPresupuestoViaticos" name="formPresupuestoViaticos" method="POST">
-                <div class="modal-header">
+                <div class="modal-header headerRegister">
                     <h5 class="modal-title" id="modalPresupuestoViaticosLabel">Agregar/Actualizar Presupuesto Anual</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
@@ -24,8 +24,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar Presupuesto</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-floppy"></i> Guardar Presupuesto
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg"></i> Cerrar
+                    </button>
                 </div>
             </form>
         </div>

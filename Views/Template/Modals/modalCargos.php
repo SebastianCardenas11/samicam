@@ -74,9 +74,9 @@
 
       <div class="modal-body">
         <div class="tile-body">
-          <table class="table table-bordered table-striped align-middle mb-0">
+          <table class="table table-bordered align-middle mb-0">
             <tbody>
-              <tr>
+              <tr class="bg-light">
                 <th scope="row" class="text-dark">Cargo:</th>
                 <td id="celNombre" class="text-dark"></td>
               </tr>
@@ -84,7 +84,7 @@
                 <th scope="row" class="text-dark">Nivel:</th>
                 <td id="celNivel" class="text-dark">0</td>
               </tr>
-              <tr>
+              <tr class="bg-light">
                 <th scope="row" class="text-dark">Salario:</th>
                 <td id="celSalario" class="text-dark">0</td>
               </tr>
@@ -105,4 +105,3 @@
     </div>
   </div>
 </div>
-

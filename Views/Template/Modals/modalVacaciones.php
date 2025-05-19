@@ -2,56 +2,55 @@
 <div class="modal fade" id="modalViewFuncionario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <div class="modal-content text-dark">
             <div class="modal-header header-primary">
                 <h5 class="modal-title" id="titleModal">Datos del Funcionario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <div class="">
-                    <div class="tile-body">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>ID:</td>
-                                    <td id="celIdeFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombre Completo:</td>
-                                    <td id="celNombresFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Identificación:</td>
-                                    <td id="celIdentificacion">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Cargo:</td>
-                                    <td id="celCargoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Dependencia:</td>
-                                    <td id="celDependenciaFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Fecha de Ingreso:</td>
-                                    <td id="celFechaIngreso">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Años de Servicio:</td>
-                                    <td id="celAnosServicio">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Períodos Disponibles:</td>
-                                    <td id="celPeriodosDisponibles">0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i
-                                class="bi bi-check2"></i>Listo</button>
-                    </div>
+                <div class="tile-body">
+                    <table class="table table-bordered align-middle mb-0">
+                        <tbody>
+                            <tr class="bg-light">
+                                <th scope="row" class="text-dark">ID:</th>
+                                <td id="celIdeFuncionario" class="text-dark">0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-dark">Nombre Completo:</th>
+                                <td id="celNombresFuncionario" class="text-dark">0</td>
+                            </tr>
+                            <tr class="bg-light">
+                                <th scope="row" class="text-dark">Identificación:</th>
+                                <td id="celIdentificacion" class="text-dark">0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-dark">Cargo:</th>
+                                <td id="celCargoFuncionario" class="text-dark">0</td>
+                            </tr>
+                            <tr class="bg-light">
+                                <th scope="row" class="text-dark">Dependencia:</th>
+                                <td id="celDependenciaFuncionario" class="text-dark">0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-dark">Fecha de Ingreso:</th>
+                                <td id="celFechaIngreso" class="text-dark">0</td>
+                            </tr>
+                            <tr class="bg-light">
+                                <th scope="row" class="text-dark">Años de Servicio:</th>
+                                <td id="celAnosServicio" class="text-dark">0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-dark">Períodos Disponibles:</th>
+                                <td id="celPeriodosDisponibles" class="text-dark">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="bi bi-check2"></i> Listo
+                    </button>
                 </div>
             </div>
         </div>
@@ -114,40 +113,38 @@
 <div class="modal fade" id="modalHistorialVacaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content text-dark">
             <div class="modal-header header-primary">
                 <h5 class="modal-title">Historial de Vacaciones</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <div class="">
-                    <div class="tile-body">
-                        <h6 id="funcionarioHistorial"></h6>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
-                                        <th>Período</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableHistorialVacaciones">
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="tile-body">
+                    <h6 id="funcionarioHistorial"></h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="text-dark">Fecha Inicio</th>
+                                    <th class="text-dark">Fecha Fin</th>
+                                    <th class="text-dark">Período</th>
+                                    <th class="text-dark">Estado</th>
+                                    <th class="text-dark">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableHistorialVacaciones">
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btnGenerarPDF">
-                            <i class="bi bi-file-pdf"></i> Generar PDF
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-lg"></i> Cerrar
-                        </button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnGenerarPDF">
+                        <i class="bi bi-file-pdf"></i> Generar PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg"></i> Cerrar
+                    </button>
                 </div>
             </div>
         </div>

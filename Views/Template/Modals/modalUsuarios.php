@@ -12,8 +12,8 @@
             <div class="modal-body">
                 <div class="">
                     <div class="tile-body">
-                        <form id="formUsuario" name=" formUsuario"" enctype="multipart/form-data" method="POST">
-                            <input type="hidden" id="ideUsuario"" name=" ideUsuario"" value="">
+                        <form id="formUsuario" name="formUsuario" enctype="multipart/form-data" method="POST">
+                            <input type="hidden" id="ideUsuario" name="ideUsuario" value="">
                             <div class="modal-body">
                                 <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son
                                     obligatorios.
@@ -22,13 +22,13 @@
                                 <p class="text-primary">Datos del Usuario</p>
                             </div>
                             <div class="modal-body">
-                                <label for="txtCorreoUsuario">Correos<span class=" required">*</span></label>
-                                <input type="email" class="form-control " id="txtCorreoUsuario"
-                                    name="txtCorreoUsuario" required="" >
+                                <label for="txtCorreoUsuario">Correos<span class="required">*</span></label>
+                                <input type="email" class="form-control" id="txtCorreoUsuario"
+                                    name="txtCorreoUsuario" required="">
                             </div>
 
                             <div class="modal-body">
-                                <label for="txtNombresUsuario">Nombres<span class=" required">*</span></label>
+                                <label for="txtNombresUsuario">Nombres<span class="required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombresUsuario"
                                     name="txtNombresUsuario" required="" maxlength="30">
                             </div>
@@ -65,53 +65,48 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content ">
-            <div class="modal-header header-primary">
-                <h5 class="modal-title" id="titleModal">Datos del Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
+<div class="modal fade" id="modalViewUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-dark">
+      <div class="modal-header header-primary">
+        <h5 class="modal-title" id="titleModal">Datos del Cargo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-            <div class="modal-body">
-                <div class="">
-                    <div class="tile-body">
-
-
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>ID:</td>
-                                    <td id="celIdeUsuario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Correo:</td>
-                                    <td id="celCorreoUsuario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombres:</td>
-                                    <td id="celNombresUsuario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Rol:</td>
-                                    <td id="celRolUsuario">2875079</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado:</td>
-                                    <td id="celEstadoUsuario">Programación de Software</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i
-                                class="bi bi-check2"></i>Listo</button>
-                    </div>
-
-                </div>
-            </div>
+      <div class="modal-body">
+        <div class="tile-body">
+          <table class="table table-bordered align-middle mb-0">
+           <tbody>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">ID:</th>
+                <td id="celIdeUsuario" class="text-dark">233104</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Correo:</th>
+                <td id="celCorreoUsuario" class="text-dark">233104</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Nombres:</th>
+                <td id="celNombresUsuario" class="text-dark">233104</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Rol:</th>
+                <td id="celRolUsuario" class="text-dark">2875079</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Estado:</th>
+                <td id="celEstadoUsuario" class="text-dark">Programación de Software</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <i class="bi bi-check2"></i> Listo
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

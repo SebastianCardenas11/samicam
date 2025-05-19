@@ -244,120 +244,114 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewFuncionario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content ">
-            <div class="modal-header header-primary">
-                <h5 class="modal-title" id="titleModal">Datos del Funcionario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                    <div class="tile-body">
-                        <!-- Foto del funcionario -->
-                        <div class="text-center mb-3">
-                            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
-                                alt="Foto funcionario" class="img-thumbnail rounded-circle"
-                                style="width:150px; height:150px;">
-                        </div>
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>ID:</td>
-                                    <td id="celIdeFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Correo:</td>
-                                    <td id="celCorreoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombre Completo:</td>
-                                    <td id="celNombresFuncionario">0</td>
-                                </tr>
+<div class="modal fade" id="modalViewFuncionario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-dark">
+      <div class="modal-header header-primary">
+        <h5 class="modal-title" id="titleModal">Datos del Funcionario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-                                <tr>
-                                    <td>Identificación:</td>
-                                    <td id="celIdentificacionFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Cargo:</td>
-                                    <td id="celCargoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Dependencia:</td>
-                                    <td id="celDependenciaFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Contrato:</td>
-                                    <td id="celContrato">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Celular:</td>
-                                    <td id="celCelularFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Dirección:</td>
-                                    <td id="celDireccionFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Fecha de Ingreso:</td>
-                                    <td id="celFechaIngresoFuncionario">0</td>
-                                </tr>
-                                <!-- <tr>
-                                    <td>Vacaciones:</td>
-                                    <td id="celVacacionesFuncionario">0</td>
-                                </tr> -->
-                                <tr>
-                                    <td>Hijos:</td>
-                                    <td id="celHijosFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombres de Hijos:</td>
-                                    <td id="celNombresHijosFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Sexo:</td>
-                                    <td id="celSexoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Lugar de Residencia:</td>
-                                    <td id="celLugarResidenciaFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Edad:</td>
-                                    <td id="celEdadFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado Civil:</td>
-                                    <td id="celEstadoCivilFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Religión:</td>
-                                    <td id="celReligionFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Formacion academica:</td>
-                                    <td id="celFormacionAcademica">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombre de la formacion:</td>
-                                    <td id="celNombreFormacion">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado:</td>
-                                    <td id="celEstadoFuncionario">0</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i
-                                class="bi bi-check2"></i>Listo</button>
-                    </div>
-            </div>
+      <div class="modal-body">
+        <div class="tile-body">
+          <!-- Foto del funcionario -->
+          <div class="text-center mb-3">
+            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
+                alt="Foto funcionario" class="img-thumbnail rounded-circle"
+                style="width:150px; height:150px;">
+          </div>
+          <table class="table table-bordered align-middle mb-0">
+            <tbody>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">ID:</th>
+                <td id="celIdeFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Correo:</th>
+                <td id="celCorreoFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Nombre Completo:</th>
+                <td id="celNombresFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Identificación:</th>
+                <td id="celIdentificacionFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Cargo:</th>
+                <td id="celCargoFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Dependencia:</th>
+                <td id="celDependenciaFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Contrato:</th>
+                <td id="celContrato" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Celular:</th>
+                <td id="celCelularFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Dirección:</th>
+                <td id="celDireccionFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Fecha de Ingreso:</th>
+                <td id="celFechaIngresoFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Hijos:</th>
+                <td id="celHijosFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Nombres de Hijos:</th>
+                <td id="celNombresHijosFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Sexo:</th>
+                <td id="celSexoFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Lugar de Residencia:</th>
+                <td id="celLugarResidenciaFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Edad:</th>
+                <td id="celEdadFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Estado Civil:</th>
+                <td id="celEstadoCivilFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Religión:</th>
+                <td id="celReligionFuncionario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Formacion academica:</th>
+                <td id="celFormacionAcademica" class="text-dark">0</td>
+              </tr>
+              <tr class="bg-light">
+                <th scope="row" class="text-dark">Nombre de la formacion:</th>
+                <td id="celNombreFormacion" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Estado:</th>
+                <td id="celEstadoFuncionario" class="text-dark">0</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <i class="bi bi-check2"></i> Listo
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
