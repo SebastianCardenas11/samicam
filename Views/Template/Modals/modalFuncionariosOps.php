@@ -266,7 +266,7 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td>ID:</td>
+                                    <td >ID:</td>
                                     <td id="celIdeFuncionario">0</td>
                                 </tr>
                                 <tr>

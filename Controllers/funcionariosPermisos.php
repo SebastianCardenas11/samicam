@@ -61,6 +61,24 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
+    
+    public function getFuncionariosConPermisos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->selectFuncionarios();
+            $funcionariosConPermisos = [];
+            
+            foreach ($arrData as $funcionario) {
+                $funcionariosConPermisos[] = [
+                    'nombre' => $funcionario['nombre_completo'],
+                    'permisos_mes_actual' => $funcionario['permisos_mes_actual']
+                ];
+            }
+            
+            echo json_encode($funcionariosConPermisos, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 
     public function getFuncionario($idefuncionario)
     {

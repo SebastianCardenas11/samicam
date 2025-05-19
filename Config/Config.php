@@ -1,16 +1,12 @@
 <?php
-const BASE_URL = "http://localhost/samicam";
+const BASE_URL = "http://localhost/samica";
 
 //Zona horaria
 
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-<<<<<<< HEAD
-const DB_HOST = "localhost";
-=======
 const DB_HOST = "localhost:3307";
->>>>>>> 4a3ae6431f1e6c541f980f6c3bd1e7c5a28fc297
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
@@ -46,7 +42,6 @@ const MUSUARIOS = 2;
 const MROLES= 3;
 const MFUNCIONARIOSOPS= 4;
 const MFUNCIONARIOSPLANTA= 4;
-const MVIATICOS = 7;
 
 //Páginas
 const PINICIO = 1;

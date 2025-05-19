@@ -3,29 +3,21 @@
 /* Quitar el efecto hover de las tablas */
 .table-bordered tbody tr:hover {
     background-color: transparent !important;
-    transform: none !important;
-    transition: none !important;
 }
 
 /* Quitar el efecto hover de DataTables */
 table.dataTable tbody tr:hover {
     background-color: transparent !important;
-    transform: none !important;
-    transition: none !important;
-    box-shadow: none !important;
-    z-index: auto !important;
 }
 
 /* Quitar el efecto hover de DataTables en filas impares */
 table.dataTable tbody tr.odd:hover {
     background-color: #f9f9f9 !important;
-    transform: none !important;
 }
 
 /* Quitar el efecto hover de DataTables en filas pares */
 table.dataTable tbody tr.even:hover {
     background-color: white !important;
-    transform: none !important;
 }
 
 /* Quitar efectos de hover y animaciones en las cards */
@@ -56,26 +48,4 @@ table.dataTable tbody tr.even:hover {
 
 .btn:hover {
     transform: none !important;
-}
-
-/* Quitar cualquier efecto de zoom o transformación en las tablas */
-table, tr, td, th {
-    transform: none !important;
-    transition: none !important;
-    transform-origin: center !important;
-    perspective: none !important;
-}
-
-/* Quitar cualquier efecto de zoom en DataTables */
-.dataTables_wrapper .dataTables_scroll,
-.dataTables_wrapper .dataTables_scrollBody,
-.dataTables_wrapper table {
-    transform: none !important;
-    transition: none !important;
-}
-
-/* Asegurar que no haya transformaciones en hover */
-*:hover {
-    transform: none !important;
-    transition: none !important;
 }

@@ -12,15 +12,11 @@
                         <label for="listFuncionarios" class="form-label">Funcionario</label>
                         <select class="form-select" id="listFuncionarios" name="funci_fk" required>
                             <option value="">Seleccione un funcionario</option>
-<<<<<<< HEAD
-                            <option value="9">Carlos Lopez (Libre Nombramiento)</option>
-=======
                             <?php foreach ($data['funcionarios_planta'] as $func): ?>
                                 <option value="<?= $func['idefuncionario'] ?>">
                                     <?= $func['nombre_completo'] ?>
                                 </option>
                             <?php endforeach; ?>
->>>>>>> 4a3ae6431f1e6c541f980f6c3bd1e7c5a28fc297
                         </select>
                     </div>
                     <div class="mb-3">
@@ -50,29 +46,6 @@
 </div>
 
 <script>
-<<<<<<< HEAD
-document.addEventListener('DOMContentLoaded', function () {
-    // Inicializar fecha con la fecha actual
-    document.getElementById('txtFecha').valueAsDate = new Date();
-    
-    document.getElementById('formViaticos').addEventListener('submit', function (e) {
-        e.preventDefault();
-        
-        // Validar que se haya seleccionado un funcionario
-        const funcionarioId = document.getElementById('listFuncionarios').value;
-        if (!funcionarioId) {
-            Swal.fire('Error', 'Debe seleccionar un funcionario', 'error');
-            return;
-        }
-        
-        // Mostrar indicador de carga
-        Swal.fire({
-            title: 'Guardando...',
-            text: 'Por favor espere',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-=======
     // Cargar funcionarios al abrir el modal
     $('#modalViaticos').on('show.bs.modal', function () {
         cargarFuncionariosValidos();
@@ -90,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!funcionarioId) {
                 Swal.fire('Error', 'Debe seleccionar un funcionario', 'error');
                 return;
->>>>>>> 4a3ae6431f1e6c541f980f6c3bd1e7c5a28fc297
             }
 
             // Mostrar indicador de carga
@@ -137,9 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     });
-<<<<<<< HEAD
-});
-=======
 
     function cargarFuncionariosValidos() {
         // Mostrar indicador de carga en el select
@@ -175,5 +144,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 select.disabled = false;
             });
     }
->>>>>>> 4a3ae6431f1e6c541f980f6c3bd1e7c5a28fc297
 </script>

@@ -37,6 +37,11 @@ class Vacaciones extends Controllers
 
                 // Agregar imagen del funcionario
                 $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
+                // Verificar si existe la imagen
+                $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
+                if(!file_exists($rutaImagen)){
+                    $urlImagen = media().'/images/sinimagen.png';
+                }
                 $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
 
                 if ($_SESSION['permisosMod']['r']) {
@@ -65,7 +70,13 @@ class Vacaciones extends Controllers
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
                     // Agregar URL de la imagen
-                    $arrData['url_imagen'] = media().'/images/funcionarios/'.$arrData['imagen'];
+                    $urlImagen = media().'/images/funcionarios/'.$arrData['imagen'];
+                    // Verificar si existe la imagen
+                    $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
+                    if(!file_exists($rutaImagen)){
+                        $urlImagen = media().'/images/sinimagen.png';
+                    }
+                    $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -245,6 +256,9 @@ class Vacaciones extends Controllers
                 $imagePath = 'Assets/images/funcionarios/'.$funcionario['imagen'];
                 if(file_exists($imagePath)){
                     $pdf->Image($imagePath, 160, 20, 30, 30);
+                } else {
+                    // Usar imagen predeterminada si no existe
+                    $pdf->Image('Assets/images/sinimagen.png', 160, 20, 30, 30);
                 }
                 
                 $pdf->SetFont('Arial', '', 10);

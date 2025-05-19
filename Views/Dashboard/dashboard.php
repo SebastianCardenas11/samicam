@@ -1,113 +1,125 @@
-<?php headerAdmin($data);?>
-
-<main class="app-content">
-    <div class="app-title">
-        <div>
-            <h1>
-                <i class="bi bi-house"></i>
-                </i> Inicio
-            </h1>
-            <p> Sistema Administrativo de Módulos de Información del Centro Administrativo</p>
-        </div>
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
-            <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-        </ul>
-    </div>
-
-    <style>
-        h4{
-            color: #000 !important;
-        }
-    </style>
-    <!-- Widgets de resumen -->
-    <div class="row">
-        <?php if (!empty($_SESSION['permisos'][2]['d'])) {?>
-        <div class="col-md-6 col-lg-3">
-            <a href="<?=base_url()?>/usuarios" class="linkw">
-                <div class="widget-small primary coloured-icon"><i class="icon bi bi-people fs-1"></i>
-                    <div class="info">
-                        <h4>Usuarios</h4>
-                        <p><b><?=$data['usuarios']?></b></p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <?php }?>
-
-        <?php if (!empty($_SESSION['permisos'][4]['r'])) {?>
-        <div class="col-md-6 col-lg-3">
-            <a href="<?=base_url()?>/funcionariosOps" class="linkw">
-                <div class="widget-small info coloured-icon">
-                    <i class="icon bi bi-person-fill-gear fs-1"></i>
-                    <div class="info">
-                        <h4>Funcionarios OPS</h4>
-                        <p><b><?=$data['funcionariosops']?></b></p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <?php }?>
-
-        <?php if (!empty($_SESSION['permisos'][5]['r'])) {?>
-        <div class="col-md-6 col-lg-3">
-            <a href="<?=base_url()?>/funcionariosPlanta" class="linkw">
-                <div class="widget-small warning coloured-icon">
-                    <i class="icon bi bi-person-fill fs-1"></i>
-                    <div class="info">
-                        <h4>Funcionarios Planta</h4>
-                        <p><b><?=$data['funcionariosplanta']?></b></p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <?php }?>
-
-        <?php if (!empty($_SESSION['permisos'][5]['r'])) {?>
-        <div class="col-md-6 col-lg-3">
-            <a href="<?=base_url()?>/vacaciones" class="linkw">
-                <div class="widget-small danger coloured-icon">
-                    <i class="icon bi bi-calendar-week fs-1"></i>
-                    <div class="info">
-                        <h4>Vacaciones Activas</h4>
-                        <p><b><?=$data['estadisticas']['vacacionesActivas']?></b></p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <?php }?>
-    </div>
-
-    <!-- Gráficas -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="tile">
-                <div class="tile-title-w-btn">
-                    <h3 class="title">Funcionarios por Cargo</h3>
-                </div>
-                <div class="tile-body">
-                    <div class="chart-container" style="position: relative; height:300px;">
-                        <canvas id="graficaFuncionariosPorCargo"></canvas>
+<?php headerAdmin($data); ?>
+<div class="row">
+    <?php if (!empty($_SESSION['permisos'][2]['d'])) { ?>
+    <!-- Usuarios -->
+    <div class="col-lg-3 col-md-6 col-12 mb-3">
+        <a href="<?=base_url()?>/usuarios">
+            <div class="card">
+                <span class="mask bg-primary opacity-10 border-radius-lg"></span>
+                <div class="card-body p-3 position-relative">
+                    <div class="row">
+                        <div class="col-8 text-start">
+                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                <i class="fas fa-users text-dark text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['usuarios'] ?></h5>
+                            <span class="text-white text-sm">Usuarios</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-         <div class="col-md-6">
-            <div class="tile">
-                <div class="tile-title-w-btn">
-                    <h3 class="title">Funcionarios por Tipo de Contrato</h3>
-                </div>
-                <div class="tile-body">
-                    <div class="chart-container" style="position: relative; height:300px;">
-                        <canvas id="graficaFuncionariosPorTipoContrato"></canvas>
+        </a>
+    </div>
+    <?php } ?>
+
+    <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
+    <!-- Funcionarios OPS -->
+    <div class="col-lg-3 col-md-6 col-12 mb-3" >
+        <a href="<?=base_url()?>/funcionariosOps">
+            <div class="card">
+                <span class="mask bg-primary opacity-10 border-radius-lg"></span>
+                <div class="card-body p-3 position-relative">
+                    <div class="row">
+                        <div class="col-8 text-start">
+                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                <i class="fas fa-user-cog text-dark text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['funcionariosops'] ?></h5>
+                            <span class="text-white text-sm">Funcionarios OPS</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
- 
+    <?php } ?>
 
-    
-</main>
+    <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
+    <!-- Funcionarios Planta -->
+    <div class="col-lg-3 col-md-6 col-12 mb-3">
+        <a href="<?=base_url()?>/funcionariosPlanta">
+            <div class="card">
+                <span class="mask bg-primary opacity-10 border-radius-lg"></span>
+                <div class="card-body p-3 position-relative">
+                    <div class="row">
+                        <div class="col-8 text-start">
+                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                <i class="fas fa-user-tie text-dark text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['funcionariosplanta'] ?></h5>
+                            <span class="text-white text-sm">Funcionarios Planta</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <?php } ?>
 
-<?php footerAdmin($data);?>
+    <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
+    <!-- Vacaciones Activas -->
+    <div class="col-lg-3 col-md-6 col-12 mb-3">
+        <a href="<?=base_url()?>/vacaciones">
+            <div class="card">
+                <span class="mask bg-primary opacity-10 border-radius-lg"></span>
+                <div class="card-body p-3 position-relative">
+                    <div class="row">
+                        <div class="col-8 text-start">
+                            <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                <i class="fas fa-calendar-week text-dark text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['estadisticas']['vacacionesActivas'] ?></h5>
+                            <span class="text-white text-sm">Vacaciones Activas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <?php } ?>
+</div>
+<div class="row mt-4">
+  <div class="col-lg-6 mb-4">
+    <div class="card z-index-2 h-100">
+      <div class="card-body p-3">
+        <div class="bg-dark border-radius-md py-3 pe-1 mb-3">
+          <div class="chart">
+            <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+          </div>
+        </div>
+        <h6 class="ms-2 mt-4 mb-0 text-dark">Funcionarios por Cargo</h6>
+        <p class="text-sm ms-2 text-dark">Distribución de funcionarios según su cargo</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 mb-4">
+    <div class="card z-index-2 h-100">
+      <div class="card-header pb-0">
+        <h6 class="text-dark">Permisos por Mes</h6>
+        <p class="text-sm text-dark">
+          <i class="fa fa-calendar text-success"></i>
+          <span class="font-weight-bold">Registro de permisos</span> durante el año
+        </p>
+      </div>
+      <div class="card-body p-3">
+        <div class="chart">
+          <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<?php footerAdmin($data); ?>

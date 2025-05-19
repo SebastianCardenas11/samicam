@@ -64,49 +64,45 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewCargos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content ">
-            <div class="modal-header header-primary">
-                <h5 class="modal-title" id="titleModal">Datos del Cargo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
+<div class="modal fade" id="modalViewCargos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-dark">
+      <div class="modal-header header-primary">
+        <h5 class="modal-title" id="titleModal">Datos del Cargo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-            <div class="modal-body">
-                <div class="">
-                    <div class="tile-body">
-
-
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>Cargo:</td>
-                                    <td id="celNombre">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Nivel:</td>
-                                    <td id="celNivel">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Salario:</td>
-                                    <td id="celSalario">233104</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado:</td>
-                                    <td id="celEstadoCargo">Programación de Software</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i
-                                class="bi bi-check2"></i>Listo</button>
-                    </div>
-
-                </div>
-            </div>
+      <div class="modal-body">
+        <div class="tile-body">
+          <table class="table table-bordered table-striped align-middle mb-0">
+            <tbody>
+              <tr>
+                <th scope="row" class="text-dark">Cargo:</th>
+                <td id="celNombre" class="text-dark"></td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Nivel:</th>
+                <td id="celNivel" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Salario:</th>
+                <td id="celSalario" class="text-dark">0</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-dark">Estado:</th>
+                <td id="celEstadoCargo" class="text-dark">0</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <i class="bi bi-check2"></i> Listo
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
+

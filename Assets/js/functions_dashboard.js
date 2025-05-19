@@ -1,288 +1,220 @@
+// Función para cargar los datos cuando el documento esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar las gráficas cuando el documento esté listo
-    cargarGraficaUsuariosPorRol();
-    cargarGraficaFuncionariosPorCargo();
-    cargarGraficaFuncionariosPorTipoContrato();
-    cargarGraficaHorasPorMes();
-    cargarGraficaHorasPorInstructor();
+    // Cargar datos para los gráficos
+    getFuncionariosPorCargo();
+    getPermisosPorMes();
 });
 
-// Gráfica de usuarios por rol
-function cargarGraficaUsuariosPorRol() {
-    fetch(base_url + '/dashboard/getUsuariosPorRol')
+// Función para obtener funcionarios por cargo
+function getFuncionariosPorCargo() {
+    fetch(base_url + '/Dashboard/getFuncionariosPorCargo')
         .then(response => response.json())
         .then(data => {
-            const labels = data.map(item => item.nombrerol);
-            const valores = data.map(item => parseInt(item.cantidad));
-            
-            const ctx = document.getElementById('graficaUsuariosPorRol').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: valores,
-                        backgroundColor: [
-                            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribución de Usuarios por Rol',
-                            font: {
-                                size: 16
-                            }
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => console.error('Error al cargar datos de usuarios por rol:', error));
-}
-
-// Gráfica de funcionarios por cargo
-function cargarGraficaFuncionariosPorCargo() {
-    fetch(base_url + '/dashboard/getFuncionariosPorCargo')
-        .then(response => response.json())
-        .then(data => {
+            // Preparar datos para el gráfico
             const labels = data.map(item => item.nombre_cargo);
             const valores = data.map(item => parseInt(item.cantidad));
             
-            const ctx = document.getElementById('graficaFuncionariosPorCargo').getContext('2d');
+            // Configurar y mostrar el gráfico de barras
+            var ctx = document.getElementById("chart-bars").getContext("2d");
             new Chart(ctx, {
-                type: 'pie',
+                type: "bar",
                 data: {
                     labels: labels,
                     datasets: [{
+                        label: "Funcionarios por Cargo",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        backgroundColor: "#fff",
                         data: valores,
-                        backgroundColor: [
-                            '#1cc88a', '#4e73df', '#36b9cc', '#f6c23e', '#e74a3b', '#858796',
-                            '#5a5c69', '#2ecc71', '#3498db', '#e67e22', '#9b59b6', '#34495e'
-                        ],
-                        borderWidth: 1
-                    }]
+                        maxBarThickness: 6
+                    }],
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribución de Funcionarios por Cargo',
-                            font: {
-                                size: 16
-                            }
+                            display: false,
                         }
-                    }
-                }
-            });
-        })
-        .catch(error => console.error('Error al cargar datos de funcionarios por cargo:', error));
-}
-
-// Gráfica de funcionarios por tipo de contrato
-function cargarGraficaFuncionariosPorTipoContrato() {
-    fetch(base_url + '/dashboard/getFuncionariosPorTipoContrato')
-        .then(response => response.json())
-        .then(data => {
-            const labels = data.map(item => item.tipo_contrato);
-            const valores = data.map(item => parseInt(item.cantidad));
-            
-            const ctx = document.getElementById('graficaFuncionariosPorTipoContrato').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Cantidad de funcionarios',
-                        data: valores,
-                        backgroundColor: [
-                            'rgba(28, 200, 138, 0.7)',
-                            'rgba(78, 115, 223, 0.7)',
-                            'rgba(54, 185, 204, 0.7)',
-                            'rgba(246, 194, 62, 0.7)',
-                            'rgba(231, 74, 59, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgb(28, 200, 138)',
-                            'rgb(78, 115, 223)',
-                            'rgb(54, 185, 204)',
-                            'rgb(246, 194, 62)',
-                            'rgb(231, 74, 59)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
                     scales: {
                         y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Cantidad'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Funcionarios por Tipo de Contrato',
-                            font: {
-                                size: 16
-                            }
-                        },
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => console.error('Error al cargar datos de funcionarios por tipo de contrato:', error));
-}
-
-// Gráfica de horas por mes
-function cargarGraficaHorasPorMes() {
-    fetch(base_url + '/dashboard/getHorasPorMesControlador')
-        .then(response => response.json())
-        .then(data => {
-            // Agrupar datos por ficha
-            const fichasUnicas = [...new Set(data.map(item => item.numeroficha))];
-            const datasets = fichasUnicas.map((ficha, index) => {
-                const fichaData = data.filter(item => item.numeroficha === ficha);
-                return {
-                    label: `Ficha ${ficha}`,
-                    data: fichaData.map(item => parseInt(item.avancehorascompetencia)),
-                    backgroundColor: getColor(index, 0.7),
-                    borderColor: getColor(index, 1),
-                    borderWidth: 1
-                };
-            });
-            
-            const ctx = document.getElementById('graficaHorasPorMes');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Horas'
-                            }
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: Math.max(...valores) + 2,
+                                beginAtZero: true,
+                                padding: 15,
+                                font: {
+                                    size: 14,
+                                    family: "Inter",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#fff"
+                            },
                         },
                         x: {
-                            title: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false
+                            },
+                            ticks: {
                                 display: true,
-                                text: 'Mes'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Avance de Horas por Mes',
-                            font: {
-                                size: 16
-                            }
+                                color: "#fff",
+                                padding: 10,
+                                font: {
+                                    size: 12,
+                                    family: "Inter",
+                                    style: 'normal'
+                                }
+                            },
                         },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
+                    },
+                },
             });
         })
-        .catch(error => console.error('Error al cargar datos de horas por mes:', error));
+        .catch(error => console.error('Error al cargar funcionarios por cargo:', error));
 }
 
-// Gráfica de horas por instructor
-function cargarGraficaHorasPorInstructor() {
-    fetch(base_url + '/dashboard/getHorasPorInstructor')
+// Función para obtener permisos por mes
+function getPermisosPorMes() {
+    // Realizar una solicitud para obtener los permisos por mes
+    fetch(base_url + '/Dashboard/getPermisosPorMes')
         .then(response => response.json())
         .then(data => {
-            const labels = data.map(item => item.nombres);
-            const valores = data.map(item => parseInt(item.instructor));
-            
-            const ctx = document.getElementById('graficaHorasPorInstructor');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Horas asignadas',
-                        data: valores,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Horas'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Horas Asignadas por Instructor',
-                            font: {
-                                size: 16
-                            }
-                        },
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
+            mostrarGraficoPermisosPorMes(data);
         })
-        .catch(error => console.error('Error al cargar datos de horas por instructor:', error));
+        .catch(error => {
+           console.error(error);
+        });
 }
 
-// Función para generar colores
-function getColor(index, alpha) {
-    const colors = [
-        `rgba(78, 115, 223, ${alpha})`,
-        `rgba(28, 200, 138, ${alpha})`,
-        `rgba(54, 185, 204, ${alpha})`,
-        `rgba(246, 194, 62, ${alpha})`,
-        `rgba(231, 74, 59, ${alpha})`,
-        `rgba(133, 135, 150, ${alpha})`,
-        `rgba(90, 92, 105, ${alpha})`,
-        `rgba(46, 204, 113, ${alpha})`,
-        `rgba(52, 152, 219, ${alpha})`,
-        `rgba(230, 126, 34, ${alpha})`,
-        `rgba(155, 89, 182, ${alpha})`,
-        `rgba(52, 73, 94, ${alpha})`
-    ];
-    return colors[index % colors.length];
+// Función para mostrar el gráfico de permisos por mes
+function mostrarGraficoPermisosPorMes(datos) {
+    // Traducir meses si están en inglés
+    const traduccionMeses = {
+        'January': 'Enero',
+        'February': 'Febrero',
+        'March': 'Marzo',
+        'April': 'Abril',
+        'May': 'Mayo',
+        'June': 'Junio',
+        'July': 'Julio',
+        'August': 'Agosto',
+        'September': 'Septiembre',
+        'October': 'Octubre',
+        'November': 'Noviembre',
+        'December': 'Diciembre'
+    };
+    
+    // Preparar datos para el gráfico
+    const labels = datos.map(item => traduccionMeses[item.mes] || item.mes);
+    const permisosData = datos.map(item => parseInt(item.total_permisos));
+    
+    // Configurar y mostrar el gráfico de líneas
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+    
+    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)');
+    
+    new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Permisos por Mes",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 0,
+                    borderColor: "#cb0c9f",
+                    borderWidth: 3,
+                    backgroundColor: gradientStroke1,
+                    fill: true,
+                    data: permisosData,
+                    maxBarThickness: 6
+                }
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#b2b9bf',
+                        font: {
+                            size: 11,
+                            family: "Inter",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#b2b9bf',
+                        padding: 20,
+                        font: {
+                            size: 11,
+                            family: "Inter",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+}
+
+// Configuración para el scrollbar en Windows
+var win = navigator.platform.indexOf('Win') > -1;
+if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+        damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
 }
