@@ -1,10 +1,6 @@
 <?php
 headerAdmin($data);
 ?>
-<ul class="app-breadcrumb breadcrumb">
-    <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
-    <li class="breadcrumb-item"><a href="<?=base_url();?>/vacaciones"><?=$data['page_title']?></a></li>
-</ul>
 <div id="contentAjax"></div>
 
 <main class="app-content">
@@ -13,7 +9,11 @@ headerAdmin($data);
             <h1><i class="bi bi-calendar-week"></i> <?=$data['page_title']?></h1>
         </div>
     </div>
-
+    
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
+        <li class="breadcrumb-item"><a href="<?=base_url();?>/vacaciones"><?=$data['page_title']?></a></li>
+    </ul>
 
 
     

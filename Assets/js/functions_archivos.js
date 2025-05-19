@@ -1,0 +1,328 @@
+let tableArchivos;
+let rowTable = "";
+document.addEventListener('DOMContentLoaded', function(){
+
+    tableArchivos = $('#tableArchivos').dataTable( {
+        "aProcessing":true,
+        "aServerSide":true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        },
+        "ajax":{
+            "url": " "+base_url+"/Archivos/getArchivos",
+            "dataSrc":""
+        },
+        "columns":[
+            {"data":"id"},
+            {"data":"nombre"},
+            {"data":"descripcion"},
+            {"data":"extension"},
+            {"data":"fecha_creacion"},
+            {"data":"options"}
+        ],
+        "resonsieve":"true",
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "order":[[0,"desc"]]  
+    });
+
+    // Cargar el explorador de archivos
+    cargarExplorador();
+
+    // Formulario para agregar/editar archivo
+    let formArchivo = document.querySelector("#formArchivo");
+    formArchivo.onsubmit = function(e) {
+        e.preventDefault();
+        
+        let strNombre = document.querySelector('#txtNombre').value;
+        let fileInput = document.querySelector('#fileArchivo');
+        
+        if(strNombre == '' || fileInput.files.length === 0) {
+            Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
+            return false;
+        }
+        
+        // Validar extensión del archivo
+        let archivo = fileInput.files[0];
+        let extension = archivo.name.split('.').pop().toLowerCase();
+        let extensionesPermitidas = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'jpg', 'jpeg', 'png', 'gif'];
+        let extensionesProhibidas = ['php', 'exe', 'js', 'html', 'htm'];
+        
+        if (extensionesProhibidas.includes(extension)) {
+            Swal.fire("Error", "Tipo de archivo no permitido por seguridad.", "error");
+            return false;
+        }
+        
+        if (!extensionesPermitidas.includes(extension)) {
+            Swal.fire("Error", "Solo se permiten archivos: " + extensionesPermitidas.join(', '), "error");
+            return false;
+        }
+        
+        let divLoading = document.querySelector("#divLoading");
+        if(divLoading) {
+            divLoading.style.display = "flex";
+        }
+        
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Archivos/setArchivo'; 
+        let formData = new FormData(formArchivo);
+        request.open("POST",ajaxUrl,true);
+        request.send(formData);
+        
+        request.onreadystatechange = function(){
+            if(request.readyState == 4 && request.status == 200){
+                let objData = JSON.parse(request.responseText);
+                if(objData.status) {
+                    $('#modalFormArchivo').modal("hide");
+                    formArchivo.reset();
+                    Swal.fire("Archivos", objData.msg ,"success");
+                    tableArchivos.api().ajax.reload();
+                    // Actualizar explorador después de subir archivo
+                    setTimeout(function() {
+                        cargarExplorador();
+                    }, 1000);
+                } else {
+                    Swal.fire("Error", objData.msg , "error");
+                }
+            }
+            if(divLoading) {
+                divLoading.style.display = "none";
+            }
+            return false;
+        }
+    }
+
+    // Buscador de archivos
+    document.querySelector('#searchInput').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') {
+            fntSearchArchivo();
+        }
+    });
+});
+
+function cargarExplorador() {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Archivos/getArchivos';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let fileExplorer = document.querySelector('#fileExplorer');
+            let html = '';
+            
+            objData.forEach(function(archivo) {
+                let icono = getIconoArchivo(archivo.extension);
+                html += `
+                <div class="col-md-2 col-sm-4 col-6 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <div class="file-icon mb-3">
+                                <i class="${icono}" style="font-size: 4rem;"></i>
+                            </div>
+                            <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                            <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                <i class="bi bi-eye-fill"></i>
+                            </button>
+                            <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                                <i class="bi bi-download"></i>
+                            </a>
+                            <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            
+            fileExplorer.innerHTML = html;
+        }
+    }
+}
+
+function getIconoArchivo(extension) {
+    extension = extension.toLowerCase();
+    switch(extension) {
+        case 'pdf':
+            return 'bi bi-file-earmark-pdf-fill text-danger';
+        case 'doc':
+        case 'docx':
+            return 'bi bi-file-earmark-word-fill text-primary';
+        case 'xls':
+        case 'xlsx':
+            return 'bi bi-file-earmark-excel-fill text-success';
+        case 'ppt':
+        case 'pptx':
+            return 'bi bi-file-earmark-ppt-fill text-warning';
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+            return 'bi bi-file-earmark-image-fill text-info';
+        case 'txt':
+            return 'bi bi-file-earmark-text-fill text-secondary';
+        default:
+            return 'bi bi-file-earmark-fill text-secondary';
+    }
+}
+
+function fntViewArchivo(idarchivo) {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Archivos/getArchivo/'+idarchivo;
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            if(objData.status) {
+                let archivo = objData.data;
+                document.querySelector("#celId").innerHTML = archivo.id;
+                document.querySelector("#celNombre").innerHTML = archivo.nombre;
+                document.querySelector("#celDescripcion").innerHTML = archivo.descripcion;
+                document.querySelector("#celTipo").innerHTML = archivo.extension.toUpperCase();
+                document.querySelector("#celFecha").innerHTML = archivo.fecha_creacion;
+                
+                let filePreview = document.querySelector("#filePreview");
+                let extension = archivo.extension.toLowerCase();
+                let rutaArchivo = base_url + '/uploads/archivos/' + archivo.archivo;
+                
+                // Configurar botón de descarga
+                document.querySelector("#btnDownload").setAttribute("href", rutaArchivo);
+                
+                // Mostrar vista previa según tipo de archivo
+                if(['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+                    filePreview.innerHTML = `<img src="${rutaArchivo}" class="img-fluid" style="max-height: 300px;">`;
+                } else if(extension === 'pdf') {
+                    filePreview.innerHTML = `<iframe src="${rutaArchivo}" width="100%" height="400" frameborder="0"></iframe>`;
+                } else {
+                    let icono = getIconoArchivo(extension);
+                    filePreview.innerHTML = `
+                        <div class="text-center">
+                            <i class="${icono}" style="font-size: 120px;"></i>
+                            <p class="mt-3">Vista previa no disponible para este tipo de archivo</p>
+                        </div>
+                    `;
+                }
+                
+                $('#modalViewArchivo').modal('show');
+            } else {
+                Swal.fire("Error", objData.msg , "error");
+            }
+        }
+    }
+}
+
+function fntSearchArchivo() {
+    let busqueda = document.querySelector('#searchInput').value;
+    if(busqueda == '') {
+        tableArchivos.api().ajax.reload();
+        cargarExplorador();
+        return;
+    }
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Archivos/search';
+    let formData = new FormData();
+    formData.append('busqueda', busqueda);
+    request.open("POST", ajaxUrl, true);
+    request.send(formData);
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let fileExplorer = document.querySelector('#fileExplorer');
+            let html = '';
+            
+            if(objData.length > 0) {
+                objData.forEach(function(archivo) {
+                    let icono = getIconoArchivo(archivo.extension);
+                    html += `
+                    <div class="col-md-2 col-sm-4 col-6 mb-4">
+                        <div class="card h-100 text-center">
+                            <div class="card-body">
+                                <div class="file-icon mb-3">
+                                    <i class="${icono}" style="font-size: 4rem;"></i>
+                                </div>
+                                <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                                    <i class="bi bi-download"></i>
+                                </a>
+                                <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            } else {
+                html = '<div class="col-12 text-center"><p>No se encontraron archivos</p></div>';
+            }
+            
+            fileExplorer.innerHTML = html;
+            
+            // Actualizar tabla
+            tableArchivos.api().clear().rows.add(objData).draw();
+        }
+    }
+}
+
+function openModal() {
+    document.querySelector('#idArchivo').value = "";
+    document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
+    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-success");
+    document.querySelector('#btnText').innerHTML = "Guardar";
+    document.querySelector('#titleModal').innerHTML = "Nuevo Archivo";
+    document.querySelector("#formArchivo").reset();
+    $('#modalFormArchivo').modal('show');
+}
+
+function fntDelArchivo(idarchivo) {
+    Swal.fire({
+        title: "Eliminar Archivo",
+        text: "¿Realmente quiere eliminar este archivo?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "No, cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Archivos/delArchivo';
+            let strData = "idArchivo="+idarchivo;
+            request.open("POST", ajaxUrl, true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.send(strData);
+            
+            request.onreadystatechange = function() {
+                if(request.readyState == 4 && request.status == 200) {
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status) {
+                        Swal.fire("Eliminar", objData.msg , "success");
+                        tableArchivos.api().ajax.reload();
+                        // Actualizar explorador después de eliminar
+                        setTimeout(function() {
+                            cargarExplorador();
+                        }, 1000);
+                    } else {
+                        Swal.fire("Atención", objData.msg , "error");
+                    }
+                }
+            }
+        }
+    });
+}
