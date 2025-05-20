@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 {
                     $('#modalFormRol').modal("hide");
                     formRol.reset();
-                    Swal.fire("Roles de usuario", objData.msg ,"success");
+                    Swal.fire("Rol Creado", objData.msg ,"success");
                     tableRoles.api().ajax.reload();
                 }else{
                     Swal.fire("Error", objData.msg , "error");
@@ -214,7 +214,6 @@ function fntSavePermisos(evnet){
                 $('#modalFormPermiso').modal("hide");
                 formPermiso.reset();
                 Swal.fire("Permisos", objData.msg ,"success");
-                reload(1500);
             }else{
                 Swal.fire("Error", objData.msg , "error");
             }
