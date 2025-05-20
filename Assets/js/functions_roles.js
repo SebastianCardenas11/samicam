@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     formRol.reset();
                     Swal.fire("Roles de usuario", objData.msg ,"success");
                     tableRoles.api().ajax.reload();
-                    reload( 1500);
                 }else{
                     Swal.fire("Error", objData.msg , "error");
                 }              
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function(){
             }
             return false;
         }
-
         
     }
 

@@ -38,7 +38,6 @@ class Cargos extends Controllers
                 $strNivel = (strClean($_POST['txtNivel']));
                 $intSalario = floatval(strClean($_POST['txtSalario']));
                 $intEstatus = intval(strClean($_POST['listStatus']));
-
                 // $intTipoId = 5;
                 $request_user = "";
                 if ($intIdeCargos == 0) {

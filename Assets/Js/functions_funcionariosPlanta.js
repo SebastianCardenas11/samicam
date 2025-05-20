@@ -79,7 +79,6 @@ document.addEventListener(
           strDireccion == "" ||
           strFechaIngreso == "" ||
           strHijos == "" ||
-          strNombresHijos == "" ||
           strSexo == "" ||
           strLugarResidencia == "" ||
           strEdad == "" ||

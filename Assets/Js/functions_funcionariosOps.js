@@ -59,17 +59,100 @@ document.addEventListener(
                 let type = fileimg[0].type;
                 let name = fileimg[0].name;
                 if(type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png'){
-                    contactAlert.innerHTML = '<p class="errorArchivo">El archivo no es válido.</p>';
+                    if(contactAlert) {
+                        contactAlert.innerHTML = '<p class="errorArchivo">El archivo no es válido.</p>';
+                    }
                     if(document.querySelector('#img_funcionario')){
                         document.querySelector('#img_funcionario').src = '';
                     }
-                    document.querySelector('.delPhoto').classList.add("notBlock");
+                    if(document.querySelector('.delPhoto')){
+                        document.querySelector('.delPhoto').classList.add("notBlock");
+                    }
                     foto.value="";
                     return false;
                 }else{  
-                    contactAlert.innerHTML='';
-                    document.querySelector('#img_funcionario').src = nav.createObjectURL(this.files[0]);
-                    document.querySelector('#foto_remove').value = 0;
+                    if(contactAlert) {
+                        contactAlert.innerHTML='';
+                    }
+                    if(document.querySelector('#img_funcionario')){
+                        document.querySelector('#img_funcionario').src = nav.createObjectURL(this.files[0]);
+                    }
+                    if(document.querySelector('#foto_remove')){
+                        document.querySelector('#foto_remove').value = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    // Formulario de funcionario
+    if(document.querySelector("#formFuncionario")){
+        let formFuncionario = document.querySelector("#formFuncionario");
+        formFuncionario.onsubmit = function(e) {
+            e.preventDefault();
+            console.log("Formulario enviado");
+            
+            // Validar campos obligatorios
+            let strNombre = document.querySelector('#txtNombreFuncionario').value;
+            let strIdentificacion = document.querySelector('#txtIdentificacionFuncionario').value;
+            let strCorreo = document.querySelector('#txtCorreoFuncionario').value;
+            
+            if(strNombre == '' || strIdentificacion == '' || strCorreo == '') {
+                Swal.fire("Atención", "Todos los campos con * son obligatorios", "error");
+                return false;
+            }
+            
+            // Mostrar loading
+            if(divLoading) {
+                divLoading.style.display = "flex";
+            }
+            
+            // Enviar formulario
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/funcionariosOps/setFuncionario'; 
+            console.log("URL:", ajaxUrl);
+            
+            let formData = new FormData(formFuncionario);
+            
+            // Depurar datos del formulario
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            
+            request.onreadystatechange = function(){
+                if(request.readyState == 4){
+                    console.log("Status:", request.status);
+                    console.log("Response:", request.responseText);
+                    
+                    if(request.status == 200){
+                        try {
+                            let objData = JSON.parse(request.responseText);
+                            console.log("Datos procesados:", objData);
+                            
+                            if(objData.status) {
+                                $('#modalFormFuncionario').modal("hide");
+                                formFuncionario.reset();
+                                Swal.fire("Funcionario", objData.msg, "success");
+                                tableFuncionarios.api().ajax.reload();
+                            } else {
+                                Swal.fire("Error", objData.msg, "error");
+                            }
+                        } catch(error) {
+                            console.error("Error al procesar la respuesta:", error);
+                            console.log("Respuesta recibida:", request.responseText);
+                            Swal.fire("Error", "Ocurrió un error al procesar la respuesta del servidor", "error");
+                        }
+                    } else {
+                        console.error("Error HTTP:", request.status);
+                        Swal.fire("Error", "Error en la comunicación con el servidor: " + request.status, "error");
+                    }
+                    
+                    if(divLoading) {
+                        divLoading.style.display = "none";
+                    }
                 }
             }
         }
@@ -134,7 +217,9 @@ function fntViewInfo(idefuncionario) {
             : '<span class="badge text-bg-danger">Inactivo</span>';
             
         // Mostrar la imagen del funcionario
-        document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
+        if(document.querySelector("#celImagenFuncionario")) {
+            document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
+        }
 
         $("#modalViewFuncionario").modal("show");
       } else {
@@ -216,9 +301,7 @@ function fntDelInfo(idefuncionario) {
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Si, eliminar!",
-    cancelButtonText: "No, cancelar!",
-    closeOnConfirm: false,
-    closeOnCancel: true,
+    cancelButtonText: "No, cancelar!"
   }).then((result) => {
     if (result.isConfirmed) {
       let request = window.XMLHttpRequest
@@ -234,12 +317,17 @@ function fntDelInfo(idefuncionario) {
       request.send(strData);
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-          let objData = JSON.parse(request.responseText);
-          if (objData.status) {
-            Swal.fire("Eliminar!", objData.msg, "success");
-            tableFuncionarios.api().ajax.reload();
-          } else {
-            Swal.fire("Atención!", objData.msg, "error");
+          try {
+            let objData = JSON.parse(request.responseText);
+            if (objData.status) {
+              Swal.fire("Eliminar!", objData.msg, "success");
+              tableFuncionarios.api().ajax.reload();
+            } else {
+              Swal.fire("Atención!", objData.msg, "error");
+            }
+          } catch (error) {
+            console.error("Error al procesar la respuesta:", error);
+            Swal.fire("Error", "Ocurrió un error al procesar la respuesta", "error");
           }
         }
       };
@@ -255,6 +343,11 @@ function openModal() {
   document.querySelector("#btnText").innerHTML = "Guardar";
   document.querySelector("#titleModal").innerHTML = "Nuevo Funcionario";
   document.querySelector("#formFuncionario").reset();
+  
+  // Limpiar la imagen previa si existe
+  if(document.querySelector('#img_funcionario')){
+    document.querySelector('#img_funcionario').src = '';
+  }
   
   $("#modalFormFuncionario").modal("show");
 }

@@ -1,7 +1,8 @@
 let tableCargos; 
 let rowTable = "";
-let divLoading = document.querySelector("#divLoading");
+let divLoading;
 document.addEventListener('DOMContentLoaded', function(){
+    divLoading = document.querySelector("#divLoading");
 
     tableCargos = $('#tableCargos').dataTable( {
         "aProcessing":true,
@@ -43,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function(){
         "order":[[0,"desc"]]  
     });
 
-
-
 	if(document.querySelector("#formCargos")){
         let formCargos = document.querySelector("#formCargos");
         formCargos.onsubmit = function(e) {
@@ -54,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function(){
             let strNivel = document.querySelector('#txtNivel').value;
             let intSalario = document.querySelector('#txtSalario').value;
             
-            $('#listStatus').picker();
-            let intEstatus = document.querySelector('#listStatus').value;
+            // Obtener el valor del estado directamente
+            let intEstatus = document.querySelector('#listStatus') ? document.querySelector('#listStatus').value : "1";
 
             if(strNombresCargos == '' || strNivel == '' || intSalario == '')
             {
@@ -69,44 +68,63 @@ document.addEventListener('DOMContentLoaded', function(){
                     return false;
                 } 
             } 
-            divLoading.style.display = "flex";
+            if(divLoading) {
+                divLoading.style.display = "flex";
+            }
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Cargos/setCargos'; 
             let formData = new FormData(formCargos);
             request.open("POST",ajaxUrl,true);
             request.send(formData);
-            console.log(formData);
             
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
-                     let objData = JSON.parse(request.responseText);
-                     
-                    if(objData.status)
-                    {
-                    if(rowTable == ""){
-                        tableCargos.api().ajax.reload();
-                        // tableCargos.DataTable().ajax.reload();
-                    }else{
-                            htmlStatus = intEstatus == 1 ? 
-                            '<span class="badge text-bg-success">Activo</span>' : 
-                            '<span class="badge text-bg-danger">Inactivo</span>';
-                            rowTable.cells[0].textContent =  strNombresCargos;
-                            rowTable.cells[1].textContent =  strNivel;
-                            rowTable.cells[2].textContent =  intSalario;
-                            rowTable.cells[3].innerHTML = htmlStatus;
-                            rowTable = "";
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        
+                        if(objData.status) {
+                            if(rowTable == ""){
+                                tableCargos.api().ajax.reload();
+                            } else {
+                                let htmlStatus = intEstatus == 1 ? 
+                                '<span class="badge text-bg-success">Activo</span>' : 
+                                '<span class="badge text-bg-danger">Inactivo</span>';
+                                rowTable.cells[0].textContent = strNombresCargos;
+                                rowTable.cells[1].textContent = strNivel;
+                                rowTable.cells[2].textContent = intSalario;
+                                rowTable.cells[3].innerHTML = htmlStatus;
+                                rowTable = "";
+                            }
+                            $('#modalFormCargos').modal("hide");
+                            formCargos.reset();
+                            Swal.fire({
+                                title: "Cargos",
+                                text: objData.msg,
+                                icon: "success",
+                                confirmButtonText: "Aceptar"
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                text: objData.msg,
+                                icon: "error",
+                                confirmButtonText: "Aceptar"
+                            });
                         }
-                        $('#modalFormCargos').modal("hide");
-                        formCargos.reset();
-                        Swal.fire("Cargos", objData.msg ,"success");
-                        setTimeout(() => {
-                            location.reload();
-                        }, 2000);
-                    }else{
-                        Swal.fire("Error", objData.msg , "error");
+                    } catch (error) {
+                        console.error("Error al procesar la respuesta:", error);
+                        console.log("Respuesta recibida:", request.responseText);
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al procesar la respuesta del servidor",
+                            icon: "error",
+                            confirmButtonText: "Aceptar"
+                        });
                     }
                 }
-                divLoading.style.display = "none";
+                if(divLoading) {
+                    divLoading.style.display = "none";
+                }
                 return false;
             }
         }
@@ -123,24 +141,34 @@ function fntViewInfo(idecargos){
     request.onreadystatechange = function(){
 
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status)
-            {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status)
+                {
+                    let estatus = objData.data.estatus == 1 ? 
+                    '<span class="badge text-bg-success">Activo</span>' : 
+                    '<span class="badge text-bg-danger">Inactivo</span>';
 
-                let estatus = objData.data.estatus == 1 ? 
-                '<span class="badge text-bg-success">Activo</span>' : 
-                '<span class="badge text-bg-danger">Inactivo</span>';
-
-                // Eliminar o corregir el id ya que no existe en el modal
-                // document.querySelector("#celIdeCragos").innerHTML = objData.data.idecargos;
-                document.querySelector("#celNombre").innerHTML = objData.data.nombre;
-                document.querySelector("#celNivel").innerHTML = objData.data.nivel;
-                document.querySelector("#celSalario").innerHTML = objData.data.salario;
-                document.querySelector("#celEstadoCargo").innerHTML = estatus;
-                
-                $('#modalViewCargos').modal('show');
-            }else{
-                Swal.fire("Error", objData.msg , "error");
+                    if(document.querySelector("#celNombre")) {
+                        document.querySelector("#celNombre").innerHTML = objData.data.nombre;
+                    }
+                    if(document.querySelector("#celNivel")) {
+                        document.querySelector("#celNivel").innerHTML = objData.data.nivel;
+                    }
+                    if(document.querySelector("#celSalario")) {
+                        document.querySelector("#celSalario").innerHTML = objData.data.salario;
+                    }
+                    if(document.querySelector("#celEstadoCargo")) {
+                        document.querySelector("#celEstadoCargo").innerHTML = estatus;
+                    }
+                    
+                    $('#modalViewCargos').modal('show');
+                } else {
+                    Swal.fire("Error", objData.msg , "error");
+                }
+            } catch (error) {
+                console.error("Error al procesar la respuesta:", error);
+                Swal.fire("Error", "Ocurrió un error al procesar la respuesta", "error");
             }
         }
     }
@@ -159,35 +187,37 @@ function fntEditInfo(element, idecargos){
     request.onreadystatechange = function(){
 
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status)
-            {
-                document.querySelector("#ideCargos").value = objData.data.idecargos;
-                document.querySelector("#txtNombresCargos").value = objData.data.nombre;
-                document.querySelector("#txtNivel").value = objData.data.nivel;
-                document.querySelector("#txtSalario").value = objData.data.salario;
-                
-                
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status)
+                {
+                    document.querySelector("#ideCargos").value = objData.data.idecargos;
+                    document.querySelector("#txtNombresCargos").value = objData.data.nombre;
+                    document.querySelector("#txtNivel").value = objData.data.nivel;
+                    document.querySelector("#txtSalario").value = objData.data.salario;
+                    if(document.querySelector("#listStatus")) {
+                        document.querySelector("#listStatus").value = objData.data.estatus;
+                    }
+                }
+            } catch (error) {
+                console.error("Error al procesar la respuesta:", error);
+                Swal.fire("Error", "Ocurrió un error al procesar la respuesta", "error");
             }
         }
         $('#modalFormCargos').modal('show');
-        
     }
-    
 }
 
 function fntDelInfo(idecargos){
     Swal.fire({
         title: "Eliminar la Asignación",
         text: "¿Estás seguro?",
-        imageUrl: "Assets/images/iconos/eliminar.png" ,
+        imageUrl: base_url + "/Assets/images/iconos/eliminar.png",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
         cancelButtonColor: "#00A6FF",
         confirmButtonText: "Eliminar",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: true
+        cancelButtonText: "Cancelar"
       }).then((result) => {
         if (result.isConfirmed) {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -198,28 +228,24 @@ function fntDelInfo(idecargos){
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.status)
-                    {
-                        Swal.fire("Eliminar!", objData.msg , "success");
-                        tableCargos.api().ajax.reload();
-                    }else{
-                        Swal.fire("Atención!", objData.msg , "error");
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        if(objData.status)
+                        {
+                            Swal.fire("Eliminar!", objData.msg , "success");
+                            tableCargos.api().ajax.reload();
+                        } else {
+                            Swal.fire("Atención!", objData.msg , "error");
+                        }
+                    } catch (error) {
+                        console.error("Error al procesar la respuesta:", error);
+                        Swal.fire("Error", "Ocurrió un error al procesar la respuesta", "error");
                     }
                 }
             }
         }
-
     });
-
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('La página está completamente cargada');
-    var myModal = new bootstrap.Modal(document.getElementById('modalFormCargos'));
-    // myModal.show();
-});
-
 
 function openModal()
 {
@@ -232,7 +258,3 @@ function openModal()
     document.querySelector("#formCargos").reset();
     $('#modalFormCargos').modal('show');
 }
-
-
-
-

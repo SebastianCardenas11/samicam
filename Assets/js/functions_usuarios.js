@@ -98,9 +98,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         $('#modalFormUsuario').modal("hide");
                         formUsuario.reset();
                         Swal.fire("Usuario", objData.msg ,"success");
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1500);
                     }else{
                         Swal.fire("Error", objData.msg , "error");
                     }
@@ -122,7 +119,6 @@ function fntRolesUsuario(){
         request.onreadystatechange = function(){
             if(request.readyState == 4 && request.status == 200){
                 document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
-                console.log("Roles cargados:", request.responseText);
             }
         }
     }
