@@ -1,0 +1,32 @@
+.navbar-nav .nav-link {
+    position: relative;
+    z-index: 10;
+}
+
+.navbar-main {
+    z-index: 1030;
+}
+
+.sidenav-toggler-inner {
+    position: relative;
+    z-index: 10;
+}
+
+.navbar-collapse {
+    position: relative;
+    z-index: 5;
+}
+
+.fixed-plugin-button-nav {
+    position: relative;
+    z-index: 10;
+}
+
+.dropdown-menu {
+    z-index: 1050;
+}
+
+.dropdown-toggle {
+    position: relative;
+    z-index: 10;
+}

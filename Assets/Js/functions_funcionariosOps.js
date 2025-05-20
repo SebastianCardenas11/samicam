@@ -1,9 +1,10 @@
 let tableFuncionarios;
 let rowTable = "";
-let divLoading = document.querySelector("#divLoading");
+var divLoading;
 document.addEventListener(
   "DOMContentLoaded",
   function () {
+    divLoading = document.querySelector("#divLoading");
     tableFuncionarios = $('#tableFuncionarios').dataTable( {
         "aProcessing":true,
         "aServerSide":true,

@@ -1,7 +1,8 @@
 let tableUsuarios; 
 let rowTable = "";
-let divLoading = document.querySelector("#divLoading");
+var divLoading;
 document.addEventListener('DOMContentLoaded', function(){
+    divLoading = document.querySelector("#divLoading");
 
     tableUsuarios = $('#tableUsuarios').dataTable( {
         "aProcessing":true,
@@ -42,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function(){
         "order":[[0,"desc"]]  
     });
 
-
+    // Cargar roles al inicio
+    fntRolesUsuario();
 
 	if(document.querySelector("#formUsuario")){
         let formUsuario = document.querySelector("#formUsuario");
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     return false;
                 } 
             } 
-            divLoading.style.display = "flex";
+            if(divLoading) divLoading.style.display = "flex";
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Usuarios/setUsuario'; 
             let formData = new FormData(formUsuario);
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         Swal.fire("Error", objData.msg , "error");
                     }
                 }
-                divLoading.style.display = "none";
+                if(divLoading) divLoading.style.display = "none";
                 return false;
             }
         }
@@ -111,25 +113,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
 }, false);
 
-
-window.addEventListener('load', function() {
-    fntRolesUsuario();
-}, false);
-
 function fntRolesUsuario(){
-if(document.querySelector('#txtRolUsuario')){
-    let ajaxUrl = base_url+'/Roles/getSelectRoles';
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    request.open("GET",ajaxUrl,true);
-    request.send();
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
-            // $('.txtRolUsuario').selectpicker('refresh');
-            // $('#txtRolUsuario').picker();
+    if(document.querySelector('#txtRolUsuario')){
+        let ajaxUrl = base_url+'/Roles/getSelectRoles';
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        request.open("GET",ajaxUrl,true);
+        request.send();
+        request.onreadystatechange = function(){
+            if(request.readyState == 4 && request.status == 200){
+                document.querySelector('#txtRolUsuario').innerHTML = request.responseText;
+                console.log("Roles cargados:", request.responseText);
+            }
         }
     }
-}
 }
 
 function fntViewInfo(ideusuario){
@@ -183,7 +179,12 @@ function fntEditInfo(element, ideusuario){
                 document.querySelector("#ideUsuario").value = objData.data.ideusuario;
                 document.querySelector("#txtCorreoUsuario").value = objData.data.correo;
                 document.querySelector("#txtNombresUsuario").value = objData.data.nombres;
-                document.querySelector("#txtRolUsuario").value = objData.data.idrol;
+                
+                // Asegurarse de que los roles estén cargados antes de establecer el valor
+                fntRolesUsuario();
+                setTimeout(() => {
+                    document.querySelector("#txtRolUsuario").value = objData.data.idrol;
+                }, 500);
                 
                 // ESTADO ACTIVO O INACTIVO
                 if(objData.data.status == 1){
@@ -238,13 +239,6 @@ function fntDelInfo(ideusuario){
 
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('La página está completamente cargada');
-    var myModal = new bootstrap.Modal(document.getElementById('modalFormUsuario'));
-    // myModal.show();
-});
-
-
 function openModal()
 {
     rowTable = "";
@@ -254,9 +248,9 @@ function openModal()
     document.querySelector('#btnText').innerHTML ="Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
     document.querySelector("#formUsuario").reset();
+    
+    // Asegurarse de que los roles estén cargados
+    fntRolesUsuario();
+    
     $('#modalFormUsuario').modal('show');
 }
-
-
-
-

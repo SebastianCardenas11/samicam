@@ -1,9 +1,10 @@
 let tableFuncionarios;
 let rowTable = "";
-let divLoading = document.querySelector("#divLoading");
+var divLoading;
 document.addEventListener(
   "DOMContentLoaded",
   function () {
+    divLoading = document.querySelector("#divLoading");
     tableFuncionarios = $('#tableFuncionarios').dataTable( {
         "aProcessing":true,
         "aServerSide":true,
@@ -105,7 +106,7 @@ document.addEventListener(
             return false;
           }
         }
-        divLoading.style.display = "flex";
+        if(divLoading) divLoading.style.display = "flex";
         let request = window.XMLHttpRequest
           ? new XMLHttpRequest()
           : new ActiveXObject("Microsoft.XMLHTTP");
@@ -125,7 +126,7 @@ document.addEventListener(
               Swal.fire("Error", objData.msg, "error");
             }
           }
-          divLoading.style.display = "none";
+          if(divLoading) divLoading.style.display = "none";
           return false;
         };
       };
@@ -293,8 +294,12 @@ function fntEditInfo(element, idefuncionario) {
         document.querySelector("#listStatus").value = objData.data.status;
         
         // Mostrar la imagen actual
-        document.querySelector('#foto_actual').value = objData.data.imagen;
-        document.querySelector('#img_funcionario').src = objData.data.url_imagen;
+        if(document.querySelector('#foto_actual')){
+          document.querySelector('#foto_actual').value = objData.data.imagen;
+        }
+        if(document.querySelector('#img_funcionario')){
+          document.querySelector('#img_funcionario').src = objData.data.url_imagen;
+        }
       }
     }
     $("#modalFormFuncionario").modal("show");

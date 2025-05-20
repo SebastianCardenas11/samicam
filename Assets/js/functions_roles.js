@@ -5,8 +5,9 @@ function reload(time) {
 }
 var tableRoles;
 let rowTable = "";
-var divLoading = document.querySelector("#divLoading");
+var divLoading;
 document.addEventListener('DOMContentLoaded', function(){
+    divLoading = document.querySelector("#divLoading");
 
 	tableRoles = $('#tableRoles').dataTable( {
 		"aProcessing":true,
@@ -45,7 +46,9 @@ document.addEventListener('DOMContentLoaded', function(){
             Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
             return false;
         }
-        divLoading.style.display = "flex";
+        if(divLoading) {
+            if(divLoading) divLoading.style.display = "flex";
+        }
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = base_url+'/Roles/setRol'; 
         var formData = new FormData(formRol);
@@ -66,7 +69,9 @@ document.addEventListener('DOMContentLoaded', function(){
                     Swal.fire("Error", objData.msg , "error");
                 }              
             } 
-            divLoading.style.display = "none";
+            if(divLoading) {
+                if(divLoading) divLoading.style.display = "none";
+            }
             return false;
         }
 
