@@ -11317,9 +11317,23 @@ fieldset:disabled .btn {
   background-color: #27272a !important;
 }
 
+
+
+
+/* Color barra nav */
 .bg-white {
-  background-color: #fff !important;
+  background-color: #e2e2e2 !important;
 }
+.sidenav {
+  background-color: #e2e2e2 !important;
+}
+/* color barra nav */
+
+
+
+
+
+
 
 .bg-body {
   background-color: #fff !important;
@@ -23644,7 +23658,7 @@ html {
 }
 
 .navbar .nav-link {
-  color: #27272a;
+  color: #000;
   padding: 0.5rem 1rem;
   font-weight: 400;
   font-size: 0.75rem;
@@ -27941,3 +27955,29 @@ pre[class*=language-] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+
+
+
+
+
+
+
+
+
+.nav-link {
+  border-radius: 12px; /* Siempre redondeado */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #b3d8ff; /* Azul más oscuro */
+}
+
+.nav-link .icon {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-link:hover .icon {
+  transform: scale(1.25) translateY(-2px); /* Más grande y hacia arriba */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+}
