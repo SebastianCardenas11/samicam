@@ -24618,13 +24618,17 @@ html {
   border-radius: 0.75rem;
 }
 
+
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
   color: #27272a;
   background-color: #fff;
 }
 
+
+
+
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active .icon {
-  background-image: linear-gradient(310deg, #004884 0%, #004884 100%);
+  background-image: linear-gradient(310deg, #b4cee9 0%, #edf3fb 100%);
   color: #fff;
 }
 
@@ -28082,3 +28086,9 @@ div#tableCargos_length label {
 }
 
 
+.nav-link.active {
+  background-color: #f0f0f0; /* gris claro */
+  border-radius: 10px;
+  font-weight: 600;
+  color: #000 !important;
+}

@@ -19,7 +19,8 @@
    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
      <ul class="navbar-nav">
        <li class="nav-item">
-         <a class="nav-link" href="<?= base_url(); ?>/dashboard">
+         <!-- <a class="nav-link" href="<?= base_url(); ?>/dashboard"> -->
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/dashboard')) ? 'active' : '' ?>" href="<?= base_url(); ?>/dashboard">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
              <i class="bi bi-house-fill text-dark"></i> 
            </div>
@@ -30,7 +31,7 @@
 
        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/roles">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/roles')) ? 'active' : '' ?>" href="<?= base_url(); ?>/roles">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-sliders2-vertical text-dark"></i>
              </div>
@@ -40,8 +41,11 @@
        <?php } ?>
        <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/usuarios">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+           <!-- <a class="nav-link" href="<?= base_url(); ?>/usuarios"> -->
+            <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/usuarios')) ? 'active' : '' ?>" href="<?= base_url(); ?>/usuarios">
+             
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-people-fill text-dark"></i>
              </div>
              <span class="nav-link-text ms-1">Usuarios</span>
@@ -52,7 +56,7 @@
 
        <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/cargos">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-book text-dark"></i>
              </div>
@@ -63,7 +67,7 @@
 
        <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/funcionariosOps">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-person-fill-gear text-dark"></i>
              </div>
@@ -74,23 +78,25 @@
 
        <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/funcionariosPlanta">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosPlanta')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosPlanta">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-person-fill text-dark"></i>
              </div>
              <span class="nav-link-text ms-1">Funcionarios Planta</span>
            </a>
          </li>
+
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/vacaciones">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/vacaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/vacaciones">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-calendar-week text-dark"></i>
              </div>
              <span class="nav-link-text ms-1">Vacaciones</span>
            </a>
          </li>
+
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/funcionariosviaticos">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosviaticos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosviaticos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-cash-coin text-dark"></i>
              </div>
@@ -98,9 +104,10 @@
            </a>
          </li>
        <?php } ?>
+
        <?php if (!empty($_SESSION['permisos'][6]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/archivos">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-file-earmark text-dark"></i>
              </div>
