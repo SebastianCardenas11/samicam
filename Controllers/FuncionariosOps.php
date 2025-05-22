@@ -11,7 +11,7 @@ class FuncionariosOps extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MDASHBOARD);
+        getPermisos(MFUNCIONARIOSOPS);
     }
 
     public function FuncionariosOps()
@@ -22,6 +22,7 @@ class FuncionariosOps extends Controllers
         $data['dependencias'] = $this->model->selectDependencias();
         $data['cargos'] = $this->model->selectCargos();
         $data['contrato'] = $this->model->selectContratoOps();
+        $data['page_id'] = 4;
         $data['page_tag'] = "Funcionarios Ops";
         $data['page_title'] = "Funcionarios Ops";
         $data['page_name'] = "Funcionarios Ops";

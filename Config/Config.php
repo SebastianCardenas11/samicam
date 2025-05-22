@@ -42,6 +42,10 @@ const MUSUARIOS = 2;
 const MROLES= 3;
 const MFUNCIONARIOSOPS= 4;
 const MFUNCIONARIOSPLANTA= 4;
+const MPERMISOS = 5;
+const MVACACIONES = 6;
+const MVIATICOS = 7;
+const MARCHIVOS = 8;
 
 //Páginas
 const PINICIO = 1;

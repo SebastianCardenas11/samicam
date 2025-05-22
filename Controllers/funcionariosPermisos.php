@@ -10,7 +10,7 @@ class FuncionariosPermisos extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MDASHBOARD);
+        getPermisos(MPERMISOS);
     }
 
     public function FuncionariosPermisos()
@@ -18,6 +18,7 @@ class FuncionariosPermisos extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
+        $data['page_id'] = 5;
         $data['page_tag'] = "Permisos";
         $data['page_title'] = "Permisos";
         $data['page_name'] = "Permisos";
@@ -53,7 +54,9 @@ class FuncionariosPermisos extends Controllers
                     $btnPermit = '<button class="btn btn-success" onClick="fntPermitInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Registrar Permiso"><i class="bi bi-door-open"></i></button>';
                 }
                 
-                $btnHistorial = '<button class="btn btn-secondary" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnHistorial = '<button class="btn btn-secondary" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
+                }
                 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPermit . ' ' . $btnHistorial . '</div>';
             }
