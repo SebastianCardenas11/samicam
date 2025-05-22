@@ -16,7 +16,7 @@ class Dashboard extends Controllers
 
     public function dashboard()
     {
-        $data['page_id'] = 2;
+        $data['page_id'] = 1;
         $data['page_tag'] = "Administrador - Samicam";
         $data['page_title'] = " Administrador - Samicam";
         $data['page_name'] = "Administrador";

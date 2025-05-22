@@ -19,6 +19,7 @@ class Usuarios extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
+        $data['page_id'] = 2;
         $data['page_tag'] = "Usuarios";
         $data['page_title'] = "Usuarios";
         $data['page_name'] = "usuarios";
