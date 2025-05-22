@@ -18,20 +18,19 @@
    <hr class="horizontal dark mt-0">
    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
      <ul class="navbar-nav">
-       <?php if (!empty($_SESSION['permisos'][MDASHBOARD]['r'])) { ?>
        <li class="nav-item">
-         <a class="nav-link <?= ($data['page_id'] == 1) ? 'active' : ''; ?>" href="<?= base_url(); ?>/dashboard">
+         <a class="nav-link" href="<?= base_url(); ?>/dashboard">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
              <i class="bi bi-house-fill text-dark"></i> 
            </div>
            <span class="nav-link-text ms-1">Inicio</span>
          </a>
        </li>
-       <?php } ?>
 
-       <?php if (!empty($_SESSION['permisos'][MROLES]['r'])) { ?>
+
+       <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 3) ? 'active' : ''; ?>" href="<?= base_url(); ?>/roles">
+           <a class="nav-link" href="<?= base_url(); ?>/roles">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-sliders2-vertical text-dark"></i>
              </div>
@@ -39,10 +38,9 @@
            </a>
          </li>
        <?php } ?>
-       
-       <?php if (!empty($_SESSION['permisos'][MUSUARIOS]['r'])) { ?>
+       <?php if (!empty($_SESSION['permisos'][2]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 2) ? 'active' : ''; ?>" href="<?= base_url(); ?>/usuarios">
+           <a class="nav-link" href="<?= base_url(); ?>/usuarios">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-people-fill text-dark"></i>
              </div>
@@ -51,42 +49,48 @@
          </li>
        <?php } ?>
 
-       <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r'])) { ?>
+
+       <?php if (!empty($_SESSION['permisos'][3]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 4) ? 'active' : ''; ?>" href="<?= base_url(); ?>/funcionariosOps">
+           <a class="nav-link" href="<?= base_url(); ?>/cargos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-person-fill-gear text-dark"></i>
+               <i class="bi bi-book text-dark"></i>
              </div>
-             <span class="nav-link-text ms-1">Funcionarios</span>
+             <span class="nav-link-text ms-1">Cargos</span>
            </a>
          </li>
        <?php } ?>
 
-       <?php if (!empty($_SESSION['permisos'][MPERMISOS]['r'])) { ?>
+       <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 5) ? 'active' : ''; ?>" href="<?= base_url(); ?>/funcionariospermisos">
+           <a class="nav-link" href="<?= base_url(); ?>/funcionariosOps">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-door-open text-dark"></i>
+               <i class="bi bi-person-fill-gear text-dark"></i>
              </div>
-             <span class="nav-link-text ms-1">Permisos</span>
+             <span class="nav-link-text ms-1">Funcionarios OPS</span>
            </a>
          </li>
        <?php } ?>
-       
-       <?php if (!empty($_SESSION['permisos'][MVACACIONES]['r'])) { ?>
+
+       <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 6) ? 'active' : ''; ?>" href="<?= base_url(); ?>/vacaciones">
+           <a class="nav-link" href="<?= base_url(); ?>/funcionariosPlanta">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-person-fill text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Funcionarios Planta</span>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a class="nav-link" href="<?= base_url(); ?>/vacaciones">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-calendar-week text-dark"></i>
              </div>
              <span class="nav-link-text ms-1">Vacaciones</span>
            </a>
          </li>
-       <?php } ?>
-       
-       <?php if (!empty($_SESSION['permisos'][MVIATICOS]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 7) ? 'active' : ''; ?>" href="<?= base_url(); ?>/funcionariosviaticos">
+           <a class="nav-link" href="<?= base_url(); ?>/funcionariosviaticos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-cash-coin text-dark"></i>
              </div>
@@ -94,10 +98,9 @@
            </a>
          </li>
        <?php } ?>
-       
-       <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r'])) { ?>
+       <?php if (!empty($_SESSION['permisos'][6]['r'])) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 8) ? 'active' : ''; ?>" href="<?= base_url(); ?>/archivos">
+           <a class="nav-link" href="<?= base_url(); ?>/archivos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-file-earmark text-dark"></i>
              </div>
