@@ -1,5 +1,5 @@
 <?php
-const BASE_URL = "http://localhost/samicam";
+const BASE_URL = "http://samicam:8080/samicam";
 // 192.168.150.235:8080
 //Zona horaria
 
@@ -43,11 +43,10 @@ const MUSUARIOS = 2;
 const MROLES = 3;
 const MFUNCIONARIOSOPS = 4;
 const MFUNCIONARIOSPLANTA = 5;
-const MPERMISOS = 6;
-const MVACACIONES = 7;
-const MVIATICOS = 8;
-const MARCHIVOS = 9;
-const MCARGOS = 10;
+const MVACACIONES = 6;
+const MVIATICOS = 7;
+const MARCHIVOS = 8;
+const MCARGOS = 9;
 
 //Páginas
 const PINICIO = 1;

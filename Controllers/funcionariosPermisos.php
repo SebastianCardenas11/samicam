@@ -10,7 +10,6 @@ class FuncionariosPermisos extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MPERMISOS);
     }
 
     public function FuncionariosPermisos()
