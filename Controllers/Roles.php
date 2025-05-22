@@ -44,43 +44,36 @@ class Roles extends Controllers
                     $arrData[$i]['status'] = '<span class="badge text-bg-danger">Inactivo</span>';
                 }
 
-                if ($_SESSION['permisosMod']['r']) {
-                    $btnEdit = '<button class="btn btn-primary btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="bi bi-pencil"></i></button>';
-                }
-
-                if ($_SESSION['permisosMod']['u']) {
-
-                    // if (($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) and
-                    //     ($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] == 1)
-                    // ) {
-                    $btnView = '<button class="btn btn-info btnPermisosRol" onClick="fntPermisos(' . $arrData[$i]['idrol'] . ')" title="Permisos"><i class="bi bi-toggles"></i></button>';
-                    $btnEdit = '<button class="btn btn-warning  btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="bi bi-pencil"></i></button>';
-                    // }
+                // Verificar si es el rol de superadministrador (ID 1)
+                if ($arrData[$i]['idrol'] == 1) {
+                    // Para el superadministrador, todos los botones deshabilitados
+                    $btnView = '<button class="btn btn-secondary" disabled><i class="bi bi-toggles"></i></button>';
+                    $btnEdit = '<button class="btn btn-secondary" disabled><i class="bi bi-pencil"></i></button>';
+                    $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
                 } else {
-                    $btnView = '<button class="btn btn-secondary" disabled ><i class="fas fa-key"></i></button>';
-                    $btnEdit = '<button class="btn btn-secondary" disabled ><i class="fas fa-pencil-alt"></i></button>';
-                }
-                // if ($_SESSION['permisosMod']['d']) {
+                    // Para otros roles, mostrar botones según permisos
+                    if ($_SESSION['permisosMod']['r']) {
+                        $btnView = '<button class="btn btn-info btnPermisosRol" onClick="fntPermisos(' . $arrData[$i]['idrol'] . ')" title="Permisos"><i class="bi bi-toggles"></i></button>';
+                    }
 
-                //     if (($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) and
-                //         ($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] == 1)
-                //     ) {
-                //         $btnDelete = '<button class="btn btn-danger  btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="bi bi-trash3"></i></button>
-				// 	</div>';
-                //     }
-                // } else {
-                //     $btnDelete = '<button class="btn btn-secondary " disabled ><i class="fas fa-key"></i></button>';
-                // }
-                if($_SESSION['permisosMod']['d']){
-                    if(($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) ||
-                        ($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) and
-                        ($_SESSION['userData']['idrol'] != $arrData[$i]['idrol'] )
-                         ){
-                            $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-                    }else{
-                        $btnDelete = '<button class="btn btn-secondary" disabled ><i class="bi bi-trash3"></i></button>';
+                    if ($_SESSION['permisosMod']['u']) {
+                        $btnEdit = '<button class="btn btn-warning btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="bi bi-pencil"></i></button>';
+                    } else {
+                        $btnEdit = '<button class="btn btn-secondary" disabled><i class="bi bi-pencil"></i></button>';
+                    }
+
+                    if ($_SESSION['permisosMod']['d']) {
+                        if (($_SESSION['userData']['idrol'] == 1) && 
+                            ($_SESSION['userData']['idrol'] != $arrData[$i]['idrol'])) {
+                            $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="bi bi-trash3"></i></button>';
+                        } else {
+                            $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
+                        }
+                    } else {
+                        $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
                     }
                 }
+
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
@@ -108,6 +101,13 @@ class Roles extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             $intIdrol = intval(strClean($idrol));
             if ($intIdrol > 0) {
+                // No permitir editar el rol de superadministrador (ID 1)
+                if ($intIdrol == 1) {
+                    $arrResponse = array('status' => false, 'msg' => 'No se puede editar el rol de Superadministrador.');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+                
                 $arrData = $this->model->selectRol($intIdrol);
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
@@ -126,6 +126,14 @@ class Roles extends Controllers
         $strRol = strClean($_POST['txtNombre']);
         $strDescipcion = strClean($_POST['txtDescripcion']);
         $intStatus = intval($_POST['listStatus']);
+        
+        // No permitir editar el rol de superadministrador (ID 1)
+        if ($intIdrol == 1) {
+            $arrResponse = array('status' => false, 'msg' => 'No se puede modificar el rol de Superadministrador.');
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        
         $request_rol = "";
         if ($intIdrol == 0) {
             //Crear
@@ -148,7 +156,6 @@ class Roles extends Controllers
                 $arrResponse = array('status' => true, 'msg' => 'Datos Actualizados correctamente.');
             }
         } else if ($request_rol == 'exist') {
-
             $arrResponse = array('status' => false, 'msg' => '¡Atención! El Rol ya existe.');
         } else {
             $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
@@ -162,6 +169,14 @@ class Roles extends Controllers
         if ($_POST) {
             if ($_SESSION['permisosMod']['d']) {
                 $intIdrol = intval($_POST['idrol']);
+                
+                // No permitir eliminar el rol de superadministrador (ID 1)
+                if ($intIdrol == 1) {
+                    $arrResponse = array('status' => false, 'msg' => 'No se puede eliminar el rol de Superadministrador.');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+                
                 $requestDelete = $this->model->deleteRol($intIdrol);
                 if ($requestDelete == 'ok') {
                     $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Rol');
@@ -175,5 +190,4 @@ class Roles extends Controllers
         }
         die();
     }
-
 }

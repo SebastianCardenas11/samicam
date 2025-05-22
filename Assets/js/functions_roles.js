@@ -46,6 +46,13 @@ document.addEventListener('DOMContentLoaded', function(){
             Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
             return false;
         }
+        
+        // Verificar si es el rol de superadministrador
+        if(intIdRol == 1) {
+            Swal.fire("Atención", "No se puede modificar el rol de Superadministrador." , "error");
+            return false;
+        }
+        
         if(divLoading) {
             if(divLoading) divLoading.style.display = "flex";
         }
@@ -96,6 +103,12 @@ window.addEventListener('load', function() {
 }, false);
 
 function fntEditRol(idrol){
+    // Verificar si es el rol de superadministrador
+    if(idrol == 1) {
+        Swal.fire("Atención", "No se puede editar el rol de Superadministrador." , "error");
+        return false;
+    }
+    
     document.querySelector('#titleModal').innerHTML ="Actualizar Rol";
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
     document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
@@ -135,6 +148,12 @@ function fntEditRol(idrol){
 }
 
 function fntDelRol(idrol){
+    // Verificar si es el rol de superadministrador
+    if(idrol == 1) {
+        Swal.fire("Atención", "No se puede eliminar el rol de Superadministrador." , "error");
+        return false;
+    }
+    
     var idrol = idrol;
         Swal.fire({
             title: "Eliminar Rol",
@@ -180,6 +199,12 @@ function fntDelRol(idrol){
 }
 
 function fntPermisos(idrol){
+    // Verificar si es el rol de superadministrador
+    if(idrol == 1) {
+        Swal.fire("Atención", "No se pueden modificar los permisos del Superadministrador." , "error");
+        return false;
+    }
+    
     var idrol = idrol;
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Permisos/getPermisosRol/'+idrol;
@@ -197,6 +222,14 @@ function fntPermisos(idrol){
 
 function fntSavePermisos(evnet){
     evnet.preventDefault();
+    
+    // Verificar si es el rol de superadministrador
+    var idrol = document.querySelector("#idrol").value;
+    if(idrol == 1) {
+        Swal.fire("Atención", "No se pueden modificar los permisos del Superadministrador." , "error");
+        return false;
+    }
+    
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Permisos/setPermisos'; 
     var formElement = document.querySelector("#formPermiso");

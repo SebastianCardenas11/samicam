@@ -28,7 +28,6 @@
        </li>
        
        <?php 
-       // Verificar si hay elementos de Gestión Administrativa visibles
        $showAdminSection = false;
        if (
            (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) ||
@@ -66,8 +65,7 @@
          </li>
        <?php } ?>
 
-       <?php 
-       // Verificar si hay elementos de Recursos Humanos visibles
+       <?php
        $showHRSection = false;
        if (
            (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) ||

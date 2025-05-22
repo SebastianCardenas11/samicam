@@ -11,6 +11,13 @@ class Permisos extends Controllers
     {
         $rolid = intval($idrol);
         if ($rolid > 0) {
+            // No permitir modificar permisos del superadministrador (ID 1)
+            if ($rolid == 1) {
+                $arrResponse = array('status' => false, 'msg' => 'No se pueden modificar los permisos del Superadministrador.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
             $arrModulos = $this->model->selectModulos();
             $arrPermisosRol = $this->model->selectPermisosRol($rolid);
             $arrRol = $this->model->getRol($rolid);
@@ -46,6 +53,14 @@ class Permisos extends Controllers
     {
         if ($_POST) {
             $intIdrol = intval($_POST['idrol']);
+            
+            // No permitir modificar permisos del superadministrador (ID 1)
+            if ($intIdrol == 1) {
+                $arrResponse = array('status' => false, 'msg' => 'No se pueden modificar los permisos del Superadministrador.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
             $modulos = $_POST['modulos'];
 
             $this->model->deletePermisos($intIdrol);
