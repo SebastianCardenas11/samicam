@@ -27981,3 +27981,87 @@ pre[class*=language-] {
   transform: scale(1.25) translateY(-2px); /* Más grande y hacia arriba */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
 }
+
+
+
+
+
+
+
+
+
+
+/* Contenedor relativo para los tres wrappers */
+#tableUsuarios_wrapper,
+#tableCargos_wrapper,
+#tableFuncionarios_wrapper {
+  position: relative; /* necesario para que el absolute funcione relativo a este contenedor */
+
+  /* Variables para posición y tamaño del botón */
+  --dt-btn-top: -10px;    /* ajusta para mover arriba */
+  --dt-btn-right: 10px;   /* ajusta para mover a la derecha */
+  --dt-btn-font-size: 0.8rem;  /* tamaño de los botones */
+}
+
+/* Botones exportar posicionados y animados para los tres */
+#tableUsuarios_wrapper .dt-buttons,
+#tableCargos_wrapper .dt-buttons,
+#tableFuncionarios_wrapper .dt-buttons {
+  position: absolute !important;
+  top: var(--dt-btn-top) !important;
+  right: var(--dt-btn-right) !important;
+  margin: 0 !important;
+  float: none !important;
+  z-index: 10;
+
+  font-size: var(--dt-btn-font-size) !important;
+  transform-origin: center center;
+  animation: popIn 0.3s ease forwards;
+}
+
+/* Padding vertical un poco más grueso para los botones */
+#tableUsuarios_wrapper .dt-buttons .btn,
+#tableCargos_wrapper .dt-buttons .btn,
+#tableFuncionarios_wrapper .dt-buttons .btn {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Hover: salto y opacidad */
+#tableUsuarios_wrapper .dt-buttons .btn:hover,
+#tableCargos_wrapper .dt-buttons .btn:hover,
+#tableFuncionarios_wrapper .dt-buttons .btn:hover {
+  transform: scale(1.15);
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Animación breve "pop" */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+#tableUsuarios_wrapper .dataTables_filter,
+#tableCargos_wrapper .dataTables_filter {
+    position: relative;
+    top: -38px;
+    left: 650px;
+}
+
+div#tableUsuarios_length label,
+div#tableCargos_length label {
+    transform: translateY(40px) !important;  /* Desplaza el elemento */
+}
+
+
+
