@@ -18,16 +18,17 @@
    <hr class="horizontal dark mt-0">
    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
      <ul class="navbar-nav">
-       <?php if (!empty($_SESSION['permisos'][MDASHBOARD]['r']) && (!isset($_SESSION['permisos'][MDASHBOARD]['v']) || $_SESSION['permisos'][MDASHBOARD]['v'] == 1)) { ?>
        <li class="nav-item">
-         <a class="nav-link <?= ($data['page_id'] == 1) ? 'active' : ''; ?>" href="<?= base_url(); ?>/dashboard">
+         <a class="nav-link" href="<?= base_url(); ?>/dashboard">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
              <i class="bi bi-house-fill text-dark"></i> 
            </div>
            <span class="nav-link-text ms-1">Inicio</span>
          </a>
        </li>
-       <?php } ?>
+        <li class="nav-item mt-2">
+         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestion Administrativa</h6>
+       </li>
 
        <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
          <li class="nav-item">
@@ -51,7 +52,6 @@
          </li>
        <?php } ?>
 
-       <!-- Etiqueta HTML -->
        <li class="nav-item mt-2">
          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
        </li>
