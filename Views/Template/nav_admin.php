@@ -28,7 +28,11 @@
            <span class="nav-link-text ms-1">Inicio</span>
          </a>
        </li>
-
+<?php } ?>
+    <!-- Etiqueta HTML -->
+       <li class="nav-item mt-2">
+         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6"> Gestión de Sistemas</h6>
+       </li>
        <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
          <li class="nav-item">
           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/roles')) ? 'active' : '' ?>" href="<?= base_url(); ?>/roles">
@@ -56,7 +60,7 @@
 
        <!-- Etiqueta HTML -->
        <li class="nav-item mt-2">
-         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión de Personal</h6>
+         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
        </li>
 
        <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) { ?>
@@ -81,22 +85,7 @@
          </li>
        <?php } ?>
        
-       <?php if (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) { ?>
-         <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 10) ? 'active' : ''; ?>" href="<?= base_url(); ?>/cargos">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-briefcase text-dark"></i>
-             </div>
-             <span class="nav-link-text ms-1">Cargos</span>
-           </a>
-         </li>
-       <?php } ?>
-
-       <!-- Etiqueta HTML -->
-       <li class="nav-item mt-2">
-         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión Administrativa</h6>
-       </li>
-
+     
        <?php if (!empty($_SESSION['permisos'][MPERMISOS]['r']) && (!isset($_SESSION['permisos'][MPERMISOS]['v']) || $_SESSION['permisos'][MPERMISOS]['v'] == 1)) { ?>
          <li class="nav-item">
           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">
@@ -107,17 +96,8 @@
            </a>
          </li>
        <?php } ?>
-       
-       <?php if (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) { ?>
-         <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosPlanta')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosPlanta">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-person-fill text-dark"></i>
-             </div>
-             <span class="nav-link-text ms-1">Funcionarios Planta</span>
-           </a>
-         </li>
 
+        <?php if (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) { ?>
          <li class="nav-item">
           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/vacaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/vacaciones">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -138,7 +118,8 @@
            </a>
          </li>
        <?php } ?>
-       
+
+    
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
@@ -150,6 +131,16 @@
          </li>
        <?php } ?>
 
+	 <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
+         <li class="nav-item">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-file-earmark text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Archivos</span>
+           </a>
+         </li>
+       <?php } ?>
        <li class="nav-item mt-3">
          <a class="nav-link text-danger" href="<?= base_url(); ?>/logout">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
