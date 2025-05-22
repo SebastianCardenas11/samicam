@@ -26,9 +26,23 @@
            <span class="nav-link-text ms-1">Inicio</span>
          </a>
        </li>
-        <li class="nav-item mt-2">
+       
+       <?php 
+       // Verificar si hay elementos de Gestión Administrativa visibles
+       $showAdminSection = false;
+       if (
+           (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) ||
+           (!empty($_SESSION['permisos'][MUSUARIOS]['r']) && (!isset($_SESSION['permisos'][MUSUARIOS]['v']) || $_SESSION['permisos'][MUSUARIOS]['v'] == 1))
+       ) {
+           $showAdminSection = true;
+       }
+       
+       if ($showAdminSection) { 
+       ?>
+       <li class="nav-item mt-2">
          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestion Administrativa</h6>
        </li>
+       <?php } ?>
 
        <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
          <li class="nav-item">
@@ -52,9 +66,25 @@
          </li>
        <?php } ?>
 
+       <?php 
+       // Verificar si hay elementos de Recursos Humanos visibles
+       $showHRSection = false;
+       if (
+           (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) ||
+           (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) ||
+           (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) ||
+           (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) ||
+           (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1))
+       ) {
+           $showHRSection = true;
+       }
+       
+       if ($showHRSection) { 
+       ?>
        <li class="nav-item mt-2">
          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
        </li>
+       <?php } ?>
 
        <?php if (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) { ?>
          <li class="nav-item">
@@ -111,6 +141,16 @@
          </li>
        <?php } ?>
 
+       <?php if (!empty($_SESSION['permisos'][6]['r']) && (!isset($_SESSION['permisos'][6]['v']) || $_SESSION['permisos'][6]['v'] == 1)) { ?>
+         <li class="nav-item">
+          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariospermisos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariospermisos">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-door-open text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Permisos</span>
+           </a>
+         </li>
+       <?php } ?>
     
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
@@ -156,49 +196,6 @@
              <a href="javascript:;" class="nav-link text-body p-0">
                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
              </a>
-           </li>
-           <li class="nav-item dropdown pe-2 d-flex align-items-center">
-             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-               <i class="fa fa-bell cursor-pointer"></i>
-             </a>
-             <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-               <li class="mb-2">
-                 <a class="dropdown-item border-radius-md" href="javascript:;">
-                   <div class="d-flex py-1">
-                     <div class="my-auto">
-                       <img src="<?= media() ?>/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                     </div>
-                     <div class="d-flex flex-column justify-content-center">
-                       <h6 class="text-sm font-weight-normal mb-1">
-                         <span class="font-weight-bold">New message</span> from Laur
-                       </h6>
-                       <p class="text-xs text-secondary mb-0 ">
-                         <i class="fa fa-clock me-1"></i>
-                         13 minutes ago
-                       </p>
-                     </div>
-                   </div>
-                 </a>
-               </li>
-               <li class="mb-2">
-                 <a class="dropdown-item border-radius-md" href="javascript:;">
-                   <div class="d-flex py-1">
-                     <div class="my-auto">
-                       <img src="<?= media() ?>/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                     </div>
-                     <div class="d-flex flex-column justify-content-center">
-                       <h6 class="text-sm font-weight-normal mb-1">
-                         <span class="font-weight-bold">New album</span> by Travis Scott
-                       </h6>
-                       <p class="text-xs text-secondary mb-0 ">
-                         <i class="fa fa-clock me-1"></i>
-                         1 day
-                       </p>
-                     </div>
-                   </div>
-                 </a>
-               </li>
-             </ul>
            </li>
          </ul>
        </div>
