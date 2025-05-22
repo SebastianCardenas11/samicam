@@ -11,7 +11,7 @@ class Cargos extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MDASHBOARD);
+        getPermisos(MCARGOS);
     }
 
     public function Cargos()
@@ -22,6 +22,7 @@ class Cargos extends Controllers
         $data['page_tag'] = "Cargos";
         $data['page_title'] = "Cargos";
         $data['page_name'] = "cargos";
+        $data['page_id'] = 10;
         $data['page_functions_js'] = "functions_cargos.js";
         $this->views->getView($this, "cargos", $data);
     }

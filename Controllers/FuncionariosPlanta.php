@@ -11,7 +11,7 @@ class FuncionariosPlanta extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MDASHBOARD);
+        getPermisos(MFUNCIONARIOSPLANTA);
     }
 
     public function FuncionariosPlanta()
@@ -25,6 +25,7 @@ class FuncionariosPlanta extends Controllers
         $data['page_tag'] = "Funcionarios Planta";
         $data['page_title'] = "Funcionarios Planta";
         $data['page_name'] = "Funcionarios Planta";
+        $data['page_id'] = 9;
         $data['page_functions_js'] = "functions_funcionariosPlanta.js";
         $this->views->getView($this, "funcionariosPlanta", $data);
     }

@@ -9,6 +9,7 @@ class PermisosModel extends Mysql
     public $w;
     public $u;
     public $d;
+    public $v;
 
     public function __construct()
     {
@@ -37,7 +38,7 @@ class PermisosModel extends Mysql
         return $request;
     }
 
-    public function insertPermisos(int $idrol, int $idmodulo, int $r, int $w, int $u, int $d)
+    public function insertPermisos(int $idrol, int $idmodulo, int $r, int $w, int $u, int $d, int $v)
     {
         $this->intRolid = $idrol;
         $this->intModuloid = $idmodulo;
@@ -45,8 +46,9 @@ class PermisosModel extends Mysql
         $this->w = $w;
         $this->u = $u;
         $this->d = $d;
-        $query_insert = "INSERT INTO permisos(rolid,moduloid,r,w,u,d) VALUES(?,?,?,?,?,?)";
-        $arrData = array($this->intRolid, $this->intModuloid, $this->r, $this->w, $this->u, $this->d);
+        $this->v = $v;
+        $query_insert = "INSERT INTO permisos(rolid,moduloid,r,w,u,d,v) VALUES(?,?,?,?,?,?,?)";
+        $arrData = array($this->intRolid, $this->intModuloid, $this->r, $this->w, $this->u, $this->d, $this->v);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
@@ -60,7 +62,8 @@ class PermisosModel extends Mysql
 						   p.r,
 						   p.w,
 						   p.u,
-						   p.d
+						   p.d,
+                           p.v
 					FROM permisos p
 					INNER JOIN modulo m
 					ON p.moduloid = m.idmodulo

@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 19-05-2025 a las 06:40:50
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 22-05-2025 a las 16:05:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -55,19 +55,21 @@ CREATE TABLE `modulo` (
   `titulo` varchar(50) NOT NULL,
   `descripcion` text NOT NULL,
   `status` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `modulo`
 --
 
 INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
-(1, 'Administrador', 'Administrador', 1),
-(2, 'Usuarios', 'Usuarios', 1),
-(3, 'Roles', 'Roles', 1),
-(4, 'Funcionarios Ops', 'Usuarios', 1),
-(5, 'Funcionarios Planta', 'Funionarios Ops', 1),
-(6, 'Notificaciones', 'Notificaciones', 1);
+(1, 'Funcionarios Planta', 'Gestión de funcionarios Planta', 1),
+(2, 'Usuarios', 'Gestión de usuarios', 1),
+(3, 'Roles', 'Gestión de roles', 1),
+(4, 'Funcionarios Ops', 'Gestión de funcionarios Ops', 1),
+(6, 'Vacaciones', 'Gestión de vacaciones', 1),
+(7, 'Viáticos', 'Gestión de viáticos', 1),
+(8, 'Archivos', 'Gestión de archivos', 1),
+(12, 'Cargos', 'Gestión de cargos', 1);
 
 -- --------------------------------------------------------
 
@@ -101,16 +103,35 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`) VA
 (436, 2, 3, 0, 0, 0, 0),
 (437, 2, 4, 1, 0, 0, 0),
 (438, 2, 5, 1, 0, 0, 0),
-(439, 4, 1, 0, 0, 0, 0),
-(440, 4, 2, 0, 0, 0, 0),
-(441, 4, 3, 0, 0, 0, 0),
-(442, 4, 4, 1, 0, 0, 0),
-(443, 4, 5, 1, 0, 0, 0),
 (454, 3, 1, 1, 0, 0, 0),
 (455, 3, 2, 0, 0, 0, 0),
 (456, 3, 3, 0, 0, 0, 0),
 (457, 3, 4, 1, 0, 0, 0),
-(458, 3, 5, 1, 0, 0, 0);
+(458, 3, 5, 1, 0, 0, 0),
+(459, 1, 7, 1, 1, 1, 1),
+(460, 1, 8, 1, 1, 1, 1),
+(469, 4, 1, 0, 0, 0, 0),
+(470, 4, 2, 0, 0, 0, 0),
+(471, 4, 3, 0, 0, 0, 0),
+(472, 4, 4, 1, 0, 0, 0),
+(473, 4, 5, 1, 0, 0, 0),
+(474, 4, 6, 1, 0, 0, 0),
+(475, 4, 7, 1, 0, 0, 0),
+(476, 4, 8, 1, 0, 0, 0),
+(477, 1, 9, 1, 1, 1, 1),
+(478, 1, 10, 1, 1, 1, 1),
+(479, 1, 11, 1, 1, 1, 1),
+(480, 1, 12, 1, 1, 1, 1),
+(481, 2, 6, 1, 1, 1, 0),
+(482, 2, 7, 1, 0, 0, 0),
+(483, 2, 8, 1, 1, 0, 0),
+(484, 3, 6, 1, 0, 0, 0),
+(485, 3, 7, 0, 0, 0, 0),
+(486, 3, 8, 1, 0, 0, 0),
+(487, 5, 1, 1, 0, 0, 0),
+(488, 5, 8, 1, 1, 1, 0),
+(489, 7, 1, 1, 0, 0, 0),
+(490, 7, 8, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -575,10 +596,16 @@ ALTER TABLE `archivos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `modulo`
+--
+ALTER TABLE `modulo`
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=459;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=491;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -661,12 +688,6 @@ ALTER TABLE `tbl_viaticos`
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `modulo`
---
-ALTER TABLE `modulo`
-  ADD CONSTRAINT `modulo_ibfk_1` FOREIGN KEY (`idmodulo`) REFERENCES `permisos` (`moduloid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `permisos`
