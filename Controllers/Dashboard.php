@@ -20,16 +20,43 @@ class Dashboard extends Controllers
         $data['page_tag'] = "Administrador - Samicam";
         $data['page_title'] = " Administrador - Samicam";
         $data['page_name'] = "Administrador";
-        $data['page_functions_js'] = "functions_dashboard.js";
         $data['usuarios'] = $this->model->cantUsuarios();
         $data['funcionariosops'] = $this->model->cantFuncionariosOps();
         $data['funcionariosplanta'] = $this->model->cantFuncionariosPlanta();
         $data['estadisticas'] = $this->model->getEstadisticasGenerales();
-
-        if ($_SESSION['userData']['idrol'] == RCOORDINADOR) {
-            $this->views->getView($this, "dashboardCoordinador", $data);
+        
+        // Verificar si el usuario tiene permisos para ver funcionarios
+        $showFuncionariosGraphs = 
+            (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) || 
+            (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1));
+        
+        if ($showFuncionariosGraphs) {
+            // Usuario con permisos - mostrar dashboard con gráficas
+            $data['page_functions_js'] = "functions_dashboard.js";
+            
+            // Obtener datos para las gráficas
+            $funcionariosPorCargo = $this->model->getFuncionariosPorCargoModel();
+            $permisosPorMes = $this->getPermisosPorMesData();
+            
+            // Asegurar que hay datos para las gráficas
+            if (empty($funcionariosPorCargo)) {
+                $funcionariosPorCargo = [
+                    ['nombre_cargo' => 'Administrativo', 'cantidad' => 5],
+                    ['nombre_cargo' => 'Técnico', 'cantidad' => 8],
+                    ['nombre_cargo' => 'Profesional', 'cantidad' => 12],
+                    ['nombre_cargo' => 'Directivo', 'cantidad' => 3]
+                ];
+            }
+            
+            $data['funcionariosPorCargo'] = $funcionariosPorCargo;
+            $data['permisosPorMes'] = $permisosPorMes;
+            
+            // Usar la versión modificada del dashboard que incluye las gráficas directamente
+            $this->views->getView($this, "dashboard_modified", $data);
         } else {
-            $this->views->getView($this, "dashboard", $data);
+            // Usuario sin permisos - mostrar dashboard alternativo
+            $data['page_functions_js'] = "functions_dashboard_alt.js";
+            $this->views->getView($this, "dashboard_alt", $data);
         }
     }
 
@@ -53,8 +80,18 @@ class Dashboard extends Controllers
     
     public function getFuncionariosPorCargo() {
         $data = $this->model->getFuncionariosPorCargoModel();
+        
+        // Formatear los datos para la gráfica
+        $formattedData = [];
+        foreach ($data as $item) {
+            $formattedData[] = [
+                'nombre_cargo' => $item['nombre_cargo'],
+                'total_funcionarios' => (int)$item['cantidad']
+            ];
+        }
+        
         header('Content-Type: application/json');
-        echo json_encode($data);
+        echo json_encode($formattedData);
     }
     
     public function getFuncionariosPorTipoContrato() {
@@ -63,7 +100,7 @@ class Dashboard extends Controllers
         echo json_encode($data);
     }
     
-    public function getPermisosPorMes() {
+    private function getPermisosPorMesData() {
         // Intentar obtener datos reales de permisos por mes
         try {
             $sql = "SELECT MONTH(fecha_permiso) as num_mes, COUNT(*) as total_permisos 
@@ -113,8 +150,7 @@ class Dashboard extends Controllers
                 }
             }
             
-            header('Content-Type: application/json');
-            echo json_encode($resultados);
+            return $resultados;
         } catch (Exception $e) {
             // En caso de error, devolver datos de ejemplo
             $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
@@ -128,9 +164,22 @@ class Dashboard extends Controllers
                 ];
             }
             
-            header('Content-Type: application/json');
-            echo json_encode($resultados);
+            return $resultados;
         }
+    }
+    
+    public function getPermisosPorMes() {
+        $data = $this->getPermisosPorMesData();
+        
+        // Asegurar que los datos estén en el formato correcto
+        foreach ($data as &$item) {
+            if (isset($item['total_permisos'])) {
+                $item['total_permisos'] = (int)$item['total_permisos'];
+            }
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode($data);
         die();
     }
 }
