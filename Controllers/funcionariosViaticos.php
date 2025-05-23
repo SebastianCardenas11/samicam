@@ -11,7 +11,7 @@ class FuncionariosViaticos extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MDASHBOARD);
+        getPermisos(MVIATICOS);
         $this->model = new FuncionariosViaticosModel();
     }
 
@@ -21,6 +21,7 @@ class FuncionariosViaticos extends Controllers
             header("Location:" . base_url() . '/dashboard');
         }
         $data['funcionarios_planta'] = $this->model->selectFuncionariosPlanta();
+        $data['page_id'] = 7;
         $data['page_tag'] = "Viaticos";
         $data['page_title'] = "Viaticos";
         $data['page_name'] = "Viaticos";
@@ -113,6 +114,11 @@ class FuncionariosViaticos extends Controllers
     public function getFuncionariosValidos()
     {
         header('Content-Type: application/json');
+        if (empty($_SESSION['permisosMod']['r'])) {
+            echo json_encode([]);
+            die();
+        }
+        
         echo json_encode([
             [
                 'idefuncionario' => 9,
@@ -127,13 +133,10 @@ class FuncionariosViaticos extends Controllers
     {
         header('Content-Type: application/json');
         
-        // Temporalmente desactivar la verificación de permisos para pruebas
-        /*
         if (empty($_SESSION['permisosMod']['d'])) {
             echo json_encode(['status' => false, 'msg' => 'No tiene permisos para esta acción']);
             die();
         }
-        */
         
         if ($_POST) {
             $idViatico = intval($_POST['idViatico']);
@@ -164,13 +167,10 @@ class FuncionariosViaticos extends Controllers
     {
         header('Content-Type: application/json');
         
-        // Temporalmente desactivar la verificación de permisos para pruebas
-        /*
         if (!$_POST || empty($_SESSION['permisosMod']['w'])) {
             echo json_encode(['status' => false, 'msg' => 'No tiene permisos para realizar esta acción']);
             die();
         }
-        */
         
         try {
             if (empty($_POST['funci_fk'])) {

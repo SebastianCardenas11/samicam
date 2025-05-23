@@ -69,7 +69,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content text-dark">
       <div class="modal-header header-primary">
-        <h5 class="modal-title" id="titleModal">Datos del Cargo</h5>
+        <h5 class="modal-title" id="titleModal">Datos del Usuario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 

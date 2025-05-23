@@ -1,30 +1,30 @@
 <?php
 
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-
-//Retorna la url del proyecto
+// Retorna la url del proyecto
 function base_url()
 {
     return BASE_URL;
 }
-//Retorna la url de Assets
+
+// Retorna la url de Assets
 function media()
 {
     return BASE_URL . "/Assets";
 }
+
 function headerAdmin($data = "")
 {
     $view_header = "Views/Template/header_admin.php";
-    require_once $view_header;
+    require_once($view_header);
 }
+
 function footerAdmin($data = "")
 {
     $view_footer = "Views/Template/footer_admin.php";
-    require_once $view_footer;
+    require_once($view_footer);
 }
 
-//Muestra información formateada
+// Muestra información formateada
 function dep($data)
 {
     $format = print_r('<pre>');
@@ -32,23 +32,34 @@ function dep($data)
     $format .= print_r('</pre>');
     return $format;
 }
+
 function getModal(string $nameModal, $data)
 {
     $view_modal = "Views/Template/Modals/{$nameModal}.php";
     require_once $view_modal;
 }
-function getFile(string $url, $data)
-{
-    ob_start();
-    require_once "Views/{$url}.php";
-    $file = ob_get_clean();
-    return $file;
-}
 
+// Envio de correos
+function sendEmail($data, $template)
+{
+    $asunto = $data['asunto'];
+    $emailDestino = $data['email'];
+    $empresa = NOMBRE_REMITENTE;
+    $remitente = EMAIL_REMITENTE;
+    //ENVIO DE CORREO
+    $de = "MIME-Version: 1.0\r\n";
+    $de .= "Content-type: text/html; charset=UTF-8\r\n";
+    $de .= "From: {$empresa} <{$remitente}>\r\n";
+    ob_start();
+    require_once("Views/Template/Email/" . $template . ".php");
+    $mensaje = ob_get_clean();
+    $send = mail($emailDestino, $asunto, $mensaje, $de);
+    return $send;
+}
 
 function getPermisos(int $idmodulo)
 {
-    require_once "Models/PermisosModel.php";
+    require_once("Models/PermisosModel.php");
     $objPermisos = new PermisosModel();
     if (!empty($_SESSION['userData'])) {
         $idrol = $_SESSION['userData']['idrol'];
@@ -66,7 +77,7 @@ function getPermisos(int $idmodulo)
 
 function sessionUser(int $idpersona)
 {
-    require_once "Models/LoginModel.php";
+    require_once("Models/LoginModel.php");
     $objLogin = new LoginModel();
     $request = $objLogin->sessionLogin($idpersona);
     return $request;
@@ -75,14 +86,14 @@ function sessionUser(int $idpersona)
 function uploadImage(array $data, string $name)
 {
     $url_temp = $data['tmp_name'];
-    $destino = 'Assets/images/uploads/perfiles/' . $name;
+    $destino = 'Assets/images/uploads/' . $name;
     $move = move_uploaded_file($url_temp, $destino);
     return $move;
 }
 
 function deleteFile(string $name)
 {
-    unlink('Assets/images/uploads/perfiles/' . $name);
+    unlink('Assets/images/uploads/' . $name);
 }
 
 //Elimina exceso de espacios entre palabras
@@ -165,6 +176,7 @@ function clear_cadena(string $cadena)
     );
     return $cadena;
 }
+
 //Genera una contraseña de 10 caracteres
 function passGenerator($length = 10)
 {
@@ -179,6 +191,7 @@ function passGenerator($length = 10)
     }
     return $pass;
 }
+
 //Genera un token
 function token()
 {
@@ -190,130 +203,41 @@ function token()
     return $token;
 }
 
-
-function CurlConnectionGet(string $ruta, string $contentType = null, string $token)
+//Formato para valores monetarios
+function formatMoney($cantidad)
 {
-    $content_type = $contentType != null ? $contentType : "application/x-www-form-urlencoded";
-    if ($token != null) {
-        $arrHeader = array(
-            'Content-Type:' . $content_type,
-            'Authorization: Bearer ' . $token,
-        );
-    } else {
-        $arrHeader = array('Content-Type:' . $content_type);
+    $cantidad = number_format($cantidad, 2, SPD, SPM);
+    return $cantidad;
+}
+
+function getFile(string $url, $data)
+{
+    ob_start();
+    require_once("Views/{$url}.php");
+    $file = ob_get_clean();
+    return $file;
+}
+
+function getPermisosModulo(int $idmodulo)
+{
+    require_once("Models/PermisosModel.php");
+    $objPermisos = new PermisosModel();
+    $idrol = $_SESSION['userData']['idrol'];
+    $arrPermisos = $objPermisos->permisosModulo($idrol);
+    $permisos = '';
+    $permisosMod = '';
+    if (count($arrPermisos) > 0) {
+        $permisos = $arrPermisos;
+        $permisosMod = isset($arrPermisos[$idmodulo]) ? $arrPermisos[$idmodulo] : "";
     }
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $ruta);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $arrHeader);
-    $result = curl_exec($ch);
-    $err = curl_error($ch);
-    curl_close($ch);
-    if ($err) {
-        $request = "CURL Error #:" . $err;
-    } else {
-        $request = json_decode($result);
-    }
-    return $request;
+    $_SESSION['permisos'] = $permisos;
+    $_SESSION['permisosMod'] = $permisosMod;
 }
 
-function CurlConnectionPost(string $ruta, string $contentType = null, string $token)
+function isVisible($idmodulo)
 {
-    $content_type = $contentType != null ? $contentType : "application/x-www-form-urlencoded";
-    if ($token != null) {
-        $arrHeader = array(
-            'Content-Type:' . $content_type,
-            'Authorization: Bearer ' . $token,
-        );
-    } else {
-        $arrHeader = array('Content-Type:' . $content_type);
-    }
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $ruta);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $arrHeader);
-    $result = curl_exec($ch);
-    $err = curl_error($ch);
-    curl_close($ch);
-    if ($err) {
-        $request = "CURL Error #:" . $err;
-    } else {
-        $request = json_decode($result);
-    }
-    return $request;
-}
-
-function Meses()
-{
-    $meses = array(
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-    );
-    return $meses;
-}
-
-function getCatFooter()
-{
-    require_once "Models/CategoriasModel.php";
-    $objCategoria = new CategoriasModel();
-    $request = $objCategoria->getCategoriasFooter();
-    return $request;
-}
-
-function getInfoPage(int $idpagina)
-{
-    require_once "Libraries/Core/Mysql.php";
-    $con = new Mysql();
-    $sql = "SELECT * FROM post WHERE idpost = $idpagina";
-    $request = $con->select($sql);
-    return $request;
-}
-
-function getPageRout(string $ruta)
-{
-    require_once "Libraries/Core/Mysql.php";
-    $con = new Mysql();
-    $sql = "SELECT * FROM post WHERE ruta = '$ruta' AND status != 0 ";
-    $request = $con->select($sql);
-    if (!empty($request)) {
-        $request['portada'] = $request['portada'] != "" ? media() . "/images/uploads/" . $request['portada'] : "";
-    }
-    return $request;
-}
-
-function viewPage(int $idpagina)
-{
-    require_once "Libraries/Core/Mysql.php";
-    $con = new Mysql();
-    $sql = "SELECT * FROM post WHERE idpost = $idpagina ";
-    $request = $con->select($sql);
-    if (($request['status'] == 2 and isset($_SESSION['permisosMod']) and $_SESSION['permisosMod']['u'] == true) or $request['status'] == 1) {
+    if (!isset($_SESSION['permisos'][$idmodulo]['v']) || $_SESSION['permisos'][$idmodulo]['v'] == 1) {
         return true;
-    } else {
-        return false;
     }
-}
-
-// Función para verificar si existe una imagen, si no existe devuelve la imagen por defecto
-function getImage($imagen, $tipo = "funcionarios")
-{
-    $urlImagen = "Assets/images/" . $tipo . "/" . $imagen;
-    if(file_exists($urlImagen)){
-        return media() . "/images/" . $tipo . "/" . $imagen;
-    }else{
-        return media() . "/images/sinimagen.png";
-    }
+    return false;
 }

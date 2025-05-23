@@ -30,6 +30,7 @@
                                                 <th>Crear</th>
                                                 <th>Actualizar</th>
                                                 <th>Eliminar</th>
+                                                <th>Visible en Menú</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -43,6 +44,7 @@
                                                 $wCheck = $permisos['w'] == 1 ? " checked " : "";
                                                 $uCheck = $permisos['u'] == 1 ? " checked " : "";
                                                 $dCheck = $permisos['d'] == 1 ? " checked " : "";
+                                                $vCheck = isset($permisos['v']) ? ($permisos['v'] == 1 ? " checked " : "") : " checked ";
 
                                                 $idmod = $modulos[$i]['idmodulo'];
                                                 ?>
@@ -91,6 +93,16 @@
                                                                 <input class="form-check-input" role="switch"
                                                                     type="checkbox" name="modulos[<?= $i; ?>][d]"
                                                                     <?= $dCheck ?>><span class="flip-indecator"
+                                                                    data-toggle-on="ON" data-toggle-off="OFF"></span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check form-switch">
+                                                            <label>
+                                                                <input class="form-check-input" role="switch"
+                                                                    type="checkbox" name="modulos[<?= $i; ?>][v]"
+                                                                    <?= $vCheck ?>><span class="flip-indecator"
                                                                     data-toggle-on="ON" data-toggle-off="OFF"></span>
                                                             </label>
                                                         </div>

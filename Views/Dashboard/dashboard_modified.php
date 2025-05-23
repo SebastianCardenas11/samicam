@@ -122,4 +122,163 @@
   </div>
 </div>
 
+<!-- Script para inicializar las gráficas -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Datos para la gráfica de funcionarios por cargo
+    const funcionariosPorCargo = <?= json_encode($data['funcionariosPorCargo']) ?>;
+    const labelsCargos = funcionariosPorCargo.map(item => item.nombre_cargo);
+    const valoresCargos = funcionariosPorCargo.map(item => parseInt(item.cantidad));
+    
+    // Datos para la gráfica de permisos por mes
+    const permisosPorMes = <?= json_encode($data['permisosPorMes']) ?>;
+    const labelsMeses = permisosPorMes.map(item => item.mes);
+    const valoresPermisos = permisosPorMes.map(item => parseInt(item.total_permisos));
+    
+    // Inicializar gráfica de funcionarios por cargo
+    const ctxBars = document.getElementById('chart-bars').getContext('2d');
+    new Chart(ctxBars, {
+        type: 'bar',
+        data: {
+            labels: labelsCargos,
+            datasets: [{
+                label: 'Funcionarios',
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: '#fff',
+                data: valoresCargos,
+                maxBarThickness: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 15,
+                        font: {
+                            size: 14,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: "#fff"
+                    },
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#fff',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+    
+    // Inicializar gráfica de permisos por mes
+    const ctxLine = document.getElementById('chart-line').getContext('2d');
+    new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: labelsMeses,
+            datasets: [{
+                label: 'Permisos',
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 0,
+                borderColor: "#cb0c9f",
+                backgroundColor: 'rgba(203, 12, 159, 0.2)',
+                fill: true,
+                data: valoresPermisos,
+                maxBarThickness: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#f8f9fa',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+});
+</script>
+
 <?php footerAdmin($data); ?>

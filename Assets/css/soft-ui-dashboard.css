@@ -3861,14 +3861,14 @@ fieldset:disabled .btn {
   --bs-btn-border-color: #004884;
   --bs-btn-hover-color: #000;
   --bs-btn-hover-bg: #004884;
-  --bs-btn-hover-border-color:#004884;
+  --bs-btn-hover-border-color: #004884;
   --bs-btn-focus-shadow-rgb: 212, 98, 19;
   --bs-btn-active-color: #000;
-  --bs-btn-active-bg:#004884;
-  --bs-btn-active-border-color:#004884;
+  --bs-btn-active-bg: #004884;
+  --bs-btn-active-border-color: #004884;
   --bs-btn-active-shadow: none;
   --bs-btn-disabled-color: #000;
-  --bs-btn-disabled-bg:#004884;
+  --bs-btn-disabled-bg: #004884;
   --bs-btn-disabled-border-color: #004884;
 }
 
@@ -11317,9 +11317,25 @@ fieldset:disabled .btn {
   background-color: #27272a !important;
 }
 
+
+
+
+/* Color barra nav */
 .bg-white {
-  background-color: #fff !important;
+  background-color: #e2e2e2 !important;
 }
+
+.sidenav {
+  background-color: #e2e2e2 !important;
+}
+
+/* color barra nav */
+
+
+
+
+
+
 
 .bg-body {
   background-color: #fff !important;
@@ -23644,7 +23660,7 @@ html {
 }
 
 .navbar .nav-link {
-  color: #27272a;
+  color: #000;
   padding: 0.5rem 1rem;
   font-weight: 400;
   font-size: 0.75rem;
@@ -24602,13 +24618,17 @@ html {
   border-radius: 0.75rem;
 }
 
+
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active {
   color: #27272a;
-  background-color: #fff;
+  background-color: #fbfbfb;
 }
 
+
+
+
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active .icon {
-  background-image: linear-gradient(310deg, #004884 0%, #004884 100%);
+  background-image: linear-gradient(310deg, #b4cee9 0%, #edf3fb 100%);
   color: #fff;
 }
 
@@ -27941,3 +27961,134 @@ pre[class*=language-] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+
+
+
+
+
+
+
+
+
+.nav-link {
+  border-radius: 12px;
+  /* Siempre redondeado */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #b3d8ff;
+  /* Azul más oscuro */
+}
+
+.nav-link .icon {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-link:hover .icon {
+  transform: scale(1.25) translateY(-2px);
+  /* Más grande y hacia arriba */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  /* Sombra para resaltar */
+}
+
+
+
+
+
+
+
+
+
+
+/* Contenedor relativo para los tres wrappers */
+#tableUsuarios_wrapper,
+#tableCargos_wrapper,
+#tableFuncionarios_wrapper {
+  position: relative;
+  /* necesario para que el absolute funcione relativo a este contenedor */
+
+  /* Variables para posición y tamaño del botón */
+  --dt-btn-top: -10px;
+  /* ajusta para mover arriba */
+  --dt-btn-right: 10px;
+  /* ajusta para mover a la derecha */
+  --dt-btn-font-size: 0.8rem;
+  /* tamaño de los botones */
+}
+
+/* Botones exportar posicionados y animados para los tres */
+#tableUsuarios_wrapper .dt-buttons,
+#tableCargos_wrapper .dt-buttons,
+#tableFuncionarios_wrapper .dt-buttons {
+  position: absolute !important;
+  top: var(--dt-btn-top) !important;
+  right: var(--dt-btn-right) !important;
+  margin: 0 !important;
+  float: none !important;
+  z-index: 10;
+
+  font-size: var(--dt-btn-font-size) !important;
+  transform-origin: center center;
+  animation: popIn 0.3s ease forwards;
+}
+
+/* Padding vertical un poco más grueso para los botones */
+#tableUsuarios_wrapper .dt-buttons .btn,
+#tableCargos_wrapper .dt-buttons .btn,
+#tableFuncionarios_wrapper .dt-buttons .btn {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Hover: salto y opacidad */
+#tableUsuarios_wrapper .dt-buttons .btn:hover,
+#tableCargos_wrapper .dt-buttons .btn:hover,
+#tableFuncionarios_wrapper .dt-buttons .btn:hover {
+  transform: scale(1.15);
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Animación más suave para los botones exportar */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  60% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+#tableUsuarios_wrapper .dataTables_filter,
+#tableCargos_wrapper .dataTables_filter {
+  position: relative;
+  top: -38px;
+  left: 650px;
+}
+
+div#tableUsuarios_length label,
+div#tableCargos_length label {
+  transform: translateY(40px) !important;
+  /* Desplaza el elemento */
+}
+
+
+.nav-link.active {
+  background-color: #f0f0f0; /* gris claro */
+  border-radius: 10px;
+  font-weight: 600;
+  color: #000 !important;
+}

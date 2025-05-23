@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 19-05-2025 a las 06:40:50
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 22-05-2025 a las 21:10:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -55,19 +55,23 @@ CREATE TABLE `modulo` (
   `titulo` varchar(50) NOT NULL,
   `descripcion` text NOT NULL,
   `status` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `modulo`
 --
 
 INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
-(1, 'Administrador', 'Administrador', 1),
-(2, 'Usuarios', 'Usuarios', 1),
-(3, 'Roles', 'Roles', 1),
-(4, 'Funcionarios Ops', 'Usuarios', 1),
-(5, 'Funcionarios Planta', 'Funionarios Ops', 1),
-(6, 'Notificaciones', 'Notificaciones', 1);
+(1, 'Funcionarios Planta', 'Gestión de funcionarios Planta', 1),
+(2, 'Usuarios', 'Gestión de usuarios', 1),
+(3, 'Roles', 'Gestión de roles', 1),
+(4, 'Funcionarios Ops', 'Gestión de funcionarios Ops', 1),
+(5, 'Funcionarios Planta', 'Gestión de funcionarios de planta', 1),
+(6, 'Vacaciones', 'Gestión de vacaciones', 1),
+(7, 'Viáticos', 'Gestión de viáticos', 1),
+(8, 'Archivos', 'Gestión de archivos', 1),
+(10, 'Cargos', 'Gestión de cargos', 1),
+(12, 'Cargos', 'Gestión de cargos', 1);
 
 -- --------------------------------------------------------
 
@@ -82,35 +86,55 @@ CREATE TABLE `permisos` (
   `r` int(11) NOT NULL DEFAULT 0,
   `w` int(11) NOT NULL DEFAULT 0,
   `u` int(11) NOT NULL DEFAULT 0,
-  `d` int(11) NOT NULL DEFAULT 0
+  `d` int(11) NOT NULL DEFAULT 0,
+  `v` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Permiso de visibilidad'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `permisos`
 --
 
-INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`) VALUES
-(229, 1, 1, 1, 1, 1, 1),
-(230, 1, 2, 1, 1, 1, 1),
-(231, 1, 3, 1, 1, 1, 1),
-(232, 1, 4, 1, 1, 1, 1),
-(233, 1, 5, 1, 1, 1, 1),
-(234, 1, 6, 1, 1, 1, 1),
-(434, 2, 1, 1, 0, 0, 0),
-(435, 2, 2, 0, 0, 0, 0),
-(436, 2, 3, 0, 0, 0, 0),
-(437, 2, 4, 1, 0, 0, 0),
-(438, 2, 5, 1, 0, 0, 0),
-(439, 4, 1, 0, 0, 0, 0),
-(440, 4, 2, 0, 0, 0, 0),
-(441, 4, 3, 0, 0, 0, 0),
-(442, 4, 4, 1, 0, 0, 0),
-(443, 4, 5, 1, 0, 0, 0),
-(454, 3, 1, 1, 0, 0, 0),
-(455, 3, 2, 0, 0, 0, 0),
-(456, 3, 3, 0, 0, 0, 0),
-(457, 3, 4, 1, 0, 0, 0),
-(458, 3, 5, 1, 0, 0, 0);
+INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v`) VALUES
+(434, 2, 1, 1, 0, 0, 0, 1),
+(435, 2, 2, 0, 0, 0, 0, 1),
+(436, 2, 3, 0, 0, 0, 0, 1),
+(437, 2, 4, 1, 0, 0, 0, 1),
+(438, 2, 5, 1, 0, 0, 0, 1),
+(454, 3, 1, 1, 0, 0, 0, 1),
+(455, 3, 2, 0, 0, 0, 0, 1),
+(456, 3, 3, 0, 0, 0, 0, 1),
+(457, 3, 4, 1, 0, 0, 0, 1),
+(458, 3, 5, 1, 0, 0, 0, 1),
+(481, 2, 6, 1, 1, 1, 0, 1),
+(482, 2, 7, 1, 0, 0, 0, 1),
+(483, 2, 8, 1, 1, 0, 0, 1),
+(484, 3, 6, 1, 0, 0, 0, 1),
+(485, 3, 7, 0, 0, 0, 0, 1),
+(486, 3, 8, 1, 0, 0, 0, 1),
+(487, 5, 1, 1, 0, 0, 0, 1),
+(488, 5, 8, 1, 1, 1, 0, 1),
+(489, 7, 1, 1, 0, 0, 0, 1),
+(490, 7, 8, 1, 1, 0, 0, 1),
+(507, 1, 1, 1, 1, 1, 1, 1),
+(508, 1, 2, 1, 1, 1, 1, 1),
+(509, 1, 3, 1, 1, 1, 1, 1),
+(510, 1, 4, 1, 1, 1, 1, 1),
+(511, 1, 6, 1, 1, 1, 1, 1),
+(512, 1, 7, 1, 1, 1, 1, 1),
+(513, 1, 8, 1, 1, 1, 1, 1),
+(514, 1, 12, 1, 1, 1, 1, 1),
+(515, 1, 5, 1, 1, 1, 1, 1),
+(516, 1, 10, 1, 1, 1, 1, 1),
+(547, 4, 1, 1, 0, 0, 0, 1),
+(548, 4, 2, 1, 0, 0, 0, 0),
+(549, 4, 3, 0, 0, 0, 0, 1),
+(550, 4, 4, 1, 0, 0, 0, 1),
+(551, 4, 5, 1, 1, 1, 1, 1),
+(552, 4, 6, 1, 0, 0, 0, 1),
+(553, 4, 7, 1, 0, 0, 0, 1),
+(554, 4, 8, 1, 0, 0, 0, 1),
+(555, 4, 10, 1, 0, 0, 0, 0),
+(556, 4, 12, 1, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -575,10 +599,16 @@ ALTER TABLE `archivos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `modulo`
+--
+ALTER TABLE `modulo`
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=459;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=557;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -661,12 +691,6 @@ ALTER TABLE `tbl_viaticos`
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `modulo`
---
-ALTER TABLE `modulo`
-  ADD CONSTRAINT `modulo_ibfk_1` FOREIGN KEY (`idmodulo`) REFERENCES `permisos` (`moduloid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `permisos`

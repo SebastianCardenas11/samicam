@@ -11,10 +11,17 @@ class Permisos extends Controllers
     {
         $rolid = intval($idrol);
         if ($rolid > 0) {
+            // No permitir modificar permisos del superadministrador (ID 1)
+            if ($rolid == 1) {
+                $arrResponse = array('status' => false, 'msg' => 'No se pueden modificar los permisos del Superadministrador.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
             $arrModulos = $this->model->selectModulos();
             $arrPermisosRol = $this->model->selectPermisosRol($rolid);
             $arrRol = $this->model->getRol($rolid);
-            $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
+            $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0, 'v' => 0);
             $arrPermisoRol = array('idrol' => $rolid, 'rol' => $arrRol['nombrerol']);
 
             if (empty($arrPermisosRol)) {
@@ -24,12 +31,13 @@ class Permisos extends Controllers
                 }
             } else {
                 for ($i = 0; $i < count($arrModulos); $i++) {
-                    $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
+                    $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0, 'v' => 0);
                     if (isset($arrPermisosRol[$i])) {
                         $arrPermisos = array('r' => $arrPermisosRol[$i]['r'],
                             'w' => $arrPermisosRol[$i]['w'],
                             'u' => $arrPermisosRol[$i]['u'],
                             'd' => $arrPermisosRol[$i]['d'],
+                            'v' => isset($arrPermisosRol[$i]['v']) ? $arrPermisosRol[$i]['v'] : 1,
                         );
                     }
                     $arrModulos[$i]['permisos'] = $arrPermisos;
@@ -45,6 +53,14 @@ class Permisos extends Controllers
     {
         if ($_POST) {
             $intIdrol = intval($_POST['idrol']);
+            
+            // No permitir modificar permisos del superadministrador (ID 1)
+            if ($intIdrol == 1) {
+                $arrResponse = array('status' => false, 'msg' => 'No se pueden modificar los permisos del Superadministrador.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
             $modulos = $_POST['modulos'];
 
             $this->model->deletePermisos($intIdrol);
@@ -54,7 +70,8 @@ class Permisos extends Controllers
                 $w = empty($modulo['w']) ? 0 : 1;
                 $u = empty($modulo['u']) ? 0 : 1;
                 $d = empty($modulo['d']) ? 0 : 1;
-                $requestPermiso = $this->model->insertPermisos($intIdrol, $idModulo, $r, $w, $u, $d);
+                $v = empty($modulo['v']) ? 0 : 1;
+                $requestPermiso = $this->model->insertPermisos($intIdrol, $idModulo, $r, $w, $u, $d, $v);
             }
             if ($requestPermiso > 0) {
                 $arrResponse = array('status' => true, 'msg' => 'Permisos asignados correctamente.');

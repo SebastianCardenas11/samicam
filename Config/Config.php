@@ -3,6 +3,7 @@ const BASE_URL = "http://localhost/samicam";
 // 192.168.150.235:8080
 //Zona horaria
 
+
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
@@ -39,9 +40,13 @@ const METHODENCRIPT = "AES-128-ECB";
 //Módulos
 const MDASHBOARD = 1;
 const MUSUARIOS = 2;
-const MROLES= 3;
-const MFUNCIONARIOSOPS= 4;
-const MFUNCIONARIOSPLANTA= 4;
+const MROLES = 3;
+const MFUNCIONARIOSOPS = 4;
+const MFUNCIONARIOSPLANTA = 5;
+const MVACACIONES = 6;
+const MVIATICOS = 7;
+const MARCHIVOS = 8;
+const MCARGOS = 9;
 
 //Páginas
 const PINICIO = 1;

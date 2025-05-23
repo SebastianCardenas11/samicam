@@ -10,7 +10,7 @@ class Vacaciones extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MDASHBOARD);
+        getPermisos(MVACACIONES);
     }
 
     public function Vacaciones()
@@ -18,6 +18,7 @@ class Vacaciones extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
+        $data['page_id'] = 6;
         $data['page_tag'] = "Vacaciones";
         $data['page_title'] = "Vacaciones";
         $data['page_name'] = "Vacaciones";
@@ -51,7 +52,9 @@ class Vacaciones extends Controllers
                     $btnVacaciones = '<button class="btn btn-success" onClick="fntVacacionesInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Registrar Vacaciones"><i class="bi bi-calendar-check"></i></button>';
                 }
                 
-                $btnHistorial = '<button class="btn btn-secondary" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnHistorial = '<button class="btn btn-secondary" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
+                }
                 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnVacaciones . ' ' . $btnHistorial . '</div>';
             }

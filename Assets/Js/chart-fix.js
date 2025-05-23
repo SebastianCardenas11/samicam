@@ -1,26 +1,70 @@
+/**
+ * Script para corregir problemas con las gráficas del dashboard
+ */
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar datos para las gráficas
-    cargarFuncionariosPorCargo();
-    cargarPermisosPorMes();
+    // Verificar si estamos en la página del dashboard
+    if (document.getElementById('chart-bars') || document.getElementById('chart-line')) {
+        console.log('Inicializando corrección de gráficas del dashboard');
+        
+        // Asegurar que Chart.js esté cargado
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js no está cargado correctamente');
+            
+            // Cargar Chart.js dinámicamente si no está disponible
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            script.onload = function() {
+                console.log('Chart.js cargado dinámicamente');
+                inicializarGraficas();
+            };
+            document.head.appendChild(script);
+        } else {
+            console.log('Chart.js ya está cargado');
+            inicializarGraficas();
+        }
+    }
 });
+
+function inicializarGraficas() {
+    // Intentar cargar las gráficas
+    setTimeout(() => {
+        if (document.getElementById('chart-bars')) {
+            cargarFuncionariosPorCargo();
+        }
+        
+        if (document.getElementById('chart-line')) {
+            cargarPermisosPorMes();
+        }
+    }, 500); // Pequeño retraso para asegurar que el DOM esté listo
+}
 
 function cargarFuncionariosPorCargo() {
     fetch(base_url + '/Dashboard/getFuncionariosPorCargo')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.length > 0) {
-                console.log('Datos de funcionarios por cargo:', data);
+            console.log('Datos recibidos de funcionarios por cargo:', data);
+            
+            if (data && data.length > 0) {
                 const ctx = document.getElementById('chart-bars');
                 if (!ctx) {
                     console.error('No se encontró el elemento canvas #chart-bars');
                     return;
                 }
                 
-                const ctxContext = ctx.getContext('2d');
+                // Limpiar cualquier gráfica existente
+                if (window.funcionariosChart) {
+                    window.funcionariosChart.destroy();
+                }
+                
                 const labels = data.map(item => item.nombre_cargo);
                 const valores = data.map(item => item.total_funcionarios);
                 
-                new Chart(ctxContext, {
+                window.funcionariosChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: labels,
@@ -96,21 +140,31 @@ function cargarFuncionariosPorCargo() {
 
 function cargarPermisosPorMes() {
     fetch(base_url + '/Dashboard/getPermisosPorMes')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.length > 0) {
-                console.log('Datos de permisos por mes:', data);
+            console.log('Datos recibidos de permisos por mes:', data);
+            
+            if (data && data.length > 0) {
                 const ctx = document.getElementById('chart-line');
                 if (!ctx) {
                     console.error('No se encontró el elemento canvas #chart-line');
                     return;
                 }
                 
-                const ctxContext = ctx.getContext('2d');
+                // Limpiar cualquier gráfica existente
+                if (window.permisosChart) {
+                    window.permisosChart.destroy();
+                }
+                
                 const labels = data.map(item => item.mes);
                 const valores = data.map(item => item.total_permisos);
                 
-                new Chart(ctxContext, {
+                window.permisosChart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: labels,

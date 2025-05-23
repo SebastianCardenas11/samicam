@@ -5,46 +5,57 @@ document.addEventListener(
   "DOMContentLoaded",
   function () {
     divLoading = document.querySelector("#divLoading");
-    tableFuncionarios = $('#tableFuncionarios').dataTable( {
-        "aProcessing":true,
-        "aServerSide":true,
-        "language": {
-            "url": "./es.json"
-        },
-        "ajax":{
-            "url": " "+base_url+"/funcionariosPlanta/getFuncionarios",
-            "dataSrc":""
-        },
-        "columns":[
-            { "data": "imagen" },
-            { "data": "nombre_completo" },
-            { "data": "nm_identificacion" },
-            { "data": "cargo_nombre" },
-            { "data": "dependencia_nombre" },
-            { "data": "contrato_nombre" },
-            { "data": "correo_elc" },
-            { "data": "status" },
-            { "data": "options" }
-        ],
-        'dom': 'lBfrtip',
-        'buttons': [
-            {
-                "extend": "excelHtml5",
-                "text": "<i class='fas fa-file-excel'></i> Excel",
-                "titleAttr":"Exportar a Excel",
-                "className": "btn btn-success mt-3"
-            },{
-                "extend": "pdfHtml5",
-                "text": "<i class='fas fa-file-pdf'></i> PDF",
-                "titleAttr":"Exportar a PDF",
-                "className": "btn btn-danger mt-3"
-            }
-            
-        ],
-        "responsive":"true",
-        "bDestroy": true,
-        "iDisplayLength": 10,
-        "order":[[1,"desc"]]  
+    tableFuncionarios = $('#tableFuncionarios').dataTable({
+      "aProcessing": true,
+      "aServerSide": true,
+      "language": {
+        "url": "./es.json"
+      },
+      "ajax": {
+        "url": " " + base_url + "/funcionariosPlanta/getFuncionarios",
+        "dataSrc": ""
+      },
+      "columns": [
+        { "data": "imagen" },
+        { "data": "nombre_completo" },
+        { "data": "nm_identificacion" },
+        { "data": "cargo_nombre" },
+        { "data": "dependencia_nombre" },
+        { "data": "contrato_nombre" },
+        { "data": "correo_elc" },
+        { "data": "status" },
+        { "data": "options" }
+      ],
+
+
+      // 'dom': 'lBfrtip',
+      'dom': "<'row mb-3 align-items-center'<'col-auto'l><'col-auto ml-auto'f>>" +
+        "<'row'<'col-12'B>>" +
+        "<'row'<'col-12'tr>>" +
+        "<'row'<'col-md-5'i><'col-md-7'p>>",
+
+
+
+
+
+      'buttons': [
+        {
+          "extend": "excelHtml5",
+          "text": "<i class='fas fa-file-excel'></i> Excel",
+          "titleAttr": "Exportar a Excel",
+          "className": "btn btn-success mt-3"
+        }, {
+          "extend": "pdfHtml5",
+          "text": "<i class='fas fa-file-pdf'></i> PDF",
+          "titleAttr": "Exportar a PDF",
+          "className": "btn btn-danger mt-3"
+        }
+
+      ],
+      "responsive": "true",
+      "bDestroy": true,
+      "iDisplayLength": 10,
+      "order": [[1, "desc"]]
     });
 
     if (document.querySelector("#formFuncionario")) {
@@ -105,7 +116,7 @@ document.addEventListener(
             return false;
           }
         }
-        if(divLoading) divLoading.style.display = "flex";
+        if (divLoading) divLoading.style.display = "flex";
         let request = window.XMLHttpRequest
           ? new XMLHttpRequest()
           : new ActiveXObject("Microsoft.XMLHTTP");
@@ -125,38 +136,38 @@ document.addEventListener(
               Swal.fire("Error", objData.msg, "error");
             }
           }
-          if(divLoading) divLoading.style.display = "none";
+          if (divLoading) divLoading.style.display = "none";
           return false;
         };
       };
     }
-    
+
     // Evento para mostrar la imagen seleccionada
-    if(document.querySelector("#foto")){
-        let foto = document.querySelector("#foto");
-        foto.onchange = function(e) {
-            let uploadFoto = document.querySelector("#foto").value;
-            let fileimg = document.querySelector("#foto").files;
-            let nav = window.URL || window.webkitURL;
-            let contactAlert = document.querySelector('#form_alert');
-            if(uploadFoto !=''){
-                let type = fileimg[0].type;
-                let name = fileimg[0].name;
-                if(type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png'){
-                    contactAlert.innerHTML = '<p class="errorArchivo">El archivo no es válido.</p>';
-                    if(document.querySelector('#img_funcionario')){
-                        document.querySelector('#img_funcionario').src = '';
-                    }
-                    document.querySelector('.delPhoto').classList.add("notBlock");
-                    foto.value="";
-                    return false;
-                }else{  
-                    contactAlert.innerHTML='';
-                    document.querySelector('#img_funcionario').src = nav.createObjectURL(this.files[0]);
-                    document.querySelector('#foto_remove').value = 0;
-                }
+    if (document.querySelector("#foto")) {
+      let foto = document.querySelector("#foto");
+      foto.onchange = function (e) {
+        let uploadFoto = document.querySelector("#foto").value;
+        let fileimg = document.querySelector("#foto").files;
+        let nav = window.URL || window.webkitURL;
+        let contactAlert = document.querySelector('#form_alert');
+        if (uploadFoto != '') {
+          let type = fileimg[0].type;
+          let name = fileimg[0].name;
+          if (type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png') {
+            contactAlert.innerHTML = '<p class="errorArchivo">El archivo no es válido.</p>';
+            if (document.querySelector('#img_funcionario')) {
+              document.querySelector('#img_funcionario').src = '';
             }
+            document.querySelector('.delPhoto').classList.add("notBlock");
+            foto.value = "";
+            return false;
+          } else {
+            contactAlert.innerHTML = '';
+            document.querySelector('#img_funcionario').src = nav.createObjectURL(this.files[0]);
+            document.querySelector('#foto_remove').value = 0;
+          }
         }
+      }
     }
   },
   false
@@ -228,7 +239,7 @@ function fntViewInfo(idefuncionario) {
           objData.data.status == 1
             ? '<span class="badge text-bg-success">Activo</span>'
             : '<span class="badge text-bg-danger">Inactivo</span>';
-            
+
         // Mostrar la imagen del funcionario
         document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
 
@@ -291,12 +302,12 @@ function fntEditInfo(element, idefuncionario) {
         document.querySelector("#txtNombreFormacion").value =
           objData.data.nombre_formacion;
         document.querySelector("#listStatus").value = objData.data.status;
-        
+
         // Mostrar la imagen actual
-        if(document.querySelector('#foto_actual')){
+        if (document.querySelector('#foto_actual')) {
           document.querySelector('#foto_actual').value = objData.data.imagen;
         }
-        if(document.querySelector('#img_funcionario')){
+        if (document.querySelector('#img_funcionario')) {
           document.querySelector('#img_funcionario').src = objData.data.url_imagen;
         }
       }
