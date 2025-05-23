@@ -5,7 +5,9 @@ class FuncionariosViaticosModel extends Mysql
     private $intIdFuncionario;
     private $strDescripcion;
     private $floatMonto;
-    private $strFechaUso;
+    private $strFechaAprobacion;
+    private $strFechaSalida;
+    private $strFechaRegreso;
     private $intEstatus;
     private $strUso;
 
@@ -19,13 +21,17 @@ class FuncionariosViaticosModel extends Mysql
         int $funci_fk,
         string $descripcion,
         float $monto,
-        string $fecha,
+        string $fecha_aprobacion,
+        string $fecha_salida,
+        string $fecha_regreso,
         string $uso
     ){
         $this->intIdFuncionario = $funci_fk;
         $this->strDescripcion = $descripcion;
         $this->floatMonto = $monto;
-        $this->strFechaUso = $fecha;
+        $this->strFechaAprobacion = $fecha_aprobacion;
+        $this->strFechaSalida = $fecha_salida;
+        $this->strFechaRegreso = $fecha_regreso;
         $this->strUso = $uso;
         $this->intEstatus = 1; // Por defecto activo
 
@@ -40,17 +46,19 @@ class FuncionariosViaticosModel extends Mysql
         }
         
         // Verificamos si ya existe un viático con la misma fecha y funcionario
-        $sql = "SELECT * FROM tbl_viaticos WHERE funci_fk = ? AND fecha = ?";
-        $request = $this->select_all($sql, [$this->intIdFuncionario, $this->strFechaUso]);    
+        $sql = "SELECT * FROM tbl_viaticos WHERE funci_fk = ? AND fecha_aprobacion = ?";
+        $request = $this->select_all($sql, [$this->intIdFuncionario, $this->strFechaAprobacion]);    
 
         if (empty($request)) {
-            $sql = "INSERT INTO tbl_viaticos (funci_fk, descripcion, monto, fecha, uso, estatus) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO tbl_viaticos (funci_fk, descripcion, monto, fecha_aprobacion, fecha_salida, fecha_regreso, uso, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             $arrData = array(
                 $this->intIdFuncionario, 
                 $this->strDescripcion, 
                 $this->floatMonto, 
-                $this->strFechaUso, 
+                $this->strFechaAprobacion,
+                $this->strFechaSalida,
+                $this->strFechaRegreso,
                 $this->strUso, 
                 $this->intEstatus
             );
@@ -67,7 +75,7 @@ class FuncionariosViaticosModel extends Mysql
     public function deleteViatico(int $idViatico)
     {
         // Primero obtenemos el monto y la fecha del viático para actualizar el capital disponible
-        $sql = "SELECT monto, fecha FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
+        $sql = "SELECT monto, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
         $request = $this->select($sql, [$idViatico]);
         
         if (empty($request)) {
@@ -75,7 +83,7 @@ class FuncionariosViaticosModel extends Mysql
         }
         
         $monto = $request['monto'];
-        $year = date('Y', strtotime($request['fecha']));
+        $year = date('Y', strtotime($request['fecha_aprobacion']));
         
         // Actualizamos el estatus del viático a 0 (eliminado)
         $sql = "UPDATE tbl_viaticos SET estatus = 0 WHERE idViatico = ?";
@@ -106,7 +114,7 @@ class FuncionariosViaticosModel extends Mysql
         $sql = "SELECT f.idefuncionario, f.nombre_completo, SUM(v.monto) as total_viaticos
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
-                WHERE YEAR(v.fecha) = ? AND v.estatus = 1
+                WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 GROUP BY f.idefuncionario, f.nombre_completo";
         $request = $this->select_all($sql, [$year]);
         return $request;
@@ -115,11 +123,35 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener detalle de viáticos otorgados a funcionarios con descripción y uso
     public function getDetalleViaticos($year)
     {
-        $sql = "SELECT v.idViatico, f.nombre_completo, v.descripcion, v.monto, v.fecha, v.uso
+        $sql = "SELECT v.idViatico, f.nombre_completo, v.descripcion, v.monto, 
+                v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
-                WHERE YEAR(v.fecha) = ? AND v.estatus = 1
-                ORDER BY v.fecha DESC";
+                WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
+                ORDER BY v.fecha_aprobacion DESC";
+        $request = $this->select_all($sql, [$year]);
+        return $request;
+    }
+
+    // Obtener un viático específico por ID
+    public function getViatico(int $idViatico)
+    {
+        $sql = "SELECT v.*, f.nombre_completo
+                FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
+                WHERE v.idViatico = ?";
+        $request = $this->select($sql, [$idViatico]);
+        return $request;
+    }
+
+    // Obtener todos los viáticos del año (activos y eliminados)
+    public function getAllViaticos($year)
+    {
+        $sql = "SELECT v.*, f.nombre_completo
+                FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
+                WHERE YEAR(v.fecha_aprobacion) = ?
+                ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
         return $request;
     }
@@ -212,5 +244,4 @@ class FuncionariosViaticosModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
-
 }

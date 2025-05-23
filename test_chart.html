@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 400px; margin: 20px auto;">
+        <canvas id="chartTest"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('chartTest');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Capital Total', 'Capital Disponible', 'Capital Usado'],
+                    datasets: [{
+                        label: 'Valores',
+                        data: [500000, 300000, 200000],
+                        backgroundColor: ['#4e73df', '#28a745', '#dc3545']
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        });
+    </script>
+</body>
+</html>

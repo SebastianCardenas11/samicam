@@ -28,8 +28,16 @@
                         <input type="number" step="0.01" class="form-control" id="txtMonto" name="monto" required>
                     </div>
                     <div class="mb-3">
-                        <label for="txtFecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="txtFecha" name="fecha" required>
+                        <label for="txtFechaAprobacion" class="form-label">Fecha de Aprobación</label>
+                        <input type="date" class="form-control" id="txtFechaAprobacion" name="fecha_aprobacion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtFechaSalida" class="form-label">Fecha de Salida</label>
+                        <input type="date" class="form-control" id="txtFechaSalida" name="fecha_salida" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtFechaRegreso" class="form-label">Fecha de Regreso</label>
+                        <input type="date" class="form-control" id="txtFechaRegreso" name="fecha_regreso" required>
                     </div>
                     <div class="mb-3">
                         <label for="txtUso" class="form-label">Uso</label>
@@ -56,61 +64,48 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Inicializar fecha con la fecha actual
-        document.getElementById('txtFecha').valueAsDate = new Date();
+        // Inicializar fechas con la fecha actual
+        const hoy = new Date();
+        document.getElementById('txtFechaAprobacion').valueAsDate = hoy;
+        document.getElementById('txtFechaSalida').valueAsDate = hoy;
+        document.getElementById('txtFechaRegreso').valueAsDate = hoy;
 
         document.getElementById('formViaticos').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            // Validar que se haya seleccionado un funcionario
-            const funcionarioId = document.getElementById('listFuncionarios').value;
-            if (!funcionarioId) {
-                Swal.fire('Error', 'Debe seleccionar un funcionario', 'error');
+            
+            // Validar que la fecha de salida no sea anterior a la fecha actual
+            const fechaSalida = new Date(document.getElementById('txtFechaSalida').value);
+            const fechaActual = new Date();
+            fechaActual.setHours(0, 0, 0, 0); // Resetear horas para comparar solo fechas
+            
+            if (fechaSalida < fechaActual) {
+                Swal.fire('Error', 'La fecha de salida no puede ser anterior a la fecha actual', 'error');
                 return;
             }
-
-            // Mostrar indicador de carga
-            Swal.fire({
-                title: 'Guardando...',
-                text: 'Por favor espere',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            let formData = new FormData(this);
-            fetch(base_url + '/FuncionariosViaticos/setViatico', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error en la respuesta del servidor');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    Swal.close();
-                    if (data.status) {
-                        Swal.fire('Éxito', data.msg, 'success');
-                        $('#modalViaticos').modal('hide');
-                        this.reset();
-                        document.getElementById('txtFecha').valueAsDate = new Date();
-                        // Recargar datos
-                        const anioActual = new Date().getFullYear();
-                        cargarCapitalDisponible(anioActual);
-                        cargarHistoricoViaticos(anioActual);
-                        cargarDetalleViaticos(anioActual);
-                    } else {
-                        Swal.fire('Error', data.msg || 'Error al asignar viático', 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.close();
-                    console.error('Error:', error);
-                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud', 'error');
-                });
+            
+            // Validar que la fecha de regreso sea posterior a la fecha de salida
+            const fechaRegreso = new Date(document.getElementById('txtFechaRegreso').value);
+            if (fechaRegreso < fechaSalida) {
+                Swal.fire('Error', 'La fecha de regreso debe ser posterior a la fecha de salida', 'error');
+                return;
+            }
+            
+            guardarViatico(this);
+        });
+        
+        // Validar fecha de salida al cambiar
+        document.getElementById('txtFechaSalida').addEventListener('change', function() {
+            const fechaSalida = new Date(this.value);
+            const fechaActual = new Date();
+            fechaActual.setHours(0, 0, 0, 0);
+            
+            if (fechaSalida < fechaActual) {
+                Swal.fire('Error', 'La fecha de salida no puede ser anterior a la fecha actual', 'error');
+                this.valueAsDate = fechaActual;
+            }
+            
+            // Actualizar fecha de regreso mínima
+            document.getElementById('txtFechaRegreso').min = this.value;
         });
     });
 

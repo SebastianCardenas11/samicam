@@ -10,7 +10,6 @@
                     <div class="mb-3">
                         <label for="txtAnio" class="form-label">Año</label>
                         <select class="form-select" id="txtAnio" name="anio" required>
-                            <option value="<?php echo date('Y')-1; ?>"><?php echo date('Y')-1; ?></option>
                             <option value="<?php echo date('Y'); ?>" selected><?php echo date('Y'); ?></option>
                             <option value="<?php echo date('Y')+1; ?>"><?php echo date('Y')+1; ?></option>
                         </select>
