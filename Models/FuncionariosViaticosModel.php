@@ -45,30 +45,36 @@ class FuncionariosViaticosModel extends Mysql
             return "nofunc"; // Funcionario no existe o no está activo
         }
         
-        // Verificamos si ya existe un viático con la misma fecha y funcionario
-        $sql = "SELECT * FROM tbl_viaticos WHERE funci_fk = ? AND fecha_aprobacion = ?";
-        $request = $this->select_all($sql, [$this->intIdFuncionario, $this->strFechaAprobacion]);    
-
-        if (empty($request)) {
-            $sql = "INSERT INTO tbl_viaticos (funci_fk, descripcion, monto, fecha_aprobacion, fecha_salida, fecha_regreso, uso, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-            $arrData = array(
-                $this->intIdFuncionario, 
-                $this->strDescripcion, 
-                $this->floatMonto, 
-                $this->strFechaAprobacion,
-                $this->strFechaSalida,
-                $this->strFechaRegreso,
-                $this->strUso, 
-                $this->intEstatus
-            );
-
-            $request = $this->insert($sql, $arrData);
-            return $request;
-        } else {
-            $return = "exist";
+        // Verificar si hay suficiente capital disponible
+        $year = date('Y', strtotime($this->strFechaAprobacion));
+        $capitalDisponible = $this->getCapitalDisponible($year);
+        
+        if ($this->floatMonto > $capitalDisponible) {
+            return "nocapital"; // No hay suficiente capital disponible
         }
-        return $return;
+        
+        $sql = "INSERT INTO tbl_viaticos (funci_fk, descripcion, monto, fecha_aprobacion, fecha_salida, fecha_regreso, uso, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $arrData = array(
+            $this->intIdFuncionario, 
+            $this->strDescripcion, 
+            $this->floatMonto, 
+            $this->strFechaAprobacion,
+            $this->strFechaSalida,
+            $this->strFechaRegreso,
+            $this->strUso, 
+            $this->intEstatus
+        );
+
+        $request = $this->insert($sql, $arrData);
+        
+        if ($request > 0) {
+            // Actualizar el capital disponible
+            $nuevoCapital = $capitalDisponible - $this->floatMonto;
+            $this->actualizarCapitalDisponible($year, $nuevoCapital);
+        }
+        
+        return $request;
     }
 
     // Eliminar un viático
@@ -124,7 +130,7 @@ class FuncionariosViaticosModel extends Mysql
     public function getDetalleViaticos($year)
     {
         $sql = "SELECT v.idViatico, f.nombre_completo, v.descripcion, v.monto, 
-                v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso
+                v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso, v.estatus
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
@@ -172,7 +178,7 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener capital disponible para el año actual
     public function getCapitalDisponible($year)
     {
-        $sql = "SELECT capital_total, capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
+        $sql = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
         $request = $this->select($sql, [$year]);
         if ($request) {
             return $request['capital_disponible'];
@@ -237,10 +243,11 @@ class FuncionariosViaticosModel extends Mysql
         }
         return $request; 
     }
+    
     public function selectFuncionariosPlanta() {
         $sql = "SELECT idefuncionario, nombre_completo, contrato_fk 
                 FROM tbl_funcionarios 
-                WHERE contrato_fk IN (1, 2)";
+                WHERE contrato_fk IN (1, 2) AND status = 1";
         $request = $this->select_all($sql);
         return $request;
     }

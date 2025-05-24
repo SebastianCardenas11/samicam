@@ -62,8 +62,7 @@ class PermisosModel extends Mysql
 						   p.r,
 						   p.w,
 						   p.u,
-						   p.d,
-                           p.v
+						   p.d
 					FROM permisos p
 					INNER JOIN modulo m
 					ON p.moduloid = m.idmodulo
