@@ -58,15 +58,11 @@ class Roles extends Controllers
 
                     if ($_SESSION['permisosMod']['u']) {
                         $btnEdit = '<button class="btn btn-warning btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="bi bi-pencil"></i></button>';
-                    } else {
-                        $btnEdit = '<button class="btn btn-secondary" disabled><i class="bi bi-pencil"></i></button>';
                     }
 
                     if ($_SESSION['permisosMod']['d']) {
                         // Permitir eliminar roles a cualquier usuario con permiso de eliminación
                         $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="bi bi-trash3"></i></button>';
-                    } else {
-                        $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
                     }
                 }
 
