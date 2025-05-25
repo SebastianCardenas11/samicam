@@ -20,6 +20,9 @@ class Auditoria extends Controllers
             header('Location: ' . base_url() . '/dashboard');
             die();
         }
+        
+        // Asignar permisos para el módulo de auditoría
+        getPermisos(MAUDITORIA);
     }
 
     public function index()
@@ -33,6 +36,7 @@ class Auditoria extends Controllers
         $data['page_title'] = "AUDITORÍA";
         $data['page_name'] = "auditoria";
         $data['page_functions_js'] = "functions_auditoria.js";
+        $data['page_id'] = 10;
         
         // Obtener estructura de directorios
         $data['anios'] = $this->getAniosDirectorios();

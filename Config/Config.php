@@ -47,6 +47,7 @@ const MVACACIONES = 6;
 const MVIATICOS = 7;
 const MARCHIVOS = 8;
 const MCARGOS = 9;
+const MAUDITORIA = 10;
 
 //Páginas
 const PINICIO = 1;
