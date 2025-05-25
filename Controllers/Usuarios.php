@@ -114,13 +114,14 @@ class Usuarios extends Controllers
                 }
 
                 if($_SESSION['permisosMod']['d']){
-                    if(($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) ||
-                        ($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) and
-                        ($_SESSION['userData']['ideusuario'] != $arrData[$i]['ideusuario'] )
-                         ){
-                            $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-                    }else{
+                    // Permitir eliminar a cualquier usuario con permiso de eliminación
+                    // excepto a sí mismo y al superadministrador (idrol = 1)
+                    if($arrData[$i]['idrol'] == 1){
                         $btnDelete = '<button class="btn btn-secondary" disabled ><i class="bi bi-trash3"></i></button>';
+                    } else if($_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
+                        $btnDelete = '<button class="btn btn-secondary" disabled ><i class="bi bi-trash3"></i></button>';
+                    } else {
+                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
                     }
                 }
 
