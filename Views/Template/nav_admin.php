@@ -138,17 +138,6 @@
            </a>
          </li>
        <?php } ?>
-
-       <?php if (!empty($_SESSION['permisos'][6]['r']) && (!isset($_SESSION['permisos'][6]['v']) || $_SESSION['permisos'][6]['v'] == 1)) { ?>
-         <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariospermisos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariospermisos">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-door-open text-dark"></i>
-             </div>
-             <span class="nav-link-text ms-1">Permisos</span>
-           </a>
-         </li>
-       <?php } ?>
     
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
