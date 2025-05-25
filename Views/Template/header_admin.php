@@ -21,6 +21,9 @@
   
   <!-- Chart.js para las gráficas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  
+  <!-- Script para formato de hora en 12 horas -->
+  <script src="<?= media() ?>/js/clock-format.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">

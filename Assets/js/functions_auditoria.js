@@ -156,6 +156,24 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    // Función para formatear fecha en formato 12 horas
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        let hours = date.getHours();
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // la hora '0' debe ser '12'
+        const formattedHours = hours.toString().padStart(2, '0');
+        
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        
+        return `${year}-${month}-${day} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    }
+
     // Función para ver el contenido de un archivo
     function verContenidoArchivo(anio, mes, archivo) {
         const request = new XMLHttpRequest();
@@ -168,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Mostrar indicador de carga con estilo de terminal
         const fecha = new Date();
-        const fechaStr = fecha.toISOString().replace('T', ' ').substring(0, 19);
+        const fechaStr = formatDate(fecha);
         document.getElementById('archivo-contenido').innerHTML = 
             '<span class="timestamp">[' + fechaStr + ']</span> ' +
             '<span class="command">$</span> <span class="path">cat /logs/' + anio + '/' + mes + '/' + archivo + '</span>\n' +
@@ -186,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Formatear el contenido como salida de terminal
                 const fecha = new Date();
-                const fechaStr = fecha.toISOString().replace('T', ' ').substring(0, 19);
+                const fechaStr = formatDate(fecha);
                 
                 let contenido = '<span class="timestamp">[' + fechaStr + ']</span> ' +
                                '<span class="command">$</span> <span class="path">cat /logs/' + anio + '/' + mes + '/' + archivo + '</span>\n\n';
@@ -194,8 +212,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Formatear el contenido para mejor legibilidad
                 let formattedContent = objData.contenido;
                 
-                // Resaltar fechas y horas
-                formattedContent = formattedContent.replace(/(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})/g, '<span class="timestamp">$1</span>');
+                // Resaltar fechas y horas en formato 24h y convertirlas a 12h
+                formattedContent = formattedContent.replace(/(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})/g, function(match) {
+                    return '<span class="timestamp">' + formatDate(match) + '</span>';
+                });
                 
                 // Resaltar errores
                 formattedContent = formattedContent.replace(/(ERROR|CRITICAL|FATAL|EXCEPTION|FAIL)/gi, '<span class="error">$1</span>');
