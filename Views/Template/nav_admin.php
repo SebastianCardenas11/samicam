@@ -149,6 +149,17 @@
            </a>
          </li>
        <?php } ?>
+       <?php if ($_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
+  <li class="nav-item">
+    <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
+      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+        <i class="bi bi-shield-lock text-dark"></i>
+      </div>
+      <span class="nav-link-text ms-1">Auditoría</span>
+    </a>
+  </li>
+<?php } ?>
+
 
        <li class="nav-item mt-3">
          <a class="nav-link text-danger" href="<?= base_url(); ?>/logout">
