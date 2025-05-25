@@ -294,8 +294,15 @@ class FuncionariosPlanta extends Controllers
                     $arrResponse = array('status' => false, 'msg' => 'No se ha seleccionado ningún archivo');
                 }
                 
+                header('Content-Type: application/json');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode(array('status' => false, 'msg' => 'No tiene permisos para realizar esta acción'), JSON_UNESCAPED_UNICODE);
             }
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(array('status' => false, 'msg' => 'Método no permitido'), JSON_UNESCAPED_UNICODE);
         }
         die();
     }
