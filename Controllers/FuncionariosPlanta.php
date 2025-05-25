@@ -27,6 +27,10 @@ class FuncionariosPlanta extends Controllers
         $data['page_name'] = "Funcionarios Planta";
         $data['page_id'] = 9;
         $data['page_functions_js'] = "functions_funcionariosPlanta.js";
+        
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Funcionarios Planta");
+        
         $this->views->getView($this, "funcionariosPlanta", $data);
     }
 

@@ -53,7 +53,60 @@ class AuditoriaModel extends Mysql
         $contenido .= "Correo: " . $correo . " | ";
         $contenido .= "Rol: " . $rol . " | ";
         $contenido .= "IP: " . $ip . " | ";
-        $contenido .= "Navegador: " . $userAgent . "\n";
+        $contenido .= "Navegador: " . $userAgent . " | ";
+        $contenido .= "Acción: Inicio de sesión\n";
+        
+        // Escribir en el archivo
+        file_put_contents($archivo, $contenido, FILE_APPEND);
+        
+        return true;
+    }
+    
+    /**
+     * Registra el acceso a un módulo en el archivo de auditoría
+     * @param int $idUsuario ID del usuario
+     * @param string $nombre Nombre del usuario
+     * @param string $rol Rol del usuario
+     * @param string $modulo Nombre del módulo accedido
+     * @return bool
+     */
+    public function registrarAccesoModulo(int $idUsuario, string $nombre, string $rol, string $modulo)
+    {
+        // Obtener información del cliente
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $fecha = date('Y-m-d H:i:s');
+        
+        // Crear estructura de directorios si no existe
+        $anio = date('Y');
+        $mes = date('m');
+        $dia = date('d');
+        
+        $dirBase = "uploads/auditoria";
+        $dirAnio = $dirBase . "/" . $anio;
+        $dirMes = $dirAnio . "/" . $mes;
+        
+        if (!file_exists($dirBase)) {
+            mkdir($dirBase, 0755, true);
+        }
+        
+        if (!file_exists($dirAnio)) {
+            mkdir($dirAnio, 0755, true);
+        }
+        
+        if (!file_exists($dirMes)) {
+            mkdir($dirMes, 0755, true);
+        }
+        
+        // Crear archivo de log
+        $archivo = $dirMes . "/log_" . $dia . ".txt";
+        
+        // Preparar contenido del log
+        $contenido = "[" . $fecha . "] ";
+        $contenido .= "ID: " . $idUsuario . " | ";
+        $contenido .= "Usuario: " . $nombre . " | ";
+        $contenido .= "Rol: " . $rol . " | ";
+        $contenido .= "IP: " . $ip . " | ";
+        $contenido .= "Acción: Acceso al módulo " . $modulo . "\n";
         
         // Escribir en el archivo
         file_put_contents($archivo, $contenido, FILE_APPEND);

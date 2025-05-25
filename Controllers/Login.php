@@ -93,7 +93,8 @@ class Login extends Controllers
         $contenido .= "Correo: " . $userData['correo'] . " | ";
         $contenido .= "Rol: " . $userData['nombrerol'] . " | ";
         $contenido .= "IP: " . $ip . " | ";
-        $contenido .= "Navegador: " . $userAgent . "\n";
+        $contenido .= "Navegador: " . $userAgent . " | ";
+        $contenido .= "Acción: Inicio de sesión\n";
         
         // Escribir en archivo
         $archivo = $dirMes . "/log_" . $dia . ".txt";

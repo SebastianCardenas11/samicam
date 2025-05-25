@@ -16,6 +16,9 @@ class Dashboard extends Controllers
 
     public function dashboard()
     {
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Dashboard");
+        
         $data['page_id'] = 1;
         $data['page_tag'] = "Administrador - Samicam";
         $data['page_title'] = " Administrador - Samicam";

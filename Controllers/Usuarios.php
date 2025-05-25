@@ -24,6 +24,10 @@ class Usuarios extends Controllers
         $data['page_title'] = "Usuarios";
         $data['page_name'] = "usuarios";
         $data['page_functions_js'] = "functions_usuarios.js";
+        
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Usuarios");
+        
         $this->views->getView($this, "usuarios", $data);
     }
 

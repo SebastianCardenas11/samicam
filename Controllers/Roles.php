@@ -25,6 +25,10 @@ class Roles extends Controllers
         $data['page_name'] = "rol_usuario";
         $data['page_title'] = "Roles";
         $data['page_functions_js'] = "functions_roles.js";
+        
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Roles");
+        
         $this->views->getView($this, "roles", $data);
     }
 
