@@ -62,17 +62,22 @@ document.addEventListener('DOMContentLoaded', function(){
         request.open("POST",ajaxUrl,true);
         request.send(formData);
         request.onreadystatechange = function(){
-           if(request.readyState == 4 && request.status == 200){
-                
-                var objData = JSON.parse(request.responseText);
-                if(objData.status)
-                {
-                    $('#modalFormRol').modal("hide");
-                    formRol.reset();
-                    Swal.fire("Rol Creado", objData.msg ,"success");
-                    tableRoles.api().ajax.reload();
-                }else{
-                    Swal.fire("Error", objData.msg , "error");
+            if(request.readyState == 4 && request.status == 200){
+                try {
+                    var objData = JSON.parse(request.responseText);
+                    if(objData.status)
+                    {
+                        $('#modalFormRol').modal("hide");
+                        formRol.reset();
+                        Swal.fire("Rol Creado", objData.msg ,"success");
+                        tableRoles.api().ajax.reload();
+                    }else{
+                        Swal.fire("Error", objData.msg , "error");
+                    }
+                } catch (e) {
+                    console.error("Error al procesar la respuesta:", e);
+                    console.log("Respuesta recibida:", request.responseText);
+                    Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
                 }              
             } 
             if(divLoading) {
@@ -122,25 +127,30 @@ function fntEditRol(idrol){
 
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
-            
-            var objData = JSON.parse(request.responseText);
-            if(objData.status)
-            {
-                document.querySelector("#idRol").value = objData.data.idrol;
-                document.querySelector("#txtNombre").value = objData.data.nombrerol;
-                document.querySelector("#txtDescripcion").value = objData.data.descripcion;
+            try {
+                var objData = JSON.parse(request.responseText);
+                if(objData.status)
+                {
+                    document.querySelector("#idRol").value = objData.data.idrol;
+                    document.querySelector("#txtNombre").value = objData.data.nombrerol;
+                    document.querySelector("#txtDescripcion").value = objData.data.descripcion;
 
-                // ESTADO ACTIVO O INACTIVO
-                // $('#listStatus').selectpicker('render');
-                if(objData.data.status == 1){
-                    document.querySelector("#listStatus").value = 1;
+                    // ESTADO ACTIVO O INACTIVO
+                    // $('#listStatus').selectpicker('render');
+                    if(objData.data.status == 1){
+                        document.querySelector("#listStatus").value = 1;
+                    }else{
+                        document.querySelector("#listStatus").value = 2;
+                    }
+
+                    $('#modalFormRol').modal('show');
                 }else{
-                    document.querySelector("#listStatus").value = 2;
+                    Swal.fire("Error", objData.msg , "error");
                 }
-
-                $('#modalFormRol').modal('show');
-            }else{
-                Swal.fire("Error", objData.msg , "error");
+            } catch (e) {
+                console.error("Error al procesar la respuesta:", e);
+                console.log("Respuesta recibida:", request.responseText);
+                Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
             }
         }
     }
@@ -177,19 +187,19 @@ function fntDelRol(idrol){
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
-                    var objData = JSON.parse(request.responseText);
-                    if(objData.status)
-                    {
-                        Swal.fire("Eliminado", objData.msg , "success");
-                        // tableRoles.ajax.reload();
-                        tableRoles.api().ajax.reload();
-                        // tableRoles.api().ajax.reload(function(){
-                        //     fntEditRol();
-                        //     fntDelRol();
-                        //     fntPermisos();
-                        // });
-                    }else{
-                        Swal.fire("Atención!", objData.msg , "error");
+                    try {
+                        var objData = JSON.parse(request.responseText);
+                        if(objData.status)
+                        {
+                            Swal.fire("Eliminado", objData.msg , "success");
+                            tableRoles.api().ajax.reload();
+                        }else{
+                            Swal.fire("Atención!", objData.msg , "error");
+                        }
+                    } catch (e) {
+                        console.error("Error al procesar la respuesta:", e);
+                        console.log("Respuesta recibida:", request.responseText);
+                        Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
                     }
                 }
             }
@@ -239,16 +249,20 @@ function fntSavePermisos(evnet){
 
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
-            var objData = JSON.parse(request.responseText);
-            if(objData.status)
-            {
-                // Swal.fire("Permisos de usuario", objData.msg ,"success");
-
-                $('#modalFormPermiso').modal("hide");
-                formPermiso.reset();
-                Swal.fire("Permisos", objData.msg ,"success");
-            }else{
-                Swal.fire("Error", objData.msg , "error");
+            try {
+                var objData = JSON.parse(request.responseText);
+                if(objData.status)
+                {
+                    $('#modalFormPermiso').modal("hide");
+                    formPermiso.reset();
+                    Swal.fire("Permisos", objData.msg ,"success");
+                }else{
+                    Swal.fire("Error", objData.msg , "error");
+                }
+            } catch (e) {
+                console.error("Error al procesar la respuesta:", e);
+                console.log("Respuesta recibida:", request.responseText);
+                Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
             }
         }
     }
