@@ -1,3 +1,7 @@
+// Variables globales para almacenar las instancias de los gráficos
+let chartBars = null;
+let chartLine = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Cargar datos para las gráficas
     cargarFuncionariosPorCargo();
@@ -16,11 +20,16 @@ function cargarFuncionariosPorCargo() {
                     return;
                 }
                 
+                // Destruir el gráfico existente si existe
+                if (chartBars) {
+                    chartBars.destroy();
+                }
+                
                 const ctxContext = ctx.getContext('2d');
                 const labels = data.map(item => item.nombre_cargo);
                 const valores = data.map(item => item.total_funcionarios);
                 
-                new Chart(ctxContext, {
+                chartBars = new Chart(ctxContext, {
                     type: 'bar',
                     data: {
                         labels: labels,
@@ -106,11 +115,24 @@ function cargarPermisosPorMes() {
                     return;
                 }
                 
+                // Destruir el gráfico existente si existe
+                if (chartLine) {
+                    chartLine.destroy();
+                }
+                
                 const ctxContext = ctx.getContext('2d');
-                const labels = data.map(item => item.mes);
+                
+                // Convertir nombres de meses numéricos a nombres
+                const nombresMeses = {
+                    '1': 'Enero', '2': 'Febrero', '3': 'Marzo', '4': 'Abril',
+                    '5': 'Mayo', '6': 'Junio', '7': 'Julio', '8': 'Agosto',
+                    '9': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
+                };
+                
+                const labels = data.map(item => nombresMeses[item.mes] || item.mes);
                 const valores = data.map(item => item.total_permisos);
                 
-                new Chart(ctxContext, {
+                chartLine = new Chart(ctxContext, {
                     type: 'line',
                     data: {
                         labels: labels,
