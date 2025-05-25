@@ -288,115 +288,113 @@
 <!-- Modal -->
 <div class="modal fade" id="modalViewFuncionario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content ">
+    <div class="modal-dialog modal-fullscreen" role="document">
+        <div class="modal-content">
             <div class="modal-header header-primary">
                 <h5 class="modal-title" id="titleModal">Datos del Funcionario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="">
-                    <div class="tile-body">
-                        <!-- Foto del funcionario -->
-                        <div class="text-center mb-3">
-                            <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
-                                alt="Foto funcionario" class="img-thumbnail rounded-circle"
-                                style="width:150px; height:150px;">
+                <div class="container-fluid py-3">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <!-- Foto del funcionario -->
+                            <div class="mb-4">
+                                <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
+                                    alt="Foto funcionario" class="img-thumbnail rounded-circle"
+                                    style="width:220px; height:220px;">
+                            </div>
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Información Básica</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>ID:</strong> <span id="celIdeFuncionario">0</span></p>
+                                    <p><strong>Nombre:</strong> <span id="celNombresFuncionario">0</span></p>
+                                    <p><strong>Identificación:</strong> <span id="celIdentificacionFuncionario">0</span></p>
+                                    <p><strong>Estado:</strong> <span id="celEstadoFuncionario">0</span></p>
+                                </div>
+                            </div>
                         </div>
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td >ID:</td>
-                                    <td id="celIdeFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Correo:</td>
-                                    <td id="celCorreoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombre Completo:</td>
-                                    <td id="celNombresFuncionario">0</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Identificación:</td>
-                                    <td id="celIdentificacionFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Cargo:</td>
-                                    <td id="celCargoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Dependencia:</td>
-                                    <td id="celDependenciaFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Contrato:</td>
-                                    <td id="celContrato">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Celular:</td>
-                                    <td id="celCelularFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Dirección:</td>
-                                    <td id="celDireccionFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Fecha de Ingreso:</td>
-                                    <td id="celFechaIngresoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Hijos:</td>
-                                    <td id="celHijosFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombres de Hijos:</td>
-                                    <td id="celNombresHijosFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Sexo:</td>
-                                    <td id="celSexoFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Lugar de Residencia:</td>
-                                    <td id="celLugarResidenciaFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Edad:</td>
-                                    <td id="celEdadFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado Civil:</td>
-                                    <td id="celEstadoCivilFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Religión:</td>
-                                    <td id="celReligionFuncionario">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Formacion academica:</td>
-                                    <td id="celFormacionAcademica">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Nombre de la formacion:</td>
-                                    <td id="celNombreFormacion">0</td>
-                                </tr>
-                                <tr>
-                                    <td>Estado:</td>
-                                    <td id="celEstadoFuncionario">0</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
+                        
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">Información Personal</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p><strong>Edad:</strong> <span id="celEdadFuncionario">0</span></p>
+                                                    <p><strong>Sexo:</strong> <span id="celSexoFuncionario">0</span></p>
+                                                    <p><strong>Estado Civil:</strong> <span id="celEstadoCivilFuncionario">0</span></p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><strong>Religión:</strong> <span id="celReligionFuncionario">0</span></p>
+                                                    <p><strong>Hijos:</strong> <span id="celHijosFuncionario">0</span></p>
+                                                    <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">0</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">Información de Contacto</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p><strong>Correo:</strong> <span id="celCorreoFuncionario">0</span></p>
+                                                    <p><strong>Celular:</strong> <span id="celCelularFuncionario">0</span></p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><strong>Dirección:</strong> <span id="celDireccionFuncionario">0</span></p>
+                                                    <p><strong>Lugar de Residencia:</strong> <span id="celLugarResidenciaFuncionario">0</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">Información Laboral y Académica</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <p><strong>Cargo:</strong> <span id="celCargoFuncionario">0</span></p>
+                                                    <p><strong>Dependencia:</strong> <span id="celDependenciaFuncionario">0</span></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p><strong>Contrato:</strong> <span id="celContrato">0</span></p>
+                                                    <p><strong>Fecha de Ingreso:</strong> <span id="celFechaIngresoFuncionario">0</span></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p><strong>Formación académica:</strong> <span id="celFormacionAcademica">0</span></p>
+                                                    <p><strong>Nombre de la formación:</strong> <span id="celNombreFormacion">0</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i
-                                class="bi bi-check2"></i>Listo</button>
-                    </div>
-
+                </div>
+                
+                <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="bi bi-check2"></i> Listo
+                    </button>
                 </div>
             </div>
         </div>
