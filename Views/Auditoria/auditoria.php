@@ -39,7 +39,7 @@ headerAdmin($data);
                                     <div class="card">
                                         <div class="card-header bg-light">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <h6 id="archivo-titulo" class="text-dark"><i class="fas fa-terminal me-2"></i>Visor de Logs</h6>
+                                                <h6 id="archivo-titulo" class="text-dark"><i class="fas fa-terminal me-2"></i>Visor de Acciones</h6>
                                                 <button id="btn-descargar" class="btn btn-sm btn-outline-primary" style="display: none;">
                                                     <i class="fas fa-download"></i> Descargar
                                                 </button>
