@@ -38,7 +38,9 @@ class Login extends Controllers
                     if ($arrData['status'] == 1) {
                         $_SESSION['idUser'] = $arrData['ideusuario'];
                         $_SESSION['login'] = true;
-
+                        // Inicializar variables para control de auditoría
+                        $_SESSION['auditoria_accessed'] = false;
+                        
                         $arrData = $this->model->sessionLogin($_SESSION['idUser']);
                         sessionUser($_SESSION['idUser']);
                         

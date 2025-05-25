@@ -38,8 +38,12 @@ class Auditoria extends Controllers
         $data['page_functions_js'] = "functions_auditoria.js";
         $data['page_id'] = 10;
         
-        // Registrar acceso al módulo
-        $this->registrarAccesoModulo("Auditoría");
+        // Registrar acceso al módulo solo si no es una recarga de página
+        // Verificamos si es la primera vez que se accede al módulo en esta sesión
+        if (!isset($_SESSION['auditoria_accessed']) || $_SESSION['auditoria_accessed'] === false) {
+            $this->registrarAccesoModulo("Auditoría");
+            $_SESSION['auditoria_accessed'] = true;
+        }
         
         // Obtener estructura de directorios
         $data['anios'] = $this->getAniosDirectorios();
