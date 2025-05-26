@@ -1,0 +1,33 @@
+.page-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.page-error h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #344767;
+}
+
+.page-error p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #67748e;
+    max-width: 600px;
+}
+
+.page-error .error-code {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #cb0c9f;
+}
