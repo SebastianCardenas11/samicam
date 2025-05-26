@@ -1,0 +1,57 @@
+/* Estilos personalizados para el dashboard */
+
+/* Estilos para el reloj */
+.clock-container {
+    text-align: right;
+    line-height: 1.2;
+}
+
+#current-time {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #344767;
+}
+
+#current-date {
+    font-size: 0.8rem;
+    color: #67748e;
+}
+
+/* Estilos para la terminal */
+.terminal-style {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.terminal-style .command {
+    color: #0066cc;
+    font-weight: 500;
+}
+
+.terminal-style .path {
+    color: #28a745;
+}
+
+.terminal-style .timestamp {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.terminal-style .error {
+    color: #dc3545;
+}
+
+.terminal-style .warning {
+    color: #fd7e14;
+}
+
+.terminal-style .info {
+    color: #17a2b8;
+}
+
+.terminal-style .success {
+    color: #28a745;
+}

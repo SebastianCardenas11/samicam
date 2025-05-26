@@ -138,17 +138,6 @@
            </a>
          </li>
        <?php } ?>
-
-       <?php if (!empty($_SESSION['permisos'][6]['r']) && (!isset($_SESSION['permisos'][6]['v']) || $_SESSION['permisos'][6]['v'] == 1)) { ?>
-         <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariospermisos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariospermisos">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-door-open text-dark"></i>
-             </div>
-             <span class="nav-link-text ms-1">Permisos</span>
-           </a>
-         </li>
-       <?php } ?>
     
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
@@ -160,6 +149,17 @@
            </a>
          </li>
        <?php } ?>
+       <?php if ($_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
+  <li class="nav-item">
+    <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
+      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+        <i class="bi bi-shield-lock text-dark"></i>
+      </div>
+      <span class="nav-link-text ms-1">Auditoría</span>
+    </a>
+  </li>
+<?php } ?>
+
 
        <li class="nav-item mt-3">
          <a class="nav-link text-danger" href="<?= base_url(); ?>/logout">
@@ -179,8 +179,13 @@
      <div class="container-fluid py-1 px-3">
        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+           <!-- Reloj en formato 12 horas -->
+           <div class="clock-container me-3">
+             <div id="current-time" class="text-dark fw-bold"></div>
+             <div id="current-date" class="text-muted small"></div>
+           </div>
          </div>
-         <ul class="navbar-nav  justify-content-end">
+         <ul class="navbar-nav justify-content-end">
            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                <div class="sidenav-toggler-inner">

@@ -1,8 +1,57 @@
+// Variables globales para almacenar las instancias de los gráficos
+let chartBars = null;
+let chartLine = null;
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar datos para las gráficas
+    // Limpiar cualquier gráfico existente
+    limpiarGraficos();
+    
+    // Esperar a que el DOM esté completamente cargado
+    setTimeout(() => {
+        inicializarGraficos();
+    }, 300);
+});
+
+function limpiarGraficos() {
+    // Destruir gráficos existentes si existen
+    if (chartBars) {
+        chartBars.destroy();
+        chartBars = null;
+    }
+    
+    if (chartLine) {
+        chartLine.destroy();
+        chartLine = null;
+    }
+    
+    // Recrear los elementos canvas
+    recrearCanvas('chart-bars');
+    recrearCanvas('chart-line');
+}
+
+function recrearCanvas(id) {
+    const contenedor = document.querySelector(`#${id}`).parentNode;
+    const canvasAntiguo = document.querySelector(`#${id}`);
+    
+    if (canvasAntiguo) {
+        // Eliminar el canvas antiguo
+        canvasAntiguo.remove();
+        
+        // Crear un nuevo canvas con el mismo ID
+        const nuevoCanvas = document.createElement('canvas');
+        nuevoCanvas.id = id;
+        nuevoCanvas.className = 'chart-canvas';
+        nuevoCanvas.height = 170;
+        
+        // Añadir el nuevo canvas al contenedor
+        contenedor.appendChild(nuevoCanvas);
+    }
+}
+
+function inicializarGraficos() {
     cargarFuncionariosPorCargo();
     cargarPermisosPorMes();
-});
+}
 
 function cargarFuncionariosPorCargo() {
     fetch(base_url + '/Dashboard/getFuncionariosPorCargo')
@@ -16,11 +65,10 @@ function cargarFuncionariosPorCargo() {
                     return;
                 }
                 
-                const ctxContext = ctx.getContext('2d');
                 const labels = data.map(item => item.nombre_cargo);
                 const valores = data.map(item => item.total_funcionarios);
                 
-                new Chart(ctxContext, {
+                chartBars = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: labels,
@@ -57,8 +105,8 @@ function cargarFuncionariosPorCargo() {
                                     beginAtZero: true,
                                     padding: 15,
                                     font: {
-                                        size: 14,
-                                        family: "Open Sans",
+                                        size: 12,
+                                        family: "Open Sans, sans-serif",
                                         style: 'normal',
                                         lineHeight: 2
                                     },
@@ -77,8 +125,8 @@ function cargarFuncionariosPorCargo() {
                                     color: '#fff',
                                     padding: 10,
                                     font: {
-                                        size: 14,
-                                        family: "Open Sans",
+                                        size: 12,
+                                        family: "Open Sans, sans-serif",
                                         style: 'normal',
                                         lineHeight: 2
                                     },
@@ -106,11 +154,17 @@ function cargarPermisosPorMes() {
                     return;
                 }
                 
-                const ctxContext = ctx.getContext('2d');
-                const labels = data.map(item => item.mes);
+                // Convertir nombres de meses numéricos a nombres
+                const nombresMeses = {
+                    '1': 'Enero', '2': 'Febrero', '3': 'Marzo', '4': 'Abril',
+                    '5': 'Mayo', '6': 'Junio', '7': 'Julio', '8': 'Agosto',
+                    '9': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
+                };
+                
+                const labels = data.map(item => nombresMeses[item.mes] || item.mes);
                 const valores = data.map(item => item.total_permisos);
                 
-                new Chart(ctxContext, {
+                chartLine = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: labels,
@@ -118,7 +172,9 @@ function cargarPermisosPorMes() {
                             label: 'Permisos',
                             tension: 0.4,
                             borderWidth: 3,
-                            pointRadius: 0,
+                            pointRadius: 4,
+                            pointBackgroundColor: "#cb0c9f",
+                            pointBorderColor: "#cb0c9f",
                             borderColor: "#cb0c9f",
                             backgroundColor: 'rgba(203, 12, 159, 0.2)',
                             fill: true,
@@ -132,7 +188,29 @@ function cargarPermisosPorMes() {
                         plugins: {
                             legend: {
                                 display: false,
+                            },
+                            tooltip: {
+                                enabled: true,
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'Permisos: ' + context.raw;
+                                    }
+                                },
+                                titleFont: {
+                                    family: "Open Sans, sans-serif",
+                                    size: 12
+                                },
+                                bodyFont: {
+                                    family: "Open Sans, sans-serif",
+                                    size: 12
+                                }
                             }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index',
                         },
                         scales: {
                             y: {
@@ -146,12 +224,12 @@ function cargarPermisosPorMes() {
                                 },
                                 ticks: {
                                     display: true,
-                                    color: '#f8f9fa',
+                                    color: '#000000',
                                     padding: 10,
                                     font: {
-                                        size: 14,
-                                        weight: 300,
-                                        family: "Roboto",
+                                        size: 12,
+                                        weight: 400,
+                                        family: "Open Sans, sans-serif",
                                         style: 'normal',
                                         lineHeight: 2
                                     },
@@ -167,12 +245,12 @@ function cargarPermisosPorMes() {
                                 },
                                 ticks: {
                                     display: true,
-                                    color: '#f8f9fa',
+                                    color: '#000000',
                                     padding: 10,
                                     font: {
-                                        size: 14,
-                                        weight: 300,
-                                        family: "Roboto",
+                                        size: 12,
+                                        weight: 400,
+                                        family: "Open Sans, sans-serif",
                                         style: 'normal',
                                         lineHeight: 2
                                     },

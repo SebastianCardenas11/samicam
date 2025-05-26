@@ -28,8 +28,16 @@
                         <input type="number" step="0.01" class="form-control" id="txtMonto" name="monto" required>
                     </div>
                     <div class="mb-3">
-                        <label for="txtFecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="txtFecha" name="fecha" required>
+                        <label for="txtFechaAprobacion" class="form-label">Fecha de Aprobación</label>
+                        <input type="date" class="form-control" id="txtFechaAprobacion" name="fecha_aprobacion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtFechaSalida" class="form-label">Fecha de Salida</label>
+                        <input type="date" class="form-control" id="txtFechaSalida" name="fecha_salida" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtFechaRegreso" class="form-label">Fecha de Regreso</label>
+                        <input type="date" class="form-control" id="txtFechaRegreso" name="fecha_regreso" required>
                     </div>
                     <div class="mb-3">
                         <label for="txtUso" class="form-label">Uso</label>
@@ -49,103 +57,4 @@
     </div>
 </div>
 
-<script>
-    // Cargar funcionarios al abrir el modal
-    $('#modalViaticos').on('show.bs.modal', function () {
-        cargarFuncionariosValidos();
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // Inicializar fecha con la fecha actual
-        document.getElementById('txtFecha').valueAsDate = new Date();
-
-        document.getElementById('formViaticos').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Validar que se haya seleccionado un funcionario
-            const funcionarioId = document.getElementById('listFuncionarios').value;
-            if (!funcionarioId) {
-                Swal.fire('Error', 'Debe seleccionar un funcionario', 'error');
-                return;
-            }
-
-            // Mostrar indicador de carga
-            Swal.fire({
-                title: 'Guardando...',
-                text: 'Por favor espere',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            let formData = new FormData(this);
-            fetch(base_url + '/FuncionariosViaticos/setViatico', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error en la respuesta del servidor');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    Swal.close();
-                    if (data.status) {
-                        Swal.fire('Éxito', data.msg, 'success');
-                        $('#modalViaticos').modal('hide');
-                        this.reset();
-                        document.getElementById('txtFecha').valueAsDate = new Date();
-                        // Recargar datos
-                        const anioActual = new Date().getFullYear();
-                        cargarCapitalDisponible(anioActual);
-                        cargarHistoricoViaticos(anioActual);
-                        cargarDetalleViaticos(anioActual);
-                    } else {
-                        Swal.fire('Error', data.msg || 'Error al asignar viático', 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.close();
-                    console.error('Error:', error);
-                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud', 'error');
-                });
-        });
-    });
-
-    function cargarFuncionariosValidos() {
-        // Mostrar indicador de carga en el select
-        let select = document.getElementById('listFuncionarios');
-        select.innerHTML = '<option value="">Cargando funcionarios...</option>';
-        select.disabled = true;
-
-        fetch(base_url + '/FuncionariosViaticos/getFuncionariosValidos')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar funcionarios');
-                }
-                return response.json();
-            })
-            .then(data => {
-                select.innerHTML = '<option value="">Seleccione un funcionario</option>';
-                select.disabled = false;
-
-                if (data && data.length > 0) {
-                    data.forEach(funcionario => {
-                        let option = document.createElement('option');
-                        option.value = funcionario.idefuncionario;
-                        option.textContent = funcionario.nombre_completo;
-                        select.appendChild(option);
-                    });
-                } else {
-                    select.innerHTML = '<option value="">No hay funcionarios disponibles</option>';
-                }
-            })
-            .catch(error => {
-                console.error('Error al cargar funcionarios:', error);
-                select.innerHTML = '<option value="">Error al cargar funcionarios</option>';
-                select.disabled = false;
-            });
-    }
-</script>
+<!-- Eliminamos el script interno ya que ahora está en functions_Viaticos.js -->

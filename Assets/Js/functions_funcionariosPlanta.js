@@ -142,6 +142,51 @@ document.addEventListener(
       };
     }
 
+    // Formulario para importar Excel
+    if (document.querySelector("#formImportarExcel")) {
+      let formImportarExcel = document.querySelector("#formImportarExcel");
+      formImportarExcel.onsubmit = function (e) {
+        e.preventDefault();
+        
+        let archivo = document.querySelector("#archivo_excel").value;
+        if (archivo == "") {
+          Swal.fire("Atención", "Seleccione un archivo Excel.", "error");
+          return false;
+        }
+        
+        // Verificar extensión
+        let extension = archivo.substring(archivo.lastIndexOf('.'));
+        if (extension != '.xlsx' && extension != '.xls') {
+          Swal.fire("Atención", "El archivo debe ser Excel (.xlsx o .xls)", "error");
+          return false;
+        }
+        
+        if (divLoading) divLoading.style.display = "flex";
+        let request = window.XMLHttpRequest
+          ? new XMLHttpRequest()
+          : new ActiveXObject("Microsoft.XMLHTTP");
+        let ajaxUrl = base_url + "/funcionariosPlanta/importarExcel";
+        let formData = new FormData(formImportarExcel);
+        request.open("POST", ajaxUrl, true);
+        request.send(formData);
+        request.onreadystatechange = function () {
+          if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            if (objData.status) {
+              $("#modalImportarExcel").modal("hide");
+              formImportarExcel.reset();
+              Swal.fire("Importación Exitosa", objData.msg, "success");
+              tableFuncionarios.api().ajax.reload();
+            } else {
+              Swal.fire("Error", objData.msg, "error");
+            }
+          }
+          if (divLoading) divLoading.style.display = "none";
+          return false;
+        };
+      };
+    }
+
     // Evento para mostrar la imagen seleccionada
     if (document.querySelector("#foto")) {
       let foto = document.querySelector("#foto");
@@ -363,4 +408,9 @@ function openModal() {
   document.querySelector("#titleModal").innerHTML = "Nuevo Funcionario";
   document.querySelector("#formFuncionario").reset();
   $("#modalFormFuncionario").modal("show");
+}
+
+function openModalImportar() {
+  document.querySelector("#formImportarExcel").reset();
+  $("#modalImportarExcel").modal("show");
 }

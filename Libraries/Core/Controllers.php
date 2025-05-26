@@ -6,6 +6,11 @@ class Controllers
     {
         $this->views = new Views();
         $this->loadModel();
+        
+        // Registrar automáticamente el acceso al módulo para todos los usuarios
+        if (isset($_SESSION['login']) && $_SESSION['login']) {
+            $this->registrarAccesoAutomatico();
+        }
     }
 
     public function loadModel()
@@ -17,5 +22,40 @@ class Controllers
             require_once $routClass;
             $this->model = new $model();
         }
+    }
+    
+    /**
+     * Registra automáticamente el acceso al módulo actual
+     */
+    private function registrarAccesoAutomatico()
+    {
+        // Obtener el nombre del controlador actual (módulo)
+        $modulo = get_class($this);
+        
+        // Registrar el acceso
+        $this->registrarAccesoModulo($modulo);
+    }
+    
+    /**
+     * Registra el acceso a un módulo en el archivo de auditoría
+     * @param string $modulo Nombre del módulo accedido
+     * @return bool
+     */
+    public function registrarAccesoModulo($modulo)
+    {
+        if (isset($_SESSION['login']) && $_SESSION['login']) {
+            // Cargar el modelo de auditoría
+            require_once "Models/AuditoriaModel.php";
+            $auditoriaModel = new AuditoriaModel();
+            
+            // Obtener datos del usuario
+            $idUsuario = $_SESSION['userData']['ideusuario'] ?? 0;
+            $nombre = $_SESSION['userData']['nombres'] ?? 'Usuario desconocido';
+            $rol = $_SESSION['userData']['nombrerol'] ?? 'Sin rol';
+            
+            // Registrar el acceso
+            return $auditoriaModel->registrarAccesoModulo($idUsuario, $nombre, $rol, $modulo);
+        }
+        return false;
     }
 }

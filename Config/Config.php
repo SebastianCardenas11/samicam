@@ -7,7 +7,7 @@ const BASE_URL = "https://SERVIDOR_NTIC:8443/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = "localhost:3306";
+const DB_HOST = "localhost:3307";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
@@ -47,6 +47,7 @@ const MVACACIONES = 6;
 const MVIATICOS = 7;
 const MARCHIVOS = 8;
 const MCARGOS = 9;
+const MAUDITORIA = 10;
 
 //Páginas
 const PINICIO = 1;

@@ -24,6 +24,10 @@ class Usuarios extends Controllers
         $data['page_title'] = "Usuarios";
         $data['page_name'] = "usuarios";
         $data['page_functions_js'] = "functions_usuarios.js";
+        
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Usuarios");
+        
         $this->views->getView($this, "usuarios", $data);
     }
 
@@ -108,19 +112,15 @@ class Usuarios extends Controllers
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['ideusuario'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
                 }
-                if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger  btnDelRol " onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-       
-                }
+                // No asignamos botón de eliminar aquí, se maneja en la siguiente sección
 
                 if($_SESSION['permisosMod']['d']){
-                    if(($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) ||
-                        ($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) and
-                        ($_SESSION['userData']['ideusuario'] != $arrData[$i]['ideusuario'] )
-                         ){
-                            $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-                    }else{
-                        $btnDelete = '<button class="btn btn-secondary" disabled ><i class="bi bi-trash3"></i></button>';
+                    // Permitir eliminar a cualquier usuario con permiso de eliminación
+                    // excepto a sí mismo y al superadministrador (idrol = 1)
+                    if($arrData[$i]['idrol'] == 1 || $_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
+                        // No mostrar botón para superadmin o para sí mismo
+                    } else {
+                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
                     }
                 }
 

@@ -25,6 +25,10 @@ class Roles extends Controllers
         $data['page_name'] = "rol_usuario";
         $data['page_title'] = "Roles";
         $data['page_functions_js'] = "functions_roles.js";
+        
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Roles");
+        
         $this->views->getView($this, "roles", $data);
     }
 
@@ -58,19 +62,11 @@ class Roles extends Controllers
 
                     if ($_SESSION['permisosMod']['u']) {
                         $btnEdit = '<button class="btn btn-warning btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="bi bi-pencil"></i></button>';
-                    } else {
-                        $btnEdit = '<button class="btn btn-secondary" disabled><i class="bi bi-pencil"></i></button>';
                     }
 
                     if ($_SESSION['permisosMod']['d']) {
-                        if (($_SESSION['userData']['idrol'] == 1) && 
-                            ($_SESSION['userData']['idrol'] != $arrData[$i]['idrol'])) {
-                            $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="bi bi-trash3"></i></button>';
-                        } else {
-                            $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
-                        }
-                    } else {
-                        $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
+                        // Permitir eliminar roles a cualquier usuario con permiso de eliminación
+                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="bi bi-trash3"></i></button>';
                     }
                 }
 

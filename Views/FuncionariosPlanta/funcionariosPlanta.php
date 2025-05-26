@@ -15,6 +15,10 @@ headerAdmin($data);
                 <button class="btn btn-warning btn-sm px-3 py-2" type="button" data-bs-toggle="modal" onclick="openModal();">
                     <i class="bi bi-plus-lg fs-5 text-black"></i> Nuevo Funcionario Planta
                 </button>
+                
+                <button class="btn btn-success btn-sm px-3 py-2" type="button" data-bs-toggle="modal" onclick="openModalImportar();">
+                    <i class="bi bi-file-earmark-excel fs-5 text-black"></i> Importar Excel
+                </button>
                 <?php } ?>
                 
                 <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
@@ -61,5 +65,30 @@ headerAdmin($data);
 
 <?php 
 getModal('modalFuncionariosPlanta', $data);
+getModal('modalImportarExcel', $data);
 footerAdmin($data);
 ?>
+
+<script>
+function openModalImportar() {
+  document.querySelector("#formImportarExcel").reset();
+  $("#modalImportarExcel").modal("show");
+}
+
+// Verificar permisos para mostrar botones de exportación
+document.addEventListener("DOMContentLoaded", function() {
+  <?php if ($_SESSION['permisosMod']['w']) { ?>
+    // Si tiene permisos de escritura, mostrar botones de exportación
+    const exportButtons = document.querySelectorAll('.dt-buttons');
+    exportButtons.forEach(function(btn) {
+      btn.style.display = 'block';
+    });
+  <?php } else { ?>
+    // Si no tiene permisos, ocultar botones de exportación
+    const exportButtons = document.querySelectorAll('.dt-buttons');
+    exportButtons.forEach(function(btn) {
+      btn.style.display = 'none';
+    });
+  <?php } ?>
+});
+</script>

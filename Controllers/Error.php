@@ -9,16 +9,13 @@ class Errors extends Controllers
 
     public function notFound()
     {
-        $pageContent = getPageRout('not-found');
-        if (empty($pageContent)) {
-            header("Location: " . base_url());
-        } else {
-            $data['page_tag'] = NOMBRE_EMPESA;
-            $data['page_title'] = NOMBRE_EMPESA . " - " . $pageContent['titulo'];
-            $data['page_name'] = $pageContent['titulo'];
-            $data['page'] = $pageContent;
-            $this->views->getView($this, "error", $data);
-        }
+        $data['page_tag'] = NOMBRE_EMPESA;
+        $data['page_title'] = NOMBRE_EMPESA . " - Error 404";
+        $data['page_name'] = "Error 404";
+        $data['error_title'] = "Error 404 - Página no encontrada";
+        $data['error_message'] = "La página que estás buscando no existe o ha sido movida.";
+        $data['error_code'] = "404";
+        $this->views->getView($this, "error", $data);
     }
 }
 

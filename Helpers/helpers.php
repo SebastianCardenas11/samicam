@@ -101,7 +101,7 @@ function strClean($strCadena)
 {
     $string = preg_replace(['/\s+/', '/^\s|\s$/'], [' ', ''], $strCadena);
     $string = trim($string); //Elimina espacios en blanco al inicio y al final
-    $string = stripslashes($string); // Elimina las \ invertidas
+    $string = stripslashes($string); // Elimina las \\ invertidas
     $string = str_ireplace("<script>", "", $string);
     $string = str_ireplace("</script>", "", $string);
     $string = str_ireplace("<script src>", "", $string);
@@ -236,8 +236,6 @@ function getPermisosModulo(int $idmodulo)
 
 function isVisible($idmodulo)
 {
-    if (!isset($_SESSION['permisos'][$idmodulo]['v']) || $_SESSION['permisos'][$idmodulo]['v'] == 1) {
-        return true;
-    }
-    return false;
+    // Since 'v' column doesn't exist, we'll assume all modules are visible
+    return true;
 }

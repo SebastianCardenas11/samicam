@@ -38,9 +38,15 @@ class Login extends Controllers
                     if ($arrData['status'] == 1) {
                         $_SESSION['idUser'] = $arrData['ideusuario'];
                         $_SESSION['login'] = true;
-
+                        // Inicializar variables para control de auditoría
+                        $_SESSION['auditoria_accessed'] = false;
+                        
                         $arrData = $this->model->sessionLogin($_SESSION['idUser']);
                         sessionUser($_SESSION['idUser']);
+                        
+                        // Registrar inicio de sesión en archivo de auditoría
+                        $this->registrarAuditoria($arrData);
+                        
                         $arrResponse = array('status' => true, 'msg' => 'ok');
                     } else {
                         $arrResponse = array('status' => false, 'msg' => 'Usuario inactivo');
@@ -51,5 +57,49 @@ class Login extends Controllers
         }
         die();
     }
-
+    
+    /**
+     * Registra el inicio de sesión en archivos de auditoría
+     */
+    private function registrarAuditoria($userData)
+    {
+        // Crear directorios si no existen
+        $dirBase = "uploads/auditoria";
+        if (!is_dir($dirBase)) {
+            mkdir($dirBase, 0755, true);
+        }
+        
+        $anio = date('Y');
+        $mes = date('m');
+        $dia = date('d');
+        
+        $dirAnio = $dirBase . "/" . $anio;
+        if (!is_dir($dirAnio)) {
+            mkdir($dirAnio, 0755);
+        }
+        
+        $dirMes = $dirAnio . "/" . $mes;
+        if (!is_dir($dirMes)) {
+            mkdir($dirMes, 0755);
+        }
+        
+        // Preparar datos para el registro
+        $fecha = date('Y-m-d H:i:s');
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        
+        // Crear contenido del log
+        $contenido = "[" . $fecha . "] ";
+        $contenido .= "ID: " . $userData['ideusuario'] . " | ";
+        $contenido .= "Usuario: " . $userData['nombres'] . " | ";
+        $contenido .= "Correo: " . $userData['correo'] . " | ";
+        $contenido .= "Rol: " . $userData['nombrerol'] . " | ";
+        $contenido .= "IP: " . $ip . " | ";
+        $contenido .= "Navegador: " . $userAgent . " | ";
+        $contenido .= "Acción: Inicio de sesión\n";
+        
+        // Escribir en archivo
+        $archivo = $dirMes . "/log_" . $dia . ".txt";
+        file_put_contents($archivo, $contenido, FILE_APPEND);
+    }
 }
