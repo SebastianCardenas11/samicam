@@ -181,6 +181,8 @@ function fntEditInfo(element, ideusuario){
     
     // Ocultar el campo de contraseña en modo edición
     document.querySelector('#divContrasena').style.display = 'none';
+    // Quitar el atributo required para evitar validación HTML5
+    document.querySelector('#txtContrasenaUsuario').removeAttribute('required');
     
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Usuarios/getUsuario/'+ideusuario;

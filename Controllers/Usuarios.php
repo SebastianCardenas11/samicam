@@ -44,7 +44,6 @@ class Usuarios extends Controllers
                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
                 $intStatus = intval(strClean($_POST['listStatus']));
 
-                // $intTipoId = 5;
                 $request_user = "";
                 if ($intIdeUsuario == 0) {
                     $option = 1;
@@ -80,6 +79,7 @@ class Usuarios extends Controllers
                         );
                     }
                 }
+                
                 if ($request_user > 0) {
                     if ($option == 1) {
                         $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
@@ -87,7 +87,7 @@ class Usuarios extends Controllers
                         $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
                     }
                 } else if ($request_user == 'exist') {
-                    $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
+                    $arrResponse = array('status' => false, 'msg' => '¡Atención! el correo del Usuario ya existe, ingrese otro');
                 } else {
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
@@ -119,7 +119,6 @@ class Usuarios extends Controllers
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['ideusuario'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
                 }
-                // No asignamos botón de eliminar aquí, se maneja en la siguiente sección
 
                 if($_SESSION['permisosMod']['d']){
                     // Permitir eliminar a cualquier usuario con permiso de eliminación
@@ -171,5 +170,4 @@ class Usuarios extends Controllers
         }
         die();
     }
-
 }
