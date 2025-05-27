@@ -16,10 +16,11 @@ class DashboardModel extends Mysql
 
     public function cantFuncionariosOps()
     {
-        $sql = "SELECT COUNT(*) as total FROM tbl_funcionarios 
-                WHERE status != 0 AND contrato_fk IN 
-                (SELECT id_contrato FROM tbl_contrato 
-                 WHERE tipo_cont NOT IN ('Carrera', 'Libre Nombramiento'))";
+        $sql = "SELECT COUNT(*) as total 
+        FROM tbl_funcionarios_ops f 
+        INNER JOIN tbl_contrato c ON f.contrato_fk = c.id_contrato 
+        WHERE f.status != 0";
+
         $request = $this->select($sql);
         $total = $request['total'];
         return $total;
@@ -27,10 +28,11 @@ class DashboardModel extends Mysql
 
     public function cantFuncionariosPlanta()
     {
-        $sql = "SELECT COUNT(*) as total FROM tbl_funcionarios 
-                WHERE status != 0 AND contrato_fk IN 
-                (SELECT id_contrato FROM tbl_contrato 
-                 WHERE tipo_cont IN ('Carrera', 'Libre Nombramiento'))";
+        $sql = "SELECT COUNT(*) as total 
+        FROM tbl_funcionarios_planta f 
+        INNER JOIN tbl_contrato c ON f.contrato_fk = c.id_contrato 
+        WHERE f.status != 0";
+
         $request = $this->select($sql);
         $total = $request['total'];
         return $total;
@@ -110,7 +112,7 @@ class DashboardModel extends Mysql
 
     public function getFuncionariosPorCargoModel() {
         $sql = "SELECT c.nombre as nombre_cargo, COUNT(f.idefuncionario) as cantidad 
-               FROM tbl_funcionarios f 
+               FROM tbl_funcionarios_planta f 
                INNER JOIN tbl_cargos c ON f.cargo_fk = c.idecargos 
                WHERE f.status != 0 
                GROUP BY c.nombre";
@@ -120,7 +122,7 @@ class DashboardModel extends Mysql
     
     public function getFuncionariosPorTipoContratoModel() {
         $sql = "SELECT ct.tipo_cont as tipo_contrato, COUNT(f.idefuncionario) as cantidad 
-               FROM tbl_funcionarios f 
+               FROM tbl_funcionarios_planta f 
                INNER JOIN tbl_contrato ct ON f.contrato_fk = ct.id_contrato 
                WHERE f.status != 0 
                GROUP BY ct.tipo_cont";

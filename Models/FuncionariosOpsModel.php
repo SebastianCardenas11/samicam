@@ -13,8 +13,6 @@ class FuncionariosOpsModel extends Mysql
     private $strCelular;
     private $strDireccion;
     private $strFechaIngreso;
-    private $strFechaVacaciones;
-    private $strVacaciones;
     private $intHijos;
     private $strNombreHijos;
     private $strSexo;
@@ -75,11 +73,11 @@ class FuncionariosOpsModel extends Mysql
         $this->strNombreFormacion = $nombreformacion;
         // Verificar si ya existe el correo
         $return = 0;
-        $sql = "SELECT * FROM tbl_funcionarios WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
+        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-        $query_insert = "INSERT INTO tbl_funcionarios(
+        $query_insert = "INSERT INTO tbl_funcionarios_ops(
     correo_elc, nombre_completo, imagen, status, nm_identificacion,
     cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
     hijos, nombres_de_hijos, sexo, lugar_de_residencia,
@@ -137,9 +135,7 @@ class FuncionariosOpsModel extends Mysql
         ct.tipo_cont AS contrato_nombre,
         u.celular,
         u.direccion,
-        u.vacaciones,
         u.fecha_ingreso,
-        u.fecha_vacaciones,
         u.hijos,
         u.nombres_de_hijos,
         u.sexo,
@@ -149,15 +145,12 @@ class FuncionariosOpsModel extends Mysql
         u.religion,
         u.formacion_academica,
         u.nombre_formacion
-    FROM tbl_funcionarios u
+    FROM tbl_funcionarios_ops u
     INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
     INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
     INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-    WHERE u.status != 0 
-      AND ct.tipo_cont IN ('Ops', 'Otros') " . $whereAdmin . "
+    WHERE u.status != 0 " . $whereAdmin . "
     GROUP BY u.idefuncionario";
-
-
 
             $request = $this->select_all($sql);
             return $request;
@@ -183,8 +176,6 @@ class FuncionariosOpsModel extends Mysql
                 u.celular,
                 u.direccion,
                 u.fecha_ingreso,
-                u.vacaciones,
-                u.fecha_vacaciones,
                 u.hijos,
                 u.nombres_de_hijos,
                 u.sexo,
@@ -194,7 +185,7 @@ class FuncionariosOpsModel extends Mysql
                 u.religion,
                 u.formacion_academica,
                 u.nombre_formacion
-            FROM tbl_funcionarios u
+            FROM tbl_funcionarios_ops u
             INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
             INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
             INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
@@ -250,7 +241,7 @@ class FuncionariosOpsModel extends Mysql
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
 
-        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(
             $this->strCorreoFuncionarios,
             $this->strNombresFuncionarios,
@@ -280,7 +271,7 @@ class FuncionariosOpsModel extends Mysql
     public function deleteFuncionario(int $intIdeFuncionarios)
     {
         $this->intIdeFuncionarios = $intIdeFuncionarios;
-        $sql = "UPDATE tbl_funcionarios SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(0);
         $request = $this->update($sql, $arrData);
         return $request;
@@ -301,9 +292,5 @@ class FuncionariosOpsModel extends Mysql
     $request = $this->select_all($sql);
     return $request;
 }
-
-
-
-   
 
 }

@@ -70,13 +70,12 @@ class FuncionariosPermisosModel extends Mysql
             u.religion,
             u.formacion_academica,
             u.nombre_formacion,
-            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())) as permisos_mes_actual
-        FROM tbl_funcionarios u
+            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())) as permisos_mes_actual
+        FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-        WHERE u.status != 0 
-        AND ct.tipo_cont IN ('Carrera', 'Libre Nombramiento')" . $whereAdmin . "
+        WHERE u.status != 0 " . $whereAdmin . "
         GROUP BY u.idefuncionario";
 
         $request = $this->select_all($sql);
@@ -114,8 +113,8 @@ class FuncionariosPermisosModel extends Mysql
                 u.religion,
                 u.formacion_academica,
                 u.nombre_formacion,
-                (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())) as permisos_mes_actual
-            FROM tbl_funcionarios u
+                (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())) as permisos_mes_actual
+            FROM tbl_funcionarios_planta u
             INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
             INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
             INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
@@ -134,6 +133,7 @@ class FuncionariosPermisosModel extends Mysql
                 p.estado
             FROM tbl_permisos p
             WHERE p.id_funcionario = $idFuncionario
+            AND p.tipo_funcionario = 'planta'
             ORDER BY p.fecha_permiso DESC";
         
         $request = $this->select_all($sql);
@@ -147,7 +147,8 @@ class FuncionariosPermisosModel extends Mysql
                 p.id_funcionario,
                 p.fecha_permiso,
                 p.motivo,
-                p.estado
+                p.estado,
+                p.tipo_funcionario
             FROM tbl_permisos p
             WHERE p.id_permiso = $idPermiso";
         
@@ -169,6 +170,7 @@ class FuncionariosPermisosModel extends Mysql
         // Verificar si el funcionario ya tiene un permiso en la misma fecha
         $sql_check_same_day = "SELECT COUNT(*) as total FROM tbl_permisos 
                     WHERE id_funcionario = $this->intIdFuncionario 
+                    AND tipo_funcionario = 'planta'
                     AND fecha_permiso = '$this->dateFechaPermiso'";
         
         $result_same_day = $this->select($sql_check_same_day);
@@ -179,6 +181,7 @@ class FuncionariosPermisosModel extends Mysql
         // Verificar si el funcionario ya tiene 3 permisos en el mes actual
         $sql_check = "SELECT COUNT(*) as total FROM tbl_permisos 
                     WHERE id_funcionario = $this->intIdFuncionario 
+                    AND tipo_funcionario = 'planta'
                     AND MONTH(fecha_permiso) = $this->intMes 
                     AND YEAR(fecha_permiso) = $this->intAnio";
         
@@ -193,8 +196,8 @@ class FuncionariosPermisosModel extends Mysql
         $motivo_texto = $motivo_result ? $motivo_result['descripcion'] : "Otro";
         
         // Insertar registro de permiso
-        $query_insert = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado) 
-                        VALUES(?,?,?,?,?,?)";
+        $query_insert = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario) 
+                        VALUES(?,?,?,?,?,?,?)";
         
         $arrData = array(
             $this->intIdFuncionario,
@@ -202,7 +205,8 @@ class FuncionariosPermisosModel extends Mysql
             $this->intMes,
             $this->intAnio,
             $motivo_texto,
-            'Aprobado'
+            'Aprobado',
+            'planta'
         );
         
         $request_insert = $this->insert($query_insert, $arrData);

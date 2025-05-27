@@ -1,0 +1,11 @@
+[2025-05-27 10:27:02] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 10:27:02] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:27:12] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:43:03] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:43:03] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:43:04] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:44:12] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:44:31] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:44:54] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 10:51:33] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 11:14:12] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
