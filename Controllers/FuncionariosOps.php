@@ -39,6 +39,7 @@ class FuncionariosOps extends Controllers
     {
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
+        error_log("Iniciando setFuncionario en FuncionariosOps");
     
         if ($_POST) {
             if (
@@ -83,6 +84,7 @@ class FuncionariosOps extends Controllers
                     $option = 1;
                     if ($_SESSION['permisosMod']['w']) {
                         try {
+                            error_log("Llamando a insertFuncionario en el modelo con datos: " . $strNombre);
                             $request = $this->model->insertFuncionario(
                                 $strCorreo,
                                 $strNombre,
@@ -105,6 +107,7 @@ class FuncionariosOps extends Controllers
                                 $strFormacionAcademica,
                                 $strNombreFormacion
                             );
+                            error_log("Resultado de insertFuncionario: " . print_r($request, true));
                         } catch (Exception $e) {
                             error_log("Error en setFuncionario: " . $e->getMessage());
                             $request = 0;
@@ -164,6 +167,7 @@ class FuncionariosOps extends Controllers
                 } else if ($request == 'exist') {
                     $arrResponse = array("status" => false, "msg" => '¡Atención! El funcionario ya existe.');
                 } else {
+                    error_log("Error al insertar funcionario OPS. Valor de request: " . print_r($request, true));
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
             }

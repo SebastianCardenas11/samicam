@@ -1,0 +1,9 @@
+2025-05-27 16:38:43 - Query: UPDATE tbl_funcionarios_planta SET status = ? WHERE idefuncionario = 14
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+

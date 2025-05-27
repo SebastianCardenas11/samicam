@@ -63,3 +63,16 @@
 [2025-05-27 16:12:22] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-05-27 16:14:38] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-05-27 16:17:16] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:23:05] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:23:42] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:23:45] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:26:33] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:26:36] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:27:12] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:32:12] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:38:59] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:39:57] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:41:10] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:41:51] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:42:40] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:44:08] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops

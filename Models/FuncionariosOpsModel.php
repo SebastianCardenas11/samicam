@@ -78,6 +78,41 @@ class FuncionariosOpsModel extends Mysql
 
         if (empty($request)) {
             try {
+                // Añadir registro de depuración
+                error_log("Intentando insertar funcionario OPS: " . $this->strNombresFuncionarios);
+                
+                // Consulta directa para depuración
+                $query_direct = "INSERT INTO tbl_funcionarios_ops(
+                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
+                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
+                VALUES(
+                    '{$this->strCorreoFuncionarios}',
+                    '{$this->strNombresFuncionarios}',
+                    '{$this->strImagen}',
+                    {$this->strStatusFuncionarios},
+                    '{$this->strIdentificacion}',
+                    {$this->intCargo},
+                    {$this->intDependencia},
+                    {$this->intContrato},
+                    '{$this->strCelular}',
+                    '{$this->strDireccion}',
+                    '{$this->strFechaIngreso}',
+                    {$this->intHijos},
+                    '{$this->strNombreHijos}',
+                    '{$this->strSexo}',
+                    '{$this->strLugarResidencia}',
+                    {$this->intEdad},
+                    '{$this->strEstadoCivil}',
+                    '{$this->strReligion}',
+                    '{$this->strFormacionAcademica}',
+                    '{$this->strNombreFormacion}'
+                )";
+                
+                error_log("Consulta directa OPS: " . $query_direct);
+                
+                // Consulta con prepared statements
                 $query_insert = "INSERT INTO tbl_funcionarios_ops(
                     correo_elc, nombre_completo, imagen, status, nm_identificacion,
                     cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
@@ -109,6 +144,7 @@ class FuncionariosOpsModel extends Mysql
                 );
 
                 $request_insert = $this->insert($query_insert, $arrData);
+                error_log("Resultado de inserción OPS: " . print_r($request_insert, true));
                 $return = $request_insert;
             } catch (Exception $e) {
                 error_log("Error en insertFuncionario: " . $e->getMessage());

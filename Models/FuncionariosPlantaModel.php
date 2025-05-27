@@ -53,6 +53,13 @@ class FuncionariosPlantaModel extends Mysql
         string $formacion,
         string $nombreformacion
     ) {
+        // Registrar los datos recibidos para depuración
+        error_log("Datos recibidos en insertFuncionario:");
+        error_log("Correo: $correo");
+        error_log("Nombre: $nombres");
+        error_log("Cargo: $cargo");
+        error_log("Dependencia: $dependencia");
+        error_log("Contrato: $contrato");
         // Asignar los valores de los campos
         $this->strCorreoFuncionarios = $correo;
         $this->strNombresFuncionarios = $nombres;
@@ -82,20 +89,22 @@ class FuncionariosPlantaModel extends Mysql
 
         if (empty($request)) {
             try {
-                // Consulta simplificada sin los campos vacaciones y fecha_vacaciones que ya no existen en la tabla
+                // Guardar la consulta en el log para depuración
+                error_log("Intentando insertar funcionario planta: " . $this->strNombresFuncionarios);
+                
+                // Consulta con prepared statements
                 $query_insert = "INSERT INTO tbl_funcionarios_planta(
-                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    correo_elc, nombre_completo, imagen, nm_identificacion,
                     cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
                     hijos, nombres_de_hijos, sexo, lugar_de_residencia,
                     edad, estado_civil, religion, formacion_academica, nombre_formacion,
-                    periodos_vacaciones)
+                    status, periodos_vacaciones)
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)";
                 
                 $arrData = array(
                     $this->strCorreoFuncionarios,
                     $this->strNombresFuncionarios,
                     $this->strImagen,
-                    $this->strStatusFuncionarios,
                     $this->strIdentificacion,
                     $this->intCargo,
                     $this->intDependencia,
@@ -111,10 +120,12 @@ class FuncionariosPlantaModel extends Mysql
                     $this->strEstadoCivil,
                     $this->strReligion,
                     $this->strFormacionAcademica,
-                    $this->strNombreFormacion
+                    $this->strNombreFormacion,
+                    $this->strStatusFuncionarios
                 );
 
                 $request_insert = $this->insert($query_insert, $arrData);
+                error_log("Resultado de inserción: " . print_r($request_insert, true));
                 $return = $request_insert;
             } catch (Exception $e) {
                 error_log("Error en insertFuncionario: " . $e->getMessage());
