@@ -30,7 +30,7 @@
                             <div class="modal-body">
                                 <label for="txtNombresUsuario">Nombres<span class="required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombresUsuario"
-                                    name="txtNombresUsuario" required="" maxlength="30">
+                                    name="txtNombresUsuario" required>
                             </div>
 
                             <div class="modal-body">

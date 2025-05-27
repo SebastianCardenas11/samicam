@@ -98,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         $('#modalFormUsuario').modal("hide");
                         formUsuario.reset();
                         Swal.fire("Usuario", objData.msg ,"success");
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500);
                     }else{
                         Swal.fire("Error", objData.msg , "error");
                     }
