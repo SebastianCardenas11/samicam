@@ -1,0 +1,33 @@
+2025-05-27 15:51:32 - Query: INSERT INTO tbl_funcionarios_ops(
+                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
+                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Values: Array
+(
+    [0] => Carlos@gmail.com
+    [1] => Carlos Lopez
+    [2] => sinimagen.png
+    [3] => 1
+    [4] => 1
+    [5] => 3
+    [6] => 1
+    [7] => 3
+    [8] => 1
+    [9] => 1
+    [10] => 2025-05-27
+    [11] => 0
+    [12] => 
+    [13] => masculino
+    [14] => 1
+    [15] => 1
+    [16] => divorciado
+    [17] => no_creyente
+    [18] => tecnico
+    [19] => 1
+)
+
+
+Success! Last Insert ID: 13
+

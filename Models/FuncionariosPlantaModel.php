@@ -74,47 +74,52 @@ class FuncionariosPlantaModel extends Mysql
         $this->strReligion = $religion;
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
+        
         // Verificar si ya existe el correo
         $return = 0;
         $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-        $query_insert = "INSERT INTO tbl_funcionarios_planta(
-    correo_elc, nombre_completo, imagen, status, nm_identificacion,
-    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
-    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-    edad, estado_civil, religion, formacion_academica, nombre_formacion,
-    vacaciones, fecha_vacaciones, periodos_vacaciones
-) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,NULL,0)";
+            try {
+                // Consulta simplificada sin los campos vacaciones y fecha_vacaciones que ya no existen en la tabla
+                $query_insert = "INSERT INTO tbl_funcionarios_planta(
+                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
+                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                    edad, estado_civil, religion, formacion_academica, nombre_formacion,
+                    periodos_vacaciones)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)";
+                
+                $arrData = array(
+                    $this->strCorreoFuncionarios,
+                    $this->strNombresFuncionarios,
+                    $this->strImagen,
+                    $this->strStatusFuncionarios,
+                    $this->strIdentificacion,
+                    $this->intCargo,
+                    $this->intDependencia,
+                    $this->intContrato,
+                    $this->strCelular,
+                    $this->strDireccion,
+                    $this->strFechaIngreso,
+                    $this->intHijos,
+                    $this->strNombreHijos,
+                    $this->strSexo,
+                    $this->strLugarResidencia,
+                    $this->intEdad,
+                    $this->strEstadoCivil,
+                    $this->strReligion,
+                    $this->strFormacionAcademica,
+                    $this->strNombreFormacion
+                );
 
-            
-        
-        $arrData = array(
-            $this->strCorreoFuncionarios,
-            $this->strNombresFuncionarios,
-            $this->strImagen,
-            $this->strStatusFuncionarios,
-            $this->strIdentificacion,
-            $this->intCargo,
-            $this->intDependencia,
-            $this->intContrato,
-            $this->strCelular,
-            $this->strDireccion,
-            $this->strFechaIngreso,
-            $this->intHijos,
-            $this->strNombreHijos,
-            $this->strSexo,
-            $this->strLugarResidencia,
-            $this->intEdad,
-            $this->strEstadoCivil,
-            $this->strReligion,
-            $this->strFormacionAcademica,
-            $this->strNombreFormacion
-            );
-
-            $request_insert = $this->insert($query_insert, $arrData);
-            $return = $request_insert;
+                $request_insert = $this->insert($query_insert, $arrData);
+                $return = $request_insert;
+            } catch (Exception $e) {
+                error_log("Error en insertFuncionario: " . $e->getMessage());
+                $return = 0;
+            }
         } else {
             $return = "exist";
         }
@@ -139,9 +144,7 @@ class FuncionariosPlantaModel extends Mysql
         ct.tipo_cont AS contrato_nombre,
         u.celular,
         u.direccion,
-        u.vacaciones,
         u.fecha_ingreso,
-        u.fecha_vacaciones,
         u.hijos,
         u.nombres_de_hijos,
         u.sexo,
@@ -184,8 +187,6 @@ class FuncionariosPlantaModel extends Mysql
                 u.celular,
                 u.direccion,
                 u.fecha_ingreso,
-                u.vacaciones,
-                u.fecha_vacaciones,
                 u.hijos,
                 u.nombres_de_hijos,
                 u.sexo,

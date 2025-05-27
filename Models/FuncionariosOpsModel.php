@@ -77,40 +77,43 @@ class FuncionariosOpsModel extends Mysql
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-        $query_insert = "INSERT INTO tbl_funcionarios_ops(
-    correo_elc, nombre_completo, imagen, status, nm_identificacion,
-    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
-    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-    edad, estado_civil, religion, formacion_academica, nombre_formacion
-) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            try {
+                $query_insert = "INSERT INTO tbl_funcionarios_ops(
+                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
+                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                
+                $arrData = array(
+                    $this->strCorreoFuncionarios,
+                    $this->strNombresFuncionarios,
+                    $this->strImagen,
+                    $this->strStatusFuncionarios,
+                    $this->strIdentificacion,
+                    $this->intCargo,
+                    $this->intDependencia,
+                    $this->intContrato,
+                    $this->strCelular,
+                    $this->strDireccion,
+                    $this->strFechaIngreso,
+                    $this->intHijos,
+                    $this->strNombreHijos,
+                    $this->strSexo,
+                    $this->strLugarResidencia,
+                    $this->intEdad,
+                    $this->strEstadoCivil,
+                    $this->strReligion,
+                    $this->strFormacionAcademica,
+                    $this->strNombreFormacion
+                );
 
-            
-        
-        $arrData = array(
-            $this->strCorreoFuncionarios,
-            $this->strNombresFuncionarios,
-            $this->strImagen,
-            $this->strStatusFuncionarios,
-            $this->strIdentificacion,
-            $this->intCargo,
-            $this->intDependencia,
-            $this->intContrato,
-            $this->strCelular,
-            $this->strDireccion,
-            $this->strFechaIngreso,
-            $this->intHijos,
-            $this->strNombreHijos,
-            $this->strSexo,
-            $this->strLugarResidencia,
-            $this->intEdad,
-            $this->strEstadoCivil,
-            $this->strReligion,
-            $this->strFormacionAcademica,
-            $this->strNombreFormacion
-            );
-
-            $request_insert = $this->insert($query_insert, $arrData);
-            $return = $request_insert;
+                $request_insert = $this->insert($query_insert, $arrData);
+                $return = $request_insert;
+            } catch (Exception $e) {
+                error_log("Error en insertFuncionario: " . $e->getMessage());
+                $return = 0;
+            }
         } else {
             $return = "exist";
         }
@@ -241,31 +244,36 @@ class FuncionariosOpsModel extends Mysql
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
 
-        $sql = "UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
-        $arrData = array(
-            $this->strCorreoFuncionarios,
-            $this->strNombresFuncionarios,
-            $this->strImagen,
-            $this->strStatusFuncionarios,
-            $this->strIdentificacion,
-            $this->intCargo,
-            $this->intDependencia,
-            $this->intContrato,
-            $this->strCelular,
-            $this->strDireccion,
-            $this->strFechaIngreso,
-            $this->intHijos,
-            $this->strNombreHijos,
-            $this->strSexo,
-            $this->strLugarResidencia,
-            $this->intEdad,
-            $this->strEstadoCivil,
-            $this->strReligion,
-            $this->strFormacionAcademica,
-            $this->strNombreFormacion
-        );
-        $request = $this->update($sql, $arrData);
-        return $request;
+        try {
+            $sql = "UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
+            $arrData = array(
+                $this->strCorreoFuncionarios,
+                $this->strNombresFuncionarios,
+                $this->strImagen,
+                $this->strStatusFuncionarios,
+                $this->strIdentificacion,
+                $this->intCargo,
+                $this->intDependencia,
+                $this->intContrato,
+                $this->strCelular,
+                $this->strDireccion,
+                $this->strFechaIngreso,
+                $this->intHijos,
+                $this->strNombreHijos,
+                $this->strSexo,
+                $this->strLugarResidencia,
+                $this->intEdad,
+                $this->strEstadoCivil,
+                $this->strReligion,
+                $this->strFormacionAcademica,
+                $this->strNombreFormacion
+            );
+            $request = $this->update($sql, $arrData);
+            return $request;
+        } catch (Exception $e) {
+            error_log("Error en updateFuncionario: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function deleteFuncionario(int $intIdeFuncionarios)

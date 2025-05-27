@@ -11,7 +11,7 @@ date_default_timezone_set('America/Bogota');
 const DB_HOST = "localhost:3306";
 const DB_NAME = "samicam";
 const DB_USER = "root";
-const DB_PASSWORD = "V*0n70o0p1wWuAkf";
+const DB_PASSWORD = "";
 const DB_CHARSET = "utf8";
 
 //Datos envio de correo
