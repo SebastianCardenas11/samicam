@@ -126,7 +126,7 @@ class Usuarios extends Controllers
                     if($arrData[$i]['idrol'] == 1 || $_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
                         // No mostrar botón para superadmin o para sí mismo
                     } else {
-                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                        $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
                     }
                 }
 

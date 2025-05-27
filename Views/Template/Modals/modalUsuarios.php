@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button id="btnActionForm" class="btn btn-success" type="submit"><i
+                                <button id="btnActionForm" class="btn btn-warning" type="submit"><i
                                         class="bi bi-floppy"></i>
                                     <span id="btnText">Guardar</span></button>
 

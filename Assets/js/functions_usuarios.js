@@ -176,7 +176,7 @@ function fntEditInfo(element, ideusuario){
     rowTable = element.parentNode.parentNode.parentNode;
     document.querySelector('#titleModal').innerHTML ="Actualizar Usuario";
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
-    document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
+    document.querySelector('#btnActionForm').classList.replace("btn-success", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";
     
     // Ocultar el campo de contraseña en modo edición
@@ -262,7 +262,7 @@ function openModal()
     rowTable = "";
     document.querySelector('#ideUsuario').value ="";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
+    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-warning");
     document.querySelector('#btnText').innerHTML ="Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
     document.querySelector("#formUsuario").reset();
