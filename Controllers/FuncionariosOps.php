@@ -164,8 +164,10 @@ class FuncionariosOps extends Controllers
                     
                     $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
                     $arrResponse = array("status" => true, "msg" => $msg);
-                } else if ($request == 'exist') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El funcionario ya existe.');
+                } else if ($request == 'exist_email') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El correo electrónico ya está registrado en el sistema.');
+                } else if ($request == 'exist_id') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El número de identificación ya está registrado en el sistema.');
                 } else {
                     error_log("Error al insertar funcionario OPS. Valor de request: " . print_r($request, true));
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');

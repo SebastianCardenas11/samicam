@@ -71,10 +71,18 @@ class FuncionariosOpsModel extends Mysql
         $this->strReligion = $religion;
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
-        // Verificar si ya existe el correo
+        // Verificar si ya existe el correo o la identificación en cualquiera de las tablas
         $return = 0;
-        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
+        
+        // Verificar en tabla de funcionarios ops
+        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
         $request = $this->select_all($sql);
+        
+        // Si no existe en ops, verificar en tabla de funcionarios planta
+        if (empty($request)) {
+            $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
+            $request = $this->select_all($sql);
+        }
 
         if (empty($request)) {
             try {
@@ -151,7 +159,12 @@ class FuncionariosOpsModel extends Mysql
                 $return = 0;
             }
         } else {
-            $return = "exist";
+            // Determinar si existe por correo o por identificación
+            if (!empty($request[0]['correo_elc']) && $request[0]['correo_elc'] == $this->strCorreoFuncionarios) {
+                $return = "exist_email";
+            } else {
+                $return = "exist_id";
+            }
         }
         return $return;
     }

@@ -76,3 +76,4 @@
 [2025-05-27 16:41:51] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-05-27 16:42:40] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-05-27 16:44:08] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:54:57] ID: 10 | Usuario: lucas | Correo: lucas@gmail.com | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
