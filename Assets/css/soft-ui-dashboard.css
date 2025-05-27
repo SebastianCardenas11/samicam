@@ -28037,37 +28037,30 @@ pre[class*=language-] {
 #tableUsuarios_wrapper .dt-buttons .btn,
 #tableCargos_wrapper .dt-buttons .btn,
 #tableFuncionarios_wrapper .dt-buttons .btn {
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-/* Hover: salto y opacidad */
+/* Hover: animación suave y moderada */
+#tableUsuarios_wrapper .dt-buttons .btn,
+#tableCargos_wrapper .dt-buttons .btn,
+#tableFuncionarios_wrapper .dt-buttons .btn {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
 #tableUsuarios_wrapper .dt-buttons .btn:hover,
 #tableCargos_wrapper .dt-buttons .btn:hover,
 #tableFuncionarios_wrapper .dt-buttons .btn:hover {
-  transform: scale(1.15);
-  opacity: 0.8;
+  transform: scale(1.05);
+  opacity: 0.9;
   cursor: pointer;
 }
 
-/* Animación más suave para los botones exportar */
-@keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.95);
-  }
 
-  60% {
-    opacity: 0.6;
-    transform: scale(1.02);
-  }
 
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+
+
 
 
 

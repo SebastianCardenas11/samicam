@@ -1,6 +1,6 @@
 <?php
-// const BASE_URL = "http://localhost/samicam";
-const BASE_URL = "https://samicam:8443/samicam";
+const BASE_URL = "http://localhost/samicam";
+// const BASE_URL = "https://samicam:8443/samicam";
 // const BASE_URL = "https://10.90.1.254:8443/samicam";
 //Zona horaria
 
