@@ -215,10 +215,14 @@ class FuncionariosOps extends Controllers
                     $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
                 }
-
                 
+                // Botón para migrar a planta
+                $btnMigrar = '';
+                if ($_SESSION['permisosMod']['w']) {
+                    $btnMigrar = '<button class="btn btn-success" onClick="fntMigrarInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Migrar a Planta"><i class="bi bi-arrow-up-circle"></i> Migrar</button>';
+                }
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMigrar . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -260,6 +264,23 @@ class FuncionariosOps extends Controllers
                     $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Funcionario');
                 } else {
                     $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Funcionario.');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+    
+    public function getFuncionarioParaMigrar($idefuncionario)
+    {
+        if ($_SESSION['permisosMod']['w']) {
+            $idefuncionario = intval($idefuncionario);
+            if ($idefuncionario > 0) {
+                $arrData = $this->model->selectFuncionario($idefuncionario);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
