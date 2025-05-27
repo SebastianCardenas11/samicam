@@ -22,9 +22,15 @@
                                 <p class="text-primary">Datos del Usuario</p>
                             </div>
                             <div class="modal-body">
-                                <label for="txtCorreoUsuario">Correos<span class="required">*</span></label>
+                                <label for="txtCorreoUsuario">Correo<span class="required">*</span></label>
                                 <input type="email" class="form-control" id="txtCorreoUsuario"
                                     name="txtCorreoUsuario" required="">
+                            </div>
+
+                            <div class="modal-body" id="divContrasena">
+                                <label for="txtContrasenaUsuario">Contraseña<span class="required">*</span></label>
+                                <input type="password" class="form-control" id="txtContrasenaUsuario"
+                                    name="txtContrasenaUsuario" required="">
                             </div>
 
                             <div class="modal-body">

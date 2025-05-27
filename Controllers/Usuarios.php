@@ -41,7 +41,6 @@ class Usuarios extends Controllers
                 $intIdeUsuario = intval($_POST['ideUsuario']);
                 $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
                 $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
-                $strpassword = strClean($_POST['txtContrasenaUsuario']);
                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
                 $intStatus = intval(strClean($_POST['listStatus']));
 
@@ -49,7 +48,16 @@ class Usuarios extends Controllers
                 $request_user = "";
                 if ($intIdeUsuario == 0) {
                     $option = 1;
-                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
+                    // Verificar que se haya proporcionado una contraseña
+                    if (empty($_POST['txtContrasenaUsuario'])) {
+                        $arrResponse = array("status" => false, "msg" => 'La contraseña es obligatoria.');
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
+                    }
+                    
+                    // Usar la contraseña proporcionada
+                    $strPassword = hash("SHA256", $_POST['txtContrasenaUsuario']);
+                    
                     if ($_SESSION['permisosMod']['w']) {
                         $request_user = $this->model->insertUsuario(
                             $strIdentificacionUsuario,
@@ -57,12 +65,11 @@ class Usuarios extends Controllers
                             $strPassword,
                             $strRolUsuario,
                             $intStatus
-
                         );
                     }
                 } else {
                     $option = 2;
-                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
+                    // No modificar la contraseña al actualizar
                     if ($_SESSION['permisosMod']['u']) {
                         $request_user = $this->model->updateUsuario(
                             $intIdeUsuario,
