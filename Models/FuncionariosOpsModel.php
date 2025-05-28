@@ -13,8 +13,6 @@ class FuncionariosOpsModel extends Mysql
     private $strCelular;
     private $strDireccion;
     private $strFechaIngreso;
-    private $strFechaVacaciones;
-    private $strVacaciones;
     private $intHijos;
     private $strNombreHijos;
     private $strSexo;
@@ -73,48 +71,100 @@ class FuncionariosOpsModel extends Mysql
         $this->strReligion = $religion;
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
-        // Verificar si ya existe el correo
+        // Verificar si ya existe el correo o la identificación en cualquiera de las tablas
         $return = 0;
-        $sql = "SELECT * FROM tbl_funcionarios WHERE correo_elc = '{$this->strCorreoFuncionarios}'";
+        
+        // Verificar en tabla de funcionarios ops
+        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
         $request = $this->select_all($sql);
+        
+        // Si no existe en ops, verificar en tabla de funcionarios planta
+        if (empty($request)) {
+            $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
+            $request = $this->select_all($sql);
+        }
 
         if (empty($request)) {
-        $query_insert = "INSERT INTO tbl_funcionarios(
-    correo_elc, nombre_completo, imagen, status, nm_identificacion,
-    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
-    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-    edad, estado_civil, religion, formacion_academica, nombre_formacion
-) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            try {
+                // Añadir registro de depuración
+                error_log("Intentando insertar funcionario OPS: " . $this->strNombresFuncionarios);
+                
+                // Consulta directa para depuración
+                $query_direct = "INSERT INTO tbl_funcionarios_ops(
+                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
+                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
+                VALUES(
+                    '{$this->strCorreoFuncionarios}',
+                    '{$this->strNombresFuncionarios}',
+                    '{$this->strImagen}',
+                    {$this->strStatusFuncionarios},
+                    '{$this->strIdentificacion}',
+                    {$this->intCargo},
+                    {$this->intDependencia},
+                    {$this->intContrato},
+                    '{$this->strCelular}',
+                    '{$this->strDireccion}',
+                    '{$this->strFechaIngreso}',
+                    {$this->intHijos},
+                    '{$this->strNombreHijos}',
+                    '{$this->strSexo}',
+                    '{$this->strLugarResidencia}',
+                    {$this->intEdad},
+                    '{$this->strEstadoCivil}',
+                    '{$this->strReligion}',
+                    '{$this->strFormacionAcademica}',
+                    '{$this->strNombreFormacion}'
+                )";
+                
+                error_log("Consulta directa OPS: " . $query_direct);
+                
+                // Consulta con prepared statements
+                $query_insert = "INSERT INTO tbl_funcionarios_ops(
+                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
+                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
+                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
+                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                
+                $arrData = array(
+                    $this->strCorreoFuncionarios,
+                    $this->strNombresFuncionarios,
+                    $this->strImagen,
+                    $this->strStatusFuncionarios,
+                    $this->strIdentificacion,
+                    $this->intCargo,
+                    $this->intDependencia,
+                    $this->intContrato,
+                    $this->strCelular,
+                    $this->strDireccion,
+                    $this->strFechaIngreso,
+                    $this->intHijos,
+                    $this->strNombreHijos,
+                    $this->strSexo,
+                    $this->strLugarResidencia,
+                    $this->intEdad,
+                    $this->strEstadoCivil,
+                    $this->strReligion,
+                    $this->strFormacionAcademica,
+                    $this->strNombreFormacion
+                );
 
-            
-        
-        $arrData = array(
-            $this->strCorreoFuncionarios,
-            $this->strNombresFuncionarios,
-            $this->strImagen,
-            $this->strStatusFuncionarios,
-            $this->strIdentificacion,
-            $this->intCargo,
-            $this->intDependencia,
-            $this->intContrato,
-            $this->strCelular,
-            $this->strDireccion,
-            $this->strFechaIngreso,
-            $this->intHijos,
-            $this->strNombreHijos,
-            $this->strSexo,
-            $this->strLugarResidencia,
-            $this->intEdad,
-            $this->strEstadoCivil,
-            $this->strReligion,
-            $this->strFormacionAcademica,
-            $this->strNombreFormacion
-            );
-
-            $request_insert = $this->insert($query_insert, $arrData);
-            $return = $request_insert;
+                $request_insert = $this->insert($query_insert, $arrData);
+                error_log("Resultado de inserción OPS: " . print_r($request_insert, true));
+                $return = $request_insert;
+            } catch (Exception $e) {
+                error_log("Error en insertFuncionario: " . $e->getMessage());
+                $return = 0;
+            }
         } else {
-            $return = "exist";
+            // Determinar si existe por correo o por identificación
+            if (!empty($request[0]['correo_elc']) && $request[0]['correo_elc'] == $this->strCorreoFuncionarios) {
+                $return = "exist_email";
+            } else {
+                $return = "exist_id";
+            }
         }
         return $return;
     }
@@ -137,9 +187,7 @@ class FuncionariosOpsModel extends Mysql
         ct.tipo_cont AS contrato_nombre,
         u.celular,
         u.direccion,
-        u.vacaciones,
         u.fecha_ingreso,
-        u.fecha_vacaciones,
         u.hijos,
         u.nombres_de_hijos,
         u.sexo,
@@ -149,15 +197,12 @@ class FuncionariosOpsModel extends Mysql
         u.religion,
         u.formacion_academica,
         u.nombre_formacion
-    FROM tbl_funcionarios u
+    FROM tbl_funcionarios_ops u
     INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
     INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
     INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-    WHERE u.status != 0 
-      AND ct.tipo_cont IN ('Ops', 'Otros') " . $whereAdmin . "
+    WHERE u.status != 0 " . $whereAdmin . "
     GROUP BY u.idefuncionario";
-
-
 
             $request = $this->select_all($sql);
             return $request;
@@ -183,8 +228,6 @@ class FuncionariosOpsModel extends Mysql
                 u.celular,
                 u.direccion,
                 u.fecha_ingreso,
-                u.vacaciones,
-                u.fecha_vacaciones,
                 u.hijos,
                 u.nombres_de_hijos,
                 u.sexo,
@@ -194,7 +237,7 @@ class FuncionariosOpsModel extends Mysql
                 u.religion,
                 u.formacion_academica,
                 u.nombre_formacion
-            FROM tbl_funcionarios u
+            FROM tbl_funcionarios_ops u
             INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
             INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
             INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
@@ -250,37 +293,42 @@ class FuncionariosOpsModel extends Mysql
         $this->strFormacionAcademica = $formacion;
         $this->strNombreFormacion = $nombreformacion;
 
-        $sql = "UPDATE tbl_funcionarios SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
-        $arrData = array(
-            $this->strCorreoFuncionarios,
-            $this->strNombresFuncionarios,
-            $this->strImagen,
-            $this->strStatusFuncionarios,
-            $this->strIdentificacion,
-            $this->intCargo,
-            $this->intDependencia,
-            $this->intContrato,
-            $this->strCelular,
-            $this->strDireccion,
-            $this->strFechaIngreso,
-            $this->intHijos,
-            $this->strNombreHijos,
-            $this->strSexo,
-            $this->strLugarResidencia,
-            $this->intEdad,
-            $this->strEstadoCivil,
-            $this->strReligion,
-            $this->strFormacionAcademica,
-            $this->strNombreFormacion
-        );
-        $request = $this->update($sql, $arrData);
-        return $request;
+        try {
+            $sql = "UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
+            $arrData = array(
+                $this->strCorreoFuncionarios,
+                $this->strNombresFuncionarios,
+                $this->strImagen,
+                $this->strStatusFuncionarios,
+                $this->strIdentificacion,
+                $this->intCargo,
+                $this->intDependencia,
+                $this->intContrato,
+                $this->strCelular,
+                $this->strDireccion,
+                $this->strFechaIngreso,
+                $this->intHijos,
+                $this->strNombreHijos,
+                $this->strSexo,
+                $this->strLugarResidencia,
+                $this->intEdad,
+                $this->strEstadoCivil,
+                $this->strReligion,
+                $this->strFormacionAcademica,
+                $this->strNombreFormacion
+            );
+            $request = $this->update($sql, $arrData);
+            return $request;
+        } catch (Exception $e) {
+            error_log("Error en updateFuncionario: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function deleteFuncionario(int $intIdeFuncionarios)
     {
         $this->intIdeFuncionarios = $intIdeFuncionarios;
-        $sql = "UPDATE tbl_funcionarios SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios";
+        $sql = "UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios";
         $arrData = array(0);
         $request = $this->update($sql, $arrData);
         return $request;
@@ -301,9 +349,5 @@ class FuncionariosOpsModel extends Mysql
     $request = $this->select_all($sql);
     return $request;
 }
-
-
-
-   
 
 }

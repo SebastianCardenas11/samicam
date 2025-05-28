@@ -63,6 +63,19 @@ document.addEventListener('DOMContentLoaded', function(){
                 Swal.fire("Atención", "Todos los campos son obligatorios." , "error");
                 return false;
             }
+            
+            // Validar contraseña solo en modo creación
+            if(intIdeUsuario == '' || intIdeUsuario == 0) {
+                let strContrasena = document.querySelector('#txtContrasenaUsuario').value;
+                if(strContrasena == '') {
+                    Swal.fire("Atención", "La contraseña es obligatoria para crear un usuario." , "error");
+                    return false;
+                }
+                // Quitar el atributo required en modo edición para evitar validación HTML5
+            } else {
+                document.querySelector('#txtContrasenaUsuario').removeAttribute('required');
+            }
+            
             let elementsValid = document.getElementsByClassName("valid");
             for (let i = 0; i < elementsValid.length; i++) { 
                 if(elementsValid[i].classList.contains('is-invalid')) { 
@@ -98,6 +111,9 @@ document.addEventListener('DOMContentLoaded', function(){
                         $('#modalFormUsuario').modal("hide");
                         formUsuario.reset();
                         Swal.fire("Usuario", objData.msg ,"success");
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500);
                     }else{
                         Swal.fire("Error", objData.msg , "error");
                     }
@@ -160,8 +176,14 @@ function fntEditInfo(element, ideusuario){
     rowTable = element.parentNode.parentNode.parentNode;
     document.querySelector('#titleModal').innerHTML ="Actualizar Usuario";
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
-    document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
+    document.querySelector('#btnActionForm').classList.replace("btn-success", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";
+    
+    // Ocultar el campo de contraseña en modo edición
+    document.querySelector('#divContrasena').style.display = 'none';
+    // Quitar el atributo required para evitar validación HTML5
+    document.querySelector('#txtContrasenaUsuario').removeAttribute('required');
+    
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Usuarios/getUsuario/'+ideusuario;
     request.open("GET",ajaxUrl,true);
@@ -240,10 +262,14 @@ function openModal()
     rowTable = "";
     document.querySelector('#ideUsuario').value ="";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
+    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-warning");
     document.querySelector('#btnText').innerHTML ="Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
     document.querySelector("#formUsuario").reset();
+    
+    // Mostrar el campo de contraseña en modo creación
+    document.querySelector('#divContrasena').style.display = 'block';
+    document.querySelector('#txtContrasenaUsuario').setAttribute('required', '');
     
     // Asegurarse de que los roles estén cargados
     fntRolesUsuario();

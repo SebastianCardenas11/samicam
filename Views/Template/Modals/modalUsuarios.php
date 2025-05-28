@@ -22,15 +22,21 @@
                                 <p class="text-primary">Datos del Usuario</p>
                             </div>
                             <div class="modal-body">
-                                <label for="txtCorreoUsuario">Correos<span class="required">*</span></label>
+                                <label for="txtCorreoUsuario">Correo<span class="required">*</span></label>
                                 <input type="email" class="form-control" id="txtCorreoUsuario"
                                     name="txtCorreoUsuario" required="">
+                            </div>
+
+                            <div class="modal-body" id="divContrasena">
+                                <label for="txtContrasenaUsuario">Contraseña<span class="required">*</span></label>
+                                <input type="password" class="form-control" id="txtContrasenaUsuario"
+                                    name="txtContrasenaUsuario" required="">
                             </div>
 
                             <div class="modal-body">
                                 <label for="txtNombresUsuario">Nombres<span class="required">*</span></label>
                                 <input type="text" class="form-control valid validText" id="txtNombresUsuario"
-                                    name="txtNombresUsuario" required="" maxlength="30">
+                                    name="txtNombresUsuario" required>
                             </div>
 
                             <div class="modal-body">
@@ -49,7 +55,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button id="btnActionForm" class="btn btn-success" type="submit"><i
+                                <button id="btnActionForm" class="btn btn-warning" type="submit"><i
                                         class="bi bi-floppy"></i>
                                     <span id="btnText">Guardar</span></button>
 

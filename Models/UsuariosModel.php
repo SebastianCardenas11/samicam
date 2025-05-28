@@ -94,25 +94,22 @@ class UsuariosModel extends Mysql
         $this->strCorreoUsuario = $correo;
         $this->strNombresUsuario = $nombres;
         $this->strRolUsuario = $rol;
-        $this->strStatus = $status;
+        $this->strStatusUsuario = $status;
 
         $sql = "SELECT * FROM tbl_usuarios WHERE (correo = '{$this->strCorreoUsuario}' AND ideusuario != $this->intIdeUsuario)";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            // TODO PENDIENTE LA VALIDACIÓN SI EL CODIGO ES IGUAL QUE EL CODIGO DE OTRO USUARIO
-            if ($this->strCorreoUsuario != "" ) {
+            $sql = "UPDATE tbl_usuarios SET correo=?, nombres=?, rolid=?, status=?
+                    WHERE ideusuario = $this->intIdeUsuario ";
 
-                $sql = "UPDATE tbl_usuarios SET correo=?, nombres=?, rolid=?, status=?
-						WHERE ideusuario = $this->intIdeUsuario ";
-
-                $arrData = array(
-                    $this->strCorreoUsuario,
-                    $this->strNombresUsuario,
-                    $this->strRolUsuario,
-                    $this->strStatus
-                );
-            } 
+            $arrData = array(
+                $this->strCorreoUsuario,
+                $this->strNombresUsuario,
+                $this->strRolUsuario,
+                $this->strStatusUsuario
+            );
+            
             $request = $this->update($sql, $arrData);
         } else {
             $request = "exist";

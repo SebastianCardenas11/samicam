@@ -41,15 +41,22 @@ class Usuarios extends Controllers
                 $intIdeUsuario = intval($_POST['ideUsuario']);
                 $strIdentificacionUsuario = strClean($_POST['txtCorreoUsuario']);
                 $strNombresUsuario = strClean($_POST['txtNombresUsuario']);
-                $strpassword = strClean($_POST['txtContrasenaUsuario']);
                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
                 $intStatus = intval(strClean($_POST['listStatus']));
 
-                // $intTipoId = 5;
                 $request_user = "";
                 if ($intIdeUsuario == 0) {
                     $option = 1;
-                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
+                    // Verificar que se haya proporcionado una contraseña
+                    if (empty($_POST['txtContrasenaUsuario'])) {
+                        $arrResponse = array("status" => false, "msg" => 'La contraseña es obligatoria.');
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
+                    }
+                    
+                    // Usar la contraseña proporcionada
+                    $strPassword = hash("SHA256", $_POST['txtContrasenaUsuario']);
+                    
                     if ($_SESSION['permisosMod']['w']) {
                         $request_user = $this->model->insertUsuario(
                             $strIdentificacionUsuario,
@@ -57,12 +64,11 @@ class Usuarios extends Controllers
                             $strPassword,
                             $strRolUsuario,
                             $intStatus
-
                         );
                     }
                 } else {
                     $option = 2;
-                    $strPassword =  empty($_POST['txtCorreoUsuario']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtCorreoUsuario']);
+                    // No modificar la contraseña al actualizar
                     if ($_SESSION['permisosMod']['u']) {
                         $request_user = $this->model->updateUsuario(
                             $intIdeUsuario,
@@ -73,6 +79,7 @@ class Usuarios extends Controllers
                         );
                     }
                 }
+                
                 if ($request_user > 0) {
                     if ($option == 1) {
                         $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
@@ -80,7 +87,7 @@ class Usuarios extends Controllers
                         $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
                     }
                 } else if ($request_user == 'exist') {
-                    $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
+                    $arrResponse = array('status' => false, 'msg' => '¡Atención! el correo del Usuario ya existe, ingrese otro');
                 } else {
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
@@ -112,7 +119,6 @@ class Usuarios extends Controllers
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['ideusuario'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
                 }
-                // No asignamos botón de eliminar aquí, se maneja en la siguiente sección
 
                 if($_SESSION['permisosMod']['d']){
                     // Permitir eliminar a cualquier usuario con permiso de eliminación
@@ -120,7 +126,7 @@ class Usuarios extends Controllers
                     if($arrData[$i]['idrol'] == 1 || $_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
                         // No mostrar botón para superadmin o para sí mismo
                     } else {
-                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                        $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
                     }
                 }
 
@@ -164,5 +170,4 @@ class Usuarios extends Controllers
         }
         die();
     }
-
 }

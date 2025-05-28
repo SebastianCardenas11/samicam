@@ -37,7 +37,8 @@ class FuncionariosPlanta extends Controllers
 
     public function setFuncionario()
     {
-        error_reporting(0);
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
     
         if ($_POST) {
             if (
@@ -81,28 +82,33 @@ class FuncionariosPlanta extends Controllers
                 if ($intIdeFuncionario == 0) {
                     $option = 1;
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertFuncionario(
-                            $strCorreo,
-                            $strNombre,
-                            $strImagen,
-                            $intStatus,
-                            $strIdentificacion,
-                            $intCargo,
-                            $intDependencia,
-                            $intContrato,
-                            $strCelular,
-                            $strDireccion,
-                            $strFechaIngreso,
-                            $strHijos,
-                            $strNombresHijos,
-                            $strSexo,
-                            $strLugarResidencia,
-                            $intEdad,
-                            $strEstadoCivil,
-                            $strReligion,
-                            $strFormacionAcademica,
-                            $strNombreFormacion
-                        );                        
+                        try {
+                            $request = $this->model->insertFuncionario(
+                                $strCorreo,
+                                $strNombre,
+                                $strImagen,
+                                $intStatus,
+                                $strIdentificacion,
+                                $intCargo,
+                                $intDependencia,
+                                $intContrato,
+                                $strCelular,
+                                $strDireccion,
+                                $strFechaIngreso,
+                                $strHijos,
+                                $strNombresHijos,
+                                $strSexo,
+                                $strLugarResidencia,
+                                $intEdad,
+                                $strEstadoCivil,
+                                $strReligion,
+                                $strFormacionAcademica,
+                                $strNombreFormacion
+                            );
+                        } catch (Exception $e) {
+                            error_log("Error en setFuncionario: " . $e->getMessage());
+                            $request = 0;
+                        }
                     }
                 } else {
                     // Para actualización, verificar si hay una nueva imagen
@@ -114,29 +120,34 @@ class FuncionariosPlanta extends Controllers
                     
                     $option = 2;
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateFuncionario(
-                            $intIdeFuncionario,
-                            $strCorreo,
-                            $strNombre,
-                            $strImagen,
-                            $intStatus,
-                            $strIdentificacion,
-                            $intCargo,
-                            $intDependencia,
-                            $intContrato,
-                            $strCelular,
-                            $strDireccion,
-                            $strFechaIngreso,
-                            $strHijos,
-                            $strNombresHijos,
-                            $strSexo,
-                            $strLugarResidencia,
-                            $intEdad,
-                            $strEstadoCivil,
-                            $strReligion,
-                            $strFormacionAcademica,
-                            $strNombreFormacion
-                        );
+                        try {
+                            $request = $this->model->updateFuncionario(
+                                $intIdeFuncionario,
+                                $strCorreo,
+                                $strNombre,
+                                $strImagen,
+                                $intStatus,
+                                $strIdentificacion,
+                                $intCargo,
+                                $intDependencia,
+                                $intContrato,
+                                $strCelular,
+                                $strDireccion,
+                                $strFechaIngreso,
+                                $strHijos,
+                                $strNombresHijos,
+                                $strSexo,
+                                $strLugarResidencia,
+                                $intEdad,
+                                $strEstadoCivil,
+                                $strReligion,
+                                $strFormacionAcademica,
+                                $strNombreFormacion
+                            );
+                        } catch (Exception $e) {
+                            error_log("Error en updateFuncionario: " . $e->getMessage());
+                            $request = 0;
+                        }
                     }
                 }
     
@@ -150,8 +161,10 @@ class FuncionariosPlanta extends Controllers
                     
                     $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
                     $arrResponse = array("status" => true, "msg" => $msg);
-                } else if ($request == 'exist') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El funcionario ya existe.');
+                } else if ($request == 'exist_email') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El correo electrónico ya está registrado en el sistema.');
+                } else if ($request == 'exist_id') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El número de identificación ya está registrado en el sistema.');
                 } else {
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
@@ -195,7 +208,7 @@ class FuncionariosPlanta extends Controllers
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger  btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
                 }
 
@@ -246,6 +259,88 @@ class FuncionariosPlanta extends Controllers
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
+        }
+        die();
+    }
+    
+    public function migrarFuncionario()
+    {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 0);
+        header('Content-Type: application/json');
+        
+        try {
+            if ($_POST) {
+                if ($_SESSION['permisosMod']['w']) {
+                    $intIdeFuncionarioOps = intval($_POST['ideFuncionarioOps']);
+                    
+                    // Incluir el modelo de FuncionariosOps
+                    require_once 'Models/FuncionariosOpsModel.php';
+                    
+                    // Obtener datos del funcionario OPS
+                    $modelOps = new FuncionariosOpsModel();
+                    $funcionarioOps = $modelOps->selectFuncionario($intIdeFuncionarioOps);
+                    
+                    if (empty($funcionarioOps)) {
+                        $arrResponse = array('status' => false, 'msg' => 'Funcionario OPS no encontrado.');
+                    } else {
+                        // Verificar si ya existe el correo o identificación en funcionarios planta
+                        $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$funcionarioOps['correo_elc']}' OR nm_identificacion = '{$funcionarioOps['nm_identificacion']}'";
+                        $existePlanta = $this->model->select_all($sql);
+                        
+                        if (!empty($existePlanta)) {
+                            if ($existePlanta[0]['correo_elc'] == $funcionarioOps['correo_elc']) {
+                                $arrResponse = array('status' => false, 'msg' => 'El correo electrónico ya está registrado en funcionarios de planta.');
+                            } else {
+                                $arrResponse = array('status' => false, 'msg' => 'El número de identificación ya está registrado en funcionarios de planta.');
+                            }
+                        } else {
+                            // Insertar en funcionarios planta
+                            $request = $this->model->insertFuncionario(
+                                $funcionarioOps['correo_elc'],
+                                $funcionarioOps['nombre_completo'],
+                                $funcionarioOps['imagen'],
+                                $funcionarioOps['status'],
+                                $funcionarioOps['nm_identificacion'],
+                                $funcionarioOps['cargo_fk'],
+                                $funcionarioOps['dependencia_fk'],
+                                1, // Contrato tipo Carrera por defecto
+                                $funcionarioOps['celular'],
+                                $funcionarioOps['direccion'],
+                                $funcionarioOps['fecha_ingreso'],
+                                $funcionarioOps['hijos'],
+                                $funcionarioOps['nombres_de_hijos'],
+                                $funcionarioOps['sexo'],
+                                $funcionarioOps['lugar_de_residencia'],
+                                $funcionarioOps['edad'],
+                                $funcionarioOps['estado_civil'],
+                                $funcionarioOps['religion'],
+                                $funcionarioOps['formacion_academica'],
+                                $funcionarioOps['nombre_formacion']
+                            );
+                            
+                            if ($request > 0) {
+                                // Eliminar de funcionarios OPS (cambiar status a 0)
+                                $modelOps->deleteFuncionario($intIdeFuncionarioOps);
+                                $arrResponse = array('status' => true, 'msg' => 'Funcionario migrado correctamente a planta.');
+                            } else if ($request == 'exist_email' || $request == 'exist_id') {
+                                $arrResponse = array('status' => false, 'msg' => 'El funcionario ya existe en el sistema.');
+                            } else {
+                                $arrResponse = array('status' => false, 'msg' => 'Error al migrar el funcionario.');
+                            }
+                        }
+                    }
+                    
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                } else {
+                    echo json_encode(array('status' => false, 'msg' => 'No tiene permisos para realizar esta acción'), JSON_UNESCAPED_UNICODE);
+                }
+            } else {
+                echo json_encode(array('status' => false, 'msg' => 'Método no permitido'), JSON_UNESCAPED_UNICODE);
+            }
+        } catch (Exception $e) {
+            error_log("Error en migrarFuncionario: " . $e->getMessage());
+            echo json_encode(array('status' => false, 'msg' => 'Error al procesar la solicitud: ' . $e->getMessage()), JSON_UNESCAPED_UNICODE);
         }
         die();
     }

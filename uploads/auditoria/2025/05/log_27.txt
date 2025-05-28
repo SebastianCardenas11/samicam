@@ -1,6 +1,125 @@
+<<<<<<< HEAD
 [2025-05-27 14:47:18] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
 [2025-05-27 14:47:18] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
 [2025-05-27 15:46:29] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
 [2025-05-27 15:46:31] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
 [2025-05-27 15:56:40] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
 [2025-05-27 16:48:47] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+=======
+[2025-05-27 10:27:02] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 10:27:02] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:27:12] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:43:03] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:43:03] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:43:04] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:44:12] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:44:31] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 10:44:54] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 10:51:33] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 11:14:12] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
+[2025-05-27 14:48:05] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 14:48:06] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:04:34] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:04:51] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:05:21] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:05:31] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:05:49] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:05:52] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
+[2025-05-27 15:06:15] ID: 9 | Usuario: carlos | Correo: carlos@gmail.com | Rol: Contratación | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 15:06:15] ID: 9 | Usuario: carlos | Rol: Contratación | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:06:18] ID: 9 | Usuario: carlos | Correo: carlos@gmail.com | Rol: Contratación | IP: ::1 | Acción: Cierre de sesión
+[2025-05-27 15:06:52] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 15:06:52] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:08:30] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:08:33] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:08:58] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:09:11] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
+[2025-05-27 15:09:25] ID: 10 | Usuario: lucas | Correo: lucas@gmail.com | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 15:09:25] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:10:12] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:14:36] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:14:47] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:14:57] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:15:03] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:15:12] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:15:15] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 15:15:19] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:15:26] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:27:22] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:30:49] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:31:52] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:31:54] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-05-27 15:32:24] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 15:32:28] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:33:15] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:34:04] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:45:33] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:46:30] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:47:08] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:49:11] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:50:53] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 15:55:04] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:56:30] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 15:56:44] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:57:31] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:58:08] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 15:58:56] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:03:28] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:09:52] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:10:01] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:11:05] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:12:22] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:14:38] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:17:16] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:23:05] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:23:42] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:23:45] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:26:33] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:26:36] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:27:12] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:32:12] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:38:59] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:39:57] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:41:10] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:41:51] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:42:40] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 16:44:08] ID: 10 | Usuario: lucas | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 16:54:57] ID: 10 | Usuario: lucas | Correo: lucas@gmail.com | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
+[2025-05-27 17:01:48] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-27 17:01:49] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 17:01:57] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-27 17:02:13] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:02:19] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:02:20] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:02:24] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:02:26] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:07:15] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:10:20] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:17:29] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:19:07] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:19:56] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:20:34] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:20:40] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:27:43] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-27 17:28:44] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Auditoría
+[2025-05-27 17:29:01] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:33:20] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-05-27 17:34:07] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-05-27 17:34:08] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-05-27 17:35:38] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:35:45] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:36:00] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:36:22] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:36:59] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:37:04] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:38:21] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:38:24] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:38:38] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:42:59] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:43:07] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:49:15] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:49:22] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:55:18] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-05-27 17:55:35] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-27 17:55:43] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+>>>>>>> 590839c4c4fc1d123df60de827f639e022b30b1f

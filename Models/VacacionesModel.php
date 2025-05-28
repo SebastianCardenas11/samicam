@@ -30,12 +30,11 @@ class VacacionesModel extends Mysql
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
             LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones) as periodos_disponibles
-        FROM tbl_funcionarios u
+        FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-        WHERE u.status != 0 
-          AND ct.tipo_cont IN ('Carrera', 'Libre Nombramiento') " . $whereAdmin . "
+        WHERE u.status != 0 " . $whereAdmin . "
         GROUP BY u.idefuncionario";
 
         $request = $this->select_all($sql);
@@ -55,7 +54,7 @@ class VacacionesModel extends Mysql
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
             LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones) as periodos_disponibles
-        FROM tbl_funcionarios u
+        FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
         INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
@@ -79,6 +78,7 @@ class VacacionesModel extends Mysql
                 fecha_registro
             FROM tbl_vacaciones
             WHERE id_funcionario = $idFuncionario
+            AND tipo_funcionario = 'planta'
             ORDER BY fecha_inicio DESC";
         
         $request = $this->select_all($sql);
@@ -119,6 +119,7 @@ class VacacionesModel extends Mysql
         // Verificar si ya hay vacaciones pendientes o aprobadas para este funcionario
         $sql_check = "SELECT COUNT(*) as total FROM tbl_vacaciones 
                      WHERE id_funcionario = $this->intIdFuncionario 
+                     AND tipo_funcionario = 'planta'
                      AND estado IN ('Pendiente', 'Aprobado')";
         
         $result_check = $this->select($sql_check);
@@ -130,15 +131,16 @@ class VacacionesModel extends Mysql
         $estado = 'Pendiente';
         
         // Insertar registro de vacaciones
-        $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado) 
-                        VALUES(?,?,?,?,?)";
+        $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado, tipo_funcionario) 
+                        VALUES(?,?,?,?,?,?)";
         
         $arrData = array(
             $this->intIdFuncionario,
             $this->dateFechaInicio,
             $this->dateFechaFin,
             $this->intPeriodo,
-            $estado
+            $estado,
+            'planta'
         );
         
         $request_insert = $this->insert($query_insert, $arrData);
@@ -175,7 +177,7 @@ class VacacionesModel extends Mysql
         
         if ($request) {
             // Actualizar períodos tomados por el funcionario
-            $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones + 1 WHERE idefuncionario = ?";
+            $sql_update_func = "UPDATE tbl_funcionarios_planta SET periodos_vacaciones = periodos_vacaciones + 1 WHERE idefuncionario = ?";
             $arrData_func = array($vacacion['id_funcionario']);
             $this->update($sql_update_func, $arrData_func);
             
@@ -210,7 +212,7 @@ class VacacionesModel extends Mysql
         if ($request) {
             // Solo devolver los períodos al funcionario si estaban aprobadas
             if ($vacacion['estado'] == 'Aprobado') {
-                $sql_update_func = "UPDATE tbl_funcionarios SET periodos_vacaciones = periodos_vacaciones - 1 WHERE idefuncionario = ?";
+                $sql_update_func = "UPDATE tbl_funcionarios_planta SET periodos_vacaciones = periodos_vacaciones - 1 WHERE idefuncionario = ?";
                 $arrData_func = array($vacacion['id_funcionario']);
                 $this->update($sql_update_func, $arrData_func);
             }

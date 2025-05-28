@@ -1,0 +1,149 @@
+2025-05-27 17:28:57 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-27'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-27 17:35:55 - Query: UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = 13
+Values: Array
+(
+    [0] => Carlos@gmail.com
+    [1] => Carlos Lopez
+    [2] => sinimagen.png
+    [3] => 1
+    [4] => 1111111111111111
+    [5] => 3
+    [6] => 1
+    [7] => 3
+    [8] => 1
+    [9] => 1
+    [10] => 2025-05-27
+    [11] => 0
+    [12] => 
+    [13] => masculino
+    [14] => 1
+    [15] => 1
+    [16] => divorciado
+    [17] => no_creyente
+    [18] => tecnico
+    [19] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:36:19 - Query: UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = 13
+Values: Array
+(
+    [0] => Carlos@gmail.com
+    [1] => Carlos Lopez
+    [2] => sinimagen.png
+    [3] => 1
+    [4] => 474836472342343223
+    [5] => 3
+    [6] => 1
+    [7] => 3
+    [8] => 1
+    [9] => 1
+    [10] => 2025-05-27
+    [11] => 0
+    [12] => 
+    [13] => masculino
+    [14] => 1
+    [15] => 1
+    [16] => divorciado
+    [17] => no_creyente
+    [18] => tecnico
+    [19] => 1
+)
+
+
+Success! Rows affected: 0
+
+2025-05-27 17:36:48 - Query: UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = 14
+Values: Array
+(
+    [0] => gjaisjsa@gmial.com
+    [1] => aaaaaaaaaaa
+    [2] => sinimagen.png
+    [3] => 1
+    [4] => 2000000000
+    [5] => 3
+    [6] => 1
+    [7] => 3
+    [8] => 2
+    [9] => 2
+    [10] => 2025-05-27
+    [11] => 0
+    [12] => 
+    [13] => masculino
+    [14] => 2
+    [15] => 2
+    [16] => casado
+    [17] => cristiano
+    [18] => tecnico
+    [19] => fgdf
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:36:51 - Query: UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = 13
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:36:56 - Query: UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = 14
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:38:35 - Query: UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = 12
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:43:03 - Query: UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = 12
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:49:19 - Query: UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = 12
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+
+2025-05-27 17:55:39 - Query: UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = 12
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+

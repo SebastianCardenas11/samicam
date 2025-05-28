@@ -38,7 +38,7 @@ class FuncionariosViaticosModel extends Mysql
         $return = 0;
         
         // Verificar que el funcionario existe
-        $sqlFunc = "SELECT idefuncionario FROM tbl_funcionarios WHERE idefuncionario = ? AND status = 1";
+        $sqlFunc = "SELECT idefuncionario FROM tbl_funcionarios_planta WHERE idefuncionario = ? AND status = 1";
         $requestFunc = $this->select($sqlFunc, [$this->intIdFuncionario]);
         
         if (empty($requestFunc)) {
@@ -119,7 +119,7 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT f.idefuncionario, f.nombre_completo, SUM(v.monto) as total_viaticos
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
+                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 GROUP BY f.idefuncionario, f.nombre_completo";
         $request = $this->select_all($sql, [$year]);
@@ -132,7 +132,7 @@ class FuncionariosViaticosModel extends Mysql
         $sql = "SELECT v.idViatico, f.nombre_completo, v.descripcion, v.monto, 
                 v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso, v.estatus
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
+                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
@@ -144,7 +144,7 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT v.*, f.nombre_completo
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
+                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE v.idViatico = ?";
         $request = $this->select($sql, [$idViatico]);
         return $request;
@@ -155,7 +155,7 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT v.*, f.nombre_completo
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios f ON v.funci_fk = f.idefuncionario
+                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ?
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
@@ -167,7 +167,7 @@ class FuncionariosViaticosModel extends Mysql
     {
         // Consulta directa para obtener funcionarios con contrato de tipo 1 (Carrera) o 2 (Libre Nombramiento)
         $sql = "SELECT f.idefuncionario, f.nombre_completo, c.tipo_cont 
-                FROM tbl_funcionarios f 
+                FROM tbl_funcionarios_planta f 
                 INNER JOIN tbl_contrato c ON f.contrato_fk = c.id_contrato 
                 WHERE f.contrato_fk IN (1, 2) AND f.status = 1";
         
@@ -246,7 +246,7 @@ class FuncionariosViaticosModel extends Mysql
     
     public function selectFuncionariosPlanta() {
         $sql = "SELECT idefuncionario, nombre_completo, contrato_fk 
-                FROM tbl_funcionarios 
+                FROM tbl_funcionarios_planta 
                 WHERE contrato_fk IN (1, 2) AND status = 1";
         $request = $this->select_all($sql);
         return $request;

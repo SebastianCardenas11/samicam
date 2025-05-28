@@ -27,13 +27,19 @@ class FuncionariosOps extends Controllers
         $data['page_title'] = "Funcionarios Ops";
         $data['page_name'] = "Funcionarios Ops";
         $data['page_functions_js'] = "functions_funcionariosOps.js";
+        
+        // Registrar acceso al módulo
+        $this->registrarAccesoModulo("Funcionarios Ops");
+        
         $this->views->getView($this, "funcionariosOps", $data);
     }
 
 
     public function setFuncionario()
     {
-        error_reporting(0);
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+        error_log("Iniciando setFuncionario en FuncionariosOps");
     
         if ($_POST) {
             if (
@@ -77,28 +83,35 @@ class FuncionariosOps extends Controllers
                 if ($intIdeFuncionario == 0) {
                     $option = 1;
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertFuncionario(
-                            $strCorreo,
-                            $strNombre,
-                            $strImagen,
-                            $intStatus,
-                            $strIdentificacion,
-                            $intCargo,
-                            $intDependencia,
-                            $intContrato,
-                            $strCelular,
-                            $strDireccion,
-                            $strFechaIngreso,
-                            $strHijos,
-                            $strNombresHijos,
-                            $strSexo,
-                            $strLugarResidencia,
-                            $intEdad,
-                            $strEstadoCivil,
-                            $strReligion,
-                            $strFormacionAcademica,
-                            $strNombreFormacion
-                        );                        
+                        try {
+                            error_log("Llamando a insertFuncionario en el modelo con datos: " . $strNombre);
+                            $request = $this->model->insertFuncionario(
+                                $strCorreo,
+                                $strNombre,
+                                $strImagen,
+                                $intStatus,
+                                $strIdentificacion,
+                                $intCargo,
+                                $intDependencia,
+                                $intContrato,
+                                $strCelular,
+                                $strDireccion,
+                                $strFechaIngreso,
+                                $strHijos,
+                                $strNombresHijos,
+                                $strSexo,
+                                $strLugarResidencia,
+                                $intEdad,
+                                $strEstadoCivil,
+                                $strReligion,
+                                $strFormacionAcademica,
+                                $strNombreFormacion
+                            );
+                            error_log("Resultado de insertFuncionario: " . print_r($request, true));
+                        } catch (Exception $e) {
+                            error_log("Error en setFuncionario: " . $e->getMessage());
+                            $request = 0;
+                        }
                     }
                 } else {
                     // Para actualización, verificar si hay una nueva imagen
@@ -110,29 +123,34 @@ class FuncionariosOps extends Controllers
                     
                     $option = 2;
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateFuncionario(
-                            $intIdeFuncionario,
-                            $strCorreo,
-                            $strNombre,
-                            $strImagen,
-                            $intStatus,
-                            $strIdentificacion,
-                            $intCargo,
-                            $intDependencia,
-                            $intContrato,
-                            $strCelular,
-                            $strDireccion,
-                            $strFechaIngreso,
-                            $strHijos,
-                            $strNombresHijos,
-                            $strSexo,
-                            $strLugarResidencia,
-                            $intEdad,
-                            $strEstadoCivil,
-                            $strReligion,
-                            $strFormacionAcademica,
-                            $strNombreFormacion
-                        );
+                        try {
+                            $request = $this->model->updateFuncionario(
+                                $intIdeFuncionario,
+                                $strCorreo,
+                                $strNombre,
+                                $strImagen,
+                                $intStatus,
+                                $strIdentificacion,
+                                $intCargo,
+                                $intDependencia,
+                                $intContrato,
+                                $strCelular,
+                                $strDireccion,
+                                $strFechaIngreso,
+                                $strHijos,
+                                $strNombresHijos,
+                                $strSexo,
+                                $strLugarResidencia,
+                                $intEdad,
+                                $strEstadoCivil,
+                                $strReligion,
+                                $strFormacionAcademica,
+                                $strNombreFormacion
+                            );
+                        } catch (Exception $e) {
+                            error_log("Error en updateFuncionario: " . $e->getMessage());
+                            $request = 0;
+                        }
                     }
                 }
     
@@ -146,9 +164,12 @@ class FuncionariosOps extends Controllers
                     
                     $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
                     $arrResponse = array("status" => true, "msg" => $msg);
-                } else if ($request == 'exist') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El funcionario ya existe.');
+                } else if ($request == 'exist_email') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El correo electrónico ya está registrado en el sistema.');
+                } else if ($request == 'exist_id') {
+                    $arrResponse = array("status" => false, "msg" => '¡Atención! El número de identificación ya está registrado en el sistema.');
                 } else {
+                    error_log("Error al insertar funcionario OPS. Valor de request: " . print_r($request, true));
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
             }
@@ -191,13 +212,17 @@ class FuncionariosOps extends Controllers
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger  btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
        
                 }
-
                 
+                // Botón para migrar a planta
+                $btnMigrar = '';
+                if ($_SESSION['permisosMod']['w']) {
+                    $btnMigrar = '<button class="btn btn-success" onClick="fntMigrarInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Migrar a Planta"><i class="bi bi-arrow-up-circle"></i> Migrar</button>';
+                }
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMigrar . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -246,4 +271,20 @@ class FuncionariosOps extends Controllers
         die();
     }
     
+    public function getFuncionarioParaMigrar($idefuncionario)
+    {
+        if ($_SESSION['permisosMod']['w']) {
+            $idefuncionario = intval($idefuncionario);
+            if ($idefuncionario > 0) {
+                $arrData = $this->model->selectFuncionario($idefuncionario);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
 }
