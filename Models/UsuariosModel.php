@@ -72,7 +72,7 @@ class UsuariosModel extends Mysql
 
     public function selectUsuario(int $ideusuario){
         $this->intIdeUsuario = $ideusuario;
-        $sql = "SELECT u.ideusuario,u.correo,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol
+        $sql = "SELECT u.ideusuario,u.correo,u.nombres,u.rolid,u.status,r.idrol,r.nombrerol,u.password
                 FROM tbl_usuarios u
                 INNER JOIN rol r
                 ON u.rolid = r.idrol
@@ -106,6 +106,45 @@ class UsuariosModel extends Mysql
             $arrData = array(
                 $this->strCorreoUsuario,
                 $this->strNombresUsuario,
+                $this->strRolUsuario,
+                $this->strStatusUsuario
+            );
+            
+            $request = $this->update($sql, $arrData);
+        } else {
+            $request = "exist";
+        }
+        return $request;
+    }
+
+    //ACTUALIZAR USUARIO CON CONTRASEÑA
+    public function updateUsuarioConPassword(
+        int $ideusuario,
+        string $correo,
+        string $nombres,
+        string $password,
+        string $rol,
+        string $status
+    ) {
+
+        $this->intIdeUsuario = $ideusuario;
+        $this->strCorreoUsuario = $correo;
+        $this->strNombresUsuario = $nombres;
+        $this->strPassword = $password;
+        $this->strRolUsuario = $rol;
+        $this->strStatusUsuario = $status;
+
+        $sql = "SELECT * FROM tbl_usuarios WHERE (correo = '{$this->strCorreoUsuario}' AND ideusuario != $this->intIdeUsuario)";
+        $request = $this->select_all($sql);
+
+        if (empty($request)) {
+            $sql = "UPDATE tbl_usuarios SET correo=?, nombres=?, password=?, rolid=?, status=?
+                    WHERE ideusuario = $this->intIdeUsuario ";
+
+            $arrData = array(
+                $this->strCorreoUsuario,
+                $this->strNombresUsuario,
+                $this->strPassword,
                 $this->strRolUsuario,
                 $this->strStatusUsuario
             );

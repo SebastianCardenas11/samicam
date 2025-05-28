@@ -44,3 +44,21 @@
 [2025-05-28 09:58:01] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
 [2025-05-28 10:00:54] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-05-28 10:00:55] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-05-28 16:51:51] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 16:52:16] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 16:52:47] ID: 8 | Usuario: Secretaria Luz | Correo: secretaria.ntic@gmail.com.co | Rol: Jefe Talento Humano | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-28 16:52:47] ID: 8 | Usuario: Secretaria Luz | Rol: Jefe Talento Humano | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-05-28 16:52:51] ID: 8 | Usuario: Secretaria Luz | Correo: secretaria.ntic@gmail.com.co | Rol: Jefe Talento Humano | IP: ::1 | Acción: Cierre de sesión
+[2025-05-28 16:58:48] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 16:59:34] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:01:00] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:01:06] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:01:34] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:23:44] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:33:50] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:46:56] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:47:06] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:54:33] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:54:55] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-28 17:55:43] ID: 8 | Usuario: Secretaria Luz | Correo: secretaria.ntic@gmail.com.co | Rol: Jefe Talento Humano | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-28 17:55:43] ID: 8 | Usuario: Secretaria Luz | Rol: Jefe Talento Humano | IP: ::1 | Acción: Acceso al módulo Dashboard

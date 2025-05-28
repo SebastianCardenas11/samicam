@@ -180,3 +180,59 @@ Values: Array
 
 Success! Rows affected: 0
 
+2025-05-28 16:52:16 - Query: UPDATE tbl_usuarios SET correo=?, nombres=?, password=?, rolid=?, status=?
+                    WHERE ideusuario = 8 
+Values: Array
+(
+    [0] => secretaria.ntic@gmail.com.co
+    [1] => Secretaria Luz
+    [2] => 8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414
+    [3] => 2
+    [4] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 17:01:05 - Query: UPDATE tbl_usuarios SET correo=?, nombres=?, password=?, rolid=?, status=?
+                    WHERE ideusuario = 8 
+Values: Array
+(
+    [0] => secretaria.ntic@gmail.com.co
+    [1] => Secretaria Luz
+    [2] => 6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918
+    [3] => 2
+    [4] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 17:47:06 - Query: UPDATE tbl_usuarios SET correo=?, nombres=?, password=?, rolid=?, status=?
+                    WHERE ideusuario = 8 
+Values: Array
+(
+    [0] => secretaria.ntic@gmail.com.co
+    [1] => Secretaria Luz
+    [2] => a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3
+    [3] => 2
+    [4] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 17:54:55 - Query: UPDATE tbl_usuarios SET correo=?, nombres=?, password=?, rolid=?, status=?
+                    WHERE ideusuario = 8 
+Values: Array
+(
+    [0] => secretaria.ntic@gmail.com.co
+    [1] => Secretaria Luz
+    [2] => 5b395959933ad933267f8e503d63b7aa8112523a66b8be4895b54a9a026682d0
+    [3] => 2
+    [4] => 1
+)
+
+
+Success! Rows affected: 1
+
