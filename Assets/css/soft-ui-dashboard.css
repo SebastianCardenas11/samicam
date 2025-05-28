@@ -28124,3 +28124,25 @@ div#tableCargos_length label {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
+
+
+
+
+
+
+
+/* Aplica solo a la tabla con id "tableUsuarios" */
+#tableUsuarios td,
+#tableRoles td,
+#tableFuncionarios td,
+#tableCargos td,
+#tableUsuarios th,
+#tableRoles th,
+#tableFuncionarios th,
+#tableCargos th {
+  vertical-align: middle !important;
+  text-align: center !important;
+  height: 80px; /* Puedes ajustar esta altura */
+  padding: 10px;
+}
+

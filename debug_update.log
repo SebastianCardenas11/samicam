@@ -147,3 +147,36 @@ Values: Array
 
 Success! Rows affected: 1
 
+2025-05-28 09:50:41 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-28'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-28 09:50:50 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-28'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-28 10:00:57 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-28'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
