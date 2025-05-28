@@ -278,68 +278,94 @@ class FuncionariosViaticos extends Controllers
             exit();
         }
 
-        // Crear PDF
-        require_once 'Libraries/pdf/fpdf.php';
-        $pdf = new FPDF('P', 'mm', 'Letter');
-        $pdf->AddPage();
-        $pdf->SetTitle('Reporte de Viático');
+        // Generar HTML directamente
+        $html = '<!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Reporte de Viático</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #333; text-align: center; margin-bottom: 20px; }
+                .report-container { max-width: 800px; margin: 0 auto; }
+                .report-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                .report-table td { padding: 8px; }
+                .label { font-weight: bold; width: 30%; }
+                .value { width: 70%; }
+                .signatures { margin-top: 50px; width: 100%; }
+                .signature { width: 45%; display: inline-block; text-align: center; }
+                .signature-line { border-top: 1px solid black; margin-bottom: 5px; width: 80%; display: inline-block; }
+                .btn-container { text-align: right; margin: 20px 0; }
+                .btn { padding: 8px 15px; margin-left: 10px; cursor: pointer; border: none; border-radius: 4px; color: white; }
+                .btn-print { background-color: #4CAF50; }
+                .btn-back { background-color: #f44336; }
+                @media print {
+                    .btn-container { display: none; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="report-container">
+                <div class="btn-container">
+                    <button class="btn btn-print" onclick="window.print()">Imprimir</button>
+                    <button class="btn btn-back" onclick="window.history.back()">Volver</button>
+                </div>
+                
+                <h1>REPORTE DE VIÁTICO</h1>
+                <p style="text-align: center;">Fecha de generación: ' . date('d/m/Y') . '</p>
+                
+                <table class="report-table">
+                    <tr>
+                        <td class="label">Funcionario:</td>
+                        <td class="value">' . $viatico['nombre_completo'] . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Descripción:</td>
+                        <td class="value">' . $viatico['descripcion'] . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Monto:</td>
+                        <td class="value">$' . number_format($viatico['monto'], 2, ',', '.') . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Fecha de Aprobación:</td>
+                        <td class="value">' . date('d/m/Y', strtotime($viatico['fecha_aprobacion'])) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Fecha de Salida:</td>
+                        <td class="value">' . date('d/m/Y', strtotime($viatico['fecha_salida'])) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Fecha de Regreso:</td>
+                        <td class="value">' . date('d/m/Y', strtotime($viatico['fecha_regreso'])) . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Uso:</td>
+                        <td class="value">' . $viatico['uso'] . '</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Estado:</td>
+                        <td class="value">' . (($viatico['estatus'] == 1) ? 'Activo' : 'Eliminado') . '</td>
+                    </tr>
+                </table>
+                
+                <div class="signatures">
+                    <div class="signature">
+                        <div class="signature-line"></div>
+                        <div>Firma del Funcionario</div>
+                    </div>
+                    <div class="signature">
+                        <div class="signature-line"></div>
+                        <div>Firma del Jefe de Talento Humano</div>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>';
         
-        // Encabezado
-        $pdf->SetFont('Arial', 'B', 14);
-        $pdf->Cell(0, 10, 'REPORTE DE VIÁTICO', 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(0, 5, 'Fecha de generación: ' . date('d/m/Y'), 0, 1, 'C');
-        $pdf->Ln(10);
-        
-        // Datos del viático
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Funcionario:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, $viatico['nombre_completo'], 0, 1);
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Descripción:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, $viatico['descripcion'], 0, 1);
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Monto:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, '$' . number_format($viatico['monto'], 2, ',', '.'), 0, 1);
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Fecha de Aprobación:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, date('d/m/Y', strtotime($viatico['fecha_aprobacion'])), 0, 1);
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Fecha de Salida:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, date('d/m/Y', strtotime($viatico['fecha_salida'])), 0, 1);
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Fecha de Regreso:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, date('d/m/Y', strtotime($viatico['fecha_regreso'])), 0, 1);
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Uso:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->MultiCell(0, 8, $viatico['uso'], 0, 'L');
-        
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->Cell(50, 8, 'Estado:', 0, 0);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, ($viatico['estatus'] == 1) ? 'Activo' : 'Eliminado', 0, 1);
-        
-        // Firmas
-        $pdf->Ln(20);
-        $pdf->Cell(90, 10, '___________________________', 0, 0, 'C');
-        $pdf->Cell(90, 10, '___________________________', 0, 1, 'C');
-        $pdf->Cell(90, 5, 'Firma del Funcionario', 0, 0, 'C');
-        $pdf->Cell(90, 5, 'Firma del Responsable', 0, 1, 'C');
-        
-        $pdf->Output('Viatico_' . $idViatico . '.pdf', 'I');
+        echo $html;
+        exit;
     }
 
     public function generarReporteAnual($year = null)
