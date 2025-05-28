@@ -21,7 +21,8 @@ class CargosModel extends Mysql
     ) {
         $this->strNombresCargos = $nombre;
         $this->strNivel = $nivel;
-        $this->intSalario = $salario;
+        // Asegurar que el salario se guarde como número
+        $this->intSalario = str_replace(',', '.', str_replace('.', '', $salario));
         $this->intEstatus = $status;
        
        
@@ -92,7 +93,8 @@ class CargosModel extends Mysql
         $this->intIdeCargos = $idecargos;
         $this->strNombresCargos = $nombre;
         $this->strNivel = $nivel;
-        $this->intSalario = $salario;
+        // Asegurar que el salario se guarde como número
+        $this->intSalario = str_replace(',', '.', str_replace('.', '', $salario));
         $this->intEstatus = $estatus;
 
         $sql = "SELECT * FROM tbl_cargos WHERE (nombre = '{$this->strNombresCargos}' AND idecargos != $this->intIdeCargos)";
@@ -103,7 +105,7 @@ class CargosModel extends Mysql
             if ($this->strNombresCargos != "" ) {
 
                 $sql = "UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
-						WHERE idecargos = $this->intIdeCargos ";
+					WHERE idecargos = $this->intIdeCargos ";
 
                 $arrData = array(
                     $this->strNombresCargos,

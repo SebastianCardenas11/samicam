@@ -180,3 +180,68 @@ Values: Array
 
 Success! Rows affected: 0
 
+2025-05-28 16:35:16 - Query: UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
+						WHERE idecargos = 3 
+Values: Array
+(
+    [0] => Técnico Administrativo (GD 3)
+    [1] => Técnico
+    [2] => 0
+    [3] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 16:36:18 - Query: UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
+						WHERE idecargos = 34 
+Values: Array
+(
+    [0] => hola
+    [1] => 1
+    [2] => 0
+    [3] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 17:07:18 - Query: UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
+					WHERE idecargos = 3 
+Values: Array
+(
+    [0] => Técnico Administrativo (GD 3)
+    [1] => Técnico
+    [2] => 2825896
+    [3] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 17:11:14 - Query: UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
+					WHERE idecargos = 33 
+Values: Array
+(
+    [0] => Tecnico Administrativo (GS 4)
+    [1] => Técnico
+    [2] => 3468469
+    [3] => 1
+)
+
+
+Success! Rows affected: 1
+
+2025-05-28 17:11:26 - Query: UPDATE tbl_cargos SET nombre=?, nivel=?, salario=?, estatus=?
+					WHERE idecargos = 3 
+Values: Array
+(
+    [0] => Técnico Administrativo (GS 3)
+    [1] => Técnico
+    [2] => 2825896
+    [3] => 1
+)
+
+
+Success! Rows affected: 1
+
