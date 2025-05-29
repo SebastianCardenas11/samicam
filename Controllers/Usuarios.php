@@ -163,8 +163,8 @@ class Usuarios extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
-                    // Añadir una contraseña simple para mostrar en el formulario
-                    $arrData['password_visible'] = "123";
+                    // No enviamos la contraseña al formulario
+                    $arrData['password_visible'] = "";
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

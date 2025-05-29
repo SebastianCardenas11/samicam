@@ -211,8 +211,8 @@ function fntEditInfo(element, ideusuario){
                 document.querySelector("#txtCorreoUsuario").value = objData.data.correo;
                 document.querySelector("#txtNombresUsuario").value = objData.data.nombres;
                 
-                // Mostrar la contraseña ficticia
-                document.querySelector("#txtContrasenaUsuario").value = objData.data.password_visible;
+                // Dejar el campo de contraseña vacío
+                document.querySelector("#txtContrasenaUsuario").value = "";
                 
                 // Asegurarse de que los roles estén cargados antes de establecer el valor
                 fntRolesUsuario();
