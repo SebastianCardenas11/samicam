@@ -38,11 +38,8 @@ class Auditoria extends Controllers
         $data['page_functions_js'] = "functions_auditoria.js";
         $data['page_id'] = 10;
         
-        // Registrar acceso al módulo solo si no es una recarga de página
-        if (!isset($_SESSION['auditoria_accessed']) || $_SESSION['auditoria_accessed'] === false) {
-            $this->registrarAccesoModulo("Auditoría");
-            $_SESSION['auditoria_accessed'] = true;
-        }
+        // Registrar acceso al módulo cada vez que se accede
+        $this->registrarAccesoModulo("Auditoría");
         
         $this->views->getView($this, "auditoria", $data);
     }
@@ -79,10 +76,62 @@ class Auditoria extends Controllers
     public function descargarHistorico()
     {
         if (file_exists($this->archivoHistorico)) {
-            header('Content-Type: text/plain');
-            header('Content-Disposition: attachment; filename="historicoAuditoria.txt"');
-            header('Content-Length: ' . filesize($this->archivoHistorico));
-            readfile($this->archivoHistorico);
+            $model = new AuditoriaModel();
+            $contenido = $model->getHistoricoCompleto();
+            
+            // Crear archivo Excel
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment; filename="historicoAuditoria.xls"');
+            
+            echo "<table border='1'>";
+            echo "<tr>";
+            echo "<th>Fecha</th>";
+            echo "<th>ID</th>";
+            echo "<th>Usuario</th>";
+            echo "<th>Rol</th>";
+            echo "<th>IP</th>";
+            echo "<th>Acción</th>";
+            echo "</tr>";
+            
+            $lineas = explode("\n", $contenido);
+            foreach ($lineas as $linea) {
+                if (empty(trim($linea))) continue;
+                
+                // Extraer fecha
+                preg_match('/\[(.*?)\]/', $linea, $fecha);
+                $fecha = isset($fecha[1]) ? $fecha[1] : '';
+                
+                // Extraer ID
+                preg_match('/ID: (.*?) \|/', $linea, $id);
+                $id = isset($id[1]) ? $id[1] : '';
+                
+                // Extraer Usuario
+                preg_match('/Usuario: (.*?) \|/', $linea, $usuario);
+                $usuario = isset($usuario[1]) ? $usuario[1] : '';
+                
+                // Extraer Rol
+                preg_match('/Rol: (.*?) \|/', $linea, $rol);
+                $rol = isset($rol[1]) ? $rol[1] : '';
+                
+                // Extraer IP
+                preg_match('/IP: (.*?) \|/', $linea, $ip);
+                $ip = isset($ip[1]) ? $ip[1] : '';
+                
+                // Extraer Acción
+                preg_match('/Acción: (.*)$/', $linea, $accion);
+                $accion = isset($accion[1]) ? $accion[1] : '';
+                
+                echo "<tr>";
+                echo "<td>$fecha</td>";
+                echo "<td>$id</td>";
+                echo "<td>$usuario</td>";
+                echo "<td>$rol</td>";
+                echo "<td>$ip</td>";
+                echo "<td>$accion</td>";
+                echo "</tr>";
+            }
+            
+            echo "</table>";
             exit;
         }
         
