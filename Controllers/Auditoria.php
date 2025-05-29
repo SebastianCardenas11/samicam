@@ -73,6 +73,42 @@ class Auditoria extends Controllers
         die();
     }
     
+    public function verAuditoriaModulo()
+    {
+        if ($_POST) {
+            $modulo = $_POST['modulo'];
+            $model = new AuditoriaModel();
+            
+            // Registrar el acceso actual al módulo
+            if (isset($_SESSION['userData'])) {
+                $userData = $_SESSION['userData'];
+                $idPersona = isset($userData['idpersona']) ? $userData['idpersona'] : 0;
+                $model->registrarAccesoModulo($idPersona, $userData['nombres'], $userData['nombrerol'], $modulo);
+            }
+            
+            $contenido = $model->getAuditoriaModulo($modulo);
+            
+            echo json_encode(['contenido' => $contenido], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
+    public function registrarAccesoJS()
+    {
+        if ($_POST) {
+            $modulo = $_POST['modulo'];
+            $model = new AuditoriaModel();
+            $userData = $_SESSION['userData'];
+            $idPersona = isset($userData['idpersona']) ? $userData['idpersona'] : 0;
+            
+            // Registrar el acceso al módulo
+            $model->registrarAccesoModulo($idPersona, $userData['nombres'], $userData['nombrerol'], $modulo);
+            
+            echo json_encode(['status' => true], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
     public function descargarHistorico()
     {
         if (file_exists($this->archivoHistorico)) {
