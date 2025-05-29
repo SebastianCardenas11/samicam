@@ -1,0 +1,2 @@
+[2025-05-29 08:56:56] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-05-29 09:00:48] ID: 8 | Usuario: Secretaria Luz | Correo: secretaria.ntic@gmail.com.co | Rol: Jefe Talento Humano | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 | Acción: Inicio de sesión
