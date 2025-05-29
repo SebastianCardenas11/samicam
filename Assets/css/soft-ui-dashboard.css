@@ -2670,7 +2670,7 @@ progress {
 
 .table-secondary {
   --bs-table-color: #000;
-  --bs-table-bg: rgb(226.6, 226.6, 228.4);
+  --bs-table-bg: rgb(215, 215, 216);
   --bs-table-border-color: rgb(203.94, 203.94, 205.56);
   --bs-table-striped-bg: rgb(215.27, 215.27, 216.98);
   --bs-table-striped-color: #000;
@@ -2684,7 +2684,7 @@ progress {
 
 .table-success {
   --bs-table-color: #000;
-  --bs-table-bg: rgb(210.8, 243.4, 222.8);
+  --bs-table-bg: rgb(229, 230, 229);
   --bs-table-border-color: rgb(189.72, 219.06, 200.52);
   --bs-table-striped-bg: rgb(200.26, 231.23, 211.66);
   --bs-table-striped-color: #000;
@@ -22118,7 +22118,7 @@ fieldset:disabled .btn {
 
 .btn-danger,
 .btn.bg-gradient-danger {
-  color: #000;
+  color: #fff;
 }
 
 .btn-danger:hover,
@@ -22138,7 +22138,7 @@ fieldset:disabled .btn {
 
 .btn-success,
 .btn.bg-gradient-success {
-  color: #000;
+  color: #fff;
 }
 
 .btn-success:hover,
@@ -27977,7 +27977,7 @@ pre[class*=language-] {
 }
 
 .nav-link:hover {
-  background-color: #b3d8ff;
+  background-color: #d4d4d4;
   /* Azul más oscuro */
 }
 
@@ -28097,33 +28097,6 @@ div#tableCargos_length label {
 
 
 
-/* Forzamos que el botón no use el padding vertical de Bootstrap */
-.app-title .btn-warning.btn-sm.mb-0.p-3 {
-  all: unset;                              /* Limpia TODOS los estilos heredados */
-  display: inline-block;
-  background-color: #91c8ff  !important;    /* Azul clarito */
-  color: black !important;
-  padding: 8px 18px !important;            /* ↓ Estilo más delgado */
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  left: 250px;
-  top: 0px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  line-height: 1.3;                        /* Ajusta altura de línea si es necesario */
-  text-align: center;
-  vertical-align: middle;
-}
-
-/* Hover más intenso */
-.app-title .btn-warning.btn-sm.mb-0.p-3:hover {
-  background-color: #3399ff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
 
 
 
@@ -28131,7 +28104,7 @@ div#tableCargos_length label {
 
 
 
-/* Aplica solo a la tabla con id "tableUsuarios" */
+/* Aplica solo a la tabla con id  */
 #tableUsuarios td,
 #tableRoles td,
 #tableFuncionarios td,
@@ -28146,3 +28119,11 @@ div#tableCargos_length label {
   padding: 10px;
 }
 
+
+.btn {
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}

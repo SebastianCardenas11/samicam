@@ -19,28 +19,28 @@
    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
      <ul class="navbar-nav">
        <li class="nav-item">
-         <a class="nav-link" href="<?= base_url(); ?>/dashboard">
+         <a class="nav-link <?= ($data['page_id'] == 1) ? 'active' : ''; ?>" href="<?= base_url(); ?>/dashboard">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-             <i class="bi bi-house-fill text-dark"></i> 
+             <i class="bi bi-house-fill text-dark"></i>
            </div>
            <span class="nav-link-text ms-1">Inicio</span>
          </a>
        </li>
-       
-       <?php 
-       $showAdminSection = false;
-       if (
-           (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) ||
-           (!empty($_SESSION['permisos'][MUSUARIOS]['r']) && (!isset($_SESSION['permisos'][MUSUARIOS]['v']) || $_SESSION['permisos'][MUSUARIOS]['v'] == 1))
-       ) {
-           $showAdminSection = true;
-       }
-       
-       if ($showAdminSection) { 
-       ?>
-       <li class="nav-item mt-2">
-         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestion Administrativa</h6>
-       </li>
+
+       <?php
+        $showAdminSection = false;
+        if (
+          (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) ||
+          (!empty($_SESSION['permisos'][MUSUARIOS]['r']) && (!isset($_SESSION['permisos'][MUSUARIOS]['v']) || $_SESSION['permisos'][MUSUARIOS]['v'] == 1))
+        ) {
+          $showAdminSection = true;
+        }
+
+        if ($showAdminSection) {
+        ?>
+         <li class="nav-item mt-2">
+           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestion Administrativa</h6>
+         </li>
        <?php } ?>
 
        <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
@@ -53,7 +53,7 @@
            </a>
          </li>
        <?php } ?>
-       
+
        <?php if (!empty($_SESSION['permisos'][MUSUARIOS]['r']) && (!isset($_SESSION['permisos'][MUSUARIOS]['v']) || $_SESSION['permisos'][MUSUARIOS]['v'] == 1)) { ?>
          <li class="nav-item">
            <a class="nav-link <?= ($data['page_id'] == 2) ? 'active' : ''; ?>" href="<?= base_url(); ?>/usuarios">
@@ -66,27 +66,27 @@
        <?php } ?>
 
        <?php
-       $showHRSection = false;
-       if (
-           (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) ||
-           (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) ||
-           (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) ||
-           (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) ||
-           (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1))
-       ) {
-           $showHRSection = true;
-       }
-       
-       if ($showHRSection) { 
-       ?>
-       <li class="nav-item mt-2">
-         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
-       </li>
+        $showHRSection = false;
+        if (
+          (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) ||
+          (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) ||
+          (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) ||
+          (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) ||
+          (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1))
+        ) {
+          $showHRSection = true;
+        }
+
+        if ($showHRSection) {
+        ?>
+         <li class="nav-item mt-2">
+           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
+         </li>
        <?php } ?>
 
        <?php if (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) { ?>
          <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
+           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-book text-dark"></i>
              </div>
@@ -94,7 +94,7 @@
            </a>
          </li>
        <?php } ?>
-       
+
        <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) { ?>
          <li class="nav-item">
            <a class="nav-link <?= ($data['page_id'] == 9) ? 'active' : ''; ?>" href="<?= base_url(); ?>/funcionariosPlanta">
@@ -105,10 +105,10 @@
            </a>
          </li>
        <?php } ?>
-       
+
        <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) { ?>
          <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">
+           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-person-fill-gear text-dark"></i>
              </div>
@@ -117,9 +117,9 @@
          </li>
        <?php } ?>
 
-        <?php if (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) { ?>
+       <?php if (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) { ?>
          <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/vacaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/vacaciones">
+           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/vacaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/vacaciones">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-calendar-week text-dark"></i>
              </div>
@@ -127,10 +127,10 @@
            </a>
          </li>
        <?php } ?>
-       
+
        <?php if (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1)) { ?>
          <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosviaticos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosviaticos">
+           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosviaticos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosviaticos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-cash-coin text-dark"></i>
              </div>
@@ -138,10 +138,10 @@
            </a>
          </li>
        <?php } ?>
-    
+
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
-          <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
+           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-file-earmark text-dark"></i>
              </div>
@@ -150,15 +150,15 @@
          </li>
        <?php } ?>
        <?php if ($_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
-  <li class="nav-item">
-    <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
-      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="bi bi-shield-lock text-dark"></i>
-      </div>
-      <span class="nav-link-text ms-1">Auditoría</span>
-    </a>
-  </li>
-<?php } ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-shield-lock text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Auditoría</span>
+           </a>
+         </li>
+       <?php } ?>
 
 
        <li class="nav-item mt-3">

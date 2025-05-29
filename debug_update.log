@@ -180,3 +180,100 @@ Values: Array
 
 Success! Rows affected: 0
 
+2025-05-28 10:02:43 - Query: UPDATE rol SET status = ? WHERE idrol = 11 
+Values: Array
+(
+    [0] => 0
+)
+
+
+Success! Rows affected: 1
+
+2025-05-29 10:47:38 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 10:47:44 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 11:01:52 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 11:14:23 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 11:25:26 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 11:25:52 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 11:25:54 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
+2025-05-29 11:25:55 - Query: UPDATE tbl_vacaciones 
+                SET estado = 'Cumplidas' 
+                WHERE estado = 'Aprobado' 
+                AND DATE(fecha_fin) <= '2025-05-29'
+Values: Array
+(
+)
+
+
+Success! Rows affected: 0
+
