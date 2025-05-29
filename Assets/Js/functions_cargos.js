@@ -89,9 +89,18 @@ document.addEventListener('DOMContentLoaded', function(){
                                 let htmlStatus = intEstatus == 1 ? 
                                 '<span class="badge text-bg-success">Activo</span>' : 
                                 '<span class="badge text-bg-danger">Inactivo</span>';
+                                
+                                // Actualizar las celdas de la tabla
                                 rowTable.cells[0].textContent = strNombresCargos;
                                 rowTable.cells[1].textContent = strNivel;
-                                rowTable.cells[2].textContent = intSalario;
+                                
+                                // Formatear el salario como peso colombiano
+                                let formattedSalario = '$ ' + parseFloat(intSalario).toLocaleString('es-CO', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }).replace(/\./g, ',').replace(/,(\d{2})$/, '.$1');
+                                
+                                rowTable.cells[2].textContent = formattedSalario;
                                 rowTable.cells[3].innerHTML = htmlStatus;
                                 rowTable = "";
                             }
@@ -194,7 +203,17 @@ function fntEditInfo(element, idecargos){
                     document.querySelector("#ideCargos").value = objData.data.idecargos;
                     document.querySelector("#txtNombresCargos").value = objData.data.nombre;
                     document.querySelector("#txtNivel").value = objData.data.nivel;
-                    document.querySelector("#txtSalario").value = objData.data.salario;
+                    
+                    // Extraer solo el valor numérico del salario (quitar formato de moneda)
+                    let salarioNumerico = objData.data.salario;
+                    if (typeof salarioNumerico === 'string') {
+                        salarioNumerico = salarioNumerico.replace(/[^\d.,]/g, '');
+                        salarioNumerico = salarioNumerico.replace(/\./g, '');
+                        salarioNumerico = salarioNumerico.replace(',', '.');
+                    }
+                    
+                    document.querySelector("#txtSalario").value = salarioNumerico;
+                    
                     if(document.querySelector("#listStatus")) {
                         document.querySelector("#listStatus").value = objData.data.estatus;
                     }
