@@ -68,15 +68,32 @@ class Usuarios extends Controllers
                     }
                 } else {
                     $option = 2;
-                    // No modificar la contraseña al actualizar
-                    if ($_SESSION['permisosMod']['u']) {
-                        $request_user = $this->model->updateUsuario(
-                            $intIdeUsuario,
-                            $strIdentificacionUsuario,
-                            $strNombresUsuario,
-                            $strRolUsuario,
-                            $intStatus
-                        );
+                    // Verificar si se proporcionó una nueva contraseña para actualizar
+                    if (!empty($_POST['txtContrasenaUsuario'])) {
+                        // Encriptar la contraseña
+                        $strPassword = hash("SHA256", $_POST['txtContrasenaUsuario']);
+                        
+                        if ($_SESSION['permisosMod']['u']) {
+                            $request_user = $this->model->updateUsuarioConPassword(
+                                $intIdeUsuario,
+                                $strIdentificacionUsuario,
+                                $strNombresUsuario,
+                                $strPassword,
+                                $strRolUsuario,
+                                $intStatus
+                            );
+                        }
+                    } else {
+                        // No modificar la contraseña al actualizar
+                        if ($_SESSION['permisosMod']['u']) {
+                            $request_user = $this->model->updateUsuario(
+                                $intIdeUsuario,
+                                $strIdentificacionUsuario,
+                                $strNombresUsuario,
+                                $strRolUsuario,
+                                $intStatus
+                            );
+                        }
                     }
                 }
                 
@@ -146,6 +163,8 @@ class Usuarios extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
+                    // No enviamos la contraseña al formulario
+                    $arrData['password_visible'] = "";
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

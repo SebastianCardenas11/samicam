@@ -2,7 +2,7 @@
 
 class Auditoria extends Controllers
 {
-    private $logDir = "uploads/auditoria";
+    private $archivoHistorico = "uploads/auditoria/historicoAuditoria.txt";
     
     public function __construct()
     {
@@ -38,111 +38,101 @@ class Auditoria extends Controllers
         $data['page_functions_js'] = "functions_auditoria.js";
         $data['page_id'] = 10;
         
-        // Registrar acceso al módulo solo si no es una recarga de página
-        // Verificamos si es la primera vez que se accede al módulo en esta sesión
-        if (!isset($_SESSION['auditoria_accessed']) || $_SESSION['auditoria_accessed'] === false) {
-            $this->registrarAccesoModulo("Auditoría");
-            $_SESSION['auditoria_accessed'] = true;
-        }
-        
-        // Obtener estructura de directorios
-        $data['anios'] = $this->getAniosDirectorios();
+        // Registrar acceso al módulo cada vez que se accede
+        $this->registrarAccesoModulo("Auditoría");
         
         $this->views->getView($this, "auditoria", $data);
     }
     
-    private function getAniosDirectorios()
+    public function registrarAccesoModulo($modulo)
     {
-        $anios = [];
-        
-        if (is_dir($this->logDir)) {
-            $dirs = scandir($this->logDir);
-            foreach ($dirs as $dir) {
-                if ($dir != "." && $dir != ".." && is_dir($this->logDir . "/" . $dir)) {
-                    $anios[] = $dir;
-                }
-            }
-        }
-        
-        return $anios;
+        $model = new AuditoriaModel();
+        $userData = $_SESSION['userData'];
+        $idPersona = isset($userData['idpersona']) ? $userData['idpersona'] : 0;
+        $model->registrarAccesoModulo($idPersona, $userData['nombres'], $userData['nombrerol'], $modulo);
     }
     
-    public function getMesesDirectorio()
+    public function verHistorico()
     {
-        if ($_POST) {
-            $anio = $_POST['anio'];
-            $dirAnio = $this->logDir . "/" . $anio;
-            $meses = [];
-            
-            if (is_dir($dirAnio)) {
-                $dirs = scandir($dirAnio);
-                foreach ($dirs as $dir) {
-                    if ($dir != "." && $dir != ".." && is_dir($dirAnio . "/" . $dir)) {
-                        $meses[] = $dir;
-                    }
-                }
-            }
-            
-            echo json_encode($meses, JSON_UNESCAPED_UNICODE);
-        }
+        $model = new AuditoriaModel();
+        $contenido = $model->getHistoricoCompleto();
+        
+        echo json_encode(['contenido' => $contenido], JSON_UNESCAPED_UNICODE);
         die();
     }
     
-    public function getArchivosDirectorio()
+    public function buscarEnHistorico()
     {
         if ($_POST) {
-            $anio = $_POST['anio'];
-            $mes = $_POST['mes'];
-            $dirMes = $this->logDir . "/" . $anio . "/" . $mes;
-            $archivos = [];
-            
-            if (is_dir($dirMes)) {
-                $files = scandir($dirMes);
-                foreach ($files as $file) {
-                    if ($file != "." && $file != ".." && is_file($dirMes . "/" . $file)) {
-                        $archivos[] = $file;
-                    }
-                }
-            }
-            
-            echo json_encode($archivos, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    
-    public function verArchivo()
-    {
-        if ($_POST) {
-            $anio = $_POST['anio'];
-            $mes = $_POST['mes'];
-            $archivo = $_POST['archivo'];
-            $ruta = $this->logDir . "/" . $anio . "/" . $mes . "/" . $archivo;
-            
-            $contenido = "";
-            if (file_exists($ruta)) {
-                $contenido = file_get_contents($ruta);
-            }
+            $termino = $_POST['termino'];
+            $model = new AuditoriaModel();
+            $contenido = $model->buscarEnHistorico($termino);
             
             echo json_encode(['contenido' => $contenido], JSON_UNESCAPED_UNICODE);
         }
         die();
     }
     
-    public function descargarArchivo()
+    public function descargarHistorico()
     {
-        if ($_GET) {
-            $anio = $_GET['anio'];
-            $mes = $_GET['mes'];
-            $archivo = $_GET['archivo'];
-            $ruta = $this->logDir . "/" . $anio . "/" . $mes . "/" . $archivo;
+        if (file_exists($this->archivoHistorico)) {
+            $model = new AuditoriaModel();
+            $contenido = $model->getHistoricoCompleto();
             
-            if (file_exists($ruta)) {
-                header('Content-Type: text/plain');
-                header('Content-Disposition: attachment; filename="' . $archivo . '"');
-                header('Content-Length: ' . filesize($ruta));
-                readfile($ruta);
-                exit;
+            // Crear archivo Excel
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment; filename="historicoAuditoria.xls"');
+            
+            echo "<table border='1'>";
+            echo "<tr>";
+            echo "<th>Fecha</th>";
+            echo "<th>ID</th>";
+            echo "<th>Usuario</th>";
+            echo "<th>Rol</th>";
+            echo "<th>IP</th>";
+            echo "<th>Acción</th>";
+            echo "</tr>";
+            
+            $lineas = explode("\n", $contenido);
+            foreach ($lineas as $linea) {
+                if (empty(trim($linea))) continue;
+                
+                // Extraer fecha
+                preg_match('/\[(.*?)\]/', $linea, $fecha);
+                $fecha = isset($fecha[1]) ? $fecha[1] : '';
+                
+                // Extraer ID
+                preg_match('/ID: (.*?) \|/', $linea, $id);
+                $id = isset($id[1]) ? $id[1] : '';
+                
+                // Extraer Usuario
+                preg_match('/Usuario: (.*?) \|/', $linea, $usuario);
+                $usuario = isset($usuario[1]) ? $usuario[1] : '';
+                
+                // Extraer Rol
+                preg_match('/Rol: (.*?) \|/', $linea, $rol);
+                $rol = isset($rol[1]) ? $rol[1] : '';
+                
+                // Extraer IP
+                preg_match('/IP: (.*?) \|/', $linea, $ip);
+                $ip = isset($ip[1]) ? $ip[1] : '';
+                
+                // Extraer Acción
+                preg_match('/Acción: (.*)$/', $linea, $accion);
+                $accion = isset($accion[1]) ? $accion[1] : '';
+                
+                echo "<tr>";
+                echo "<td>$fecha</td>";
+                echo "<td>$id</td>";
+                echo "<td>$usuario</td>";
+                echo "<td>$rol</td>";
+                echo "<td>$ip</td>";
+                echo "<td>$accion</td>";
+                echo "</tr>";
             }
+            
+            echo "</table>";
+            exit;
         }
         
         header('Location: ' . base_url() . '/auditoria');

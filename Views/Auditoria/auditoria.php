@@ -9,45 +9,50 @@ headerAdmin($data);
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Explorador de Auditoría de Inicios de Sesión</h6>
+                        <h6>Auditoría del Sistema</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="">
-                                        <div class="card-header">
-                                            <h6>Explorador de Archivos</h6>
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h6 class="text-dark"><i class="fas fa-search me-2"></i>Filtrar Registros</h6>
+                                            </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="file-explorer">
-                                                <ul class="file-tree">
-                                                    <?php foreach ($data['anios'] as $anio) : ?>
-                                                        <li class="folder-item">
-                                                            <span class="folder-toggle" data-anio="<?= $anio ?>">
-                                                                <i class="fas fa-folder"></i> <?= $anio ?>
-                                                            </span>
-                                                            <ul class="folder-content meses-container" id="meses-<?= $anio ?>" style="display: none;"></ul>
-                                                        </li>
-                                                    <?php endforeach; ?>
-                                                </ul>
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                                        <input type="text" id="busqueda-termino" class="form-control" placeholder="Buscar por usuario, acción, fecha, IP...">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button id="btn-buscar" class="btn btn-primary w-100">
+                                                        <i class="fas fa-search me-2"></i>Buscar
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header bg-light">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <h6 id="archivo-titulo" class="text-dark"><i class="fas fa-terminal me-2"></i>Visor de Acciones</h6>
-                                                <button id="btn-descargar" class="btn btn-sm btn-outline-primary" style="display: none;">
+                                                <h6 id="archivo-titulo" class="text-dark"><i class="fas fa-history me-2"></i>Histórico de Auditoría</h6>
+                                                <button id="btn-descargar" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-download"></i> Descargar
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="card-body p-0">
-                                            <pre id="archivo-contenido" class="p-3 bg-white text-dark terminal-style" style="height: 700px; overflow-y: auto; font-family: 'Consolas', monospace; font-size: 0.95rem; line-height: 1.6; margin: 0; border-radius: 0 0 0.5rem 0.5rem; border-top: 1px solid #eee;">$ cat /logs/system
-> Seleccione un archivo para ver su contenido...</pre>
+                                            <pre id="archivo-contenido" class="p-3 bg-white text-dark terminal-style" style="height: 700px; overflow-y: auto; font-family: 'Consolas', monospace; font-size: 0.95rem; line-height: 1.6; margin: 0; border-radius: 0 0 0.5rem 0.5rem; border-top: 1px solid #eee;">$ cat /logs/historicoAuditoria.txt
+> Cargando registros de auditoría...</pre>
                                         </div>
                                     </div>
                                 </div>
@@ -63,65 +68,6 @@ headerAdmin($data);
 <?php footerAdmin($data); ?>
 
 <style>
-    .file-tree {
-        list-style: none;
-        padding-left: 0;
-        font-size: 1.1rem;
-    }
-    
-    .file-tree ul {
-        list-style: none;
-        padding-left: 25px;
-    }
-    
-    .folder-item, .file-item {
-        padding: 8px 0;
-    }
-    
-    .folder-toggle {
-        cursor: pointer;
-        display: block;
-        padding: 5px;
-        border-radius: 4px;
-        transition: background-color 0.2s;
-    }
-    
-    .folder-toggle:hover {
-        color: #5e72e4;
-        background-color: rgba(94, 114, 228, 0.1);
-    }
-    
-    .file-item {
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 4px;
-        transition: background-color 0.2s;
-    }
-    
-    .file-item:hover {
-        color: #5e72e4;
-        background-color: rgba(94, 114, 228, 0.1);
-    }
-    
-    .file-item.active {
-        font-weight: bold;
-        color: #5e72e4;
-        background-color: rgba(94, 114, 228, 0.15);
-    }
-    
-    .folder-toggle-mes {
-        cursor: pointer;
-        display: block;
-        padding: 5px;
-        border-radius: 4px;
-        transition: background-color 0.2s;
-    }
-    
-    .folder-toggle-mes:hover {
-        color: #5e72e4;
-        background-color: rgba(94, 114, 228, 0.1);
-    }
-    
     .terminal-style {
         font-family: 'Consolas', 'Courier New', monospace;
         background-color: #ffffff !important;
@@ -158,5 +104,12 @@ headerAdmin($data);
     
     .terminal-style .success {
         color: #28a745;
+    }
+    
+    .highlight {
+        background-color: #ffff99;
+        color: #000;
+        padding: 2px;
+        border-radius: 2px;
     }
 </style>

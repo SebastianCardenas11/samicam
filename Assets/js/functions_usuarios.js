@@ -45,6 +45,24 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Cargar roles al inicio
     fntRolesUsuario();
+    
+    // Configurar el botón para mostrar/ocultar contraseña
+    if(document.querySelector("#btnTogglePassword")){
+        document.querySelector("#btnTogglePassword").addEventListener("click", function(){
+            const passwordInput = document.querySelector("#txtContrasenaUsuario");
+            const icon = this.querySelector("i");
+            
+            if(passwordInput.type === "text"){
+                passwordInput.type = "password";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                passwordInput.type = "text";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            }
+        });
+    }
 
 	if(document.querySelector("#formUsuario")){
         let formUsuario = document.querySelector("#formUsuario");
@@ -71,9 +89,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     Swal.fire("Atención", "La contraseña es obligatoria para crear un usuario." , "error");
                     return false;
                 }
-                // Quitar el atributo required en modo edición para evitar validación HTML5
-            } else {
-                document.querySelector('#txtContrasenaUsuario').removeAttribute('required');
             }
             
             let elementsValid = document.getElementsByClassName("valid");
@@ -179,9 +194,7 @@ function fntEditInfo(element, ideusuario){
     document.querySelector('#btnActionForm').classList.replace("btn-success", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";
     
-    // Ocultar el campo de contraseña en modo edición
-    document.querySelector('#divContrasena').style.display = 'none';
-    // Quitar el atributo required para evitar validación HTML5
+    document.querySelector('#divContrasena').style.display = 'block';
     document.querySelector('#txtContrasenaUsuario').removeAttribute('required');
     
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -197,6 +210,9 @@ function fntEditInfo(element, ideusuario){
                 document.querySelector("#ideUsuario").value = objData.data.ideusuario;
                 document.querySelector("#txtCorreoUsuario").value = objData.data.correo;
                 document.querySelector("#txtNombresUsuario").value = objData.data.nombres;
+                
+                // Dejar el campo de contraseña vacío
+                document.querySelector("#txtContrasenaUsuario").value = "";
                 
                 // Asegurarse de que los roles estén cargados antes de establecer el valor
                 fntRolesUsuario();
