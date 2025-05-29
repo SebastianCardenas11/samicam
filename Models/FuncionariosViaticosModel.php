@@ -37,14 +37,6 @@ class FuncionariosViaticosModel extends Mysql
 
         $return = 0;
         
-        // Verificar que el funcionario existe
-        $sqlFunc = "SELECT idefuncionario FROM tbl_funcionarios_planta WHERE idefuncionario = ? AND status = 1";
-        $requestFunc = $this->select($sqlFunc, [$this->intIdFuncionario]);
-        
-        if (empty($requestFunc)) {
-            return "nofunc"; // Funcionario no existe o no está activo
-        }
-        
         // Verificar si hay suficiente capital disponible
         $year = date('Y', strtotime($this->strFechaAprobacion));
         $capitalDisponible = $this->getCapitalDisponible($year);
@@ -117,11 +109,12 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener histórico de viáticos otorgados por funcionario para el año
     public function getHistoricoViaticos($year)
     {
-        $sql = "SELECT f.idefuncionario, f.nombre_completo, SUM(v.monto) as total_viaticos
+        $sql = "SELECT v.funci_fk as idefuncionario, 
+                CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo, 
+                SUM(v.monto) as total_viaticos
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
-                GROUP BY f.idefuncionario, f.nombre_completo";
+                GROUP BY v.funci_fk";
         $request = $this->select_all($sql, [$year]);
         return $request;
     }
@@ -129,10 +122,11 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener detalle de viáticos otorgados a funcionarios con descripción y uso
     public function getDetalleViaticos($year)
     {
-        $sql = "SELECT v.idViatico, f.nombre_completo, v.descripcion, v.monto, 
+        $sql = "SELECT v.idViatico, 
+                CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo, 
+                v.descripcion, v.monto, 
                 v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso, v.estatus
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
@@ -142,9 +136,8 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener un viático específico por ID
     public function getViatico(int $idViatico)
     {
-        $sql = "SELECT v.*, f.nombre_completo
+        $sql = "SELECT v.*, CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE v.idViatico = ?";
         $request = $this->select($sql, [$idViatico]);
         return $request;
@@ -153,9 +146,8 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener todos los viáticos del año (activos y eliminados)
     public function getAllViaticos($year)
     {
-        $sql = "SELECT v.*, f.nombre_completo
+        $sql = "SELECT v.*, CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo
                 FROM tbl_viaticos v
-                INNER JOIN tbl_funcionarios_planta f ON v.funci_fk = f.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ?
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
@@ -165,11 +157,12 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener funcionarios con tipo de contrato Carrera o Libre nombramiento
     public function getFuncionariosValidos()
     {
-        // Consulta directa para obtener funcionarios con contrato de tipo 1 (Carrera) o 2 (Libre Nombramiento)
-        $sql = "SELECT f.idefuncionario, f.nombre_completo, c.tipo_cont 
-                FROM tbl_funcionarios_planta f 
-                INNER JOIN tbl_contrato c ON f.contrato_fk = c.id_contrato 
-                WHERE f.contrato_fk IN (1, 2) AND f.status = 1";
+        // Devolver los IDs de funcionarios que ya tienen viáticos
+        $sql = "SELECT DISTINCT funci_fk as idefuncionario, 
+                CONCAT('Funcionario ID: ', funci_fk) as nombre_completo, 
+                'N/A' as tipo_cont
+                FROM tbl_viaticos 
+                WHERE estatus = 1";
         
         $request = $this->select_all($sql);
         return $request;
@@ -245,9 +238,11 @@ class FuncionariosViaticosModel extends Mysql
     }
     
     public function selectFuncionariosPlanta() {
-        $sql = "SELECT idefuncionario, nombre_completo, contrato_fk 
-                FROM tbl_funcionarios_planta 
-                WHERE contrato_fk IN (1, 2) AND status = 1";
+        // Devolver los IDs de funcionarios que ya tienen viáticos
+        $sql = "SELECT DISTINCT funci_fk as idefuncionario, 
+                CONCAT('Funcionario ID: ', funci_fk) as nombre_completo, 
+                0 as contrato_fk
+                FROM tbl_viaticos";
         $request = $this->select_all($sql);
         return $request;
     }
