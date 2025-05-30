@@ -204,9 +204,10 @@ function fntViewTarea(idtarea) {
                 let fechaActual = new Date();
                 let fechaFin = new Date(objTarea.fecha_fin);
                 
-                if(idUsuarioActual == objTarea.id_usuario_asignado && 
-                   objTarea.estado != 'completada' && 
-                   fechaFin > fechaActual) {
+                // Ocultar siempre el botón de editar observación si la tarea está completada
+                if(objTarea.estado === 'completada') {
+                    divEditarObservacion.style.display = "none";
+                } else if(idUsuarioActual == objTarea.id_usuario_asignado && fechaFin > fechaActual) {
                     divEditarObservacion.style.display = "block";
                     document.querySelector("#idTareaObs").value = objTarea.id_tarea;
                     document.querySelector("#txtObservacionEdit").value = objTarea.observacion || '';
@@ -359,34 +360,47 @@ function fntCompleteTarea(idtarea) {
     Swal.fire({
         title: "Completar Tarea",
         text: "¿Está seguro de marcar esta tarea como completada?",
-        icon: "info",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Si, completar!",
         cancelButtonText: "No, cancelar!",
-        closeOnConfirm: false,
-        closeOnCancel: true
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
     }).then((result) => {
         if (result.isConfirmed) {
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Tareas/completeTarea';
-            let strData = "idTarea="+idtarea;
-            request.open("POST",ajaxUrl,true);
-            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            request.send(strData);
-            request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.status) {
-                        Swal.fire("Tarea completada!", objData.msg, "success");
-                        tableTareas.api().ajax.reload();
-                        if(window.calendar) {
-                            window.calendar.refetchEvents();
+            Swal.fire({
+                title: "Confirmación adicional",
+                text: "Esta acción no se puede deshacer. ¿Realmente desea marcar la tarea como completada?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, completar definitivamente!",
+                cancelButtonText: "No, cancelar!",
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33'
+            }).then((confirmResult) => {
+                if (confirmResult.isConfirmed) {
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = base_url+'/Tareas/completeTarea';
+                    let strData = "idTarea="+idtarea;
+                    request.open("POST",ajaxUrl,true);
+                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    request.send(strData);
+                    request.onreadystatechange = function(){
+                        if(request.readyState == 4 && request.status == 200){
+                            let objData = JSON.parse(request.responseText);
+                            if(objData.status) {
+                                Swal.fire("Tarea completada!", objData.msg, "success");
+                                tableTareas.api().ajax.reload();
+                                if(window.calendar) {
+                                    window.calendar.refetchEvents();
+                                }
+                            } else {
+                                Swal.fire("Atención!", objData.msg, "error");
+                            }
                         }
-                    } else {
-                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
-            }
+            });
         }
     });
 }

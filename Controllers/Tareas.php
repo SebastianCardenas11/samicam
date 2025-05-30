@@ -76,11 +76,17 @@
                     $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewTarea('.$arrData[$i]['id_tarea'].')" title="Ver tarea"><i class="far fa-eye"></i></button>';
                 }
 
+                // Si la tarea está completada, solo mostrar el botón de ver
+                if($arrData[$i]['estado'] == '<span class="badge badge-success">Completada</span>') {
+                    $arrData[$i]['options'] = '<div class="text-center">'.$btnView.'</div>';
+                    continue; // Saltar al siguiente ciclo
+                }
+
                 // Si es el creador de la tarea
                 if($_SESSION['idUser'] == $arrData[$i]['id_usuario_creador'] && $_SESSION['permisosMod']['u']){
                     $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditTarea('.$arrData[$i]['id_tarea'].')" title="Editar tarea"><i class="fas fa-pencil-alt"></i></button>';
                     
-                    if($arrData[$i]['estado'] != 'completada') {
+                    if($arrData[$i]['estado'] != '<span class="badge badge-success">Completada</span>') {
                         $btnComplete = '<button class="btn btn-success btn-sm" onClick="fntCompleteTarea('.$arrData[$i]['id_tarea'].')" title="Marcar como completada"><i class="fas fa-check"></i></button>';
                     }
                     
