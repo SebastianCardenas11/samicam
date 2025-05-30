@@ -22,6 +22,8 @@
         public function getTareas()
         {
             $sql = "SELECT t.*, 
+                    DATE_FORMAT(t.fecha_inicio, '%Y-%m-%d') as fecha_inicio,
+                    DATE_FORMAT(t.fecha_fin, '%Y-%m-%d') as fecha_fin,
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre,
@@ -59,6 +61,8 @@
         {
             // Primero obtenemos las tareas donde el usuario es el asignado principal
             $sql = "SELECT t.*, 
+                    DATE_FORMAT(t.fecha_inicio, '%Y-%m-%d') as fecha_inicio,
+                    DATE_FORMAT(t.fecha_fin, '%Y-%m-%d') as fecha_fin,
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre,
@@ -72,6 +76,8 @@
                     UNION
                     
                     SELECT t.*, 
+                    DATE_FORMAT(t.fecha_inicio, '%Y-%m-%d') as fecha_inicio,
+                    DATE_FORMAT(t.fecha_fin, '%Y-%m-%d') as fecha_fin,
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre,
@@ -148,6 +154,8 @@
         public function getTarea($id_tarea)
         {
             $sql = "SELECT t.*, 
+                    DATE_FORMAT(t.fecha_inicio, '%Y-%m-%d') as fecha_inicio,
+                    DATE_FORMAT(t.fecha_fin, '%Y-%m-%d') as fecha_fin,
                     DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') as fecha_inicio_format,
                     DATE_FORMAT(t.fecha_fin, '%d/%m/%Y') as fecha_fin_format,
                     DATE_FORMAT(t.fecha_completada, '%d/%m/%Y') as fecha_completada,
@@ -218,7 +226,11 @@
             
             $sql = "INSERT INTO tbl_tareas (id_usuario_creador, id_usuario_asignado, tipo, descripcion, 
                     dependencia_fk, fecha_inicio, fecha_fin) 
-                    VALUES (?, ?, ?, ?, ?, DATE(?), DATE(?));";
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            // Formatear las fechas para eliminar la hora
+            $this->fecha_inicio = date('Y-m-d', strtotime($this->fecha_inicio));
+            $this->fecha_fin = date('Y-m-d', strtotime($this->fecha_fin));
             
             $arrData = array($this->id_usuario_creador, $id_usuario_principal, $this->tipo, 
                             $this->descripcion, $this->dependencia_fk, $this->fecha_inicio, 
@@ -272,8 +284,12 @@
             $id_usuario_principal = $usuarios_asignados[0];
             
             $sql = "UPDATE tbl_tareas SET id_usuario_asignado = ?, tipo = ?, descripcion = ?, 
-                    dependencia_fk = ?, estado = ?, fecha_inicio = DATE(?), fecha_fin = DATE(?) 
+                    dependencia_fk = ?, estado = ?, fecha_inicio = ?, fecha_fin = ? 
                     WHERE id_tarea = ?";
+            
+            // Formatear las fechas para eliminar la hora
+            $this->fecha_inicio = date('Y-m-d', strtotime($this->fecha_inicio));
+            $this->fecha_fin = date('Y-m-d', strtotime($this->fecha_fin));
             $arrData = array($id_usuario_principal, $this->tipo, $this->descripcion, 
                             $this->dependencia_fk, $this->estado, $this->fecha_inicio, 
                             $this->fecha_fin, $this->id_tarea);
@@ -341,7 +357,7 @@
             $this->estado = $estado;
             
             if($estado == 'completada') {
-                $sql = "UPDATE tbl_tareas SET estado = ?, fecha_completada = DATE(NOW()) WHERE id_tarea = ?";
+                $sql = "UPDATE tbl_tareas SET estado = ?, fecha_completada = CURDATE() WHERE id_tarea = ?";
             } else {
                 $sql = "UPDATE tbl_tareas SET estado = ? WHERE id_tarea = ?";
             }

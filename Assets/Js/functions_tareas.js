@@ -18,8 +18,12 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"descripcion"},
             {"data":"dependencia_nombre"},
             {"data":"estado"},
-            {"data":"fecha_inicio"},
-            {"data":"fecha_fin"},
+            {"data":"fecha_inicio", "render": function(data) {
+                return data.split(' ')[0]; // Mostrar solo la parte de la fecha
+            }},
+            {"data":"fecha_fin", "render": function(data) {
+                return data.split(' ')[0]; // Mostrar solo la parte de la fecha
+            }},
             {"data":"tiempo_restante"},
             {"data":"options"}
         ],

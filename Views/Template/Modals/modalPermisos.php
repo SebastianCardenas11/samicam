@@ -30,7 +30,7 @@
                                                 <th>Crear</th>
                                                 <th>Actualizar</th>
                                                 <th>Eliminar</th>
-                                                <th>Visible en Menú</th>
+                                                <!-- <th>Visible en Menú</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -97,7 +97,7 @@
                                                             </label>
                                                         </div>
                                                     </td>
-                                                    <td>
+                                                    <!-- <td>
                                                         <div class="form-check form-switch">
                                                             <label>
                                                                 <input class="form-check-input" role="switch"
@@ -106,7 +106,7 @@
                                                                     data-toggle-on="ON" data-toggle-off="OFF"></span>
                                                             </label>
                                                         </div>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                                 <?php
                                                 $no++;

@@ -1,0 +1,1 @@
+[2025-05-30 00:07:41] ID: 12 | Usuario: carlos lopez | Correo: samiNtic@ntic.com.cos | Rol: Tecnico Ntic | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión

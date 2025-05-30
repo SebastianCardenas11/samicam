@@ -54,7 +54,6 @@ class Permisos extends Controllers
         if ($_POST) {
             $intIdrol = intval($_POST['idrol']);
             
-            // No permitir modificar permisos del superadministrador (ID 1)
             if ($intIdrol == 1) {
                 $arrResponse = array('status' => false, 'msg' => 'No se pueden modificar los permisos del Superadministrador.');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -70,7 +69,7 @@ class Permisos extends Controllers
                 $w = empty($modulo['w']) ? 0 : 1;
                 $u = empty($modulo['u']) ? 0 : 1;
                 $d = empty($modulo['d']) ? 0 : 1;
-                $v = empty($modulo['v']) ? 0 : 1; // Mantenemos este valor aunque no se use en la inserción
+                $v = empty($modulo['v']) ? 0 : 1; 
                 $requestPermiso = $this->model->insertPermisos($intIdrol, $idModulo, $r, $w, $u, $d, $v);
             }
             if ($requestPermiso > 0) {
