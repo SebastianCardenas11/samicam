@@ -25,12 +25,7 @@ document.addEventListener('DOMContentLoaded', function(){
         ],
         'dom': 'lBfrtip',
         'buttons': [
-            {
-                "extend": "copyHtml5",
-                "text": "<i class='far fa-copy'></i> Copiar",
-                "titleAttr":"Copiar",
-                "className": "btn btn-secondary"
-            },{
+           {
                 "extend": "excelHtml5",
                 "text": "<i class='fas fa-file-excel'></i> Excel",
                 "titleAttr":"Exportar a Excel",
@@ -40,11 +35,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 "text": "<i class='fas fa-file-pdf'></i> PDF",
                 "titleAttr":"Exportar a PDF",
                 "className": "btn btn-danger"
-            },{
-                "extend": "csvHtml5",
-                "text": "<i class='fas fa-file-csv'></i> CSV",
-                "titleAttr":"Exportar a CSV",
-                "className": "btn btn-info"
             }
         ],
         "resonsieve":"true",
@@ -103,37 +93,40 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
-    // Formulario Editar Observación
-    let formObservacion = document.querySelector("#formObservacion");
-    formObservacion.onsubmit = function(e) {
-        e.preventDefault();
-        
-        let strObservacion = document.querySelector('#txtObservacionEdit').value;
-        
-        if(strObservacion == '') {
-            Swal.fire("Atención", "La observación no puede estar vacía.", "error");
-            return false;
-        }
+    // Formulario Nueva Observación
+    let formNuevaObservacion = document.querySelector("#formNuevaObservacion");
+    if(formNuevaObservacion) {
+        formNuevaObservacion.onsubmit = function(e) {
+            e.preventDefault();
+            
+            let strObservacion = document.querySelector('#txtNuevaObservacion').value;
+            
+            if(strObservacion == '') {
+                Swal.fire("Atención", "La observación no puede estar vacía.", "error");
+                return false;
+            }
 
-        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        let ajaxUrl = base_url+'/Tareas/updateObservacion';
-        let formData = new FormData(formObservacion);
-        request.open("POST",ajaxUrl,true);
-        request.send(formData);
-        request.onreadystatechange = function(){
-            if(request.readyState == 4 && request.status == 200){
-                let objData = JSON.parse(request.responseText);
-                if(objData.status) {
-                    var modalObs = bootstrap.Modal.getInstance(document.getElementById('modalFormObservacion'));
-                    modalObs.hide();
-                    formObservacion.reset();
-                    Swal.fire("Tareas", objData.msg, "success");
-                    tableTareas.api().ajax.reload();
-                    if(window.calendar) {
-                        window.calendar.refetchEvents();
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Tareas/addObservacion';
+            let formData = new FormData(formNuevaObservacion);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status) {
+                        document.querySelector('#txtNuevaObservacion').value = '';
+                        Swal.fire("Observación", objData.msg, "success");
+                        
+                        // Recargar la lista de observaciones
+                        let idTarea = document.querySelector('#idTareaObsList').value;
+                        cargarObservaciones(idTarea);
+                        
+                        // Actualizar la tabla de tareas para mostrar el nuevo contador
+                        tableTareas.api().ajax.reload(null, false);
+                    } else {
+                        Swal.fire("Error", objData.msg, "error");
                     }
-                } else {
-                    Swal.fire("Error", objData.msg, "error");
                 }
             }
         }
@@ -170,28 +163,28 @@ function fntViewTarea(idtarea) {
                 let estadoHtml = "";
                 switch(estado) {
                     case 'sin empezar':
-                        estadoHtml = '<span class=" badge-secondary text-black">Sin empezar</span>';
+                        estadoHtml = '<span class=" badge text-bg-secondary text-black">Sin empezar</span>';
                         break;
                     case 'en curso':
-                        estadoHtml = '<span class=" badge-primary text-black">En curso</span>';
+                        estadoHtml = '<span class=" badge text-bg-warning text-black">En curso</span>';
                         break;
                     case 'completada':
-                        estadoHtml = '<span class=" badge-success text-black">Completada</span>';
+                        estadoHtml = '<span class=" badge text-bg-success text-black">Completada</span>';
                         break;
                 }
                 document.querySelector("#celEstado").innerHTML = estadoHtml;
                 
-                document.querySelector("#celObservacion").innerHTML = objTarea.observacion || 'No hay observaciones';
+                let numObservaciones = objTarea.num_observaciones || 0;
+                document.querySelector("#celObservacion").innerHTML = `<button class="btn btn-info btn-sm" onClick="openModalObservaciones(${objTarea.id_tarea})"><i class="fas fa-comments"></i> Ver observaciones (${numObservaciones})</button>`;
                 document.querySelector("#celFechaInicio").innerHTML = objTarea.fecha_inicio_format;
                 document.querySelector("#celFechaFin").innerHTML = objTarea.fecha_fin_format;
                 
-                // Formatear tiempo restante
                 let tiempoRestante = objTarea.tiempo_restante;
                 let tiempoHtml = "";
                 if(tiempoRestante === 'Vencida') {
-                    tiempoHtml = '<span class=" badge-danger text-black">Vencida</span>';
+                    tiempoHtml = '<span class=" badge text-bg-danger text-black">Vencida</span>';
                 } else {
-                    tiempoHtml = '<span class=" badge-info text-black">'+tiempoRestante+'</span>';
+                    tiempoHtml = '<span class="badge text-bg-info text-black">'+tiempoRestante+'</span>';
                 }
                 document.querySelector("#celTiempoRestante").innerHTML = tiempoHtml;
                 
@@ -201,14 +194,13 @@ function fntViewTarea(idtarea) {
                 let idUsuarioActual = document.querySelector("#idUser") ? document.querySelector("#idUser").value : 0;
                 let fechaActual = new Date();
                 let fechaFin = new Date(objTarea.fecha_fin);
-                
-                // Ocultar siempre el botón de agregar observación si la tarea está completada
+
                 if(objTarea.estado === 'completada') {
                     divAgregarObservacion.style.display = "none";
-                } else if(idUsuarioActual == objTarea.id_usuario_asignado && fechaFin > fechaActual) {
+                } else if(idUsuarioActual == objTarea.id_usuario_asignado && 
+                          objTarea.estado === 'en curso' && 
+                          fechaFin > fechaActual) {
                     divAgregarObservacion.style.display = "block";
-                    document.querySelector("#idTareaObs").value = objTarea.id_tarea;
-                    document.querySelector("#txtObservacionEdit").value = objTarea.observacion || '';
                 } else {
                     divAgregarObservacion.style.display = "none";
                 }
@@ -272,8 +264,6 @@ function fntEditTarea(idtarea) {
                 document.querySelector("#txtFechaInicio").value = formatDate(fechaInicio);
                 document.querySelector("#txtFechaFin").value = formatDate(fechaFin);
                 
-                document.querySelector("#txtObservacion").value = objTarea.observacion || '';
-                
                 var modalTarea = new bootstrap.Modal(document.getElementById('modalFormTareas'));
                 modalTarea.show();
             }
@@ -317,7 +307,7 @@ function fntDelTarea(idtarea) {
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         Swal.fire("Eliminar!", objData.msg, "success");
-                        tableTareas.api().ajax.reload();
+                        tableTareas.api().ajax.reload(null, false);
                         // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
@@ -354,7 +344,7 @@ function fntStartTarea(idtarea) {
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         Swal.fire("Tarea iniciada!", objData.msg, "success");
-                        tableTareas.api().ajax.reload();
+                        tableTareas.api().ajax.reload(null, false);
                         // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
@@ -430,14 +420,67 @@ function openModal() {
     modalTarea.show();
 }
 
-function openModalObservacion() {
+function openModalObservaciones(idtarea) {
+    // Establecer el ID de la tarea en el formulario
+    document.querySelector("#idTareaObsList").value = idtarea;
+    
+    // Limpiar el formulario
+    document.querySelector("#formNuevaObservacion").reset();
+    
+    // Cargar las observaciones existentes
+    cargarObservaciones(idtarea);
+    
+    // Ocultar el modal de vista de tarea
     var modalView = bootstrap.Modal.getInstance(document.getElementById('modalViewTarea'));
     modalView.hide();
     
+    // Mostrar el modal de observaciones
     setTimeout(function() {
-        var modalObs = new bootstrap.Modal(document.getElementById('modalFormObservacion'));
+        var modalObs = new bootstrap.Modal(document.getElementById('modalObservaciones'));
         modalObs.show();
     }, 500);
+}
+
+function cargarObservaciones(idtarea) {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Tareas/getObservaciones/'+idtarea;
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                let html = '';
+                
+                if(objData.status) {
+                    let observaciones = objData.data;
+                    
+                    if(observaciones.length > 0) {
+                        for(let i = 0; i < observaciones.length; i++) {
+                            html += `
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <strong>${observaciones[i].usuario_nombre}</strong> - ${observaciones[i].fecha_format}
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">${observaciones[i].observacion}</p>
+                                </div>
+                            </div>`;
+                        }
+                    } else {
+                        html = '<div class="alert alert-info">No hay observaciones para esta tarea.</div>';
+                    }
+                } else {
+                    html = '<div class="alert alert-info">No hay observaciones para esta tarea.</div>';
+                }
+                
+                document.querySelector('#listaObservaciones').innerHTML = html;
+            } catch (e) {
+                console.error("Error al parsear JSON:", e);
+                document.querySelector('#listaObservaciones').innerHTML = '<div class="alert alert-danger">Error al cargar las observaciones.</div>';
+            }
+        }
+    }
 }
 
 function fntUsuariosAsignables() {

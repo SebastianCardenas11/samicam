@@ -2,7 +2,7 @@
   headerAdmin($data); 
   getModal('modalTareas', $data);
   getModal('modalViewTarea', $data);
-  getModal('modalObservacion', $data);
+  getModal('modalObservaciones', $data);
 ?>
 <!-- Incluir FullCalendar -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.css" rel="stylesheet">

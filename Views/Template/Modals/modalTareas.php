@@ -1,6 +1,4 @@
-<!-- Modal -->
-<div class="modal fade" id="modalFormTareas" tabindex="-1" aria-labelledby="modalFormTareas" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+<div class="modal fade" id="modalFormTareas" tabindex="-1" aria-labelledby="modalFormTareas" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header headerRegister">
@@ -58,7 +56,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="txtObservacion">Observación</label>
+              <label for="txtObservacion">Observación inicial (opcional)</label>
               <textarea class="form-control" id="txtObservacion" name="txtObservacion" rows="3"></textarea>
             </div>
           </div>

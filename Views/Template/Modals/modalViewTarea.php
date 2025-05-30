@@ -37,7 +37,7 @@
               <td id="celEstado"></td>
             </tr>
             <tr>
-              <td>Observación:</td>
+              <td>Observaciones:</td>
               <td id="celObservacion"></td>
             </tr>
             <tr>
@@ -59,7 +59,7 @@
           </tbody>
         </table>
         <div class="text-center" id="divAgregarObservacion">
-          <button class="btn btn-primary" type="button" onclick="openModalObservacion();"><i class="fas fa-comment"></i> Agregar observación</button>
+          <button class="btn btn-primary" type="button" onclick="openModalObservaciones(document.querySelector('#celId').innerText);"><i class="fas fa-comment-plus"></i> Agregar observación</button>
         </div>
       </div>
       <div class="modal-footer">
