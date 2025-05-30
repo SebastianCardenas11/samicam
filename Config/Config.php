@@ -50,6 +50,7 @@ const MARCHIVOS = 8;
 const MCARGOS = 9;
 const MAUDITORIA = 10;
 const MTAREAS = 11;
+const MPUBLICACIONES = 12;
 
 //Páginas
 const PINICIO = 1;

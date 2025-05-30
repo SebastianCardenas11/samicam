@@ -63,7 +63,7 @@
               <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
             </div>
           </div>
-          <div class="row mb-3">
+          <div class="row mb-3 ">
             <div class="col-md-12">
               <label for="txtObservacion" class="form-label">Observación inicial (opcional)</label>
               <textarea class="form-control" id="txtObservacion" name="txtObservacion" rows="3"></textarea>

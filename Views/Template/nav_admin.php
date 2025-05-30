@@ -149,16 +149,7 @@
            </a>
          </li>
        <?php } ?>
-       <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
-         <li class="nav-item">
-           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-shield-lock text-dark"></i>
-             </div>
-             <span class="nav-link-text ms-1">Auditoría</span>
-           </a>
-         </li>
-       <?php } ?>
+
 
         <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
   <li class="nav-item">
@@ -171,6 +162,28 @@
     </a>
   </li>
 <?php } ?>
+
+        <?php if (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) { ?>
+  <li class="nav-item">
+    <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/publicaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/publicaciones">
+      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+        <i class="bi bi-newspaper text-dark"></i>
+      </div>
+      
+      <span class="nav-link-text ms-1">Publicaciones</span>
+    </a>
+  </li>
+<?php } ?>
+       <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-shield-lock text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Auditoría</span>
+           </a>
+         </li>
+       <?php } ?>
 
        <li class="nav-item mt-3">
          <a class="nav-link text-danger" href="<?= base_url(); ?>/logout">
