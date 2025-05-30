@@ -10,16 +10,28 @@
         <form id="formTarea" name="formTarea" class="form-horizontal">
           <input type="hidden" id="idTarea" name="idTarea" value="">
           <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="listUsuarioAsignado">Asignar a <span class="required">*</span></label>
-              <select class="form-control" id="listUsuarioAsignado" name="listUsuarioAsignado" required>
-              </select>
+            <div class="form-group col-md-12">
+              <label>Usuarios asignados <span class="required">*</span></label>
+              <div id="usuariosSeleccionados" class="selected-users">
+                <p class="text-muted">No hay usuarios seleccionados</p>
+              </div>
+              <input type="hidden" id="usuariosIds" name="usuariosIds" value="">
+              <button type="button" class="btn btn-outline-primary btn-sm" onclick="openModalUsuarios()">
+                <i class="fas fa-users"></i> Seleccionar usuarios
+              </button>
             </div>
+          </div>
+          <div class="form-row">
             <div class="form-group col-md-6">
               <label for="listTipo">Tipo <span class="required">*</span></label>
               <select class="form-control" id="listTipo" name="listTipo" required>
                 <option value="administrativa">Administrativa</option>
                 <option value="técnica">Técnica</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="listDependencia">Dependencia <span class="required">*</span></label>
+              <select class="form-control" id="listDependencia" name="listDependencia" required>
               </select>
             </div>
           </div>
@@ -30,11 +42,6 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="listDependencia">Dependencia <span class="required">*</span></label>
-              <select class="form-control" id="listDependencia" name="listDependencia" required>
-              </select>
-            </div>
             <div class="form-group col-md-6" id="divEstado" style="display: none;">
               <label for="listEstado">Estado <span class="required">*</span></label>
               <select class="form-control" id="listEstado" name="listEstado">
@@ -69,3 +76,21 @@
     </div>
   </div>
 </div>
+
+<style>
+.selected-users {
+  min-height: 40px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.user-badge {
+  display: inline-block;
+  background-color: #e9ecef;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 15px;
+  font-size: 0.9em;
+}
+</style>

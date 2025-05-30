@@ -23,6 +23,7 @@
             $data['page_title'] = "TAREAS";
             $data['page_name'] = "tareas";
             $data['page_functions_js'] = "functions_tareas.js";
+            $data['usuarios_asignables'] = $this->model->getUsuariosAsignables();
             $this->views->getView($this,"tareas",$data);
         }
 
@@ -46,9 +47,20 @@
                     $btnComplete = '';
                     $btnStart = '';
 
+                    // Calcular tiempo restante
+                    $fechaActual = new DateTime();
+                    $fechaFin = new DateTime($arrData[$i]['fecha_fin']);
+                    $intervalo = $fechaActual->diff($fechaFin);
+                    
+                    if($fechaFin < $fechaActual) {
+                        $arrData[$i]['tiempo_restante'] = 'Vencida';
+                    } else {
+                        $arrData[$i]['tiempo_restante'] = $intervalo->days.' días';
+                    }
+
                     // Permisos para botones
                     if($_SESSION['permisosMod']['r']){
-                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewTarea('.$arrData[$i]['id_tarea'].')" title="Ver tarea"><i class="far fa-eye"></i></button>';
+                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewTarea('.$arrData[$i]['id_tarea'].')"><i class="far fa-eye"></i></button>';
                     }
 
                     // Si la tarea está completada, solo mostrar el botón de ver
@@ -61,22 +73,25 @@
                     if($_SESSION['idUser'] == $arrData[$i]['id_usuario_creador'] && $_SESSION['permisosMod']['u']){
                         // Solo mostrar botón de editar si la tarea está sin empezar
                         if($arrData[$i]['estado'] == 'sin empezar') {
-                            $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditTarea('.$arrData[$i]['id_tarea'].')" title="Editar tarea"><i class="fas fa-pencil-alt"></i></button>';
+                            $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditTarea('.$arrData[$i]['id_tarea'].')"><i class="fas fa-pencil-alt"></i></button>';
                         }
                         
                         // Solo mostrar botón de completar si la tarea está en curso
                         if($arrData[$i]['estado'] == 'en curso') {
-                            $btnComplete = '<button class="btn btn-success btn-sm" onClick="fntCompleteTarea('.$arrData[$i]['id_tarea'].')" title="Marcar como completada"><i class="fas fa-check"></i></button>';
+                            $btnComplete = '<button class="btn btn-success btn-sm" onClick="fntCompleteTarea('.$arrData[$i]['id_tarea'].')"><i class="fas fa-check"></i></button>';
                         }
                         
                         if($_SESSION['permisosMod']['d']){
-                            $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelTarea('.$arrData[$i]['id_tarea'].')" title="Eliminar tarea"><i class="far fa-trash-alt"></i></button>';
+                            $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelTarea('.$arrData[$i]['id_tarea'].')"><i class="far fa-trash-alt"></i></button>';
                         }
                     }
 
-                    // Si es el usuario asignado y la tarea está sin empezar
-                    if($_SESSION['idUser'] == $arrData[$i]['id_usuario_asignado'] && $arrData[$i]['estado'] == 'sin empezar'){
-                        $btnStart = '<button class="btn btn-warning btn-sm" onClick="fntStartTarea('.$arrData[$i]['id_tarea'].')" title="Iniciar tarea"><i class="fas fa-play"></i></button>';
+                    // Verificar si el usuario actual está entre los asignados a la tarea
+                    $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($arrData[$i]['id_tarea'], $_SESSION['idUser']);
+                    
+                    // Si es un usuario asignado y la tarea está sin empezar
+                    if($esUsuarioAsignado && $arrData[$i]['estado'] == 'sin empezar'){
+                        $btnStart = '<button class="btn btn-warning btn-sm" onClick="fntStartTarea('.$arrData[$i]['id_tarea'].')"><i class="fas fa-play"></i></button>';
                     }
 
                     $arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.' '.$btnComplete.' '.$btnStart.'</div>';
@@ -153,11 +168,7 @@
                     if($fechaFin < $fechaActual) {
                         $arrData['tiempo_restante'] = 'Vencida';
                     } else {
-                        if($intervalo->days > 0) {
-                            $arrData['tiempo_restante'] = $intervalo->days.' días';
-                        } else {
-                            $arrData['tiempo_restante'] = $intervalo->h.' horas';
-                        }
+                        $arrData['tiempo_restante'] = $intervalo->days.' días';
                     }
                     
                     $arrResponse = array('status' => true, 'data' => $arrData);
@@ -178,7 +189,7 @@
             }
 
             $idTarea = intval($_POST['idTarea']);
-            $idUsuarioAsignado = intval($_POST['listUsuarioAsignado']);
+            $usuariosIds = isset($_POST['usuariosIds']) ? $_POST['usuariosIds'] : '';
             $tipo = strClean($_POST['listTipo']);
             $descripcion = strClean($_POST['txtDescripcion']);
             $dependencia = intval($_POST['listDependencia']);
@@ -187,9 +198,21 @@
             $observacion = strClean($_POST['txtObservacion']);
             $estado = isset($_POST['listEstado']) ? $_POST['listEstado'] : 'sin empezar';
 
+            // Convertir string de IDs a array
+            $usuariosAsignados = [];
+            if(!empty($usuariosIds)) {
+                $usuariosAsignados = explode(',', $usuariosIds);
+            }
+
+            if(empty($usuariosAsignados)) {
+                $arrResponse = array('status' => false, 'msg' => 'Debe seleccionar al menos un usuario para asignar la tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
             if($idTarea == 0) // Nueva tarea
             {
-                $request_tarea = $this->model->insertTarea($_SESSION['idUser'], $idUsuarioAsignado, $tipo, 
+                $request_tarea = $this->model->insertTarea($_SESSION['idUser'], $usuariosAsignados, $tipo, 
                                                           $descripcion, $dependencia, $fechaInicio, 
                                                           $fechaFin, $observacion);
                 $option = 1;
@@ -209,7 +232,7 @@
                     die();
                 }
 
-                $request_tarea = $this->model->updateTarea($idTarea, $idUsuarioAsignado, $tipo, 
+                $request_tarea = $this->model->updateTarea($idTarea, $usuariosAsignados, $tipo, 
                                                           $descripcion, $dependencia, $estado,
                                                           $fechaInicio, $fechaFin, $observacion);
                 $option = 2;
@@ -235,7 +258,11 @@
             
             // Verificar si es el usuario asignado
             $arrTarea = $this->model->getTarea($idTarea);
-            if($arrTarea['id_usuario_asignado'] != $_SESSION['idUser']) {
+            
+            // Verificar si el usuario actual está entre los asignados
+            $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($idTarea, $_SESSION['idUser']);
+            
+            if(!$esUsuarioAsignado) {
                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para iniciar esta tarea.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
@@ -298,7 +325,11 @@
             
             // Verificar si es el usuario asignado
             $arrTarea = $this->model->getTarea($idTarea);
-            if($arrTarea['id_usuario_asignado'] != $_SESSION['idUser']) {
+            
+            // Verificar si el usuario actual está entre los asignados
+            $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($idTarea, $_SESSION['idUser']);
+            
+            if(!$esUsuarioAsignado) {
                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para agregar observaciones a esta tarea.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
@@ -375,14 +406,9 @@
 
         public function getUsuariosAsignables()
         {
-            $htmlOptions = "";
+            header('Content-Type: application/json');
             $arrData = $this->model->getUsuariosAsignables();
-            if(count($arrData) > 0 ){
-                for ($i=0; $i < count($arrData); $i++) { 
-                    $htmlOptions .= '<option value="'.$arrData[$i]['ideusuario'].'">'.$arrData[$i]['nombres'].'</option>';
-                }
-            }
-            echo $htmlOptions;
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
 

@@ -62,3 +62,6 @@
 [2025-05-29 23:16:52] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
 [2025-05-29 23:16:53] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
 [2025-05-29 23:17:09] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-05-29 23:24:22] ID: 0 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Viáticos
+[2025-05-29 23:24:23] ID: 0 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-05-29 23:24:24] ID: 0 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones

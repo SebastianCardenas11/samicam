@@ -1,41 +1,87 @@
 /* Estilos para el módulo de tareas */
 
-/* Estilos para los modales */
-.modal-header.headerRegister {
-    background-color: #007bff;
-    color: #fff;
+/* Estilos para los badges de estado */
+.badge.text-bg-secondary {
+    background-color: #6c757d !important;
+    color: white !important;
 }
 
-.modal-header.headerUpdate {
-    background-color: #17a2b8;
-    color: #fff;
+.badge.text-bg-warning {
+    background-color: #ffc107 !important;
+    color: black !important;
 }
 
-.modal-header.header-primary {
-    background-color: #6c757d;
-    color: #fff;
+.badge.text-bg-success {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.badge.text-bg-danger {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.badge.text-bg-info {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+/* Estilos para los badges de usuarios */
+.user-badge {
+    display: inline-block;
+    background-color: #e9ecef;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.user-badge i {
+    margin-left: 5px;
+    color: #6c757d;
+}
+
+/* Estilos para el contenedor de usuarios seleccionados */
+.selected-users {
+    min-height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el contenedor de checkboxes */
+.checkbox-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.form-check {
+    margin-bottom: 5px;
+}
+
+/* Estilos para las tarjetas de observaciones */
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: 500;
 }
 
 /* Estilos para el calendario */
 .fc-event {
     cursor: pointer;
-    border-radius: 3px;
-    padding: 3px;
-    margin-bottom: 2px;
 }
 
-.fc-event:hover {
-    filter: brightness(90%);
+.fc-event-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Estilos para los badges */
-.badge {
-    padding: 5px 8px;
-    font-size: 0.85em;
-    font-weight: normal;
-}
-
-/* Estilos para los botones de acciones */
+/* Estilos para los botones de acción */
 .btn-sm {
     margin: 0 2px;
 }
@@ -45,48 +91,18 @@
     background-color: #f8f9fa;
 }
 
-/* Estilos para los tooltips */
-.tooltip-inner {
-    max-width: 300px;
-    padding: 8px;
-    background-color: rgba(0, 0, 0, 0.8);
+/* Estilos para los modales */
+.modal-header.headerRegister {
+    background-color: #007bff;
+    color: white;
 }
 
-/* Estilos para los tabs */
-.nav-tabs .nav-link.active {
-    font-weight: bold;
-    border-bottom: 3px solid #007bff;
+.modal-header.headerUpdate {
+    background-color: #17a2b8;
+    color: white;
 }
 
-/* Estilos para los formularios */
-.form-group label {
-    font-weight: 500;
-}
-
-.form-group .required {
-    color: red;
-}
-
-/* Estilos para el modal de observación */
-#txtObservacionEdit {
-    resize: vertical;
-    min-height: 100px;
-}
-
-/* Estilos para el modal de vista de tarea */
-#modalViewTarea .table td:first-child {
-    width: 30%;
-    font-weight: bold;
-    background-color: #f8f9fa;
-}
-
-/* Estilos para dispositivos móviles */
-@media (max-width: 768px) {
-    .fc-toolbar.fc-header-toolbar {
-        flex-direction: column;
-    }
-    
-    .fc-toolbar-chunk {
-        margin-bottom: 10px;
-    }
+.modal-header.header-primary {
+    background-color: #6c757d;
+    color: white;
 }

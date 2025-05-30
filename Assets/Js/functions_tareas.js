@@ -48,14 +48,14 @@ document.addEventListener('DOMContentLoaded', function(){
     formTarea.onsubmit = function(e) {
         e.preventDefault();
         
-        let strUsuarioAsignado = document.querySelector('#listUsuarioAsignado').value;
+        let strUsuariosIds = document.querySelector('#usuariosIds').value;
         let strTipo = document.querySelector('#listTipo').value;
         let strDescripcion = document.querySelector('#txtDescripcion').value;
         let strDependencia = document.querySelector('#listDependencia').value;
         let strFechaInicio = document.querySelector('#txtFechaInicio').value;
         let strFechaFin = document.querySelector('#txtFechaFin').value;
         
-        if(strUsuarioAsignado == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
+        if(strUsuariosIds == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
            strFechaInicio == '' || strFechaFin == '') {
             Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
             return false;
@@ -132,8 +132,12 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
-    // Cargar usuarios asignables
-    fntUsuariosAsignables();
+    // Configurar el evento para el botón de confirmar selección de usuarios
+    let btnConfirmarUsuarios = document.querySelector('#btnConfirmarUsuarios');
+    if(btnConfirmarUsuarios) {
+        btnConfirmarUsuarios.addEventListener('click', confirmarSeleccionUsuarios);
+    }
+
     // Cargar dependencias
     fntDependencias();
 
@@ -153,7 +157,20 @@ function fntViewTarea(idtarea) {
                 let objTarea = objData.data;
                 document.querySelector("#celId").innerHTML = objTarea.id_tarea;
                 document.querySelector("#celCreador").innerHTML = objTarea.creador_nombre;
-                document.querySelector("#celAsignado").innerHTML = objTarea.asignado_nombre;
+                
+                // Mostrar todos los usuarios asignados
+                let usuariosAsignados = objTarea.usuarios_asignados || [];
+                let usuariosHtml = '';
+                
+                if (usuariosAsignados.length > 0) {
+                    usuariosAsignados.forEach(usuario => {
+                        usuariosHtml += `<span class="badge bg-info text-dark me-1">${usuario.nombres}</span>`;
+                    });
+                } else {
+                    usuariosHtml = objTarea.asignado_nombre;
+                }
+                
+                document.querySelector("#celAsignado").innerHTML = usuariosHtml;
                 document.querySelector("#celTipo").innerHTML = objTarea.tipo;
                 document.querySelector("#celDescripcion").innerHTML = objTarea.descripcion;
                 document.querySelector("#celDependencia").innerHTML = objTarea.dependencia_nombre;
@@ -195,9 +212,17 @@ function fntViewTarea(idtarea) {
                 let fechaActual = new Date();
                 let fechaFin = new Date(objTarea.fecha_fin);
 
+                // Verificar si el usuario actual está entre los asignados
+                let esUsuarioAsignado = false;
+                if (usuariosAsignados.length > 0) {
+                    esUsuarioAsignado = usuariosAsignados.some(usuario => usuario.ideusuario == idUsuarioActual);
+                } else {
+                    esUsuarioAsignado = (objTarea.id_usuario_asignado == idUsuarioActual);
+                }
+
                 if(objTarea.estado === 'completada') {
                     divAgregarObservacion.style.display = "none";
-                } else if(idUsuarioActual == objTarea.id_usuario_asignado && 
+                } else if(esUsuarioAsignado && 
                           objTarea.estado === 'en curso' && 
                           fechaFin > fechaActual) {
                     divAgregarObservacion.style.display = "block";
@@ -251,7 +276,26 @@ function fntEditTarea(idtarea) {
                 if(objData.status) {
                 let objTarea = objData.data;
                 document.querySelector("#idTarea").value = objTarea.id_tarea;
-                document.querySelector("#listUsuarioAsignado").value = objTarea.id_usuario_asignado;
+                
+                // Obtener los usuarios asignados
+                let usuariosAsignados = objTarea.usuarios_asignados || [];
+                let usuariosIds = [];
+                let usuariosHtml = '';
+                
+                if (usuariosAsignados.length > 0) {
+                    usuariosAsignados.forEach(usuario => {
+                        usuariosIds.push(usuario.ideusuario);
+                        usuariosHtml += `<span class="user-badge">${usuario.nombres} <i class="fas fa-user"></i></span> `;
+                    });
+                } else {
+                    // Si no hay usuarios asignados en la nueva estructura, usar el usuario principal
+                    usuariosIds.push(objTarea.id_usuario_asignado);
+                    usuariosHtml = `<span class="user-badge">${objTarea.asignado_nombre} <i class="fas fa-user"></i></span> `;
+                }
+                
+                document.querySelector('#usuariosIds').value = usuariosIds.join(',');
+                document.querySelector('#usuariosSeleccionados').innerHTML = usuariosHtml;
+                
                 document.querySelector("#listTipo").value = objTarea.tipo;
                 document.querySelector("#txtDescripcion").value = objTarea.descripcion;
                 document.querySelector("#listDependencia").value = objTarea.dependencia_fk;
@@ -415,9 +459,103 @@ function openModal() {
     document.querySelector('#titleModal').innerHTML = "Nueva Tarea";
     document.querySelector('#divEstado').style.display = "none";
     document.querySelector('#formTarea').reset();
+    document.querySelector('#usuariosSeleccionados').innerHTML = '<p class="text-muted">No hay usuarios seleccionados</p>';
     
     var modalTarea = new bootstrap.Modal(document.getElementById('modalFormTareas'));
     modalTarea.show();
+}
+
+function openModalUsuarios() {
+    // Cargar usuarios asignables si no se han cargado
+    if (document.querySelectorAll('#usuariosCheckboxes .form-check').length === 0) {
+        cargarUsuariosAsignables();
+    }
+    
+    // Mostrar el modal
+    var modalUsuarios = new bootstrap.Modal(document.getElementById('modalUsuarios'));
+    modalUsuarios.show();
+}
+
+// Función para cargar los usuarios asignables en el modal
+function cargarUsuariosAsignables() {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Tareas/getUsuariosAsignables';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            try {
+                let usuarios = JSON.parse(request.responseText);
+                let html = '';
+                
+                if(usuarios.length > 0) {
+                    for(let i = 0; i < usuarios.length; i++) {
+                        html += `
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="chkUsuario" value="${usuarios[i].ideusuario}" id="usuario${usuarios[i].ideusuario}">
+                            <label class="form-check-label" for="usuario${usuarios[i].ideusuario}">
+                                ${usuarios[i].nombres}
+                            </label>
+                        </div>`;
+                    }
+                } else {
+                    html = '<div class="alert alert-info">No hay usuarios disponibles para asignar.</div>';
+                }
+                
+                document.querySelector('#usuariosCheckboxes').innerHTML = html;
+                
+                // Marcar los usuarios ya seleccionados
+                let usuariosIds = document.querySelector('#usuariosIds').value;
+                if (usuariosIds) {
+                    let ids = usuariosIds.split(',');
+                    ids.forEach(id => {
+                        let checkbox = document.querySelector('#usuario' + id);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error("Error al parsear JSON:", e);
+                document.querySelector('#usuariosCheckboxes').innerHTML = '<div class="alert alert-danger">Error al cargar los usuarios.</div>';
+            }
+        }
+    }
+}
+
+// Función para confirmar la selección de usuarios
+function confirmarSeleccionUsuarios() {
+    let checkboxes = document.querySelectorAll('#usuariosCheckboxes input[type="checkbox"]:checked');
+    let usuariosSeleccionados = [];
+    let usuariosIds = [];
+    
+    if(checkboxes.length === 0) {
+        Swal.fire("Atención", "Debe seleccionar al menos un usuario.", "warning");
+        return;
+    }
+    
+    checkboxes.forEach(function(checkbox) {
+        usuariosIds.push(checkbox.value);
+        usuariosSeleccionados.push({
+            id: checkbox.value,
+            nombre: checkbox.nextElementSibling.textContent.trim()
+        });
+    });
+    
+    // Actualizar el campo oculto con los IDs de usuarios
+    document.querySelector('#usuariosIds').value = usuariosIds.join(',');
+    
+    // Mostrar los usuarios seleccionados en el div
+    let html = '';
+    usuariosSeleccionados.forEach(function(usuario) {
+        html += `<span class="user-badge">${usuario.nombre} <i class="fas fa-user"></i></span> `;
+    });
+    
+    document.querySelector('#usuariosSeleccionados').innerHTML = html;
+    
+    // Cerrar el modal
+    var modalUsuarios = bootstrap.Modal.getInstance(document.getElementById('modalUsuarios'));
+    modalUsuarios.hide();
 }
 
 function openModalObservaciones(idtarea) {
@@ -479,18 +617,6 @@ function cargarObservaciones(idtarea) {
                 console.error("Error al parsear JSON:", e);
                 document.querySelector('#listaObservaciones').innerHTML = '<div class="alert alert-danger">Error al cargar las observaciones.</div>';
             }
-        }
-    }
-}
-
-function fntUsuariosAsignables() {
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url+'/Tareas/getUsuariosAsignables';
-    request.open("GET",ajaxUrl,true);
-    request.send();
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            document.querySelector('#listUsuarioAsignado').innerHTML = request.responseText;
         }
     }
 }
