@@ -1,0 +1,92 @@
+/* Estilos para el módulo de tareas */
+
+/* Estilos para los modales */
+.modal-header.headerRegister {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.modal-header.headerUpdate {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.modal-header.header-primary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* Estilos para el calendario */
+.fc-event {
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 3px;
+    margin-bottom: 2px;
+}
+
+.fc-event:hover {
+    filter: brightness(90%);
+}
+
+/* Estilos para los badges */
+.badge {
+    padding: 5px 8px;
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+/* Estilos para los botones de acciones */
+.btn-sm {
+    margin: 0 2px;
+}
+
+/* Estilos para las tablas */
+.table th {
+    background-color: #f8f9fa;
+}
+
+/* Estilos para los tooltips */
+.tooltip-inner {
+    max-width: 300px;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Estilos para los tabs */
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    border-bottom: 3px solid #007bff;
+}
+
+/* Estilos para los formularios */
+.form-group label {
+    font-weight: 500;
+}
+
+.form-group .required {
+    color: red;
+}
+
+/* Estilos para el modal de observación */
+#txtObservacionEdit {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Estilos para el modal de vista de tarea */
+#modalViewTarea .table td:first-child {
+    width: 30%;
+    font-weight: bold;
+    background-color: #f8f9fa;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    .fc-toolbar.fc-header-toolbar {
+        flex-direction: column;
+    }
+    
+    .fc-toolbar-chunk {
+        margin-bottom: 10px;
+    }
+}

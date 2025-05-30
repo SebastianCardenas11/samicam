@@ -237,13 +237,15 @@ class FuncionariosViaticosModel extends Mysql
         return $request; 
     }
     
-    public function selectFuncionariosPlanta() {
-        // Devolver los IDs de funcionarios que ya tienen viáticos
-        $sql = "SELECT DISTINCT funci_fk as idefuncionario, 
-                CONCAT('Funcionario ID: ', funci_fk) as nombre_completo, 
-                0 as contrato_fk
-                FROM tbl_viaticos";
-        $request = $this->select_all($sql);
-        return $request;
-    }
+   public function selectFuncionariosPlanta() {
+    $sql = "SELECT 
+                idefuncionario, 
+                nombre_completo, 
+                contrato_fk 
+            FROM tbl_funcionarios_planta";
+    
+    $request = $this->select_all($sql);
+    return $request;
+}
+
 }

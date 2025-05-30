@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registrarAccesoModulo('Cargos');
     } else if (currentUrl.includes('/vacaciones')) {
         registrarAccesoModulo('Vacaciones');
-    } else if (currentUrl.includes('/viaticos')) {
+    } else if (currentUrl.includes('/funcionariosviaticos')) {
         registrarAccesoModulo('Viáticos');
     } else if (currentUrl.includes('/archivos')) {
         registrarAccesoModulo('Archivos');
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 registrarAccesoModulo('Cargos');
             } else if (href.includes('/vacaciones')) {
                 registrarAccesoModulo('Vacaciones');
-            } else if (href.includes('/viaticos')) {
+            } else if (href.includes('/funcionariosviaticos')) {
                 registrarAccesoModulo('Viáticos');
             } else if (href.includes('/archivos')) {
                 registrarAccesoModulo('Archivos');

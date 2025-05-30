@@ -66,6 +66,12 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
+<?php if(isset($data['page_name']) && $data['page_name'] == "tareas"){ ?>
+<!-- FullCalendar para el módulo de tareas -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
+<?php } ?>
+
 <!-- DATATABLES INICIALIZACIÓN -->
 <script>
   $('#sampleTable').DataTable();
