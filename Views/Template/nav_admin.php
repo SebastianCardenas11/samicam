@@ -19,7 +19,7 @@
    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
      <ul class="navbar-nav">
        <li class="nav-item">
-         <a class="nav-link <?= ($data['page_id'] == 1) ? 'active' : ''; ?>" href="<?= base_url(); ?>/dashboard">
+         <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 1) ? 'active' : ''; ?>" href="<?= base_url(); ?>/dashboard">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
              <i class="bi bi-house-fill text-dark"></i>
            </div>
@@ -45,7 +45,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 3) ? 'active' : ''; ?>" href="<?= base_url(); ?>/roles">
+           <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 3) ? 'active' : ''; ?>" href="<?= base_url(); ?>/roles">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-sliders2-vertical text-dark"></i>
              </div>
@@ -56,7 +56,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MUSUARIOS]['r']) && (!isset($_SESSION['permisos'][MUSUARIOS]['v']) || $_SESSION['permisos'][MUSUARIOS]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 2) ? 'active' : ''; ?>" href="<?= base_url(); ?>/usuarios">
+           <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 2) ? 'active' : ''; ?>" href="<?= base_url(); ?>/usuarios">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-people-fill text-dark"></i>
              </div>
@@ -86,7 +86,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-book text-dark"></i>
              </div>
@@ -97,7 +97,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= ($data['page_id'] == 9) ? 'active' : ''; ?>" href="<?= base_url(); ?>/funcionariosPlanta">
+           <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 9) ? 'active' : ''; ?>" href="<?= base_url(); ?>/funcionariosPlanta">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-person-vcard text-dark"></i>
              </div>
@@ -108,7 +108,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-person-fill-gear text-dark"></i>
              </div>
@@ -119,7 +119,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/vacaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/vacaciones">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/vacaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/vacaciones">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-calendar-week text-dark"></i>
              </div>
@@ -130,7 +130,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/funcionariosviaticos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosviaticos">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/funcionariosviaticos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosviaticos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-cash-coin text-dark"></i>
              </div>
@@ -141,7 +141,7 @@
 
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
-           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-file-earmark text-dark"></i>
              </div>
@@ -149,9 +149,9 @@
            </a>
          </li>
        <?php } ?>
-       <?php if ($_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
+       <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
          <li class="nav-item">
-           <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="bi bi-shield-lock text-dark"></i>
              </div>
@@ -162,7 +162,7 @@
 
         <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
   <li class="nav-item">
-    <a class="nav-link <?= (str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
+    <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
       <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
         <i class="bi bi-list-task text-dark"></i>
       </div>
