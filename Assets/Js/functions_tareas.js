@@ -88,7 +88,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
                 if(objData.status) {
-                    $('#modalFormTareas').modal("hide");
+                    var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
+                    modalTarea.hide();
                     formTarea.reset();
                     Swal.fire("Tareas", objData.msg, "success");
                     tableTareas.api().ajax.reload();
@@ -123,7 +124,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
                 if(objData.status) {
-                    $('#modalFormObservacion').modal("hide");
+                    var modalObs = bootstrap.Modal.getInstance(document.getElementById('modalFormObservacion'));
+                    modalObs.hide();
                     formObservacion.reset();
                     Swal.fire("Tareas", objData.msg, "success");
                     tableTareas.api().ajax.reload();
@@ -212,7 +214,8 @@ function fntViewTarea(idtarea) {
                     divEditarObservacion.style.display = "none";
                 }
                 
-                $('#modalViewTarea').modal('show');
+                var modalView = new bootstrap.Modal(document.getElementById('modalViewTarea'));
+                modalView.show();
             } else {
                 Swal.fire("Error", objData.msg, "error");
             }
@@ -265,7 +268,8 @@ function fntEditTarea(idtarea) {
                 
                 document.querySelector("#txtObservacion").value = objTarea.observacion || '';
                 
-                $('#modalFormTareas').modal('show');
+                var modalTarea = new bootstrap.Modal(document.getElementById('modalFormTareas'));
+                modalTarea.show();
             }
         }
     }
@@ -407,13 +411,18 @@ function openModal() {
     document.querySelector('#titleModal').innerHTML = "Nueva Tarea";
     document.querySelector('#divEstado').style.display = "none";
     document.querySelector('#formTarea').reset();
-    $('#modalFormTareas').modal('show');
+    
+    var modalTarea = new bootstrap.Modal(document.getElementById('modalFormTareas'));
+    modalTarea.show();
 }
 
 function openModalObservacion() {
-    $('#modalViewTarea').modal('hide');
+    var modalView = bootstrap.Modal.getInstance(document.getElementById('modalViewTarea'));
+    modalView.hide();
+    
     setTimeout(function() {
-        $('#modalFormObservacion').modal('show');
+        var modalObs = new bootstrap.Modal(document.getElementById('modalFormObservacion'));
+        modalObs.show();
     }, 500);
 }
 
