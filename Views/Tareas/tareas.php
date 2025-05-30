@@ -17,10 +17,10 @@
 <input type="hidden" id="idUser" value="<?= $_SESSION['idUser'] ?>">
 <main class="app-content">
   <div class="app-title">
-    <div>
+    <div >
       <h1><i class="fas fa-tasks"></i> <?= $data['page_title'] ?>
         <?php if($_SESSION['userData']['idrol'] == 1) { ?>
-        <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nueva tarea</button>
+        <button class="btn btn-warning ms-5" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nueva tarea</button>
         <?php } ?>
       </h1>
     </div>

@@ -173,6 +173,35 @@
             // Obtener todos los usuarios asignados a esta tarea
             if ($tarea) {
                 $tarea['usuarios_asignados'] = $this->getUsuariosTarea($id_tarea);
+                
+                // Calcular tiempo restante
+                $fechaFin = new DateTime($tarea['fecha_fin']);
+                
+                // Si la tarea está completada
+                if ($tarea['estado'] == 'Completada' && !empty($tarea['fecha_completada'])) {
+                    $fechaCompletada = new DateTime(date('Y-m-d', strtotime(str_replace('/', '-', $tarea['fecha_completada']))));
+                    $intervalo = $fechaFin->diff($fechaCompletada);
+                    
+                    if ($fechaCompletada <= $fechaFin) {
+                        $tarea['tiempo_restante'] = '0 días';
+                    } else {
+                        $tarea['tiempo_restante'] = $intervalo->days.' días de retraso';
+                    }
+                } else {
+                    // Para tareas no completadas
+                    $fechaActual = new DateTime();
+                    $intervalo = $fechaActual->diff($fechaFin);
+                    
+                    if ($fechaFin < $fechaActual) {
+                        $tarea['tiempo_restante'] = 'Vencida';
+                    } else {
+                        if ($intervalo->days > 0) {
+                            $tarea['tiempo_restante'] = $intervalo->days.' días';
+                        } else {
+                            $tarea['tiempo_restante'] = $intervalo->h.' horas';
+                        }
+                    }
+                }
             }
             
             return $tarea;

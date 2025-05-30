@@ -22925,9 +22925,7 @@ fieldset:disabled .btn {
   opacity: 0;
 }
 
-.form-check:not(.form-switch) .form-check-input[type=checkbox]:checked:after {
-  opacity: 1;
-}
+
 
 .form-check:not(.form-switch) .form-check-input[type=radio] {
   transition: border 0s;

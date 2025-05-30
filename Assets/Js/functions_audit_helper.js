@@ -25,10 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
         registrarAccesoModulo('Cargos');
     } else if (currentUrl.includes('/vacaciones')) {
         registrarAccesoModulo('Vacaciones');
+    } else if (currentUrl.includes('/vacaciones')) {
+        registrarAccesoModulo('Vacaciones');
     } else if (currentUrl.includes('/funcionariosviaticos')) {
         registrarAccesoModulo('Viáticos');
-    } else if (currentUrl.includes('/archivos')) {
-        registrarAccesoModulo('Archivos');
+    } else if (currentUrl.includes('/tareas')) {
+        registrarAccesoModulo('Tareas');
     }
     
     // Registrar acceso cuando se hace clic en enlaces de navegación
@@ -43,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 registrarAccesoModulo('Vacaciones');
             } else if (href.includes('/funcionariosviaticos')) {
                 registrarAccesoModulo('Viáticos');
+            } else if (href.includes('/tareas')) {
+                registrarAccesoModulo('Tareas');
             } else if (href.includes('/archivos')) {
                 registrarAccesoModulo('Archivos');
             }

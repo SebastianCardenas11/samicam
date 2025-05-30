@@ -44,5 +44,7 @@ headerAdmin($data);
 </main>
 <?php 
 getModal('modalUsuarios', $data);
+getModal('modalViewUsuario', $data);
+getModal('modalFormUsuario', $data);
 footerAdmin($data);
 ?>
