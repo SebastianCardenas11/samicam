@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "aProcessing":true,
         "aServerSide":true,
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
         },
         "ajax":{
             "url": " "+base_url+"/Tareas/getTareas",
@@ -150,11 +150,13 @@ function fntViewTarea(idtarea) {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
     request.open("GET",ajaxUrl,true);
+    request.setRequestHeader("Content-Type", "application/json");
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status) {
                 let objTarea = objData.data;
                 document.querySelector("#celId").innerHTML = objTarea.id_tarea;
                 document.querySelector("#celCreador").innerHTML = objTarea.creador_nombre;
@@ -168,32 +170,32 @@ function fntViewTarea(idtarea) {
                 let estadoHtml = "";
                 switch(estado) {
                     case 'sin empezar':
-                        estadoHtml = '<span class="badge badge-secondary">Sin empezar</span>';
+                        estadoHtml = '<span class=" badge-secondary text-black">Sin empezar</span>';
                         break;
                     case 'en curso':
-                        estadoHtml = '<span class="badge badge-primary">En curso</span>';
+                        estadoHtml = '<span class=" badge-primary text-black">En curso</span>';
                         break;
                     case 'completada':
-                        estadoHtml = '<span class="badge badge-success">Completada</span>';
+                        estadoHtml = '<span class=" badge-success text-black">Completada</span>';
                         break;
                 }
                 document.querySelector("#celEstado").innerHTML = estadoHtml;
                 
                 document.querySelector("#celObservacion").innerHTML = objTarea.observacion || 'No hay observaciones';
-                document.querySelector("#celFechaInicio").innerHTML = objTarea.fecha_inicio;
-                document.querySelector("#celFechaFin").innerHTML = objTarea.fecha_fin;
+                document.querySelector("#celFechaInicio").innerHTML = objTarea.fecha_inicio_format;
+                document.querySelector("#celFechaFin").innerHTML = objTarea.fecha_fin_format;
                 
                 // Formatear tiempo restante
                 let tiempoRestante = objTarea.tiempo_restante;
                 let tiempoHtml = "";
                 if(tiempoRestante === 'Vencida') {
-                    tiempoHtml = '<span class="badge badge-danger">Vencida</span>';
+                    tiempoHtml = '<span class=" badge-danger text-black">Vencida</span>';
                 } else {
-                    tiempoHtml = '<span class="badge badge-info">'+tiempoRestante+'</span>';
+                    tiempoHtml = '<span class=" badge-info text-black">'+tiempoRestante+'</span>';
                 }
                 document.querySelector("#celTiempoRestante").innerHTML = tiempoHtml;
                 
-                document.querySelector("#celFechaCreacion").innerHTML = objTarea.fecha_creacion;
+                document.querySelector("#celFechaCompletada").innerHTML = objTarea.fecha_completada ? objTarea.fecha_completada : 'No completada';
                 
                 // Mostrar botón de editar observación solo si:
                 // 1. Es el usuario asignado
@@ -220,6 +222,11 @@ function fntViewTarea(idtarea) {
             } else {
                 Swal.fire("Error", objData.msg, "error");
             }
+        } catch (e) {
+            console.error("Error al parsear JSON:", e);
+            console.log("Respuesta recibida:", request.responseText);
+            Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
+        }
         }
     }
 }
@@ -247,11 +254,13 @@ function fntEditTarea(idtarea) {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
     request.open("GET",ajaxUrl,true);
+    request.setRequestHeader("Content-Type", "application/json");
     request.send();
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status) {
                 let objTarea = objData.data;
                 document.querySelector("#idTarea").value = objTarea.id_tarea;
                 document.querySelector("#listUsuarioAsignado").value = objTarea.id_usuario_asignado;
@@ -272,6 +281,11 @@ function fntEditTarea(idtarea) {
                 var modalTarea = new bootstrap.Modal(document.getElementById('modalFormTareas'));
                 modalTarea.show();
             }
+        } catch (e) {
+            console.error("Error al parsear JSON:", e);
+            console.log("Respuesta recibida:", request.responseText);
+            Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
+        }
         }
     }
 }

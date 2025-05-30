@@ -54,8 +54,8 @@
               <td id="celTiempoRestante"></td>
             </tr>
             <tr>
-              <td>Fecha de creación:</td>
-              <td id="celFechaCreacion"></td>
+              <td>Fecha completada:</td>
+              <td id="celFechaCompletada"></td>
             </tr>
           </tbody>
         </table>

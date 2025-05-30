@@ -72,6 +72,9 @@
         public function getTarea($id_tarea)
         {
             $sql = "SELECT t.*, 
+                    DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') as fecha_inicio_format,
+                    DATE_FORMAT(t.fecha_fin, '%d/%m/%Y') as fecha_fin_format,
+                    DATE_FORMAT(t.fecha_completada, '%d/%m/%Y %H:%i') as fecha_completada,
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre
@@ -155,8 +158,13 @@
         {
             $this->id_tarea = $id_tarea;
             $this->estado = $estado;
-
-            $sql = "UPDATE tbl_tareas SET estado = ? WHERE id_tarea = ?";
+            
+            if($estado == 'completada') {
+                $sql = "UPDATE tbl_tareas SET estado = ?, fecha_completada = NOW() WHERE id_tarea = ?";
+            } else {
+                $sql = "UPDATE tbl_tareas SET estado = ? WHERE id_tarea = ?";
+            }
+            
             $arrData = array($this->estado, $this->id_tarea);
             
             return $this->update($sql, $arrData);

@@ -49,25 +49,25 @@
                 $intervalo = $fechaActual->diff($fechaFin);
                 
                 if($fechaFin < $fechaActual) {
-                    $arrData[$i]['tiempo_restante'] = '<span class="badge badge-danger">Vencida</span>';
+                    $arrData[$i]['tiempo_restante'] = '<span class=" badge-danger text-black">Vencida</span>';
                 } else {
                     if($intervalo->days > 0) {
-                        $arrData[$i]['tiempo_restante'] = '<span class="badge badge-info">'.$intervalo->days.' días</span>';
+                        $arrData[$i]['tiempo_restante'] = '<span class=" badge-info text-black">'.$intervalo->days.' días</span>';
                     } else {
-                        $arrData[$i]['tiempo_restante'] = '<span class="badge badge-warning">'.$intervalo->h.' horas</span>';
+                        $arrData[$i]['tiempo_restante'] = '<span class=" badge-warning text-dark">'.$intervalo->h.' horas</span>';
                     }
                 }
 
                 // Formatear estado
                 switch($arrData[$i]['estado']) {
                     case 'sin empezar':
-                        $arrData[$i]['estado'] = '<span class="badge badge-secondary">Sin empezar</span>';
+                        $arrData[$i]['estado'] = '<span class=" badge-secondary text-black">Sin empezar</span>';
                         break;
                     case 'en curso':
-                        $arrData[$i]['estado'] = '<span class="badge badge-primary">En curso</span>';
+                        $arrData[$i]['estado'] = '<span class=" badge-primary text-black">En curso</span>';
                         break;
                     case 'completada':
-                        $arrData[$i]['estado'] = '<span class="badge badge-success">Completada</span>';
+                        $arrData[$i]['estado'] = '<span class=" badge-success text-black">Completada</span>';
                         break;
                 }
 
@@ -174,6 +174,7 @@
                     
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
+                header('Content-Type: application/json');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             }
             die();
