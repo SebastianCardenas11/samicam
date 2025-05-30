@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalFormTareas" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modalFormTareas" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header headerRegister">
@@ -48,11 +48,11 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="txtFechaInicio">Fecha de inicio <span class="required">*</span></label>
-              <input type="datetime-local" class="form-control" id="txtFechaInicio" name="txtFechaInicio" required>
+              <input type="date" class="form-control" id="txtFechaInicio" name="txtFechaInicio" required>
             </div>
             <div class="form-group col-md-6">
               <label for="txtFechaFin">Fecha de fin <span class="required">*</span></label>
-              <input type="datetime-local" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
+              <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
             </div>
           </div>
           <div class="form-row">

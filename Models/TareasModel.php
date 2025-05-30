@@ -89,7 +89,7 @@
             $sql = "SELECT u.ideusuario, u.nombres 
                     FROM tbl_usuarios u 
                     INNER JOIN rol r ON u.rolid = r.idrol 
-                    WHERE r.nombrerol = 'Tecnico Ntic' OR r.nombrerol = 'Superadministrador'
+                    WHERE (r.nombrerol = 'Tecnico Ntic' OR r.nombrerol = 'Superadministrador')
                     AND u.status = 1";
             
             return $this->select_all($sql);

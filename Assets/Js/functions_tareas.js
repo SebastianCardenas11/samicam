@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function(){
         
         if(strUsuarioAsignado == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
            strFechaInicio == '' || strFechaFin == '') {
-            swal("Atención", "Todos los campos son obligatorios." , "error");
+            Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
             return false;
         }
 
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function(){
         let fechaInicio = new Date(strFechaInicio);
         let fechaFin = new Date(strFechaFin);
         if(fechaFin <= fechaInicio) {
-            swal("Atención", "La fecha de fin debe ser posterior a la fecha de inicio." , "error");
+            Swal.fire("Atención", "La fecha de fin debe ser posterior a la fecha de inicio.", "error");
             return false;
         }
 
@@ -88,18 +88,15 @@ document.addEventListener('DOMContentLoaded', function(){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
                 if(objData.status) {
-                    // Cerrar correctamente el modal y limpiar el formulario
                     $('#modalFormTareas').modal("hide");
-                    setTimeout(function() {
-                        formTarea.reset();
-                        swal("Tareas", objData.msg ,"success");
-                        tableTareas.api().ajax.reload();
-                        if(window.calendar) {
-                            window.calendar.refetchEvents();
-                        }
-                    }, 200);
+                    formTarea.reset();
+                    Swal.fire("Tareas", objData.msg, "success");
+                    tableTareas.api().ajax.reload();
+                    if(window.calendar) {
+                        window.calendar.refetchEvents();
+                    }
                 } else {
-                    swal("Error", objData.msg , "error");
+                    Swal.fire("Error", objData.msg, "error");
                 }
             }
         }
@@ -113,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function(){
         let strObservacion = document.querySelector('#txtObservacionEdit').value;
         
         if(strObservacion == '') {
-            swal("Atención", "La observación no puede estar vacía." , "error");
+            Swal.fire("Atención", "La observación no puede estar vacía.", "error");
             return false;
         }
 
@@ -126,18 +123,15 @@ document.addEventListener('DOMContentLoaded', function(){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
                 if(objData.status) {
-                    // Cerrar correctamente el modal de observación
                     $('#modalFormObservacion').modal("hide");
-                    setTimeout(function() {
-                        formObservacion.reset();
-                        swal("Tareas", objData.msg ,"success");
-                        tableTareas.api().ajax.reload();
-                        if(window.calendar) {
-                            window.calendar.refetchEvents();
-                        }
-                    }, 200);
+                    formObservacion.reset();
+                    Swal.fire("Tareas", objData.msg, "success");
+                    tableTareas.api().ajax.reload();
+                    if(window.calendar) {
+                        window.calendar.refetchEvents();
+                    }
                 } else {
-                    swal("Error", objData.msg , "error");
+                    Swal.fire("Error", objData.msg, "error");
                 }
             }
         }
@@ -151,166 +145,152 @@ document.addEventListener('DOMContentLoaded', function(){
 }, false);
 
 function fntViewTarea(idtarea) {
-    // Cerrar cualquier modal abierto primero
-    $('.modal').modal('hide');
-    
-    setTimeout(function() {
-        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
-        request.open("GET",ajaxUrl,true);
-        request.send();
-        request.onreadystatechange = function(){
-            if(request.readyState == 4 && request.status == 200){
-                let objData = JSON.parse(request.responseText);
-                if(objData.status) {
-                    let objTarea = objData.data;
-                    document.querySelector("#celId").innerHTML = objTarea.id_tarea;
-                    document.querySelector("#celCreador").innerHTML = objTarea.creador_nombre;
-                    document.querySelector("#celAsignado").innerHTML = objTarea.asignado_nombre;
-                    document.querySelector("#celTipo").innerHTML = objTarea.tipo;
-                    document.querySelector("#celDescripcion").innerHTML = objTarea.descripcion;
-                    document.querySelector("#celDependencia").innerHTML = objTarea.dependencia_nombre;
-                    
-                    // Formatear estado
-                    let estado = objTarea.estado;
-                    let estadoHtml = "";
-                    switch(estado) {
-                        case 'sin empezar':
-                            estadoHtml = '<span class="badge badge-secondary">Sin empezar</span>';
-                            break;
-                        case 'en curso':
-                            estadoHtml = '<span class="badge badge-primary">En curso</span>';
-                            break;
-                        case 'completada':
-                            estadoHtml = '<span class="badge badge-success">Completada</span>';
-                            break;
-                    }
-                    document.querySelector("#celEstado").innerHTML = estadoHtml;
-                    
-                    document.querySelector("#celObservacion").innerHTML = objTarea.observacion || 'No hay observaciones';
-                    document.querySelector("#celFechaInicio").innerHTML = objTarea.fecha_inicio;
-                    document.querySelector("#celFechaFin").innerHTML = objTarea.fecha_fin;
-                    
-                    // Formatear tiempo restante
-                    let tiempoRestante = objTarea.tiempo_restante;
-                    let tiempoHtml = "";
-                    if(tiempoRestante === 'Vencida') {
-                        tiempoHtml = '<span class="badge badge-danger">Vencida</span>';
-                    } else {
-                        tiempoHtml = '<span class="badge badge-info">'+tiempoRestante+'</span>';
-                    }
-                    document.querySelector("#celTiempoRestante").innerHTML = tiempoHtml;
-                    
-                    document.querySelector("#celFechaCreacion").innerHTML = objTarea.fecha_creacion;
-                    
-                    // Mostrar botón de editar observación solo si:
-                    // 1. Es el usuario asignado
-                    // 2. La tarea no está completada
-                    // 3. La tarea no ha vencido
-                    let divEditarObservacion = document.querySelector("#divEditarObservacion");
-                    let idUsuarioActual = document.querySelector("#idUser") ? document.querySelector("#idUser").value : 0;
-                    let fechaActual = new Date();
-                    let fechaFin = new Date(objTarea.fecha_fin);
-                    
-                    if(idUsuarioActual == objTarea.id_usuario_asignado && 
-                       objTarea.estado != 'completada' && 
-                       fechaFin > fechaActual) {
-                        divEditarObservacion.style.display = "block";
-                        document.querySelector("#idTareaObs").value = objTarea.id_tarea;
-                        document.querySelector("#txtObservacionEdit").value = objTarea.observacion || '';
-                    } else {
-                        divEditarObservacion.style.display = "none";
-                    }
-                    
-                    // Mostrar el modal después de cargar los datos
-                    $('#modalViewTarea').modal('show');
-                } else {
-                    swal("Error", objData.msg , "error");
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status) {
+                let objTarea = objData.data;
+                document.querySelector("#celId").innerHTML = objTarea.id_tarea;
+                document.querySelector("#celCreador").innerHTML = objTarea.creador_nombre;
+                document.querySelector("#celAsignado").innerHTML = objTarea.asignado_nombre;
+                document.querySelector("#celTipo").innerHTML = objTarea.tipo;
+                document.querySelector("#celDescripcion").innerHTML = objTarea.descripcion;
+                document.querySelector("#celDependencia").innerHTML = objTarea.dependencia_nombre;
+                
+                // Formatear estado
+                let estado = objTarea.estado;
+                let estadoHtml = "";
+                switch(estado) {
+                    case 'sin empezar':
+                        estadoHtml = '<span class="badge badge-secondary">Sin empezar</span>';
+                        break;
+                    case 'en curso':
+                        estadoHtml = '<span class="badge badge-primary">En curso</span>';
+                        break;
+                    case 'completada':
+                        estadoHtml = '<span class="badge badge-success">Completada</span>';
+                        break;
                 }
+                document.querySelector("#celEstado").innerHTML = estadoHtml;
+                
+                document.querySelector("#celObservacion").innerHTML = objTarea.observacion || 'No hay observaciones';
+                document.querySelector("#celFechaInicio").innerHTML = objTarea.fecha_inicio;
+                document.querySelector("#celFechaFin").innerHTML = objTarea.fecha_fin;
+                
+                // Formatear tiempo restante
+                let tiempoRestante = objTarea.tiempo_restante;
+                let tiempoHtml = "";
+                if(tiempoRestante === 'Vencida') {
+                    tiempoHtml = '<span class="badge badge-danger">Vencida</span>';
+                } else {
+                    tiempoHtml = '<span class="badge badge-info">'+tiempoRestante+'</span>';
+                }
+                document.querySelector("#celTiempoRestante").innerHTML = tiempoHtml;
+                
+                document.querySelector("#celFechaCreacion").innerHTML = objTarea.fecha_creacion;
+                
+                // Mostrar botón de editar observación solo si:
+                // 1. Es el usuario asignado
+                // 2. La tarea no está completada
+                // 3. La tarea no ha vencido
+                let divEditarObservacion = document.querySelector("#divEditarObservacion");
+                let idUsuarioActual = document.querySelector("#idUser") ? document.querySelector("#idUser").value : 0;
+                let fechaActual = new Date();
+                let fechaFin = new Date(objTarea.fecha_fin);
+                
+                if(idUsuarioActual == objTarea.id_usuario_asignado && 
+                   objTarea.estado != 'completada' && 
+                   fechaFin > fechaActual) {
+                    divEditarObservacion.style.display = "block";
+                    document.querySelector("#idTareaObs").value = objTarea.id_tarea;
+                    document.querySelector("#txtObservacionEdit").value = objTarea.observacion || '';
+                } else {
+                    divEditarObservacion.style.display = "none";
+                }
+                
+                $('#modalViewTarea').modal('show');
+            } else {
+                Swal.fire("Error", objData.msg, "error");
             }
         }
-    }, 200);
+    }
 }
 
 function fntEditTarea(idtarea) {
-    // Cerrar cualquier modal abierto primero
-    $('.modal').modal('hide');
+    document.querySelector('#titleModal').innerHTML ="Actualizar Tarea";
     
-    setTimeout(function() {
-        document.querySelector('#titleModal').innerHTML ="Actualizar Tarea";
-        
-        // Verificar si el elemento tiene la clase antes de intentar reemplazarla
-        if(document.querySelector('.modal-header').classList.contains("headerRegister")) {
-            document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
-        } else {
-            document.querySelector('.modal-header').classList.add("headerUpdate");
-        }
-        
-        // Verificar si el botón tiene la clase antes de intentar reemplazarla
-        if(document.querySelector('#btnActionForm').classList.contains("btn-primary")) {
-            document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
-        } else {
-            document.querySelector('#btnActionForm').classList.add("btn-info");
-        }
-        
-        document.querySelector('#btnText').innerHTML ="Actualizar";
-        document.querySelector('#divEstado').style.display = "block";
-        
-        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
-        request.open("GET",ajaxUrl,true);
-        request.send();
-        request.onreadystatechange = function(){
-            if(request.readyState == 4 && request.status == 200){
-                let objData = JSON.parse(request.responseText);
-                if(objData.status) {
-                    let objTarea = objData.data;
-                    document.querySelector("#idTarea").value = objTarea.id_tarea;
-                    document.querySelector("#listUsuarioAsignado").value = objTarea.id_usuario_asignado;
-                    document.querySelector("#listTipo").value = objTarea.tipo;
-                    document.querySelector("#txtDescripcion").value = objTarea.descripcion;
-                    document.querySelector("#listDependencia").value = objTarea.dependencia_fk;
-                    document.querySelector("#listEstado").value = objTarea.estado;
-                    
-                    // Formatear fechas para el input datetime-local
-                    let fechaInicio = new Date(objTarea.fecha_inicio);
-                    let fechaFin = new Date(objTarea.fecha_fin);
-                    
-                    document.querySelector("#txtFechaInicio").value = formatDateTimeLocal(fechaInicio);
-                    document.querySelector("#txtFechaFin").value = formatDateTimeLocal(fechaFin);
-                    
-                    document.querySelector("#txtObservacion").value = objTarea.observacion || '';
-                    
-                    // Mostrar el modal después de cargar los datos
-                    $('#modalFormTareas').modal('show');
-                }
+    // Verificar si el elemento tiene la clase antes de intentar reemplazarla
+    if(document.querySelector('.modal-header').classList.contains("headerRegister")) {
+        document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
+    } else {
+        document.querySelector('.modal-header').classList.add("headerUpdate");
+    }
+    
+    // Verificar si el botón tiene la clase antes de intentar reemplazarla
+    if(document.querySelector('#btnActionForm').classList.contains("btn-primary")) {
+        document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
+    } else {
+        document.querySelector('#btnActionForm').classList.add("btn-info");
+    }
+    
+    document.querySelector('#btnText').innerHTML ="Actualizar";
+    document.querySelector('#divEstado').style.display = "block";
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status) {
+                let objTarea = objData.data;
+                document.querySelector("#idTarea").value = objTarea.id_tarea;
+                document.querySelector("#listUsuarioAsignado").value = objTarea.id_usuario_asignado;
+                document.querySelector("#listTipo").value = objTarea.tipo;
+                document.querySelector("#txtDescripcion").value = objTarea.descripcion;
+                document.querySelector("#listDependencia").value = objTarea.dependencia_fk;
+                document.querySelector("#listEstado").value = objTarea.estado;
+                
+                // Formatear fechas para el input date
+                let fechaInicio = new Date(objTarea.fecha_inicio);
+                let fechaFin = new Date(objTarea.fecha_fin);
+                
+                document.querySelector("#txtFechaInicio").value = formatDate(fechaInicio);
+                document.querySelector("#txtFechaFin").value = formatDate(fechaFin);
+                
+                document.querySelector("#txtObservacion").value = objTarea.observacion || '';
+                
+                $('#modalFormTareas').modal('show');
             }
         }
-    }, 200);
+    }
 }
 
-function formatDateTimeLocal(date) {
+function formatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
     
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${year}-${month}-${day}`;
 }
 
 function fntDelTarea(idtarea) {
-    swal({
+    Swal.fire({
         title: "Eliminar Tarea",
         text: "¿Realmente quiere eliminar esta tarea?",
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Si, eliminar!",
         cancelButtonText: "No, cancelar!",
         closeOnConfirm: false,
         closeOnCancel: true
-    }, function(isConfirm) {
-        if (isConfirm) {
+    }).then((result) => {
+        if (result.isConfirmed) {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/delTarea';
             let strData = "idTarea="+idtarea;
@@ -321,13 +301,13 @@ function fntDelTarea(idtarea) {
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
-                        swal("Eliminar!", objData.msg , "success");
+                        Swal.fire("Eliminar!", objData.msg, "success");
                         tableTareas.api().ajax.reload();
                         if(window.calendar) {
                             window.calendar.refetchEvents();
                         }
                     } else {
-                        swal("Atención!", objData.msg , "error");
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
@@ -336,17 +316,17 @@ function fntDelTarea(idtarea) {
 }
 
 function fntStartTarea(idtarea) {
-    swal({
+    Swal.fire({
         title: "Iniciar Tarea",
         text: "¿Está seguro de iniciar esta tarea?",
-        type: "info",
+        icon: "info",
         showCancelButton: true,
         confirmButtonText: "Si, iniciar!",
         cancelButtonText: "No, cancelar!",
         closeOnConfirm: false,
         closeOnCancel: true
-    }, function(isConfirm) {
-        if (isConfirm) {
+    }).then((result) => {
+        if (result.isConfirmed) {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/startTarea';
             let strData = "idTarea="+idtarea;
@@ -357,13 +337,13 @@ function fntStartTarea(idtarea) {
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
-                        swal("Tarea iniciada!", objData.msg , "success");
+                        Swal.fire("Tarea iniciada!", objData.msg, "success");
                         tableTareas.api().ajax.reload();
                         if(window.calendar) {
                             window.calendar.refetchEvents();
                         }
                     } else {
-                        swal("Atención!", objData.msg , "error");
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
@@ -372,17 +352,17 @@ function fntStartTarea(idtarea) {
 }
 
 function fntCompleteTarea(idtarea) {
-    swal({
+    Swal.fire({
         title: "Completar Tarea",
         text: "¿Está seguro de marcar esta tarea como completada?",
-        type: "info",
+        icon: "info",
         showCancelButton: true,
         confirmButtonText: "Si, completar!",
         cancelButtonText: "No, cancelar!",
         closeOnConfirm: false,
         closeOnCancel: true
-    }, function(isConfirm) {
-        if (isConfirm) {
+    }).then((result) => {
+        if (result.isConfirmed) {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/completeTarea';
             let strData = "idTarea="+idtarea;
@@ -393,13 +373,13 @@ function fntCompleteTarea(idtarea) {
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
-                        swal("Tarea completada!", objData.msg , "success");
+                        Swal.fire("Tarea completada!", objData.msg, "success");
                         tableTareas.api().ajax.reload();
                         if(window.calendar) {
                             window.calendar.refetchEvents();
                         }
                     } else {
-                        swal("Atención!", objData.msg , "error");
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
@@ -408,41 +388,33 @@ function fntCompleteTarea(idtarea) {
 }
 
 function openModal() {
-    // Asegurarse de que no haya modales abiertos antes de abrir uno nuevo
-    $('.modal').modal('hide');
+    document.querySelector('#idTarea').value ="";
+    // Verificar si el elemento tiene la clase antes de intentar reemplazarla
+    if(document.querySelector('.modal-header').classList.contains("headerUpdate")) {
+        document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
+    } else {
+        document.querySelector('.modal-header').classList.add("headerRegister");
+    }
     
-    setTimeout(function() {
-        document.querySelector('#idTarea').value ="";
-        // Verificar si el elemento tiene la clase antes de intentar reemplazarla
-        if(document.querySelector('.modal-header').classList.contains("headerUpdate")) {
-            document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-        } else {
-            document.querySelector('.modal-header').classList.add("headerRegister");
-        }
-        
-        // Verificar si el botón tiene la clase antes de intentar reemplazarla
-        if(document.querySelector('#btnActionForm').classList.contains("btn-info")) {
-            document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
-        } else {
-            document.querySelector('#btnActionForm').classList.add("btn-primary");
-        }
-        
-        document.querySelector('#btnText').innerHTML ="Guardar";
-        document.querySelector('#titleModal').innerHTML = "Nueva Tarea";
-        document.querySelector('#divEstado').style.display = "none";
-        document.querySelector('#formTarea').reset();
-        $('#modalFormTareas').modal('show');
-    }, 200);
+    // Verificar si el botón tiene la clase antes de intentar reemplazarla
+    if(document.querySelector('#btnActionForm').classList.contains("btn-info")) {
+        document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
+    } else {
+        document.querySelector('#btnActionForm').classList.add("btn-primary");
+    }
+    
+    document.querySelector('#btnText').innerHTML ="Guardar";
+    document.querySelector('#titleModal').innerHTML = "Nueva Tarea";
+    document.querySelector('#divEstado').style.display = "none";
+    document.querySelector('#formTarea').reset();
+    $('#modalFormTareas').modal('show');
 }
 
 function openModalObservacion() {
-    // Cerrar correctamente el modal de vista antes de abrir el de observación
-    $('#modalViewTarea').on('hidden.bs.modal', function (e) {
-        $('#modalFormObservacion').modal('show');
-        // Eliminar el evento después de usarlo para evitar duplicados
-        $('#modalViewTarea').off('hidden.bs.modal');
-    });
     $('#modalViewTarea').modal('hide');
+    setTimeout(function() {
+        $('#modalFormObservacion').modal('show');
+    }, 500);
 }
 
 function fntUsuariosAsignables() {

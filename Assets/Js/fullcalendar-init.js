@@ -42,7 +42,7 @@ function initCalendar() {
             url: base_url+'/Tareas/getTareasCalendario',
             method: 'GET',
             failure: function() {
-                swal("Error", "No se pudieron cargar las tareas en el calendario", "error");
+                Swal.fire("Error", "No se pudieron cargar las tareas en el calendario", "error");
             }
         },
         eventClick: function(info) {
@@ -53,15 +53,6 @@ function initCalendar() {
             hour: '2-digit',
             minute: '2-digit',
             hour12: false
-        },
-        // Mejorar la visualización de eventos
-        eventDidMount: function(info) {
-            $(info.el).tooltip({
-                title: info.event.title,
-                placement: 'top',
-                trigger: 'hover',
-                container: 'body'
-            });
         }
     });
     
