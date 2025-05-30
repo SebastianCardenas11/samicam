@@ -572,6 +572,28 @@ function openModalObservaciones(idtarea) {
     // Cargar las observaciones existentes
     cargarObservaciones(idtarea);
     
+    // Verificar el estado de la tarea para mostrar u ocultar el formulario de observaciones
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            if(objData.status) {
+                let objTarea = objData.data;
+                let formObservacion = document.querySelector("#formNuevaObservacion");
+                
+                // Si la tarea está completada, ocultar el formulario
+                if(objTarea.estado === 'completada') {
+                    formObservacion.style.display = "none";
+                } else {
+                    formObservacion.style.display = "block";
+                }
+            }
+        }
+    };
+    
     // Ocultar el modal de vista de tarea
     var modalView = bootstrap.Modal.getInstance(document.getElementById('modalViewTarea'));
     modalView.hide();
