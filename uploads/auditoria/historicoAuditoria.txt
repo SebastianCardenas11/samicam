@@ -82,3 +82,4 @@
 [2025-05-30 00:13:03] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
 [2025-05-30 00:14:08] ID: 12 | Usuario: carlos lopez | Rol: Tecnico Ntic | IP: ::1 | Acción: Acceso al módulo Dashboard
 [2025-05-30 00:15:08] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-05-30 00:32:03] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops

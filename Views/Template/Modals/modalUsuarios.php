@@ -2,12 +2,13 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header headerRegister">
-        <h5 class="modal-title">Seleccionar Usuarios</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title text-black">Seleccionar Usuarios</h5>
+       
       </div>
       <div class="modal-body">
-        <div class="form-row">
-          <div class="form-group col-md-12">
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label class="form-label fw-bold mb-2">Seleccione los usuarios para asignar la tarea:</label>
             <div id="usuariosCheckboxes" class="checkbox-container">
               <!-- Los checkboxes se cargarán dinámicamente -->
               <div class="text-center">
@@ -19,7 +20,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="btnConfirmarUsuarios" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Confirmar selección</button>
+          <button id="btnConfirmarUsuarios" class="btn btn-success" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Confirmar selección</button>
           <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</button>
         </div>
       </div>
@@ -33,10 +34,17 @@
   overflow-y: auto;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 15px;
 }
 .form-check {
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+}
+.form-check-label {
+  margin-left: 5px;
+}
+
+.fw-bold {
+  font-weight: 600;
 }
 </style>

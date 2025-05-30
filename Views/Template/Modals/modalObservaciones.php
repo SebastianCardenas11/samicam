@@ -2,20 +2,20 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header headerUpdate">
-        <h5 class="modal-title" id="titleModalObs">Observaciones de la Tarea</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title text-white" id="titleModalObs">Observaciones de la Tarea</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <!-- Formulario para agregar nueva observación -->
         <form id="formNuevaObservacion" name="formNuevaObservacion" class="form-horizontal mb-4">
           <input type="hidden" id="idTareaObsList" name="idTarea" value="">
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <label for="txtNuevaObservacion">Nueva Observación</label>
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="txtNuevaObservacion" class="form-label fw-bold">Nueva Observación</label>
               <textarea class="form-control" id="txtNuevaObservacion" name="txtObservacion" rows="3" required></textarea>
             </div>
           </div>
-          <div class="text-right">
+          <div class="text-end">
             <button id="btnAgregarObs" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-plus-circle"></i><span>Agregar</span></button>
           </div>
         </form>
@@ -23,7 +23,7 @@
         <hr>
         
         <!-- Lista de observaciones -->
-        <h5>Historial de Observaciones</h5>
+        <h5 class="fw-bold mb-3">Historial de Observaciones</h5>
         <div id="listaObservaciones" class="mt-3">
           <!-- Aquí se cargarán las observaciones dinámicamente -->
           <div class="text-center">
@@ -39,3 +39,17 @@
     </div>
   </div>
 </div>
+
+<style>
+.headerUpdate {
+  background-color: #17a2b8;
+  color: white;
+}
+.fw-bold {
+  font-weight: 600;
+}
+.card-header {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+</style>

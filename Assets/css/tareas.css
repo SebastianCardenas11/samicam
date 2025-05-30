@@ -91,12 +91,6 @@
     background-color: #f8f9fa;
 }
 
-/* Estilos para los modales */
-.modal-header.headerRegister {
-    background-color: #007bff;
-    color: white;
-}
-
 .modal-header.headerUpdate {
     background-color: #17a2b8;
     color: white;
