@@ -46,41 +46,13 @@
                     $btnComplete = '';
                     $btnStart = '';
 
-                    // Calcular tiempo restante
-                    $fechaActual = new DateTime();
-                    $fechaFin = new DateTime($arrData[$i]['fecha_fin']);
-                    $intervalo = $fechaActual->diff($fechaFin);
-                    
-                    if($fechaFin < $fechaActual) {
-                        $arrData[$i]['tiempo_restante'] = '<span class="badge text-bg-danger text-black">Vencida</span>';
-                    } else {
-                        if($intervalo->days > 0) {
-                            $arrData[$i]['tiempo_restante'] = '<span class="badge text-bg-warning text-black">'.$intervalo->days.' días</span>';
-                        } else {
-                            $arrData[$i]['tiempo_restante'] = '<span class="badge badge-primary text-dark">'.$intervalo->h.' horas</span>';
-                        }
-                    }
-
-                    // Formatear estado
-                    switch($arrData[$i]['estado']) {
-                        case 'sin empezar':
-                            $arrData[$i]['estado'] = '<span class="badge text-bg-secondary text-black">Sin empezar</span>';
-                            break;
-                        case 'en curso':
-                            $arrData[$i]['estado'] = '<span class="badge text-bg-primary text-black">En curso</span>';
-                            break;
-                        case 'completada':
-                            $arrData[$i]['estado'] = '<span class="badge text-bg-success text-black">Completada</span>';
-                            break;
-                    }
-
                     // Permisos para botones
                     if($_SESSION['permisosMod']['r']){
                         $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewTarea('.$arrData[$i]['id_tarea'].')" title="Ver tarea"><i class="far fa-eye"></i></button>';
                     }
 
                     // Si la tarea está completada, solo mostrar el botón de ver
-                    if($arrData[$i]['estado'] == '<span class="badge badge-success text-white">Completada</span>') {
+                    if($arrData[$i]['estado'] == 'completada') {
                         $arrData[$i]['options'] = '<div class="text-center">'.$btnView.'</div>';
                         continue; // Saltar al siguiente ciclo
                     }
@@ -88,11 +60,12 @@
                     // Si es el creador de la tarea
                     if($_SESSION['idUser'] == $arrData[$i]['id_usuario_creador'] && $_SESSION['permisosMod']['u']){
                         // Solo mostrar botón de editar si la tarea está sin empezar
-                        if($arrData[$i]['estado'] == '<span class="badge badge-secondary text-white">Sin empezar</span>') {
+                        if($arrData[$i]['estado'] == 'sin empezar') {
                             $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditTarea('.$arrData[$i]['id_tarea'].')" title="Editar tarea"><i class="fas fa-pencil-alt"></i></button>';
                         }
                         
-                        if($arrData[$i]['estado'] != '<span class="badge badge-success text-white">Completada</span>') {
+                        // Solo mostrar botón de completar si la tarea está en curso
+                        if($arrData[$i]['estado'] == 'en curso') {
                             $btnComplete = '<button class="btn btn-success btn-sm" onClick="fntCompleteTarea('.$arrData[$i]['id_tarea'].')" title="Marcar como completada"><i class="fas fa-check"></i></button>';
                         }
                         
@@ -102,7 +75,7 @@
                     }
 
                     // Si es el usuario asignado y la tarea está sin empezar
-                    if($_SESSION['idUser'] == $arrData[$i]['id_usuario_asignado'] && strpos($arrData[$i]['estado'], 'Sin empezar') !== false){
+                    if($_SESSION['idUser'] == $arrData[$i]['id_usuario_asignado'] && $arrData[$i]['estado'] == 'sin empezar'){
                         $btnStart = '<button class="btn btn-warning btn-sm" onClick="fntStartTarea('.$arrData[$i]['id_tarea'].')" title="Iniciar tarea"><i class="fas fa-play"></i></button>';
                     }
 
@@ -295,6 +268,13 @@
             $arrTarea = $this->model->getTarea($idTarea);
             if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para completar esta tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
+            // Verificar que la tarea esté en curso
+            if($arrTarea['estado'] != 'en curso') {
+                $arrResponse = array('status' => false, 'msg' => 'Solo se pueden completar tareas que estén en curso.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }

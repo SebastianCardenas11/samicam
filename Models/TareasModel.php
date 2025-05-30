@@ -107,8 +107,9 @@
             $sql = "SELECT u.ideusuario, u.nombres 
                     FROM tbl_usuarios u 
                     INNER JOIN rol r ON u.rolid = r.idrol 
-                    WHERE (r.nombrerol = 'Tecnico Ntic' OR r.nombrerol = 'Superadministrador')
-                    AND u.status = 1";
+                    WHERE (r.nombrerol LIKE '%Tecnico%' OR r.nombrerol LIKE '%Técnico%' OR r.nombrerol = 'Superadministrador')
+                    AND u.status = 1
+                    ORDER BY u.nombres ASC";
             
             return $this->select_all($sql);
         }
