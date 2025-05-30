@@ -197,24 +197,20 @@ function fntViewTarea(idtarea) {
                 
                 document.querySelector("#celFechaCompletada").innerHTML = objTarea.fecha_completada ? objTarea.fecha_completada : 'No completada';
                 
-                // Mostrar botón de editar observación solo si:
-                // 1. Es el usuario asignado
-                // 2. La tarea no está completada
-                // 3. La tarea no ha vencido
-                let divEditarObservacion = document.querySelector("#divEditarObservacion");
+                let divAgregarObservacion = document.querySelector("#divAgregarObservacion");
                 let idUsuarioActual = document.querySelector("#idUser") ? document.querySelector("#idUser").value : 0;
                 let fechaActual = new Date();
                 let fechaFin = new Date(objTarea.fecha_fin);
                 
-                // Ocultar siempre el botón de editar observación si la tarea está completada
+                // Ocultar siempre el botón de agregar observación si la tarea está completada
                 if(objTarea.estado === 'completada') {
-                    divEditarObservacion.style.display = "none";
+                    divAgregarObservacion.style.display = "none";
                 } else if(idUsuarioActual == objTarea.id_usuario_asignado && fechaFin > fechaActual) {
-                    divEditarObservacion.style.display = "block";
+                    divAgregarObservacion.style.display = "block";
                     document.querySelector("#idTareaObs").value = objTarea.id_tarea;
                     document.querySelector("#txtObservacionEdit").value = objTarea.observacion || '';
                 } else {
-                    divEditarObservacion.style.display = "none";
+                    divAgregarObservacion.style.display = "none";
                 }
                 
                 var modalView = new bootstrap.Modal(document.getElementById('modalViewTarea'));
@@ -322,8 +318,9 @@ function fntDelTarea(idtarea) {
                     if(objData.status) {
                         Swal.fire("Eliminar!", objData.msg, "success");
                         tableTareas.api().ajax.reload();
-                        if(window.calendar) {
-                            window.calendar.refetchEvents();
+                        // Actualizar calendario si existe la función
+                        if (typeof refreshCalendar === 'function') {
+                            refreshCalendar();
                         }
                     } else {
                         Swal.fire("Atención!", objData.msg, "error");
@@ -358,8 +355,9 @@ function fntStartTarea(idtarea) {
                     if(objData.status) {
                         Swal.fire("Tarea iniciada!", objData.msg, "success");
                         tableTareas.api().ajax.reload();
-                        if(window.calendar) {
-                            window.calendar.refetchEvents();
+                        // Actualizar calendario si existe la función
+                        if (typeof refreshCalendar === 'function') {
+                            refreshCalendar();
                         }
                     } else {
                         Swal.fire("Atención!", objData.msg, "error");
@@ -373,7 +371,7 @@ function fntStartTarea(idtarea) {
 function fntCompleteTarea(idtarea) {
     Swal.fire({
         title: "Completar Tarea",
-        text: "¿Está seguro de marcar esta tarea como completada?",
+        text: "¿Está seguro de marcar esta tarea como completada? Esta acción no se puede deshacer.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Si, completar!",
@@ -382,39 +380,27 @@ function fntCompleteTarea(idtarea) {
         cancelButtonColor: '#d33'
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                title: "Confirmación adicional",
-                text: "Esta acción no se puede deshacer. ¿Realmente desea marcar la tarea como completada?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Si, completar definitivamente!",
-                cancelButtonText: "No, cancelar!",
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33'
-            }).then((confirmResult) => {
-                if (confirmResult.isConfirmed) {
-                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-                    let ajaxUrl = base_url+'/Tareas/completeTarea';
-                    let strData = "idTarea="+idtarea;
-                    request.open("POST",ajaxUrl,true);
-                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    request.send(strData);
-                    request.onreadystatechange = function(){
-                        if(request.readyState == 4 && request.status == 200){
-                            let objData = JSON.parse(request.responseText);
-                            if(objData.status) {
-                                Swal.fire("Tarea completada!", objData.msg, "success");
-                                tableTareas.api().ajax.reload();
-                                if(window.calendar) {
-                                    window.calendar.refetchEvents();
-                                }
-                            } else {
-                                Swal.fire("Atención!", objData.msg, "error");
-                            }
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Tareas/completeTarea';
+            let strData = "idTarea="+idtarea;
+            request.open("POST",ajaxUrl,true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.send(strData);
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status) {
+                        Swal.fire("Tarea completada!", objData.msg, "success");
+                        tableTareas.api().ajax.reload(null, false);
+                        // Actualizar calendario si existe la función
+                        if (typeof refreshCalendar === 'function') {
+                            refreshCalendar();
                         }
+                    } else {
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
-            });
+            }
         }
     });
 }

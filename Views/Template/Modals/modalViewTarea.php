@@ -1,4 +1,3 @@
-<!-- Modal -->
 <div class="modal fade" id="modalViewTarea" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content text-dark">
@@ -59,8 +58,8 @@
             </tr>
           </tbody>
         </table>
-        <div class="text-center" id="divEditarObservacion">
-          <button class="btn btn-primary" type="button" onclick="openModalObservacion();"><i class="fas fa-edit"></i> Editar observación</button>
+        <div class="text-center" id="divAgregarObservacion">
+          <button class="btn btn-primary" type="button" onclick="openModalObservacion();"><i class="fas fa-comment"></i> Agregar observación</button>
         </div>
       </div>
       <div class="modal-footer">

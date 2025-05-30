@@ -77,7 +77,7 @@
                 }
 
                 // Si la tarea está completada, solo mostrar el botón de ver
-                if($arrData[$i]['estado'] == '<span class="badge badge-success">Completada</span>') {
+                if($arrData[$i]['estado'] == '<span class=" badge-success text-black">Completada</span>') {
                     $arrData[$i]['options'] = '<div class="text-center">'.$btnView.'</div>';
                     continue; // Saltar al siguiente ciclo
                 }
@@ -86,7 +86,7 @@
                 if($_SESSION['idUser'] == $arrData[$i]['id_usuario_creador'] && $_SESSION['permisosMod']['u']){
                     $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditTarea('.$arrData[$i]['id_tarea'].')" title="Editar tarea"><i class="fas fa-pencil-alt"></i></button>';
                     
-                    if($arrData[$i]['estado'] != '<span class="badge badge-success">Completada</span>') {
+                    if($arrData[$i]['estado'] != '<span class=" badge-success text-black">Completada</span>') {
                         $btnComplete = '<button class="btn btn-success btn-sm" onClick="fntCompleteTarea('.$arrData[$i]['id_tarea'].')" title="Marcar como completada"><i class="fas fa-check"></i></button>';
                     }
                     
@@ -138,7 +138,8 @@
                         'asignado' => $tarea['asignado_nombre'],
                         'creador' => $tarea['creador_nombre'],
                         'estado' => $tarea['estado'],
-                        'observacion' => $tarea['observacion']
+                        'observacion' => $tarea['observacion'],
+                        'descripcion' => $tarea['descripcion']
                     ]
                 ];
             }
@@ -297,14 +298,14 @@
             // Verificar si es el usuario asignado
             $arrTarea = $this->model->getTarea($idTarea);
             if($arrTarea['id_usuario_asignado'] != $_SESSION['idUser']) {
-                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para editar esta observación.');
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para agregar observaciones a esta tarea.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
 
             // Verificar que la tarea no esté completada
             if($arrTarea['estado'] == 'completada') {
-                $arrResponse = array('status' => false, 'msg' => 'No se puede editar la observación de una tarea completada.');
+                $arrResponse = array('status' => false, 'msg' => 'No se puede agregar observaciones a una tarea completada.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
@@ -313,7 +314,7 @@
             $fechaActual = new DateTime();
             $fechaFin = new DateTime($arrTarea['fecha_fin']);
             if($fechaFin < $fechaActual) {
-                $arrResponse = array('status' => false, 'msg' => 'No se puede editar la observación de una tarea vencida.');
+                $arrResponse = array('status' => false, 'msg' => 'No se puede agregar observaciones a una tarea vencida.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
@@ -321,9 +322,9 @@
             $request_tarea = $this->model->updateObservacionTarea($idTarea, $observacion);
             
             if($request_tarea > 0) {
-                $arrResponse = array('status' => true, 'msg' => 'Observación actualizada correctamente.');
+                $arrResponse = array('status' => true, 'msg' => 'Observación agregada correctamente.');
             } else {
-                $arrResponse = array('status' => false, 'msg' => 'Error al actualizar la observación.');
+                $arrResponse = array('status' => false, 'msg' => 'Error al agregar la observación.');
             }
             
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
