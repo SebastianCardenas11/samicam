@@ -1,0 +1,102 @@
+/* Estilos para el módulo de tareas */
+
+/* Estilos para los badges de estado */
+.badge.text-bg-secondary {
+    background-color: #6c757d !important;
+    color: white !important;
+}
+
+.badge.text-bg-warning {
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+
+.badge.text-bg-success {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.badge.text-bg-danger {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.badge.text-bg-info {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+/* Estilos para los badges de usuarios */
+.user-badge {
+    display: inline-block;
+    background-color: #e9ecef;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.user-badge i {
+    margin-left: 5px;
+    color: #6c757d;
+}
+
+/* Estilos para el contenedor de usuarios seleccionados */
+.selected-users {
+    min-height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el contenedor de checkboxes */
+.checkbox-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.form-check {
+    margin-bottom: 5px;
+}
+
+/* Estilos para las tarjetas de observaciones */
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: 500;
+}
+
+/* Estilos para el calendario */
+.fc-event {
+    cursor: pointer;
+}
+
+.fc-event-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estilos para los botones de acción */
+.btn-sm {
+    margin: 0 2px;
+}
+
+/* Estilos para las tablas */
+.table th {
+    background-color: #f8f9fa;
+}
+
+.modal-header.headerUpdate {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.modal-header.header-primary {
+    background-color: #6c757d;
+    color: white;
+}

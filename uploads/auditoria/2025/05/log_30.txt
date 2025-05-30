@@ -1,0 +1,1 @@
+[2025-05-30 01:49:53] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión

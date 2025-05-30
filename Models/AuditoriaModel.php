@@ -113,4 +113,16 @@ class AuditoriaModel extends Mysql
         
         return $resultado;
     }
+    
+    /**
+     * Obtiene registros de auditoría específicos para un módulo
+     * @param string $modulo Nombre del módulo (cargos, vacaciones, viaticos, archivos)
+     * @return string Registros de auditoría del módulo
+     */
+    public function getAuditoriaModulo(string $modulo)
+    {
+        // Buscar en el histórico los registros relacionados con el módulo
+        $termino = "módulo " . $modulo;
+        return $this->buscarEnHistorico($termino);
+    }
 }

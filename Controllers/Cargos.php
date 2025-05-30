@@ -66,12 +66,10 @@ class Cargos extends Controllers
                 }
                 if ($request_user > 0) {
                     if ($option == 1) {
-                        $arrResponse = array('status' => true, 'msg' => 'Usuario guardado correctamente');
+                        $arrResponse = array('status' => true, 'msg' => 'Cargo guardado correctamente');
                     } else {
-                        $arrResponse = array('status' => true, 'msg' => 'Usuario actualizado correctamente');
+                        $arrResponse = array('status' => true, 'msg' => 'Cargo actualizado correctamente');
                     }
-                } else if ($request_user == 'exist') {
-                    $arrResponse = array('status' => false, 'msg' => '¡Atención! la identificación del Usuario ya existe, ingrese otro');
                 } else {
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
@@ -147,9 +145,9 @@ class Cargos extends Controllers
                 $intIdeCargos = intval($_POST['ideCargos']);
                 $requestDelete = $this->model->deleteCargos($intIdeCargos);
                 if ($requestDelete) {
-                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Usuario');
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Cargo');
                 } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Usuario.');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Cargo.');
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }

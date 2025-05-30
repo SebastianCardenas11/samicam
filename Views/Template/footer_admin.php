@@ -50,6 +50,7 @@
 
 <!-- FUNCIONES PROPIAS -->
 <script type="text/javascript" src="<?=media();?>/js/functions_admin.js"></script>
+<script type="text/javascript" src="<?=media();?>/js/functions_audit_helper.js"></script>
 <script src="<?=media();?>/js/<?=$data['page_functions_js'];?>"></script>
 
 <!-- PLUGINS DE TABLAS Y GRÁFICAS -->
@@ -64,6 +65,12 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+<?php if(isset($data['page_name']) && $data['page_name'] == "tareas"){ ?>
+<!-- FullCalendar para el módulo de tareas -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
+<?php } ?>
 
 <!-- DATATABLES INICIALIZACIÓN -->
 <script>

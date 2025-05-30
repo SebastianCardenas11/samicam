@@ -1,0 +1,428 @@
+<?php
+    class Tareas extends Controllers
+    {
+        public function __construct()
+        {
+            parent::__construct();
+            session_start();
+            if(empty($_SESSION['login']))
+            {
+                header('Location: '.base_url().'/login');
+                die();
+            }
+            getPermisos(11); 
+        }
+
+        public function Tareas()
+        {
+            if(empty($_SESSION['permisosMod']['r'])){
+                header("Location:".base_url().'/dashboard');
+            }
+            
+            $data['page_tag'] = "Tareas";
+            $data['page_title'] = "TAREAS";
+            $data['page_name'] = "tareas";
+            $data['page_functions_js'] = "functions_tareas.js";
+            $data['usuarios_asignables'] = $this->model->getUsuariosAsignables();
+            $this->views->getView($this,"tareas",$data);
+        }
+
+        public function getTareas()
+        {
+            header('Content-Type: application/json');
+            
+            try {
+                if($_SESSION['userData']['idrol'] == 1) { // Super Admin
+                    // Puede ver todas las tareas
+                    $arrData = $this->model->getTareas();
+                } else {
+                    // Solo ve las tareas asignadas a él
+                    $arrData = $this->model->getTareasByUsuarioAsignado($_SESSION['idUser']);
+                }
+
+                for ($i=0; $i < count($arrData); $i++) {
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+                    $btnComplete = '';
+                    $btnStart = '';
+
+                    // Calcular tiempo restante
+                    $fechaActual = new DateTime();
+                    $fechaFin = new DateTime($arrData[$i]['fecha_fin']);
+                    $intervalo = $fechaActual->diff($fechaFin);
+                    
+                    if($fechaFin < $fechaActual) {
+                        $arrData[$i]['tiempo_restante'] = 'Vencida';
+                    } else {
+                        $arrData[$i]['tiempo_restante'] = $intervalo->days.' días';
+                    }
+
+                    // Permisos para botones
+                    if($_SESSION['permisosMod']['r']){
+                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewTarea('.$arrData[$i]['id_tarea'].')"><i class="far fa-eye"></i></button>';
+                    }
+
+                    // Si la tarea está completada, solo mostrar el botón de ver
+                    if($arrData[$i]['estado'] == 'completada') {
+                        $arrData[$i]['options'] = '<div class="text-center">'.$btnView.'</div>';
+                        continue; // Saltar al siguiente ciclo
+                    }
+
+                    // Si es el creador de la tarea
+                    if($_SESSION['idUser'] == $arrData[$i]['id_usuario_creador'] && $_SESSION['permisosMod']['u']){
+                        // Solo mostrar botón de editar si la tarea está sin empezar
+                        if($arrData[$i]['estado'] == 'sin empezar') {
+                            $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditTarea('.$arrData[$i]['id_tarea'].')"><i class="fas fa-pencil-alt"></i></button>';
+                        }
+                        
+                        // Solo mostrar botón de completar si la tarea está en curso
+                        if($arrData[$i]['estado'] == 'en curso') {
+                            $btnComplete = '<button class="btn btn-success btn-sm" onClick="fntCompleteTarea('.$arrData[$i]['id_tarea'].')"><i class="fas fa-check"></i></button>';
+                        }
+                        
+                        if($_SESSION['permisosMod']['d']){
+                            $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelTarea('.$arrData[$i]['id_tarea'].')"><i class="far fa-trash-alt"></i></button>';
+                        }
+                    }
+
+                    // Verificar si el usuario actual está entre los asignados a la tarea
+                    $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($arrData[$i]['id_tarea'], $_SESSION['idUser']);
+                    
+                    // Si es un usuario asignado y la tarea está sin empezar
+                    if($esUsuarioAsignado && $arrData[$i]['estado'] == 'sin empezar'){
+                        $btnStart = '<button class="btn btn-warning btn-sm" onClick="fntStartTarea('.$arrData[$i]['id_tarea'].')"><i class="fas fa-play"></i></button>';
+                    }
+
+                    $arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.' '.$btnComplete.' '.$btnStart.'</div>';
+                }
+                
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            } catch (Exception $e) {
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+            die();
+        }
+
+        public function getTareasCalendario()
+        {
+            header('Content-Type: application/json');
+            
+            try {
+                if($_SESSION['userData']['idrol'] == 1) { // Super Admin
+                    // Puede ver todas las tareas
+                    $arrData = $this->model->getTareas();
+                } else {
+                    // Solo ve las tareas asignadas a él
+                    $arrData = $this->model->getTareasByUsuarioAsignado($_SESSION['idUser']);
+                }
+
+                $eventos = [];
+                foreach ($arrData as $tarea) {
+                    $color = '#6c757d'; 
+                    if($tarea['estado'] == 'en curso') {
+                        $color = '#007bff'; 
+                    } else if($tarea['estado'] == 'completada') {
+                        $color = '#28a745';
+                    }
+
+                    $eventos[] = [
+                        'id' => $tarea['id_tarea'],
+                        'title' => $tarea['descripcion'],
+                        'start' => $tarea['fecha_inicio'],
+                        'end' => $tarea['fecha_fin'],
+                        'color' => $color,
+                        'extendedProps' => [
+                            'tipo' => $tarea['tipo'],
+                            'dependencia' => $tarea['dependencia_nombre'],
+                            'asignado' => $tarea['asignado_nombre'],
+                            'creador' => $tarea['creador_nombre'],
+                            'estado' => $tarea['estado'],
+                            'descripcion' => $tarea['descripcion']
+                        ]
+                    ];
+                }
+                
+                echo json_encode($eventos, JSON_UNESCAPED_UNICODE);
+            } catch (Exception $e) {
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+            die();
+        }
+
+        public function getTarea($idtarea)
+        {
+            $idtarea = intval($idtarea);
+            if($idtarea > 0)
+            {
+                $arrData = $this->model->getTarea($idtarea);
+                if(empty($arrData))
+                {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                }else{
+                    // Calcular tiempo restante
+                    $fechaActual = new DateTime();
+                    $fechaFin = new DateTime($arrData['fecha_fin']);
+                    $intervalo = $fechaActual->diff($fechaFin);
+                    
+                    if($fechaFin < $fechaActual) {
+                        $arrData['tiempo_restante'] = 'Vencida';
+                    } else {
+                        $arrData['tiempo_restante'] = $intervalo->days.' días';
+                    }
+                    
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                header('Content-Type: application/json');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+
+        public function setTarea()
+        {
+            // Solo el super admin puede crear tareas
+            if($_SESSION['userData']['idrol'] != 1) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para realizar esta acción.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            $idTarea = intval($_POST['idTarea']);
+            $usuariosIds = isset($_POST['usuariosIds']) ? $_POST['usuariosIds'] : '';
+            $tipo = strClean($_POST['listTipo']);
+            $descripcion = strClean($_POST['txtDescripcion']);
+            $dependencia = intval($_POST['listDependencia']);
+            $fechaInicio = $_POST['txtFechaInicio'];
+            $fechaFin = $_POST['txtFechaFin'];
+            $observacion = strClean($_POST['txtObservacion']);
+            $estado = isset($_POST['listEstado']) ? $_POST['listEstado'] : 'sin empezar';
+
+            // Convertir string de IDs a array
+            $usuariosAsignados = [];
+            if(!empty($usuariosIds)) {
+                $usuariosAsignados = explode(',', $usuariosIds);
+            }
+
+            if(empty($usuariosAsignados)) {
+                $arrResponse = array('status' => false, 'msg' => 'Debe seleccionar al menos un usuario para asignar la tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            if($idTarea == 0) // Nueva tarea
+            {
+                $request_tarea = $this->model->insertTarea($_SESSION['idUser'], $usuariosAsignados, $tipo, 
+                                                          $descripcion, $dependencia, $fechaInicio, 
+                                                          $fechaFin, $observacion);
+                $option = 1;
+            } else { // Actualizar tarea
+                // Verificar si es el creador de la tarea
+                $arrTarea = $this->model->getTarea($idTarea);
+                if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
+                    $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para editar esta tarea.');
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+                
+                // Verificar que la tarea esté sin empezar
+                if($arrTarea['estado'] != 'sin empezar') {
+                    $arrResponse = array('status' => false, 'msg' => 'No se puede editar una tarea que ya está en curso o completada.');
+                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+
+                $request_tarea = $this->model->updateTarea($idTarea, $usuariosAsignados, $tipo, 
+                                                          $descripcion, $dependencia, $estado,
+                                                          $fechaInicio, $fechaFin, $observacion);
+                $option = 2;
+            }
+
+            if($request_tarea > 0)
+            {
+                if($option == 1){
+                    $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
+                }else{
+                    $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
+                }
+            }else{
+                $arrResponse = array('status' => false, 'msg' => 'Error al guardar los datos.');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function startTarea()
+        {
+            $idTarea = intval($_POST['idTarea']);
+            
+            // Verificar si es el usuario asignado
+            $arrTarea = $this->model->getTarea($idTarea);
+            
+            // Verificar si el usuario actual está entre los asignados
+            $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($idTarea, $_SESSION['idUser']);
+            
+            if(!$esUsuarioAsignado) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para iniciar esta tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            // Verificar que la tarea esté sin empezar
+            if($arrTarea['estado'] != 'sin empezar') {
+                $arrResponse = array('status' => false, 'msg' => 'La tarea ya ha sido iniciada o completada.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            $request_tarea = $this->model->updateEstadoTarea($idTarea, 'en curso');
+            
+            if($request_tarea > 0) {
+                $arrResponse = array('status' => true, 'msg' => 'Tarea iniciada correctamente.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'Error al iniciar la tarea.');
+            }
+            
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function completeTarea()
+        {
+            $idTarea = intval($_POST['idTarea']);
+            
+            // Verificar si es el creador de la tarea
+            $arrTarea = $this->model->getTarea($idTarea);
+            if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para completar esta tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
+            // Verificar que la tarea esté en curso
+            if($arrTarea['estado'] != 'en curso') {
+                $arrResponse = array('status' => false, 'msg' => 'Solo se pueden completar tareas que estén en curso.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            $request_tarea = $this->model->updateEstadoTarea($idTarea, 'completada');
+            
+            if($request_tarea > 0) {
+                $arrResponse = array('status' => true, 'msg' => 'Tarea completada correctamente.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'Error al completar la tarea.');
+            }
+            
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function addObservacion()
+        {
+            $idTarea = intval($_POST['idTarea']);
+            $observacion = strClean($_POST['txtObservacion']);
+            
+            // Verificar si es el usuario asignado
+            $arrTarea = $this->model->getTarea($idTarea);
+            
+            // Verificar si el usuario actual está entre los asignados
+            $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($idTarea, $_SESSION['idUser']);
+            
+            if(!$esUsuarioAsignado) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para agregar observaciones a esta tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            // Verificar que la tarea no esté completada
+            if($arrTarea['estado'] == 'completada') {
+                $arrResponse = array('status' => false, 'msg' => 'No se puede agregar observaciones a una tarea completada.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            // Verificar que no haya vencido la fecha de fin
+            $fechaActual = new DateTime();
+            $fechaFin = new DateTime($arrTarea['fecha_fin']);
+            if($fechaFin < $fechaActual) {
+                $arrResponse = array('status' => false, 'msg' => 'No se puede agregar observaciones a una tarea vencida.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            $request_obs = $this->model->insertObservacion($idTarea, $_SESSION['idUser'], $observacion);
+            
+            if($request_obs > 0) {
+                $arrResponse = array('status' => true, 'msg' => 'Observación agregada correctamente.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'Error al agregar la observación.');
+            }
+            
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        
+        public function getObservaciones($idtarea)
+        {
+            $idtarea = intval($idtarea);
+            if($idtarea > 0)
+            {
+                $arrData = $this->model->getObservacionesTarea($idtarea);
+                if(empty($arrData))
+                {
+                    $arrResponse = array('status' => false, 'msg' => 'No hay observaciones para esta tarea.');
+                }else{
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                header('Content-Type: application/json');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
+
+        public function delTarea()
+        {
+            $idTarea = intval($_POST['idTarea']);
+            
+            // Verificar si es el creador de la tarea
+            $arrTarea = $this->model->getTarea($idTarea);
+            if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para eliminar esta tarea.');
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            $request_delete = $this->model->deleteTarea($idTarea);
+            if($request_delete)
+            {
+                $arrResponse = array('status' => true, 'msg' => 'Tarea eliminada correctamente.');
+            }else{
+                $arrResponse = array('status' => false, 'msg' => 'Error al eliminar la tarea.');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getUsuariosAsignables()
+        {
+            header('Content-Type: application/json');
+            $arrData = $this->model->getUsuariosAsignables();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function getDependencias()
+        {
+            $htmlOptions = "";
+            $arrData = $this->model->getDependencias();
+            if(count($arrData) > 0 ){
+                for ($i=0; $i < count($arrData); $i++) { 
+                    $htmlOptions .= '<option value="'.$arrData[$i]['dependencia_pk'].'">'.$arrData[$i]['nombre'].'</option>';
+                }
+            }
+            echo $htmlOptions;
+            die();
+        }
+    }
+?>

@@ -3,6 +3,9 @@ let rowTable = "";
 let divLoading;
 document.addEventListener('DOMContentLoaded', function(){
     divLoading = document.querySelector("#divLoading");
+    
+    // Registrar acceso al módulo de cargos en auditoría
+    registrarAccesoModulo('Cargos');
 
     tableCargos = $('#tableCargos').dataTable( {
         "aProcessing":true,
@@ -229,7 +232,7 @@ function fntEditInfo(element, idecargos){
 
 function fntDelInfo(idecargos){
     Swal.fire({
-        title: "Eliminar la Asignación",
+        title: "Eliminar Cargo",
         text: "¿Estás seguro?",
         imageUrl: base_url + "/Assets/images/iconos/eliminar.png",
         showCancelButton: true,
@@ -276,4 +279,15 @@ function openModal()
     document.querySelector('#titleModal').innerHTML = "Nuevo Cargos";
     document.querySelector("#formCargos").reset();
     $('#modalFormCargos').modal('show');
+}
+
+// Función para registrar acceso al módulo en auditoría
+function registrarAccesoModulo(modulo) {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/auditoria/registrarAccesoJS';
+    let formData = new FormData();
+    formData.append('modulo', modulo);
+    
+    request.open("POST", ajaxUrl, true);
+    request.send(formData);
 }
