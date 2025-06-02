@@ -157,12 +157,14 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener funcionarios con tipo de contrato Carrera o Libre nombramiento
     public function getFuncionariosValidos()
     {
-        // Devolver los IDs de funcionarios que ya tienen viáticos
-        $sql = "SELECT DISTINCT funci_fk as idefuncionario, 
-                CONCAT('Funcionario ID: ', funci_fk) as nombre_completo, 
-                'N/A' as tipo_cont
-                FROM tbl_viaticos 
-                WHERE estatus = 1";
+        $sql = "SELECT 
+                fp.idefuncionario, 
+                fp.nombre_completo,
+                tc.tipo_cont
+                FROM tbl_funcionarios_planta fp
+                LEFT JOIN tbl_contrato tc ON fp.contrato_fk = tc.id_contrato
+                WHERE fp.status = 1
+                ORDER BY fp.nombre_completo ASC";
         
         $request = $this->select_all($sql);
         return $request;

@@ -114,17 +114,14 @@ class FuncionariosViaticos extends Controllers
     public function getFuncionariosValidos()
     {
         header('Content-Type: application/json');
+        
         if (empty($_SESSION['permisosMod']['r'])) {
-            echo json_encode([]);
+            echo json_encode(['error' => 'No tiene permisos para esta acción']);
             die();
         }
         
-        try {
-            $funcionarios = $this->model->getFuncionariosValidos();
-            echo json_encode($funcionarios, JSON_UNESCAPED_UNICODE);
-        } catch (Exception $e) {
-            echo json_encode(['error' => $e->getMessage()]);
-        }
+        $arrData = $this->model->getFuncionariosValidos();
+        echo json_encode($arrData);
         die();
     }
 

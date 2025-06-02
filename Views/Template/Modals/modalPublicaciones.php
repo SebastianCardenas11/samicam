@@ -1,5 +1,5 @@
-<div class="modal fade" id="modalFormPublicaciones" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalFormPublicaciones" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="titleModal">Nueva Publicación</h5>
@@ -62,8 +62,8 @@
 </div>
 
 <!-- Modal para Ver Publicación -->
-<div class="modal fade" id="modalViewPublicacion" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="modalViewPublicacion" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="titleModal">Datos de la Publicación</h5>

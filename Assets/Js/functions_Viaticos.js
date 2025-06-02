@@ -24,48 +24,25 @@ function openModalPresupuesto() {
 }
 
 function cargarFuncionariosValidos() {
-    // Mostrar indicador de carga en el select
-    let select = document.getElementById('listFuncionarios');
-    if (!select) return;
+    const selectFuncionarios = document.getElementById('listFuncionarios');
+    selectFuncionarios.innerHTML = '<option value="">Seleccione un funcionario</option>';
     
-    select.innerHTML = '<option value="">Cargando funcionarios...</option>';
-    select.disabled = true;
-
     fetch(base_url + '/FuncionariosViaticos/getFuncionariosValidos')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar funcionarios');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            select.innerHTML = '<option value="">Seleccione un funcionario</option>';
-            select.disabled = false;
-
-            if (data && data.length > 0) {
+            if (Array.isArray(data)) {
                 data.forEach(funcionario => {
-                    let option = document.createElement('option');
+                    const option = document.createElement('option');
                     option.value = funcionario.idefuncionario;
                     option.textContent = funcionario.nombre_completo;
-                    option.dataset.tipo = funcionario.tipo_funcionario;
-                    select.appendChild(option);
+                    option.dataset.tipo = funcionario.tipo_cont;
+                    selectFuncionarios.appendChild(option);
                 });
-                
-                // Agregar evento para actualizar el tipo de funcionario al cambiar la selección
-                select.addEventListener('change', function() {
-                    const selectedOption = this.options[this.selectedIndex];
-                    if (selectedOption && selectedOption.dataset.tipo) {
-                        document.getElementById('tipo_funcionario').value = selectedOption.dataset.tipo;
-                    }
-                });
-            } else {
-                select.innerHTML = '<option value="">No hay funcionarios disponibles</option>';
             }
         })
         .catch(error => {
             console.error('Error al cargar funcionarios:', error);
-            select.innerHTML = '<option value="">Error al cargar funcionarios</option>';
-            select.disabled = false;
+            Swal.fire('Error', 'No se pudieron cargar los funcionarios', 'error');
         });
 }
 
