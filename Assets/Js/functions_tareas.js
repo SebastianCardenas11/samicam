@@ -179,7 +179,7 @@ function fntViewTarea(idtarea) {
                 document.querySelector("#celDescripcion").innerHTML = objTarea.descripcion;
                 document.querySelector("#celDependencia").innerHTML = objTarea.dependencia_nombre;
                 
-                // Formatear estado
+
                 let estado = objTarea.estado;
                 let estadoHtml = "";
                 switch(estado) {

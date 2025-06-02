@@ -16,7 +16,3 @@
     white-space: nowrap;
 }
 
-#tablePublicaciones td:hover {
-    white-space: normal;
-    word-break: break-word;
-}

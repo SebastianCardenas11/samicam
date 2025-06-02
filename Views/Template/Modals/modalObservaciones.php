@@ -1,9 +1,8 @@
 <div class="modal fade" id="modalObservaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header headerUpdate">
-        <h5 class="modal-title text-white" id="titleModalObs">Observaciones de la Tarea</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header">
+        <h5 class="modal-title text-black" id="titleModalObs">Observaciones de la Tarea</h5>
       </div>
       <div class="modal-body">
         <!-- Formulario para agregar nueva observación -->
@@ -34,7 +33,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</button>
+        <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
