@@ -317,3 +317,45 @@
 [2025-06-02 22:47:35] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
 [2025-06-02 22:48:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
 [2025-06-02 22:49:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
+[2025-06-02 22:57:28] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-02 23:03:50] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-02 23:03:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-02 23:03:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-02 23:03:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-06-02 23:04:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-02 23:04:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-02 23:04:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-02 23:04:02] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-02 23:04:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-02 23:06:13] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-02 23:06:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-02 23:06:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-02 23:07:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-02 23:07:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-02 23:07:23] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-02 23:07:27] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-02 23:07:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Viáticos
+[2025-06-02 23:07:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos
+[2025-06-02 23:08:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos
+[2025-06-02 23:08:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-02 23:08:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
+[2025-06-02 23:09:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
+[2025-06-02 23:09:21] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Auditoría
+[2025-06-02 23:10:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-02 23:10:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-02 23:10:17] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-02 23:10:39] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Auditoría
+[2025-06-02 23:10:41] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos
+[2025-06-02 23:10:42] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Viáticos
+[2025-06-02 23:10:42] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-02 23:10:42] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-02 23:10:42] ID: 1 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-02 23:10:43] ID: 1 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-02 23:10:43] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-02 23:10:43] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-02 23:10:43] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-02 23:10:45] ID: 1 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-02 23:12:17] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Viáticos
+[2025-06-02 23:12:18] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-02 23:12:20] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos
+[2025-06-02 23:12:21] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas

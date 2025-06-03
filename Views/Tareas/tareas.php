@@ -619,7 +619,6 @@ async function initCharts() {
     }
   } catch (error) {
     console.error("Error al cargar los gráficos:", error);
-    Swal.fire("Error", "No se pudieron cargar los gráficos", "error");
   }
 }
 
