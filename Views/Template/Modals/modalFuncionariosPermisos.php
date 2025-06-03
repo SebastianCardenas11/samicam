@@ -86,9 +86,19 @@
                                 <p id="permisosMesInfo">Permisos utilizados este mes: <span id="permisosUsados">0</span>/3</p>
                             </div>
                             
+                            <div id="divPermisoEspecial" style="display: none;">
+                                <div class="form-group mb-3">
+                                    <label for="txtJustificacionEspecial" class="form-label">Justificación del Permiso Especial <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="txtJustificacionEspecial" name="txtJustificacionEspecial" rows="3" placeholder="Explique detalladamente el motivo del permiso especial"></textarea>
+                                </div>
+                            </div>
+                            
                             <div class="modal-footer">
                                 <button id="btnActionForm" class="btn btn-success" type="submit">
                                     <i class="bi bi-floppy"></i> <span id="btnText">Guardar</span>
+                                </button>
+                                <button id="btnPermisoEspecial" class="btn btn-warning" type="button" style="display: none;">
+                                    <i class="bi bi-exclamation-triangle"></i> Solicitar Permiso Especial
                                 </button>
                                 <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
                                     <i class="bi bi-x-lg"></i> Cerrar

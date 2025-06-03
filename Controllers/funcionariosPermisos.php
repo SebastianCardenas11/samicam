@@ -155,30 +155,65 @@ class FuncionariosPermisos extends Controllers
 
     public function setPermiso()
     {
-        if ($_SESSION['permisosMod']['u']) {
-            if ($_POST) {
+        if (empty($_SESSION['permisosMod']['u'])) {
+            $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para realizar esta acción.');
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        if ($_POST) {
+            try {
                 if (empty($_POST['idFuncionario']) || empty($_POST['txtFechaPermiso']) || empty($_POST['listMotivoPermiso'])) {
-                    $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+                    $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+
+                $idFuncionario = intval($_POST['idFuncionario']);
+                $fechaPermiso = $_POST['txtFechaPermiso'];
+                $motivoPermiso = intval($_POST['listMotivoPermiso']);
+                $esPermisoEspecial = isset($_POST['es_permiso_especial']) ? 1 : 0;
+                $justificacionEspecial = isset($_POST['txtJustificacionEspecial']) ? $_POST['txtJustificacionEspecial'] : '';
+
+                // Validar si es permiso especial
+                if ($esPermisoEspecial) {
+                    if (empty($justificacionEspecial)) {
+                        $arrResponse = array('status' => false, 'msg' => 'La justificación del permiso especial es obligatoria');
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
+                    }
                 } else {
-                    try {
-                        $idFuncionario = intval($_POST['idFuncionario']);
-                        $fechaPermiso = $_POST['txtFechaPermiso'];
-                        $idMotivo = intval($_POST['listMotivoPermiso']);
-                        
-                        $request = $this->model->insertPermiso($idFuncionario, $fechaPermiso, $idMotivo);
-                        
-                        if ($request['status']) {
-                            $arrResponse = array('status' => true, 'msg' => $request['msg']);
-                        } else {
-                            $arrResponse = array('status' => false, 'msg' => $request['msg']);
-                        }
-                    } catch (Exception $e) {
-                        $arrResponse = array('status' => false, 'msg' => 'Error al registrar el permiso. Intente nuevamente.');
-                        error_log("Error en setPermiso: " . $e->getMessage());
+                    // Validar número de permisos solo si no es permiso especial
+                    $permisosEnMes = $this->model->getPermisosEnMes($idFuncionario);
+                    if ($permisosEnMes >= 3) {
+                        $arrResponse = array('status' => false, 'msg' => 'El funcionario ya ha utilizado los 3 permisos permitidos para este mes');
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
                     }
                 }
-                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
+                $request = $this->model->insertPermiso(
+                    $idFuncionario, 
+                    $fechaPermiso, 
+                    $motivoPermiso, 
+                    $esPermisoEspecial,
+                    $justificacionEspecial
+                );
+
+                if ($request > 0) {
+                    $arrResponse = array('status' => true, 'msg' => 'Permiso registrado correctamente');
+                } elseif ($request == -1) {
+                    $arrResponse = array('status' => false, 'msg' => 'Ya existe un permiso registrado para esta fecha');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al registrar el permiso');
+                }
+
+            } catch (Exception $e) {
+                $arrResponse = array('status' => false, 'msg' => 'Error al procesar la solicitud: ' . $e->getMessage());
             }
+
+            header('Content-Type: application/json');
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }

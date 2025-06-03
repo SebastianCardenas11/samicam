@@ -152,65 +152,91 @@ class FuncionariosPermisosModel extends Mysql
         return $request;
     }
 
-    public function insertPermiso(int $idFuncionario, string $fechaPermiso, int $idMotivo)
+    public function getPermisosEnMes($idFuncionario)
     {
-        $this->intIdFuncionario = $idFuncionario;
-        $this->dateFechaPermiso = $fechaPermiso;
-        $this->intIdMotivo = $idMotivo;
-        
-        // Extraer mes y año para contabilizar permisos
-        $fecha = new DateTime($fechaPermiso);
-        $this->intMes = $fecha->format('m');
-        $this->intAnio = $fecha->format('Y');
-        
-        // Verificar si el funcionario ya tiene un permiso en la misma fecha
-        $sql_check_same_day = "SELECT COUNT(*) as total FROM tbl_permisos 
-                    WHERE id_funcionario = $this->intIdFuncionario 
-                    AND tipo_funcionario = 'planta'
-                    AND fecha_permiso = '$this->dateFechaPermiso'";
-        
-        $result_same_day = $this->select($sql_check_same_day);
-        if ($result_same_day['total'] > 0) {
-            return ["status" => false, "msg" => "¡Ya existe un permiso registrado para este funcionario en la misma fecha!"];
+        try {
+            $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
+                    WHERE id_funcionario = ? 
+                    AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) 
+                    AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())
+                    AND tipo_funcionario = 'planta'";
+            $arrData = array($idFuncionario);
+            $request = $this->select($sql, $arrData);
+            return $request['total'];
+        } catch (Exception $e) {
+            error_log("Error en getPermisosEnMes: " . $e->getMessage());
+            return 0;
         }
-        
-        // Verificar si el funcionario ya tiene 3 permisos en el mes actual
-        $sql_check = "SELECT COUNT(*) as total FROM tbl_permisos 
-                    WHERE id_funcionario = $this->intIdFuncionario 
-                    AND tipo_funcionario = 'planta'
-                    AND MONTH(fecha_permiso) = $this->intMes 
-                    AND YEAR(fecha_permiso) = $this->intAnio";
-        
-        $result = $this->select($sql_check);
-        if ($result['total'] >= 3) {
-            return ["status" => false, "msg" => "El funcionario ya ha utilizado los 3 permisos permitidos para este mes."];
+    }
+
+    public function existePermisoEnFecha($idFuncionario, $fecha)
+    {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
+                    WHERE id_funcionario = ? 
+                    AND fecha_permiso = ?
+                    AND tipo_funcionario = 'planta'";
+            $arrData = array($idFuncionario, $fecha);
+            $request = $this->select($sql, $arrData);
+            return $request['total'] > 0;
+        } catch (Exception $e) {
+            error_log("Error en existePermisoEnFecha: " . $e->getMessage());
+            return false;
         }
-        
-        // Obtener el texto del motivo
-        $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = $this->intIdMotivo";
-        $motivo_result = $this->select($sql_motivo);
-        $motivo_texto = $motivo_result ? $motivo_result['descripcion'] : "Otro";
-        
-        // Insertar registro de permiso
-        $query_insert = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario) 
-                        VALUES(?,?,?,?,?,?,?)";
-        
-        $arrData = array(
-            $this->intIdFuncionario,
-            $this->dateFechaPermiso,
-            $this->intMes,
-            $this->intAnio,
-            $motivo_texto,
-            'Aprobado',
-            'planta'
-        );
-        
-        $request_insert = $this->insert($query_insert, $arrData);
-        
-        if ($request_insert > 0) {
-            return ["status" => true, "msg" => "Permiso registrado correctamente", "id" => $request_insert];
-        } else {
-            return ["status" => false, "msg" => "Error al registrar el permiso"];
+    }
+
+    public function insertPermiso($idFuncionario, $fechaPermiso, $idMotivo, $esPermisoEspecial = 0, $justificacionEspecial = '')
+    {
+        try {
+            // Verificar si ya existe un permiso en la misma fecha
+            if ($this->existePermisoEnFecha($idFuncionario, $fechaPermiso)) {
+                return -1; // Código especial para indicar permiso duplicado
+            }
+
+            // Obtener el texto del motivo
+            $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = ?";
+            $arrMotivo = array($idMotivo);
+            $request_motivo = $this->select($sql_motivo, $arrMotivo);
+            
+            if (empty($request_motivo)) {
+                return 0;
+            }
+            
+            $motivo_texto = $request_motivo['descripcion'];
+            
+            // Extraer mes y año de la fecha
+            $fecha = new DateTime($fechaPermiso);
+            $mes = $fecha->format('m');
+            $anio = $fecha->format('Y');
+            
+            // Insertar en la tabla tbl_permisos
+            $sql = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario) 
+                    VALUES(?, ?, ?, ?, ?, ?, ?)";
+            
+            $arrData = array(
+                $idFuncionario,
+                $fechaPermiso,
+                $mes,
+                $anio,
+                $motivo_texto,
+                'Aprobado',
+                'planta'
+            );
+            
+            $request = $this->insert($sql, $arrData);
+            
+            if ($request > 0) {
+                // También insertar en el historial
+                $sql_historial = "INSERT INTO tbl_historial_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario) 
+                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                $this->insert($sql_historial, $arrData);
+            }
+            
+            return $request;
+            
+        } catch (Exception $e) {
+            error_log("Error en insertPermiso: " . $e->getMessage());
+            return 0;
         }
     }
 

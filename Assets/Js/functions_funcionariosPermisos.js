@@ -105,18 +105,21 @@ function fntPermitInfo(idefuncionario) {
         
         // Verificar si ya usó los 3 permisos
         if (objData.data.permisos_mes_actual >= 3) {
-          document.querySelector("#btnActionForm").disabled = true;
+          document.querySelector("#btnActionForm").style.display = "none";
+          document.querySelector("#btnPermisoEspecial").style.display = "inline-block";
           document.querySelector("#permisosMesInfo").classList.remove("alert-info");
-          document.querySelector("#permisosMesInfo").classList.add("alert-danger");
-          document.querySelector("#permisosMesInfo").innerHTML = "El funcionario ya ha utilizado los 3 permisos permitidos para este mes.";
+          document.querySelector("#permisosMesInfo").classList.add("alert-warning");
+          document.querySelector("#permisosMesInfo").innerHTML = "El funcionario ya ha utilizado los 3 permisos permitidos para este mes. Use el botón de Permiso Especial para casos excepcionales.";
         } else {
-          document.querySelector("#btnActionForm").disabled = false;
-          document.querySelector("#permisosMesInfo").classList.remove("alert-danger");
+          document.querySelector("#btnActionForm").style.display = "inline-block";
+          document.querySelector("#btnPermisoEspecial").style.display = "none";
+          document.querySelector("#divPermisoEspecial").style.display = "none";
+          document.querySelector("#permisosMesInfo").classList.remove("alert-warning");
           document.querySelector("#permisosMesInfo").classList.add("alert-info");
           document.querySelector("#permisosMesInfo").innerHTML = "Permisos utilizados este mes: " + objData.data.permisos_mes_actual + "/3";
         }
 
-        $("#modalFormPermiso").modal("show");
+        $('#modalFormPermiso').modal('show');
       } else {
         Swal.fire("Error", objData.msg, "error");
       }
@@ -199,15 +202,27 @@ document.addEventListener('DOMContentLoaded', function() {
     let idFuncionario = document.querySelector('#idFuncionario').value;
     let fechaPermiso = document.querySelector('#txtFechaPermiso').value;
     let motivoPermiso = document.querySelector('#listMotivoPermiso').value;
+    let justificacionEspecial = document.querySelector('#txtJustificacionEspecial').value;
     
     if (idFuncionario == '' || fechaPermiso == '' || motivoPermiso == '') {
       Swal.fire("Error", "Todos los campos son obligatorios", "error");
+      return false;
+    }
+
+    // Si el div de permiso especial está visible, validar la justificación
+    if (document.querySelector("#divPermisoEspecial").style.display === "block" && !justificacionEspecial) {
+      Swal.fire("Error", "La justificación del permiso especial es obligatoria", "error");
       return false;
     }
     
     let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/funcionariosPermisos/setPermiso';
     let formData = new FormData(formPermiso);
+    
+    // Agregar indicador de permiso especial al FormData
+    if (document.querySelector("#divPermisoEspecial").style.display === "block") {
+      formData.append('es_permiso_especial', '1');
+    }
     
     request.open("POST", ajaxUrl, true);
     request.send(formData);
@@ -230,6 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // Botón para generar PDF
   document.querySelector("#btnGenerarPDF").addEventListener('click', function() {
     generarPDF();
+  });
+
+  // Agregar evento para el botón de permiso especial
+  document.querySelector("#btnPermisoEspecial").addEventListener('click', function() {
+    document.querySelector("#divPermisoEspecial").style.display = "block";
+    document.querySelector("#btnPermisoEspecial").style.display = "none";
+    document.querySelector("#btnActionForm").style.display = "inline-block";
+    document.querySelector("#btnText").innerHTML = "Guardar Permiso Especial";
   });
 });
 
