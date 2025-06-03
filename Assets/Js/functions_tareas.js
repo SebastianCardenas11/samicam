@@ -17,7 +17,22 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"tipo"},
             {"data":"descripcion"},
             {"data":"dependencia_nombre"},
-            {"data":"estado"},
+            {"data":"estado", "render": function(data, type, row) {
+                let estado = data.toLowerCase();
+                let badge = '';
+                if(estado === 'completada') {
+                    badge = '<span class="badge text-bg-success">Completada</span>';
+                } else if(estado === 'en curso') {
+                    badge = '<span class="badge text-bg-warning text-black">En curso</span>';
+                } else if(estado === 'sin empezar') {
+                    badge = '<span class="badge text-bg-secondary text-black">Sin empezar</span>';
+                } else if(estado === 'vencida') {
+                    badge = '<span class="badge text-bg-danger text-black">Vencida</span>';
+                } else {
+                    badge = '<span class="badge text-bg-info">'+data+'</span>';
+                }
+                return badge;
+            }},
             {"data":"fecha_inicio", "render": function(data) {
                 return data.split(' ')[0]; // Mostrar solo la parte de la fecha
             }},

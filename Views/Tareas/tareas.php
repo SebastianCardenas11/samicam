@@ -228,7 +228,7 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Asignado a</th>
+                      <th>Asignado</th>
                       <th>Tipo</th>
                       <th>Descripción</th>
                       <th>Dependencia</th>
