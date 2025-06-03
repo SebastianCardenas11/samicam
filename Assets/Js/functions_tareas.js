@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function(){
         // Validar que la fecha de fin sea posterior a la fecha de inicio
         let fechaInicio = new Date(strFechaInicio);
         let fechaFin = new Date(strFechaFin);
-        if(fechaFin <= fechaInicio) {
+        if(fechaFin < fechaInicio) {
             Swal.fire("Atención", "La fecha de fin debe ser posterior a la fecha de inicio.", "error");
             return false;
         }

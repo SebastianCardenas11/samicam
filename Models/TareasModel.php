@@ -414,5 +414,48 @@
             
             return $this->delete($sql, $arrData);
         }
+
+        public function countTareasPorEstado(int $estado)
+        {
+            $sql = "SELECT COUNT(*) as total FROM tbl_tareas WHERE estado = CASE 
+                    WHEN {$estado} = 0 THEN 'sin empezar'
+                    WHEN {$estado} = 1 THEN 'en curso'
+                    WHEN {$estado} = 2 THEN 'completada'
+                    END";
+            $request = $this->select($sql);
+            return $request['total'];
+        }
+
+        public function countTareasVencidas()
+        {
+            $fecha_actual = date('Y-m-d');
+            $sql = "SELECT COUNT(*) as total FROM tbl_tareas 
+                    WHERE fecha_fin < '{$fecha_actual}' 
+                    AND estado != 'completada'";
+            $request = $this->select($sql);
+            return $request['total'];
+        }
+
+        public function getTareasPorTipo()
+        {
+            $sql = "SELECT t.tipo as nombre, COUNT(*) as cantidad 
+                    FROM tbl_tareas t 
+                    GROUP BY t.tipo 
+                    ORDER BY cantidad DESC";
+            return $this->select_all($sql);
+        }
+
+        public function getTareasCompletadasPorMes()
+        {
+            $sql = "SELECT DATE_FORMAT(fecha_completada, '%Y-%m') as mes, 
+                           COUNT(*) as cantidad
+                    FROM tbl_tareas 
+                    WHERE estado = 'completada' 
+                    AND fecha_completada IS NOT NULL
+                    GROUP BY DATE_FORMAT(fecha_completada, '%Y-%m')
+                    ORDER BY mes DESC 
+                    LIMIT 12";
+            return $this->select_all($sql);
+        }
     }
 ?>
