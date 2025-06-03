@@ -148,42 +148,75 @@ document.addEventListener(
       formImportarExcel.onsubmit = function (e) {
         e.preventDefault();
         
-        let archivo = document.querySelector("#archivo_excel").value;
-        if (archivo == "") {
-          Swal.fire("Atención", "Seleccione un archivo Excel.", "error");
+        let archivo = document.querySelector("#archivo_excel").files[0];
+        
+        if(!archivo) {
+          Swal.fire("Error", "Por favor seleccione un archivo Excel", "error");
           return false;
         }
         
-        // Verificar extensión
-        let extension = archivo.substring(archivo.lastIndexOf('.'));
-        if (extension != '.xlsx' && extension != '.xls') {
-          Swal.fire("Atención", "El archivo debe ser Excel (.xlsx o .xls)", "error");
-          return false;
+        let formData = new FormData();
+        formData.append('archivo_excel', archivo);
+        
+        if (divLoading) {
+          divLoading.style.display = "flex";
         }
         
-        if (divLoading) divLoading.style.display = "flex";
-        let request = window.XMLHttpRequest
-          ? new XMLHttpRequest()
-          : new ActiveXObject("Microsoft.XMLHTTP");
-        let ajaxUrl = base_url + "/funcionariosPlanta/importarExcel";
-        let formData = new FormData(formImportarExcel);
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url + '/ImportarFuncionarios/importarDesdeExcel';
         request.open("POST", ajaxUrl, true);
         request.send(formData);
-        request.onreadystatechange = function () {
-          if (request.readyState == 4 && request.status == 200) {
-            let objData = JSON.parse(request.responseText);
-            if (objData.status) {
-              $("#modalImportarExcel").modal("hide");
-              formImportarExcel.reset();
-              Swal.fire("Importación Exitosa", objData.msg, "success");
-              tableFuncionarios.api().ajax.reload();
+        
+        request.onreadystatechange = function() {
+          if(request.readyState == 4) {
+            if (divLoading) {
+              divLoading.style.display = "none";
+            }
+
+            // Mostrar respuesta cruda para depuración
+            console.log("Respuesta del servidor:", request.responseText);
+
+            if(request.status == 200) {
+              try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status) {
+                  const modal = bootstrap.Modal.getInstance(document.getElementById('modalImportarExcel'));
+                  modal.hide();
+                  formImportarExcel.reset();
+                  Swal.fire("Éxito", objData.msg, "success");
+                  if(objData.total) {
+                    console.log("Total de registros importados:", objData.total);
+                  }
+                  tableFuncionarios.api().ajax.reload();
+                } else {
+                  let errorMsg = objData.msg;
+                  if(objData.errores && objData.errores.length > 0) {
+                    errorMsg += '\n\n' + objData.errores.join('\n');
+                  }
+                  Swal.fire("Error", errorMsg, "error");
+                }
+              } catch (error) {
+                console.error("Error al parsear JSON:", error);
+                // Mostrar el error y la respuesta del servidor para depuración
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error en la respuesta del servidor',
+                  html: `
+                    <p>No se pudo procesar la respuesta del servidor.</p>
+                    <p>Detalles del error:</p>
+                    <pre style="text-align: left; background: #f8f9fa; padding: 10px; max-height: 200px; overflow: auto;">
+                      ${request.responseText}
+                    </pre>
+                  `,
+                  confirmButtonText: 'Entendido'
+                });
+              }
             } else {
-              Swal.fire("Error", objData.msg, "error");
+              Swal.fire("Error", "Error en la petición al servidor: " + request.status, "error");
             }
           }
-          if (divLoading) divLoading.style.display = "none";
           return false;
-        };
+        }
       };
     }
 
@@ -412,5 +445,6 @@ function openModal() {
 
 function openModalImportar() {
   document.querySelector("#formImportarExcel").reset();
-  $("#modalImportarExcel").modal("show");
+  const modal = new bootstrap.Modal(document.getElementById('modalImportarExcel'));
+  modal.show();
 }
