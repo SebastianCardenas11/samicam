@@ -632,10 +632,10 @@ function cargarObservaciones(idtarea) {
                             </div>`;
                         }
                     } else {
-                        html = '<div class="alert alert-info">No hay observaciones para esta tarea.</div>';
+                        html = '<div class="alert ">No hay observaciones para esta tarea.</div>';
                     }
                 } else {
-                    html = '<div class="alert alert-info">No hay observaciones para esta tarea.</div>';
+                    html = '<div class="alert ">No hay observaciones para esta tarea.</div>';
                 }
                 
                 document.querySelector('#listaObservaciones').innerHTML = html;

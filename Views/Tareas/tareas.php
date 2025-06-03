@@ -73,6 +73,120 @@
 .encurso-card { background: linear-gradient(135deg, #ffc107, #fd7e14); }
 .sinempezar-card { background: linear-gradient(135deg, #17a2b8, #0dcaf0); }
 .vencidas-card { background: linear-gradient(135deg, #dc3545, #f86c6b); }
+
+/* Estilos para el modal de ver tarea */
+.modal-xl {
+    max-width: 90%;
+}
+
+.tarea-info {
+    margin-bottom: 20px;
+}
+
+.tarea-info .label {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.tarea-info .value {
+    font-size: 1.1em;
+}
+
+.usuarios-asignados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.usuario-badge {
+    background-color: #e9ecef;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.usuario-badge i {
+    color: #6c757d;
+}
+
+.estado-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.estado-completada { background-color: #d4edda; color: #155724; }
+.estado-encurso { background-color: #fff3cd; color: #856404; }
+.estado-sinempezar { background-color: #d1ecf1; color: #0c5460; }
+.estado-vencida { background-color: #f8d7da; color: #721c24; }
+
+.observaciones-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.observacion-item {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 10px;
+}
+
+.observacion-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.observacion-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.observacion-texto {
+    color: #212529;
+}
+
+.usuarios-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ver-mas-usuarios {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ver-mas-usuarios:hover {
+    background-color: #0056b3;
+}
+
+.contador-usuarios {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-size: 0.85em;
+}
 </style>
 
 <!-- Elemento oculto para almacenar el ID del usuario actual -->
@@ -189,6 +303,101 @@
     </div>
   </div>
 </main>
+
+<!-- Modal para ver tarea -->
+<div class="modal fade" id="modalViewTarea" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header header-primary">
+        <h5 class="modal-title" id="titleModal">Detalles de la Tarea</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="tarea-info">
+              <div class="label">Descripción:</div>
+              <div class="value" id="celDescripcion"></div>
+            </div>
+            <div class="tarea-info">
+              <div class="label">Tipo:</div>
+              <div class="value" id="celTipo"></div>
+            </div>
+            <div class="tarea-info">
+              <div class="label">Dependencia:</div>
+              <div class="value" id="celDependencia"></div>
+            </div>
+            <div class="tarea-info">
+              <div class="label">Estado:</div>
+              <div class="value">
+                <span id="celEstado" class="estado-badge"></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="tarea-info">
+              <div class="label">Fecha de Inicio:</div>
+              <div class="value" id="celFechaInicio"></div>
+            </div>
+            <div class="tarea-info">
+              <div class="label">Fecha de Fin:</div>
+              <div class="value" id="celFechaFin"></div>
+            </div>
+            <div class="tarea-info">
+              <div class="label">Tiempo Restante:</div>
+              <div class="value" id="celTiempoRestante"></div>
+            </div>
+            <div class="tarea-info">
+              <div class="label">Creado por:</div>
+              <div class="value" id="celCreador"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="tarea-info">
+              <div class="label">Usuarios Asignados:</div>
+              <div class="usuarios-asignados" id="celUsuariosAsignados"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="tarea-info">
+              <div class="label">Observaciones:</div>
+              <div class="observaciones-container" id="celObservaciones"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para ver todos los usuarios asignados -->
+<div class="modal fade" id="modalVerUsuarios" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Usuarios Asignados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="usuarios-lista" id="listaCompletaUsuarios"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -412,6 +621,83 @@ async function initCharts() {
     console.error("Error al cargar los gráficos:", error);
     Swal.fire("Error", "No se pudieron cargar los gráficos", "error");
   }
+}
+
+function fntViewTarea(idtarea) {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Tareas/getTarea/'+idtarea;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status) {
+                document.getElementById("celDescripcion").innerHTML = objData.data.descripcion;
+                document.getElementById("celTipo").innerHTML = objData.data.tipo;
+                document.getElementById("celDependencia").innerHTML = objData.data.dependencia_nombre;
+                
+                // Aplicar estilo al estado
+                let estado = objData.data.estado;
+                let estadoElement = document.getElementById("celEstado");
+                estadoElement.innerHTML = estado.charAt(0).toUpperCase() + estado.slice(1);
+                estadoElement.className = 'estado-badge estado-' + estado.replace(' ', '');
+                
+                document.getElementById("celFechaInicio").innerHTML = objData.data.fecha_inicio_format;
+                document.getElementById("celFechaFin").innerHTML = objData.data.fecha_fin_format;
+                document.getElementById("celTiempoRestante").innerHTML = objData.data.tiempo_restante;
+                document.getElementById("celCreador").innerHTML = objData.data.creador_nombre;
+
+                // Mostrar usuarios asignados usando la nueva función
+                mostrarUsuariosAsignados(objData.data.usuarios_asignados);
+
+                // Cargar observaciones
+                let observacionesContainer = document.getElementById("celObservaciones");
+                observacionesContainer.innerHTML = '';
+                
+                let requestObs = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                let ajaxUrlObs = base_url+'/Tareas/getObservaciones/'+idtarea;
+                requestObs.open("GET",ajaxUrlObs,true);
+                requestObs.send();
+                requestObs.onreadystatechange = function(){
+                    if(requestObs.readyState == 4 && requestObs.status == 200){
+                        let objDataObs = JSON.parse(requestObs.responseText);
+                        if(objDataObs.status) {
+                            objDataObs.data.forEach(function(obs) {
+                                let observacionDiv = document.createElement('div');
+                                observacionDiv.className = 'observacion-item';
+                                observacionDiv.innerHTML = `
+                                    <div class="observacion-header">
+                                        <span><i class="fas fa-user"></i> ${obs.usuario_nombre}</span>
+                                        <span><i class="fas fa-calendar"></i> ${obs.fecha_format}</span>
+                                    </div>
+                                    <div class="observacion-texto">${obs.observacion}</div>
+                                `;
+                                observacionesContainer.appendChild(observacionDiv);
+                            });
+                        }
+                    }
+                }
+
+                $('#modalViewTarea').modal('show');
+            } else {
+                swal("Error", objData.msg , "error");
+            }
+        }
+    }
+}
+
+function mostrarTodosLosUsuarios(usuarios) {
+    let listaUsuarios = document.getElementById("listaCompletaUsuarios");
+    listaUsuarios.innerHTML = '';
+    
+    usuarios.forEach(function(usuario) {
+        let badge = document.createElement('div');
+        badge.className = 'usuario-badge';
+        badge.innerHTML = `<i class="fas fa-user"></i> ${usuario.nombres}`;
+        listaUsuarios.appendChild(badge);
+    });
+    
+    $('#modalVerUsuarios').modal('show');
 }
 </script>
 
