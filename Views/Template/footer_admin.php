@@ -13,7 +13,7 @@
             <a href="#" class="nav-link text-muted" target="_blank">Samicam</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link text-muted" target="_blank">Documentacion</a>
+            <a href="<?=base_url();?>/documentacion" class="nav-link text-muted" target="_blank">Documentacion</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link text-muted" target="_blank">Manual de usuario</a>

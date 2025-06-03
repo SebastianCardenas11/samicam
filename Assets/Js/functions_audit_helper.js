@@ -11,10 +11,8 @@ function registrarAccesoModulo(modulo) {
   let ajaxUrl = base_url + "/auditoria/registrarAccesoJS";
   let formData = new FormData();
   formData.append("modulo", modulo);
-
   request.open("POST", ajaxUrl, true);
   request.send(formData);
-  console.log("Registrando acceso al módulo: " + modulo);
 }
 
 // Detectar la página actual y registrar el acceso correspondiente
@@ -27,19 +25,19 @@ document.addEventListener("DOMContentLoaded", function () {
     registrarAccesoModulo("Cargos");
   } else if (currentUrl.includes("/vacaciones")) {
     registrarAccesoModulo("Vacaciones");
-  } else if (currentUrl.includes("/vacaciones")) {
-    registrarAccesoModulo("Vacaciones");
   } else if (currentUrl.includes("/funcionariosviaticos")) {
     registrarAccesoModulo("Viáticos");
   } else if (currentUrl.includes("/tareas")) {
     registrarAccesoModulo("Tareas");
   } else if (currentUrl.includes("/publicaciones")) {
     registrarAccesoModulo("Publicaciones");
+  } else if (currentUrl.includes("/ajustes")) {
+    registrarAccesoModulo("Ajustes de Perfil");
   }
 
   // Registrar acceso cuando se hace clic en enlaces de navegación
   const navLinks = document.querySelectorAll(
-    'a[href*="/cargos"], a[href*="/vacaciones"], a[href*="/viaticos"], a[href*="/archivos"]'
+    'a[href*="/cargos"], a[href*="/vacaciones"], a[href*="/viaticos"], a[href*="/archivos"], a[href*="/ajustes"]'
   );
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
@@ -53,10 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
         registrarAccesoModulo("Viáticos");
       } else if (href.includes("/tareas")) {
         registrarAccesoModulo("Tareas");
-      } else if (currentUrl.includes("/publicaciones")) {
+      } else if (href.includes("/publicaciones")) {
         registrarAccesoModulo("Publicaciones");
       } else if (href.includes("/archivos")) {
         registrarAccesoModulo("Archivos");
+      } else if (href.includes("/ajustes")) {
+        registrarAccesoModulo("Ajustes de Perfil");
       }
     });
   });

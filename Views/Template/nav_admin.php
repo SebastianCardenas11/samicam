@@ -3,16 +3,18 @@
      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
 
      <a class="navbar-brand m-0 d-block">
-       <!-- Imagen con tamaño normal -->
+       <!-- Logo institucional -->
        <img src="<?= media() ?>/images/samicamIconox.png" class="navbar-brand-img" style="max-height: 100px;"><br>
-
-       <!-- Nombre del usuario -->
-       <span class="d-block font-weight-bold mt-2"><?= $_SESSION['userData']['nombres']; ?></span>
-
+       <!-- Imagen de perfil del usuario -->
+       <img src="<?= !empty($_SESSION['userData']['foto']) ? base_url().'/uploads/perfiles/'.$_SESSION['userData']['foto'] : media().'/images/user.png' ?>" class="rounded-circle mb-2" style="width:60px;height:60px;object-fit:cover;">
+       <!-- Nombre del usuario con la foto al lado -->
+       <span class="d-block font-weight-bold mt-2">
+         <?= $_SESSION['userData']['nombres']; ?>
+       </span>
        <!-- Rol del usuario -->
        <span class="d-block text-muted"><?= $_SESSION['userData']['nombrerol']; ?></span>
      </a>
-   </div><br><br><br>
+   </div><br><br><br><br><br><br>
 
 
    <hr class="horizontal dark mt-0">
@@ -213,7 +215,7 @@
              </a>
            </li>
            <li class="nav-item px-3 d-flex align-items-center">
-             <a href="javascript:;" class="nav-link text-body p-0">
+             <a href="<?= base_url(); ?>/ajustes" class="nav-link text-body p-0" title="Ajustes de perfil">
                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
              </a>
            </li>
