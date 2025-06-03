@@ -141,6 +141,19 @@
          </li>
        <?php } ?>
 
+       <?php
+       // Mostrar separador Gestión de Contenidos solo si el usuario tiene permisos en al menos uno de los módulos
+       $showContentSection = (
+         (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) ||
+         (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) ||
+         (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1))
+       );
+       if ($showContentSection) {?>
+           <li class="nav-item mt-2">
+             <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión de Contenidos</h6>
+           </li>
+<?php } ?>
+
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
@@ -152,30 +165,31 @@
          </li>
        <?php } ?>
 
+       <?php if (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/publicaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/publicaciones">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-newspaper text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Publicaciones</span>
+           </a>
+         </li>
+       <?php } ?>
 
-        <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
-  <li class="nav-item">
-    <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
-      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="bi bi-list-task text-dark"></i>
-      </div>
-      
-      <span class="nav-link-text ms-1">Tareas</span>
-    </a>
-  </li>
-<?php } ?>
+       <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-list-task text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Tareas</span>
+           </a>
+         </li>
+       <?php } ?>
 
-        <?php if (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) { ?>
-  <li class="nav-item">
-    <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/publicaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/publicaciones">
-      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="bi bi-newspaper text-dark"></i>
-      </div>
-      
-      <span class="nav-link-text ms-1">Publicaciones</span>
-    </a>
-  </li>
-<?php } ?>
+       <li class="nav-item mt-2">
+         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Control y seguridad</h6>
+       </li>
        <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
@@ -186,9 +200,9 @@
            </a>
          </li>
        <?php } ?>
-       
+        
          <li class="nav-item">
-           <a class="nav-link" href="<?= base_url(); ?>/ajustes">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/ajustes')) ? 'active' : ''; ?>" href="<?= base_url(); ?>/ajustes">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                <i class="fa fa-cog text-dark"></i>
              </div>
