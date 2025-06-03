@@ -186,7 +186,17 @@
            </a>
          </li>
        <?php } ?>
+       
+         <li class="nav-item">
+           <a class="nav-link" href="<?= base_url(); ?>/ajustes">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="fa fa-cog text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Ajustes</span>
+           </a>
+         </li>
 
+       
        <li class="nav-item mt-3">
          <a class="nav-link text-danger" href="<?= base_url(); ?>/logout">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
