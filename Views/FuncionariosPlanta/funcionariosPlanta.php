@@ -67,27 +67,59 @@ headerAdmin($data);
 
 <?php  getModal('modalFuncionariosPlanta', $data); ?>
 
-<div class="modal fade" id="modalImportarExcel" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="modalImportarExcel" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header headerRegister">
-                <h5 class="modal-title">Importar Funcionarios desde Excel</h5>
+            <div class="modal-header bg-light">
+                <h5 class="modal-title"><i class="bi bi-file-earmark-excel me-2"></i>Importar Funcionarios desde Excel</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="mb-4 text-center">
-                    <a href="<?= base_url(); ?>/ImportarFuncionarios/generarPlantilla" class="btn btn-info">
-                        <i class="bi bi-download"></i> Descargar Plantilla Excel
+            <div class="modal-body px-4">
+                <div class="border-start border-4 border-dark ps-3 mb-4">
+                    <h6 class="fw-bold mb-3">Información Importante</h6>
+                    <p class="text-muted mb-2">Antes de importar funcionarios, tenga en cuenta lo siguiente:</p>
+                    <ul class="text-muted mb-2 ps-3">
+                        <li class="mb-2">No se pueden importar funcionarios con identificaciones o correos electrónicos que ya existan en el sistema.</li>
+                        <li class="mb-2">Los IDs de cargo, dependencia y contrato deben existir previamente en el sistema.</li>
+                        <li class="mb-2">Todos los campos son obligatorios excepto "Nombres de Hijos".</li>
+                        <li class="mb-2">El formato de fecha debe ser YYYY-MM-DD (ejemplo: 2024-03-14).</li>
+                        <li class="mb-2">El campo "Sexo" debe ser: masculino o femenino.</li>
+                        <li class="mb-2">Los campos numéricos (Identificación, Edad) deben contener solo números.</li>
+                        <li class="mb-2">En el campo "Número de Hijos" coloque 0 si no tiene hijos.</li>
+                    </ul>
+                </div>
+
+                <div class="text-center mb-4">
+                    <p class="text-muted mb-3">Se recomienda descargar y utilizar la plantilla proporcionada para evitar errores en la importación.</p>
+                    <a href="<?= base_url(); ?>/ImportarFuncionarios/generarPlantilla" class="btn btn-success">
+                        <i class="bi bi-download me-2"></i>Descargar Plantilla Excel
                     </a>
                 </div>
+
                 <form id="formImportarExcel" name="formImportarExcel">
-                    <div class="form-group">
-                        <label class="control-label">Archivo Excel</label>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Seleccione el archivo Excel</label>
                         <input class="form-control" type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx,.xls">
+                        <div class="form-text">Solo se aceptan archivos Excel (.xlsx, .xls)</div>
                     </div>
-                    <div class="text-center mt-3">
-                        <button class="btn btn-success" type="submit"><i class="bi bi-upload"></i> Importar</button>
-                        <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cerrar</button>
+
+                    <div class="border-start border-4 border-warning bg-light p-3 mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <div>
+                                <strong>Importante:</strong> 
+                                <span class="text-muted">Si intenta importar funcionarios con datos duplicados (identificación o correo), el sistema le mostrará un mensaje indicando las filas específicas donde se encontraron los duplicados.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg me-2"></i>Cerrar
+                        </button>
+                        <button class="btn btn-success" type="submit">
+                            <i class="bi bi-upload me-2"></i>Importar
+                        </button>
                     </div>
                 </form>
             </div>

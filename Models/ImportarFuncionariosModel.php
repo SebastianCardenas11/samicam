@@ -19,12 +19,17 @@ class ImportarFuncionariosModel extends Mysql
 
             foreach ($datos as $index => $funcionario) {
                 // Verificar si el funcionario ya existe
-                $sql = "SELECT idefuncionario FROM tbl_funcionarios_planta WHERE nm_identificacion = ? OR correo_elc = ?";
+                $sql = "SELECT idefuncionario, correo_elc, nm_identificacion FROM tbl_funcionarios_planta WHERE nm_identificacion = ? OR correo_elc = ?";
                 $arrParams = array($funcionario['nm_identificacion'], $funcionario['correo_elc']);
                 $request = $this->select($sql, $arrParams);
 
                 if (!empty($request)) {
-                    $errores[] = "Fila " . ($index + 2) . ": Ya existe un funcionario con la identificación o correo electrónico proporcionado";
+                    if ($request['nm_identificacion'] == $funcionario['nm_identificacion']) {
+                        $errores[] = "Fila " . ($index + 2) . ": Ya existe un funcionario con la identificación " . $funcionario['nm_identificacion'];
+                    }
+                    if ($request['correo_elc'] == $funcionario['correo_elc']) {
+                        $errores[] = "Fila " . ($index + 2) . ": Ya existe un funcionario con el correo " . $funcionario['correo_elc'];
+                    }
                     continue;
                 }
 
@@ -69,8 +74,9 @@ class ImportarFuncionariosModel extends Mysql
                     formacion_academica,
                     nombre_formacion,
                     status,
-                    periodos_vacaciones
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
+                    periodos_vacaciones,
+                    imagen
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'sinimagen.png')";
 
                 $arrData = array(
                     $funcionario['correo_elc'],

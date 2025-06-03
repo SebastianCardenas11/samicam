@@ -173,9 +173,6 @@ document.addEventListener(
               divLoading.style.display = "none";
             }
 
-            // Mostrar respuesta cruda para depuración
-            console.log("Respuesta del servidor:", request.responseText);
-
             if(request.status == 200) {
               try {
                 let objData = JSON.parse(request.responseText);
@@ -184,35 +181,34 @@ document.addEventListener(
                   modal.hide();
                   formImportarExcel.reset();
                   Swal.fire("Éxito", objData.msg, "success");
-                  if(objData.total) {
-                    console.log("Total de registros importados:", objData.total);
-                  }
                   tableFuncionarios.api().ajax.reload();
                 } else {
                   let errorMsg = objData.msg;
                   if(objData.errores && objData.errores.length > 0) {
-                    errorMsg += '\n\n' + objData.errores.join('\n');
+                    errorMsg = '<ul style="text-align: left; margin-top: 10px;">';
+                    objData.errores.forEach(error => {
+                      errorMsg += `<li>${error}</li>`;
+                    });
+                    errorMsg += '</ul>';
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'No se pudieron importar algunos registros',
+                      html: errorMsg,
+                      confirmButtonText: 'Entendido'
+                    });
+                  } else {
+                    Swal.fire("Error", errorMsg, "error");
                   }
-                  Swal.fire("Error", errorMsg, "error");
                 }
               } catch (error) {
-                console.error("Error al parsear JSON:", error);
-                // Mostrar el error y la respuesta del servidor para depuración
                 Swal.fire({
                   icon: 'error',
                   title: 'Error en la respuesta del servidor',
-                  html: `
-                    <p>No se pudo procesar la respuesta del servidor.</p>
-                    <p>Detalles del error:</p>
-                    <pre style="text-align: left; background: #f8f9fa; padding: 10px; max-height: 200px; overflow: auto;">
-                      ${request.responseText}
-                    </pre>
-                  `,
-                  confirmButtonText: 'Entendido'
+                  text: 'No se pudo procesar la respuesta del servidor.'
                 });
               }
             } else {
-              Swal.fire("Error", "Error en la petición al servidor: " + request.status, "error");
+              Swal.fire("Error", "Error en la petición al servidor", "error");
             }
           }
           return false;

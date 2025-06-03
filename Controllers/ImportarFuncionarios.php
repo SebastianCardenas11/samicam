@@ -94,10 +94,10 @@ class ImportarFuncionarios extends Controllers
             $instructionSheet->setCellValue('A4', '2. La identificación y el correo electrónico deben ser únicos para cada funcionario');
             $instructionSheet->setCellValue('A5', '3. Formato de fecha de ingreso: YYYY-MM-DD (ejemplo: 2024-03-14)');
             $instructionSheet->setCellValue('A6', '4. Los campos ID Cargo, ID Dependencia e ID Contrato deben existir en el sistema');
-            $instructionSheet->setCellValue('A7', '5. El campo Sexo debe ser: M o F');
-            $instructionSheet->setCellValue('A8', '6. El campo Número de Hijos debe ser numérico');
+            $instructionSheet->setCellValue('A7', '5. El campo Sexo debe ser: masculino o femenino');
+            $instructionSheet->setCellValue('A8', '6. El campo Número de Hijos debe ser numérico. Si no tiene hijos, coloque 0');
             $instructionSheet->setCellValue('A9', '7. El campo Edad debe ser numérico');
-            $instructionSheet->setCellValue('A10', '8. Todos los campos son obligatorios excepto Nombres de Hijos');
+            $instructionSheet->setCellValue('A10', '8. Los campos son obligatorios excepto Nombres de Hijos');
             
             // Dar formato a la hoja de instrucciones
             $instructionSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
