@@ -242,18 +242,57 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  // Formulario para permiso especial
+  let formPermisoEspecial = document.querySelector("#formPermisoEspecial");
+  if(formPermisoEspecial){
+    formPermisoEspecial.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      let idFuncionario = document.querySelector('#idFuncionarioEspecial').value;
+      let fechaInicio = document.querySelector('#txtFechaInicioEspecial').value;
+      let fechaFin = document.querySelector('#txtFechaFinEspecial').value;
+      let justificacion = document.querySelector('#txtJustificacionEspecial').value;
+      
+      if(idFuncionario == '' || fechaInicio == '' || fechaFin == '') {
+        Swal.fire("Error", "Todos los campos son obligatorios", "error");
+        return false;
+      }
+      
+      // Validar que la fecha de fin no sea menor que la fecha de inicio
+      if(fechaFin < fechaInicio) {
+        Swal.fire("Error", "La fecha de fin no puede ser menor que la fecha de inicio", "error");
+        return false;
+      }
+      
+      let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      let ajaxUrl = base_url + '/funcionariosPermisos/setPermisoEspecial';
+      let formData = new FormData(formPermisoEspecial);
+      
+      request.open("POST", ajaxUrl, true);
+      request.send(formData);
+      request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+          let objData = JSON.parse(request.responseText);
+          if(objData.status) {
+            $('#modalPermisoEspecial').modal("hide");
+            formPermisoEspecial.reset();
+            Swal.fire("Permisos", objData.msg, "success");
+            tableFuncionarios.api().ajax.reload();
+          } else {
+            Swal.fire("Error", objData.msg, "error");
+          }
+        }
+      }
+    });
+  }
+  
   // Botón para generar PDF
-  document.querySelector("#btnGenerarPDF").addEventListener('click', function() {
-    generarPDF();
-  });
-
-  // Agregar evento para el botón de permiso especial
-  document.querySelector("#btnPermisoEspecial").addEventListener('click', function() {
-    document.querySelector("#divPermisoEspecial").style.display = "block";
-    document.querySelector("#btnPermisoEspecial").style.display = "none";
-    document.querySelector("#btnActionForm").style.display = "inline-block";
-    document.querySelector("#btnText").innerHTML = "Guardar Permiso Especial";
-  });
+  let btnGenerarPDF = document.querySelector("#btnGenerarPDF");
+  if(btnGenerarPDF){
+    btnGenerarPDF.addEventListener('click', function() {
+      generarPDF();
+    });
+  }
 });
 
 function generarPDF() {
@@ -275,4 +314,57 @@ function generarPermisoPDF(idPermiso) {
   } else {
     Swal.fire("Error", "No se pudo identificar el permiso para generar el PDF", "error");
   }
+}
+
+function fntPermisoEspecial(idFuncionario) {
+    console.log("Iniciando permiso especial para funcionario:", idFuncionario);
+    
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: "Este permiso especial es solo para casos de calamidad o situaciones muy especiales. ¿Desea continuar?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, continuar',
+        cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Establecer fecha mínima como hoy para ambos campos de fecha
+            let today = new Date();
+            let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+            
+            // Primero establecemos los valores
+            document.querySelector('#idFuncionarioEspecial').value = idFuncionario;
+            document.querySelector("#txtFechaInicioEspecial").value = localISOTime;
+            document.querySelector("#txtFechaFinEspecial").value = localISOTime;
+            
+            // Luego establecemos los atributos min
+            document.querySelector("#txtFechaInicioEspecial").setAttribute("min", localISOTime);
+            document.querySelector("#txtFechaFinEspecial").setAttribute("min", localISOTime);
+            
+            // Obtener información del funcionario
+            let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url + '/funcionariosPermisos/getFuncionario/' + idFuncionario;
+            request.open("GET", ajaxUrl, true);
+            request.send();
+            request.onreadystatechange = function() {
+                if(request.readyState == 4 && request.status == 200) {
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status) {
+                        document.querySelector("#txtNombreFuncionarioEspecial").value = objData.data.nombre_completo;
+                        console.log("Datos del formulario establecidos:", {
+                            idFuncionario: document.querySelector('#idFuncionarioEspecial').value,
+                            nombre: document.querySelector("#txtNombreFuncionarioEspecial").value,
+                            fechaInicio: document.querySelector("#txtFechaInicioEspecial").value,
+                            fechaFin: document.querySelector("#txtFechaFinEspecial").value
+                        });
+                        
+                        // Mostrar el modal después de establecer los datos
+                        $('#modalPermisoEspecial').modal('show');
+                    }
+                }
+            }
+        }
+    });
 }

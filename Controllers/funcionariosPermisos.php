@@ -38,6 +38,7 @@ class FuncionariosPermisos extends Controllers
                 $btnView = '';
                 $btnPermit = '';
                 $btnHistorial = '';
+                $btnPermisoEspecial = '';
 
                 // Agregar imagen del funcionario
                 $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
@@ -52,17 +53,21 @@ class FuncionariosPermisos extends Controllers
                 $arrData[$i]['permisos'] = $arrData[$i]['permisos_mes_actual'] . "/3";
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u'] && $arrData[$i]['permisos_mes_actual'] < 3) {
-                    $btnPermit = '<button class="btn btn-success" onClick="fntPermitInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Registrar Permiso"><i class="bi bi-door-open"></i></button>';
+                    $btnPermit = '<button class="btn btn-success btn-sm" onClick="fntPermitInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Registrar Permiso"><i class="bi bi-door-open"></i></button>';
                 }
                 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnHistorial = '<button class="btn btn-secondary" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
+                    $btnHistorial = '<button class="btn btn-secondary btn-sm" onClick="fntViewHistorial(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Historial"><i class="bi bi-clock-history"></i></button>';
+                }
+
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnPermisoEspecial = '<button class="btn btn-warning btn-sm" onClick="fntPermisoEspecial(' . $arrData[$i]['idefuncionario'] . ')" title="Permiso Especial"><i class="bi bi-exclamation-triangle"></i></button>';
                 }
                 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPermit . ' ' . $btnHistorial . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPermit . ' ' . $btnHistorial . ' ' . $btnPermisoEspecial . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -440,6 +445,73 @@ class FuncionariosPermisos extends Controllers
             }
         } else {
             header("Location:".base_url().'/dashboard');
+        }
+        die();
+    }
+
+    public function setPermisoEspecial()
+    {
+        if (empty($_SESSION['permisosMod']['u'])) {
+            $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para realizar esta acción.');
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        if ($_POST) {
+            try {
+                if (empty($_POST['idFuncionarioEspecial']) || empty($_POST['txtFechaInicioEspecial']) || 
+                    empty($_POST['txtFechaFinEspecial']) || empty($_POST['txtJustificacionEspecial'])) {
+                    $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+
+                $idFuncionario = intval($_POST['idFuncionarioEspecial']);
+                $fechaInicio = $_POST['txtFechaInicioEspecial'];
+                $fechaFin = $_POST['txtFechaFinEspecial'];
+                $justificacion = $_POST['txtJustificacionEspecial'];
+
+                // Validar que la fecha de fin no sea menor que la fecha de inicio
+                if (strtotime($fechaFin) < strtotime($fechaInicio)) {
+                    $arrResponse = array('status' => false, 'msg' => 'La fecha de fin no puede ser menor que la fecha de inicio');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+
+                // Insertar el permiso especial para cada día en el rango
+                $fechaActual = new DateTime($fechaInicio);
+                $fechaFinal = new DateTime($fechaFin);
+                $exito = true;
+
+                while ($fechaActual <= $fechaFinal) {
+                    $request = $this->model->insertPermiso(
+                        $idFuncionario,
+                        $fechaActual->format('Y-m-d'),
+                        1, // ID del motivo (puedes ajustar según tu necesidad)
+                        1, // Es permiso especial
+                        $justificacion
+                    );
+
+                    if ($request <= 0) {
+                        $exito = false;
+                        break;
+                    }
+
+                    $fechaActual->modify('+1 day');
+                }
+
+                if ($exito) {
+                    $arrResponse = array('status' => true, 'msg' => 'Permiso especial registrado correctamente');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al registrar el permiso especial');
+                }
+
+            } catch (Exception $e) {
+                $arrResponse = array('status' => false, 'msg' => 'Error al procesar la solicitud: ' . $e->getMessage());
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }

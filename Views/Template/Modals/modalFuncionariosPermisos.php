@@ -156,3 +156,48 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Permiso Especial -->
+<div class="modal fade" id="modalPermisoEspecial" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header headerRegister">
+                <h5 class="modal-title">Permiso Especial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning" role="alert">
+                    <p><i class="bi bi-exclamation-triangle"></i> Este permiso es para casos especiales o calamidades. Por favor, use con discreción.</p>
+                </div>
+                <form id="formPermisoEspecial" name="formPermisoEspecial">
+                    <input type="hidden" id="idFuncionarioEspecial" name="idFuncionarioEspecial" value="">
+                    
+                    <div class="form-group mb-3">
+                        <label for="txtNombreFuncionarioEspecial" class="form-label">Funcionario</label>
+                        <input type="text" class="form-control" id="txtNombreFuncionarioEspecial" name="txtNombreFuncionarioEspecial" readonly>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="txtFechaInicioEspecial" class="form-label">Fecha de Inicio <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="txtFechaInicioEspecial" name="txtFechaInicioEspecial" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="txtFechaFinEspecial" class="form-label">Fecha de Fin <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="txtFechaFinEspecial" name="txtFechaFinEspecial" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="txtJustificacionEspecial" class="form-label">Justificación <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="txtJustificacionEspecial" name="txtJustificacionEspecial" rows="3" required placeholder="Describa detalladamente el motivo del permiso especial"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" id="btnActionFormEspecial">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
