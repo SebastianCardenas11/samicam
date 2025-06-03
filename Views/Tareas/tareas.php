@@ -156,6 +156,14 @@
                 </div>
 
                 <div class="row">
+                  <div class="col-md-12">
+                    <div class="tile">
+                      <h3 class="tile-title">Progreso de Tareas Completadas</h3>
+                      <div class="chart-container">
+                        <canvas id="tareasCompletadasChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-6">
                     <div class="tile">
                       <h3 class="tile-title">Estado de Tareas</h3>
@@ -169,14 +177,6 @@
                       <h3 class="tile-title">Tareas por Tipo</h3>
                       <div class="chart-container">
                         <canvas id="tipoTareasChart"></canvas>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="tile">
-                      <h3 class="tile-title">Tareas Completadas por Mes</h3>
-                      <div class="chart-container">
-                        <canvas id="tareasCompletadasChart"></canvas>
                       </div>
                     </div>
                   </div>
@@ -314,6 +314,13 @@ async function initCharts() {
                 padding: 20,
                 usePointStyle: true
               }
+            },
+            title: {
+              display: true,
+              text: 'Distribución Total de Tareas',
+              padding: {
+                bottom: 30
+              }
             }
           }
         }
@@ -354,7 +361,7 @@ async function initCharts() {
       // Formatear los datos para el gráfico de línea
       const meses = data.tareasCompletadas.map(item => {
         const [year, month] = item.mes.split('-');
-        return new Date(year, month - 1).toLocaleString('es', { month: 'short', year: '2-digit' });
+        return new Date(year, month - 1).toLocaleString('es', { month: 'long', year: '2-digit' });
       }).reverse();
 
       const cantidades = data.tareasCompletadas.map(item => item.cantidad).reverse();
@@ -390,6 +397,11 @@ async function initCharts() {
               beginAtZero: true,
               ticks: {
                 stepSize: 1
+              }
+            },
+            x: {
+              grid: {
+                display: false
               }
             }
           }
