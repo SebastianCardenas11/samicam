@@ -1,4 +1,8 @@
 <?php headerAdmin($data); ?>
+
+<!-- Incluir estilos específicos para ajustes -->
+<link href="<?= media() ?>/css/ajustes.css" rel="stylesheet">
+
 <main class="app-content">
     <div class="app-title">
         <div>
@@ -12,7 +16,7 @@
                 <div class="tile-body">
                     <form id="formAjustesPerfil" enctype="multipart/form-data">
                         <div class="mb-3 text-center">
-                            <img id="imgPreview" src="<?= !empty($data['usuario']['foto']) ? base_url().'/uploads/perfiles/'.$data['usuario']['foto'] : media().'/images/user.png' ?>" class="rounded-circle" style="width:120px;height:120px;object-fit:cover;" alt="Foto de perfil">
+                            <img id="imgPreview" src="<?= !empty($data['usuario']['imgperfil']) ? base_url().'/uploads/perfiles/'.$data['usuario']['imgperfil'] : media().'/images/user.png' ?>" class="rounded-circle" style="width:120px;height:120px;object-fit:cover;" alt="Foto de perfil">
                         </div>
                         <div class="mb-3">
                             <label for="foto" class="form-label">Foto de perfil</label>
@@ -31,4 +35,5 @@
         </div>
     </div>
 </main>
+
 <?php footerAdmin($data); ?> 

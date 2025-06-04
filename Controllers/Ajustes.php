@@ -52,7 +52,7 @@ class Ajustes extends Controllers
             }
             if(move_uploaded_file($foto['tmp_name'], $ruta)){
                 $this->model->actualizarFoto($idUser, $nombreArchivo);
-                $_SESSION['userData']['foto'] = $nombreArchivo;
+                $_SESSION['userData']['imgperfil'] = $nombreArchivo;
                 $arrResponse['status'] = true;
                 $arrResponse['msg'] = 'Perfil actualizado correctamente.';
             }else{

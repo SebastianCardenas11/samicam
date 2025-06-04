@@ -15,7 +15,7 @@ class AjustesModel extends Mysql
 
     public function actualizarFoto($idUser, $nombreArchivo)
     {
-        $sql = "UPDATE tbl_usuarios SET foto = ? WHERE ideusuario = ?";
+        $sql = "UPDATE tbl_usuarios SET imgperfil = ? WHERE ideusuario = ?";
         $arrData = array($nombreArchivo, $idUser);
         return $this->update($sql, $arrData);
     }
