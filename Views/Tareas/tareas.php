@@ -19,6 +19,10 @@
     position: relative;
     height: 300px;
     margin: 15px 0;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .tile {
@@ -53,26 +57,46 @@
 .stat-card {
     flex: 1;
     min-width: 200px;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     color: white;
     text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
 }
 
 .stat-card h3 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
 .stat-card p {
-    margin: 5px 0 0;
+    margin: 10px 0 0;
     opacity: 0.9;
+    font-size: 1.1rem;
 }
 
 .completadas-card { background: linear-gradient(135deg, #28a745, #20c997); }
 .encurso-card { background: linear-gradient(135deg, #ffc107, #fd7e14); }
 .sinempezar-card { background: linear-gradient(135deg, #17a2b8, #0dcaf0); }
 .vencidas-card { background: linear-gradient(135deg, #dc3545, #f86c6b); }
+
+/* Estilos para la tabla */
+.table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+}
+
+.table td[data-toggle="tooltip"] {
+    cursor: pointer;
+}
 
 /* Estilos para el modal de ver tarea */
 .modal-xl {
@@ -91,6 +115,19 @@
 
 .tarea-info .value {
     font-size: 1.1em;
+    line-height: 1.5;
+}
+
+/* Estilos específicos para la descripción de la tarea */
+.tarea-info .value#celDescripcion {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .usuarios-asignados {
@@ -701,3 +738,10 @@ function mostrarTodosLosUsuarios(usuarios) {
 </script>
 
 <?php footerAdmin($data); ?>
+<script src="<?= media() ?>/js/functions_tareas_charts.js"></script>
+<script>
+// Inicializar tooltips para las descripciones largas
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>

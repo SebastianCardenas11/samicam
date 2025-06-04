@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"id_tarea"},
             {"data":"asignado_nombre"},
             {"data":"tipo"},
-            {"data":"descripcion"},
+            {"data":"descripcion", "render": function(data) {
+                return `<div class="text-truncate" style="max-width: 200px;" title="${data}">${data}</div>`;
+            }},
             {"data":"dependencia_nombre"},
             {"data":"estado", "render": function(data, type, row) {
                 let estado = data.toLowerCase();
@@ -39,7 +41,30 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"fecha_fin", "render": function(data) {
                 return data.split(' ')[0]; // Mostrar solo la parte de la fecha
             }},
-            {"data":"tiempo_restante"},
+            {"data":"tiempo_restante", "render": function(data, type, row) {
+                let fechaFin = new Date(row.fecha_fin);
+                let fechaActual = new Date();
+                
+                // Si la tarea está completada
+                if (row.estado.toLowerCase() === 'completada') {
+                    return '<span class="badge text-bg-success">Completada</span>';
+                }
+                
+                // Si la fecha ya pasó
+                if (fechaFin < fechaActual) {
+                    return '<span class="badge text-bg-danger">Vencida</span>';
+                }
+                
+                // Calcular días restantes
+                let diferencia = fechaFin.getTime() - fechaActual.getTime();
+                let diasRestantes = Math.ceil(diferencia / (1000 * 3600 * 24));
+                
+                let badge = diasRestantes <= 2 ? 'text-bg-danger' : 
+                           diasRestantes <= 5 ? 'text-bg-warning' : 
+                           'text-bg-info';
+                
+                return `<span class="badge ${badge}">${diasRestantes} día${diasRestantes !== 1 ? 's' : ''}</span>`;
+            }},
             {"data":"options"}
         ],
         'dom': 'lBfrtip',
