@@ -8,7 +8,7 @@ class Publicaciones extends Controllers
         if (empty($_SESSION['login'])) {
             header('Location: ' . base_url() . '/login');
         }
-        getPermisos(MPUBLICACIONES); // Corregido: Usando la constante MPUBLICACIONES (12)
+        getPermisos(MPUBLICACIONES);
     }
 
     public function Publicaciones()
@@ -17,7 +17,7 @@ class Publicaciones extends Controllers
             header("Location:" . base_url() . '/dashboard');
         }
         $data['page_tag'] = "Publicaciones";
-        $data['page_title'] = "PUBLICACIONES <small>SAMICAM</small>";
+        $data['page_title'] = "Publicaciones";
         $data['page_name'] = "publicaciones";
         $data['page_functions_js'] = "functions_publicaciones.js";
         $data['estadisticas'] = $this->model->getEstadisticas();
