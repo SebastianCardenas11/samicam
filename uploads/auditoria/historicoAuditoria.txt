@@ -560,3 +560,9 @@
 [2025-06-04 17:14:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
 [2025-06-04 17:15:47] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
 [2025-06-04 17:17:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-06-04 17:18:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-06-04 17:19:21] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-06-04 17:27:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Publicaciones
+[2025-06-04 17:32:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Auditoría
+[2025-06-04 17:33:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 17:33:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Ajustes de Perfil
