@@ -10,48 +10,8 @@
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
-            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"><?= $data['page_title'] ?></a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"></a></li>
         </ul>
-    </div>
-
-    <!-- Dashboard de Estadísticas -->
-    <div class="row">
-        <!-- Total de Publicaciones -->
-        <div class="col-md-3">
-            <div class="widget-small primary"><i class="icon bi bi-newspaper"></i>
-                <div class="info">
-                    <h4>Total Publicaciones</h4>
-                    <p><b><?= $data['estadisticas']['total_publicaciones'] ?></b></p>
-                </div>
-            </div>
-        </div>
-        <!-- Publicaciones Recientes -->
-        <div class="col-md-3">
-            <div class="widget-small info"><i class="icon bi bi-clock-history"></i>
-                <div class="info">
-                    <h4>Últimos 7 días</h4>
-                    <p><b><?= $data['estadisticas']['publicaciones_recientes'] ?></b></p>
-                </div>
-            </div>
-        </div>
-        <!-- Publicaciones Pendientes -->
-        <div class="col-md-3">
-            <div class="widget-small warning"><i class="icon bi bi-hourglass-split"></i>
-                <div class="info">
-                    <h4>Pendientes</h4>
-                    <p><b><?= $data['estadisticas']['publicaciones_pendientes'] ?></b></p>
-                </div>
-            </div>
-        </div>
-        <!-- Tasa de Respuesta -->
-        <div class="col-md-3">
-            <div class="widget-small success"><i class="icon bi bi-check-circle"></i>
-                <div class="info">
-                    <h4>Tasa de Respuesta</h4>
-                    <p><b><?= number_format(($data['estadisticas']['total_publicaciones'] - $data['estadisticas']['publicaciones_pendientes']) / max(1, $data['estadisticas']['total_publicaciones']) * 100, 1) ?>%</b></p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="row">
@@ -69,6 +29,11 @@
                     <div class="tab-content" id="myTabContent">
                         <!-- Tab de Tabla -->
                         <div class="tab-pane fade show active" id="tabla" role="tabpanel" aria-labelledby="tabla-tab">
+                            <div class="mb-3">
+                                <?php if($_SESSION['permisosMod']['w']){ ?>
+                                <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nueva Publicación</button>
+                                <?php } ?>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered" id="tablePublicaciones">
                                     <thead>
@@ -77,6 +42,7 @@
                                             <th>Fecha Recibido</th>
                                             <th>Correo</th>
                                             <th>Asunto</th>
+                                            <th>Dependencia</th>
                                             <th>Fecha Publicación</th>
                                             <th>Respuesta</th>
                                             <th>Estado</th>
@@ -91,6 +57,46 @@
                         
                         <!-- Tab de Gráficos -->
                         <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="graficos-tab">
+                            <!-- Dashboard de Estadísticas -->
+                            <div class="row mb-4">
+                                <!-- Total de Publicaciones -->
+                                <div class="col-md-3">
+                                    <div class="widget-small primary"><i class="icon bi bi-newspaper"></i>
+                                        <div class="info">
+                                            <h4>Total Publicaciones</h4>
+                                            <p><b><?= $data['estadisticas']['total_publicaciones'] ?></b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Publicaciones Recientes -->
+                                <div class="col-md-3">
+                                    <div class="widget-small info"><i class="icon bi bi-clock-history"></i>
+                                        <div class="info">
+                                            <h4>Últimos 7 días</h4>
+                                            <p><b><?= $data['estadisticas']['publicaciones_recientes'] ?></b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Publicaciones Pendientes -->
+                                <div class="col-md-3">
+                                    <div class="widget-small warning"><i class="icon bi bi-hourglass-split"></i>
+                                        <div class="info">
+                                            <h4>Pendientes</h4>
+                                            <p><b><?= $data['estadisticas']['publicaciones_pendientes'] ?></b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Tasa de Respuesta -->
+                                <div class="col-md-3">
+                                    <div class="widget-small success"><i class="icon bi bi-check-circle"></i>
+                                        <div class="info">
+                                            <h4>Tasa de Respuesta</h4>
+                                            <p><b><?= number_format(($data['estadisticas']['total_publicaciones'] - $data['estadisticas']['publicaciones_pendientes']) / max(1, $data['estadisticas']['total_publicaciones']) * 100, 1) ?>%</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="graficos-container">
                                 <div class="row">
                                     <!-- Gráfica de Publicaciones por Mes -->
@@ -125,12 +131,12 @@
                                         </div>
                                     </div>
 
-                                    <!-- Gráfica por Día de la Semana -->
+                                    <!-- Gráfica de Publicaciones por Dependencia -->
                                     <div class="col-md-8">
                                         <div class="tile">
-                                            <h3 class="tile-title">Publicaciones por Día</h3>
+                                            <h3 class="tile-title">Publicaciones por Dependencia</h3>
                                             <div class="tile-body">
-                                                <canvas id="publicacionesPorDia" style="height: 200px;"></canvas>
+                                                <canvas id="publicacionesPorDependencia" style="height: 200px;"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -285,20 +291,15 @@ function initCharts() {
         }
     });
 
-    // Gráfica por Día de la Semana
-    const diasLabels = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-    const datosPorDia = new Array(7).fill(0);
-    estadisticas.publicaciones_por_dia.forEach(item => {
-        datosPorDia[item.dia - 1] = parseInt(item.total);
-    });
-
-    new Chart(document.getElementById('publicacionesPorDia'), {
+    // Gráfica de Publicaciones por Dependencia
+    const dependenciasData = estadisticas.publicaciones_por_dependencia;
+    new Chart(document.getElementById('publicacionesPorDependencia'), {
         type: 'bar',
         data: {
-            labels: diasLabels,
+            labels: dependenciasData.map(item => item.dependencia),
             datasets: [{
                 label: 'Publicaciones',
-                data: datosPorDia,
+                data: dependenciasData.map(item => parseInt(item.total)),
                 backgroundColor: colors.info
             }]
         },

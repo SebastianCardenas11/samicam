@@ -8,6 +8,7 @@ class PublicacionesModel extends Mysql
     private $strFechaPublicacion;
     private $strRespuestaEnvio;
     private $strEnlacePublicacion;
+    private $intDependencia;
     private $intStatus;
 
     public function __construct()
@@ -18,7 +19,10 @@ class PublicacionesModel extends Mysql
     // Obtener todas las publicaciones
     public function selectPublicaciones()
     {
-        $sql = "SELECT * FROM publicaciones WHERE status != 0";
+        $sql = "SELECT p.*, d.nombre as dependencia_nombre 
+                FROM publicaciones p 
+                LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk 
+                WHERE p.status != 0";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -27,13 +31,25 @@ class PublicacionesModel extends Mysql
     public function selectPublicacion(int $idpublicacion)
     {
         $this->intIdPublicacion = $idpublicacion;
-        $sql = "SELECT * FROM publicaciones WHERE id_publicacion = $this->intIdPublicacion";
+        $sql = "SELECT p.*, d.nombre as dependencia_nombre 
+                FROM publicaciones p 
+                LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk 
+                WHERE p.id_publicacion = $this->intIdPublicacion";
         $request = $this->select($sql);
         return $request;
     }
 
+    // Obtener todas las dependencias
+    public function getDependencias()
+    {
+        $sql = "SELECT * FROM tbl_dependencia ORDER BY nombre ASC";
+        return $this->select_all($sql);
+    }
+
     // Insertar nueva publicación
-    public function insertPublicacion(string $fechaRecibido, string $correoRecibido, string $asunto, string $fechaPublicacion, string $respuestaEnvio, string $enlacePublicacion, int $status)
+    public function insertPublicacion(string $fechaRecibido, string $correoRecibido, string $asunto, 
+                                    string $fechaPublicacion, string $respuestaEnvio, 
+                                    string $enlacePublicacion, int $dependencia, int $status)
     {
         $return = 0;
         $this->strFechaRecibido = $fechaRecibido;
@@ -42,13 +58,17 @@ class PublicacionesModel extends Mysql
         $this->strFechaPublicacion = $fechaPublicacion;
         $this->strRespuestaEnvio = $respuestaEnvio;
         $this->strEnlacePublicacion = $enlacePublicacion;
+        $this->intDependencia = $dependencia;
         $this->intStatus = $status;
 
         $sql = "SELECT * FROM publicaciones WHERE asunto = '{$this->strAsunto}' AND correo_recibido = '{$this->strCorreoRecibido}'";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            $query_insert = "INSERT INTO publicaciones(nombre_publicacion, fecha_recibido, correo_recibido, asunto, fecha_publicacion, respuesta_envio, enlace_publicacion, status) VALUES(?,?,?,?,?,?,?,?)";
+            $query_insert = "INSERT INTO publicaciones(nombre_publicacion, fecha_recibido, correo_recibido, 
+                                                     asunto, fecha_publicacion, respuesta_envio, 
+                                                     enlace_publicacion, dependencia_fk, status) 
+                            VALUES(?,?,?,?,?,?,?,?,?)";
             $arrData = array(
                 $this->strAsunto, // Usando el asunto como nombre de publicación por defecto
                 $this->strFechaRecibido,
@@ -57,6 +77,7 @@ class PublicacionesModel extends Mysql
                 $this->strFechaPublicacion,
                 $this->strRespuestaEnvio,
                 $this->strEnlacePublicacion,
+                $this->intDependencia,
                 $this->intStatus
             );
             $request_insert = $this->insert($query_insert, $arrData);
@@ -138,16 +159,16 @@ class PublicacionesModel extends Mysql
                           AND status = 1";
         $publicaciones_pendientes = $this->select($sql_pendientes);
 
-        // Publicaciones por día de la semana (solo activas)
-        $sql_dias = "SELECT 
-            DAYOFWEEK(fecha_publicacion) as dia,
+        // Publicaciones por dependencia
+        $sql_dependencias = "SELECT 
+            d.nombre as dependencia,
             COUNT(*) as total
-            FROM publicaciones 
-            WHERE fecha_publicacion IS NOT NULL
-            AND status = 1
-            GROUP BY DAYOFWEEK(fecha_publicacion)
-            ORDER BY dia";
-        $publicaciones_por_dia = $this->select_all($sql_dias);
+            FROM publicaciones p
+            LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk
+            WHERE p.status = 1
+            GROUP BY d.dependencia_pk, d.nombre
+            ORDER BY total DESC";
+        $publicaciones_por_dependencia = $this->select_all($sql_dependencias);
 
         return array(
             'publicaciones_por_mes' => $publicaciones_por_mes,
@@ -156,7 +177,7 @@ class PublicacionesModel extends Mysql
             'total_publicaciones' => $total_publicaciones['total'],
             'publicaciones_recientes' => $publicaciones_recientes['total'],
             'publicaciones_pendientes' => $publicaciones_pendientes['total'],
-            'publicaciones_por_dia' => $publicaciones_por_dia
+            'publicaciones_por_dependencia' => $publicaciones_por_dependencia
         );
     }
 }

@@ -1,7 +1,10 @@
-let tablePublicaciones;
+var tablePublicaciones;
 let rowTable = "";
 
 document.addEventListener('DOMContentLoaded', function(){
+    // Cargar dependencias al iniciar
+    fntGetDependencias();
+
     // Inicializar la tabla cuando se muestra la pestaña de tabla
     document.getElementById('tabla-tab').addEventListener('shown.bs.tab', function (e) {
         if (tablePublicaciones) {
@@ -23,8 +26,10 @@ document.addEventListener('DOMContentLoaded', function(){
         let strFechaRecibido = document.querySelector('#txtFechaRecibido').value;
         let strCorreoRecibido = document.querySelector('#txtCorreoRecibido').value;
         let strAsunto = document.querySelector('#txtAsunto').value;
+        let intDependencia = document.querySelector('#listDependencia').value;
         
-        if(strNombrePublicacion == '' || strFechaRecibido == '' || strCorreoRecibido == '' || strAsunto == '') {
+        if(strNombrePublicacion == '' || strFechaRecibido == '' || strCorreoRecibido == '' || 
+           strAsunto == '' || intDependencia == '') {
             Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
             return false;
         }
@@ -63,6 +68,23 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 });
 
+function fntGetDependencias() {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Publicaciones/getDependencias';
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let htmlOption = '<option value="">Seleccione una dependencia</option>';
+            objData.forEach(function(dependencia) {
+                htmlOption += '<option value="'+dependencia.dependencia_pk+'">'+dependencia.nombre+'</option>';
+            });
+            document.querySelector("#listDependencia").innerHTML = htmlOption;
+        }
+    }
+}
+
 function initializeTable() {
     tablePublicaciones = $('#tablePublicaciones').dataTable({
         "aProcessing":true,
@@ -87,9 +109,10 @@ function initializeTable() {
                 return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
              }
             },
+            {"data":"dependencia_nombre"},
             {"data":"fecha_publicacion"},
             {"data":"respuesta_envio"},
-            {"data":"estado", "render": function(data) {
+            {"data":"status", "render": function(data) {
                 let badge = data == 1 ? 
                     '<span class="badge text-bg-success">Activo</span>' : 
                     '<span class="badge text-bg-danger">Inactivo</span>';
@@ -146,6 +169,7 @@ function fntViewInfo(idpublicacion) {
                     document.querySelector("#celFechaRecibido").innerHTML = objData.data.fecha_recibido;
                     document.querySelector("#celCorreoRecibido").innerHTML = objData.data.correo_recibido;
                     document.querySelector("#celAsunto").innerHTML = objData.data.asunto;
+                    document.querySelector("#celDependencia").innerHTML = objData.data.dependencia_nombre;
                     document.querySelector("#celFechaPublicacion").innerHTML = objData.data.fecha_publicacion;
                     document.querySelector("#celRespuestaEnvio").innerHTML = objData.data.respuesta_envio;
                     

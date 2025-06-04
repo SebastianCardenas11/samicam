@@ -23,10 +23,16 @@
             </div>
             <div class="col-md-6">
               <div class="form-group mb-3">
-                <label for="txtCorreoRecibido" class="form-control-label">Correo Recibido</label>
-                <input type="email" class="form-control" id="txtCorreoRecibido" name="txtCorreoRecibido" required="">
+                <label for="listDependencia" class="form-control-label">Dependencia</label>
+                <select class="form-control" id="listDependencia" name="listDependencia" required="">
+                  <option value="">Seleccione una dependencia</option>
+                </select>
               </div>
             </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="txtCorreoRecibido" class="form-control-label">Correo Recibido</label>
+            <input type="email" class="form-control" id="txtCorreoRecibido" name="txtCorreoRecibido" required="">
           </div>
           <div class="form-group mb-3">
             <label for="txtAsunto" class="form-control-label">Asunto</label>
@@ -102,6 +108,10 @@
             <tr>
               <td>Asunto:</td>
               <td id="celAsunto"></td>
+            </tr>
+            <tr>
+              <td>Dependencia:</td>
+              <td id="celDependencia"></td>
             </tr>
             <tr>
               <td>Fecha de Publicación:</td>
