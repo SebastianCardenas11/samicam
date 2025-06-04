@@ -13,9 +13,22 @@ document.addEventListener('DOMContentLoaded', function(){
         },
         "columns":[
             {"data":"id_publicacion"},
+            {"data":"nombre_publicacion",
+             "render": function(data) {
+                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
+             }
+            },
             {"data":"fecha_recibido"},
-            {"data":"correo_recibido"},
-            {"data":"asunto"},
+            {"data":"correo_recibido",
+             "render": function(data) {
+                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
+             }
+            },
+            {"data":"asunto",
+             "render": function(data) {
+                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
+             }
+            },
             {"data":"fecha_publicacion"},
             {"data":"respuesta_envio"},
             {"data":"enlace_publicacion", 
@@ -25,7 +38,9 @@ document.addEventListener('DOMContentLoaded', function(){
                 if(!data.match(/^https?:\/\//i)) {
                     data = 'https://' + data;
                 }
-                return '<a href="'+data+'" target="_blank" class="a-link">'+data+'</a>';
+                return `<div class="text-truncate" style="max-width: 150px;">
+                          <a href="${data}" target="_blank" title="${data}" class="a-link">${data}</a>
+                        </div>`;
              }
             },
             {"data":"options"}
@@ -55,11 +70,12 @@ document.addEventListener('DOMContentLoaded', function(){
     formPublicacion.onsubmit = function(e) {
         e.preventDefault();
         
+        let strNombrePublicacion = document.querySelector('#txtNombrePublicacion').value;
         let strFechaRecibido = document.querySelector('#txtFechaRecibido').value;
         let strCorreoRecibido = document.querySelector('#txtCorreoRecibido').value;
         let strAsunto = document.querySelector('#txtAsunto').value;
         
-        if(strFechaRecibido == '' || strCorreoRecibido == '' || strAsunto == '') {
+        if(strNombrePublicacion == '' || strFechaRecibido == '' || strCorreoRecibido == '' || strAsunto == '') {
             Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
             return false;
         }
@@ -122,6 +138,7 @@ function fntViewInfo(idpublicacion) {
                     '<span class="badge badge-danger">Inactivo</span>';
                     
                     document.querySelector("#celId").innerHTML = objData.data.id_publicacion;
+                    document.querySelector("#celNombrePublicacion").innerHTML = objData.data.nombre_publicacion;
                     document.querySelector("#celFechaRecibido").innerHTML = objData.data.fecha_recibido;
                     document.querySelector("#celCorreoRecibido").innerHTML = objData.data.correo_recibido;
                     document.querySelector("#celAsunto").innerHTML = objData.data.asunto;
@@ -134,7 +151,7 @@ function fntViewInfo(idpublicacion) {
                         if(!url.match(/^https?:\/\//i)) {
                             url = 'https://' + url;
                         }
-                        document.querySelector("#celEnlacePublicacion").innerHTML = '<a href="'+url+'" target="_blank" class="a-link">'+objData.data.enlace_publicacion+'</a>';
+                        document.querySelector("#celEnlacePublicacion").innerHTML = `<a href="${url}" target="_blank" class="a-link text-break">${objData.data.enlace_publicacion}</a>`;
                     } else {
                         document.querySelector("#celEnlacePublicacion").innerHTML = '';
                     }

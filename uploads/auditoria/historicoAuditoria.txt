@@ -359,3 +359,8 @@
 [2025-06-02 23:12:18] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
 [2025-06-02 23:12:20] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos
 [2025-06-02 23:12:21] ID: 0 | Usuario: Jefe Ntic | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
+[2025-06-04 09:36:52] ID: 1 | Usuario: Luis Carlos | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-04 09:36:53] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 09:53:43] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 10:32:45] ID: 0 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-04 10:41:21] ID: 0 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones

@@ -21,12 +21,13 @@
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha Recibido</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Correo Recibido</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Asunto</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fecha Publicación</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Respuesta</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Enlace</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Correo</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Asunto</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha Pub.</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Respuesta</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Enlace</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
                                     </tr>
                                 </thead>
@@ -41,4 +42,14 @@
         
     </div>
 </main>
+
+<style>
+.table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
+
 <?php footerAdmin($data); ?>

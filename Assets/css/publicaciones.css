@@ -16,3 +16,45 @@
     white-space: nowrap;
 }
 
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle !important;
+}
+
+.table td a.a-link {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.table td a.a-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Modal styles */
+.modal-body .table td {
+    word-break: break-word;
+    white-space: normal;
+}
+
+.modal-body .text-break {
+    word-break: break-word !important;
+    word-wrap: break-word !important;
+}
+
+/* DataTables responsive styles */
+.dataTables_wrapper {
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .text-truncate {
+        max-width: 100px !important;
+    }
+}
+
