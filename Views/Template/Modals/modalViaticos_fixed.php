@@ -8,15 +8,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="mb-3">
-    <label for="listFuncionarios" class="form-label">Funcionario</label>
-    <select class="form-select" id="listFuncionarios" name="funci_fk" required>
-        <option value="">Seleccione un funcionario</option>
-        <!-- Los funcionarios se cargarán dinámicamente con JavaScript -->
-    </select>
-    <input type="hidden" id="tipo_funcionario" name="tipo_funcionario" value="planta">
-</div>
-
+                    <div class="mb-3">
+                        <label for="listFuncionarios" class="form-label">Funcionario</label>
+                        <select class="form-select" id="listFuncionarios" name="funci_fk" required>
+                            <option value="">Seleccione un funcionario</option>
+                            <!-- Los funcionarios se cargarán dinámicamente con JavaScript -->
+                        </select>
+                        <input type="hidden" id="tipo_funcionario" name="tipo_funcionario" value="planta">
+                    </div>
                     <div class="mb-3">
                         <label for="txtDescripcion" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="txtDescripcion" name="descripcion" required>
@@ -54,3 +53,5 @@
         </div>
     </div>
 </div>
+
+<!-- Eliminamos el script interno ya que ahora está en functions_Viaticos.js -->

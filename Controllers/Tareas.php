@@ -424,5 +424,31 @@
             echo $htmlOptions;
             die();
         }
+
+        public function getEstadisticasTareas()
+        {
+            if($_SESSION['permisosMod']['r']){
+                $arrData = array();
+                $modelTareas = new TareasModel();
+
+                // Obtener estadísticas por estado
+                $arrData['estadoTareas'] = array(
+                    'completadas' => $modelTareas->countTareasPorEstado(2), // 2 = Completada
+                    'enCurso' => $modelTareas->countTareasPorEstado(1), // 1 = En curso
+                    'sinEmpezar' => $modelTareas->countTareasPorEstado(0), // 0 = Sin empezar
+                    'vencidas' => $modelTareas->countTareasVencidas()
+                );
+
+                // Obtener estadísticas por tipo
+                $arrData['tiposTarea'] = $modelTareas->getTareasPorTipo();
+
+                // Obtener tareas completadas por mes (últimos 12 meses)
+                $arrData['tareasCompletadas'] = $modelTareas->getTareasCompletadasPorMes();
+
+                $arrData['success'] = true;
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            }
+            die();
+        }
     }
 ?>

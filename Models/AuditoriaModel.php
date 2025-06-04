@@ -21,62 +21,60 @@ class AuditoriaModel extends Mysql
     }
 
     /**
-     * Registra un inicio de sesión en el archivo histórico de auditoría
-     * @param int $idUsuario ID del usuario que inició sesión
-     * @param string $correo Correo del usuario
-     * @param string $nombre Nombre del usuario
-     * @param string $rol Rol del usuario
+     * Registra cualquier acción en el archivo histórico de auditoría
+     * @param array $data Datos de la acción a registrar
      * @return bool
+     */
+    public function registrarAccion($data)
+    {
+        // Obtener información del cliente
+        $fecha = date('Y-m-d H:i:s');
+        $ip = $_SERVER['REMOTE_ADDR'];
+        
+        // Preparar contenido del log
+        $contenido = "[" . $fecha . "] ";
+        $contenido .= "ID: " . ($data['id'] ?? 0) . " | ";
+        $contenido .= "Usuario: " . ($data['usuario'] ?? 'Desconocido') . " | ";
+        if (isset($data['correo'])) {
+            $contenido .= "Correo: " . $data['correo'] . " | ";
+        }
+        $contenido .= "Rol: " . ($data['rol'] ?? 'Sin rol') . " | ";
+        $contenido .= "IP: " . $ip . " | ";
+        if (isset($data['navegador'])) {
+            $contenido .= "Navegador: " . $data['navegador'] . " | ";
+        }
+        $contenido .= "Acción: " . ($data['accion'] ?? 'No especificada') . "\n";
+        
+        // Escribir en el archivo histórico
+        return file_put_contents($this->archivoHistorico, $contenido, FILE_APPEND) !== false;
+    }
+
+    /**
+     * Registra un inicio de sesión en el archivo histórico de auditoría
      */
     public function registrarInicioSesion(int $idUsuario, string $correo, string $nombre, string $rol)
     {
-        // Obtener información del cliente
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        $fecha = date('Y-m-d H:i:s');
-        
-        // Preparar contenido del log
-        $contenido = "[" . $fecha . "] ";
-        $contenido .= "ID: " . $idUsuario . " | ";
-        $contenido .= "Usuario: " . $nombre . " | ";
-        $contenido .= "Correo: " . $correo . " | ";
-        $contenido .= "Rol: " . $rol . " | ";
-        $contenido .= "IP: " . $ip . " | ";
-        $contenido .= "Navegador: " . $userAgent . " | ";
-        $contenido .= "Acción: Inicio de sesión\n";
-        
-        // Escribir en el archivo histórico
-        file_put_contents($this->archivoHistorico, $contenido, FILE_APPEND);
-        
-        return true;
+        return $this->registrarAccion([
+            'id' => $idUsuario,
+            'usuario' => $nombre,
+            'correo' => $correo,
+            'rol' => $rol,
+            'navegador' => $_SERVER['HTTP_USER_AGENT'],
+            'accion' => 'Inicio de sesión'
+        ]);
     }
-    
+
     /**
      * Registra el acceso a un módulo en el archivo histórico de auditoría
-     * @param int $idUsuario ID del usuario
-     * @param string $nombre Nombre del usuario
-     * @param string $rol Rol del usuario
-     * @param string $modulo Nombre del módulo accedido
-     * @return bool
      */
     public function registrarAccesoModulo($idUsuario, string $nombre, string $rol, string $modulo)
     {
-        // Obtener información del cliente
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $fecha = date('Y-m-d H:i:s');
-        
-        // Preparar contenido del log
-        $contenido = "[" . $fecha . "] ";
-        $contenido .= "ID: " . $idUsuario . " | ";
-        $contenido .= "Usuario: " . $nombre . " | ";
-        $contenido .= "Rol: " . $rol . " | ";
-        $contenido .= "IP: " . $ip . " | ";
-        $contenido .= "Acción: Acceso al módulo " . $modulo . "\n";
-        
-        // Escribir en el archivo histórico
-        file_put_contents($this->archivoHistorico, $contenido, FILE_APPEND);
-        
-        return true;
+        return $this->registrarAccion([
+            'id' => $idUsuario,
+            'usuario' => $nombre,
+            'rol' => $rol,
+            'accion' => 'Acceso al módulo ' . $modulo
+        ]);
     }
     
     /**
@@ -116,13 +114,11 @@ class AuditoriaModel extends Mysql
     
     /**
      * Obtiene registros de auditoría específicos para un módulo
-     * @param string $modulo Nombre del módulo (cargos, vacaciones, viaticos, archivos)
+     * @param string $modulo Nombre del módulo
      * @return string Registros de auditoría del módulo
      */
     public function getAuditoriaModulo(string $modulo)
     {
-        // Buscar en el histórico los registros relacionados con el módulo
-        $termino = "módulo " . $modulo;
-        return $this->buscarEnHistorico($termino);
+        return $this->buscarEnHistorico('módulo ' . $modulo);
     }
 }

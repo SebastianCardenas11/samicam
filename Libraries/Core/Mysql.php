@@ -86,4 +86,20 @@ class Mysql extends Conexion
         $del = $result->execute($this->arrValues);
         return $del;
     }
+
+    // Métodos de transacción
+    public function beginTransaction()
+    {
+        return $this->conexion->beginTransaction();
+    }
+
+    public function commit()
+    {
+        return $this->conexion->commit();
+    }
+
+    public function rollback()
+    {
+        return $this->conexion->rollBack();
+    }
 }

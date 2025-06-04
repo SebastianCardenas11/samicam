@@ -17,7 +17,22 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"tipo"},
             {"data":"descripcion"},
             {"data":"dependencia_nombre"},
-            {"data":"estado"},
+            {"data":"estado", "render": function(data, type, row) {
+                let estado = data.toLowerCase();
+                let badge = '';
+                if(estado === 'completada') {
+                    badge = '<span class="badge text-bg-success">Completada</span>';
+                } else if(estado === 'en curso') {
+                    badge = '<span class="badge text-bg-warning text-black">En curso</span>';
+                } else if(estado === 'sin empezar') {
+                    badge = '<span class="badge text-bg-secondary text-black">Sin empezar</span>';
+                } else if(estado === 'vencida') {
+                    badge = '<span class="badge text-bg-danger text-black">Vencida</span>';
+                } else {
+                    badge = '<span class="badge text-bg-info">'+data+'</span>';
+                }
+                return badge;
+            }},
             {"data":"fecha_inicio", "render": function(data) {
                 return data.split(' ')[0]; // Mostrar solo la parte de la fecha
             }},
@@ -68,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function(){
         // Validar que la fecha de fin sea posterior a la fecha de inicio
         let fechaInicio = new Date(strFechaInicio);
         let fechaFin = new Date(strFechaFin);
-        if(fechaFin <= fechaInicio) {
+        if(fechaFin < fechaInicio) {
             Swal.fire("Atención", "La fecha de fin debe ser posterior a la fecha de inicio.", "error");
             return false;
         }
@@ -179,7 +194,7 @@ function fntViewTarea(idtarea) {
                 document.querySelector("#celDescripcion").innerHTML = objTarea.descripcion;
                 document.querySelector("#celDependencia").innerHTML = objTarea.dependencia_nombre;
                 
-                // Formatear estado
+
                 let estado = objTarea.estado;
                 let estadoHtml = "";
                 switch(estado) {
@@ -632,10 +647,10 @@ function cargarObservaciones(idtarea) {
                             </div>`;
                         }
                     } else {
-                        html = '<div class="alert alert-info">No hay observaciones para esta tarea.</div>';
+                        html = '<div class="alert ">No hay observaciones para esta tarea.</div>';
                     }
                 } else {
-                    html = '<div class="alert alert-info">No hay observaciones para esta tarea.</div>';
+                    html = '<div class="alert ">No hay observaciones para esta tarea.</div>';
                 }
                 
                 document.querySelector('#listaObservaciones').innerHTML = html;

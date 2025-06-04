@@ -3,16 +3,18 @@
      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
 
      <a class="navbar-brand m-0 d-block">
-       <!-- Imagen con tamaño normal -->
+       <!-- Logo institucional -->
        <img src="<?= media() ?>/images/samicamIconox.png" class="navbar-brand-img" style="max-height: 100px;"><br>
-
-       <!-- Nombre del usuario -->
-       <span class="d-block font-weight-bold mt-2"><?= $_SESSION['userData']['nombres']; ?></span>
-
+       <!-- Imagen de perfil del usuario -->
+       <img src="<?= !empty($_SESSION['userData']['foto']) ? base_url().'/uploads/perfiles/'.$_SESSION['userData']['foto'] : media().'/images/user.png' ?>" class="rounded-circle mb-2" style="width:60px;height:60px;object-fit:cover;">
+       <!-- Nombre del usuario con la foto al lado -->
+       <span class="d-block font-weight-bold mt-2">
+         <?= $_SESSION['userData']['nombres']; ?>
+       </span>
        <!-- Rol del usuario -->
        <span class="d-block text-muted"><?= $_SESSION['userData']['nombrerol']; ?></span>
      </a>
-   </div><br><br><br>
+   </div><br><br><br><br><br><br>
 
 
    <hr class="horizontal dark mt-0">
@@ -139,6 +141,19 @@
          </li>
        <?php } ?>
 
+       <?php
+       // Mostrar separador Gestión de Contenidos solo si el usuario tiene permisos en al menos uno de los módulos
+       $showContentSection = (
+         (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) ||
+         (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) ||
+         (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1))
+       );
+       if ($showContentSection) {?>
+           <li class="nav-item mt-2">
+             <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión de Contenidos</h6>
+           </li>
+<?php } ?>
+
        <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
@@ -150,30 +165,31 @@
          </li>
        <?php } ?>
 
+       <?php if (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/publicaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/publicaciones">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-newspaper text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Publicaciones</span>
+           </a>
+         </li>
+       <?php } ?>
 
-        <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
-  <li class="nav-item">
-    <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
-      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="bi bi-list-task text-dark"></i>
-      </div>
-      
-      <span class="nav-link-text ms-1">Tareas</span>
-    </a>
-  </li>
-<?php } ?>
+       <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-list-task text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Tareas</span>
+           </a>
+         </li>
+       <?php } ?>
 
-        <?php if (isset($_SESSION['permisos'][MPUBLICACIONES]) && !empty($_SESSION['permisos'][MPUBLICACIONES]['r']) && (!isset($_SESSION['permisos'][MPUBLICACIONES]['v']) || $_SESSION['permisos'][MPUBLICACIONES]['v'] == 1)) { ?>
-  <li class="nav-item">
-    <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/publicaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/publicaciones">
-      <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="bi bi-newspaper text-dark"></i>
-      </div>
-      
-      <span class="nav-link-text ms-1">Publicaciones</span>
-    </a>
-  </li>
-<?php } ?>
+       <li class="nav-item mt-2">
+         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Control y seguridad</h6>
+       </li>
        <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">
@@ -184,7 +200,17 @@
            </a>
          </li>
        <?php } ?>
+        
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/ajustes')) ? 'active' : ''; ?>" href="<?= base_url(); ?>/ajustes">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="fa fa-cog text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Ajustes</span>
+           </a>
+         </li>
 
+       
        <li class="nav-item mt-3">
          <a class="nav-link text-danger" href="<?= base_url(); ?>/logout">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -202,13 +228,6 @@
    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
      <div class="container-fluid py-1 px-3">
        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-           <!-- Reloj en formato 12 horas -->
-           <div class="clock-container me-3">
-             <div id="current-time" class="text-dark fw-bold"></div>
-             <div id="current-date" class="text-muted small"></div>
-           </div>
-         </div>
          <ul class="navbar-nav justify-content-end">
            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -219,11 +238,7 @@
                </div>
              </a>
            </li>
-           <li class="nav-item px-3 d-flex align-items-center">
-             <a href="javascript:;" class="nav-link text-body p-0">
-               <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-             </a>
-           </li>
+      
          </ul>
        </div>
      </div>

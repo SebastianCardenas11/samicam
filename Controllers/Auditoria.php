@@ -118,7 +118,9 @@ class Auditoria extends Controllers
             // Crear archivo Excel
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment; filename="historicoAuditoria.xls"');
-            
+
+            echo "\xEF\xBB\xBF"; // BOM UTF-8 para que Excel muestre bien los acentos
+
             echo "<table border='1'>";
             echo "<tr>";
             echo "<th>Fecha</th>";
