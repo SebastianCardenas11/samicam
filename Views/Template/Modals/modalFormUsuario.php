@@ -20,7 +20,7 @@
             <label for="txtContrasenaUsuario" class="form-label">Contraseña</label>
             <div class="input-group">
               <input type="password" class="form-control" id="txtContrasenaUsuario" name="txtContrasenaUsuario" required>
-              <button class="btn btn-outline-secondary" type="button" id="btnTogglePassword">
+              <button class="btn btn-outline-secondary mb-0" type="button" id="btnTogglePassword">
                 <i class="bi bi-eye-slash"></i>
               </button>
             </div>

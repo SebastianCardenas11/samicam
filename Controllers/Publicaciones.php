@@ -8,7 +8,7 @@ class Publicaciones extends Controllers
         if (empty($_SESSION['login'])) {
             header('Location: ' . base_url() . '/login');
         }
-        getPermisos(8); // Asignar el ID del módulo de publicaciones
+        getPermisos(MPUBLICACIONES); // Corregido: Usando la constante MPUBLICACIONES (12)
     }
 
     public function Publicaciones()
@@ -20,6 +20,7 @@ class Publicaciones extends Controllers
         $data['page_title'] = "PUBLICACIONES <small>SAMICAM</small>";
         $data['page_name'] = "publicaciones";
         $data['page_functions_js'] = "functions_publicaciones.js";
+        $data['estadisticas'] = $this->model->getEstadisticas();
         $this->views->getView($this, "publicaciones", $data);
     }
 

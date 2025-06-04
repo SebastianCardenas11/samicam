@@ -91,5 +91,73 @@ class PublicacionesModel extends Mysql
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
+
+    public function getEstadisticas()
+    {
+        // Publicaciones por mes del año actual
+        $sql_por_mes = "SELECT 
+            MONTH(fecha_publicacion) as mes,
+            COUNT(*) as total
+            FROM publicaciones 
+            WHERE YEAR(fecha_publicacion) = YEAR(CURRENT_DATE)
+            AND status = 1
+            GROUP BY MONTH(fecha_publicacion)
+            ORDER BY mes";
+        $publicaciones_por_mes = $this->select_all($sql_por_mes);
+
+        // Estado de publicaciones
+        $sql_estado = "SELECT 
+            status,
+            COUNT(*) as total
+            FROM publicaciones 
+            GROUP BY status";
+        $estado_publicaciones = $this->select_all($sql_estado);
+
+        // Distribución de respuestas de envío
+        $sql_respuestas = "SELECT 
+            respuesta_envio,
+            COUNT(*) as total
+            FROM publicaciones 
+            WHERE status = 1
+            GROUP BY respuesta_envio";
+        $respuestas_envio = $this->select_all($sql_respuestas);
+
+        // Total de publicaciones (solo activas)
+        $sql_total = "SELECT COUNT(*) as total FROM publicaciones WHERE status = 1";
+        $total_publicaciones = $this->select($sql_total);
+
+        // Publicaciones recientes (últimos 7 días) solo activas
+        $sql_recientes = "SELECT COUNT(*) as total FROM publicaciones 
+                         WHERE fecha_publicacion >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+                         AND status = 1";
+        $publicaciones_recientes = $this->select($sql_recientes);
+
+        // Publicaciones pendientes (sin respuesta de envío) solo activas
+        $sql_pendientes = "SELECT COUNT(*) as total FROM publicaciones 
+                          WHERE respuesta_envio = 'No'
+                          AND status = 1";
+        $publicaciones_pendientes = $this->select($sql_pendientes);
+
+        // Publicaciones por día de la semana (solo activas)
+        $sql_dias = "SELECT 
+            DAYOFWEEK(fecha_publicacion) as dia,
+            COUNT(*) as total
+            FROM publicaciones 
+            WHERE fecha_publicacion IS NOT NULL
+            AND status = 1
+            GROUP BY DAYOFWEEK(fecha_publicacion)
+            ORDER BY dia";
+        $publicaciones_por_dia = $this->select_all($sql_dias);
+
+        return array(
+            'publicaciones_por_mes' => $publicaciones_por_mes,
+            'estado_publicaciones' => $estado_publicaciones,
+            'respuestas_envio' => $respuestas_envio,
+            'total_publicaciones' => $total_publicaciones['total'],
+            'publicaciones_recientes' => $publicaciones_recientes['total'],
+            'publicaciones_pendientes' => $publicaciones_pendientes['total'],
+            'publicaciones_por_dia' => $publicaciones_por_dia
+        );
+    }
 }
 ?>

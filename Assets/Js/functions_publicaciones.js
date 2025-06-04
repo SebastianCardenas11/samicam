@@ -1,69 +1,18 @@
 let tablePublicaciones;
 let rowTable = "";
+
 document.addEventListener('DOMContentLoaded', function(){
-    tablePublicaciones = $('#tablePublicaciones').dataTable( {
-        "aProcessing":true,
-        "aServerSide":true,
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-        },
-        "ajax":{
-            "url": base_url+"/Publicaciones/getPublicaciones",
-            "dataSrc":""
-        },
-        "columns":[
-            {"data":"id_publicacion"},
-            {"data":"nombre_publicacion",
-             "render": function(data) {
-                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
-             }
-            },
-            {"data":"fecha_recibido"},
-            {"data":"correo_recibido",
-             "render": function(data) {
-                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
-             }
-            },
-            {"data":"asunto",
-             "render": function(data) {
-                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
-             }
-            },
-            {"data":"fecha_publicacion"},
-            {"data":"respuesta_envio"},
-            {"data":"enlace_publicacion", 
-             "render": function(data) {
-                if(!data) return '';
-                // Verificar si la URL ya tiene http:// o https://
-                if(!data.match(/^https?:\/\//i)) {
-                    data = 'https://' + data;
-                }
-                return `<div class="text-truncate" style="max-width: 150px;">
-                          <a href="${data}" target="_blank" title="${data}" class="a-link">${data}</a>
-                        </div>`;
-             }
-            },
-            {"data":"options"}
-        ],
-        'dom': 'lBfrtip',
-        'buttons': [
-          {
-                "extend": "excelHtml5",
-                "text": "<i class='fas fa-file-excel'></i> Excel",
-                "titleAttr":"Exportar a Excel",
-                "className": "btn btn-success"
-            },{
-                "extend": "pdfHtml5",
-                "text": "<i class='fas fa-file-pdf'></i> PDF",
-                "titleAttr":"Exportar a PDF",
-                "className": "btn btn-danger"
-            }
-        ],
-        "responsive":true,
-        "bDestroy": true,
-        "iDisplayLength": 10,
-        "order":[[0,"desc"]]  
+    // Inicializar la tabla cuando se muestra la pestaña de tabla
+    document.getElementById('tabla-tab').addEventListener('shown.bs.tab', function (e) {
+        if (tablePublicaciones) {
+            tablePublicaciones.api().ajax.reload();
+        } else {
+            initializeTable();
+        }
     });
+
+    // Inicializar la tabla al cargar la página ya que es la pestaña activa por defecto
+    initializeTable();
 
     // CREAR PUBLICACIÓN
     let formPublicacion = document.querySelector("#formPublicacion");
@@ -113,6 +62,61 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 });
+
+function initializeTable() {
+    tablePublicaciones = $('#tablePublicaciones').dataTable({
+        "aProcessing":true,
+        "aServerSide":true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
+        },
+        "ajax":{
+            "url": base_url+"/Publicaciones/getPublicaciones",
+            "dataSrc":""
+        },
+        "columns":[
+            {"data":"id_publicacion"},
+            {"data":"fecha_recibido"},
+            {"data":"correo_recibido",
+             "render": function(data) {
+                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
+             }
+            },
+            {"data":"asunto",
+             "render": function(data) {
+                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
+             }
+            },
+            {"data":"fecha_publicacion"},
+            {"data":"respuesta_envio"},
+            {"data":"estado", "render": function(data) {
+                let badge = data == 1 ? 
+                    '<span class="badge text-bg-success">Activo</span>' : 
+                    '<span class="badge text-bg-danger">Inactivo</span>';
+                return badge;
+            }},
+            {"data":"options"}
+        ],
+        'dom': 'lBfrtip',
+        'buttons': [
+            {
+                "extend": "excelHtml5",
+                "text": "<i class='fas fa-file-excel'></i> Excel",
+                "titleAttr":"Exportar a Excel",
+                "className": "btn btn-success"
+            },{
+                "extend": "pdfHtml5",
+                "text": "<i class='fas fa-file-pdf'></i> PDF",
+                "titleAttr":"Exportar a PDF",
+                "className": "btn btn-danger"
+            }
+        ],
+        "responsive":true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "order":[[0,"desc"]]  
+    });
+}
 
 function openModal() {
     document.querySelector('#idPublicacion').value ="";
