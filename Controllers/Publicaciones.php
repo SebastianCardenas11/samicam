@@ -8,7 +8,7 @@ class Publicaciones extends Controllers
         if (empty($_SESSION['login'])) {
             header('Location: ' . base_url() . '/login');
         }
-        getPermisos(8); // Asignar el ID del módulo de publicaciones
+        getPermisos(MPUBLICACIONES); // Corregido: Usando la constante MPUBLICACIONES (12)
     }
 
     public function Publicaciones()
@@ -20,6 +20,8 @@ class Publicaciones extends Controllers
         $data['page_title'] = "PUBLICACIONES <small>SAMICAM</small>";
         $data['page_name'] = "publicaciones";
         $data['page_functions_js'] = "functions_publicaciones.js";
+        $data['estadisticas'] = $this->model->getEstadisticas();
+        $data['dependencias'] = $this->model->getDependencias();
         $this->views->getView($this, "publicaciones", $data);
     }
 
@@ -74,7 +76,8 @@ class Publicaciones extends Controllers
     public function setPublicacion()
     {
         if ($_POST) {
-            if (empty($_POST['txtFechaRecibido']) || empty($_POST['txtCorreoRecibido']) || empty($_POST['txtAsunto'])) {
+            if (empty($_POST['txtFechaRecibido']) || empty($_POST['txtCorreoRecibido']) || 
+                empty($_POST['txtAsunto']) || empty($_POST['listDependencia'])) {
                 $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
             } else {
                 $intIdPublicacion = intval($_POST['idPublicacion']);
@@ -84,6 +87,7 @@ class Publicaciones extends Controllers
                 $strFechaPublicacion = strClean($_POST['txtFechaPublicacion']);
                 $strRespuestaEnvio = strClean($_POST['listRespuestaEnvio']);
                 $strEnlacePublicacion = strClean($_POST['txtEnlacePublicacion']);
+                $intDependencia = intval($_POST['listDependencia']);
                 $intStatus = intval($_POST['listStatus']);
 
                 $request_publicacion = $this->model->insertPublicacion(
@@ -93,6 +97,7 @@ class Publicaciones extends Controllers
                     $strFechaPublicacion,
                     $strRespuestaEnvio,
                     $strEnlacePublicacion,
+                    $intDependencia,
                     $intStatus
                 );
 
@@ -142,6 +147,15 @@ class Publicaciones extends Controllers
                 header('Content-Type: application/json');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
+        }
+        die();
+    }
+
+    public function getDependencias()
+    {
+        if($_SESSION['permisosMod']['r']){
+            $arrData = $this->model->getDependencias();
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         }
         die();
     }

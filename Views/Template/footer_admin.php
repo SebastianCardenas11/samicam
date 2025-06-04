@@ -76,3 +76,12 @@
 <script>
   $('#sampleTable').DataTable();
 </script>
+
+<script src="<?= media(); ?>/js/fontawesome.js"></script>
+<script src="<?= media(); ?>/js/main.js"></script>
+<script src="<?= media(); ?>/js/functions_admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="<?= media(); ?>/js/<?= $data['page_functions_js']; ?>"></script>
+
+</body>
+</html>
