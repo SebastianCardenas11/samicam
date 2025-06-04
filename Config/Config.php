@@ -1,5 +1,5 @@
 <?php
-const BASE_URL = "http://localhost/samicam";
+const BASE_URL = "https://100.85.55.128:4443/samicam";
 //Zona horaria
 
 

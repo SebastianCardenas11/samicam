@@ -48,8 +48,9 @@ class PublicacionesModel extends Mysql
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            $query_insert = "INSERT INTO publicaciones(fecha_recibido, correo_recibido, asunto, fecha_publicacion, respuesta_envio, enlace_publicacion, status) VALUES(?,?,?,?,?,?,?)";
+            $query_insert = "INSERT INTO publicaciones(nombre_publicacion, fecha_recibido, correo_recibido, asunto, fecha_publicacion, respuesta_envio, enlace_publicacion, status) VALUES(?,?,?,?,?,?,?,?)";
             $arrData = array(
+                $this->strAsunto, // Usando el asunto como nombre de publicación por defecto
                 $this->strFechaRecibido,
                 $this->strCorreoRecibido,
                 $this->strAsunto,

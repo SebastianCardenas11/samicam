@@ -82,7 +82,7 @@ class Publicaciones extends Controllers
                 $strCorreoRecibido = strClean($_POST['txtCorreoRecibido']);
                 $strAsunto = strClean($_POST['txtAsunto']);
                 $strFechaPublicacion = strClean($_POST['txtFechaPublicacion']);
-                $strRespuestaEnvio = strClean($_POST['txtRespuestaEnvio']);
+                $strRespuestaEnvio = strClean($_POST['listRespuestaEnvio']);
                 $strEnlacePublicacion = strClean($_POST['txtEnlacePublicacion']);
                 $intStatus = intval($_POST['listStatus']);
 
