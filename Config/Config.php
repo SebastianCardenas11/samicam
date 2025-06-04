@@ -1,14 +1,12 @@
 <?php
-const BASE_URL = "https://192.168.150.240:8443/samicam";
-// const BASE_URL = "https://samicam:8443/samicam";
-// const BASE_URL = "https://10.90.1.254:8443/samicam";
+const BASE_URL = "https://localhost/samicam";
 //Zona horaria
 
 
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = "localhost:3307";
+const DB_HOST = "localhost:3306";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
