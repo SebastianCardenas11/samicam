@@ -1,27 +1,62 @@
 <?php
 class FuncionariosOpsModel extends Mysql
 {
-    private $intIdeFuncionarios;
-    private $strCorreoFuncionarios;
-    private $strNombresFuncionarios;
-    private $strImagen;
-    private $strStatusFuncionarios;
-    private $strIdentificacion;
-    private $intCargo;
-    private $intDependencia;
-    private $intContrato;
-    private $strCelular;
-    private $strDireccion;
-    private $strFechaIngreso;
-    private $intHijos;
-    private $strNombreHijos;
-    private $strSexo;
-    private $strLugarResidencia;
-    private $intEdad;
-    private $strEstadoCivil;
-    private $strReligion;
-    private $strFormacionAcademica;
-    private $strNombreFormacion;
+    private $id;
+    private $anio;
+    private $nit;
+    private $nombre_entidad;
+    private $numero_contrato;
+    private $fecha_firma_contrato;
+    private $numero_proceso;
+    private $forma_contratacion;
+    private $codigo_banco_proyecto;
+    private $linea_estrategia;
+    private $fuente_recurso;
+    private $objeto;
+    private $fecha_inicio;
+    private $plazo_contrato;
+    private $valor_contrato;
+    private $clase_contrato;
+    private $nombre_contratista;
+    private $identificacion_contratista;
+    private $sexo;
+    private $direccion_domicilio;
+    private $telefono_contacto;
+    private $correo_electronico;
+    private $edad;
+    private $entidad_bancaria;
+    private $tipo_cuenta;
+    private $numero_cuenta_bancaria;
+    private $numero_disp_presupuestal;
+    private $fecha_disp_presupuestal;
+    private $valor_disp_presupuestal;
+    private $numero_registro_presupuestal;
+    private $fecha_registro_presupuestal;
+    private $valor_registro_presupuestal;
+    private $cod_rubro;
+    private $rubro;
+    private $fuente_financiacion;
+    private $asignado_interventor;
+    private $unidad_ejecucion;
+    private $nombre_interventor;
+    private $identificacion_interventor;
+    private $tipo_vinculacion_interventor;
+    private $fecha_aprobacion_garantia;
+    private $anticipo_contrato;
+    private $valor_pagado_anticipo;
+    private $fecha_pago_anticipo;
+    private $numero_adiciones;
+    private $valor_total_adiciones;
+    private $numero_prorrogas;
+    private $tiempo_prorrogas;
+    private $numero_suspensiones;
+    private $tiempo_suspensiones;
+    private $valor_total_pagos;
+    private $fecha_terminacion;
+    private $fecha_acta_liquidacion;
+    private $estado_contrato;
+    private $observaciones;
+    private $proviene_recurso_reactivacion;
 
     public function __construct()
     {
@@ -29,310 +64,351 @@ class FuncionariosOpsModel extends Mysql
     }
 
     public function insertFuncionario(
-        string $correo,
-        string $nombres,
-        string $imagen,
-        int $status,
-        string $identificacion,
-        int $cargo,
-        int $dependencia,
-        int $contrato,
-        string $celular,
-        string $direccion,
-        string $fechaIngreso,
-        int $hijos,
-        string $nombreHijos,
-        string $sexo,
-        string $lugarResidencia,
-        int $edad,
-        string $estadoCivil,
-        string $religion,
-        string $formacion,
-        string $nombreformacion
+        $anio,
+        $nit,
+        $nombre_entidad,
+        $numero_contrato,
+        $fecha_firma_contrato,
+        $numero_proceso,
+        $forma_contratacion,
+        $codigo_banco_proyecto,
+        $linea_estrategia,
+        $fuente_recurso,
+        $objeto,
+        $fecha_inicio,
+        $plazo_contrato,
+        $valor_contrato,
+        $clase_contrato,
+        $nombre_contratista,
+        $identificacion_contratista,
+        $sexo,
+        $direccion_domicilio,
+        $telefono_contacto,
+        $correo_electronico,
+        $edad,
+        $entidad_bancaria,
+        $tipo_cuenta,
+        $numero_cuenta_bancaria,
+        $numero_disp_presupuestal,
+        $fecha_disp_presupuestal,
+        $valor_disp_presupuestal,
+        $numero_registro_presupuestal,
+        $fecha_registro_presupuestal,
+        $valor_registro_presupuestal,
+        $cod_rubro,
+        $rubro,
+        $fuente_financiacion,
+        $asignado_interventor,
+        $unidad_ejecucion,
+        $nombre_interventor,
+        $identificacion_interventor,
+        $tipo_vinculacion_interventor,
+        $fecha_aprobacion_garantia,
+        $anticipo_contrato,
+        $valor_pagado_anticipo,
+        $fecha_pago_anticipo,
+        $numero_adiciones,
+        $valor_total_adiciones,
+        $numero_prorrogas,
+        $tiempo_prorrogas,
+        $numero_suspensiones,
+        $tiempo_suspensiones,
+        $valor_total_pagos,
+        $fecha_terminacion,
+        $fecha_acta_liquidacion,
+        $estado_contrato,
+        $observaciones,
+        $proviene_recurso_reactivacion
     ) {
-        // Asignar los valores de los campos
-        $this->strCorreoFuncionarios = $correo;
-        $this->strNombresFuncionarios = $nombres;
-        $this->strImagen = $imagen;
-        $this->strStatusFuncionarios = $status;
-        $this->strIdentificacion = $identificacion;
-        $this->intCargo = $cargo;
-        $this->intDependencia = $dependencia;
-        $this->intContrato = $contrato;
-        $this->strCelular = $celular;
-        $this->strDireccion = $direccion;
-        $this->strFechaIngreso = $fechaIngreso;
-        $this->intHijos = $hijos;
-        $this->strNombreHijos = $nombreHijos;
-        $this->strSexo = $sexo;
-        $this->strLugarResidencia = $lugarResidencia;
-        $this->intEdad = $edad;
-        $this->strEstadoCivil = $estadoCivil;
-        $this->strReligion = $religion;
-        $this->strFormacionAcademica = $formacion;
-        $this->strNombreFormacion = $nombreformacion;
-        // Verificar si ya existe el correo o la identificación en cualquiera de las tablas
-        $return = 0;
-        
-        // Verificar en tabla de funcionarios ops
-        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
-        $request = $this->select_all($sql);
-        
-        // Si no existe en ops, verificar en tabla de funcionarios planta
-        if (empty($request)) {
-            $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
-            $request = $this->select_all($sql);
-        }
+        $this->anio = $anio;
+        $this->nit = $nit;
+        $this->nombre_entidad = $nombre_entidad;
+        $this->numero_contrato = $numero_contrato;
+        $this->fecha_firma_contrato = $fecha_firma_contrato;
+        $this->numero_proceso = $numero_proceso;
+        $this->forma_contratacion = $forma_contratacion;
+        $this->codigo_banco_proyecto = $codigo_banco_proyecto;
+        $this->linea_estrategia = $linea_estrategia;
+        $this->fuente_recurso = $fuente_recurso;
+        $this->objeto = $objeto;
+        $this->fecha_inicio = $fecha_inicio;
+        $this->plazo_contrato = $plazo_contrato;
+        $this->valor_contrato = $valor_contrato;
+        $this->clase_contrato = $clase_contrato;
+        $this->nombre_contratista = $nombre_contratista;
+        $this->identificacion_contratista = $identificacion_contratista;
+        $this->sexo = $sexo;
+        $this->direccion_domicilio = $direccion_domicilio;
+        $this->telefono_contacto = $telefono_contacto;
+        $this->correo_electronico = $correo_electronico;
+        $this->edad = $edad;
+        $this->entidad_bancaria = $entidad_bancaria;
+        $this->tipo_cuenta = $tipo_cuenta;
+        $this->numero_cuenta_bancaria = $numero_cuenta_bancaria;
+        $this->numero_disp_presupuestal = $numero_disp_presupuestal;
+        $this->fecha_disp_presupuestal = $fecha_disp_presupuestal;
+        $this->valor_disp_presupuestal = $valor_disp_presupuestal;
+        $this->numero_registro_presupuestal = $numero_registro_presupuestal;
+        $this->fecha_registro_presupuestal = $fecha_registro_presupuestal;
+        $this->valor_registro_presupuestal = $valor_registro_presupuestal;
+        $this->cod_rubro = $cod_rubro;
+        $this->rubro = $rubro;
+        $this->fuente_financiacion = $fuente_financiacion;
+        $this->asignado_interventor = $asignado_interventor;
+        $this->unidad_ejecucion = $unidad_ejecucion;
+        $this->nombre_interventor = $nombre_interventor;
+        $this->identificacion_interventor = $identificacion_interventor;
+        $this->tipo_vinculacion_interventor = $tipo_vinculacion_interventor;
+        $this->fecha_aprobacion_garantia = $fecha_aprobacion_garantia;
+        $this->anticipo_contrato = $anticipo_contrato;
+        $this->valor_pagado_anticipo = $valor_pagado_anticipo;
+        $this->fecha_pago_anticipo = $fecha_pago_anticipo;
+        $this->numero_adiciones = $numero_adiciones;
+        $this->valor_total_adiciones = $valor_total_adiciones;
+        $this->numero_prorrogas = $numero_prorrogas;
+        $this->tiempo_prorrogas = $tiempo_prorrogas;
+        $this->numero_suspensiones = $numero_suspensiones;
+        $this->tiempo_suspensiones = $tiempo_suspensiones;
+        $this->valor_total_pagos = $valor_total_pagos;
+        $this->fecha_terminacion = $fecha_terminacion;
+        $this->fecha_acta_liquidacion = $fecha_acta_liquidacion;
+        $this->estado_contrato = $estado_contrato;
+        $this->observaciones = $observaciones;
+        $this->proviene_recurso_reactivacion = $proviene_recurso_reactivacion;
 
-        if (empty($request)) {
-            try {
-                // Añadir registro de depuración
-                error_log("Intentando insertar funcionario OPS: " . $this->strNombresFuncionarios);
-                
-                // Consulta directa para depuración
-                $query_direct = "INSERT INTO tbl_funcionarios_ops(
-                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
-                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
-                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
-                VALUES(
-                    '{$this->strCorreoFuncionarios}',
-                    '{$this->strNombresFuncionarios}',
-                    '{$this->strImagen}',
-                    {$this->strStatusFuncionarios},
-                    '{$this->strIdentificacion}',
-                    {$this->intCargo},
-                    {$this->intDependencia},
-                    {$this->intContrato},
-                    '{$this->strCelular}',
-                    '{$this->strDireccion}',
-                    '{$this->strFechaIngreso}',
-                    {$this->intHijos},
-                    '{$this->strNombreHijos}',
-                    '{$this->strSexo}',
-                    '{$this->strLugarResidencia}',
-                    {$this->intEdad},
-                    '{$this->strEstadoCivil}',
-                    '{$this->strReligion}',
-                    '{$this->strFormacionAcademica}',
-                    '{$this->strNombreFormacion}'
-                )";
-                
-                error_log("Consulta directa OPS: " . $query_direct);
-                
-                // Consulta con prepared statements
-                $query_insert = "INSERT INTO tbl_funcionarios_ops(
-                    correo_elc, nombre_completo, imagen, status, nm_identificacion,
-                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
-                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-                    edad, estado_civil, religion, formacion_academica, nombre_formacion)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                
-                $arrData = array(
-                    $this->strCorreoFuncionarios,
-                    $this->strNombresFuncionarios,
-                    $this->strImagen,
-                    $this->strStatusFuncionarios,
-                    $this->strIdentificacion,
-                    $this->intCargo,
-                    $this->intDependencia,
-                    $this->intContrato,
-                    $this->strCelular,
-                    $this->strDireccion,
-                    $this->strFechaIngreso,
-                    $this->intHijos,
-                    $this->strNombreHijos,
-                    $this->strSexo,
-                    $this->strLugarResidencia,
-                    $this->intEdad,
-                    $this->strEstadoCivil,
-                    $this->strReligion,
-                    $this->strFormacionAcademica,
-                    $this->strNombreFormacion
-                );
+        $sql = "INSERT INTO tbl_funcionarios_ops(
+            anio, nit, nombre_entidad, numero_contrato, fecha_firma_contrato,
+            numero_proceso, forma_contratacion, codigo_banco_proyecto,
+            linea_estrategia, fuente_recurso, objeto, fecha_inicio,
+            plazo_contrato, valor_contrato, clase_contrato, nombre_contratista,
+            identificacion_contratista, sexo, direccion_domicilio,
+            telefono_contacto, correo_electronico, edad, entidad_bancaria,
+            tipo_cuenta, numero_cuenta_bancaria, numero_disp_presupuestal,
+            fecha_disp_presupuestal, valor_disp_presupuestal,
+            numero_registro_presupuestal, fecha_registro_presupuestal,
+            valor_registro_presupuestal, cod_rubro, rubro, fuente_financiacion,
+            asignado_interventor, unidad_ejecucion, nombre_interventor,
+            identificacion_interventor, tipo_vinculacion_interventor,
+            fecha_aprobacion_garantia, anticipo_contrato, valor_pagado_anticipo,
+            fecha_pago_anticipo, numero_adiciones, valor_total_adiciones,
+            numero_prorrogas, tiempo_prorrogas, numero_suspensiones,
+            tiempo_suspensiones, valor_total_pagos, fecha_terminacion,
+            fecha_acta_liquidacion, estado_contrato, observaciones,
+            proviene_recurso_reactivacion
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                $request_insert = $this->insert($query_insert, $arrData);
-                error_log("Resultado de inserción OPS: " . print_r($request_insert, true));
-                $return = $request_insert;
-            } catch (Exception $e) {
-                error_log("Error en insertFuncionario: " . $e->getMessage());
-                $return = 0;
-            }
-        } else {
-            // Determinar si existe por correo o por identificación
-            if (!empty($request[0]['correo_elc']) && $request[0]['correo_elc'] == $this->strCorreoFuncionarios) {
-                $return = "exist_email";
-            } else {
-                $return = "exist_id";
-            }
-        }
-        return $return;
+        $arrData = array(
+            $this->anio, $this->nit, $this->nombre_entidad, $this->numero_contrato,
+            $this->fecha_firma_contrato, $this->numero_proceso, $this->forma_contratacion,
+            $this->codigo_banco_proyecto, $this->linea_estrategia, $this->fuente_recurso,
+            $this->objeto, $this->fecha_inicio, $this->plazo_contrato, $this->valor_contrato,
+            $this->clase_contrato, $this->nombre_contratista, $this->identificacion_contratista,
+            $this->sexo, $this->direccion_domicilio, $this->telefono_contacto,
+            $this->correo_electronico, $this->edad, $this->entidad_bancaria,
+            $this->tipo_cuenta, $this->numero_cuenta_bancaria, $this->numero_disp_presupuestal,
+            $this->fecha_disp_presupuestal, $this->valor_disp_presupuestal,
+            $this->numero_registro_presupuestal, $this->fecha_registro_presupuestal,
+            $this->valor_registro_presupuestal, $this->cod_rubro, $this->rubro,
+            $this->fuente_financiacion, $this->asignado_interventor, $this->unidad_ejecucion,
+            $this->nombre_interventor, $this->identificacion_interventor,
+            $this->tipo_vinculacion_interventor, $this->fecha_aprobacion_garantia,
+            $this->anticipo_contrato, $this->valor_pagado_anticipo, $this->fecha_pago_anticipo,
+            $this->numero_adiciones, $this->valor_total_adiciones, $this->numero_prorrogas,
+            $this->tiempo_prorrogas, $this->numero_suspensiones, $this->tiempo_suspensiones,
+            $this->valor_total_pagos, $this->fecha_terminacion, $this->fecha_acta_liquidacion,
+            $this->estado_contrato, $this->observaciones, $this->proviene_recurso_reactivacion
+        );
+
+        $request_insert = $this->insert($sql, $arrData);
+        return $request_insert;
     }
 
     public function selectFuncionarios()
     {
-    $whereAdmin = "";
-    if ($_SESSION['idUser'] != 1) {
-        $whereAdmin = " and u.idefuncionario != 1 ";
-    }
-    $sql = "SELECT DISTINCT
-        u.idefuncionario,
-        u.correo_elc,
-        u.nombre_completo,
-        u.imagen,
-        u.status,
-        u.nm_identificacion,
-        c.nombre AS cargo_nombre,
-        d.nombre AS dependencia_nombre,
-        ct.tipo_cont AS contrato_nombre,
-        u.celular,
-        u.direccion,
-        u.fecha_ingreso,
-        u.hijos,
-        u.nombres_de_hijos,
-        u.sexo,
-        u.lugar_de_residencia,
-        u.edad,
-        u.estado_civil,
-        u.religion,
-        u.formacion_academica,
-        u.nombre_formacion
-    FROM tbl_funcionarios_ops u
-    INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
-    INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
-    INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-    WHERE u.status != 0 " . $whereAdmin . "
-    GROUP BY u.idefuncionario";
-
-            $request = $this->select_all($sql);
-            return $request;
+        $sql = "SELECT * FROM tbl_funcionarios_ops";
+        $request = $this->select_all($sql);
+        return $request;
     }
 
-  public function selectFuncionario(int $idefuncionarios)
-{
-    $this->intIdeFuncionarios = $idefuncionarios;
-
-    $sql = "SELECT 
-                u.idefuncionario,
-                u.correo_elc,
-                u.nombre_completo,
-                u.imagen,
-                u.status,
-                u.nm_identificacion,
-                u.cargo_fk,
-                c.nombre AS cargo_nombre,
-                u.dependencia_fk,
-                d.nombre AS dependencia_nombre,
-                u.contrato_fk,
-                ct.tipo_cont AS contrato_nombre,
-                u.celular,
-                u.direccion,
-                u.fecha_ingreso,
-                u.hijos,
-                u.nombres_de_hijos,
-                u.sexo,
-                u.lugar_de_residencia,
-                u.edad,
-                u.estado_civil,
-                u.religion,
-                u.formacion_academica,
-                u.nombre_formacion
-            FROM tbl_funcionarios_ops u
-            INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
-            INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
-            INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-            WHERE u.idefuncionario = $this->intIdeFuncionarios";
-
-    $request = $this->select($sql);
-    return $request;
-}
-
+    public function selectFuncionario(int $id)
+    {
+        $this->id = $id;
+        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE id = $this->id";
+        $request = $this->select($sql);
+        return $request;
+    }
 
     public function updateFuncionario(
-        int $idefuncionarios,
-        string $correo,
-        string $nombres,
-        string $imagen,
-        int $status,
-        string $identificacion,
-        int $cargo,
-        int $dependencia,
-        int $contrato,
-        string $celular,
-        string $direccion,
-        string $fechaIngreso,
-        int $hijos,
-        string $nombreHijos,
-        string $sexo,
-        string $lugarResidencia,
-        int $edad,
-        string $estadoCivil,
-        string $religion,
-        string $formacion,
-        string $nombreformacion
+        $id,
+        $anio,
+        $nit,
+        $nombre_entidad,
+        $numero_contrato,
+        $fecha_firma_contrato,
+        $numero_proceso,
+        $forma_contratacion,
+        $codigo_banco_proyecto,
+        $linea_estrategia,
+        $fuente_recurso,
+        $objeto,
+        $fecha_inicio,
+        $plazo_contrato,
+        $valor_contrato,
+        $clase_contrato,
+        $nombre_contratista,
+        $identificacion_contratista,
+        $sexo,
+        $direccion_domicilio,
+        $telefono_contacto,
+        $correo_electronico,
+        $edad,
+        $entidad_bancaria,
+        $tipo_cuenta,
+        $numero_cuenta_bancaria,
+        $numero_disp_presupuestal,
+        $fecha_disp_presupuestal,
+        $valor_disp_presupuestal,
+        $numero_registro_presupuestal,
+        $fecha_registro_presupuestal,
+        $valor_registro_presupuestal,
+        $cod_rubro,
+        $rubro,
+        $fuente_financiacion,
+        $asignado_interventor,
+        $unidad_ejecucion,
+        $nombre_interventor,
+        $identificacion_interventor,
+        $tipo_vinculacion_interventor,
+        $fecha_aprobacion_garantia,
+        $anticipo_contrato,
+        $valor_pagado_anticipo,
+        $fecha_pago_anticipo,
+        $numero_adiciones,
+        $valor_total_adiciones,
+        $numero_prorrogas,
+        $tiempo_prorrogas,
+        $numero_suspensiones,
+        $tiempo_suspensiones,
+        $valor_total_pagos,
+        $fecha_terminacion,
+        $fecha_acta_liquidacion,
+        $estado_contrato,
+        $observaciones,
+        $proviene_recurso_reactivacion
     ) {
-        $this->intIdeFuncionarios = $idefuncionarios;
-        $this->strCorreoFuncionarios = $correo;
-        $this->strNombresFuncionarios = $nombres;
-        $this->strImagen = $imagen;
-        $this->strStatusFuncionarios = $status;
-        $this->strIdentificacion = $identificacion;
-        $this->intCargo = $cargo;
-        $this->intDependencia = $dependencia;
-        $this->intContrato = $contrato;
-        $this->strCelular = $celular;
-        $this->strDireccion = $direccion;
-        $this->strFechaIngreso = $fechaIngreso;
-        $this->intHijos = $hijos;
-        $this->strNombreHijos = $nombreHijos;
-        $this->strSexo = $sexo;
-        $this->strLugarResidencia = $lugarResidencia;
-        $this->intEdad = $edad;
-        $this->strEstadoCivil = $estadoCivil;
-        $this->strReligion = $religion;
-        $this->strFormacionAcademica = $formacion;
-        $this->strNombreFormacion = $nombreformacion;
+        $this->id = $id;
+        $this->anio = $anio;
+        $this->nit = $nit;
+        $this->nombre_entidad = $nombre_entidad;
+        $this->numero_contrato = $numero_contrato;
+        $this->fecha_firma_contrato = $fecha_firma_contrato;
+        $this->numero_proceso = $numero_proceso;
+        $this->forma_contratacion = $forma_contratacion;
+        $this->codigo_banco_proyecto = $codigo_banco_proyecto;
+        $this->linea_estrategia = $linea_estrategia;
+        $this->fuente_recurso = $fuente_recurso;
+        $this->objeto = $objeto;
+        $this->fecha_inicio = $fecha_inicio;
+        $this->plazo_contrato = $plazo_contrato;
+        $this->valor_contrato = $valor_contrato;
+        $this->clase_contrato = $clase_contrato;
+        $this->nombre_contratista = $nombre_contratista;
+        $this->identificacion_contratista = $identificacion_contratista;
+        $this->sexo = $sexo;
+        $this->direccion_domicilio = $direccion_domicilio;
+        $this->telefono_contacto = $telefono_contacto;
+        $this->correo_electronico = $correo_electronico;
+        $this->edad = $edad;
+        $this->entidad_bancaria = $entidad_bancaria;
+        $this->tipo_cuenta = $tipo_cuenta;
+        $this->numero_cuenta_bancaria = $numero_cuenta_bancaria;
+        $this->numero_disp_presupuestal = $numero_disp_presupuestal;
+        $this->fecha_disp_presupuestal = $fecha_disp_presupuestal;
+        $this->valor_disp_presupuestal = $valor_disp_presupuestal;
+        $this->numero_registro_presupuestal = $numero_registro_presupuestal;
+        $this->fecha_registro_presupuestal = $fecha_registro_presupuestal;
+        $this->valor_registro_presupuestal = $valor_registro_presupuestal;
+        $this->cod_rubro = $cod_rubro;
+        $this->rubro = $rubro;
+        $this->fuente_financiacion = $fuente_financiacion;
+        $this->asignado_interventor = $asignado_interventor;
+        $this->unidad_ejecucion = $unidad_ejecucion;
+        $this->nombre_interventor = $nombre_interventor;
+        $this->identificacion_interventor = $identificacion_interventor;
+        $this->tipo_vinculacion_interventor = $tipo_vinculacion_interventor;
+        $this->fecha_aprobacion_garantia = $fecha_aprobacion_garantia;
+        $this->anticipo_contrato = $anticipo_contrato;
+        $this->valor_pagado_anticipo = $valor_pagado_anticipo;
+        $this->fecha_pago_anticipo = $fecha_pago_anticipo;
+        $this->numero_adiciones = $numero_adiciones;
+        $this->valor_total_adiciones = $valor_total_adiciones;
+        $this->numero_prorrogas = $numero_prorrogas;
+        $this->tiempo_prorrogas = $tiempo_prorrogas;
+        $this->numero_suspensiones = $numero_suspensiones;
+        $this->tiempo_suspensiones = $tiempo_suspensiones;
+        $this->valor_total_pagos = $valor_total_pagos;
+        $this->fecha_terminacion = $fecha_terminacion;
+        $this->fecha_acta_liquidacion = $fecha_acta_liquidacion;
+        $this->estado_contrato = $estado_contrato;
+        $this->observaciones = $observaciones;
+        $this->proviene_recurso_reactivacion = $proviene_recurso_reactivacion;
 
-        try {
-            $sql = "UPDATE tbl_funcionarios_ops SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
-            $arrData = array(
-                $this->strCorreoFuncionarios,
-                $this->strNombresFuncionarios,
-                $this->strImagen,
-                $this->strStatusFuncionarios,
-                $this->strIdentificacion,
-                $this->intCargo,
-                $this->intDependencia,
-                $this->intContrato,
-                $this->strCelular,
-                $this->strDireccion,
-                $this->strFechaIngreso,
-                $this->intHijos,
-                $this->strNombreHijos,
-                $this->strSexo,
-                $this->strLugarResidencia,
-                $this->intEdad,
-                $this->strEstadoCivil,
-                $this->strReligion,
-                $this->strFormacionAcademica,
-                $this->strNombreFormacion
-            );
-            $request = $this->update($sql, $arrData);
-            return $request;
-        } catch (Exception $e) {
-            error_log("Error en updateFuncionario: " . $e->getMessage());
-            return false;
-        }
-    }
+        $sql = "UPDATE tbl_funcionarios_ops SET 
+            anio = ?, nit = ?, nombre_entidad = ?, numero_contrato = ?,
+            fecha_firma_contrato = ?, numero_proceso = ?, forma_contratacion = ?,
+            codigo_banco_proyecto = ?, linea_estrategia = ?, fuente_recurso = ?,
+            objeto = ?, fecha_inicio = ?, plazo_contrato = ?, valor_contrato = ?,
+            clase_contrato = ?, nombre_contratista = ?, identificacion_contratista = ?,
+            sexo = ?, direccion_domicilio = ?, telefono_contacto = ?,
+            correo_electronico = ?, edad = ?, entidad_bancaria = ?,
+            tipo_cuenta = ?, numero_cuenta_bancaria = ?, numero_disp_presupuestal = ?,
+            fecha_disp_presupuestal = ?, valor_disp_presupuestal = ?,
+            numero_registro_presupuestal = ?, fecha_registro_presupuestal = ?,
+            valor_registro_presupuestal = ?, cod_rubro = ?, rubro = ?,
+            fuente_financiacion = ?, asignado_interventor = ?, unidad_ejecucion = ?,
+            nombre_interventor = ?, identificacion_interventor = ?,
+            tipo_vinculacion_interventor = ?, fecha_aprobacion_garantia = ?,
+            anticipo_contrato = ?, valor_pagado_anticipo = ?, fecha_pago_anticipo = ?,
+            numero_adiciones = ?, valor_total_adiciones = ?, numero_prorrogas = ?,
+            tiempo_prorrogas = ?, numero_suspensiones = ?, tiempo_suspensiones = ?,
+            valor_total_pagos = ?, fecha_terminacion = ?, fecha_acta_liquidacion = ?,
+            estado_contrato = ?, observaciones = ?, proviene_recurso_reactivacion = ?
+            WHERE id = $this->id";
 
-    public function deleteFuncionario(int $intIdeFuncionarios)
-    {
-        $this->intIdeFuncionarios = $intIdeFuncionarios;
-        $sql = "UPDATE tbl_funcionarios_ops SET status = ? WHERE idefuncionario = $this->intIdeFuncionarios";
-        $arrData = array(0);
+        $arrData = array(
+            $this->anio, $this->nit, $this->nombre_entidad, $this->numero_contrato,
+            $this->fecha_firma_contrato, $this->numero_proceso, $this->forma_contratacion,
+            $this->codigo_banco_proyecto, $this->linea_estrategia, $this->fuente_recurso,
+            $this->objeto, $this->fecha_inicio, $this->plazo_contrato, $this->valor_contrato,
+            $this->clase_contrato, $this->nombre_contratista, $this->identificacion_contratista,
+            $this->sexo, $this->direccion_domicilio, $this->telefono_contacto,
+            $this->correo_electronico, $this->edad, $this->entidad_bancaria,
+            $this->tipo_cuenta, $this->numero_cuenta_bancaria, $this->numero_disp_presupuestal,
+            $this->fecha_disp_presupuestal, $this->valor_disp_presupuestal,
+            $this->numero_registro_presupuestal, $this->fecha_registro_presupuestal,
+            $this->valor_registro_presupuestal, $this->cod_rubro, $this->rubro,
+            $this->fuente_financiacion, $this->asignado_interventor, $this->unidad_ejecucion,
+            $this->nombre_interventor, $this->identificacion_interventor,
+            $this->tipo_vinculacion_interventor, $this->fecha_aprobacion_garantia,
+            $this->anticipo_contrato, $this->valor_pagado_anticipo, $this->fecha_pago_anticipo,
+            $this->numero_adiciones, $this->valor_total_adiciones, $this->numero_prorrogas,
+            $this->tiempo_prorrogas, $this->numero_suspensiones, $this->tiempo_suspensiones,
+            $this->valor_total_pagos, $this->fecha_terminacion, $this->fecha_acta_liquidacion,
+            $this->estado_contrato, $this->observaciones, $this->proviene_recurso_reactivacion
+        );
+
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
+    public function deleteFuncionario(int $id)
+    {
+        $this->id = $id;
+        $sql = "DELETE FROM tbl_funcionarios_ops WHERE id = $this->id";
+        $request = $this->delete($sql);
+        return $request;
+    }
+
     public function selectDependencias(){
         $sql = "SELECT dependencia_pk, nombre FROM tbl_dependencia";
         $request = $this->select_all($sql);

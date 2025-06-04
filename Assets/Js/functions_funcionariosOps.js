@@ -5,57 +5,65 @@ document.addEventListener(
   "DOMContentLoaded",
   function () {
     divLoading = document.querySelector("#divLoading");
-    tableFuncionarios = $('#tableFuncionarios').dataTable({
+    tableFuncionarios = $('#tableFuncionariosOps').dataTable({
       "aProcessing": true,
       "aServerSide": true,
       "language": {
-        "url": "./es.json"
+        "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
       },
       "ajax": {
         "url": " " + base_url + "/funcionariosOps/getFuncionarios",
         "dataSrc": ""
       },
       "columns": [
-        { "data": "imagen" },
-        { "data": "nombre_completo" },
-        { "data": "nm_identificacion" },
-        { "data": "cargo_nombre" },
-        { "data": "dependencia_nombre" },
-        { "data": "contrato_nombre" },
-        { "data": "correo_elc" },
-        { "data": "status" },
+        { "data": "numero_contrato" },
+        { "data": "nombre_contratista" },
+        { "data": "identificacion_contratista" },
+        { "data": "objeto" },
+        { "data": "valor_contrato", 
+          "render": function(data) {
+            return '$ ' + parseFloat(data).toLocaleString('es-CO');
+          }
+        },
+        { "data": "fecha_inicio" },
+        { "data": "estado_contrato" },
         { "data": "options" }
       ],
-
-      
-      // 'dom': 'lBfrtip',
       'dom': "<'row mb-3 align-items-center'<'col-auto'l><'col-auto ml-auto'f>>" +
-        "<'row'<'col-12'B>>" +
-        "<'row'<'col-12'tr>>" +
-        "<'row'<'col-md-5'i><'col-md-7'p>>",
-
-
-
-
-
+             "<'row'<'col-12'B>>" +
+             "<'row'<'col-12'tr>>" +
+             "<'row'<'col-md-5'i><'col-md-7'p>>",
       'buttons': [
         {
           "extend": "excelHtml5",
           "text": "<i class='fas fa-file-excel'></i> Excel",
           "titleAttr": "Exportar a Excel",
-          "className": "btn btn-success mt-3"
-        }, {
+          "className": "btn btn-success mt-3",
+          "exportOptions": { 
+            "columns": [ 0, 1, 2, 3, 4, 5, 6 ] 
+          }
+        },
+        {
           "extend": "pdfHtml5",
           "text": "<i class='fas fa-file-pdf'></i> PDF",
           "titleAttr": "Exportar a PDF",
-          "className": "btn btn-danger mt-3"
+          "className": "btn btn-danger mt-3",
+          "exportOptions": { 
+            "columns": [ 0, 1, 2, 3, 4, 5, 6 ] 
+          },
+          "customize": function(doc) {
+            doc.styles.tableHeader.alignment = 'left';
+            doc.styles.tableHeader.fontSize = 10;
+            doc.defaultStyle.fontSize = 9;
+            doc.defaultStyle.alignment = 'left';
+            doc.content[1].table.widths = ['auto', 'auto', 'auto', '*', 'auto', 'auto', 'auto'];
+          }
         }
-
       ],
-      "responsive": "true",
+      "responsive": true,
       "bDestroy": true,
       "iDisplayLength": 10,
-      "order": [[1, "desc"]]
+      "order": [[0, "desc"]]
     });
 
     // Evento para mostrar la imagen seleccionada
@@ -347,18 +355,9 @@ function fntDelInfo(idefuncionario) {
 }
 
 function openModal() {
-  document.querySelector("#ideFuncionario").value = "";
-  document
-    .querySelector("#btnActionForm")
-    .classList.replace("btn-warning", "btn-success");
-  document.querySelector("#btnText").innerHTML = "Guardar";
-  document.querySelector("#titleModal").innerHTML = "Nuevo Funcionario";
-  document.querySelector("#formFuncionario").reset();
-
-  // Limpiar la imagen previa si existe
-  if (document.querySelector('#img_funcionario')) {
-    document.querySelector('#img_funcionario').src = '';
-  }
-
-  $("#modalFormFuncionario").modal("show");
+    document.querySelector('#formFuncionariosOps').reset();
+    document.querySelector('#btnActionForm').classList.replace("btn-warning", "btn-success");
+    document.querySelector('#btnText').innerHTML = "Guardar";
+    document.querySelector('#titleModal').innerHTML = "Nuevo Funcionario OPS";
+    $('#modalFormFuncionariosOps').modal('show');
 }

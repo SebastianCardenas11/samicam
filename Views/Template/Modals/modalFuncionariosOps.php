@@ -1,18 +1,20 @@
-<!-- Modal -->
-<div class="modal fade" id="modalFormFuncionario" tabindex="-1" aria-labelledby="modalFormUsuario" aria-hidden="true"
+<?php
+headerAdmin($data);
+?>
+<div class="modal fade" id="modalFormFuncionariosOps" tabindex="-1" aria-labelledby="modalFormFuncionariosOps" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
 
     <div class="modal-dialog modal-fullscreen" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
-                <h5 class="modal-title" id="titleModal">Nuevo Funcionario</h5>
+                <h5 class="modal-title" id="titleModal">Nuevo Funcionario OPS</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="tile-body">
-                        <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
-                            <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
+                        <form id="formFuncionariosOps" name="formFuncionariosOps" class="form-horizontal">
+                            <input type="hidden" id="idFuncionario" name="idFuncionario" value="">
 
                             <div class="row mb-4">
                                 <div class="col-12">
@@ -22,188 +24,94 @@
                             </div>
 
                             <div class="row">
-                                <!-- Columna 1 - Datos personales -->
+                                <!-- Columna 1 - Información del Contrato -->
                                 <div class="col-md-4">
                                     <div class="card h-100">
                                         <div class="card-header bg-light">
-                                            <h5 class="card-title mb-0">Datos Personales</h5>
+                                            <h5 class="card-title mb-0">Información del Contrato</h5>
                                         </div>
                                         <div class="card-body">
-                                            <!-- Nombre completo -->
                                             <div class="mb-3">
-                                                <label for="txtNombreFuncionario" class="form-label">Nombre completo <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control valid validText" id="txtNombreFuncionario"
-                                                    name="txtNombreFuncionario" required maxlength="50">
+                                                <label for="anio" class="form-label">Año <span class="required text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="anio" name="anio" required>
                                             </div>
-
-                                            <!-- Foto -->
                                             <div class="mb-3">
-                                                <label for="foto" class="form-label">Foto</label>
-                                                <input type="file" class="form-control" id="foto" name="foto"
-                                                    accept="image/jpeg,image/png">
-                                                <input type="hidden" id="foto_actual" name="foto_actual" value="">
-                                                <input type="hidden" id="foto_remove" name="foto_remove" value="0">
+                                                <label for="nit" class="form-label">NIT <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="nit" name="nit" required>
                                             </div>
-
-                                            <!-- Identificación -->
                                             <div class="mb-3">
-                                                <label for="txtIdentificacionFuncionario" class="form-label">Identificación <b class="required text-danger">*</b></label>
-                                                <input type="number" class="form-control" id="txtIdentificacionFuncionario"
-                                                    name="txtIdentificacionFuncionario">
+                                                <label for="nombre_entidad" class="form-label">Nombre Entidad <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="nombre_entidad" name="nombre_entidad" required>
                                             </div>
-
-                                            <!-- Edad -->
                                             <div class="mb-3">
-                                                <label for="txtEdadFuncionario" class="form-label">Edad <b class="required text-danger">*</b></label>
-                                                <input type="number" class="form-control" id="txtEdadFuncionario"
-                                                    name="txtEdadFuncionario">
+                                                <label for="numero_contrato" class="form-label">Número de Contrato <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" required>
                                             </div>
-
-                                            <!-- Sexo -->
                                             <div class="mb-3">
-                                                <label for="txtSexoFuncionario" class="form-label">Sexo <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtSexoFuncionario" name="txtSexoFuncionario">
-                                                    <option>Selecciona una opción</option>
-                                                    <option value="masculino">Masculino</option>
-                                                    <option value="femenino">Femenino</option>
-                                                </select>
-                                            </div>
-
-                                            <!-- Estado civil -->
-                                            <div class="mb-3">
-                                                <label for="txtEstadoCivilFuncionario" class="form-label">Estado civil <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtEstadoCivilFuncionario"
-                                                    name="txtEstadoCivilFuncionario">
-                                                    <option>Selecciona una opción</option>
-                                                    <option value="soltero">Soltero</option>
-                                                    <option value="casado">Casado</option>
-                                                    <option value="divorciado">Divorciado</option>
-                                                    <option value="viudo">Viudo</option>
-                                                    <option value="union libre">Unión libre</option>
-                                                </select>
+                                                <label for="fecha_firma_contrato" class="form-label">Fecha Firma Contrato <span class="required text-danger">*</span></label>
+                                                <input type="date" class="form-control" id="fecha_firma_contrato" name="fecha_firma_contrato" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Columna 2 - Información de contacto y laboral -->
+                                <!-- Columna 2 - Información del Proceso -->
                                 <div class="col-md-4">
                                     <div class="card h-100">
                                         <div class="card-header bg-light">
-                                            <h5 class="card-title mb-0">Información de Contacto y Laboral</h5>
+                                            <h5 class="card-title mb-0">Información del Proceso</h5>
                                         </div>
                                         <div class="card-body">
-                                            <!-- Correo -->
                                             <div class="mb-3">
-                                                <label for="txtCorreoFuncionario" class="form-label">Correo <b class="required text-danger">*</b></label>
-                                                <input type="email" class="form-control" id="txtCorreoFuncionario"
-                                                    name="txtCorreoFuncionario" required>
+                                                <label for="numero_proceso" class="form-label">Número de Proceso <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="numero_proceso" name="numero_proceso" required>
                                             </div>
-
-                                            <!-- Celular -->
                                             <div class="mb-3">
-                                                <label for="txtCelularFuncionario" class="form-label">Celular <b class="required text-danger">*</b></label>
-                                                <input type="number" class="form-control" id="txtCelularFuncionario"
-                                                    name="txtCelularFuncionario">
+                                                <label for="forma_contratacion" class="form-label">Forma de Contratación <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="forma_contratacion" name="forma_contratacion" required>
                                             </div>
-
-                                            <!-- Dirección -->
                                             <div class="mb-3">
-                                                <label for="txtDireccionFuncionario" class="form-label">Dirección <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control" id="txtDireccionFuncionario"
-                                                    name="txtDireccionFuncionario">
+                                                <label for="codigo_banco_proyecto" class="form-label">Código Banco Proyecto</label>
+                                                <input type="text" class="form-control" id="codigo_banco_proyecto" name="codigo_banco_proyecto">
                                             </div>
-
-                                            <!-- Lugar de residencia -->
                                             <div class="mb-3">
-                                                <label for="txtLugarResidenciaFuncionario" class="form-label">Lugar de residencia <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control" id="txtLugarResidenciaFuncionario"
-                                                    name="txtLugarResidenciaFuncionario">
+                                                <label for="linea_estrategia" class="form-label">Línea Estrategia</label>
+                                                <input type="text" class="form-control" id="linea_estrategia" name="linea_estrategia">
                                             </div>
-
-                                            <!-- Religión -->
                                             <div class="mb-3">
-                                                <label for="txtReligionFuncionario" class="form-label">Religión <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtReligionFuncionario" name="txtReligionFuncionario" required>
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="catolico">Católico</option>
-                                                    <option value="cristiano">Cristiano</option>
-                                                    <option value="ateo">Ateo</option>
-                                                    <option value="no_creyente">No creyente</option>
-                                                    <option value="otro">Otro</option>
-                                                </select>
+                                                <label for="fuente_recurso" class="form-label">Fuente Recurso</label>
+                                                <input type="text" class="form-control" id="fuente_recurso" name="fuente_recurso">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Columna 3 - Información laboral y académica -->
+                                <!-- Columna 3 - Información del Contratista -->
                                 <div class="col-md-4">
                                     <div class="card h-100">
                                         <div class="card-header bg-light">
-                                            <h5 class="card-title mb-0">Información Laboral y Académica</h5>
+                                            <h5 class="card-title mb-0">Información del Contratista</h5>
                                         </div>
                                         <div class="card-body">
-                                            <!-- Cargo -->
                                             <div class="mb-3">
-                                                <label for="txtCargoFuncionario" class="form-label">Cargo <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtCargoFuncionario" name="txtCargoFuncionario">
-                                                    <option>Selecciona una opción</option>
-                                                    <?php foreach ($data['cargos'] as $car): ?>
-                                                        <option value="<?= $car['idecargos'] ?>"><?= $car['nombre'] ?></option>
-                                                    <?php endforeach; ?>
+                                                <label for="nombre_contratista" class="form-label">Nombre Contratista <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="nombre_contratista" name="nombre_contratista" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="identificacion_contratista" class="form-label">Identificación <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="identificacion_contratista" name="identificacion_contratista" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="sexo" class="form-label">Sexo <span class="required text-danger">*</span></label>
+                                                <select class="form-select" id="sexo" name="sexo" required>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="Masculino">Masculino</option>
+                                                    <option value="Femenino">Femenino</option>
                                                 </select>
                                             </div>
-
-                                            <!-- Dependencia -->
                                             <div class="mb-3">
-                                                <label for="txtDependenciaFuncionario" class="form-label">Dependencia <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtDependenciaFuncionario" name="txtDependenciaFuncionario">
-                                                    <option>Selecciona una opción</option>
-                                                    <?php foreach ($data['dependencias'] as $dep): ?>
-                                                        <option value="<?= $dep['dependencia_pk'] ?>"><?= $dep['nombre'] ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-
-                                            <!-- Tipo de Contrato -->
-                                            <div class="mb-3">
-                                                <label for="txtContrato" class="form-label">Tipo de Contrato <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtContrato" name="txtContrato">
-                                                    <option>Selecciona una opción</option>
-                                                    <?php foreach ($data['contrato'] as $cont): ?>
-                                                        <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-
-                                            <!-- Fecha de ingreso -->
-                                            <div class="mb-3">
-                                                <label for="txtFechaIngresoFuncionario" class="form-label">Fecha de ingreso <b class="required text-danger">*</b></label>
-                                                <input type="date" class="form-control" id="txtFechaIngresoFuncionario"
-                                                    name="txtFechaIngresoFuncionario">
-                                            </div>
-
-                                            <!-- Formación académica -->
-                                            <div class="mb-3">
-                                                <label for="txtFormacionFuncionario" class="form-label">Formación académica <b class="required text-danger">*</b></label>
-                                                <select class="form-select" id="txtFormacionFuncionario" name="txtFormacionFuncionario">
-                                                    <option>Selecciona una opción</option>
-                                                    <option value="bachiller">Bachiller</option>
-                                                    <option value="tecnico">Técnico</option>
-                                                    <option value="tecnologo">Tecnólogo</option>
-                                                    <option value="ingieneria">Ingeniería</option>
-                                                    <option value="licenciatura">Licenciatura</option>
-                                                    <option value="maestria">Maestría</option>
-                                                    <option value="doctorado">Doctorado</option>
-                                                </select>
-                                            </div>
-
-                                            <!-- Nombre del título -->
-                                            <div class="mb-3">
-                                                <label for="txtNombreFormacion" class="form-label">Nombre de la formación <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control" id="txtNombreFormacion"
-                                                    name="txtNombreFormacion">
+                                                <label for="edad" class="form-label">Edad <span class="required text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="edad" name="edad" required>
                                             </div>
                                         </div>
                                     </div>
@@ -211,69 +119,245 @@
                             </div>
 
                             <div class="row mt-4">
-                                <div class="col-md-6">
-                                    <div class="card">
+                                <!-- Columna 4 - Información de Contacto -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
                                         <div class="card-header bg-light">
-                                            <h5 class="card-title mb-0">Información Familiar</h5>
+                                            <h5 class="card-title mb-0">Información de Contacto</h5>
                                         </div>
                                         <div class="card-body">
-                                            <!-- Cantidad de hijos -->
                                             <div class="mb-3">
-                                                <label for="txtHijosFuncionario" class="form-label">Cantidad de hijos <b class="required text-danger">*</b></label>
-                                                <input type="number" class="form-control" id="txtHijosFuncionario"
-                                                    name="txtHijosFuncionario" min="0">
+                                                <label for="direccion_domicilio" class="form-label">Dirección <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="direccion_domicilio" name="direccion_domicilio" required>
                                             </div>
-
-                                            <!-- Campo oculto inicialmente -->
-                                            <div class="mb-3" id="nombresHijosContainer" style="display: none;">
-                                                <label for="txtNombresHijosFuncionario" class="form-label">Nombres de los hijos <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control" id="txtNombresHijosFuncionario"
-                                                    name="txtNombresHijosFuncionario">
+                                            <div class="mb-3">
+                                                <label for="telefono_contacto" class="form-label">Teléfono <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
                                             </div>
-
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    const cantidadHijosInput = document.getElementById("txtHijosFuncionario");
-                                                    const nombresHijosContainer = document.getElementById("nombresHijosContainer");
-
-                                                    cantidadHijosInput.addEventListener("input", () => {
-                                                        const cantidad = parseInt(cantidadHijosInput.value);
-                                                        if (cantidad > 0) {
-                                                            nombresHijosContainer.style.display = "block";
-                                                        } else {
-                                                            nombresHijosContainer.style.display = "none";
-                                                        }
-                                                    });
-                                                });
-                                            </script>
+                                            <div class="mb-3">
+                                                <label for="correo_electronico" class="form-label">Correo Electrónico <span class="required text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" required>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="card">
+                                <!-- Columna 5 - Información Bancaria -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
                                         <div class="card-header bg-light">
-                                            <h5 class="card-title mb-0">Estado</h5>
+                                            <h5 class="card-title mb-0">Información Bancaria</h5>
                                         </div>
                                         <div class="card-body">
                                             <div class="mb-3">
-                                                <label for="listStatus" class="form-label">Estado del funcionario</label>
-                                                <select class="form-select" id="listStatus" name="listStatus">
-                                                    <option value="1">Activo</option>
-                                                    <option value="2">Inactivo</option>
+                                                <label for="entidad_bancaria" class="form-label">Entidad Bancaria <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="entidad_bancaria" name="entidad_bancaria" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tipo_cuenta" class="form-label">Tipo de Cuenta <span class="required text-danger">*</span></label>
+                                                <select class="form-select" id="tipo_cuenta" name="tipo_cuenta" required>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="Ahorros">Ahorros</option>
+                                                    <option value="Corriente">Corriente</option>
                                                 </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="numero_cuenta_bancaria" class="form-label">Número de Cuenta <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="numero_cuenta_bancaria" name="numero_cuenta_bancaria" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Columna 6 - Información Presupuestal -->
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Información Presupuestal</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="numero_disp_presupuestal" class="form-label">Número Disponibilidad Presupuestal</label>
+                                                <input type="text" class="form-control" id="numero_disp_presupuestal" name="numero_disp_presupuestal">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="fecha_disp_presupuestal" class="form-label">Fecha Disponibilidad Presupuestal</label>
+                                                <input type="date" class="form-control" id="fecha_disp_presupuestal" name="fecha_disp_presupuestal">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="valor_disp_presupuestal" class="form-label">Valor Disponibilidad Presupuestal</label>
+                                                <input type="number" step="0.01" class="form-control" id="valor_disp_presupuestal" name="valor_disp_presupuestal">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-12 text-center">
-                                    <button id="btnActionForm" class="btn btn-success" type="submit"><i class="bi bi-floppy"></i>
-                                        <span id="btnText">Guardar</span></button>
 
-                                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i
-                                            class="bi bi-x-lg"></i>Cerrar</button>
+                            <div class="row mt-4">
+                                <!-- Columna 7 - Detalles del Contrato -->
+                                <div class="col-md-6">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Detalles del Contrato</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="objeto" class="form-label">Objeto del Contrato <span class="required text-danger">*</span></label>
+                                                <textarea class="form-control" id="objeto" name="objeto" rows="3" required></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="fecha_inicio" class="form-label">Fecha de Inicio <span class="required text-danger">*</span></label>
+                                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="plazo_contrato" class="form-label">Plazo del Contrato <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="plazo_contrato" name="plazo_contrato" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="valor_contrato" class="form-label">Valor del Contrato <span class="required text-danger">*</span></label>
+                                                <input type="number" step="0.01" class="form-control" id="valor_contrato" name="valor_contrato" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="clase_contrato" class="form-label">Clase de Contrato <span class="required text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="clase_contrato" name="clase_contrato" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Columna 8 - Información del Interventor -->
+                                <div class="col-md-6">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Información del Interventor</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="asignado_interventor" class="form-label">Asignado Interventor</label>
+                                                <input type="text" class="form-control" id="asignado_interventor" name="asignado_interventor">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="unidad_ejecucion" class="form-label">Unidad de Ejecución</label>
+                                                <input type="text" class="form-control" id="unidad_ejecucion" name="unidad_ejecucion">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nombre_interventor" class="form-label">Nombre del Interventor</label>
+                                                <input type="text" class="form-control" id="nombre_interventor" name="nombre_interventor">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="identificacion_interventor" class="form-label">Identificación del Interventor</label>
+                                                <input type="text" class="form-control" id="identificacion_interventor" name="identificacion_interventor">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tipo_vinculacion_interventor" class="form-label">Tipo de Vinculación del Interventor</label>
+                                                <input type="text" class="form-control" id="tipo_vinculacion_interventor" name="tipo_vinculacion_interventor">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <!-- Columna 9 - Información Adicional -->
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Información Adicional</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="fecha_aprobacion_garantia" class="form-label">Fecha Aprobación Garantía</label>
+                                                    <input type="date" class="form-control" id="fecha_aprobacion_garantia" name="fecha_aprobacion_garantia">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="anticipo_contrato" class="form-label">Anticipo del Contrato</label>
+                                                    <input type="number" step="0.01" class="form-control" id="anticipo_contrato" name="anticipo_contrato">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="valor_pagado_anticipo" class="form-label">Valor Pagado Anticipo</label>
+                                                    <input type="number" step="0.01" class="form-control" id="valor_pagado_anticipo" name="valor_pagado_anticipo">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="fecha_pago_anticipo" class="form-label">Fecha Pago Anticipo</label>
+                                                    <input type="date" class="form-control" id="fecha_pago_anticipo" name="fecha_pago_anticipo">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2 mb-3">
+                                                    <label for="numero_adiciones" class="form-label">Número de Adiciones</label>
+                                                    <input type="number" class="form-control" id="numero_adiciones" name="numero_adiciones">
+                                                </div>
+                                                <div class="col-md-2 mb-3">
+                                                    <label for="valor_total_adiciones" class="form-label">Valor Total Adiciones</label>
+                                                    <input type="number" step="0.01" class="form-control" id="valor_total_adiciones" name="valor_total_adiciones">
+                                                </div>
+                                                <div class="col-md-2 mb-3">
+                                                    <label for="numero_prorrogas" class="form-label">Número de Prórrogas</label>
+                                                    <input type="number" class="form-control" id="numero_prorrogas" name="numero_prorrogas">
+                                                </div>
+                                                <div class="col-md-2 mb-3">
+                                                    <label for="tiempo_prorrogas" class="form-label">Tiempo Prórrogas</label>
+                                                    <input type="text" class="form-control" id="tiempo_prorrogas" name="tiempo_prorrogas">
+                                                </div>
+                                                <div class="col-md-2 mb-3">
+                                                    <label for="numero_suspensiones" class="form-label">Número Suspensiones</label>
+                                                    <input type="number" class="form-control" id="numero_suspensiones" name="numero_suspensiones">
+                                                </div>
+                                                <div class="col-md-2 mb-3">
+                                                    <label for="tiempo_suspensiones" class="form-label">Tiempo Suspensiones</label>
+                                                    <input type="text" class="form-control" id="tiempo_suspensiones" name="tiempo_suspensiones">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="valor_total_pagos" class="form-label">Valor Total Pagos</label>
+                                                    <input type="number" step="0.01" class="form-control" id="valor_total_pagos" name="valor_total_pagos">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="fecha_terminacion" class="form-label">Fecha Terminación</label>
+                                                    <input type="date" class="form-control" id="fecha_terminacion" name="fecha_terminacion">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="fecha_acta_liquidacion" class="form-label">Fecha Acta Liquidación</label>
+                                                    <input type="date" class="form-control" id="fecha_acta_liquidacion" name="fecha_acta_liquidacion">
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="estado_contrato" class="form-label">Estado del Contrato</label>
+                                                    <select class="form-select" id="estado_contrato" name="estado_contrato">
+                                                        <option value="">Seleccione</option>
+                                                        <option value="En ejecución">En ejecución</option>
+                                                        <option value="Terminado">Terminado</option>
+                                                        <option value="Liquidado">Liquidado</option>
+                                                        <option value="Suspendido">Suspendido</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="observaciones" class="form-label">Observaciones</label>
+                                                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input type="checkbox" class="form-check-input" id="proviene_recurso_reactivacion" name="proviene_recurso_reactivacion">
+                                                <label class="form-check-label" for="proviene_recurso_reactivacion">¿Proviene de recurso de reactivación?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12 text-center">
+                                    <button id="btnActionForm" class="btn btn-primary" type="submit">
+                                        <i class="fa fa-fw fa-lg fa-check-circle"></i>
+                                        <span id="btnText">Guardar</span>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+                                        <i class="fa fa-fw fa-lg fa-times-circle"></i>
+                                        Cerrar
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -284,119 +368,6 @@
     </div>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="modalViewFuncionario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen" role="document">
-        <div class="modal-content">
-            <div class="modal-header header-primary">
-                <h5 class="modal-title" id="titleModal">Datos del Funcionario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid py-3">
-                    <div class="row">
-                        <div class="col-md-3 text-center">
-                            <!-- Foto del funcionario -->
-                            <div class="mb-4">
-                                <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
-                                    alt="Foto funcionario" class="img-thumbnail rounded-circle"
-                                    style="width:220px; height:220px;">
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-header bg-light">
-                                    <h5 class="mb-0">Información Básica</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p><strong>ID:</strong> <span id="celIdeFuncionario">0</span></p>
-                                    <p><strong>Nombre:</strong> <span id="celNombresFuncionario">0</span></p>
-                                    <p><strong>Identificación:</strong> <span id="celIdentificacionFuncionario">0</span></p>
-                                    <p><strong>Estado:</strong> <span id="celEstadoFuncionario">0</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información Personal</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Edad:</strong> <span id="celEdadFuncionario">0</span></p>
-                                                    <p><strong>Sexo:</strong> <span id="celSexoFuncionario">0</span></p>
-                                                    <p><strong>Estado Civil:</strong> <span id="celEstadoCivilFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p><strong>Religión:</strong> <span id="celReligionFuncionario">0</span></p>
-                                                    <p><strong>Hijos:</strong> <span id="celHijosFuncionario">0</span></p>
-                                                    <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">0</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información de Contacto</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Correo:</strong> <span id="celCorreoFuncionario">0</span></p>
-                                                    <p><strong>Celular:</strong> <span id="celCelularFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p><strong>Dirección:</strong> <span id="celDireccionFuncionario">0</span></p>
-                                                    <p><strong>Lugar de Residencia:</strong> <span id="celLugarResidenciaFuncionario">0</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información Laboral y Académica</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p><strong>Cargo:</strong> <span id="celCargoFuncionario">0</span></p>
-                                                    <p><strong>Dependencia:</strong> <span id="celDependenciaFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p><strong>Contrato:</strong> <span id="celContrato">0</span></p>
-                                                    <p><strong>Fecha de Ingreso:</strong> <span id="celFechaIngresoFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p><strong>Formación académica:</strong> <span id="celFormacionAcademica">0</span></p>
-                                                    <p><strong>Nombre de la formación:</strong> <span id="celNombreFormacion">0</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-footer mt-3">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-                        <i class="bi bi-check2"></i> Listo
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<?php 
+footerAdmin($data);
+?>
