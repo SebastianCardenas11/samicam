@@ -46,9 +46,9 @@ class Ajustes extends Controllers
         if($foto && $foto['error'] == 0){
             $ext = pathinfo($foto['name'], PATHINFO_EXTENSION);
             $nombreArchivo = 'perfil_'.$idUser.'.'.$ext;
-            $ruta = 'uploads/perfiles/'.$nombreArchivo;
-            if(!is_dir('uploads/perfiles')){
-                mkdir('uploads/perfiles', 0755, true);
+            $ruta = 'Assets/images/uploads/perfiles/'.$nombreArchivo;
+            if(!is_dir('Assets/images/uploads/perfiles')){
+                mkdir('Assets/images/uploads/perfiles', 0755, true);
             }
             if(move_uploaded_file($foto['tmp_name'], $ruta)){
                 $this->model->actualizarFoto($idUser, $nombreArchivo);

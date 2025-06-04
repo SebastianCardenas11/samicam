@@ -73,7 +73,7 @@ class FuncionariosOps extends Controllers
                 // Manejar la imagen
                 $foto = $_FILES['foto'];
                 $nombre_foto = $foto['name'];
-                $strImagen = 'sinimagen.png'; // Imagen por defecto
+                $strImagen = 'sin-imagen.png'; // Imagen por defecto
                 
                 if($nombre_foto != ''){
                     $strImagen = 'func_'.md5(date('Y-m-d H:i:s')).'.jpg';
@@ -190,11 +190,11 @@ class FuncionariosOps extends Controllers
                 $btnDelete = '';
 
                 // Agregar imagen del funcionario
-                $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
+                $urlImagen = media().'/images/sin-imagen.png';
                 // Verificar si existe la imagen
                 $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
                 if(!file_exists($rutaImagen)){
-                    $urlImagen = media().'/images/sinimagen.png';
+                    $urlImagen = media().'/images/sin-imagen.png';
                 }
                 $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
 
@@ -239,11 +239,11 @@ class FuncionariosOps extends Controllers
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
                     // Agregar URL de la imagen
-                    $urlImagen = media().'/images/funcionarios/'.$arrData['imagen'];
+                    $urlImagen = media().'/images/sin-imagen.png';
                     // Verificar si existe la imagen
                     $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
                     if(!file_exists($rutaImagen)){
-                        $urlImagen = media().'/images/sinimagen.png';
+                        $urlImagen = media().'/images/sin-imagen.png';
                     }
                     $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);

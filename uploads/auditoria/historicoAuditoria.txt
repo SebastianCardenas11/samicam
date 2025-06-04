@@ -413,3 +413,15 @@
 [2025-06-04 11:44:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
 [2025-06-04 11:44:45] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.69.108.127 | Acción: Acceso al módulo Funcionarios Ops
 [2025-06-04 11:47:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-06-04 11:49:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:49:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:49:20] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:49:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:49:45] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:53:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:56:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:56:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:57:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:58:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:58:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 11:58:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard

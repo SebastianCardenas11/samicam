@@ -45,7 +45,7 @@ class FuncionariosPermisos extends Controllers
                 // Verificar si existe la imagen
                 $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
                 if(!file_exists($rutaImagen)){
-                    $urlImagen = media().'/images/sinimagen.png';
+                    $urlImagen = media().'/images/sin-imagen.png';
                 }
                 $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
 
@@ -106,7 +106,7 @@ class FuncionariosPermisos extends Controllers
                     // Verificar si existe la imagen
                     $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
                     if(!file_exists($rutaImagen)){
-                        $urlImagen = media().'/images/sinimagen.png';
+                        $urlImagen = media().'/images/sin-imagen.png';
                     }
                     $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
@@ -265,7 +265,7 @@ class FuncionariosPermisos extends Controllers
                         $pdf->Image($imagePath, 160, 20, 30, 30);
                     } else {
                         // Usar imagen por defecto si no existe
-                        $pdf->Image('Assets/images/sinimagen.png', 160, 20, 30, 30);
+                        $pdf->Image('Assets/images/sin-imagen.png', 160, 20, 30, 30);
                     }
                     
                     $pdf->SetFont('Arial', '', 10);

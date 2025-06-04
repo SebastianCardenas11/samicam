@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-06-2025 a las 18:38:02
+-- Tiempo de generación: 04-06-2025 a las 18:48:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -197,8 +197,7 @@ CREATE TABLE `publicaciones` (
 INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_recibido`, `correo_recibido`, `asunto`, `fecha_publicacion`, `respuesta_envio`, `enlace_publicacion`, `status`) VALUES
 (3, 'Publicación de prueba', '2025-05-30', 'hola@gmail.com', 'Asunto', '2025-05-31', 'Si', 'www.pornhub.com', 0),
 (4, 'Noticia ambiental', '2025-06-03', 'asd@hotmail.com', 'Noticia', '2025-06-03', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/noticias/administracion-municipal-reafirma-su-compromiso-ambiental', 1),
-(0, '', '2025-06-06', 'carlos@gmial.com', '23', '0000-00-00', '', 'ewqeaws', 1),
-(0, '', '2025-06-05', 'carlos@gmial.com', 'yes', '2025-06-06', 'Si', 'ewqeaws', 1);
+(5, 'yes', '2025-06-14', 'carlos@gmial.com', 'yes', '2025-06-04', 'No', 'www.com', 0);
 
 -- --------------------------------------------------------
 
@@ -727,6 +726,12 @@ ALTER TABLE `permisos`
   ADD KEY `moduloid` (`moduloid`);
 
 --
+-- Indices de la tabla `publicaciones`
+--
+ALTER TABLE `publicaciones`
+  ADD PRIMARY KEY (`id_publicacion`);
+
+--
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -869,6 +874,12 @@ ALTER TABLE `modulo`
 --
 ALTER TABLE `permisos`
   MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=828;
+
+--
+-- AUTO_INCREMENT de la tabla `publicaciones`
+--
+ALTER TABLE `publicaciones`
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

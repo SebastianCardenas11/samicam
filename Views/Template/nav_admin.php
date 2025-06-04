@@ -6,7 +6,7 @@
        <!-- Logo institucional -->
        <img src="<?= media() ?>/images/samicamIconox.png" class="navbar-brand-img" style="max-height: 100px;"><br>
        <!-- Imagen de perfil del usuario -->
-       <img src="<?= !empty($_SESSION['userData']['imgperfil']) ? base_url().'/uploads/perfiles/'.$_SESSION['userData']['imgperfil'] : media().'/images/user.png' ?>" class="rounded-circle mb-2" style="width:60px;height:60px;object-fit:cover;">
+       <img src="<?= !empty($_SESSION['userData']['imgperfil']) ? base_url().'/Assets/images/uploads/perfiles/'.$_SESSION['userData']['imgperfil'] : media().'/images/sin-imagen.png' ?>" class="rounded-circle mb-2" style="width:60px;height:60px;object-fit:cover;">
        <!-- Nombre del usuario con la foto al lado -->
        <span class="d-block font-weight-bold mt-2">
          <?= $_SESSION['userData']['nombres']; ?>
