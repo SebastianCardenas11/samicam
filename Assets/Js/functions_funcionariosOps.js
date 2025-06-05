@@ -287,7 +287,7 @@ function fntViewInfo(id) {
         set('view_rubro', data.rubro);
         set('view_fuente_financiacion', data.fuente_financiacion);
         set('view_asignado_interventor', data.asignado_interventor);
-        set('view_unidad_ejecucion', data.unidad_ejecucion);
+        set('view_unidad_ejecucion', data.nombre_dependencia);
         set('view_nombre_interventor', data.nombre_interventor);
         set('view_identificacion_interventor', data.identificacion_interventor);
         set('view_tipo_vinculacion_interventor', data.tipo_vinculacion_interventor);
@@ -372,7 +372,7 @@ function fntEditInfo(element, id) {
         set('clase_contrato', data.clase_contrato);
         set('estado_contrato', data.estado_contrato);
         set('asignado_interventor', data.asignado_interventor);
-        set('unidad_ejecucion', data.unidad_ejecucion);
+        set('unidad_ejecucion', data.nombre_dependencia);
         set('nombre_interventor', data.nombre_interventor);
         set('identificacion_interventor', data.identificacion_interventor);
         set('tipo_vinculacion_interventor', data.tipo_vinculacion_interventor);

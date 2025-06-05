@@ -270,7 +270,12 @@ headerAdmin($data);
                                             </div>
                                             <div class="mb-3">
                                                 <label for="unidad_ejecucion" class="form-label">Unidad de Ejecución</label>
-                                                <input type="text" class="form-control" id="unidad_ejecucion" name="unidad_ejecucion">
+                                                <select class="form-select" id="unidad_ejecucion" name="unidad_ejecucion">
+                                                    <option value="">Seleccione una dependencia</option>
+                                                    <?php foreach($data['dependencias'] as $dependencia): ?>
+                                                        <option value="<?= $dependencia['dependencia_pk'] ?>"><?= $dependencia['nombre'] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="nombre_interventor" class="form-label">Nombre del Interventor</label>

@@ -58,6 +58,7 @@ class FuncionariosOpsModel extends Mysql
     private $observaciones;
     private $proviene_recurso_reactivacion;
     private $status;
+    private $error;
 
     public function __construct()
     {
@@ -281,38 +282,31 @@ class FuncionariosOpsModel extends Mysql
     public function selectFuncionarios()
     {
         try {
-            $sql = "SELECT 
-                    id,
-                    COALESCE(numero_contrato, '') as numero_contrato,
-                    COALESCE(nombre_contratista, '') as nombre_contratista,
-                    COALESCE(identificacion_contratista, '') as identificacion_contratista,
-                    COALESCE(objeto, '') as objeto,
-                    COALESCE(CAST(valor_contrato AS DECIMAL(20,2)), 0.00) as valor_contrato,
-                    COALESCE(DATE_FORMAT(fecha_inicio, '%Y-%m-%d'), '') as fecha_inicio,
-                    COALESCE(estado_contrato, '') as estado_contrato
-                FROM tbl_funcionarios_ops 
-                WHERE status = 1 
-                ORDER BY id DESC";
-            
+            $sql = "SELECT f.*, d.nombre as nombre_dependencia 
+                    FROM tbl_funcionarios_ops f 
+                    LEFT JOIN tbl_dependencia d ON f.unidad_ejecucion = d.dependencia_pk 
+                    WHERE f.status != 0";
             $request = $this->select_all($sql);
-            
-            if (!is_array($request)) {
-                return array();
-            }
-            
             return $request;
         } catch (Exception $e) {
-            error_log("Error en selectFuncionarios: " . $e->getMessage());
-            return array();
+            $this->error = $e->getMessage();
+            return false;
         }
     }
 
     public function selectFuncionario(int $id)
     {
-        $this->id = $id;
-        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE id = $this->id AND status = 1";
-        $request = $this->select($sql);
-        return $request;
+        try {
+            $sql = "SELECT f.*, d.nombre as nombre_dependencia 
+                    FROM tbl_funcionarios_ops f 
+                    LEFT JOIN tbl_dependencia d ON f.unidad_ejecucion = d.dependencia_pk 
+                    WHERE f.id = $id AND f.status != 0";
+            $request = $this->select($sql);
+            return $request;
+        } catch (Exception $e) {
+            $this->error = $e->getMessage();
+            return false;
+        }
     }
 
     public function updateFuncionario(
