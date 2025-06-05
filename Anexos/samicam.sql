@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 05-06-2025 a las 06:19:11
+-- Tiempo de generación: 05-06-2025 a las 06:58:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -72,7 +72,8 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 (8, 'Archivos', 'Gestión de archivos', 1),
 (9, 'Cargos', 'Gestión de cargos', 1),
 (11, 'Tareas', 'Gestión de Tareas', 1),
-(12, 'Publicaciones', 'Gestión de Publicaciones', 1);
+(12, 'Publicaciones', 'Gestión de Publicaciones', 1),
+(13, 'Dependencian', 'Gestión de dependencias', 1);
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,7 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (514, 1, 9, 1, 1, 1, 1, 1),
 (515, 1, 5, 1, 1, 1, 1, 1),
 (516, 1, 10, 1, 1, 1, 1, 1),
-(634, 2, 6, 1, 1, 1, 1, 1),
+(634, 1, 13, 1, 1, 1, 1, 1),
 (635, 2, 1, 0, 0, 0, 0, 0),
 (636, 2, 7, 1, 1, 1, 1, 1),
 (637, 2, 2, 0, 0, 0, 0, 0),
@@ -369,7 +370,8 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 (14, 'Oficina de Control Interno de Gestión'),
 (15, 'Oficina de Control Interno Disciplinario'),
 (16, 'Oficina de Contratación'),
-(17, 'Despacho del alcalde');
+(17, 'Despacho del alcaldes'),
+(18, 'Almacenes');
 
 -- --------------------------------------------------------
 
@@ -378,37 +380,63 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 --
 
 CREATE TABLE `tbl_funcionarios_ops` (
-  `idefuncionario` int(11) NOT NULL,
-  `nombre_completo` varchar(255) DEFAULT NULL,
-  `imagen` varchar(300) DEFAULT NULL,
-  `nm_identificacion` int(255) DEFAULT NULL,
-  `cargo_fk` int(11) DEFAULT NULL,
-  `dependencia_fk` int(255) DEFAULT NULL,
-  `contrato_fk` int(10) NOT NULL,
-  `celular` int(150) DEFAULT NULL,
-  `direccion` varchar(255) DEFAULT NULL,
-  `correo_elc` varchar(255) DEFAULT NULL,
-  `fecha_ingreso` date DEFAULT NULL,
-  `hijos` int(11) DEFAULT NULL,
-  `nombres_de_hijos` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `anio` year(4) DEFAULT NULL,
+  `nit` varchar(20) DEFAULT NULL,
+  `nombre_entidad` varchar(255) DEFAULT NULL,
+  `numero_contrato` varchar(50) DEFAULT NULL,
+  `fecha_firma_contrato` date DEFAULT NULL,
+  `numero_proceso` varchar(50) DEFAULT NULL,
+  `forma_contratacion` varchar(100) DEFAULT NULL,
+  `codigo_banco_proyecto` varchar(50) DEFAULT NULL,
+  `linea_estrategia` varchar(255) DEFAULT NULL,
+  `fuente_recurso` varchar(100) DEFAULT NULL,
+  `objeto` text DEFAULT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `plazo_contrato` varchar(50) DEFAULT NULL,
+  `valor_contrato` decimal(15,2) DEFAULT NULL,
+  `clase_contrato` varchar(100) DEFAULT NULL,
+  `nombre_contratista` varchar(255) DEFAULT NULL,
+  `identificacion_contratista` varchar(20) DEFAULT NULL,
   `sexo` varchar(255) DEFAULT NULL,
-  `lugar_de_residencia` varchar(255) DEFAULT NULL,
+  `direccion_domicilio` varchar(255) DEFAULT NULL,
+  `telefono_contacto` varchar(20) DEFAULT NULL,
+  `correo_electronico` varchar(100) DEFAULT NULL,
   `edad` int(11) DEFAULT NULL,
-  `estado_civil` varchar(255) DEFAULT NULL,
-  `religion` varchar(255) DEFAULT NULL,
-  `formacion_academica` varchar(255) DEFAULT NULL,
-  `nombre_formacion` varchar(255) DEFAULT NULL,
-  `status` int(15) NOT NULL
+  `entidad_bancaria` varchar(100) DEFAULT NULL,
+  `tipo_cuenta` varchar(50) DEFAULT NULL,
+  `numero_cuenta_bancaria` varchar(50) DEFAULT NULL,
+  `numero_disp_presupuestal` varchar(50) DEFAULT NULL,
+  `fecha_disp_presupuestal` date DEFAULT NULL,
+  `valor_disp_presupuestal` decimal(15,2) DEFAULT NULL,
+  `numero_registro_presupuestal` varchar(50) DEFAULT NULL,
+  `fecha_registro_presupuestal` date DEFAULT NULL,
+  `valor_registro_presupuestal` decimal(15,2) DEFAULT NULL,
+  `cod_rubro` varchar(50) DEFAULT NULL,
+  `rubro` varchar(100) DEFAULT NULL,
+  `fuente_financiacion` varchar(100) DEFAULT NULL,
+  `asignado_interventor` varchar(100) DEFAULT NULL,
+  `unidad_ejecucion` varchar(100) DEFAULT NULL,
+  `nombre_interventor` varchar(255) DEFAULT NULL,
+  `identificacion_interventor` varchar(20) DEFAULT NULL,
+  `tipo_vinculacion_interventor` varchar(100) DEFAULT NULL,
+  `fecha_aprobacion_garantia` date DEFAULT NULL,
+  `anticipo_contrato` decimal(15,2) DEFAULT NULL,
+  `valor_pagado_anticipo` decimal(15,2) DEFAULT NULL,
+  `fecha_pago_anticipo` date DEFAULT NULL,
+  `numero_adiciones` int(11) DEFAULT NULL,
+  `valor_total_adiciones` decimal(15,2) DEFAULT NULL,
+  `numero_prorrogas` int(11) DEFAULT NULL,
+  `tiempo_prorrogas` varchar(50) DEFAULT NULL,
+  `numero_suspensiones` int(11) DEFAULT NULL,
+  `tiempo_suspensiones` varchar(50) DEFAULT NULL,
+  `valor_total_pagos` decimal(15,2) DEFAULT NULL,
+  `fecha_terminacion` date DEFAULT NULL,
+  `fecha_acta_liquidacion` date DEFAULT NULL,
+  `estado_contrato` varchar(50) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_funcionarios_ops`
---
-
-INSERT INTO `tbl_funcionarios_ops` (`idefuncionario`, `nombre_completo`, `imagen`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `status`) VALUES
-(15, 'Luisa Fernanda Moreno Cadena', 'func_2ad45c39d7aa46634f36b76eb44c0d12.jpg', 1003123009, 41, 1, 3, 2147483647, 'Crr 5ta # 9 - 39 / 5 de marzo', '1999luisamoreno@gmail.com', '2025-02-03', 1, 'Mathews David Cadena', 'femenino', 'La Jagua de Ibirico', 25, 'soltero', 'catolico', 'tecnico', 'Auxiliar Administrativo', 1),
-(16, 'Tatiana Alejandra Martinez Meneses', 'func_9d7da40cee89fedf51750181ea5c8207.jpg', 1064116051, 63, 1, 3, 2147483647, 'Cll 2 # 4 - 83 / Las Flores', 'tatyalejamar@gmail.com', '2025-03-06', 1, 'Thael Emilia Campo Martínez', 'femenino', 'La Palmita', 30, 'soltero', 'catolico', 'ingieneria', 'Ingeniería en Sistemas', 1),
-(17, 'Fabián Duran Ortiz', 'func_3a6afa9ff8e50f831ba7a97cbb178557.jpg', 1064110593, 41, 1, 3, 2147483647, 'Mz 4 casa 14 / Urb Nancy lobo', 'fabianduran18@hotmail.com', '2025-03-18', 2, 'Simón Alejandro Duran Turizo, Thiago Fabián Duran Turizo', 'masculino', 'La Jagua de Ibirico', 35, 'union libre', 'catolico', 'tecnico', 'Técnico en Sistemas', 1);
 
 -- --------------------------------------------------------
 
@@ -746,10 +774,7 @@ ALTER TABLE `tbl_dependencia`
 -- Indices de la tabla `tbl_funcionarios_ops`
 --
 ALTER TABLE `tbl_funcionarios_ops`
-  ADD PRIMARY KEY (`idefuncionario`),
-  ADD KEY `cargo_fk` (`cargo_fk`),
-  ADD KEY `dependencia_fk` (`dependencia_fk`),
-  ADD KEY `contrato_fk` (`contrato_fk`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `tbl_funcionarios_planta`
@@ -847,7 +872,7 @@ ALTER TABLE `archivos`
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
@@ -889,13 +914,13 @@ ALTER TABLE `tbl_contrato`
 -- AUTO_INCREMENT de la tabla `tbl_dependencia`
 --
 ALTER TABLE `tbl_dependencia`
-  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios_ops`
 --
 ALTER TABLE `tbl_funcionarios_ops`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios_planta`
@@ -978,14 +1003,6 @@ ALTER TABLE `permisos`
 --
 ALTER TABLE `publicaciones`
   ADD CONSTRAINT `publicaciones_ibfk_1` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`);
-
---
--- Filtros para la tabla `tbl_funcionarios_ops`
---
-ALTER TABLE `tbl_funcionarios_ops`
-  ADD CONSTRAINT `tbl_funcionarios_ops_ibfk_1` FOREIGN KEY (`cargo_fk`) REFERENCES `tbl_cargos` (`idecargos`),
-  ADD CONSTRAINT `tbl_funcionarios_ops_ibfk_2` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_funcionarios_ops_ibfk_3` FOREIGN KEY (`contrato_fk`) REFERENCES `tbl_contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_funcionarios_planta`

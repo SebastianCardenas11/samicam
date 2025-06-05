@@ -407,11 +407,11 @@ class FuncionariosPermisos extends Controllers
                         
                         // Fecha del permiso
                         $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
-                        $pdf->SetXY(60, 122);
+                        $pdf->SetXY(60, 137);
                         $pdf->Cell(140, 8, $fechaPermiso, 0, 1);
                         
                         // Motivo del permiso
-                        $pdf->SetXY(60, 130);
+                        $pdf->SetXY(60, 146);
                         $pdf->MultiCell(130, 8, utf8_decode($permiso['motivo']), 0, 'L');
                         
                         // Asegurarse de que no haya salida antes del PDF
