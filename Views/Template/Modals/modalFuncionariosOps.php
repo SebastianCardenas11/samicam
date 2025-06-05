@@ -333,7 +333,7 @@ headerAdmin($data);
                                                     <input type="text" class="form-control" id="tiempo_prorrogas" name="tiempo_prorrogas">
                                                 </div>
                                                 <div class="col-md-2 mb-3">
-                                                    <label for="numero_suspensiones" class="form-label">Número Suspensiones</label>
+                                                    <label for="numero_suspensiones" class="form-label">Número de Suspensiones</label>
                                                     <input type="number" class="form-control" id="numero_suspensiones" name="numero_suspensiones">
                                                 </div>
                                                 <div class="col-md-2 mb-3">

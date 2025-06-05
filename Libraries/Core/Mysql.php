@@ -102,4 +102,13 @@ class Mysql extends Conexion
     {
         return $this->conexion->rollBack();
     }
+
+    protected function getError()
+    {
+        if ($this->conexion) {
+            $error = $this->conexion->errorInfo();
+            return $error[2]; // Devuelve el mensaje de error
+        }
+        return "No hay conexión a la base de datos";
+    }
 }

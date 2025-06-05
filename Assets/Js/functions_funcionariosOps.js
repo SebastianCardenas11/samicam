@@ -7,35 +7,55 @@ document.addEventListener(
     divLoading = document.querySelector("#divLoading");
     tableFuncionarios = $('#tableFuncionariosOps').dataTable({
       "aProcessing": true,
-      "aServerSide": true,
+      "aServerSide": false,
       "language": {
         "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
       },
       "ajax": {
         "url": " " + base_url + "/funcionariosOps/getFuncionarios",
-        "dataSrc": ""
+        "dataSrc": function(json) {
+          if (!json) {
+            console.error("Respuesta vacía del servidor");
+            return [];
+          }
+          if (typeof json === 'string') {
+            try {
+              json = JSON.parse(json);
+            } catch (e) {
+              console.error("Error al parsear JSON:", e);
+              return [];
+            }
+          }
+          return json || [];
+        },
+        "error": function(xhr, error, thrown) {
+          console.error("Error en la petición AJAX:", error);
+          return [];
+        }
       },
       "columns": [
-        { "data": "numero_contrato" },
-        { "data": "nombre_contratista" },
-        { "data": "identificacion_contratista" },
+        { "data": "numero_contrato", "defaultContent": "" },
+        { "data": "nombre_contratista", "defaultContent": "" },
+        { "data": "identificacion_contratista", "defaultContent": "" },
         { 
-          "data": "objeto",
-          "render": function(data, type, row) {
-            if (typeof data === 'string' && data.length > 40) {
-              return data.substring(0, 40) + '...';
-            }
-            return data;
-          }
-        },
-        { "data": "valor_contrato", 
+          "data": "objeto", 
+          "defaultContent": "",
           "render": function(data) {
-            return '$ ' + parseFloat(data).toLocaleString('es-CO');
+            if (!data) return "";
+            return data.length > 39 ? data.substring(0, 39) + "..." : data;
           }
         },
-        { "data": "fecha_inicio" },
-        { "data": "estado_contrato" },
-        { "data": "options" }
+        { 
+          "data": "valor_contrato",
+          "defaultContent": "0.00",
+          "render": function(data) {
+            if (!data) return '$ 0.00';
+            return '$ ' + (typeof data === 'number' ? data.toFixed(2) : data);
+          }
+        },
+        { "data": "fecha_inicio", "defaultContent": "" },
+        { "data": "estado_contrato", "defaultContent": "" },
+        { "data": "options", "defaultContent": "" }
       ],
       'dom': "<'row mb-3 align-items-center'<'col-auto'l><'col-auto ml-auto'f>>" +
              "<'row'<'col-12'B>>" +
@@ -46,19 +66,37 @@ document.addEventListener(
           "extend": "excelHtml5",
           "text": "<i class='fas fa-file-excel'></i> Excel",
           "titleAttr": "Exportar a Excel",
-          "className": "btn btn-success mt-3"
+          "className": "btn btn-success mt-3",
+          "exportOptions": { 
+            "columns": [ 0, 1, 2, 3, 4, 5, 6 ] 
+          }
         },
         {
           "extend": "pdfHtml5",
           "text": "<i class='fas fa-file-pdf'></i> PDF",
           "titleAttr": "Exportar a PDF",
-          "className": "btn btn-danger mt-3"
+          "className": "btn btn-danger mt-3",
+          "exportOptions": { 
+            "columns": [ 0, 1, 2, 3, 4, 5, 6 ] 
+          },
+          "customize": function(doc) {
+            doc.styles.tableHeader.alignment = 'left';
+            doc.styles.tableHeader.fontSize = 10;
+            doc.defaultStyle.fontSize = 9;
+            doc.defaultStyle.alignment = 'left';
+            doc.content[1].table.widths = ['auto', 'auto', 'auto', '*', 'auto', 'auto', 'auto'];
+          }
         }
       ],
       "responsive": true,
       "bDestroy": true,
       "iDisplayLength": 10,
-      "order": [[0, "desc"]]
+      "order": [[0, "desc"]],
+      "initComplete": function(settings, json) {
+        if (!json || json.length === 0) {
+          console.log("No se encontraron datos");
+        }
+      }
     });
 
     // Evento para mostrar la imagen seleccionada
@@ -104,19 +142,72 @@ document.addEventListener(
       let formFuncionariosOps = document.querySelector("#formFuncionariosOps");
       formFuncionariosOps.onsubmit = function (e) {
         e.preventDefault();
+
+        // Validar campos requeridos
+        let camposRequeridos = {
+          'nombre_contratista': 'Nombre del Contratista',
+          'identificacion_contratista': 'Identificación del Contratista',
+          'numero_contrato': 'Número de Contrato',
+          'objeto': 'Objeto del Contrato',
+          'valor_contrato': 'Valor del Contrato',
+          'estado_contrato': 'Estado del Contrato'
+        };
+
+        let camposFaltantes = [];
+        for (let campo in camposRequeridos) {
+          let elemento = document.querySelector(`#${campo}`);
+          if (!elemento || !elemento.value.trim()) {
+            camposFaltantes.push(camposRequeridos[campo]);
+          }
+        }
+
+        if (camposFaltantes.length > 0) {
+          Swal.fire("Error", "Por favor complete los siguientes campos obligatorios: " + camposFaltantes.join(", "), "error");
+          return false;
+        }
+
+        // Validar correo electrónico si se proporciona
+        let correo = document.querySelector("#correo_electronico");
+        if (correo && correo.value.trim() !== "") {
+          let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(correo.value.trim())) {
+            Swal.fire("Error", "El correo electrónico no tiene un formato válido", "error");
+            return false;
+          }
+        }
+
+        // Validar valor del contrato
+        let valorContrato = document.querySelector("#valor_contrato");
+        if (valorContrato && valorContrato.value.trim() !== "") {
+          if (isNaN(parseFloat(valorContrato.value))) {
+            Swal.fire("Error", "El valor del contrato debe ser un número válido", "error");
+            return false;
+          }
+        }
+
         // Mostrar loading
         if (divLoading) {
           divLoading.style.display = "flex";
         }
-        // Enviar formulario
+
+        let formData = new FormData(formFuncionariosOps);
+        
+        // Depuración - mostrar datos que se están enviando
+        for (let pair of formData.entries()) {
+          console.log(pair[0] + ': ' + pair[1]);
+        }
+
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url + '/funcionariosOps/setFuncionario';
-        let formData = new FormData(formFuncionariosOps);
         request.open("POST", ajaxUrl, true);
         request.send(formData);
         request.onreadystatechange = function () {
           if (request.readyState == 4) {
+            if (divLoading) {
+              divLoading.style.display = "none";
+            }
             if (request.status == 200) {
+              console.log("Respuesta del servidor:", request.responseText); // Depuración
               try {
                 let objData = JSON.parse(request.responseText);
                 if (objData.status) {
@@ -128,17 +219,16 @@ document.addEventListener(
                   Swal.fire("Error", objData.msg, "error");
                 }
               } catch (error) {
-                Swal.fire("Error", "Ocurrió un error al procesar la respuesta del servidor", "error");
+                console.error("Error al parsear respuesta:", error);
+                Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
               }
             } else {
+              console.error("Error de servidor:", request.status);
               Swal.fire("Error", "Error en la comunicación con el servidor: " + request.status, "error");
             }
-            if (divLoading) {
-              divLoading.style.display = "none";
-            }
           }
-        }
-      }
+        };
+      };
     }
   },
   false

@@ -121,116 +121,190 @@ class FuncionariosOpsModel extends Mysql
         $observaciones,
         $proviene_recurso_reactivacion
     ) {
-        $this->anio = $anio;
-        $this->nit = $nit;
-        $this->nombre_entidad = $nombre_entidad;
-        $this->numero_contrato = $numero_contrato;
-        $this->fecha_firma_contrato = $fecha_firma_contrato;
-        $this->numero_proceso = $numero_proceso;
-        $this->forma_contratacion = $forma_contratacion;
-        $this->codigo_banco_proyecto = $codigo_banco_proyecto;
-        $this->linea_estrategia = $linea_estrategia;
-        $this->fuente_recurso = $fuente_recurso;
-        $this->objeto = $objeto;
-        $this->fecha_inicio = $fecha_inicio;
-        $this->plazo_contrato = $plazo_contrato;
-        $this->valor_contrato = $valor_contrato;
-        $this->clase_contrato = $clase_contrato;
-        $this->nombre_contratista = $nombre_contratista;
-        $this->identificacion_contratista = $identificacion_contratista;
-        $this->sexo = $sexo;
-        $this->direccion_domicilio = $direccion_domicilio;
-        $this->telefono_contacto = $telefono_contacto;
-        $this->correo_electronico = $correo_electronico;
-        $this->edad = $edad;
-        $this->entidad_bancaria = $entidad_bancaria;
-        $this->tipo_cuenta = $tipo_cuenta;
-        $this->numero_cuenta_bancaria = $numero_cuenta_bancaria;
-        $this->numero_disp_presupuestal = $numero_disp_presupuestal;
-        $this->fecha_disp_presupuestal = $fecha_disp_presupuestal;
-        $this->valor_disp_presupuestal = $valor_disp_presupuestal;
-        $this->numero_registro_presupuestal = $numero_registro_presupuestal;
-        $this->fecha_registro_presupuestal = $fecha_registro_presupuestal;
-        $this->valor_registro_presupuestal = $valor_registro_presupuestal;
-        $this->cod_rubro = $cod_rubro;
-        $this->rubro = $rubro;
-        $this->fuente_financiacion = $fuente_financiacion;
-        $this->asignado_interventor = $asignado_interventor;
-        $this->unidad_ejecucion = $unidad_ejecucion;
-        $this->nombre_interventor = $nombre_interventor;
-        $this->identificacion_interventor = $identificacion_interventor;
-        $this->tipo_vinculacion_interventor = $tipo_vinculacion_interventor;
-        $this->fecha_aprobacion_garantia = $fecha_aprobacion_garantia;
-        $this->anticipo_contrato = $anticipo_contrato;
-        $this->valor_pagado_anticipo = $valor_pagado_anticipo;
-        $this->fecha_pago_anticipo = $fecha_pago_anticipo;
-        $this->numero_adiciones = $numero_adiciones;
-        $this->valor_total_adiciones = $valor_total_adiciones;
-        $this->numero_prorrogas = $numero_prorrogas;
-        $this->tiempo_prorrogas = $tiempo_prorrogas;
-        $this->numero_suspensiones = $numero_suspensiones;
-        $this->tiempo_suspensiones = $tiempo_suspensiones;
-        $this->valor_total_pagos = $valor_total_pagos;
-        $this->fecha_terminacion = $fecha_terminacion;
-        $this->fecha_acta_liquidacion = $fecha_acta_liquidacion;
-        $this->estado_contrato = $estado_contrato;
-        $this->observaciones = $observaciones;
-        $this->proviene_recurso_reactivacion = $proviene_recurso_reactivacion;
-        $this->status = 1;
+        try {
+            // Asignar valores a las propiedades
+            $this->anio = $anio;
+            $this->nit = $nit;
+            $this->nombre_entidad = $nombre_entidad;
+            $this->numero_contrato = $numero_contrato;
+            $this->fecha_firma_contrato = $fecha_firma_contrato;
+            $this->numero_proceso = $numero_proceso;
+            $this->forma_contratacion = $forma_contratacion;
+            $this->codigo_banco_proyecto = $codigo_banco_proyecto;
+            $this->linea_estrategia = $linea_estrategia;
+            $this->fuente_recurso = $fuente_recurso;
+            $this->objeto = $objeto;
+            $this->fecha_inicio = $fecha_inicio;
+            $this->plazo_contrato = $plazo_contrato;
+            $this->valor_contrato = $valor_contrato;
+            $this->clase_contrato = $clase_contrato;
+            $this->nombre_contratista = $nombre_contratista;
+            $this->identificacion_contratista = $identificacion_contratista;
+            $this->sexo = $sexo;
+            $this->direccion_domicilio = $direccion_domicilio;
+            $this->telefono_contacto = $telefono_contacto;
+            $this->correo_electronico = $correo_electronico;
+            $this->edad = $edad;
+            $this->entidad_bancaria = $entidad_bancaria;
+            $this->tipo_cuenta = $tipo_cuenta;
+            $this->numero_cuenta_bancaria = $numero_cuenta_bancaria;
+            $this->numero_disp_presupuestal = $numero_disp_presupuestal;
+            $this->fecha_disp_presupuestal = $fecha_disp_presupuestal;
+            $this->valor_disp_presupuestal = $valor_disp_presupuestal;
+            $this->numero_registro_presupuestal = $numero_registro_presupuestal;
+            $this->fecha_registro_presupuestal = $fecha_registro_presupuestal;
+            $this->valor_registro_presupuestal = $valor_registro_presupuestal;
+            $this->cod_rubro = $cod_rubro;
+            $this->rubro = $rubro;
+            $this->fuente_financiacion = $fuente_financiacion;
+            $this->asignado_interventor = $asignado_interventor;
+            $this->unidad_ejecucion = $unidad_ejecucion;
+            $this->nombre_interventor = $nombre_interventor;
+            $this->identificacion_interventor = $identificacion_interventor;
+            $this->tipo_vinculacion_interventor = $tipo_vinculacion_interventor;
+            $this->fecha_aprobacion_garantia = $fecha_aprobacion_garantia;
+            $this->anticipo_contrato = $anticipo_contrato;
+            $this->valor_pagado_anticipo = $valor_pagado_anticipo;
+            $this->fecha_pago_anticipo = $fecha_pago_anticipo;
+            $this->numero_adiciones = $numero_adiciones;
+            $this->valor_total_adiciones = $valor_total_adiciones;
+            $this->numero_prorrogas = $numero_prorrogas;
+            $this->tiempo_prorrogas = $tiempo_prorrogas;
+            $this->numero_suspensiones = $numero_suspensiones;
+            $this->tiempo_suspensiones = $tiempo_suspensiones;
+            $this->valor_total_pagos = $valor_total_pagos;
+            $this->fecha_terminacion = $fecha_terminacion;
+            $this->fecha_acta_liquidacion = $fecha_acta_liquidacion;
+            $this->estado_contrato = $estado_contrato;
+            $this->observaciones = $observaciones;
+            $this->proviene_recurso_reactivacion = $proviene_recurso_reactivacion;
+            $this->status = 1;
 
-        $sql = "INSERT INTO tbl_funcionarios_ops(
-            anio, nit, nombre_entidad, numero_contrato, fecha_firma_contrato,
-            numero_proceso, forma_contratacion, codigo_banco_proyecto,
-            linea_estrategia, fuente_recurso, objeto, fecha_inicio,
-            plazo_contrato, valor_contrato, clase_contrato, nombre_contratista,
-            identificacion_contratista, sexo, direccion_domicilio,
-            telefono_contacto, correo_electronico, edad, entidad_bancaria,
-            tipo_cuenta, numero_cuenta_bancaria, numero_disp_presupuestal,
-            fecha_disp_presupuestal, valor_disp_presupuestal,
-            numero_registro_presupuestal, fecha_registro_presupuestal,
-            valor_registro_presupuestal, cod_rubro, rubro, fuente_financiacion,
-            asignado_interventor, unidad_ejecucion, nombre_interventor,
-            identificacion_interventor, tipo_vinculacion_interventor,
-            fecha_aprobacion_garantia, anticipo_contrato, valor_pagado_anticipo,
-            fecha_pago_anticipo, numero_adiciones, valor_total_adiciones,
-            numero_prorrogas, tiempo_prorrogas, numero_suspensiones,
-            tiempo_suspensiones, valor_total_pagos, fecha_terminacion,
-            fecha_acta_liquidacion, estado_contrato, observaciones,
-            proviene_recurso_reactivacion, status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+            // Preparar la consulta SQL
+            $sql = "INSERT INTO tbl_funcionarios_ops(
+                anio, nit, nombre_entidad, numero_contrato, fecha_firma_contrato,
+                numero_proceso, forma_contratacion, codigo_banco_proyecto,
+                linea_estrategia, fuente_recurso, objeto, fecha_inicio,
+                plazo_contrato, valor_contrato, clase_contrato, nombre_contratista,
+                identificacion_contratista, sexo, direccion_domicilio,
+                telefono_contacto, correo_electronico, edad, entidad_bancaria,
+                tipo_cuenta, numero_cuenta_bancaria, numero_disp_presupuestal,
+                fecha_disp_presupuestal, valor_disp_presupuestal,
+                numero_registro_presupuestal, fecha_registro_presupuestal,
+                valor_registro_presupuestal, cod_rubro, rubro, fuente_financiacion,
+                asignado_interventor, unidad_ejecucion, nombre_interventor,
+                identificacion_interventor, tipo_vinculacion_interventor,
+                fecha_aprobacion_garantia, anticipo_contrato, valor_pagado_anticipo,
+                fecha_pago_anticipo, numero_adiciones, valor_total_adiciones,
+                numero_prorrogas, tiempo_prorrogas, numero_suspensiones,
+                tiempo_suspensiones, valor_total_pagos, fecha_terminacion,
+                fecha_acta_liquidacion, estado_contrato, observaciones,
+                proviene_recurso_reactivacion, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
-        $arrData = array(
-            $this->anio, $this->nit, $this->nombre_entidad, $this->numero_contrato,
-            $this->fecha_firma_contrato, $this->numero_proceso, $this->forma_contratacion,
-            $this->codigo_banco_proyecto, $this->linea_estrategia, $this->fuente_recurso,
-            $this->objeto, $this->fecha_inicio, $this->plazo_contrato, $this->valor_contrato,
-            $this->clase_contrato, $this->nombre_contratista, $this->identificacion_contratista,
-            $this->sexo, $this->direccion_domicilio, $this->telefono_contacto,
-            $this->correo_electronico, $this->edad, $this->entidad_bancaria,
-            $this->tipo_cuenta, $this->numero_cuenta_bancaria, $this->numero_disp_presupuestal,
-            $this->fecha_disp_presupuestal, $this->valor_disp_presupuestal,
-            $this->numero_registro_presupuestal, $this->fecha_registro_presupuestal,
-            $this->valor_registro_presupuestal, $this->cod_rubro, $this->rubro,
-            $this->fuente_financiacion, $this->asignado_interventor, $this->unidad_ejecucion,
-            $this->nombre_interventor, $this->identificacion_interventor,
-            $this->tipo_vinculacion_interventor, $this->fecha_aprobacion_garantia,
-            $this->anticipo_contrato, $this->valor_pagado_anticipo, $this->fecha_pago_anticipo,
-            $this->numero_adiciones, $this->valor_total_adiciones, $this->numero_prorrogas,
-            $this->tiempo_prorrogas, $this->numero_suspensiones, $this->tiempo_suspensiones,
-            $this->valor_total_pagos, $this->fecha_terminacion, $this->fecha_acta_liquidacion,
-            $this->estado_contrato, $this->observaciones, $this->proviene_recurso_reactivacion,
-            $this->status
-        );
+            // Preparar los datos para la inserción
+            $arrData = array(
+                $this->anio, 
+                $this->nit, 
+                $this->nombre_entidad, 
+                $this->numero_contrato,
+                $this->fecha_firma_contrato ?: null, 
+                $this->numero_proceso, 
+                $this->forma_contratacion,
+                $this->codigo_banco_proyecto, 
+                $this->linea_estrategia, 
+                $this->fuente_recurso,
+                $this->objeto, 
+                $this->fecha_inicio ?: null, 
+                $this->plazo_contrato, 
+                $this->valor_contrato,
+                $this->clase_contrato, 
+                $this->nombre_contratista, 
+                $this->identificacion_contratista,
+                $this->sexo, 
+                $this->direccion_domicilio, 
+                $this->telefono_contacto,
+                $this->correo_electronico, 
+                $this->edad, 
+                $this->entidad_bancaria,
+                $this->tipo_cuenta, 
+                $this->numero_cuenta_bancaria, 
+                $this->numero_disp_presupuestal,
+                $this->fecha_disp_presupuestal ?: null, 
+                $this->valor_disp_presupuestal,
+                $this->numero_registro_presupuestal, 
+                $this->fecha_registro_presupuestal ?: null,
+                $this->valor_registro_presupuestal, 
+                $this->cod_rubro, 
+                $this->rubro,
+                $this->fuente_financiacion, 
+                $this->asignado_interventor, 
+                $this->unidad_ejecucion,
+                $this->nombre_interventor, 
+                $this->identificacion_interventor,
+                $this->tipo_vinculacion_interventor,
+                $this->fecha_aprobacion_garantia ?: null,
+                $this->anticipo_contrato, 
+                $this->valor_pagado_anticipo, 
+                $this->fecha_pago_anticipo ?: null,
+                $this->numero_adiciones, 
+                $this->valor_total_adiciones, 
+                $this->numero_prorrogas,
+                $this->tiempo_prorrogas, 
+                $this->numero_suspensiones, 
+                $this->tiempo_suspensiones,
+                $this->valor_total_pagos, 
+                $this->fecha_terminacion ?: null, 
+                $this->fecha_acta_liquidacion ?: null,
+                $this->estado_contrato, 
+                $this->observaciones,
+                $this->proviene_recurso_reactivacion
+            );
 
-        $request_insert = $this->insert($sql, $arrData);
-        return $request_insert;
+            // Registrar los datos que se intentan insertar
+            error_log("Intentando insertar funcionario OPS con datos: " . print_r($arrData, true));
+
+            // Ejecutar la inserción
+            $request_insert = $this->insert($sql, $arrData);
+            
+            if ($request_insert === false) {
+                error_log("Error al insertar funcionario OPS: " . $this->getError());
+            }
+
+            return $request_insert;
+        } catch (Exception $e) {
+            error_log("Excepción al insertar funcionario OPS: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function selectFuncionarios()
     {
-        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE status = 1";
-        $request = $this->select_all($sql);
-        return $request;
+        try {
+            $sql = "SELECT 
+                    id,
+                    COALESCE(numero_contrato, '') as numero_contrato,
+                    COALESCE(nombre_contratista, '') as nombre_contratista,
+                    COALESCE(identificacion_contratista, '') as identificacion_contratista,
+                    COALESCE(objeto, '') as objeto,
+                    COALESCE(CAST(valor_contrato AS DECIMAL(20,2)), 0.00) as valor_contrato,
+                    COALESCE(DATE_FORMAT(fecha_inicio, '%Y-%m-%d'), '') as fecha_inicio,
+                    COALESCE(estado_contrato, '') as estado_contrato
+                FROM tbl_funcionarios_ops 
+                WHERE status = 1 
+                ORDER BY id DESC";
+            
+            $request = $this->select_all($sql);
+            
+            if (!is_array($request)) {
+                return array();
+            }
+            
+            return $request;
+        } catch (Exception $e) {
+            error_log("Error en selectFuncionarios: " . $e->getMessage());
+            return array();
+        }
     }
 
     public function selectFuncionario(int $id)

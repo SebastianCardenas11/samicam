@@ -435,7 +435,8 @@ CREATE TABLE `tbl_funcionarios_ops` (
   `fecha_acta_liquidacion` date DEFAULT NULL,
   `estado_contrato` varchar(50) DEFAULT NULL,
   `observaciones` text DEFAULT NULL,
-  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL
+  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL,
+  `status` TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
