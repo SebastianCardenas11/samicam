@@ -6,7 +6,7 @@ const BASE_URL = "http://localhost/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = "localhost:3306";
+const DB_HOST = "localhost:3307";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
@@ -17,7 +17,6 @@ const NOMBRE_REMITENTE = "Alcaldia de la jagua de ibirico";
 const EMAIL_REMITENTE = "Alcaldia@lajaguadeibirico-cesar.gov.co";
 const NOMBRE_EMPESA = "Alcaldia de la jagua de ibirico";
 const WEB_EMPRESA = "https://www.lajaguadeibirico-cesar.gov.co/";
-
 const DESCRIPCION = "Alcaldia de la jagua de ibirico";
 const SHAREDHASH = "Alcaldia de la jagua de ibirico";
 
@@ -27,7 +26,6 @@ const TELEMPRESA = "3148691240";
 const WHATSAPP = "3148691240";
 const EMAIL_INSTITUCIONAL = "Alcaldia@lajaguadeibirico-cesar.gov.co";
 const EMAIL_JUDICIAL = "notificacionjudicial@lajaguadeibirico-cesar.gov.co";
-
 const CAT_SLIDER = "1,2,3";
 const CAT_BANNER = "4,5,6";
 const CAT_FOOTER = "1,2,3,4,5";
@@ -49,6 +47,7 @@ const MCARGOS = 9;
 const MAUDITORIA = 10;
 const MTAREAS = 11;
 const MPUBLICACIONES = 12;
+const MDEPENDENCIAS = 13;
 
 //Páginas
 const PINICIO = 1;

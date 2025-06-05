@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 04-06-2025 a las 18:48:37
+-- Servidor: 127.0.0.1:3307
+-- Tiempo de generación: 05-06-2025 a las 06:19:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -170,7 +170,18 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (824, 5, 8, 0, 0, 0, 0, 1),
 (825, 5, 9, 0, 0, 0, 0, 1),
 (826, 5, 11, 1, 1, 1, 1, 1),
-(827, 5, 12, 0, 0, 0, 0, 1);
+(827, 5, 12, 0, 0, 0, 0, 1),
+(839, 12, 1, 1, 1, 1, 1, 1),
+(840, 12, 2, 0, 0, 0, 0, 1),
+(841, 12, 3, 0, 0, 0, 0, 1),
+(842, 12, 4, 0, 0, 0, 0, 1),
+(843, 12, 5, 0, 0, 0, 0, 1),
+(844, 12, 6, 0, 0, 0, 0, 1),
+(845, 12, 7, 0, 0, 0, 0, 1),
+(846, 12, 8, 0, 0, 0, 0, 1),
+(847, 12, 9, 0, 0, 0, 0, 1),
+(848, 12, 11, 0, 0, 0, 0, 1),
+(849, 12, 12, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -187,6 +198,7 @@ CREATE TABLE `publicaciones` (
   `fecha_publicacion` date DEFAULT NULL,
   `respuesta_envio` enum('Si','No') NOT NULL DEFAULT 'No',
   `enlace_publicacion` varchar(500) DEFAULT NULL,
+  `dependencia_fk` int(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -194,10 +206,9 @@ CREATE TABLE `publicaciones` (
 -- Volcado de datos para la tabla `publicaciones`
 --
 
-INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_recibido`, `correo_recibido`, `asunto`, `fecha_publicacion`, `respuesta_envio`, `enlace_publicacion`, `status`) VALUES
-(3, 'Publicación de prueba', '2025-05-30', 'hola@gmail.com', 'Asunto', '2025-05-31', 'Si', 'www.pornhub.com', 0),
-(4, 'Noticia ambiental', '2025-06-03', 'asd@hotmail.com', 'Noticia', '2025-06-03', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/noticias/administracion-municipal-reafirma-su-compromiso-ambiental', 1),
-(5, 'yes', '2025-06-14', 'carlos@gmial.com', 'yes', '2025-06-04', 'No', 'www.com', 0);
+INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_recibido`, `correo_recibido`, `asunto`, `fecha_publicacion`, `respuesta_envio`, `enlace_publicacion`, `dependencia_fk`, `status`) VALUES
+(7, 'yes', '2025-06-05', 'carlos@gmial.com', 'yes', '2025-06-20', 'Si', 'www.com', 16, 0),
+(8, 'Prueba', '2025-06-05', 'Prueba@xnpublicacin-obb', 'Prueba', '2025-06-05', 'Si', 'www.com', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -224,7 +235,8 @@ INSERT INTO `rol` (`idrol`, `nombrerol`, `descripcion`, `status`) VALUES
 (5, 'Tecnico Ntic', 'Apoyo técnico en el área de Ntic', 1),
 (6, 'Usuario', 'el sugeto no presenta cambios', 0),
 (7, 'Secretaria Ntic', 'Apoyo administrativo en el área de Ntic ', 1),
-(11, 'Prueba', '1', 0);
+(11, 'Prueba', '1', 0),
+(12, 'Gobierno digital', 'Gestión de redes sociales', 1);
 
 -- --------------------------------------------------------
 
@@ -246,7 +258,7 @@ CREATE TABLE `tbl_capital_viaticos` (
 --
 
 INSERT INTO `tbl_capital_viaticos` (`idCapital`, `anio`, `capital_total`, `capital_disponible`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 2025, 99999.99, 99999.99, '2025-05-15 19:38:53', '2025-05-16 22:27:19'),
+(1, 2025, 99999999.99, 99999999.99, '2025-05-15 19:38:53', '2025-06-04 19:46:50'),
 (2, 2023, 99999999.99, 99999999.99, '2025-05-17 21:14:06', '2025-05-17 21:14:06'),
 (3, 2024, 99999999.99, 99999999.99, '2025-05-17 21:14:08', '2025-05-17 21:14:08'),
 (4, 2026, 99999999.99, 99999999.99, '2025-05-17 21:14:12', '2025-05-17 21:14:12');
@@ -365,64 +377,28 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `tbl_funcionarios_ops`
 --
 
-DROP TABLE IF EXISTS `tbl_funcionarios_ops`;
 CREATE TABLE `tbl_funcionarios_ops` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `anio` YEAR,
-    `nit` VARCHAR(20),
-    `nombre_entidad` VARCHAR(255),
-    `numero_contrato` VARCHAR(50),
-    `fecha_firma_contrato` DATE,
-    `numero_proceso` VARCHAR(50),
-    `forma_contratacion` VARCHAR(100),
-    `codigo_banco_proyecto` VARCHAR(50),
-    `linea_estrategia` VARCHAR(255),
-    `fuente_recurso` VARCHAR(100),
-    `objeto` TEXT,
-    `fecha_inicio` DATE,
-    `plazo_contrato` VARCHAR(50),
-    `valor_contrato` DECIMAL(15,2),
-    `clase_contrato` VARCHAR(100),
-    `nombre_contratista` VARCHAR(255),
-    `identificacion_contratista` VARCHAR(20),
-    `sexo` VARCHAR(255),
-    `direccion_domicilio` VARCHAR(255),
-    `telefono_contacto` VARCHAR(20),
-    `correo_electronico` VARCHAR(100),
-    `edad` INT,
-    `entidad_bancaria` VARCHAR(100),
-    `tipo_cuenta` VARCHAR(50),
-    `numero_cuenta_bancaria` VARCHAR(50),
-    `numero_disp_presupuestal` VARCHAR(50),
-    `fecha_disp_presupuestal` DATE,
-    `valor_disp_presupuestal` DECIMAL(15,2),
-    `numero_registro_presupuestal` VARCHAR(50),
-    `fecha_registro_presupuestal` DATE,
-    `valor_registro_presupuestal` DECIMAL(15,2),
-    `cod_rubro` VARCHAR(50),
-    `rubro` VARCHAR(100),
-    `fuente_financiacion` VARCHAR(100),
-    `asignado_interventor` VARCHAR(100),
-    `unidad_ejecucion` VARCHAR(100),
-    `nombre_interventor` VARCHAR(255),
-    `identificacion_interventor` VARCHAR(20),
-    `tipo_vinculacion_interventor` VARCHAR(100),
-    `fecha_aprobacion_garantia` DATE,
-    `anticipo_contrato` DECIMAL(15,2),
-    `valor_pagado_anticipo` DECIMAL(15,2),
-    `fecha_pago_anticipo` DATE,
-    `numero_adiciones` INT,
-    `valor_total_adiciones` DECIMAL(15,2),
-    `numero_prorrogas` INT,
-    `tiempo_prorrogas` VARCHAR(50),
-    `numero_suspensiones` INT,
-    `tiempo_suspensiones` VARCHAR(50),
-    `valor_total_pagos` DECIMAL(15,2),
-    `fecha_terminacion` DATE,
-    `fecha_acta_liquidacion` DATE,
-    `estado_contrato` VARCHAR(50),
-    `observaciones` TEXT,
-    `proviene_recurso_reactivacion` BOOLEAN
+  `idefuncionario` int(11) NOT NULL,
+  `nombre_completo` varchar(255) DEFAULT NULL,
+  `imagen` varchar(300) DEFAULT NULL,
+  `nm_identificacion` int(255) DEFAULT NULL,
+  `cargo_fk` int(11) DEFAULT NULL,
+  `dependencia_fk` int(255) DEFAULT NULL,
+  `contrato_fk` int(10) NOT NULL,
+  `celular` int(150) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `correo_elc` varchar(255) DEFAULT NULL,
+  `fecha_ingreso` date DEFAULT NULL,
+  `hijos` int(11) DEFAULT NULL,
+  `nombres_de_hijos` varchar(255) DEFAULT NULL,
+  `sexo` varchar(255) DEFAULT NULL,
+  `lugar_de_residencia` varchar(255) DEFAULT NULL,
+  `edad` int(11) DEFAULT NULL,
+  `estado_civil` varchar(255) DEFAULT NULL,
+  `religion` varchar(255) DEFAULT NULL,
+  `formacion_academica` varchar(255) DEFAULT NULL,
+  `nombre_formacion` varchar(255) DEFAULT NULL,
+  `status` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -545,15 +521,6 @@ CREATE TABLE `tbl_observaciones` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_observaciones`
---
-
-INSERT INTO `tbl_observaciones` (`id_observacion`, `id_tarea`, `id_usuario`, `observacion`, `fecha_creacion`) VALUES
-(5, 8, 13, 'Hola', '2025-05-30 14:06:15'),
-(6, 9, 14, 'Yhgg', '2025-06-03 15:31:05'),
-(7, 10, 15, 'Se nos undio el barco de temu', '2025-06-03 19:43:02');
-
 -- --------------------------------------------------------
 
 --
@@ -616,15 +583,6 @@ CREATE TABLE `tbl_tareas` (
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_tareas`
---
-
-INSERT INTO `tbl_tareas` (`id_tarea`, `id_usuario_creador`, `id_usuario_asignado`, `tipo`, `descripcion`, `dependencia_fk`, `estado`, `observacion`, `fecha_inicio`, `fecha_fin`, `fecha_completada`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(8, 1, 13, 'administrativa', 'Mantenimientos de equipos', 7, 'completada', NULL, '2025-05-30 00:00:00', '2025-06-03 00:00:00', '2025-06-03 00:00:00', '2025-05-30 13:54:02', '2025-06-03 14:07:00'),
-(9, 1, 14, 'técnica', 'Antivirus', 3, 'completada', NULL, '2025-06-03 00:00:00', '2025-06-04 00:00:00', '2025-06-03 00:00:00', '2025-06-03 15:29:12', '2025-06-03 15:32:21'),
-(10, 1, 13, 'técnica', 'Realizar la red social de la alcaldia tipo facebook y con elias todas las compras la hagan por TEMU', 1, 'completada', NULL, '2025-06-03 00:00:00', '2025-06-06 00:00:00', '2025-06-03 00:00:00', '2025-06-03 19:41:18', '2025-06-03 19:44:04');
-
 -- --------------------------------------------------------
 
 --
@@ -637,16 +595,6 @@ CREATE TABLE `tbl_tareas_usuarios` (
   `id_usuario` bigint(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_tareas_usuarios`
---
-
-INSERT INTO `tbl_tareas_usuarios` (`id`, `id_tarea`, `id_usuario`) VALUES
-(10, 8, 13),
-(11, 9, 14),
-(12, 10, 13),
-(13, 10, 15);
-
 -- --------------------------------------------------------
 
 --
@@ -658,7 +606,7 @@ CREATE TABLE `tbl_usuarios` (
   `nombres` varchar(100) DEFAULT NULL,
   `correo` varchar(150) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
-  `imgperfil` varchar(300) DEFAULT 'sinimagen.jpg',
+  `imgperfil` varchar(300) DEFAULT 'sin-imagen.png',
   `rolid` bigint(20) NOT NULL,
   `status` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -668,15 +616,10 @@ CREATE TABLE `tbl_usuarios` (
 --
 
 INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgperfil`, `rolid`, `status`) VALUES
-(1, 'Luis Carlos Duran', 'admin.ntic@gmail.com.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'sinimagen.png', 1, 1),
-(8, 'Secretaria Luz', 'secretaria.ntic@gmail.com.co', 'd0d1e677873374aff69760f74a46814bc27365f476a83653c9efd4da402a3503', 'sinimagen.jpg', 5, 1),
-(9, 'carlos', 'carlos@gmail.com', '8fc5bd2e2424832171e6ed4686b4f59c592516810779784772a4a5e8b18c554f', 'sinimagen.jpg', 4, 0),
-(10, 'lucas', 'lucas@gmail.com', 'ad1e10c7f2d809520c2191e442ed016ed7507debeaad03d061a97ec69dc2361e', 'sinimagen.jpg', 2, 0),
-(11, 'Ntic', 'tecnicontic@gmail.com', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sinimagen.jpg', 5, 0),
-(12, 'carlos lopez', 'samiNtic@ntic.com.cos', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sinimagen.jpg', 5, 1),
-(13, 'Elias Iguaran', 'eliasiguaran.ntic@gmail.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'sinimagen.jpg', 5, 1),
-(14, 'Oscar rojas', 'seguridadinformaticalajagua@gmail.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'sinimagen.jpg', 5, 1),
-(15, 'Juan sebastian', 'juan@hotmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'sinimagen.jpg', 5, 1);
+(1, 'Luis Carlos Duran', 'admin.ntic@gmail.com.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'perfil_1.webp', 1, 1),
+(16, 'Tatiana Martínez Meneses', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'b3bac4078570ff255b11047d393c5a94a5e94767c426e7fc52e6eba3f44a6b8c', 'sin-imagen.png', 12, 1),
+(17, 'Maria Del Pilar Ureche Cobo', 'contratacion@lajaguadeibirico-cesar.gov.co', 'f952d6714fe2c4580aa988789b437e60619e87fc63baa4d54a6cda71566516c4', 'sin-imagen.png', 4, 1),
+(18, 'Moises Xavier Paternina', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'dbd1810444163ba9fde385331a2c457a4b2245473e85bbdfd0cebaa270cd5d3f', 'sin-imagen.png', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -765,7 +708,8 @@ ALTER TABLE `permisos`
 -- Indices de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  ADD PRIMARY KEY (`id_publicacion`);
+  ADD PRIMARY KEY (`id_publicacion`),
+  ADD KEY `dependencia_fk` (`dependencia_fk`);
 
 --
 -- Indices de la tabla `rol`
@@ -909,19 +853,19 @@ ALTER TABLE `modulo`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=828;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=850;
 
 --
 -- AUTO_INCREMENT de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_capital_viaticos`
@@ -1005,7 +949,7 @@ ALTER TABLE `tbl_tareas_usuarios`
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
 --
 ALTER TABLE `tbl_usuarios`
-  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
@@ -1028,6 +972,12 @@ ALTER TABLE `tbl_viaticos`
 --
 ALTER TABLE `permisos`
   ADD CONSTRAINT `permisos_ibfk_1` FOREIGN KEY (`rolid`) REFERENCES `rol` (`idrol`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `publicaciones`
+--
+ALTER TABLE `publicaciones`
+  ADD CONSTRAINT `publicaciones_ibfk_1` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`);
 
 --
 -- Filtros para la tabla `tbl_funcionarios_ops`

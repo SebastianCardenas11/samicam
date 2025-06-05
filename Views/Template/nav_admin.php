@@ -45,6 +45,8 @@
          </li>
        <?php } ?>
 
+       
+
        <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 3) ? 'active' : ''; ?>" href="<?= base_url(); ?>/roles">
@@ -74,7 +76,8 @@
           (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) ||
           (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) ||
           (!empty($_SESSION['permisos'][MVACACIONES]['r']) && (!isset($_SESSION['permisos'][MVACACIONES]['v']) || $_SESSION['permisos'][MVACACIONES]['v'] == 1)) ||
-          (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1))
+          (!empty($_SESSION['permisos'][MVIATICOS]['r']) && (!isset($_SESSION['permisos'][MVIATICOS]['v']) || $_SESSION['permisos'][MVIATICOS]['v'] == 1)) ||
+          (!empty($_SESSION['permisos'][MDEPENDENCIAS]['r']) && (!isset($_SESSION['permisos'][MDEPENDENCIAS]['v']) || $_SESSION['permisos'][MDEPENDENCIAS]['v'] == 1))
         ) {
           $showHRSection = true;
         }
@@ -85,7 +88,6 @@
            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
          </li>
        <?php } ?>
-
        <?php if (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
@@ -93,6 +95,17 @@
                <i class="bi bi-book text-dark"></i>
              </div>
              <span class="nav-link-text ms-1">Cargos</span>
+           </a>
+         </li>
+       <?php } ?>
+
+       <?php if (!empty($_SESSION['permisos'][MDEPENDENCIAS]['r']) && (!isset($_SESSION['permisos'][MDEPENDENCIAS]['v']) || $_SESSION['permisos'][MDEPENDENCIAS]['v'] == 1)) { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/dependencias')) ? 'active' : '' ?>" href="<?= base_url(); ?>/dependencias">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-diagram-3 text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Dependencias</span>
            </a>
          </li>
        <?php } ?>

@@ -33,11 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
     registrarAccesoModulo("Publicaciones");
   } else if (currentUrl.includes("/ajustes")) {
     registrarAccesoModulo("Ajustes de Perfil");
+  } else if (currentUrl.includes("/dependencias")) {
+    registrarAccesoModulo("Dependencias");
   }
 
   // Registrar acceso cuando se hace clic en enlaces de navegación
   const navLinks = document.querySelectorAll(
-    'a[href*="/cargos"], a[href*="/vacaciones"], a[href*="/viaticos"], a[href*="/archivos"], a[href*="/ajustes"]'
+    'a[href*="/cargos"], a[href*="/vacaciones"], a[href*="/viaticos"], a[href*="/archivos"], a[href*="/ajustes"], a[href*="/dependencias"]'
   );
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
@@ -57,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
         registrarAccesoModulo("Archivos");
       } else if (href.includes("/ajustes")) {
         registrarAccesoModulo("Ajustes de Perfil");
+      } else if (href.includes("/dependencias")) {
+        registrarAccesoModulo("Dependencias");
       }
     });
   });

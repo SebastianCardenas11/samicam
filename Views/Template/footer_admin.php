@@ -51,7 +51,7 @@
 <!-- FUNCIONES PROPIAS -->
 <script type="text/javascript" src="<?=media();?>/js/functions_admin.js"></script>
 <script type="text/javascript" src="<?=media();?>/js/functions_audit_helper.js"></script>
-<script src="<?=media();?>/js/<?=$data['page_functions_js'];?>"></script>
+
 
 <!-- PLUGINS DE TABLAS Y GRÁFICAS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -70,6 +70,10 @@
 <!-- FullCalendar para el módulo de tareas -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
+<?php } ?>
+
+<?php if(isset($data['page_name']) && $data['page_name'] == "dependencias"){ ?>
+<script type="text/javascript" src="<?=media();?>/js/functions_dependencias.js"></script>
 <?php } ?>
 
 <!-- DATATABLES INICIALIZACIÓN -->
