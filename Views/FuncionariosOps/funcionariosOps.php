@@ -7,7 +7,7 @@ headerAdmin($data);
         <div>
             <h1><i class="fas fa-user-tie"></i> <?= $data['page_title'] ?>
                 <?php if($_SESSION['permisosMod']['w']){ ?>
-                <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nuevo</button>
+                <button class="btn btn-warning ms-3" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nuevo Funcionario OPS</button>
                 <?php } ?>
             </h1>
         </div>
@@ -22,19 +22,19 @@ headerAdmin($data);
                 <div class="tile-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered" id="tableFuncionariosOps">
-                            <thead>
+                            <thead class="table-success">
                                 <tr>
-                                    <th>Número Contrato</th>
-                                    <th>Nombre Contratista</th>
-                                    <th>Identificación</th>
-                                    <th>Objeto</th>
-                                    <th>Valor Contrato</th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
+                                    <th class="text-center">Número Contrato</th>
+                                    <th class="text-center">Nombre Contratista</th>
+                                    <th class="text-center">Identificación</th>
+                                    <th class="text-center">Objeto</th>
+                                    <th class="text-center">Valor Contrato</th>
+                                    <th class="text-center">Fecha Inicio</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="table-group-divider text-center">
                             </tbody>
                         </table>
                     </div>
@@ -45,5 +45,6 @@ headerAdmin($data);
 </main>
 
 <?php getModal('modalFuncionariosOps', $data); ?>
+<?php getModal('modalFuncionariosOpsVer', $data); ?>
 
 <?php footerAdmin($data); ?>

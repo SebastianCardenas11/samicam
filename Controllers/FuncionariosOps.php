@@ -42,138 +42,143 @@ class FuncionariosOps extends Controllers
         error_log("Iniciando setFuncionario en FuncionariosOps");
     
         if ($_POST) {
+            // Validación básica de campos obligatorios
             if (
-                empty($_POST['txtCorreoFuncionario']) ||
-                empty($_POST['txtNombreFuncionario']) ||
-                empty($_POST['txtIdentificacionFuncionario'])
+                empty($_POST['anio']) ||
+                empty($_POST['nit']) ||
+                empty($_POST['nombre_entidad']) ||
+                empty($_POST['numero_contrato']) ||
+                empty($_POST['fecha_firma_contrato']) ||
+                empty($_POST['numero_proceso']) ||
+                empty($_POST['forma_contratacion']) ||
+                empty($_POST['nombre_contratista']) ||
+                empty($_POST['identificacion_contratista']) ||
+                empty($_POST['sexo']) ||
+                empty($_POST['edad'])
             ) {
                 $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
             } else {
-                $intIdeFuncionario = intval($_POST['ideFuncionario']);
-                $strCorreo = strClean($_POST['txtCorreoFuncionario']);
-                $strNombre = strClean($_POST['txtNombreFuncionario']);
-                $strIdentificacion = strClean($_POST['txtIdentificacionFuncionario']);
-                $strCelular = strClean($_POST['txtCelularFuncionario']);
-                $strDireccion = strClean($_POST['txtDireccionFuncionario']);
-                $strFechaIngreso = strClean($_POST['txtFechaIngresoFuncionario']);
-                $strHijos = intval($_POST['txtHijosFuncionario']);
-                $strNombresHijos = strClean($_POST['txtNombresHijosFuncionario']);
-                $intCargo = intval($_POST['txtCargoFuncionario']);
-                $intDependencia = intval($_POST['txtDependenciaFuncionario']);
-                $intContrato = intval($_POST['txtContrato']);
-                $strSexo = strClean($_POST['txtSexoFuncionario']);
-                $strLugarResidencia = strClean($_POST['txtLugarResidenciaFuncionario']);
-                $intEdad = intval($_POST['txtEdadFuncionario']);
-                $strEstadoCivil = strClean($_POST['txtEstadoCivilFuncionario']);
-                $strReligion = strClean($_POST['txtReligionFuncionario']);
-                $strFormacionAcademica = strClean($_POST['txtFormacionFuncionario']);
-                $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
-                $intStatus = intval($_POST['listStatus']);
-                
-                // Manejar la imagen
-                $foto = $_FILES['foto'];
-                $nombre_foto = $foto['name'];
-                $strImagen = 'sin-imagen.png'; // Imagen por defecto
-                
-                if($nombre_foto != ''){
-                    $strImagen = 'func_'.md5(date('Y-m-d H:i:s')).'.jpg';
-                }
-    
-                $request = "";
-                if ($intIdeFuncionario == 0) {
-                    $option = 1;
-                    if ($_SESSION['permisosMod']['w']) {
-                        try {
-                            error_log("Llamando a insertFuncionario en el modelo con datos: " . $strNombre);
-                            $request = $this->model->insertFuncionario(
-                                $strCorreo,
-                                $strNombre,
-                                $strImagen,
-                                $intStatus,
-                                $strIdentificacion,
-                                $intCargo,
-                                $intDependencia,
-                                $intContrato,
-                                $strCelular,
-                                $strDireccion,
-                                $strFechaIngreso,
-                                $strHijos,
-                                $strNombresHijos,
-                                $strSexo,
-                                $strLugarResidencia,
-                                $intEdad,
-                                $strEstadoCivil,
-                                $strReligion,
-                                $strFormacionAcademica,
-                                $strNombreFormacion
-                            );
-                            error_log("Resultado de insertFuncionario: " . print_r($request, true));
-                        } catch (Exception $e) {
-                            error_log("Error en setFuncionario: " . $e->getMessage());
-                            $request = 0;
-                        }
-                    }
-                } else {
-                    // Para actualización, verificar si hay una nueva imagen
-                    if($nombre_foto == ''){
-                        if($_POST['foto_actual'] != '' && $_POST['foto_remove'] == 0){
-                            $strImagen = $_POST['foto_actual'];
-                        }
-                    }
-                    
-                    $option = 2;
-                    if ($_SESSION['permisosMod']['u']) {
-                        try {
-                            $request = $this->model->updateFuncionario(
-                                $intIdeFuncionario,
-                                $strCorreo,
-                                $strNombre,
-                                $strImagen,
-                                $intStatus,
-                                $strIdentificacion,
-                                $intCargo,
-                                $intDependencia,
-                                $intContrato,
-                                $strCelular,
-                                $strDireccion,
-                                $strFechaIngreso,
-                                $strHijos,
-                                $strNombresHijos,
-                                $strSexo,
-                                $strLugarResidencia,
-                                $intEdad,
-                                $strEstadoCivil,
-                                $strReligion,
-                                $strFormacionAcademica,
-                                $strNombreFormacion
-                            );
-                        } catch (Exception $e) {
-                            error_log("Error en updateFuncionario: " . $e->getMessage());
-                            $request = 0;
-                        }
-                    }
-                }
-    
+                // Recoger todos los campos del formulario
+                $anio = strClean($_POST['anio']);
+                $nit = strClean($_POST['nit']);
+                $nombre_entidad = strClean($_POST['nombre_entidad']);
+                $numero_contrato = strClean($_POST['numero_contrato']);
+                $fecha_firma_contrato = strClean($_POST['fecha_firma_contrato']);
+                $numero_proceso = strClean($_POST['numero_proceso']);
+                $forma_contratacion = strClean($_POST['forma_contratacion']);
+                $codigo_banco_proyecto = strClean($_POST['codigo_banco_proyecto']);
+                $linea_estrategia = strClean($_POST['linea_estrategia']);
+                $fuente_recurso = strClean($_POST['fuente_recurso']);
+                $objeto = strClean($_POST['objeto']);
+                $fecha_inicio = strClean($_POST['fecha_inicio']);
+                $plazo_contrato = strClean($_POST['plazo_contrato']);
+                $valor_contrato = floatval($_POST['valor_contrato']);
+                $clase_contrato = strClean($_POST['clase_contrato']);
+                $nombre_contratista = strClean($_POST['nombre_contratista']);
+                $identificacion_contratista = strClean($_POST['identificacion_contratista']);
+                $sexo = strClean($_POST['sexo']);
+                $direccion_domicilio = strClean($_POST['direccion_domicilio']);
+                $telefono_contacto = strClean($_POST['telefono_contacto']);
+                $correo_electronico = strClean($_POST['correo_electronico']);
+                $edad = intval($_POST['edad']);
+                $entidad_bancaria = strClean($_POST['entidad_bancaria']);
+                $tipo_cuenta = strClean($_POST['tipo_cuenta']);
+                $numero_cuenta_bancaria = strClean($_POST['numero_cuenta_bancaria']);
+                $numero_disp_presupuestal = strClean($_POST['numero_disp_presupuestal']);
+                $fecha_disp_presupuestal = strClean($_POST['fecha_disp_presupuestal']);
+                $valor_disp_presupuestal = floatval($_POST['valor_disp_presupuestal']);
+                $numero_registro_presupuestal = strClean($_POST['numero_registro_presupuestal']);
+                $fecha_registro_presupuestal = strClean($_POST['fecha_registro_presupuestal']);
+                $valor_registro_presupuestal = floatval($_POST['valor_registro_presupuestal']);
+                $cod_rubro = strClean($_POST['cod_rubro']);
+                $rubro = strClean($_POST['rubro']);
+                $fuente_financiacion = strClean($_POST['fuente_financiacion']);
+                $asignado_interventor = strClean($_POST['asignado_interventor']);
+                $unidad_ejecucion = strClean($_POST['unidad_ejecucion']);
+                $nombre_interventor = strClean($_POST['nombre_interventor']);
+                $identificacion_interventor = strClean($_POST['identificacion_interventor']);
+                $tipo_vinculacion_interventor = strClean($_POST['tipo_vinculacion_interventor']);
+                $fecha_aprobacion_garantia = strClean($_POST['fecha_aprobacion_garantia']);
+                $anticipo_contrato = floatval($_POST['anticipo_contrato']);
+                $valor_pagado_anticipo = floatval($_POST['valor_pagado_anticipo']);
+                $fecha_pago_anticipo = strClean($_POST['fecha_pago_anticipo']);
+                $numero_adiciones = intval($_POST['numero_adiciones']);
+                $valor_total_adiciones = floatval($_POST['valor_total_adiciones']);
+                $numero_prorrogas = intval($_POST['numero_prorrogas']);
+                $tiempo_prorrogas = strClean($_POST['tiempo_prorrogas']);
+                $numero_suspensiones = intval($_POST['numero_suspensiones']);
+                $tiempo_suspensiones = strClean($_POST['tiempo_suspensiones']);
+                $valor_total_pagos = floatval($_POST['valor_total_pagos']);
+                $fecha_terminacion = strClean($_POST['fecha_terminacion']);
+                $fecha_acta_liquidacion = strClean($_POST['fecha_acta_liquidacion']);
+                $estado_contrato = strClean($_POST['estado_contrato']);
+                $observaciones = strClean($_POST['observaciones']);
+                $proviene_recurso_reactivacion = isset($_POST['proviene_recurso_reactivacion']) ? intval($_POST['proviene_recurso_reactivacion']) : 0;
+
+                $request = $this->model->insertFuncionario(
+                    $anio,
+                    $nit,
+                    $nombre_entidad,
+                    $numero_contrato,
+                    $fecha_firma_contrato,
+                    $numero_proceso,
+                    $forma_contratacion,
+                    $codigo_banco_proyecto,
+                    $linea_estrategia,
+                    $fuente_recurso,
+                    $objeto,
+                    $fecha_inicio,
+                    $plazo_contrato,
+                    $valor_contrato,
+                    $clase_contrato,
+                    $nombre_contratista,
+                    $identificacion_contratista,
+                    $sexo,
+                    $direccion_domicilio,
+                    $telefono_contacto,
+                    $correo_electronico,
+                    $edad,
+                    $entidad_bancaria,
+                    $tipo_cuenta,
+                    $numero_cuenta_bancaria,
+                    $numero_disp_presupuestal,
+                    $fecha_disp_presupuestal,
+                    $valor_disp_presupuestal,
+                    $numero_registro_presupuestal,
+                    $fecha_registro_presupuestal,
+                    $valor_registro_presupuestal,
+                    $cod_rubro,
+                    $rubro,
+                    $fuente_financiacion,
+                    $asignado_interventor,
+                    $unidad_ejecucion,
+                    $nombre_interventor,
+                    $identificacion_interventor,
+                    $tipo_vinculacion_interventor,
+                    $fecha_aprobacion_garantia,
+                    $anticipo_contrato,
+                    $valor_pagado_anticipo,
+                    $fecha_pago_anticipo,
+                    $numero_adiciones,
+                    $valor_total_adiciones,
+                    $numero_prorrogas,
+                    $tiempo_prorrogas,
+                    $numero_suspensiones,
+                    $tiempo_suspensiones,
+                    $valor_total_pagos,
+                    $fecha_terminacion,
+                    $fecha_acta_liquidacion,
+                    $estado_contrato,
+                    $observaciones,
+                    $proviene_recurso_reactivacion
+                );
+
                 if ($request > 0) {
-                    // Subir la imagen si existe
-                    if($nombre_foto != ''){
-                        $uploadDir = 'Assets/images/funcionarios/';
-                        $uploadFile = $uploadDir . $strImagen;
-                        move_uploaded_file($foto['tmp_name'], $uploadFile);
-                    }
-                    
-                    $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
-                    $arrResponse = array("status" => true, "msg" => $msg);
-                } else if ($request == 'exist_email') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El correo electrónico ya está registrado en el sistema.');
-                } else if ($request == 'exist_id') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El número de identificación ya está registrado en el sistema.');
+                    $arrResponse = array("status" => true, "msg" => "Funcionario OPS guardado correctamente.");
                 } else {
-                    error_log("Error al insertar funcionario OPS. Valor de request: " . print_r($request, true));
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
             }
-    
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
@@ -189,40 +194,26 @@ class FuncionariosOps extends Controllers
                 $btnEdit = '';
                 $btnDelete = '';
 
-                // Agregar imagen del funcionario
-                $urlImagen = media().'/images/sin-imagen.png';
-                // Verificar si existe la imagen
-                $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
-                if(!file_exists($rutaImagen)){
-                    $urlImagen = media().'/images/sin-imagen.png';
-                }
-                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
+                // Si tienes imagen, ajusta aquí, si no, puedes omitirlo
+                // $arrData[$i]['imagen'] = ...;
 
-                if($arrData[$i]['status'] == 1)
-                {
-                    $arrData[$i]['status'] = '<span class="badge text-bg-success">Activo</span>';
-                }else{
-                    $arrData[$i]['status'] = '<span class="badge text-bg-danger">Inactivo</span>';
-                }
+                // Mostrar el estado usando estado_contrato
+                $arrData[$i]['estado'] = $arrData[$i]['estado_contrato'];
+
+                // Usar 'id' como clave primaria
+                $id = $arrData[$i]['id'];
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $id . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
+                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $id . ')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-       
-                }
-                
-                // Botón para migrar a planta
-                $btnMigrar = '';
-                if ($_SESSION['permisosMod']['w']) {
-                    $btnMigrar = '<button class="btn btn-success" onClick="fntMigrarInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Migrar a Planta"><i class="bi bi-arrow-up-circle"></i> Migrar</button>';
+                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $id . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
                 }
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMigrar . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -238,14 +229,15 @@ class FuncionariosOps extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
-                    // Agregar URL de la imagen
-                    $urlImagen = media().'/images/sin-imagen.png';
-                    // Verificar si existe la imagen
-                    $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
-                    if(!file_exists($rutaImagen)){
+                    // Solo agregar URL de imagen si existe el campo 'imagen'
+                    if (isset($arrData['imagen']) && !empty($arrData['imagen'])) {
                         $urlImagen = media().'/images/sin-imagen.png';
+                        $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
+                        if(!file_exists($rutaImagen)){
+                            $urlImagen = media().'/images/sin-imagen.png';
+                        }
+                        $arrData['url_imagen'] = $urlImagen;
                     }
-                    $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 const BASE_URL = "http://localhost/samicam";
 //Zona horaria
 
@@ -54,4 +57,4 @@ const PINICIO = 1;
 
 //Roles
 const RADMINISTRADOR = 1;
-const RCOORDINADOR = 2;
+const RCOORDINADOR = 2;    

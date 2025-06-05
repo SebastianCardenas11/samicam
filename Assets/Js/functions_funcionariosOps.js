@@ -19,7 +19,15 @@ document.addEventListener(
         { "data": "numero_contrato" },
         { "data": "nombre_contratista" },
         { "data": "identificacion_contratista" },
-        { "data": "objeto" },
+        { 
+          "data": "objeto",
+          "render": function(data, type, row) {
+            if (typeof data === 'string' && data.length > 40) {
+              return data.substring(0, 40) + '...';
+            }
+            return data;
+          }
+        },
         { "data": "valor_contrato", 
           "render": function(data) {
             return '$ ' + parseFloat(data).toLocaleString('es-CO');
@@ -38,26 +46,13 @@ document.addEventListener(
           "extend": "excelHtml5",
           "text": "<i class='fas fa-file-excel'></i> Excel",
           "titleAttr": "Exportar a Excel",
-          "className": "btn btn-success mt-3",
-          "exportOptions": { 
-            "columns": [ 0, 1, 2, 3, 4, 5, 6 ] 
-          }
+          "className": "btn btn-success mt-3"
         },
         {
           "extend": "pdfHtml5",
           "text": "<i class='fas fa-file-pdf'></i> PDF",
           "titleAttr": "Exportar a PDF",
-          "className": "btn btn-danger mt-3",
-          "exportOptions": { 
-            "columns": [ 0, 1, 2, 3, 4, 5, 6 ] 
-          },
-          "customize": function(doc) {
-            doc.styles.tableHeader.alignment = 'left';
-            doc.styles.tableHeader.fontSize = 10;
-            doc.defaultStyle.fontSize = 9;
-            doc.defaultStyle.alignment = 'left';
-            doc.content[1].table.widths = ['auto', 'auto', 'auto', '*', 'auto', 'auto', 'auto'];
-          }
+          "className": "btn btn-danger mt-3"
         }
       ],
       "responsive": true,
@@ -104,71 +99,40 @@ document.addEventListener(
       }
     }
 
-    // Formulario de funcionario
-    if (document.querySelector("#formFuncionario")) {
-      let formFuncionario = document.querySelector("#formFuncionario");
-      formFuncionario.onsubmit = function (e) {
+    // Formulario de funcionario OPS
+    if (document.querySelector("#formFuncionariosOps")) {
+      let formFuncionariosOps = document.querySelector("#formFuncionariosOps");
+      formFuncionariosOps.onsubmit = function (e) {
         e.preventDefault();
-        console.log("Formulario enviado");
-
-        // Validar campos obligatorios
-        let strNombre = document.querySelector('#txtNombreFuncionario').value;
-        let strIdentificacion = document.querySelector('#txtIdentificacionFuncionario').value;
-        let strCorreo = document.querySelector('#txtCorreoFuncionario').value;
-
-        if (strNombre == '' || strIdentificacion == '' || strCorreo == '') {
-          Swal.fire("Atención", "Todos los campos con * son obligatorios", "error");
-          return false;
-        }
-
         // Mostrar loading
         if (divLoading) {
           divLoading.style.display = "flex";
         }
-
         // Enviar formulario
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url + '/funcionariosOps/setFuncionario';
-        console.log("URL:", ajaxUrl);
-
-        let formData = new FormData(formFuncionario);
-
-        // Depurar datos del formulario
-        for (let pair of formData.entries()) {
-          console.log(pair[0] + ': ' + pair[1]);
-        }
-
+        let formData = new FormData(formFuncionariosOps);
         request.open("POST", ajaxUrl, true);
         request.send(formData);
-
         request.onreadystatechange = function () {
           if (request.readyState == 4) {
-            console.log("Status:", request.status);
-            console.log("Response:", request.responseText);
-
             if (request.status == 200) {
               try {
                 let objData = JSON.parse(request.responseText);
-                console.log("Datos procesados:", objData);
-
                 if (objData.status) {
-                  $('#modalFormFuncionario').modal("hide");
-                  formFuncionario.reset();
-                  Swal.fire("Funcionario", objData.msg, "success");
+                  $('#modalFormFuncionariosOps').modal("hide");
+                  formFuncionariosOps.reset();
+                  Swal.fire("Éxito", objData.msg, "success");
                   tableFuncionarios.api().ajax.reload();
                 } else {
                   Swal.fire("Error", objData.msg, "error");
                 }
               } catch (error) {
-                console.error("Error al procesar la respuesta:", error);
-                console.log("Respuesta recibida:", request.responseText);
                 Swal.fire("Error", "Ocurrió un error al procesar la respuesta del servidor", "error");
               }
             } else {
-              console.error("Error HTTP:", request.status);
               Swal.fire("Error", "Error en la comunicación con el servidor: " + request.status, "error");
             }
-
             if (divLoading) {
               divLoading.style.display = "none";
             }
@@ -180,137 +144,169 @@ document.addEventListener(
   false
 );
 
-function fntViewInfo(idefuncionario) {
+function fntViewInfo(id) {
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
-  let ajaxUrl =
-    base_url + "/funcionariosOps/getFuncionario/" + idefuncionario;
+  let ajaxUrl = base_url + "/funcionariosOps/getFuncionario/" + id;
   request.open("GET", ajaxUrl, true);
   request.send();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
       let objData = JSON.parse(request.responseText);
       if (objData.status) {
-        document.querySelector("#celIdeFuncionario").innerHTML =
-          objData.data.idefuncionario;
-        document.querySelector("#celCorreoFuncionario").innerHTML =
-          objData.data.correo_elc;
-        document.querySelector("#celNombresFuncionario").innerHTML =
-          objData.data.nombre_completo;
-        document.querySelector("#celIdentificacionFuncionario").innerHTML =
-          objData.data.nm_identificacion;
-        document.querySelector("#celCargoFuncionario").innerHTML =
-          objData.data.cargo_nombre;
-        document.querySelector("#celDependenciaFuncionario").innerHTML =
-          objData.data.dependencia_nombre;
-        document.querySelector("#celContrato").innerHTML =
-          objData.data.contrato_nombre;
-        document.querySelector("#celCelularFuncionario").innerHTML =
-          objData.data.celular;
-        document.querySelector("#celDireccionFuncionario").innerHTML =
-          objData.data.direccion;
-        document.querySelector("#celFechaIngresoFuncionario").innerHTML =
-          objData.data.fecha_ingreso;
-        document.querySelector("#celHijosFuncionario").innerHTML =
-          objData.data.hijos;
-        document.querySelector("#celNombresHijosFuncionario").innerHTML =
-          objData.data.nombres_de_hijos;
-        document.querySelector("#celSexoFuncionario").innerHTML =
-          objData.data.sexo;
-        document.querySelector("#celLugarResidenciaFuncionario").innerHTML =
-          objData.data.lugar_de_residencia;
-        document.querySelector("#celEdadFuncionario").innerHTML =
-          objData.data.edad;
-        document.querySelector("#celEstadoCivilFuncionario").innerHTML =
-          objData.data.estado_civil;
-        document.querySelector("#celReligionFuncionario").innerHTML =
-          objData.data.religion;
-        document.querySelector("#celFormacionAcademica").innerHTML =
-          objData.data.formacion_academica;
-        document.querySelector("#celNombreFormacion").innerHTML =
-          objData.data.nombre_formacion;
-        document.querySelector("#celEstadoFuncionario").innerHTML =
-          objData.data.status == 1
-            ? '<span class="badge text-bg-success">Activo</span>'
-            : '<span class="badge text-bg-danger">Inactivo</span>';
-
-        // Mostrar la imagen del funcionario
-        if (document.querySelector("#celImagenFuncionario")) {
-          document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
-        }
-
-        $("#modalViewFuncionario").modal("show");
+        // Llenar todos los campos del modal de visualización OPS
+        const data = objData.data;
+        const set = (id, val) => {
+          const el = document.querySelector(`#${id}`);
+          if (el) el.innerHTML = val ?? '';
+        };
+        set('view_nombre_contratista', data.nombre_contratista);
+        set('view_identificacion_contratista', data.identificacion_contratista);
+        set('view_sexo', data.sexo);
+        set('view_edad', data.edad);
+        set('view_direccion_domicilio', data.direccion_domicilio);
+        set('view_telefono_contacto', data.telefono_contacto);
+        set('view_correo_electronico', data.correo_electronico);
+        set('view_entidad_bancaria', data.entidad_bancaria);
+        set('view_tipo_cuenta', data.tipo_cuenta);
+        set('view_numero_cuenta_bancaria', data.numero_cuenta_bancaria);
+        set('view_anio', data.anio);
+        set('view_nit', data.nit);
+        set('view_nombre_entidad', data.nombre_entidad);
+        set('view_numero_contrato', data.numero_contrato);
+        set('view_fecha_firma_contrato', data.fecha_firma_contrato);
+        set('view_numero_proceso', data.numero_proceso);
+        set('view_forma_contratacion', data.forma_contratacion);
+        set('view_codigo_banco_proyecto', data.codigo_banco_proyecto);
+        set('view_linea_estrategia', data.linea_estrategia);
+        set('view_fuente_recurso', data.fuente_recurso);
+        set('view_objeto', data.objeto);
+        set('view_fecha_inicio', data.fecha_inicio);
+        set('view_plazo_contrato', data.plazo_contrato);
+        set('view_valor_contrato', data.valor_contrato);
+        set('view_clase_contrato', data.clase_contrato);
+        set('view_estado_contrato', data.estado_contrato);
+        set('view_numero_disp_presupuestal', data.numero_disp_presupuestal);
+        set('view_fecha_disp_presupuestal', data.fecha_disp_presupuestal);
+        set('view_valor_disp_presupuestal', data.valor_disp_presupuestal);
+        set('view_numero_registro_presupuestal', data.numero_registro_presupuestal);
+        set('view_fecha_registro_presupuestal', data.fecha_registro_presupuestal);
+        set('view_valor_registro_presupuestal', data.valor_registro_presupuestal);
+        set('view_cod_rubro', data.cod_rubro);
+        set('view_rubro', data.rubro);
+        set('view_fuente_financiacion', data.fuente_financiacion);
+        set('view_asignado_interventor', data.asignado_interventor);
+        set('view_unidad_ejecucion', data.unidad_ejecucion);
+        set('view_nombre_interventor', data.nombre_interventor);
+        set('view_identificacion_interventor', data.identificacion_interventor);
+        set('view_tipo_vinculacion_interventor', data.tipo_vinculacion_interventor);
+        set('view_fecha_aprobacion_garantia', data.fecha_aprobacion_garantia);
+        set('view_anticipo_contrato', data.anticipo_contrato);
+        set('view_valor_pagado_anticipo', data.valor_pagado_anticipo);
+        set('view_fecha_pago_anticipo', data.fecha_pago_anticipo);
+        set('view_numero_adiciones', data.numero_adiciones);
+        set('view_valor_total_adiciones', data.valor_total_adiciones);
+        set('view_numero_prorrogas', data.numero_prorrogas);
+        set('view_tiempo_prorrogas', data.tiempo_prorrogas);
+        set('view_numero_suspensiones', data.numero_suspensiones);
+        set('view_tiempo_suspensiones', data.tiempo_suspensiones);
+        set('view_valor_total_pagos', data.valor_total_pagos);
+        set('view_fecha_terminacion', data.fecha_terminacion);
+        set('view_fecha_acta_liquidacion', data.fecha_acta_liquidacion);
+        set('view_observaciones', data.observaciones);
+        set('view_proviene_recurso_reactivacion', data.proviene_recurso_reactivacion);
+        // Mostrar el modal
+        $('#modalViewFuncionarioOps').modal('show');
       } else {
         Swal.fire("Error", objData.msg, "error");
       }
     }
-  };
+  }
 }
 
-function fntEditInfo(element, idefuncionario) {
+function fntEditInfo(element, id) {
   rowTable = element.parentNode.parentNode.parentNode;
-  document.querySelector("#titleModal").innerHTML = "Actualizar Funcionario";
+  document.querySelector("#titleModal").innerHTML = "Actualizar Funcionario OPS";
   document.querySelector("#btnActionForm").classList.replace("btn-success", "btn-warning");
   document.querySelector("#btnText").innerHTML = "Actualizar";
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
-  let ajaxUrl = base_url + "/funcionariosOps/getFuncionario/" + idefuncionario;
+  let ajaxUrl = base_url + "/funcionariosOps/getFuncionario/" + id;
   request.open("GET", ajaxUrl, true);
   request.send();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
       let objData = JSON.parse(request.responseText);
       if (objData.status) {
-        document.querySelector("#ideFuncionario").value =
-          objData.data.idefuncionario;
-        document.querySelector("#txtCorreoFuncionario").value =
-          objData.data.correo_elc;
-        document.querySelector("#txtNombreFuncionario").value =
-          objData.data.nombre_completo;
-        document.querySelector("#txtIdentificacionFuncionario").value =
-          objData.data.nm_identificacion;
-        document.querySelector("#txtCargoFuncionario").value =
-          objData.data.cargo_fk;
-        document.querySelector("#txtDependenciaFuncionario").value =
-          objData.data.dependencia_fk;
-        document.querySelector("#txtContrato").value = objData.data.contrato_fk;
-        document.querySelector("#txtCelularFuncionario").value =
-          objData.data.celular;
-        document.querySelector("#txtDireccionFuncionario").value =
-          objData.data.direccion;
-        document.querySelector("#txtFechaIngresoFuncionario").value =
-          objData.data.fecha_ingreso;
-        document.querySelector("#txtHijosFuncionario").value =
-          objData.data.hijos;
-        document.querySelector("#txtNombresHijosFuncionario").value =
-          objData.data.nombres_de_hijos;
-        document.querySelector("#txtSexoFuncionario").value = objData.data.sexo;
-        document.querySelector("#txtLugarResidenciaFuncionario").value =
-          objData.data.lugar_de_residencia;
-        document.querySelector("#txtEdadFuncionario").value = objData.data.edad;
-        document.querySelector("#txtEstadoCivilFuncionario").value =
-          objData.data.estado_civil;
-        document.querySelector("#txtReligionFuncionario").value =
-          objData.data.religion;
-        document.querySelector("#txtFormacionFuncionario").value =
-          objData.data.formacion_academica;
-        document.querySelector("#txtNombreFormacion").value =
-          objData.data.nombre_formacion;
-        document.querySelector("#listStatus").value = objData.data.status;
-
-        // Mostrar la imagen actual
-        if (document.querySelector('#foto_actual')) {
-          document.querySelector('#foto_actual').value = objData.data.imagen;
-        }
-        if (document.querySelector('#img_funcionario')) {
-          document.querySelector('#img_funcionario').src = objData.data.url_imagen;
-        }
+        const data = objData.data;
+        const set = (id, val) => {
+          const el = document.querySelector(`#${id}`);
+          if (el) el.value = val ?? '';
+        };
+        set('idFuncionario', data.id);
+        set('anio', data.anio);
+        set('nit', data.nit);
+        set('nombre_entidad', data.nombre_entidad);
+        set('numero_contrato', data.numero_contrato);
+        set('fecha_firma_contrato', data.fecha_firma_contrato);
+        set('numero_proceso', data.numero_proceso);
+        set('forma_contratacion', data.forma_contratacion);
+        set('codigo_banco_proyecto', data.codigo_banco_proyecto);
+        set('linea_estrategia', data.linea_estrategia);
+        set('fuente_recurso', data.fuente_recurso);
+        set('nombre_contratista', data.nombre_contratista);
+        set('identificacion_contratista', data.identificacion_contratista);
+        set('sexo', data.sexo);
+        set('edad', data.edad);
+        set('direccion_domicilio', data.direccion_domicilio);
+        set('telefono_contacto', data.telefono_contacto);
+        set('correo_electronico', data.correo_electronico);
+        set('entidad_bancaria', data.entidad_bancaria);
+        set('tipo_cuenta', data.tipo_cuenta);
+        set('numero_cuenta_bancaria', data.numero_cuenta_bancaria);
+        set('numero_disp_presupuestal', data.numero_disp_presupuestal);
+        set('fecha_disp_presupuestal', data.fecha_disp_presupuestal);
+        set('valor_disp_presupuestal', data.valor_disp_presupuestal);
+        set('numero_registro_presupuestal', data.numero_registro_presupuestal);
+        set('fecha_registro_presupuestal', data.fecha_registro_presupuestal);
+        set('valor_registro_presupuestal', data.valor_registro_presupuestal);
+        set('cod_rubro', data.cod_rubro);
+        set('rubro', data.rubro);
+        set('fuente_financiacion', data.fuente_financiacion);
+        set('objeto', data.objeto);
+        set('fecha_inicio', data.fecha_inicio);
+        set('plazo_contrato', data.plazo_contrato);
+        set('valor_contrato', data.valor_contrato);
+        set('clase_contrato', data.clase_contrato);
+        set('estado_contrato', data.estado_contrato);
+        set('asignado_interventor', data.asignado_interventor);
+        set('unidad_ejecucion', data.unidad_ejecucion);
+        set('nombre_interventor', data.nombre_interventor);
+        set('identificacion_interventor', data.identificacion_interventor);
+        set('tipo_vinculacion_interventor', data.tipo_vinculacion_interventor);
+        set('fecha_aprobacion_garantia', data.fecha_aprobacion_garantia);
+        set('anticipo_contrato', data.anticipo_contrato);
+        set('valor_pagado_anticipo', data.valor_pagado_anticipo);
+        set('fecha_pago_anticipo', data.fecha_pago_anticipo);
+        set('numero_adiciones', data.numero_adiciones);
+        set('valor_total_adiciones', data.valor_total_adiciones);
+        set('numero_prorrogas', data.numero_prorrogas);
+        set('tiempo_prorrogas', data.tiempo_prorrogas);
+        set('numero_suspensiones', data.numero_suspensiones);
+        set('tiempo_suspensiones', data.tiempo_suspensiones);
+        set('valor_total_pagos', data.valor_total_pagos);
+        set('fecha_terminacion', data.fecha_terminacion);
+        set('fecha_acta_liquidacion', data.fecha_acta_liquidacion);
+        set('observaciones', data.observaciones);
+        set('proviene_recurso_reactivacion', data.proviene_recurso_reactivacion);
+        $('#modalFormFuncionariosOps').modal('show');
+      } else {
+        Swal.fire("Error", objData.msg, "error");
       }
     }
-    $("#modalFormFuncionario").modal("show");
-  };
+  }
 }
 
 function fntDelInfo(idefuncionario) {
