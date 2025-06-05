@@ -309,21 +309,21 @@ function fntEditInfo(element, id) {
   }
 }
 
-function fntDelInfo(idefuncionario) {
+function fntDelInfo(id) {
   Swal.fire({
-    title: "Eliminar Funcionario",
-    text: "¿Realmente quiere eliminar el Funcionario?",
+    title: "Eliminar Funcionario OPS",
+    text: "¿Realmente quiere eliminar este funcionario OPS?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "Si, eliminar!",
-    cancelButtonText: "No, cancelar!"
+    confirmButtonText: "Si, eliminar",
+    cancelButtonText: "No, cancelar"
   }).then((result) => {
     if (result.isConfirmed) {
       let request = window.XMLHttpRequest
         ? new XMLHttpRequest()
         : new ActiveXObject("Microsoft.XMLHTTP");
       let ajaxUrl = base_url + "/funcionariosOps/delFuncionario";
-      let strData = "ideFuncionario=" + idefuncionario;
+      let strData = "idFuncionario=" + id;
       request.open("POST", ajaxUrl, true);
       request.setRequestHeader(
         "Content-type",
@@ -332,17 +332,12 @@ function fntDelInfo(idefuncionario) {
       request.send(strData);
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-          try {
-            let objData = JSON.parse(request.responseText);
-            if (objData.status) {
-              Swal.fire("Eliminar!", objData.msg, "success");
-              tableFuncionarios.api().ajax.reload();
-            } else {
-              Swal.fire("Atención!", objData.msg, "error");
-            }
-          } catch (error) {
-            console.error("Error al procesar la respuesta:", error);
-            Swal.fire("Error", "Ocurrió un error al procesar la respuesta", "error");
+          let objData = JSON.parse(request.responseText);
+          if (objData.status) {
+            Swal.fire("Eliminado", "El funcionario OPS ha sido eliminado", "success");
+            tableFuncionarios.api().ajax.reload();
+          } else {
+            Swal.fire("Error", objData.msg, "error");
           }
         }
       };

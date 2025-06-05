@@ -57,6 +57,7 @@ class FuncionariosOpsModel extends Mysql
     private $estado_contrato;
     private $observaciones;
     private $proviene_recurso_reactivacion;
+    private $status;
 
     public function __construct()
     {
@@ -175,6 +176,7 @@ class FuncionariosOpsModel extends Mysql
         $this->estado_contrato = $estado_contrato;
         $this->observaciones = $observaciones;
         $this->proviene_recurso_reactivacion = $proviene_recurso_reactivacion;
+        $this->status = 1;
 
         $sql = "INSERT INTO tbl_funcionarios_ops(
             anio, nit, nombre_entidad, numero_contrato, fecha_firma_contrato,
@@ -194,8 +196,8 @@ class FuncionariosOpsModel extends Mysql
             numero_prorrogas, tiempo_prorrogas, numero_suspensiones,
             tiempo_suspensiones, valor_total_pagos, fecha_terminacion,
             fecha_acta_liquidacion, estado_contrato, observaciones,
-            proviene_recurso_reactivacion
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            proviene_recurso_reactivacion, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
         $arrData = array(
             $this->anio, $this->nit, $this->nombre_entidad, $this->numero_contrato,
@@ -216,7 +218,8 @@ class FuncionariosOpsModel extends Mysql
             $this->numero_adiciones, $this->valor_total_adiciones, $this->numero_prorrogas,
             $this->tiempo_prorrogas, $this->numero_suspensiones, $this->tiempo_suspensiones,
             $this->valor_total_pagos, $this->fecha_terminacion, $this->fecha_acta_liquidacion,
-            $this->estado_contrato, $this->observaciones, $this->proviene_recurso_reactivacion
+            $this->estado_contrato, $this->observaciones, $this->proviene_recurso_reactivacion,
+            $this->status
         );
 
         $request_insert = $this->insert($sql, $arrData);
@@ -225,7 +228,7 @@ class FuncionariosOpsModel extends Mysql
 
     public function selectFuncionarios()
     {
-        $sql = "SELECT * FROM tbl_funcionarios_ops";
+        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE status = 1";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -233,7 +236,7 @@ class FuncionariosOpsModel extends Mysql
     public function selectFuncionario(int $id)
     {
         $this->id = $id;
-        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE id = $this->id";
+        $sql = "SELECT * FROM tbl_funcionarios_ops WHERE id = $this->id AND status = 1";
         $request = $this->select($sql);
         return $request;
     }
@@ -404,8 +407,8 @@ class FuncionariosOpsModel extends Mysql
     public function deleteFuncionario(int $id)
     {
         $this->id = $id;
-        $sql = "DELETE FROM tbl_funcionarios_ops WHERE id = $this->id";
-        $request = $this->delete($sql);
+        $sql = "UPDATE tbl_funcionarios_ops SET status = 0 WHERE id = {$this->id}";
+        $request = $this->update($sql, []);
         return $request;
     }
 

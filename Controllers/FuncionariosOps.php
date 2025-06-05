@@ -250,12 +250,12 @@ class FuncionariosOps extends Controllers
     {
         if ($_POST) {
             if ($_SESSION['permisosMod']['d']) {
-                $intidefuncionario = intval($_POST['ideFuncionario']);
-                $requestDelete = $this->model->deleteFuncionario($intidefuncionario);
-                if ($requestDelete) {
-                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el Funcionario');
+                $id = intval($_POST['idFuncionario']);
+                $request = $this->model->deleteFuncionario($id);
+                if ($request) {
+                    $arrResponse = array('status' => true, 'msg' => 'El funcionario OPS ha sido eliminado');
                 } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar al Funcionario.');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el funcionario OPS');
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
