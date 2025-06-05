@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 05-06-2025 a las 06:58:52
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 05-06-2025 a las 17:51:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `archivos` (
   `id` int(11) NOT NULL,
+  `id_categoria` int(11) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `archivo` varchar(255) NOT NULL,
@@ -40,9 +41,37 @@ CREATE TABLE `archivos` (
 -- Volcado de datos para la tabla `archivos`
 --
 
-INSERT INTO `archivos` (`id`, `nombre`, `descripcion`, `archivo`, `extension`, `fecha_creacion`) VALUES
-(1, 'Certificacion', 'Certificacion', '2ae47bb309e683e9ae03139f8d380e1c.docx', 'docx', '2025-05-18 23:00:30'),
-(3, 'pdf 2', 'pdf 2', '0a006ee701b6ef45666604d584e7b9ca.pdf', 'pdf', '2025-05-18 23:09:53');
+INSERT INTO `archivos` (`id`, `id_categoria`, `nombre`, `descripcion`, `archivo`, `extension`, `fecha_creacion`) VALUES
+(1, 8, 'Certificacion', 'Certificacion', '2ae47bb309e683e9ae03139f8d380e1c.docx', 'docx', '2025-05-18 23:00:30'),
+(3, 8, 'pdf 2', 'pdf 2', '0a006ee701b6ef45666604d584e7b9ca.pdf', 'pdf', '2025-05-18 23:09:53');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias_archivos`
+--
+
+CREATE TABLE `categorias_archivos` (
+  `id_categoria` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categorias_archivos`
+--
+
+INSERT INTO `categorias_archivos` (`id_categoria`, `nombre`, `descripcion`, `status`, `fecha_creacion`) VALUES
+(1, 'Documentos Administrativos', 'Documentos relacionados con procesos administrativos', 1, '2025-06-05 10:01:34'),
+(2, 'Recursos Humanos', 'Documentos del área de recursos humanos', 1, '2025-06-05 10:01:34'),
+(3, 'Contratos', 'Documentos contractuales y acuerdos', 1, '2025-06-05 10:01:34'),
+(4, 'Informes', 'Informes y reportes varios', 1, '2025-06-05 10:01:34'),
+(5, 'Certificaciones', 'Certificados y documentos oficiales', 1, '2025-06-05 10:01:34'),
+(6, 'Memorandos', 'Memorandos internos y comunicaciones', 1, '2025-06-05 10:01:34'),
+(7, 'Resoluciones', 'Resoluciones y documentos legales', 1, '2025-06-05 10:01:34'),
+(8, 'Otros', 'Documentos varios sin categoría específica', 1, '2025-06-05 10:01:34');
 
 -- --------------------------------------------------------
 
@@ -209,7 +238,7 @@ CREATE TABLE `publicaciones` (
 
 INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_recibido`, `correo_recibido`, `asunto`, `fecha_publicacion`, `respuesta_envio`, `enlace_publicacion`, `dependencia_fk`, `status`) VALUES
 (7, 'yes', '2025-06-05', 'carlos@gmial.com', 'yes', '2025-06-20', 'Si', 'www.com', 16, 0),
-(8, 'Prueba', '2025-06-05', 'Prueba@xnpublicacin-obb', 'Prueba', '2025-06-05', 'Si', 'www.com', 11, 1);
+(8, 'Prueba', '2025-06-05', 'Prueba@xnpublicacin-obb', 'Prueba', '2025-06-05', 'Si', 'www.com', 11, 0);
 
 -- --------------------------------------------------------
 
@@ -435,8 +464,7 @@ CREATE TABLE `tbl_funcionarios_ops` (
   `fecha_acta_liquidacion` date DEFAULT NULL,
   `estado_contrato` varchar(50) DEFAULT NULL,
   `observaciones` text DEFAULT NULL,
-  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL,
-  `status` TINYINT(1) NOT NULL DEFAULT 1
+  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -495,6 +523,13 @@ CREATE TABLE `tbl_historial_permisos` (
   `fecha_registro` datetime NOT NULL DEFAULT current_timestamp(),
   `tipo_funcionario` enum('planta','ops') DEFAULT 'planta'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_historial_permisos`
+--
+
+INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `fecha_registro`, `tipo_funcionario`) VALUES
+(9, 17, '2025-06-05', 6, 2025, 'Calamidad doméstica', 'Aprobado', '2025-06-05 10:16:34', 'planta');
 
 -- --------------------------------------------------------
 
@@ -588,7 +623,8 @@ INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `me
 (36, 10, '2025-06-17', 8, 2025, 'Calamidad doméstica', 'Aprobado', 'planta'),
 (37, 17, '2025-05-30', 5, 2025, 'Capacitación', 'Aprobado', 'planta'),
 (38, 17, '2025-05-31', 5, 2025, 'Cita médica', 'Aprobado', 'planta'),
-(39, 17, '2025-06-01', 6, 2025, 'Capacitación', 'Aprobado', 'planta');
+(39, 17, '2025-06-01', 6, 2025, 'Capacitación', 'Aprobado', 'planta'),
+(40, 17, '2025-06-05', 6, 2025, 'Calamidad doméstica', 'Aprobado', 'planta');
 
 -- --------------------------------------------------------
 
@@ -717,7 +753,14 @@ CREATE TABLE `tbl_viaticos` (
 -- Indices de la tabla `archivos`
 --
 ALTER TABLE `archivos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_archivo_categoria` (`id_categoria`);
+
+--
+-- Indices de la tabla `categorias_archivos`
+--
+ALTER TABLE `categorias_archivos`
+  ADD PRIMARY KEY (`id_categoria`);
 
 --
 -- Indices de la tabla `modulo`
@@ -870,6 +913,12 @@ ALTER TABLE `archivos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `categorias_archivos`
+--
+ALTER TABLE `categorias_archivos`
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
@@ -933,7 +982,7 @@ ALTER TABLE `tbl_funcionarios_planta`
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivo_permiso`
@@ -957,7 +1006,7 @@ ALTER TABLE `tbl_observaciones`
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas`
@@ -992,6 +1041,12 @@ ALTER TABLE `tbl_viaticos`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `archivos`
+--
+ALTER TABLE `archivos`
+  ADD CONSTRAINT `fk_archivo_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_archivos` (`id_categoria`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `permisos`
