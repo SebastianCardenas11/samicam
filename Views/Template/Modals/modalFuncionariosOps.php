@@ -120,7 +120,7 @@ headerAdmin($data);
 
                             <div class="row mt-4">
                                 <!-- Columna 4 - Información de Contacto -->
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="card h-100">
                                         <div class="card-header bg-light">
                                             <h5 class="card-title mb-0">Información de Contacto</h5>
@@ -143,7 +143,7 @@ headerAdmin($data);
                                 </div>
 
                                 <!-- Columna 5 - Información Bancaria -->
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="card h-100">
                                         <div class="card-header bg-light">
                                             <h5 class="card-title mb-0">Información Bancaria</h5>
@@ -168,25 +168,57 @@ headerAdmin($data);
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
+                            <div class="row mt-4">
                                 <!-- Columna 6 - Información Presupuestal -->
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <div class="card h-100">
                                         <div class="card-header bg-light">
                                             <h5 class="card-title mb-0">Información Presupuestal</h5>
                                         </div>
                                         <div class="card-body">
-                                            <div class="mb-3">
-                                                <label for="numero_disp_presupuestal" class="form-label">Número Disponibilidad Presupuestal</label>
-                                                <input type="text" class="form-control" id="numero_disp_presupuestal" name="numero_disp_presupuestal">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="fecha_disp_presupuestal" class="form-label">Fecha Disponibilidad Presupuestal</label>
-                                                <input type="date" class="form-control" id="fecha_disp_presupuestal" name="fecha_disp_presupuestal">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="valor_disp_presupuestal" class="form-label">Valor Disponibilidad Presupuestal</label>
-                                                <input type="number" step="0.01" class="form-control" id="valor_disp_presupuestal" name="valor_disp_presupuestal">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="numero_disp_presupuestal" class="form-label">Número Disponibilidad Presupuestal</label>
+                                                        <input type="text" class="form-control" id="numero_disp_presupuestal" name="numero_disp_presupuestal">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="fecha_disp_presupuestal" class="form-label">Fecha Disponibilidad Presupuestal</label>
+                                                        <input type="date" class="form-control" id="fecha_disp_presupuestal" name="fecha_disp_presupuestal">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="valor_disp_presupuestal" class="form-label">Valor Disponibilidad Presupuestal</label>
+                                                        <input type="number" step="0.01" class="form-control" id="valor_disp_presupuestal" name="valor_disp_presupuestal">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="numero_registro_presupuestal" class="form-label">Número Registro Presupuestal</label>
+                                                        <input type="text" class="form-control" id="numero_registro_presupuestal" name="numero_registro_presupuestal">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="fecha_registro_presupuestal" class="form-label">Fecha de Registro Presupuestal</label>
+                                                        <input type="date" class="form-control" id="fecha_registro_presupuestal" name="fecha_registro_presupuestal">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="valor_registro_presupuestal" class="form-label">Valor del Registro Presupuestal</label>
+                                                        <input type="number" step="0.01" class="form-control" id="valor_registro_presupuestal" name="valor_registro_presupuestal">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="cod_rubro" class="form-label">Código Rubro</label>
+                                                        <input type="text" class="form-control" id="cod_rubro" name="cod_rubro">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="rubro" class="form-label">Rubro</label>
+                                                        <input type="text" class="form-control" id="rubro" name="rubro">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="fuente_financiacion" class="form-label">Fuente de Financiación</label>
+                                                        <input type="text" class="form-control" id="fuente_financiacion" name="fuente_financiacion">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
