@@ -319,15 +319,17 @@ class FuncionariosPermisos extends Controllers
                     }
                     
                     // Configurar encabezados para forzar la descarga
+                    $nombreArchivo = 'Historial_Permisos_'.str_replace(' ', '_', $funcionario['nombre_completo']).'.pdf';
                     header('Content-Type: application/pdf');
                     header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
                     header('Pragma: public');
                     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
                     header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-                    header('Content-Disposition: attachment; filename="Historial_Permisos_'.str_replace(' ', '_', $funcionario['nombre_completo']).'.pdf"');
-                    
+                    header('Content-Disposition: attachment; filename="'.basename(
+                        $nombreArchivo
+                    ).'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivo));
                     // Generar el PDF
-                    $pdf->Output('D', 'Historial_Permisos_'.str_replace(' ', '_', $funcionario['nombre_completo']).'.pdf');
+                    $pdf->Output('D', $nombreArchivo);
                     exit();
                     
                 } catch (Exception $e) {
@@ -407,11 +409,11 @@ class FuncionariosPermisos extends Controllers
                         
                         // Fecha del permiso
                         $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
-                        $pdf->SetXY(60, 122);
+                        $pdf->SetXY(60, 137);
                         $pdf->Cell(140, 8, $fechaPermiso, 0, 1);
                         
                         // Motivo del permiso
-                        $pdf->SetXY(60, 130);
+                        $pdf->SetXY(60, 146);
                         $pdf->MultiCell(130, 8, utf8_decode($permiso['motivo']), 0, 'L');
                         
                         // Asegurarse de que no haya salida antes del PDF
@@ -420,15 +422,18 @@ class FuncionariosPermisos extends Controllers
                         }
                         
                         // Configurar encabezados para forzar la descarga
+                        $nombreArchivoPermiso = 'Permiso_'.iconv('UTF-8', 'ASCII//TRANSLIT', $funcionario['nombre_completo']).'_'.$fechaPermiso.'.pdf';
+                        $nombreArchivoPermiso = str_replace(' ', '_', $nombreArchivoPermiso);
+                        $nombreArchivoPermiso = preg_replace('/[^a-zA-Z0-9_\-.]/', '', $nombreArchivoPermiso);
+                        
                         header('Content-Type: application/pdf');
                         header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
                         header('Pragma: public');
                         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
                         header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-                        header('Content-Disposition: attachment; filename="Permiso_'.str_replace(' ', '_', $funcionario['nombre_completo']).'_'.$fechaPermiso.'.pdf"');
-                        
+                        header('Content-Disposition: attachment; filename="'.$nombreArchivoPermiso.'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivoPermiso));
                         // Generar el PDF
-                        $pdf->Output('D', 'Permiso_'.str_replace(' ', '_', $funcionario['nombre_completo']).'_'.$fechaPermiso.'.pdf');
+                        $pdf->Output('D', $nombreArchivoPermiso);
                         exit();
                         
                     } catch (Exception $e) {
