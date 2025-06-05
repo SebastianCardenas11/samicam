@@ -18,8 +18,7 @@ class DashboardModel extends Mysql
     {
         $sql = "SELECT COUNT(*) as total 
         FROM tbl_funcionarios_ops f 
-        INNER JOIN tbl_contrato c ON f.contrato_fk = c.id_contrato 
-        WHERE f.status != 0";
+        WHERE f.estado_contrato != 'Terminado'";
 
         $request = $this->select($sql);
         $total = $request['total'];

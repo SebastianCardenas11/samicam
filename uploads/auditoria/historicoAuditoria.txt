@@ -566,3 +566,13 @@
 [2025-06-04 17:32:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Auditoría
 [2025-06-04 17:33:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Ajustes de Perfil
 [2025-06-04 17:33:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.120.239.6 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-04 23:34:50] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-04 23:34:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:37:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:37:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:37:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:37:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:37:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:37:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:38:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-04 23:38:27] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
