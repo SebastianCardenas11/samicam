@@ -49,6 +49,7 @@ const MTAREAS = 11;
 const MPUBLICACIONES = 12;
 const MDEPENDENCIAS = 13;
 
+
 //Páginas
 const PINICIO = 1;
 
