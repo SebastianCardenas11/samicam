@@ -48,3 +48,13 @@
 <body class="g-sidenav-show  bg-gray-100">
   <?php require_once "nav_admin.php"; ?>
   <div class="container-fluid py-4">
+
+<?php
+if (!function_exists('getModal')) {
+    function getModal($nameModal, $data = "") {
+        $fileModal = "Views/Template/Modals/" . $nameModal . ".php";
+        if (file_exists($fileModal)) {
+            require_once($fileModal);
+        }
+    }
+}
