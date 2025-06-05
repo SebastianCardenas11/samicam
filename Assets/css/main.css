@@ -45,3 +45,22 @@
     position: relative;
     z-index: 15;
 }
+
+/* Estilos personalizados para los botones de exportación de DataTables */
+.dt-button.buttons-excel, .dt-button.buttons-excel:hover, .dt-button.buttons-excel:focus {
+    background-color: #198754 !important; /* Verde Bootstrap */
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.dt-button.buttons-pdf, .dt-button.buttons-pdf:hover, .dt-button.buttons-pdf:focus {
+    background-color: #dc3545 !important; /* Rojo Bootstrap */
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.dt-button, .dt-button:active, .dt-button:focus {
+    outline: none !important;
+}
