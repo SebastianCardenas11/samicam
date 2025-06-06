@@ -427,7 +427,7 @@
 
         public function getEstadisticasTareas()
         {
-            if($_SESSION['permisosMod']['r']){
+            if($_SESSION['permisosMod']['r'] && $_SESSION['userData']['idrol'] == 1){
                 $arrData = array();
                 $modelTareas = new TareasModel();
 
@@ -447,6 +447,8 @@
 
                 $arrData['success'] = true;
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode(array('success' => false, 'msg' => 'Acceso denegado'), JSON_UNESCAPED_UNICODE);
             }
             die();
         }

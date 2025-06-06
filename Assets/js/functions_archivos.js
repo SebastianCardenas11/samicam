@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"id"},
             {"data":"nombre"},
             {"data":"descripcion"},
+            {"data":"categoria"},
             {"data":"extension"},
             {"data":"fecha_creacion"},
             {"data":"options"}
@@ -28,6 +29,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Cargar el explorador de archivos
     cargarExplorador();
+    
+    // Cargar categorías para el filtro
+    cargarCategorias();
+    
+    // Cargar pestañas de categorías
+    cargarPestanasCategoria();
 
     // Formulario para agregar/editar archivo
     let formArchivo = document.querySelector("#formArchivo");
@@ -80,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     // Actualizar explorador después de subir archivo
                     setTimeout(function() {
                         cargarExplorador();
+                        cargarPestanasCategoria();
                     }, 1000);
                 } else {
                     Swal.fire("Error", objData.msg , "error");
@@ -99,6 +107,122 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 });
+
+function cargarCategorias() {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Archivos/getSelectCategorias';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            document.querySelector('#listCategoria').innerHTML = request.responseText;
+            document.querySelector('#listCategoriaFilter').innerHTML = '<option value="0">Todas las categorías</option>' + request.responseText;
+        }
+    }
+}
+
+function cargarPestanasCategoria() {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/CategoriasArchivos/getCategorias';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let tabsHTML = '<li class="nav-item"><a class="nav-link active" id="todos-tab" data-bs-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="true">Todos</a></li>';
+            let contentHTML = '<div class="tab-pane fade show active" id="todos" role="tabpanel" aria-labelledby="todos-tab"><div class="row mt-3" id="fileExplorer"></div></div>';
+            
+            objData.forEach(function(categoria) {
+                if(categoria.status == '<span class="badge badge-success">Activo</span>') {
+                    let idTab = 'categoria-' + categoria.id_categoria;
+                    tabsHTML += `<li class="nav-item">
+                        <a class="nav-link" id="${idTab}-tab" data-bs-toggle="tab" href="#${idTab}" role="tab" aria-controls="${idTab}" aria-selected="false">${categoria.nombre}</a>
+                    </li>`;
+                    
+                    contentHTML += `<div class="tab-pane fade" id="${idTab}" role="tabpanel" aria-labelledby="${idTab}-tab">
+                        <div class="row mt-3" id="fileExplorer-${categoria.id_categoria}"></div>
+                    </div>`;
+                }
+            });
+            
+            document.querySelector('#myTab').innerHTML = tabsHTML;
+            document.querySelector('#myTabContent').innerHTML = contentHTML;
+            
+            // Cargar archivos para cada categoría
+            cargarExplorador();
+            objData.forEach(function(categoria) {
+                if(categoria.status == '<span class="badge badge-success">Activo</span>') {
+                    cargarArchivosPorCategoria(categoria.id_categoria);
+                }
+            });
+            
+            // Inicializar eventos de las pestañas
+            let tabElems = document.querySelectorAll('a[data-bs-toggle="tab"]');
+            tabElems.forEach(function(tabElem) {
+                tabElem.addEventListener('shown.bs.tab', function (event) {
+                    let targetId = event.target.getAttribute('href').substring(1);
+                    if(targetId.startsWith('categoria-')) {
+                        let categoriaId = targetId.split('-')[1];
+                        cargarArchivosPorCategoria(categoriaId);
+                    } else if(targetId === 'todos') {
+                        cargarExplorador();
+                    }
+                });
+            });
+        }
+    }
+}
+
+function cargarArchivosPorCategoria(idCategoria) {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Archivos/getArchivosPorCategoria/'+idCategoria;
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let fileExplorer = document.querySelector('#fileExplorer-'+idCategoria);
+            let html = '';
+            
+            if(objData.length > 0) {
+                objData.forEach(function(archivo) {
+                    let icono = getIconoArchivo(archivo.extension);
+                    html += `
+                    <div class="col-md-2 col-sm-4 col-6 mb-4">
+                        <div class="card h-100 text-center">
+                            <div class="card-body">
+                                <div class="file-icon mb-3">
+                                    <i class="${icono}" style="font-size: 4rem;"></i>
+                                </div>
+                                <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                                <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            } else {
+                html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
+            }
+            
+            fileExplorer.innerHTML = html;
+        }
+    }
+}
 
 function cargarExplorador() {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -128,7 +252,7 @@ function cargarExplorador() {
                             <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
                                 <i class="bi bi-eye-fill"></i>
                             </button>
-                            <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                            <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                 <i class="bi bi-download"></i>
                             </a>
                             <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
@@ -185,6 +309,7 @@ function fntViewArchivo(idarchivo) {
                 document.querySelector("#celId").innerHTML = archivo.id;
                 document.querySelector("#celNombre").innerHTML = archivo.nombre;
                 document.querySelector("#celDescripcion").innerHTML = archivo.descripcion;
+                document.querySelector("#celCategoria").innerHTML = archivo.categoria;
                 document.querySelector("#celTipo").innerHTML = archivo.extension.toUpperCase();
                 document.querySelector("#celFecha").innerHTML = archivo.fecha_creacion;
                 
@@ -194,6 +319,7 @@ function fntViewArchivo(idarchivo) {
                 
                 // Configurar botón de descarga
                 document.querySelector("#btnDownload").setAttribute("href", rutaArchivo);
+                document.querySelector("#btnDownload").setAttribute("download", archivo.nombre + "." + archivo.extension);
                 
                 // Mostrar vista previa según tipo de archivo
                 if(['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
@@ -256,7 +382,7 @@ function fntSearchArchivo() {
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
                                     <i class="bi bi-eye-fill"></i>
                                 </button>
-                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
@@ -279,6 +405,67 @@ function fntSearchArchivo() {
     }
 }
 
+function fntFilterByCategoria() {
+    let categoriaId = document.querySelector('#listCategoriaFilter').value;
+    
+    if(categoriaId == 0) {
+        // Mostrar todos los archivos
+        tableArchivos.api().ajax.reload();
+        cargarExplorador();
+    } else {
+        // Filtrar por categoría
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Archivos/getArchivosPorCategoria/'+categoriaId;
+        request.open("GET", ajaxUrl, true);
+        request.send();
+        
+        request.onreadystatechange = function() {
+            if(request.readyState == 4 && request.status == 200) {
+                let objData = JSON.parse(request.responseText);
+                let fileExplorer = document.querySelector('#fileExplorer');
+                let html = '';
+                
+                if(objData.length > 0) {
+                    objData.forEach(function(archivo) {
+                        let icono = getIconoArchivo(archivo.extension);
+                        html += `
+                        <div class="col-md-2 col-sm-4 col-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <div class="file-icon mb-3">
+                                        <i class="${icono}" style="font-size: 4rem;"></i>
+                                    </div>
+                                    <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                    <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
+                                    <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                } else {
+                    html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
+                }
+                
+                fileExplorer.innerHTML = html;
+                
+                // Actualizar tabla
+                tableArchivos.api().clear().rows.add(objData).draw();
+            }
+        }
+    }
+}
+
 function openModal() {
     document.querySelector('#idArchivo').value = "";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
@@ -286,6 +473,10 @@ function openModal() {
     document.querySelector('#btnText').innerHTML = "Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Archivo";
     document.querySelector("#formArchivo").reset();
+    
+    // Cargar categorías
+    cargarCategorias();
+    
     $('#modalFormArchivo').modal('show');
 }
 
@@ -317,6 +508,7 @@ function fntDelArchivo(idarchivo) {
                         // Actualizar explorador después de eliminar
                         setTimeout(function() {
                             cargarExplorador();
+                            cargarPestanasCategoria();
                         }, 1000);
                     } else {
                         Swal.fire("Atención", objData.msg , "error");

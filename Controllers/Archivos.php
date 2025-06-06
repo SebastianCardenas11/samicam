@@ -42,7 +42,7 @@ class Archivos extends Controllers
                 
                 // Botón de descargar
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download title="Descargar"><i class="bi bi-download"></i></a>';
+                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
                 }
                 
                 // Botón de eliminar
@@ -51,6 +51,14 @@ class Archivos extends Controllers
                 }
                 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnDownload . ' ' . $btnDelete . '</div>';
+                
+                // Agregar nombre de categoría
+                if (!empty($arrData[$i]['id_categoria'])) {
+                    $categoria = $this->model->getCategoriaNombre($arrData[$i]['id_categoria']);
+                    $arrData[$i]['categoria'] = $categoria['nombre'];
+                } else {
+                    $arrData[$i]['categoria'] = 'Sin categoría';
+                }
             }
             
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
@@ -67,6 +75,13 @@ class Archivos extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
+                    // Obtener nombre de categoría
+                    if (!empty($arrData['id_categoria'])) {
+                        $categoria = $this->model->getCategoriaNombre($arrData['id_categoria']);
+                        $arrData['categoria'] = $categoria['nombre'];
+                    } else {
+                        $arrData['categoria'] = 'Sin categoría';
+                    }
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -85,6 +100,7 @@ class Archivos extends Controllers
                     $idArchivo = intval($_POST['idArchivo']);
                     $strNombre = strClean($_POST['txtNombre']);
                     $strDescripcion = strClean($_POST['txtDescripcion']);
+                    $intCategoria = !empty($_POST['listCategoria']) ? intval($_POST['listCategoria']) : null;
                     
                     $archivo = $_FILES['fileArchivo'];
                     $nombre_archivo = $archivo['name'];
@@ -112,12 +128,12 @@ class Archivos extends Controllers
                         
                         if ($idArchivo == 0) {
                             // Crear
-                            $request_archivo = $this->model->insertArchivo($strNombre, $strDescripcion, $nombre_archivo_nuevo, $extension);
+                            $request_archivo = $this->model->insertArchivo($strNombre, $strDescripcion, $nombre_archivo_nuevo, $extension, $intCategoria);
                             $option = 1;
                         } else {
                             // Actualizar
                             if ($_SESSION['permisosMod']['u']) {
-                                $request_archivo = $this->model->updateArchivo($idArchivo, $strNombre, $strDescripcion, $nombre_archivo_nuevo, $extension);
+                                $request_archivo = $this->model->updateArchivo($idArchivo, $strNombre, $strDescripcion, $nombre_archivo_nuevo, $extension, $intCategoria);
                                 $option = 2;
                             } else {
                                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para actualizar archivos.');
@@ -187,7 +203,7 @@ class Archivos extends Controllers
                     $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="bi bi-eye-fill"></i></button>';
                     
                     // Botón de descargar
-                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download title="Descargar"><i class="bi bi-download"></i></a>';
+                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
                     
                     // Botón de eliminar
                     if ($_SESSION['permisosMod']['d']) {
@@ -195,12 +211,70 @@ class Archivos extends Controllers
                     }
                     
                     $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnDownload . ' ' . $btnDelete . '</div>';
+                    
+                    // Agregar nombre de categoría
+                    if (!empty($arrData[$i]['id_categoria'])) {
+                        $categoria = $this->model->getCategoriaNombre($arrData[$i]['id_categoria']);
+                        $arrData[$i]['categoria'] = $categoria['nombre'];
+                    } else {
+                        $arrData[$i]['categoria'] = 'Sin categoría';
+                    }
                 }
                 
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } else {
                 echo json_encode(array(), JSON_UNESCAPED_UNICODE);
             }
+        }
+        die();
+    }
+    
+    public function getSelectCategorias()
+    {
+        $htmlOptions = "";
+        $arrData = $this->model->selectCategorias();
+        if (count($arrData) > 0) {
+            $htmlOptions .= '<option value="0">Seleccione una categoría</option>';
+            for ($i = 0; $i < count($arrData); $i++) {
+                if ($arrData[$i]['status'] == 1) {
+                    $htmlOptions .= '<option value="' . $arrData[$i]['id_categoria'] . '">' . $arrData[$i]['nombre'] . '</option>';
+                }
+            }
+        }
+        echo $htmlOptions;
+        die();
+    }
+    
+    public function getArchivosPorCategoria($idcategoria)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idcategoria = intval($idcategoria);
+            $arrData = $this->model->getArchivosPorCategoria($idcategoria);
+            
+            for ($i = 0; $i < count($arrData); $i++) {
+                $btnView = '';
+                $btnDownload = '';
+                $btnDelete = '';
+
+                // Botón de ver
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="bi bi-eye-fill"></i></button>';
+                }
+                
+                // Botón de descargar
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
+                }
+                
+                // Botón de eliminar
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelArchivo(' . $arrData[$i]['id'] . ')" title="Eliminar"><i class="bi bi-trash-fill"></i></button>';
+                }
+                
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnDownload . ' ' . $btnDelete . '</div>';
+            }
+            
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
         die();
     }

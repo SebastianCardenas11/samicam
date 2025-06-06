@@ -254,9 +254,11 @@
             <li class="nav-item">
               <a class="nav-link" id="calendario-tab" data-bs-toggle="tab" href="#calendario" role="tab" aria-controls="calendario" aria-selected="false">Calendario</a>
             </li>
+            <?php if($_SESSION['userData']['idrol'] == 1) { ?>
             <li class="nav-item">
               <a class="nav-link" id="graficos-tab" data-bs-toggle="tab" href="#graficos" role="tab" aria-controls="graficos" aria-selected="false">Gráficos</a>
             </li>
+            <?php } ?>
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="tabla" role="tabpanel" aria-labelledby="tabla-tab">
@@ -284,6 +286,7 @@
             <div class="tab-pane fade" id="calendario" role="tabpanel" aria-labelledby="calendario-tab">
               <div id="calendar" style="height: 650px;"></div>
             </div>
+            <?php if($_SESSION['userData']['idrol'] == 1) { ?>
             <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="graficos-tab">
               <div class="graficos-container">
                 <!-- Tarjetas de estadísticas -->
@@ -334,6 +337,7 @@
                 </div>
               </div>
             </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -448,12 +452,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
   });
 
-  // Inicializar cuando se hace clic en la pestaña de gráficos
+  <?php if($_SESSION['userData']['idrol'] == 1) { ?>
+  // Inicializar cuando se hace clic en la pestaña de gráficos (solo para superadmin)
   document.getElementById('graficos-tab').addEventListener('click', function() {
     setTimeout(function() {
       initCharts();
     }, 200);
   });
+  <?php } ?>
 });
 
 function initCalendar() {
