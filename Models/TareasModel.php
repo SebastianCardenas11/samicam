@@ -210,7 +210,7 @@
         // Obtener observaciones de una tarea
         public function getObservacionesTarea($id_tarea)
         {
-            $sql = "SELECT o.*, u.nombres as usuario_nombre, DATE_FORMAT(o.fecha_creacion, '%d/%m/%Y') as fecha_format
+            $sql = "SELECT o.*, u.nombres as usuario_nombre, DATE_FORMAT(o.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_format
                     FROM tbl_observaciones o
                     INNER JOIN tbl_usuarios u ON o.id_usuario = u.ideusuario
                     WHERE o.id_tarea = $id_tarea

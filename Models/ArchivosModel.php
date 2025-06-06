@@ -16,7 +16,8 @@ class ArchivosModel extends Mysql
 
     public function selectArchivos()
     {
-        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, a.fecha_creacion 
+        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
+                DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
                 ORDER BY a.id DESC";
         $request = $this->select_all($sql);
@@ -26,7 +27,8 @@ class ArchivosModel extends Mysql
     public function selectArchivo(int $idarchivo)
     {
         $this->intIdArchivo = $idarchivo;
-        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, a.fecha_creacion 
+        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
+                DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
                 WHERE a.id = $this->intIdArchivo";
         $request = $this->select($sql);
@@ -105,7 +107,8 @@ class ArchivosModel extends Mysql
 
     public function searchArchivos(string $busqueda)
     {
-        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, a.fecha_creacion 
+        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
+                DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
                 LEFT JOIN categorias_archivos c ON a.id_categoria = c.id_categoria
                 WHERE a.nombre LIKE '%$busqueda%' OR a.descripcion LIKE '%$busqueda%' OR c.nombre LIKE '%$busqueda%'
@@ -130,7 +133,8 @@ class ArchivosModel extends Mysql
     
     public function getArchivosPorCategoria(int $idcategoria)
     {
-        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, a.fecha_creacion 
+        $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
+                DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
                 WHERE a.id_categoria = $idcategoria
                 ORDER BY a.id DESC";
