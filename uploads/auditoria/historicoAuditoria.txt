@@ -680,3 +680,5 @@
 [2025-06-05 10:05:46] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-06-05 10:05:55] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
 [2025-06-05 10:16:33] ID: 1 | Usuario: Luis Carlos | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-06 01:41:57] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-06 01:41:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos

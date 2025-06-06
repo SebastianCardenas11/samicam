@@ -9,6 +9,7 @@ getModal('modalArchivos', $data);
             <h1><i class="bi bi-file-earmark"></i> <?= $data['page_title'] ?>
                 <?php if ($_SESSION['permisosMod']['w']) { ?>
                     <button class="btn btn-primary ms-5" type="button" onclick="openModal();"><i class="bi bi-plus-lg"></i> Agregar Archivo</button>
+                    <a href="<?= base_url(); ?>/categoriasarchivos" class="btn btn-warning ms-2"><i class="bi bi-folder"></i> Gestionar Categorías</a>
                 <?php } ?>
             </h1>
         </div>
@@ -31,6 +32,15 @@ getModal('modalArchivos', $data);
                                 </button>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="listCategoriaFilter">Filtrar por categoría:</label>
+                                <select class="form-control" id="listCategoriaFilter" onchange="fntFilterByCategoria()">
+                                    <option value="0">Todas las categorías</option>
+                                    <!-- Las categorías se cargarán dinámicamente -->
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered" id="tableArchivos">
@@ -39,6 +49,7 @@ getModal('modalArchivos', $data);
                                     <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
+                                    <th>Categoría</th>
                                     <th>Tipo</th>
                                     <th>Fecha</th>
                                     <th>Acciones</th>
@@ -58,8 +69,19 @@ getModal('modalArchivos', $data);
             <div class="tile">
                 <div class="tile-body">
                     <h3 class="mb-4">Explorador de Archivos</h3>
-                    <div class="row" id="fileExplorer">
-                        <!-- Los archivos se cargarán dinámicamente aquí -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="todos-tab" data-bs-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="true">Todos</a>
+                        </li>
+                        <!-- Las pestañas de categorías se cargarán dinámicamente -->
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="todos" role="tabpanel" aria-labelledby="todos-tab">
+                            <div class="row mt-3" id="fileExplorer">
+                                <!-- Los archivos se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                        <!-- El contenido de las pestañas de categorías se cargará dinámicamente -->
                     </div>
                 </div>
             </div>

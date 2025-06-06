@@ -1,24 +1,24 @@
 <!-- Modal -->
-<div class="modal fade" id="modalFormArchivo" tabindex="-1" aria-labelledby="modalFormArchivo" aria-hidden="true"
+<div class="modal fade" id="modalFormCategoria" tabindex="-1" aria-labelledby="modalFormCategoria" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
-                <h5 class="modal-title" id="titleModal">Nuevo Archivo</h5>
+                <h5 class="modal-title" id="titleModal">Nueva Categoría</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
                 <div class="tile-body">
-                    <form id="formArchivo" name="formArchivo" enctype="multipart/form-data" method="POST">
-                        <input type="hidden" id="idArchivo" name="idArchivo" value="">
+                    <form id="formCategoria" name="formCategoria" method="POST">
+                        <input type="hidden" id="idCategoria" name="idCategoria" value="">
                         <div class="modal-body">
                             <p class="text-primary">Los campos con asterisco (<span class="required text-danger">*</span>) son
                                 obligatorios.
                             </p>
                             <hr>
-                            <p class="text-primary">Datos del Archivo</p>
+                            <p class="text-primary">Datos de la Categoría</p>
                         </div>
                         <div class="modal-body">
                             <label for="txtNombre">Nombre<span class="required text-danger">*</span></label>
@@ -30,18 +30,13 @@
                             <label for="txtDescripcion">Descripción</label>
                             <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="3"></textarea>
                         </div>
-                        
-                        <div class="modal-body">
-                            <label for="listCategoria">Categoría</label>
-                            <select class="form-control" id="listCategoria" name="listCategoria">
-                                <!-- Las categorías se cargarán dinámicamente -->
-                            </select>
-                        </div>
 
                         <div class="modal-body">
-                            <label for="fileArchivo">Archivo<span class="required text-danger">*</span></label>
-                            <input type="file" class="form-control" id="fileArchivo" name="fileArchivo" required="">
-                            <small class="text-muted">Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, JPG, JPEG, PNG, GIF</small>
+                            <label for="listStatus">Estado</label>
+                            <select class="form-control" id="listStatus" name="listStatus">
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
                         </div>
 
                         <div class="modal-footer">
@@ -59,12 +54,12 @@
     </div>
 </div>
 
-<!-- Modal Ver Archivo -->
-<div class="modal fade" id="modalViewArchivo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<!-- Modal Ver Categoría -->
+<div class="modal fade" id="modalViewCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content text-dark">
       <div class="modal-header header-primary">
-        <h5 class="modal-title" id="titleModal">Detalles del Archivo</h5>
+        <h5 class="modal-title" id="titleModal">Detalles de la Categoría</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -85,29 +80,18 @@
                 <td id="celDescripcion" class="text-dark"></td>
               </tr>
               <tr>
-                <th scope="row" class="text-dark">Categoría:</th>
-                <td id="celCategoria" class="text-dark"></td>
+                <th scope="row" class="text-dark">Estado:</th>
+                <td id="celEstado" class="text-dark"></td>
               </tr>
               <tr class="bg-light">
-                <th scope="row" class="text-dark">Tipo:</th>
-                <td id="celTipo" class="text-dark"></td>
-              </tr>
-              <tr>
-                <th scope="row" class="text-dark">Fecha:</th>
-                <td id="celFecha" class="text-dark"></td>
+                <th scope="row" class="text-dark">Fecha Creación:</th>
+                <td id="celFechaCreacion" class="text-dark"></td>
               </tr>
             </tbody>
           </table>
-          
-          <div class="text-center mb-3" id="filePreview">
-            <!-- Aquí se mostrará la vista previa del archivo -->
-          </div>
         </div>
 
         <div class="modal-footer">
-          <a id="btnDownload" href="#" class="btn btn-primary" download>
-            <i class="bi bi-download"></i> Descargar
-          </a>
           <button type="button" class="btn btn-success" data-bs-dismiss="modal">
             <i class="bi bi-check2"></i> Listo
           </button>
