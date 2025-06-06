@@ -204,7 +204,7 @@ function cargarArchivosPorCategoria(idCategoria) {
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
                                     <i class="bi bi-eye-fill"></i>
                                 </button>
-                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
@@ -252,7 +252,7 @@ function cargarExplorador() {
                             <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
                                 <i class="bi bi-eye-fill"></i>
                             </button>
-                            <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                            <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                 <i class="bi bi-download"></i>
                             </a>
                             <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
@@ -319,6 +319,7 @@ function fntViewArchivo(idarchivo) {
                 
                 // Configurar botón de descarga
                 document.querySelector("#btnDownload").setAttribute("href", rutaArchivo);
+                document.querySelector("#btnDownload").setAttribute("download", archivo.nombre + "." + archivo.extension);
                 
                 // Mostrar vista previa según tipo de archivo
                 if(['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
@@ -381,7 +382,7 @@ function fntSearchArchivo() {
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
                                     <i class="bi bi-eye-fill"></i>
                                 </button>
-                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
@@ -441,7 +442,7 @@ function fntFilterByCategoria() {
                                     <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
-                                    <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download>
+                                    <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                         <i class="bi bi-download"></i>
                                     </a>
                                     <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">

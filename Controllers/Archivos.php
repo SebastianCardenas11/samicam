@@ -42,7 +42,7 @@ class Archivos extends Controllers
                 
                 // Botón de descargar
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download title="Descargar"><i class="bi bi-download"></i></a>';
+                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
                 }
                 
                 // Botón de eliminar
@@ -203,7 +203,7 @@ class Archivos extends Controllers
                     $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="bi bi-eye-fill"></i></button>';
                     
                     // Botón de descargar
-                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download title="Descargar"><i class="bi bi-download"></i></a>';
+                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
                     
                     // Botón de eliminar
                     if ($_SESSION['permisosMod']['d']) {
@@ -263,7 +263,7 @@ class Archivos extends Controllers
                 
                 // Botón de descargar
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download title="Descargar"><i class="bi bi-download"></i></a>';
+                    $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
                 }
                 
                 // Botón de eliminar
