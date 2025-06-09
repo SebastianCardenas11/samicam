@@ -35,7 +35,7 @@ CREATE TABLE `archivos` (
   `archivo` varchar(255) NOT NULL,
   `extension` varchar(10) NOT NULL,
   `fecha_creacion` datetime NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Estado del archivo: 1=activo, 0=eliminado'
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
