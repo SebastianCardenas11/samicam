@@ -168,23 +168,40 @@ class Archivos extends Controllers
 
     public function delArchivo()
     {
+        // Desactivar la salida del buffer
+        ob_clean();
+        
         if ($_POST) {
             if ($_SESSION['permisosMod']['d']) {
                 $idarchivo = intval($_POST['idArchivo']);
-                $requestDelete = $this->model->deleteArchivo($idarchivo);
-                
-                if ($requestDelete) {
-                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el archivo');
-                } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el archivo.');
+                try {
+                    $requestDelete = $this->model->deleteArchivo($idarchivo);
+                    if ($requestDelete) {
+                        $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el archivo');
+                    } else {
+                        $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el archivo.');
+                    }
+                } catch (Exception $e) {
+                    $arrResponse = array('status' => false, 'msg' => 'Error: ' . $e->getMessage());
                 }
-                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para eliminar archivos.');
-                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
+            
+            // Asegurar que no haya salida antes del JSON
+            if (ob_get_length()) ob_clean();
+            
+            // Establecer las cabeceras correctas
+            header('Content-Type: application/json');
+            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");
+            
+            // Enviar la respuesta JSON
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            exit;
         }
-        die();
+        exit;
     }
 
     public function search()

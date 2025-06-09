@@ -19,6 +19,7 @@ class ArchivosModel extends Mysql
         $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
                 DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
+                WHERE a.status = 1
                 ORDER BY a.id DESC";
         $request = $this->select_all($sql);
         return $request;
@@ -30,7 +31,7 @@ class ArchivosModel extends Mysql
         $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
                 DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
-                WHERE a.id = $this->intIdArchivo";
+                WHERE a.id = $this->intIdArchivo AND a.status = 1";
         $request = $this->select($sql);
         return $request;
     }
@@ -83,25 +84,30 @@ class ArchivosModel extends Mysql
 
     public function deleteArchivo(int $idarchivo)
     {
-        $this->intIdArchivo = $idarchivo;
-        
-        // Primero obtenemos el nombre del archivo para eliminarlo físicamente
-        $sql = "SELECT archivo FROM archivos WHERE id = $this->intIdArchivo";
-        $request = $this->select($sql);
-        
-        if (!empty($request)) {
-            $archivo = $request['archivo'];
-            $ruta_archivo = 'uploads/archivos/' . $archivo;
+        try {
+            $this->intIdArchivo = $idarchivo;
             
-            if (file_exists($ruta_archivo)) {
-                unlink($ruta_archivo);
+            // Primero verificamos si el archivo existe
+            $sql_check = "SELECT id FROM archivos WHERE id = ?";
+            $exists = $this->select($sql_check, array($this->intIdArchivo));
+            
+            if(!$exists) {
+                throw new Exception("El archivo no existe");
             }
             
-            $sql = "DELETE FROM archivos WHERE id = $this->intIdArchivo";
-            $request = $this->delete($sql);
-            return $request;
-        } else {
-            return false;
+            // Realizamos la actualización
+            $sql = "UPDATE archivos SET status = 0 WHERE id = ?";
+            $request = $this->update($sql, array($this->intIdArchivo));
+            
+            if($request === false) {
+                $error = $this->getError();
+                throw new Exception("Error en la actualización: " . $error);
+            }
+            
+            return true;
+        } catch (Exception $e) {
+            error_log("Error en deleteArchivo: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -111,7 +117,7 @@ class ArchivosModel extends Mysql
                 DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
                 LEFT JOIN categorias_archivos c ON a.id_categoria = c.id_categoria
-                WHERE a.nombre LIKE '%$busqueda%' OR a.descripcion LIKE '%$busqueda%' OR c.nombre LIKE '%$busqueda%'
+                WHERE a.status = 1 AND (a.nombre LIKE '%$busqueda%' OR a.descripcion LIKE '%$busqueda%' OR c.nombre LIKE '%$busqueda%')
                 ORDER BY a.id DESC";
         $request = $this->select_all($sql);
         return $request;
@@ -136,7 +142,7 @@ class ArchivosModel extends Mysql
         $sql = "SELECT a.id, a.id_categoria, a.nombre, a.descripcion, a.archivo, a.extension, 
                 DATE_FORMAT(a.fecha_creacion, '%d/%m/%Y %h:%i %p') as fecha_creacion 
                 FROM archivos a 
-                WHERE a.id_categoria = $idcategoria
+                WHERE a.id_categoria = $idcategoria AND a.status = 1
                 ORDER BY a.id DESC";
         $request = $this->select_all($sql);
         return $request;

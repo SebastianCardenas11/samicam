@@ -2,14 +2,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-const BASE_URL = "https://100.85.55.128:4443/samicam";
+const BASE_URL = "http://localhost/samicam";
 //Zona horaria
 
 
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = "localhost:3306";
+const DB_HOST = "localhost:3307";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
