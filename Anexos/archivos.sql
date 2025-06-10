@@ -38,16 +38,7 @@ CREATE TABLE `archivos` (
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `archivos`
---
 
-INSERT INTO `archivos` (`id`, `id_categoria`, `nombre`, `descripcion`, `archivo`, `extension`, `fecha_creacion`, `status`) VALUES
-(5, 6, 'Tecnico Ntic', 'aa', 'e563c9982e66703755e03686a4f6a8d1.pdf', 'pdf', '2025-06-08 23:02:23', 0);
-
---
--- Índices para tablas volcadas
---
 
 --
 -- Indices de la tabla `archivos`

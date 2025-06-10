@@ -2,14 +2,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-const BASE_URL = "http://localhost/samicam";
+const BASE_URL = "https://10.90.1.84:4443/samicam";
 //Zona horaria
 
 
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = "localhost:3307";
+const DB_HOST = "localhost:3306";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
@@ -51,7 +51,7 @@ const MAUDITORIA = 10;
 const MTAREAS = 11;
 const MPUBLICACIONES = 12;
 const MDEPENDENCIAS = 13;
-
+const MNOTIFICACIONES = 14;
 
 //Páginas
 const PINICIO = 1;
