@@ -510,7 +510,8 @@ class FuncionariosViaticos extends Controllers
             $pdf->Cell(80, 8, '$' . number_format($totalEliminados, 2, ',', '.'), 1, 1, 'R');
 
             // Generar el PDF
-            $pdf->Output('I', 'Reporte_Viaticos_' . $year . '.pdf');
+            $nombreArchivo = 'Reporte_Viaticos_' . $year . '.pdf';
+            $pdf->Output('D', $nombreArchivo); // 'D' fuerza la descarga del archivo
         } catch (Exception $e) {
             ob_clean(); // Limpiar el buffer
             header('Content-Type: application/json');
