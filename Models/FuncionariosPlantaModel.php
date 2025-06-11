@@ -53,54 +53,53 @@ class FuncionariosPlantaModel extends Mysql
         string $formacion,
         string $nombreformacion
     ) {
-        // Registrar los datos recibidos para depuración
-        error_log("Datos recibidos en insertFuncionario:");
-        error_log("Correo: $correo");
-        error_log("Nombre: $nombres");
-        error_log("Cargo: $cargo");
-        error_log("Dependencia: $dependencia");
-        error_log("Contrato: $contrato");
-        // Asignar los valores de los campos
-        $this->strCorreoFuncionarios = $correo;
-        $this->strNombresFuncionarios = $nombres;
-        $this->strImagen = $imagen;
-        $this->strStatusFuncionarios = $status;
-        $this->strIdentificacion = $identificacion;
-        $this->intCargo = $cargo;
-        $this->intDependencia = $dependencia;
-        $this->intContrato = $contrato;
-        $this->strCelular = $celular;
-        $this->strDireccion = $direccion;
-        $this->strFechaIngreso = $fechaIngreso;
-        $this->intHijos = $hijos;
-        $this->strNombreHijos = $nombreHijos;
-        $this->strSexo = $sexo;
-        $this->strLugarResidencia = $lugarResidencia;
-        $this->intEdad = $edad;
-        $this->strEstadoCivil = $estadoCivil;
-        $this->strReligion = $religion;
-        $this->strFormacionAcademica = $formacion;
-        $this->strNombreFormacion = $nombreformacion;
-        
-        // Verificar si ya existe el correo o la identificación en cualquiera de las tablas
-        $return = 0;
-        
-        // Verificar en tabla de funcionarios planta
-        $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
-        $request = $this->select_all($sql);
-        
-        // Si no existe en planta, verificar en tabla de funcionarios ops
-        if (empty($request)) {
-            $sql = "SELECT * FROM tbl_funcionarios_ops WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
-            $request = $this->select_all($sql);
-        }
+        try {
+            // Verificar que las claves foráneas existan
+            $sqlCargo = "SELECT idecargos FROM tbl_cargos WHERE idecargos = $cargo";
+            $requestCargo = $this->select($sqlCargo);
+            if(empty($requestCargo)) {
+                return 0;
+            }
 
-        if (empty($request)) {
-            try {
-                // Guardar la consulta en el log para depuración
-                error_log("Intentando insertar funcionario planta: " . $this->strNombresFuncionarios);
-                
-                // Consulta con prepared statements
+            $sqlDependencia = "SELECT dependencia_pk FROM tbl_dependencia WHERE dependencia_pk = $dependencia";
+            $requestDependencia = $this->select($sqlDependencia);
+            if(empty($requestDependencia)) {
+                return 0;
+            }
+
+            $sqlContrato = "SELECT id_contrato FROM tbl_contrato WHERE id_contrato = $contrato";
+            $requestContrato = $this->select($sqlContrato);
+            if(empty($requestContrato)) {
+                return 0;
+            }
+
+            // Asignar los valores
+            $this->strCorreoFuncionarios = $correo;
+            $this->strNombresFuncionarios = $nombres;
+            $this->strImagen = $imagen;
+            $this->strStatusFuncionarios = $status;
+            $this->strIdentificacion = $identificacion;
+            $this->intCargo = $cargo;
+            $this->intDependencia = $dependencia;
+            $this->intContrato = $contrato;
+            $this->strCelular = $celular;
+            $this->strDireccion = $direccion;
+            $this->strFechaIngreso = $fechaIngreso;
+            $this->intHijos = $hijos;
+            $this->strNombreHijos = $nombreHijos;
+            $this->strSexo = $sexo;
+            $this->strLugarResidencia = $lugarResidencia;
+            $this->intEdad = $edad;
+            $this->strEstadoCivil = $estadoCivil;
+            $this->strReligion = $religion;
+            $this->strFormacionAcademica = $formacion;
+            $this->strNombreFormacion = $nombreformacion;
+
+            // Verificar duplicados
+            $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
+            $request = $this->select_all($sql);
+
+            if (empty($request)) {
                 $query_insert = "INSERT INTO tbl_funcionarios_planta(
                     correo_elc, nombre_completo, imagen, nm_identificacion,
                     cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
@@ -108,7 +107,7 @@ class FuncionariosPlantaModel extends Mysql
                     edad, estado_civil, religion, formacion_academica, nombre_formacion,
                     status, periodos_vacaciones)
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)";
-                
+
                 $arrData = array(
                     $this->strCorreoFuncionarios,
                     $this->strNombresFuncionarios,
@@ -133,21 +132,17 @@ class FuncionariosPlantaModel extends Mysql
                 );
 
                 $request_insert = $this->insert($query_insert, $arrData);
-                error_log("Resultado de inserción: " . print_r($request_insert, true));
-                $return = $request_insert;
-            } catch (Exception $e) {
-                error_log("Error en insertFuncionario: " . $e->getMessage());
-                $return = 0;
-            }
-        } else {
-            // Determinar si existe por correo o por identificación
-            if (!empty($request[0]['correo_elc']) && $request[0]['correo_elc'] == $this->strCorreoFuncionarios) {
-                $return = "exist_email";
+                return $request_insert;
             } else {
-                $return = "exist_id";
+                if (!empty($request[0]['correo_elc']) && $request[0]['correo_elc'] == $this->strCorreoFuncionarios) {
+                    return "exist_email";
+                } else {
+                    return "exist_id";
+                }
             }
+        } catch (Exception $e) {
+            return 0;
         }
-        return $return;
     }
 
     public function selectFuncionarios()

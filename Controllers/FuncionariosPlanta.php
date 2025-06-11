@@ -37,16 +37,16 @@ class FuncionariosPlanta extends Controllers
 
     public function setFuncionario()
     {
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
-    
         if ($_POST) {
             if (
                 empty($_POST['txtCorreoFuncionario']) ||
                 empty($_POST['txtNombreFuncionario']) ||
-                empty($_POST['txtIdentificacionFuncionario'])
+                empty($_POST['txtIdentificacionFuncionario']) ||
+                empty($_POST['txtCargoFuncionario']) ||
+                empty($_POST['txtDependenciaFuncionario']) ||
+                empty($_POST['txtContrato'])
             ) {
-                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
+                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos. Por favor, complete todos los campos requeridos.');
             } else {
                 $intIdeFuncionario = intval($_POST['ideFuncionario']);
                 $strCorreo = strClean($_POST['txtCorreoFuncionario']);
@@ -69,12 +69,11 @@ class FuncionariosPlanta extends Controllers
                 $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
                 
-                // Manejar la imagen
                 $foto = $_FILES['foto'];
                 $nombre_foto = $foto['name'];
-                $strImagen = 'sin-imagen.png'; // Imagen por defecto
+                $strImagen = 'sin-imagen.png';
                 
-                if($nombre_foto != ''){
+                if($nombre_foto != '') {
                     $strImagen = 'func_'.md5(date('Y-m-d H:i:s')).'.jpg';
                 }
     
@@ -106,14 +105,12 @@ class FuncionariosPlanta extends Controllers
                                 $strNombreFormacion
                             );
                         } catch (Exception $e) {
-                            error_log("Error en setFuncionario: " . $e->getMessage());
                             $request = 0;
                         }
                     }
                 } else {
-                    // Para actualización, verificar si hay una nueva imagen
-                    if($nombre_foto == ''){
-                        if($_POST['foto_actual'] != '' && $_POST['foto_remove'] == 0){
+                    if($nombre_foto == '') {
+                        if($_POST['foto_actual'] != '' && $_POST['foto_remove'] == 0) {
                             $strImagen = $_POST['foto_actual'];
                         }
                     }
@@ -145,15 +142,13 @@ class FuncionariosPlanta extends Controllers
                                 $strNombreFormacion
                             );
                         } catch (Exception $e) {
-                            error_log("Error en updateFuncionario: " . $e->getMessage());
                             $request = 0;
                         }
                     }
                 }
     
                 if ($request > 0) {
-                    // Subir la imagen si existe
-                    if($nombre_foto != ''){
+                    if($nombre_foto != '') {
                         $uploadDir = 'Assets/images/funcionarios/';
                         $uploadFile = $uploadDir . $strImagen;
                         move_uploaded_file($foto['tmp_name'], $uploadFile);
@@ -169,7 +164,6 @@ class FuncionariosPlanta extends Controllers
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
             }
-    
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();

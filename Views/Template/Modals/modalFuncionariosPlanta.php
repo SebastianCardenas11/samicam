@@ -39,8 +39,18 @@
                                             <!-- Foto -->
                                             <div class="mb-3">
                                                 <label for="foto" class="form-label">Foto</label>
-                                                <input type="file" class="form-control" id="foto" name="foto"
-                                                    accept="image/jpeg,image/png">
+                                                <div class="prevPhoto">
+                                                    <span class="delPhoto notBlock">X</span>
+                                                    <label for="foto"></label>
+                                                    <div>
+                                                        <img id="img_funcionario" src="<?= media(); ?>/images/funcionarios/user.png">
+                                                    </div>
+                                                </div>
+                                                <div class="upimg">
+                                                    <input type="file" class="form-control" id="foto" name="foto"
+                                                        accept="image/jpeg,image/png">
+                                                </div>
+                                                <div id="form_alert"></div>
                                                 <input type="hidden" id="foto_actual" name="foto_actual" value="">
                                                 <input type="hidden" id="foto_remove" name="foto_remove" value="0">
                                             </div>

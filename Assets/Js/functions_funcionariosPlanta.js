@@ -237,8 +237,13 @@ document.addEventListener(
             return false;
           } else {
             contactAlert.innerHTML = '';
-            document.querySelector('#img_funcionario').src = nav.createObjectURL(this.files[0]);
-            document.querySelector('#foto_remove').value = 0;
+            const imgFuncionario = document.querySelector('#img_funcionario');
+            if (imgFuncionario) {
+              imgFuncionario.src = nav.createObjectURL(this.files[0]);
+            }
+            if (document.querySelector('#foto_remove')) {
+              document.querySelector('#foto_remove').value = 0;
+            }
           }
         }
       }
