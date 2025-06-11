@@ -9,7 +9,7 @@ document.addEventListener(
       "aProcessing": true,
       "aServerSide": true,
       "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        "url": base_url + "/Assets/js/es.json"
       },
       "ajax": {
         "url": " " + base_url + "/FuncionariosPlanta/getFuncionarios",
@@ -318,9 +318,6 @@ function fntViewInfo(idefuncionario) {
             ? '<span class="badge text-bg-success">Activo</span>'
             : '<span class="badge text-bg-danger">Inactivo</span>';
 
-        // Mostrar la imagen del funcionario
-        document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
-
         $("#modalViewFuncionario").modal("show");
       } else {
         Swal.fire("Error", objData.msg, "error");
@@ -341,56 +338,67 @@ function fntEditInfo(element, idefuncionario) {
   request.open("GET", ajaxUrl, true);
   request.send();
   request.onreadystatechange = function () {
-    if (request.readyState == 4 && request.status == 200) {
-      let objData = JSON.parse(request.responseText);
-      if (objData.status) {
-        document.querySelector("#ideFuncionario").value =
-          objData.data.idefuncionario;
-        document.querySelector("#txtCorreoFuncionario").value =
-          objData.data.correo_elc;
-        document.querySelector("#txtNombreFuncionario").value =
-          objData.data.nombre_completo;
-        document.querySelector("#txtIdentificacionFuncionario").value =
-          objData.data.nm_identificacion;
-        document.querySelector("#txtCargoFuncionario").value =
-          objData.data.cargo_fk;
-        document.querySelector("#txtDependenciaFuncionario").value =
-          objData.data.dependencia_fk;
-        document.querySelector("#txtContrato").value = objData.data.contrato_fk;
-        document.querySelector("#txtCelularFuncionario").value =
-          objData.data.celular;
-        document.querySelector("#txtDireccionFuncionario").value =
-          objData.data.direccion;
-        document.querySelector("#txtFechaIngresoFuncionario").value =
-          objData.data.fecha_ingreso;
-        document.querySelector("#txtHijosFuncionario").value =
-          objData.data.hijos;
-        document.querySelector("#txtNombresHijosFuncionario").value =
-          objData.data.nombres_de_hijos;
-        document.querySelector("#txtSexoFuncionario").value = objData.data.sexo;
-        document.querySelector("#txtLugarResidenciaFuncionario").value =
-          objData.data.lugar_de_residencia;
-        document.querySelector("#txtEdadFuncionario").value = objData.data.edad;
-        document.querySelector("#txtEstadoCivilFuncionario").value =
-          objData.data.estado_civil;
-        document.querySelector("#txtReligionFuncionario").value =
-          objData.data.religion;
-        document.querySelector("#txtFormacionFuncionario").value =
-          objData.data.formacion_academica;
-        document.querySelector("#txtNombreFormacion").value =
-          objData.data.nombre_formacion;
-        document.querySelector("#listStatus").value = objData.data.status;
-
-        // Mostrar la imagen actual
-        if (document.querySelector('#foto_actual')) {
-          document.querySelector('#foto_actual').value = objData.data.imagen;
+    if (request.readyState == 4) {
+      if (request.status == 200) {
+        try {
+          
+          let objData = JSON.parse(request.responseText);
+          if (objData.status) {
+            document.querySelector("#ideFuncionario").value =
+              objData.data.idefuncionario;
+            document.querySelector("#txtCorreoFuncionario").value =
+              objData.data.correo_elc;
+            document.querySelector("#txtNombreFuncionario").value =
+              objData.data.nombre_completo;
+            document.querySelector("#txtIdentificacionFuncionario").value =
+              objData.data.nm_identificacion;
+            document.querySelector("#txtCargoFuncionario").value =
+              objData.data.cargo_fk;
+            document.querySelector("#txtDependenciaFuncionario").value =
+              objData.data.dependencia_fk;
+            document.querySelector("#txtContrato").value = objData.data.contrato_fk;
+            document.querySelector("#txtCelularFuncionario").value =
+              objData.data.celular;
+            document.querySelector("#txtDireccionFuncionario").value =
+              objData.data.direccion;
+            document.querySelector("#txtFechaIngresoFuncionario").value =
+              objData.data.fecha_ingreso;
+            document.querySelector("#txtHijosFuncionario").value =
+              objData.data.hijos;
+            document.querySelector("#txtNombresHijosFuncionario").value =
+              objData.data.nombres_de_hijos;
+            document.querySelector("#txtSexoFuncionario").value = objData.data.sexo;
+            document.querySelector("#txtLugarResidenciaFuncionario").value =
+              objData.data.lugar_de_residencia;
+            document.querySelector("#txtEdadFuncionario").value = objData.data.edad;
+            document.querySelector("#txtEstadoCivilFuncionario").value =
+              objData.data.estado_civil;
+            document.querySelector("#txtReligionFuncionario").value =
+              objData.data.religion;
+            document.querySelector("#txtFormacionFuncionario").value =
+              objData.data.formacion_academica;
+            document.querySelector("#txtNombreFormacion").value =
+              objData.data.nombre_formacion;
+            document.querySelector("#listStatus").value = objData.data.status;
+          } else {
+            Swal.fire("Error", objData.msg, "error");
+            return;
+          }
+        } catch (error) {
+          console.error("Error al procesar la respuesta:", error);
+          if (request.responseText.includes("<!DOCTYPE html>")) {
+            Swal.fire("Error", "Tu sesión ha expirado. Por favor, recarga la página e inicia sesión nuevamente.", "error");
+          } else {
+            Swal.fire("Error", "Hubo un error al obtener los datos del funcionario", "error");
+          }
+          return;
         }
-        if (document.querySelector('#img_funcionario')) {
-          document.querySelector('#img_funcionario').src = objData.data.url_imagen;
-        }
+      } else {
+        Swal.fire("Error", "Error en la petición al servidor", "error");
+        return;
       }
+      $("#modalFormFuncionario").modal("show");
     }
-    $("#modalFormFuncionario").modal("show");
   };
 }
 

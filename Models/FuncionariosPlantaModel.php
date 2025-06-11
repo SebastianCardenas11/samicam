@@ -181,7 +181,6 @@ class FuncionariosPlantaModel extends Mysql
                 u.idefuncionario,
                 u.correo_elc,
                 u.nombre_completo,
-                u.imagen,
                 u.status,
                 u.nm_identificacion,
                 u.cargo_fk,
