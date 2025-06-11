@@ -180,5 +180,47 @@ class PublicacionesModel extends Mysql
             'publicaciones_por_dependencia' => $publicaciones_por_dependencia
         );
     }
+
+    public function updatePublicacion(int $idPublicacion, string $fechaRecibido, string $correoRecibido, 
+                                    string $asunto, string $fechaPublicacion, string $respuestaEnvio, 
+                                    string $enlacePublicacion, int $dependencia, int $status)
+    {
+        $this->intIdPublicacion = $idPublicacion;
+        $this->strFechaRecibido = $fechaRecibido;
+        $this->strCorreoRecibido = $correoRecibido;
+        $this->strAsunto = $asunto;
+        $this->strFechaPublicacion = $fechaPublicacion;
+        $this->strRespuestaEnvio = $respuestaEnvio;
+        $this->strEnlacePublicacion = $enlacePublicacion;
+        $this->intDependencia = $dependencia;
+        $this->intStatus = $status;
+
+        $sql = "UPDATE publicaciones SET 
+                fecha_recibido = ?, 
+                correo_recibido = ?, 
+                asunto = ?,
+                nombre_publicacion = ?, 
+                fecha_publicacion = ?, 
+                respuesta_envio = ?, 
+                enlace_publicacion = ?, 
+                dependencia_fk = ?, 
+                status = ? 
+                WHERE id_publicacion = $this->intIdPublicacion";
+        
+        $arrData = array(
+            $this->strFechaRecibido,
+            $this->strCorreoRecibido,
+            $this->strAsunto,
+            $this->strAsunto, // Usando el asunto como nombre de publicación
+            $this->strFechaPublicacion,
+            $this->strRespuestaEnvio,
+            $this->strEnlacePublicacion,
+            $this->intDependencia,
+            $this->intStatus
+        );
+
+        $request = $this->update($sql, $arrData);
+        return $request;
+    }
 }
 ?>

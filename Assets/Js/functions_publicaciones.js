@@ -142,12 +142,49 @@ function initializeTable() {
 }
 
 function openModal() {
-    document.querySelector('#idPublicacion').value ="";
+    document.querySelector('#idPublicacion').value = "";
     document.querySelector('.modal-title').innerHTML = "Nueva Publicación";
     document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
     document.querySelector('#btnText').innerHTML = "Guardar";
     document.querySelector('#formPublicacion').reset();
     $('#modalFormPublicaciones').modal('show');
+}
+
+function fntEditInfo(idpublicacion) {
+    document.querySelector('#titleModal').innerHTML = "Actualizar Publicación";
+    document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
+    document.querySelector('#btnText').innerHTML = "Actualizar";
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Publicaciones/getPublicacion/'+idpublicacion;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status) {
+                    document.querySelector("#idPublicacion").value = objData.data.id_publicacion;
+                    document.querySelector("#txtNombrePublicacion").value = objData.data.nombre_publicacion;
+                    document.querySelector("#txtFechaRecibido").value = objData.data.fecha_recibido;
+                    document.querySelector("#txtCorreoRecibido").value = objData.data.correo_recibido;
+                    document.querySelector("#txtAsunto").value = objData.data.asunto;
+                    document.querySelector("#listDependencia").value = objData.data.dependencia_fk;
+                    document.querySelector("#txtFechaPublicacion").value = objData.data.fecha_publicacion;
+                    document.querySelector("#listRespuestaEnvio").value = objData.data.respuesta_envio;
+                    document.querySelector("#txtEnlacePublicacion").value = objData.data.enlace_publicacion;
+                    document.querySelector("#listStatus").value = objData.data.status;
+
+                    $('#modalFormPublicaciones').modal('show');
+                } else {
+                    Swal.fire("Error", objData.msg, "error");
+                }
+            } catch (e) {
+                console.error("Error al parsear JSON:", request.responseText);
+                Swal.fire("Error", "Ocurrió un error en el servidor", "error");
+            }
+        }
+    }
 }
 
 function fntViewInfo(idpublicacion) {
