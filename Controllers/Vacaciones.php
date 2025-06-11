@@ -36,15 +36,6 @@ class Vacaciones extends Controllers
                 $btnVacaciones = '';
                 $btnHistorial = '';
 
-                // Agregar imagen del funcionario
-                $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
-                // Verificar si existe la imagen
-                $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
-                if(!file_exists($rutaImagen)){
-                    $urlImagen = media().'/images/sin-imagen.png';
-                }
-                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
-
                 if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
                 }
@@ -72,14 +63,6 @@ class Vacaciones extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
-                    // Agregar URL de la imagen
-                    $urlImagen = media().'/images/funcionarios/'.$arrData['imagen'];
-                    // Verificar si existe la imagen
-                    $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
-                    if(!file_exists($rutaImagen)){
-                        $urlImagen = media().'/images/sin-imagen.png';
-                    }
-                    $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

@@ -22,7 +22,6 @@ class VacacionesModel extends Mysql
         $sql = "SELECT DISTINCT
             u.idefuncionario,
             u.nombre_completo,
-            u.imagen,
             u.nm_identificacion,
             c.nombre AS cargo_nombre,
             d.nombre AS dependencia_nombre,
@@ -46,7 +45,6 @@ class VacacionesModel extends Mysql
         $sql = "SELECT 
             u.idefuncionario,
             u.nombre_completo,
-            u.imagen,
             u.nm_identificacion,
             c.nombre AS cargo_nombre,
             d.nombre AS dependencia_nombre,

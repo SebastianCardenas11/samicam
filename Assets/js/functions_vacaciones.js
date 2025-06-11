@@ -14,7 +14,6 @@ document.addEventListener(
             "dataSrc": ""
         },
         "columns": [
-            { "data": "imagen" },
             { "data": "nombre_completo" },
             { "data": "nm_identificacion" },
             { "data": "cargo_nombre" },
