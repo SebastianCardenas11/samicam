@@ -228,53 +228,83 @@ class FuncionariosPermisos extends Controllers
                 // Limpiar cualquier salida anterior
                 if (ob_get_length()) ob_clean();
                 
-                // Crear nuevo documento PDF
-                $pdf = new FPDF('P', 'mm', 'A4');
+                // Incluir FPDI
+                require_once 'vendor/setasign/fpdi/src/autoload.php';
                 
-                // Agregar una página
+                // Crear instancia de FPDI
+                $pdf = new \setasign\Fpdi\Fpdi();
+                
+                // Ruta a la plantilla
+                $templatePath = 'Assets/plantillas/plantilla_historial_permiso.pdf';
+                if (!file_exists($templatePath)) {
+                    throw new Exception("No se encontró la plantilla del historial de permisos");
+                }
+                
+                // Agregar la página de la plantilla
+                $pdf->setSourceFile($templatePath);
+                $tplIdx = $pdf->importPage(1);
+                
+                // Agregar página
                 $pdf->AddPage();
+                $pdf->useTemplate($tplIdx);
                 
-                // Configurar fuentes
-                $pdf->SetFont('Arial', 'B', 16);
+                // Configurar fuente
+                $pdf->SetFont('Arial', '', 11);
                 
-                // Título
-                $pdf->Cell(0, 10, mb_convert_encoding('Historial de Permisos', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
-                $pdf->Ln(5);
+                // Tabla de información del funcionario
+                $startY = 55;
+                $pdf->SetXY(20, $startY);
                 
-                // Información del funcionario
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(0, 10, mb_convert_encoding('Información del Funcionario', 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
+                // Estilo para encabezados de la tabla
+                $pdf->SetFillColor(230, 230, 230);
+                $pdf->SetFont('Arial', 'B', 10);
                 
+                // Nombre
+                $pdf->Cell(40, 8, mb_convert_encoding('Nombre:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
                 $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(130, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'L');
                 
-                // Datos del funcionario
-                $pdf->Cell(40, 8, 'Nombre:', 1);
-                $pdf->Cell(150, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1);
+                // Identificación
+                $pdf->SetX(20);
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(40, 8, mb_convert_encoding('Identificación:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(130, 8, $funcionario['nm_identificacion'], 1, 1, 'L');
                 
-                $pdf->Cell(40, 8, mb_convert_encoding('Identificación:', 'ISO-8859-1', 'UTF-8'), 1);
-                $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
+                // Cargo
+                $pdf->SetX(20);
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(40, 8, mb_convert_encoding('Cargo:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(130, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'L');
                 
-                $pdf->Cell(40, 8, 'Cargo:', 1);
-                $pdf->Cell(150, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
+                // Dependencia
+                $pdf->SetX(20);
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(40, 8, mb_convert_encoding('Dependencia:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(130, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'L');
                 
-                $pdf->Cell(40, 8, 'Dependencia:', 1);
-                $pdf->Cell(150, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
+                // Permisos del mes
+                $pdf->SetX(20);
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(40, 8, mb_convert_encoding('Permisos:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(130, 8, $funcionario['permisos_mes_actual'] . '/3', 1, 1, 'L');
                 
-                $pdf->Cell(40, 8, 'Permisos mes actual:', 1);
-                $pdf->Cell(150, 8, $funcionario['permisos_mes_actual'] . '/3', 1, 1);
-                
+                // Espacio entre tablas
                 $pdf->Ln(10);
                 
-                // Historial de permisos
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(0, 10, 'Registro de Permisos', 0, 1, 'L');
+                // Posición inicial para la tabla de historial
+                $pdf->SetXY(20, $pdf->GetY());
                 
                 if (!empty($historial)) {
-                    // Encabezados de la tabla
+                    // Encabezados de la tabla de historial
                     $pdf->SetFont('Arial', 'B', 10);
-                    $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C');
-                    $pdf->Cell(100, 8, 'Motivo', 1, 0, 'C');
-                    $pdf->Cell(50, 8, 'Estado', 1, 1, 'C');
+                    $pdf->SetFillColor(230, 230, 230);
+                    $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
+                    $pdf->Cell(90, 8, 'Motivo', 1, 0, 'C', true);
+                    $pdf->Cell(40, 8, 'Estado', 1, 1, 'C', true);
                     
                     // Datos de la tabla
                     $pdf->SetFont('Arial', '', 10);
@@ -282,12 +312,25 @@ class FuncionariosPermisos extends Controllers
                         $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
                         
                         $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
-                        $pdf->Cell(100, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
-                        $pdf->Cell(50, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
+                        $pdf->Cell(90, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
+                        $pdf->Cell(40, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
+                        
+                        // Si la tabla llega al final de la página, agregar una nueva
+                        if($pdf->GetY() > 250) {
+                            $pdf->AddPage();
+                            $pdf->useTemplate($tplIdx);
+                            $pdf->SetFont('Arial', 'B', 10);
+                            $pdf->SetXY(20, 30);
+                            $pdf->SetFillColor(230, 230, 230);
+                            $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
+                            $pdf->Cell(90, 8, 'Motivo', 1, 0, 'C', true);
+                            $pdf->Cell(40, 8, 'Estado', 1, 1, 'C', true);
+                            $pdf->SetFont('Arial', '', 10);
+                        }
                     }
                 } else {
                     $pdf->SetFont('Arial', '', 10);
-                    $pdf->Cell(0, 10, 'No hay registros de permisos para este funcionario.', 0, 1, 'L');
+                    $pdf->Cell(0, 10, 'No hay registros de permisos para este funcionario.', 0, 1, 'C');
                 }
                 
                 // Asegurarse de que no haya salida antes del PDF
