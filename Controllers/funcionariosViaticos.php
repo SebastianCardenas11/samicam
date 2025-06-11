@@ -291,7 +291,7 @@ class FuncionariosViaticos extends Controllers
             $pdf = new Fpdi();
             
             // Agregar la plantilla
-            $template = dirname(__DIR__) . '/Assets/plantillas/plantilla_historial_permiso.pdf';
+            $template = dirname(__DIR__) . '/Assets/plantillas/plantilla_viaticos.pdf';
             $pageCount = $pdf->setSourceFile($template);
             $tplIdx = $pdf->importPage(1);
             $pdf->AddPage();
@@ -303,56 +303,56 @@ class FuncionariosViaticos extends Controllers
 
             // Título
             $pdf->SetXY(20, 20);
-            $pdf->Cell(170, 10, 'ALCALDÍA DE LA JAGUA DE IBIRICO', 0, 1, 'C');
+            $pdf->Cell(170, 10, mb_convert_encoding('ALCALDÍA DE LA JAGUA DE IBIRICO', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
             $pdf->SetXY(20, 30);
-            $pdf->Cell(170, 10, 'SOLICITUD DE LIQUIDACIÓN DE VIÁTICOS', 0, 1, 'C');
+            $pdf->Cell(170, 10, mb_convert_encoding('SOLICITUD DE LIQUIDACIÓN DE VIÁTICOS', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 
             // Fecha y Hora
             $pdf->SetFont('Helvetica', '', 10);
             $pdf->SetXY(20, 45);
-            $pdf->Cell(30, 6, 'Fecha', 1, 0);
+            $pdf->Cell(30, 6, mb_convert_encoding('Fecha', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(15, 6, date('d', strtotime($viatico['fecha_aprobacion'])), 1, 0, 'C');
             $pdf->Cell(15, 6, date('m', strtotime($viatico['fecha_aprobacion'])), 1, 0, 'C');
             $pdf->Cell(20, 6, date('Y', strtotime($viatico['fecha_aprobacion'])), 1, 0, 'C');
-            $pdf->Cell(20, 6, 'Hora', 1, 0);
+            $pdf->Cell(20, 6, mb_convert_encoding('Hora', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(30, 6, date('H:i'), 1, 1, 'C');
 
             // Datos del empleado
             $pdf->SetXY(20, 55);
-            $pdf->Cell(50, 6, 'Nombre del empleado:', 1, 0);
-            $pdf->Cell(120, 6, $viatico['nombre_completo'], 1, 1);
+            $pdf->Cell(50, 6, mb_convert_encoding('Nombre del empleado:', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(120, 6, mb_convert_encoding($viatico['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1);
 
             $pdf->SetXY(20, 61);
-            $pdf->Cell(50, 6, 'Cargo:', 1, 0);
-            $pdf->Cell(120, 6, $viatico['cargo'], 1, 1);
+            $pdf->Cell(50, 6, mb_convert_encoding('Cargo:', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(120, 6, mb_convert_encoding($viatico['cargo'], 'ISO-8859-1', 'UTF-8'), 1, 1);
 
             $pdf->SetXY(20, 67);
-            $pdf->Cell(50, 6, 'Dependencia:', 1, 0);
-            $pdf->Cell(120, 6, $viatico['dependencia'], 1, 1);
+            $pdf->Cell(50, 6, mb_convert_encoding('Dependencia:', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(120, 6, mb_convert_encoding($viatico['dependencia'], 'ISO-8859-1', 'UTF-8'), 1, 1);
 
             // Detalles de la comisión
             $pdf->SetXY(20, 77);
-            $pdf->Cell(50, 6, 'Motivo del gasto:', 1, 0);
-            $pdf->Cell(120, 6, 'VIÁTICOS', 1, 1);
+            $pdf->Cell(50, 6, mb_convert_encoding('Motivo del gasto:', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(120, 6, mb_convert_encoding('VIÁTICOS', 'ISO-8859-1', 'UTF-8'), 1, 1);
 
             $pdf->SetXY(20, 83);
-            $pdf->Cell(50, 6, 'Desde:', 1, 0);
+            $pdf->Cell(50, 6, mb_convert_encoding('Desde:', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(50, 6, date('d/m/Y', strtotime($viatico['fecha_salida'])), 1, 0, 'C');
-            $pdf->Cell(20, 6, 'Hasta:', 1, 0);
+            $pdf->Cell(20, 6, mb_convert_encoding('Hasta:', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(50, 6, date('d/m/Y', strtotime($viatico['fecha_regreso'])), 1, 1, 'C');
 
             $pdf->SetXY(20, 89);
-            $pdf->Cell(50, 6, 'Lugar comisión:', 1, 0);
-            $pdf->Cell(120, 6, $viatico['uso'], 1, 1);
+            $pdf->Cell(50, 6, mb_convert_encoding('Lugar comisión:', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(120, 6, mb_convert_encoding($viatico['uso'], 'ISO-8859-1', 'UTF-8'), 1, 1);
 
             $pdf->SetXY(20, 95);
-            $pdf->Cell(50, 6, 'Finalidad:', 1, 0);
-            $pdf->MultiCell(120, 6, $viatico['descripcion'], 1);
+            $pdf->Cell(50, 6, mb_convert_encoding('Finalidad:', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->MultiCell(120, 6, mb_convert_encoding($viatico['descripcion'], 'ISO-8859-1', 'UTF-8'), 1);
 
             // Liquidación de viáticos
             $pdf->SetXY(20, 107);
             $pdf->SetFont('Helvetica', 'B', 10);
-            $pdf->Cell(170, 6, 'LIQUIDACIÓN DE VIÁTICOS', 1, 1, 'C');
+            $pdf->Cell(170, 6, mb_convert_encoding('LIQUIDACIÓN DE VIÁTICOS', 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
 
             // Calcular días
             $fecha1 = new DateTime($viatico['fecha_salida']);
@@ -364,13 +364,13 @@ class FuncionariosViaticos extends Controllers
             // Tabla de liquidación
             $pdf->SetXY(20, 113);
             $pdf->SetFont('Helvetica', '', 10);
-            $pdf->Cell(40, 6, 'Concepto', 1, 0);
-            $pdf->Cell(20, 6, 'Días', 1, 0, 'C');
-            $pdf->Cell(55, 6, 'Valor día', 1, 0, 'C');
+            $pdf->Cell(40, 6, mb_convert_encoding('Concepto', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(20, 6, mb_convert_encoding('Días', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C');
+            $pdf->Cell(55, 6, mb_convert_encoding('Valor día', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C');
             $pdf->Cell(55, 6, 'Total', 1, 1, 'C');
 
             $pdf->SetXY(20, 119);
-            $pdf->Cell(40, 6, 'Viáticos', 1, 0);
+            $pdf->Cell(40, 6, mb_convert_encoding('Viáticos', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(20, 6, $dias, 1, 0, 'C');
             $pdf->Cell(55, 6, '$ ' . number_format($valorDia, 2, ',', '.'), 1, 0, 'R');
             $pdf->Cell(55, 6, '$ ' . number_format($viatico['monto'], 2, ',', '.'), 1, 1, 'R');
@@ -378,23 +378,23 @@ class FuncionariosViaticos extends Controllers
             // Transporte
             $pdf->SetXY(20, 129);
             $pdf->SetFont('Helvetica', 'B', 10);
-            $pdf->Cell(170, 6, 'TRANSPORTE', 1, 1, 'C');
+            $pdf->Cell(170, 6, mb_convert_encoding('TRANSPORTE', 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
 
             $pdf->SetFont('Helvetica', '', 10);
             $pdf->SetXY(20, 135);
             $pdf->Cell(40, 6, 'Tipo', 1, 0);
-            $pdf->Cell(45, 6, 'Desde', 1, 0);
-            $pdf->Cell(45, 6, 'Hasta', 1, 0);
+            $pdf->Cell(45, 6, mb_convert_encoding('Desde', 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(45, 6, mb_convert_encoding('Hasta', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(40, 6, 'Valor', 1, 1);
 
             $pdf->SetXY(20, 141);
             $pdf->Cell(40, 6, 'Interno', 1, 0);
-            $pdf->Cell(45, 6, $viatico['uso'], 1, 0);
-            $pdf->Cell(45, 6, $viatico['uso'], 1, 0);
+            $pdf->Cell(45, 6, mb_convert_encoding($viatico['uso'], 'ISO-8859-1', 'UTF-8'), 1, 0);
+            $pdf->Cell(45, 6, mb_convert_encoding($viatico['uso'], 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(40, 6, '$ 0,00', 1, 1, 'R');
 
             $pdf->SetXY(20, 147);
-            $pdf->Cell(40, 6, 'Aéreo', 1, 0);
+            $pdf->Cell(40, 6, mb_convert_encoding('Aéreo', 'ISO-8859-1', 'UTF-8'), 1, 0);
             $pdf->Cell(45, 6, 'N/A', 1, 0);
             $pdf->Cell(45, 6, 'N/A', 1, 0);
             $pdf->Cell(40, 6, '$ 0,00', 1, 1, 'R');
@@ -402,26 +402,18 @@ class FuncionariosViaticos extends Controllers
             // Total general
             $pdf->SetXY(20, 157);
             $pdf->SetFont('Helvetica', 'B', 10);
-            $pdf->Cell(130, 6, 'TOTAL VALOR VIÁTICOS', 1, 0, 'R');
+            $pdf->Cell(130, 6, mb_convert_encoding('TOTAL VALOR VIÁTICOS', 'ISO-8859-1', 'UTF-8'), 1, 0, 'R');
             $pdf->Cell(40, 6, '$ ' . number_format($viatico['monto'], 2, ',', '.'), 1, 1, 'R');
 
             // Firmas
             $pdf->SetY(180);
-            $pdf->Cell(85, 6, 'Alcalde Municipal', 'T', 0, 'C');
-            $pdf->Cell(85, 6, 'Firma del Empleado', 'T', 1, 'C');
+            $pdf->Cell(85, 6, mb_convert_encoding('Alcalde Municipal', 'ISO-8859-1', 'UTF-8'), 'T', 0, 'C');
+            $pdf->Cell(85, 6, mb_convert_encoding('Firma del Empleado', 'ISO-8859-1', 'UTF-8'), 'T', 1, 'C');
 
             $pdf->SetY(200);
-            $pdf->Cell(56, 6, 'Jefe Inmediato', 'T', 0, 'C');
-            $pdf->Cell(57, 6, 'Talento Humano', 'T', 0, 'C');
+            $pdf->Cell(56, 6, mb_convert_encoding('Jefe Inmediato', 'ISO-8859-1', 'UTF-8'), 'T', 0, 'C');
+            $pdf->Cell(57, 6, mb_convert_encoding('Talento Humano', 'ISO-8859-1', 'UTF-8'), 'T', 0, 'C');
             $pdf->Cell(57, 6, date('d/m/Y', strtotime($viatico['fecha_aprobacion'])), 'T', 1, 'C');
-
-            // Pie de página
-            $pdf->SetY(-40);
-            $pdf->SetFont('Helvetica', '', 8);
-            $pdf->Cell(85, 4, 'Proyectó: ' . $viatico['nombre_completo'], 0, 1);
-            $pdf->Cell(85, 4, 'Revisó: Talento Humano', 0, 1);
-            $pdf->Cell(170, 4, 'Calle 5 No. 5-36 - Los Juegos del Bicentenario - Cesar', 0, 1);
-            $pdf->Cell(170, 4, 'contacto@lajaguadeibirico-cesar.gov.co', 0, 1);
 
             // Configurar headers para la descarga
             header('Content-Type: application/pdf');
