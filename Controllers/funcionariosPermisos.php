@@ -339,17 +339,33 @@ class FuncionariosPermisos extends Controllers
                 }
                 
                 // Configurar encabezados para forzar la descarga
-                $nombreArchivo = 'Historial_Permisos_'.str_replace(' ', '_', $funcionario['nombre_completo']).'.pdf';
-                header('Content-Type: application/pdf');
-                header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
-                header('Pragma: public');
-                header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-                header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-                header('Content-Disposition: attachment; filename="'.basename($nombreArchivo).'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivo));
+                $nombreFuncionario = $funcionario['nombre_completo'];
+                $caracteres_especiales = array(
+                    'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+                    'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U',
+                    'ñ' => 'n', 'Ñ' => 'N', 'ü' => 'u', 'Ü' => 'U'
+                );
                 
-                // Generar el PDF
-                $pdf->Output('D', $nombreArchivo);
-                exit();
+                $nombreFuncionario = str_replace(array_keys($caracteres_especiales), array_values($caracteres_especiales), $nombreFuncionario);
+                $nombreFuncionario = str_replace(' ', '_', $nombreFuncionario);
+                $nombreFuncionario = preg_replace('/[^a-zA-Z0-9_-]/', '', $nombreFuncionario);
+                $nombreArchivo = 'Historial_Permisos_' . $nombreFuncionario . '.pdf';
+                
+                try {
+                    header('Content-Type: application/pdf');
+                    header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+                    header('Pragma: public');
+                    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+                    header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                    header('Content-Disposition: attachment; filename="' . $nombreArchivo . '"');
+                    
+                    // Generar el PDF
+                    $pdf->Output('D', $nombreArchivo);
+                    exit();
+                } catch (Exception $e) {
+                    error_log("Error al generar el PDF: " . $e->getMessage());
+                    throw new Exception("Error al generar el PDF: " . $e->getMessage());
+                }
                 
             } catch (Exception $e) {
                 error_log("Error generando PDF: " . $e->getMessage());
