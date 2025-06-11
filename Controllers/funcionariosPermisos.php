@@ -6,7 +6,7 @@ require_once 'vendor/setasign/fpdi/src/autoload.php';
 use setasign\Fpdi\Fpdi;
 
 class FuncionariosPermisos extends Controllers
-{
+{	
     public function __construct()
     {
         parent::__construct();
@@ -208,113 +208,112 @@ class FuncionariosPermisos extends Controllers
     
     public function generarPDF($params)
     {
-        if ($_SESSION['permisosMod']['r']) {
-            if (isset($params) && is_numeric($params)) {
-                $idFuncionario = intval($params);
-                
-                try {
-                    // Obtener datos del funcionario
-                    $funcionario = $this->model->selectFuncionario($idFuncionario);
-                    if (empty($funcionario)) {
-                        throw new Exception("Funcionario no encontrado");
-                    }
-                    
-                    // Obtener historial de permisos
-                    $historial = $this->model->getHistorialPermisos($idFuncionario);
-                    
-                    // Limpiar cualquier salida anterior
-                    if (ob_get_length()) ob_clean();
-                    
-                    // Crear nuevo documento PDF
-                    $pdf = new FPDF('P', 'mm', 'A4');
-                    
-                    // Agregar una página
-                    $pdf->AddPage();
-                    
-                    // Configurar fuentes
-                    $pdf->SetFont('Arial', 'B', 16);
-                    
-                    // Título
-                    $pdf->Cell(0, 10, mb_convert_encoding('Historial de Permisos', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
-                    $pdf->Ln(5);
-                    
-                    // Información del funcionario
-                    $pdf->SetFont('Arial', 'B', 12);
-                    $pdf->Cell(0, 10, mb_convert_encoding('Información del Funcionario', 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
-                    
-                    $pdf->SetFont('Arial', '', 10);
-                    
-                    // Datos del funcionario
-                    $pdf->Cell(40, 8, 'Nombre:', 1);
-                    $pdf->Cell(150, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1);
-                    
-                    $pdf->Cell(40, 8, mb_convert_encoding('Identificación:', 'ISO-8859-1', 'UTF-8'), 1);
-                    $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
-                    
-                    $pdf->Cell(40, 8, 'Cargo:', 1);
-                    $pdf->Cell(150, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
-                    
-                    $pdf->Cell(40, 8, 'Dependencia:', 1);
-                    $pdf->Cell(150, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
-                    
-                    $pdf->Cell(40, 8, 'Permisos mes actual:', 1);
-                    $pdf->Cell(150, 8, $funcionario['permisos_mes_actual'] . '/3', 1, 1);
-                    
-                    $pdf->Ln(10);
-                    
-                    // Historial de permisos
-                    $pdf->SetFont('Arial', 'B', 12);
-                    $pdf->Cell(0, 10, 'Registro de Permisos', 0, 1, 'L');
-                    
-                    if (!empty($historial)) {
-                        // Encabezados de la tabla
-                        $pdf->SetFont('Arial', 'B', 10);
-                        $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C');
-                        $pdf->Cell(100, 8, 'Motivo', 1, 0, 'C');
-                        $pdf->Cell(50, 8, 'Estado', 1, 1, 'C');
-                        
-                        // Datos de la tabla
-                        $pdf->SetFont('Arial', '', 10);
-                        foreach ($historial as $item) {
-                            $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
-                            
-                            $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
-                            $pdf->Cell(100, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
-                            $pdf->Cell(50, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
-                        }
-                    } else {
-                        $pdf->SetFont('Arial', '', 10);
-                        $pdf->Cell(0, 10, 'No hay registros de permisos para este funcionario.', 0, 1, 'L');
-                    }
-                    
-                    // Asegurarse de que no haya salida antes del PDF
-                    while (ob_get_level()) {
-                        ob_end_clean();
-                    }
-                    
-                    // Configurar encabezados para forzar la descarga
-                    $nombreArchivo = 'Historial_Permisos_'.str_replace(' ', '_', $funcionario['nombre_completo']).'.pdf';
-                    header('Content-Type: application/pdf');
-                    header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
-                    header('Pragma: public');
-                    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-                    header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-                    header('Content-Disposition: attachment; filename="'.basename(
-                        $nombreArchivo
-                    ).'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivo));
-                    // Generar el PDF
-                    $pdf->Output('D', $nombreArchivo);
-                    exit();
-                    
-                } catch (Exception $e) {
-                    error_log("Error generando PDF: " . $e->getMessage());
-                    echo "Error al generar el PDF: " . $e->getMessage();
+        if (!$_SESSION['permisosMod']['r']) {
+            return;
+        }
+        
+        if (isset($params) && is_numeric($params)) {
+            $idFuncionario = intval($params);
+            
+            try {
+                // Obtener datos del funcionario
+                $funcionario = $this->model->selectFuncionario($idFuncionario);
+                if (empty($funcionario)) {
+                    throw new Exception("Funcionario no encontrado");
                 }
-            } else {
-                echo "Parámetro inválido";
+                
+                // Obtener historial de permisos
+                $historial = $this->model->getHistorialPermisos($idFuncionario);
+                
+                // Limpiar cualquier salida anterior
+                if (ob_get_length()) ob_clean();
+                
+                // Crear nuevo documento PDF
+                $pdf = new FPDF('P', 'mm', 'A4');
+                
+                // Agregar una página
+                $pdf->AddPage();
+                
+                // Configurar fuentes
+                $pdf->SetFont('Arial', 'B', 16);
+                
+                // Título
+                $pdf->Cell(0, 10, mb_convert_encoding('Historial de Permisos', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+                $pdf->Ln(5);
+                
+                // Información del funcionario
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(0, 10, mb_convert_encoding('Información del Funcionario', 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
+                
+                $pdf->SetFont('Arial', '', 10);
+                
+                // Datos del funcionario
+                $pdf->Cell(40, 8, 'Nombre:', 1);
+                $pdf->Cell(150, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1);
+                
+                $pdf->Cell(40, 8, mb_convert_encoding('Identificación:', 'ISO-8859-1', 'UTF-8'), 1);
+                $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
+                
+                $pdf->Cell(40, 8, 'Cargo:', 1);
+                $pdf->Cell(150, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
+                
+                $pdf->Cell(40, 8, 'Dependencia:', 1);
+                $pdf->Cell(150, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
+                
+                $pdf->Cell(40, 8, 'Permisos mes actual:', 1);
+                $pdf->Cell(150, 8, $funcionario['permisos_mes_actual'] . '/3', 1, 1);
+                
+                $pdf->Ln(10);
+                
+                // Historial de permisos
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->Cell(0, 10, 'Registro de Permisos', 0, 1, 'L');
+                
+                if (!empty($historial)) {
+                    // Encabezados de la tabla
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C');
+                    $pdf->Cell(100, 8, 'Motivo', 1, 0, 'C');
+                    $pdf->Cell(50, 8, 'Estado', 1, 1, 'C');
+                    
+                    // Datos de la tabla
+                    $pdf->SetFont('Arial', '', 10);
+                    foreach ($historial as $item) {
+                        $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
+                        
+                        $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
+                        $pdf->Cell(100, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
+                        $pdf->Cell(50, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
+                    }
+                } else {
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(0, 10, 'No hay registros de permisos para este funcionario.', 0, 1, 'L');
+                }
+                
+                // Asegurarse de que no haya salida antes del PDF
+                while (ob_get_level()) {
+                    ob_end_clean();
+                }
+                
+                // Configurar encabezados para forzar la descarga
+                $nombreArchivo = 'Historial_Permisos_'.str_replace(' ', '_', $funcionario['nombre_completo']).'.pdf';
+                header('Content-Type: application/pdf');
+                header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+                header('Pragma: public');
+                header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+                header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                header('Content-Disposition: attachment; filename="'.basename($nombreArchivo).'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivo));
+                
+                // Generar el PDF
+                $pdf->Output('D', $nombreArchivo);
+                exit();
+                
+            } catch (Exception $e) {
+                error_log("Error generando PDF: " . $e->getMessage());
+                echo "Error al generar el PDF: " . $e->getMessage();
             }
         } else {
-            header("Location:".base_url().'/dashboard');
+            echo "Parámetro inválido";
         }
         die();
     }
@@ -353,67 +352,62 @@ class FuncionariosPermisos extends Controllers
                         throw new Exception("No se encontró la plantilla del permiso");
                     }
                     
-                    try {
-                        // Agregar la página de la plantilla
-                        $pdf->setSourceFile($templatePath);
-                        $tplIdx = $pdf->importPage(1);
-                        
-                        // Agregar página
-                        $pdf->AddPage();
-                        $pdf->useTemplate($tplIdx);
-                        
-                        // Configurar fuente
-                        $pdf->SetFont('Arial', '', 11);
-                        
-                        // Nombre del funcionario
-                        $pdf->SetXY(60, 75);
-                        $pdf->Cell(140, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 0, 1);
-                        
-                        // Identificación
-                        $pdf->SetXY(60, 83);
-                        $pdf->Cell(140, 8, $funcionario['nm_identificacion'], 0, 1);
-                        
-                        // Cargo
-                        $pdf->SetXY(60, 91);
-                        $pdf->Cell(140, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
-                        
-                        // Dependencia
-                        $pdf->SetXY(60, 99);
-                        $pdf->Cell(140, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
-                        
-                        // Fecha del permiso
-                        $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
-                        $pdf->SetXY(60, 137);
-                        $pdf->Cell(140, 8, $fechaPermiso, 0, 1);
-                        
-                        // Motivo del permiso
-                        $pdf->SetXY(60, 146);
-                        $pdf->MultiCell(130, 8, mb_convert_encoding($permiso['motivo'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
-                        
-                        // Asegurarse de que no haya salida antes del PDF
-                        while (ob_get_level()) {
-                            ob_end_clean();
-                        }
-                        
-                        // Configurar encabezados para forzar la descarga
-                        $nombreArchivoPermiso = 'Permiso_'.iconv('UTF-8', 'ASCII//TRANSLIT', $funcionario['nombre_completo']).'_'.$fechaPermiso.'.pdf';
-                        $nombreArchivoPermiso = str_replace(' ', '_', $nombreArchivoPermiso);
-                        $nombreArchivoPermiso = preg_replace('/[^a-zA-Z0-9_\-.]/', '', $nombreArchivoPermiso);
-                        
-                        header('Content-Type: application/pdf');
-                        header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
-                        header('Pragma: public');
-                        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-                        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-                        header('Content-Disposition: attachment; filename="'.$nombreArchivoPermiso.'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivoPermiso));
-                        // Generar el PDF
-                        $pdf->Output('D', $nombreArchivoPermiso);
-                        exit();
-                        
-                    } catch (Exception $e) {
-                        error_log("Error al generar el PDF: " . $e->getMessage());
-                        throw new Exception("Error al generar el PDF: " . $e->getMessage());
+                    // Agregar la página de la plantilla
+                    $pdf->setSourceFile($templatePath);
+                    $tplIdx = $pdf->importPage(1);
+                    
+                    // Agregar página
+                    $pdf->AddPage();
+                    $pdf->useTemplate($tplIdx);
+                    
+                    // Configurar fuente
+                    $pdf->SetFont('Arial', '', 11);
+                    
+                    // Nombre del funcionario
+                    $pdf->SetXY(60, 75);
+                    $pdf->Cell(140, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+                    
+                    // Identificación
+                    $pdf->SetXY(60, 83);
+                    $pdf->Cell(140, 8, $funcionario['nm_identificacion'], 0, 1);
+                    
+                    // Cargo
+                    $pdf->SetXY(60, 91);
+                    $pdf->Cell(140, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+                    
+                    // Dependencia
+                    $pdf->SetXY(60, 99);
+                    $pdf->Cell(140, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+                    
+                    // Fecha del permiso
+                    $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
+                    $pdf->SetXY(60, 137);
+                    $pdf->Cell(140, 8, $fechaPermiso, 0, 1);
+                    
+                    // Motivo del permiso
+                    $pdf->SetXY(60, 146);
+                    $pdf->MultiCell(130, 8, mb_convert_encoding($permiso['motivo'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
+                    
+                    // Asegurarse de que no haya salida antes del PDF
+                    while (ob_get_level()) {
+                        ob_end_clean();
                     }
+                    
+                    // Configurar encabezados para forzar la descarga
+                    $nombreArchivoPermiso = 'Permiso_'.iconv('UTF-8', 'ASCII//TRANSLIT', $funcionario['nombre_completo']).'_'.$fechaPermiso.'.pdf';
+                    $nombreArchivoPermiso = str_replace(' ', '_', $nombreArchivoPermiso);
+                    $nombreArchivoPermiso = preg_replace('/[^a-zA-Z0-9_\-.]/', '', $nombreArchivoPermiso);
+                    
+                    header('Content-Type: application/pdf');
+                    header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+                    header('Pragma: public');
+                    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+                    header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                    header('Content-Disposition: attachment; filename="'.$nombreArchivoPermiso.'"; filename*=UTF-8\'\''.rawurlencode($nombreArchivoPermiso));
+                    
+                    // Generar el PDF
+                    $pdf->Output('D', $nombreArchivoPermiso);
+                    exit();
                     
                 } catch (Exception $e) {
                     error_log("Error: " . $e->getMessage());
@@ -494,4 +488,5 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
+ 
 }
