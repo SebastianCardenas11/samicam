@@ -9,53 +9,52 @@ document.addEventListener(
       "aProcessing": true,
       "aServerSide": true,
       "language": {
-        "url": "./es.json"
+        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
       },
       "ajax": {
-        "url": " " + base_url + "/funcionariosPlanta/getFuncionarios",
+        "url": " " + base_url + "/FuncionariosPlanta/getFuncionarios",
         "dataSrc": ""
       },
       "columns": [
-        { "data": "imagen" },
+        { "data": "idefuncionario" },
         { "data": "nombre_completo" },
         { "data": "nm_identificacion" },
-        { "data": "cargo_nombre" },
-        { "data": "dependencia_nombre" },
-        { "data": "contrato_nombre" },
+        { "data": "cargo" },
+        { "data": "dependencia" },
+        { "data": "contrato" },
         { "data": "correo_elc" },
         { "data": "status" },
         { "data": "options" }
       ],
-
-
-      // 'dom': 'lBfrtip',
-      'dom': "<'row mb-3 align-items-center'<'col-auto'l><'col-auto ml-auto'f>>" +
-        "<'row'<'col-12'B>>" +
-        "<'row'<'col-12'tr>>" +
-        "<'row'<'col-md-5'i><'col-md-7'p>>",
-
-
-
-
-
+      "columnDefs": [
+        { 'className': "textcenter", "targets": [0] },
+        { 'className': "textright", "targets": [0] },
+        { 'className': "textcenter", "targets": [0] }
+      ],
+      'dom': 'lBfrtip',
       'buttons': [
-        {
+         {
           "extend": "excelHtml5",
           "text": "<i class='fas fa-file-excel'></i> Excel",
           "titleAttr": "Exportar a Excel",
-          "className": "btn btn-success mt-3"
+          "className": "btn btn-success",
+          "exportOptions": {
+            "columns": [0, 1, 2, 3, 4, 5]
+          }
         }, {
           "extend": "pdfHtml5",
           "text": "<i class='fas fa-file-pdf'></i> PDF",
           "titleAttr": "Exportar a PDF",
-          "className": "btn btn-danger mt-3"
+          "className": "btn btn-danger",
+          "exportOptions": {
+            "columns": [0, 1, 2, 3, 4, 5]
+          }
         }
-
       ],
-      "responsive": "true",
+      "resonsieve": "true",
       "bDestroy": true,
       "iDisplayLength": 10,
-      "order": [[1, "desc"]]
+      "order": [[0, "desc"]]
     });
 
     if (document.querySelector("#formFuncionario")) {

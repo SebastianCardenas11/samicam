@@ -28014,17 +28014,15 @@ pre[class*=language-] {
   /* tamaño de los botones */
 }
 
-/* Botones exportar posicionados y animados para los tres */
 #tableUsuarios_wrapper .dt-buttons,
 #tableCargos_wrapper .dt-buttons,
 #tableFuncionarios_wrapper .dt-buttons {
   position: absolute !important;
   top: var(--dt-btn-top) !important;
   right: var(--dt-btn-right) !important;
-  margin: 0 !important;
+  margin-top: 2rem !important;
   float: none !important;
   z-index: 10;
-
   font-size: var(--dt-btn-font-size) !important;
   transform-origin: center center;
   animation: popIn 0.3s ease forwards;

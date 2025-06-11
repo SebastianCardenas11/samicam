@@ -34,7 +34,6 @@ class FuncionariosPlantaModel extends Mysql
     public function insertFuncionario(
         string $correo,
         string $nombres,
-        string $imagen,
         int $status,
         string $identificacion,
         int $cargo,
@@ -73,73 +72,67 @@ class FuncionariosPlantaModel extends Mysql
                 return 0;
             }
 
-            // Asignar los valores
-            $this->strCorreoFuncionarios = $correo;
-            $this->strNombresFuncionarios = $nombres;
-            $this->strImagen = $imagen;
-            $this->strStatusFuncionarios = $status;
-            $this->strIdentificacion = $identificacion;
-            $this->intCargo = $cargo;
-            $this->intDependencia = $dependencia;
-            $this->intContrato = $contrato;
-            $this->strCelular = $celular;
-            $this->strDireccion = $direccion;
-            $this->strFechaIngreso = $fechaIngreso;
-            $this->intHijos = $hijos;
-            $this->strNombreHijos = $nombreHijos;
-            $this->strSexo = $sexo;
-            $this->strLugarResidencia = $lugarResidencia;
-            $this->intEdad = $edad;
-            $this->strEstadoCivil = $estadoCivil;
-            $this->strReligion = $religion;
-            $this->strFormacionAcademica = $formacion;
-            $this->strNombreFormacion = $nombreformacion;
-
-            // Verificar duplicados
-            $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '{$this->strCorreoFuncionarios}' OR nm_identificacion = '{$this->strIdentificacion}'";
+            $sql = "SELECT * FROM tbl_funcionarios_planta WHERE correo_elc = '$correo'";
             $request = $this->select_all($sql);
 
             if (empty($request)) {
-                $query_insert = "INSERT INTO tbl_funcionarios_planta(
-                    correo_elc, nombre_completo, imagen, nm_identificacion,
-                    cargo_fk, dependencia_fk, contrato_fk, celular, direccion, fecha_ingreso,
-                    hijos, nombres_de_hijos, sexo, lugar_de_residencia,
-                    edad, estado_civil, religion, formacion_academica, nombre_formacion,
-                    status, periodos_vacaciones)
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)";
+                $sql = "SELECT * FROM tbl_funcionarios_planta WHERE nm_identificacion = '$identificacion'";
+                $request = $this->select_all($sql);
 
-                $arrData = array(
-                    $this->strCorreoFuncionarios,
-                    $this->strNombresFuncionarios,
-                    $this->strImagen,
-                    $this->strIdentificacion,
-                    $this->intCargo,
-                    $this->intDependencia,
-                    $this->intContrato,
-                    $this->strCelular,
-                    $this->strDireccion,
-                    $this->strFechaIngreso,
-                    $this->intHijos,
-                    $this->strNombreHijos,
-                    $this->strSexo,
-                    $this->strLugarResidencia,
-                    $this->intEdad,
-                    $this->strEstadoCivil,
-                    $this->strReligion,
-                    $this->strFormacionAcademica,
-                    $this->strNombreFormacion,
-                    $this->strStatusFuncionarios
-                );
+                if (empty($request)) {
+                    $query_insert = "INSERT INTO tbl_funcionarios_planta(
+                        nombre_completo,
+                        nm_identificacion,
+                        cargo_fk,
+                        dependencia_fk,
+                        contrato_fk,
+                        celular,
+                        direccion,
+                        correo_elc,
+                        fecha_ingreso,
+                        hijos,
+                        nombres_de_hijos,
+                        sexo,
+                        lugar_de_residencia,
+                        edad,
+                        estado_civil,
+                        religion,
+                        formacion_academica,
+                        nombre_formacion,
+                        status
+                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                $request_insert = $this->insert($query_insert, $arrData);
-                return $request_insert;
-            } else {
-                if (!empty($request[0]['correo_elc']) && $request[0]['correo_elc'] == $this->strCorreoFuncionarios) {
-                    return "exist_email";
+                    $arrData = array(
+                        $nombres,
+                        $identificacion,
+                        $cargo,
+                        $dependencia,
+                        $contrato,
+                        $celular,
+                        $direccion,
+                        $correo,
+                        $fechaIngreso,
+                        $hijos,
+                        $nombreHijos,
+                        $sexo,
+                        $lugarResidencia,
+                        $edad,
+                        $estadoCivil,
+                        $religion,
+                        $formacion,
+                        $nombreformacion,
+                        $status
+                    );
+
+                    $request_insert = $this->insert($query_insert, $arrData);
+                    $return = $request_insert;
                 } else {
-                    return "exist_id";
+                    $return = "exist_id";
                 }
+            } else {
+                $return = "exist_email";
             }
+            return $return;
         } catch (Exception $e) {
             return 0;
         }
@@ -147,43 +140,37 @@ class FuncionariosPlantaModel extends Mysql
 
     public function selectFuncionarios()
     {
-    $whereAdmin = "";
-    if ($_SESSION['idUser'] != 1) {
-        $whereAdmin = " and u.idefuncionario != 1 ";
-    }
-    $sql = "SELECT DISTINCT
-        u.idefuncionario,
-        u.correo_elc,
-        u.nombre_completo,
-        u.imagen,
-        u.status,
-        u.nm_identificacion,
-        c.nombre AS cargo_nombre,
-        d.nombre AS dependencia_nombre,
-        ct.tipo_cont AS contrato_nombre,
-        u.celular,
-        u.direccion,
-        u.fecha_ingreso,
-        u.hijos,
-        u.nombres_de_hijos,
-        u.sexo,
-        u.lugar_de_residencia,
-        u.edad,
-        u.estado_civil,
-        u.religion,
-        u.formacion_academica,
-        u.nombre_formacion,
-        u.periodos_vacaciones
-    FROM tbl_funcionarios_planta u
-    INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
-    INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
-    INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
-    WHERE u.status != 0 " . $whereAdmin . "
-    GROUP BY u.idefuncionario";
-
-
-            $request = $this->select_all($sql);
-            return $request;
+        $sql = "SELECT DISTINCT
+                u.idefuncionario,
+                u.nombre_completo,
+                u.nm_identificacion,
+                u.celular,
+                u.direccion,
+                u.correo_elc,
+                u.fecha_ingreso,
+                u.hijos,
+                u.nombres_de_hijos,
+                u.sexo,
+                u.lugar_de_residencia,
+                u.edad,
+                u.estado_civil,
+                u.religion,
+                u.formacion_academica,
+                u.nombre_formacion,
+                u.status,
+                c.nombre as cargo,
+                d.nombre as dependencia,
+                t.tipo_cont as contrato,
+                u.cargo_fk,
+                u.dependencia_fk,
+                u.contrato_fk
+            FROM tbl_funcionarios_planta u
+            INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
+            INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
+            INNER JOIN tbl_contrato t ON u.contrato_fk = t.id_contrato
+            WHERE u.status != 0";
+        $request = $this->select_all($sql);
+        return $request;
     }
 
   public function selectFuncionario(int $idefuncionarios)
@@ -228,10 +215,9 @@ class FuncionariosPlantaModel extends Mysql
 
 
     public function updateFuncionario(
-        int $idefuncionarios,
+        int $idFuncionario,
         string $correo,
         string $nombres,
-        string $imagen,
         int $status,
         string $identificacion,
         int $cargo,
@@ -250,53 +236,73 @@ class FuncionariosPlantaModel extends Mysql
         string $formacion,
         string $nombreformacion
     ) {
-        $this->intIdeFuncionarios = $idefuncionarios;
-        $this->strCorreoFuncionarios = $correo;
-        $this->strNombresFuncionarios = $nombres;
-        $this->strImagen = $imagen;
-        $this->strStatusFuncionarios = $status;
-        $this->strIdentificacion = $identificacion;
-        $this->intCargo = $cargo;
-        $this->intDependencia = $dependencia;
-        $this->intContrato = $contrato;
-        $this->strCelular = $celular;
-        $this->strDireccion = $direccion;
-        $this->strFechaIngreso = $fechaIngreso;
-        $this->intHijos = $hijos;
-        $this->strNombreHijos = $nombreHijos;
-        $this->strSexo = $sexo;
-        $this->strLugarResidencia = $lugarResidencia;
-        $this->intEdad = $edad;
-        $this->strEstadoCivil = $estadoCivil;
-        $this->strReligion = $religion;
-        $this->strFormacionAcademica = $formacion;
-        $this->strNombreFormacion = $nombreformacion;
+        try {
+            $sql = "SELECT * FROM tbl_funcionarios_planta 
+                    WHERE (correo_elc = '$correo' AND idefuncionario != $idFuncionario)";
+            $request = $this->select_all($sql);
 
-        $sql = "UPDATE tbl_funcionarios_planta SET correo_elc=?, nombre_completo=?, imagen=?, status=?, nm_identificacion=?, cargo_fk=?, dependencia_fk=?, contrato_fk=?, celular=?, direccion=?, fecha_ingreso=?, hijos=?, nombres_de_hijos=?, sexo=?, lugar_de_residencia=?, edad=?, estado_civil=?, religion=?, formacion_academica=?, nombre_formacion=? WHERE idefuncionario = $this->intIdeFuncionarios";
-        $arrData = array(
-            $this->strCorreoFuncionarios,
-            $this->strNombresFuncionarios,
-            $this->strImagen,
-            $this->strStatusFuncionarios,
-            $this->strIdentificacion,
-            $this->intCargo,
-            $this->intDependencia,
-            $this->intContrato,
-            $this->strCelular,
-            $this->strDireccion,
-            $this->strFechaIngreso,
-            $this->intHijos,
-            $this->strNombreHijos,
-            $this->strSexo,
-            $this->strLugarResidencia,
-            $this->intEdad,
-            $this->strEstadoCivil,
-            $this->strReligion,
-            $this->strFormacionAcademica,
-            $this->strNombreFormacion
-        );
-        $request = $this->update($sql, $arrData);
-        return $request;
+            if (empty($request)) {
+                $sql = "SELECT * FROM tbl_funcionarios_planta 
+                        WHERE nm_identificacion = '$identificacion' AND idefuncionario != $idFuncionario";
+                $request = $this->select_all($sql);
+
+                if (empty($request)) {
+                    $sql = "UPDATE tbl_funcionarios_planta 
+                            SET nombre_completo = ?,
+                                nm_identificacion = ?,
+                                cargo_fk = ?,
+                                dependencia_fk = ?,
+                                contrato_fk = ?,
+                                celular = ?,
+                                direccion = ?,
+                                correo_elc = ?,
+                                fecha_ingreso = ?,
+                                hijos = ?,
+                                nombres_de_hijos = ?,
+                                sexo = ?,
+                                lugar_de_residencia = ?,
+                                edad = ?,
+                                estado_civil = ?,
+                                religion = ?,
+                                formacion_academica = ?,
+                                nombre_formacion = ?,
+                                status = ?
+                            WHERE idefuncionario = $idFuncionario";
+
+                    $arrData = array(
+                        $nombres,
+                        $identificacion,
+                        $cargo,
+                        $dependencia,
+                        $contrato,
+                        $celular,
+                        $direccion,
+                        $correo,
+                        $fechaIngreso,
+                        $hijos,
+                        $nombreHijos,
+                        $sexo,
+                        $lugarResidencia,
+                        $edad,
+                        $estadoCivil,
+                        $religion,
+                        $formacion,
+                        $nombreformacion,
+                        $status
+                    );
+
+                    $request = $this->update($sql, $arrData);
+                    $return = $request;
+                } else {
+                    $return = "exist_id";
+                }
+            } else {
+                $return = "exist_email";
+            }
+            return $return;
+        } catch (Exception $e) {
+            return 0;
+        }
     }
 
     public function deleteFuncionario(int $intIdeFuncionarios)

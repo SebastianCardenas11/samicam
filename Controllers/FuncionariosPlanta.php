@@ -68,14 +68,6 @@ class FuncionariosPlanta extends Controllers
                 $strFormacionAcademica = strClean($_POST['txtFormacionFuncionario']);
                 $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
-                
-                $foto = $_FILES['foto'];
-                $nombre_foto = $foto['name'];
-                $strImagen = 'sin-imagen.png';
-                
-                if($nombre_foto != '') {
-                    $strImagen = 'func_'.md5(date('Y-m-d H:i:s')).'.jpg';
-                }
     
                 $request = "";
                 if ($intIdeFuncionario == 0) {
@@ -85,7 +77,6 @@ class FuncionariosPlanta extends Controllers
                             $request = $this->model->insertFuncionario(
                                 $strCorreo,
                                 $strNombre,
-                                $strImagen,
                                 $intStatus,
                                 $strIdentificacion,
                                 $intCargo,
@@ -109,12 +100,6 @@ class FuncionariosPlanta extends Controllers
                         }
                     }
                 } else {
-                    if($nombre_foto == '') {
-                        if($_POST['foto_actual'] != '' && $_POST['foto_remove'] == 0) {
-                            $strImagen = $_POST['foto_actual'];
-                        }
-                    }
-                    
                     $option = 2;
                     if ($_SESSION['permisosMod']['u']) {
                         try {
@@ -122,7 +107,6 @@ class FuncionariosPlanta extends Controllers
                                 $intIdeFuncionario,
                                 $strCorreo,
                                 $strNombre,
-                                $strImagen,
                                 $intStatus,
                                 $strIdentificacion,
                                 $intCargo,
@@ -148,12 +132,6 @@ class FuncionariosPlanta extends Controllers
                 }
     
                 if ($request > 0) {
-                    if($nombre_foto != '') {
-                        $uploadDir = 'Assets/images/funcionarios/';
-                        $uploadFile = $uploadDir . $strImagen;
-                        move_uploaded_file($foto['tmp_name'], $uploadFile);
-                    }
-                    
                     $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
                     $arrResponse = array("status" => true, "msg" => $msg);
                 } else if ($request == 'exist_email') {
@@ -179,15 +157,6 @@ class FuncionariosPlanta extends Controllers
                 $btnEdit = '';
                 $btnDelete = '';
 
-                // Agregar imagen del funcionario
-                $urlImagen = media().'/images/sin-imagen.png';
-                // Verificar si existe la imagen
-                $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
-                if(!file_exists($rutaImagen)){
-                    $urlImagen = media().'/images/sin-imagen.png';
-                }
-                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
-
                 if($arrData[$i]['status'] == 1)
                 {
                     $arrData[$i]['status'] = '<span class="badge text-bg-success">Activo</span>';
@@ -203,10 +172,7 @@ class FuncionariosPlanta extends Controllers
                 }
                 if ($_SESSION['permisosMod']['d']) {
                     $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
-       
                 }
-
-                
 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
@@ -224,14 +190,6 @@ class FuncionariosPlanta extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
-                    // Agregar URL de la imagen
-                    $urlImagen = media().'/images/sin-imagen.png';
-                    // Verificar si existe la imagen
-                    $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
-                    if(!file_exists($rutaImagen)){
-                        $urlImagen = media().'/images/sin-imagen.png';
-                    }
-                    $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -293,7 +251,6 @@ class FuncionariosPlanta extends Controllers
                             $request = $this->model->insertFuncionario(
                                 $funcionarioOps['correo_elc'],
                                 $funcionarioOps['nombre_completo'],
-                                $funcionarioOps['imagen'],
                                 $funcionarioOps['status'],
                                 $funcionarioOps['nm_identificacion'],
                                 $funcionarioOps['cargo_fk'],
