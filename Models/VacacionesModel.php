@@ -28,7 +28,11 @@ class VacacionesModel extends Mysql
             u.fecha_ingreso,
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
-            LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones) as periodos_disponibles
+            CASE 
+                WHEN TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) >= 1 THEN 
+                    GREATEST(0, 3 - u.periodos_vacaciones)
+                ELSE 0 
+            END as periodos_disponibles
         FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -51,7 +55,11 @@ class VacacionesModel extends Mysql
             u.fecha_ingreso,
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
-            LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) - u.periodos_vacaciones) as periodos_disponibles
+            CASE 
+                WHEN TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) >= 1 THEN 
+                    GREATEST(0, 3 - u.periodos_vacaciones)
+                ELSE 0 
+            END as periodos_disponibles
         FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -144,7 +152,6 @@ class VacacionesModel extends Mysql
         $request_insert = $this->insert($query_insert, $arrData);
         
         if ($request_insert > 0) {
-            // No actualizamos los períodos tomados hasta que se aprueben las vacaciones
             return ["status" => true, "msg" => "Vacaciones registradas correctamente. Pendientes de aprobación.", "id" => $request_insert];
         } else {
             return ["status" => false, "msg" => "Error al registrar las vacaciones"];
@@ -174,7 +181,7 @@ class VacacionesModel extends Mysql
         $request = $this->update($sql_update, $arrData);
         
         if ($request) {
-            // Actualizar períodos tomados por el funcionario
+            // Actualizar períodos tomados por el funcionario (incrementar los períodos tomados)
             $sql_update_func = "UPDATE tbl_funcionarios_planta SET periodos_vacaciones = periodos_vacaciones + 1 WHERE idefuncionario = ?";
             $arrData_func = array($vacacion['id_funcionario']);
             $this->update($sql_update_func, $arrData_func);
