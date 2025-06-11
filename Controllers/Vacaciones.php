@@ -205,123 +205,196 @@ class Vacaciones extends Controllers
             if (isset($params) && is_numeric($params)) {
                 $idFuncionario = intval($params);
                 
-                // Actualizar estado de vacaciones antes de generar el PDF
-                $this->model->actualizarEstadoVacaciones();
-                
-                // Obtener datos del funcionario
-                $funcionario = $this->model->selectFuncionario($idFuncionario);
-                if (empty($funcionario)) {
-                    echo "Funcionario no encontrado";
-                    return;
-                }
-                
-                // Obtener historial de vacaciones
-                $historial = $this->model->getHistorialVacaciones($idFuncionario);
-                
-                // Incluir la librería FPDF
-                require_once 'Libraries/pdf/fpdf.php';
-                
-                // Crear nuevo documento PDF
-                $pdf = new FPDF('P', 'mm', 'A4');
-                
-                // Agregar una página
-                $pdf->AddPage();
-                
-                // Configurar fuentes
-                $pdf->SetFont('Arial', 'B', 16);
-                
-                // Título
-                $pdf->Cell(0, 10, 'Historial de Vacaciones', 0, 1, 'C');
-                $pdf->Ln(5);
-                
-                // Información del funcionario
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(0, 10, 'Información del Funcionario', 0, 1, 'L');
-                
-                // Imagen del funcionario
-                $imagePath = 'Assets/images/funcionarios/'.$funcionario['imagen'];
-                if(file_exists($imagePath)){
-                    $pdf->Image($imagePath, 160, 20, 30, 30);
-                } else {
-                    // Usar imagen predeterminada si no existe
-                    $pdf->Image('Assets/images/sin-imagen.png', 160, 20, 30, 30);
-                }
-                
-                $pdf->SetFont('Arial', '', 10);
-                
-                // Datos del funcionario
-                $pdf->Cell(40, 8, 'Nombre:', 1);
-                $pdf->Cell(150, 8, utf8_decode($funcionario['nombre_completo']), 1, 1);
-                
-                $pdf->Cell(40, 8, 'Identificación:', 1);
-                $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
-                
-                $pdf->Cell(40, 8, 'Cargo:', 1);
-                $pdf->Cell(150, 8, utf8_decode($funcionario['cargo_nombre']), 1, 1);
-                
-                $pdf->Cell(40, 8, 'Dependencia:', 1);
-                $pdf->Cell(150, 8, utf8_decode($funcionario['dependencia_nombre']), 1, 1);
-                
-                $pdf->Cell(40, 8, 'Fecha de Ingreso:', 1);
-                $pdf->Cell(150, 8, $funcionario['fecha_ingreso'], 1, 1);
-                
-                $pdf->Cell(40, 8, 'Años de Servicio:', 1);
-                $pdf->Cell(150, 8, $funcionario['anos_servicio'], 1, 1);
-                
-                $pdf->Cell(40, 8, 'Períodos Disponibles:', 1);
-                $pdf->Cell(150, 8, $funcionario['periodos_disponibles'], 1, 1);
-                
-                $pdf->Ln(10);
-                
-                // Historial de vacaciones
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(0, 10, 'Registro de Vacaciones', 0, 1, 'L');
-                
-                if (!empty($historial)) {
-                    // Encabezados de la tabla
-                    $pdf->SetFont('Arial', 'B', 10);
-                    $pdf->Cell(35, 8, 'Fecha Inicio', 1, 0, 'C');
-                    $pdf->Cell(35, 8, 'Fecha Fin', 1, 0, 'C');
-                    $pdf->Cell(30, 8, 'Período', 1, 0, 'C');
-                    $pdf->Cell(40, 8, 'Estado', 1, 0, 'C');
-                    $pdf->Cell(50, 8, 'Fecha Registro', 1, 1, 'C');
+                try {
+                    // Actualizar estado de vacaciones antes de generar el PDF
+                    $this->model->actualizarEstadoVacaciones();
                     
-                    // Datos de la tabla
-                    $pdf->SetFont('Arial', '', 10);
-                    foreach ($historial as $item) {
-                        // Ajustar fechas para mostrar correctamente en el PDF
-                        $fechaInicioObj = new DateTime($item['fecha_inicio']);
-                        $fechaFinObj = new DateTime($item['fecha_fin']);
-                        $fechaRegistroObj = new DateTime($item['fecha_registro']);
-                        
-                        $fechaInicio = $fechaInicioObj->format('d/m/Y');
-                        $fechaFin = $fechaFinObj->format('d/m/Y');
-                        $fechaRegistro = $fechaRegistroObj->format('d/m/Y');
-                        
-                        // Ajustar el texto del estado para el PDF
-                        $estadoTexto = $item['estado'];
-                        if ($estadoTexto == 'Cumplidas') {
-                            $estadoTexto = 'Cumplida';
-                        }
-                        
-                        $pdf->Cell(35, 8, $fechaInicio, 1, 0, 'C');
-                        $pdf->Cell(35, 8, $fechaFin, 1, 0, 'C');
-                        $pdf->Cell(30, 8, $item['periodo'], 1, 0, 'C');
-                        $pdf->Cell(40, 8, utf8_decode($estadoTexto), 1, 0, 'C');
-                        $pdf->Cell(50, 8, $fechaRegistro, 1, 1, 'C');
+                    // Obtener datos del funcionario
+                    $funcionario = $this->model->selectFuncionario($idFuncionario);
+                    if (empty($funcionario)) {
+                        throw new Exception("Funcionario no encontrado");
                     }
-                } else {
+                    
+                    // Obtener historial de vacaciones
+                    $historial = $this->model->getHistorialVacaciones($idFuncionario);
+                    
+                    // Limpiar cualquier salida anterior
+                    if (ob_get_length()) ob_clean();
+                    
+                    // Incluir FPDF primero
+                    require_once 'vendor/setasign/fpdf/fpdf.php';
+                    
+                    // Luego incluir FPDI
+                    require_once 'vendor/setasign/fpdi/src/autoload.php';
+                    
+                    // Crear instancia de FPDI
+                    $pdf = new \setasign\Fpdi\Fpdi();
+                    
+                    // Ruta a la plantilla
+                    $templatePath = 'Assets/plantillas/plantilla_historial_permiso.pdf';
+                    if (!file_exists($templatePath)) {
+                        throw new Exception("No se encontró la plantilla del historial de vacaciones");
+                    }
+                    
+                    // Agregar la página de la plantilla
+                    $pdf->setSourceFile($templatePath);
+                    $tplIdx = $pdf->importPage(1);
+                    
+                    // Agregar página
+                    $pdf->AddPage();
+                    $pdf->useTemplate($tplIdx);
+                    
+                    // Configurar fuente
+                    $pdf->SetFont('Arial', '', 11);
+                    
+                    // Tabla de información del funcionario
+                    $startY = 55;
+                    $pdf->SetXY(20, $startY);
+                    
+                    // Estilo para encabezados de la tabla
+                    $pdf->SetFillColor(230, 230, 230);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    
+                    // Nombre
+                    $pdf->Cell(40, 8, mb_convert_encoding('Nombre:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
                     $pdf->SetFont('Arial', '', 10);
-                    $pdf->Cell(0, 10, 'No hay registros de vacaciones para este funcionario.', 0, 1, 'L');
+                    $pdf->Cell(130, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'L');
+                    
+                    // Identificación
+                    $pdf->SetX(20);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, mb_convert_encoding('Identificación:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(130, 8, $funcionario['nm_identificacion'], 1, 1, 'L');
+                    
+                    // Cargo
+                    $pdf->SetX(20);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, mb_convert_encoding('Cargo:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(130, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'L');
+                    
+                    // Dependencia
+                    $pdf->SetX(20);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, mb_convert_encoding('Dependencia:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(130, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'L');
+                    
+                    // Años de servicio y períodos disponibles
+                    $pdf->SetX(20);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, mb_convert_encoding('Años Servicio:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(130, 8, $funcionario['anos_servicio'], 1, 1, 'L');
+                    
+                    $pdf->SetX(20);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(40, 8, mb_convert_encoding('Períodos Disp.:', 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', true);
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(130, 8, $funcionario['periodos_disponibles'], 1, 1, 'L');
+                    
+                    // Espacio entre tablas
+                    $pdf->Ln(10);
+                    
+                    // Título de la sección de historial
+                    $pdf->SetFont('Arial', 'B', 12);
+                    $pdf->Cell(0, 10, mb_convert_encoding('HISTORIAL DE VACACIONES', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+                    $pdf->Ln(5);
+                    
+                    if (!empty($historial)) {
+                        // Encabezados de la tabla de historial
+                        $pdf->SetFont('Arial', 'B', 10);
+                        $pdf->SetFillColor(230, 230, 230);
+                        $pdf->SetX(20);
+                        $pdf->Cell(35, 8, 'Fecha Inicio', 1, 0, 'C', true);
+                        $pdf->Cell(35, 8, 'Fecha Fin', 1, 0, 'C', true);
+                        $pdf->Cell(30, 8, mb_convert_encoding('Período', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', true);
+                        $pdf->Cell(40, 8, 'Estado', 1, 0, 'C', true);
+                        $pdf->Cell(30, 8, 'F. Registro', 1, 1, 'C', true);
+                        
+                        // Datos de la tabla
+                        $pdf->SetFont('Arial', '', 10);
+                        foreach ($historial as $item) {
+                            $fechaInicioObj = new DateTime($item['fecha_inicio']);
+                            $fechaFinObj = new DateTime($item['fecha_fin']);
+                            $fechaRegistroObj = new DateTime($item['fecha_registro']);
+                            
+                            $fechaInicio = $fechaInicioObj->format('d/m/Y');
+                            $fechaFin = $fechaFinObj->format('d/m/Y');
+                            $fechaRegistro = $fechaRegistroObj->format('d/m/Y');
+                            
+                            // Ajustar el texto del estado
+                            $estadoTexto = $item['estado'];
+                            if ($estadoTexto == 'Cumplidas') {
+                                $estadoTexto = 'Cumplida';
+                            }
+                            
+                            $pdf->SetX(20);
+                            $pdf->Cell(35, 8, $fechaInicio, 1, 0, 'C');
+                            $pdf->Cell(35, 8, $fechaFin, 1, 0, 'C');
+                            $pdf->Cell(30, 8, $item['periodo'], 1, 0, 'C');
+                            $pdf->Cell(40, 8, mb_convert_encoding($estadoTexto, 'ISO-8859-1', 'UTF-8'), 1, 0, 'C');
+                            $pdf->Cell(30, 8, $fechaRegistro, 1, 1, 'C');
+                            
+                            // Si la tabla llega al final de la página, agregar una nueva
+                            if($pdf->GetY() > 250) {
+                                $pdf->AddPage();
+                                $pdf->useTemplate($tplIdx);
+                                $pdf->SetFont('Arial', 'B', 10);
+                                $pdf->SetXY(20, 30);
+                                $pdf->SetFillColor(230, 230, 230);
+                                $pdf->Cell(35, 8, 'Fecha Inicio', 1, 0, 'C', true);
+                                $pdf->Cell(35, 8, 'Fecha Fin', 1, 0, 'C', true);
+                                $pdf->Cell(30, 8, mb_convert_encoding('Período', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', true);
+                                $pdf->Cell(40, 8, 'Estado', 1, 0, 'C', true);
+                                $pdf->Cell(30, 8, 'F. Registro', 1, 1, 'C', true);
+                                $pdf->SetFont('Arial', '', 10);
+                            }
+                        }
+                    } else {
+                        $pdf->SetFont('Arial', '', 10);
+                        $pdf->Cell(0, 10, 'No hay registros de vacaciones para este funcionario.', 0, 1, 'C');
+                    }
+                    
+                    // Asegurarse de que no haya salida antes del PDF
+                    while (ob_get_level()) {
+                        ob_end_clean();
+                    }
+                    
+                    // Configurar encabezados para forzar la descarga
+                    $nombreFuncionario = $funcionario['nombre_completo'];
+                    $caracteres_especiales = array(
+                        'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+                        'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U',
+                        'ñ' => 'n', 'Ñ' => 'N', 'ü' => 'u', 'Ü' => 'U'
+                    );
+                    
+                    $nombreFuncionario = str_replace(array_keys($caracteres_especiales), array_values($caracteres_especiales), $nombreFuncionario);
+                    $nombreFuncionario = str_replace(' ', '_', $nombreFuncionario);
+                    $nombreFuncionario = preg_replace('/[^a-zA-Z0-9_-]/', '', $nombreFuncionario);
+                    $nombreArchivo = 'Historial_Vacaciones_' . $nombreFuncionario . '.pdf';
+                    
+                    try {
+                        header('Content-Type: application/pdf');
+                        header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+                        header('Pragma: public');
+                        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+                        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                        header('Content-Disposition: attachment; filename="' . $nombreArchivo . '"');
+                        
+                        // Generar el PDF
+                        $pdf->Output('D', $nombreArchivo);
+                        exit();
+                    } catch (Exception $e) {
+                        error_log("Error al generar el PDF: " . $e->getMessage());
+                        throw new Exception("Error al generar el PDF: " . $e->getMessage());
+                    }
+                    
+                } catch (Exception $e) {
+                    error_log("Error generando PDF: " . $e->getMessage());
+                    echo "Error al generar el PDF: " . $e->getMessage();
                 }
-                
-                // Configurar encabezados para forzar la descarga
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: attachment; filename="Historial_Vacaciones_'.$funcionario['nombre_completo'].'.pdf"');
-                header('Cache-Control: max-age=0');
-                
-                // Generar el PDF
-                $pdf->Output('Historial_Vacaciones_'.$funcionario['nombre_completo'].'.pdf', 'D');
             } else {
                 echo "Parámetro inválido";
             }
