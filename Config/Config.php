@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 //IP del servidor y local
 const PROTOCOL = "http";
-const IP_SERVER = "10.90.1.84";
+const IP_SERVER = "10.90.1.84:4443";
 const IP_LOCAL = "localhost";
 const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
 
