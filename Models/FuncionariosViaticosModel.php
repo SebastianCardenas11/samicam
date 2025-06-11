@@ -136,8 +136,14 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener un viático específico por ID
     public function getViatico(int $idViatico)
     {
-        $sql = "SELECT v.*, CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo
+        $sql = "SELECT v.*, 
+                fp.nombre_completo,
+                c.nombre as cargo,
+                d.nombre as dependencia
                 FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
+                INNER JOIN tbl_cargos c ON fp.cargo_fk = c.idecargos
+                INNER JOIN tbl_dependencia d ON fp.dependencia_fk = d.dependencia_pk
                 WHERE v.idViatico = ?";
         $request = $this->select($sql, [$idViatico]);
         return $request;
