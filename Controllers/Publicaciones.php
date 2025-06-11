@@ -27,34 +27,57 @@ class Publicaciones extends Controllers
 
     public function getPublicaciones()
     {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectPublicaciones();
-            for ($i = 0; $i < count($arrData); $i++) {
-                $btnView = '';
-                $btnEdit = '';
-                $btnDelete = '';
-
-                if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Ver publicación"><i class="far fa-eye"></i></button>';
-                }
-                if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Editar publicación"><i class="fas fa-pencil-alt"></i></button>';
-                }
-                if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Eliminar publicación"><i class="far fa-trash-alt"></i></button>';
-                }
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+        try {
+            if ($_SESSION['permisosMod']['r']) {
+                $arrData = $this->model->selectPublicaciones();
                 
-                // Formatear fechas para mejor visualización
-                if(!empty($arrData[$i]['fecha_recibido'])) {
-                    $arrData[$i]['fecha_recibido'] = date('d/m/Y', strtotime($arrData[$i]['fecha_recibido']));
+                if (!is_array($arrData)) {
+                    throw new Exception("Error al obtener los datos");
                 }
-                if(!empty($arrData[$i]['fecha_publicacion'])) {
-                    $arrData[$i]['fecha_publicacion'] = date('d/m/Y', strtotime($arrData[$i]['fecha_publicacion']));
+                
+                for ($i = 0; $i < count($arrData); $i++) {
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    if ($_SESSION['permisosMod']['r']) {
+                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Ver publicación"><i class="far fa-eye"></i></button>';
+                    }
+                    if ($_SESSION['permisosMod']['u']) {
+                        $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Editar publicación"><i class="fas fa-pencil-alt"></i></button>';
+                    }
+                    if ($_SESSION['permisosMod']['d']) {
+                        $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Eliminar publicación"><i class="far fa-trash-alt"></i></button>';
+                    }
+                    $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                    
+                    // Formatear fechas para mejor visualización
+                    if(!empty($arrData[$i]['fecha_recibido'])) {
+                        $arrData[$i]['fecha_recibido'] = date('d/m/Y', strtotime($arrData[$i]['fecha_recibido']));
+                    }
+                    if(!empty($arrData[$i]['fecha_publicacion'])) {
+                        $arrData[$i]['fecha_publicacion'] = date('d/m/Y', strtotime($arrData[$i]['fecha_publicacion']));
+                    }
+
+                    // Asegurar que todos los campos existan
+                    $required_fields = ['id_publicacion', 'fecha_recibido', 'correo_recibido', 'asunto', 
+                                     'dependencia_nombre', 'fecha_publicacion', 'respuesta_envio', 'status'];
+                    foreach ($required_fields as $field) {
+                        if (!isset($arrData[$i][$field])) {
+                            $arrData[$i][$field] = '';
+                        }
+                    }
                 }
+                
+                header('Content-Type: application/json');
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'No tiene permisos para ver publicaciones'), JSON_UNESCAPED_UNICODE);
             }
+        } catch (Exception $e) {
             header('Content-Type: application/json');
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            echo json_encode(array('error' => $e->getMessage()), JSON_UNESCAPED_UNICODE);
         }
         die();
     }

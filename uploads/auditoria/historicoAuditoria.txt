@@ -893,3 +893,6 @@
 [2025-06-11 15:22:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
 [2025-06-11 15:24:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
 [2025-06-11 15:28:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:34:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:34:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:37:47] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones

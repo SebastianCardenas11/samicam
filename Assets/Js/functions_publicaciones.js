@@ -87,57 +87,54 @@ function fntGetDependencias() {
 
 function initializeTable() {
     tablePublicaciones = $('#tablePublicaciones').dataTable({
-        "aProcessing":true,
-        "aServerSide":true,
+        "aProcessing": true,
+        "aServerSide": true,
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
-        },
-        "ajax":{
-            "url": base_url+"/Publicaciones/getPublicaciones",
-            "dataSrc":""
-        },
-        "columns":[
-            {"data":"id_publicacion"},
-            {"data":"fecha_recibido"},
-            {"data":"correo_recibido",
-             "render": function(data) {
-                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
-             }
-            },
-            {"data":"asunto",
-             "render": function(data) {
-                return `<div class="text-truncate" style="max-width: 150px;" title="${data}">${data}</div>`;
-             }
-            },
-            {"data":"dependencia_nombre"},
-            {"data":"fecha_publicacion"},
-            {"data":"respuesta_envio"},
-            {"data":"status", "render": function(data) {
-                let badge = data == 1 ? 
-                    '<span class="badge text-bg-success">Activo</span>' : 
-                    '<span class="badge text-bg-danger">Inactivo</span>';
-                return badge;
-            }},
-            {"data":"options"}
-        ],
-        'dom': 'lBfrtip',
-        'buttons': [
-            {
-                "extend": "excelHtml5",
-                "text": "<i class='fas fa-file-excel'></i> Excel",
-                "titleAttr":"Exportar a Excel",
-                "className": "btn btn-success"
-            },{
-                "extend": "pdfHtml5",
-                "text": "<i class='fas fa-file-pdf'></i> PDF",
-                "titleAttr":"Exportar a PDF",
-                "className": "btn btn-danger"
+            "decimal": "",
+            "emptyTable": "No hay datos disponibles",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+            "infoFiltered": "(filtrado de _MAX_ registros totales)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "No se encontraron registros",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
             }
+        },
+        "ajax": {
+            "url": base_url + "/Publicaciones/getPublicaciones",
+            "dataSrc": ""
+        },
+        "columns": [
+            {"data": "id_publicacion"},
+            {"data": "fecha_recibido"},
+            {"data": "correo_recibido"},
+            {"data": "asunto"},
+            {"data": "dependencia_nombre"},
+            {"data": "fecha_publicacion"},
+            {"data": "respuesta_envio"},
+            {
+                "data": "status",
+                "render": function(data, type, row) {
+                    return data == 1 ? 
+                        '<span class=" badge-success">Activo</span>' : 
+                        '<span class="badge badge-danger">Inactivo</span>';
+                }
+            },
+            {"data": "options"}
         ],
-        "responsive":true,
+        "responsive": true,
         "bDestroy": true,
         "iDisplayLength": 10,
-        "order":[[0,"desc"]]  
+        "order": [[0, "desc"]]
     });
 }
 

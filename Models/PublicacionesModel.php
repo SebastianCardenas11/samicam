@@ -19,12 +19,23 @@ class PublicacionesModel extends Mysql
     // Obtener todas las publicaciones
     public function selectPublicaciones()
     {
-        $sql = "SELECT p.*, d.nombre as dependencia_nombre 
-                FROM publicaciones p 
-                LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk 
-                WHERE p.status != 0";
-        $request = $this->select_all($sql);
-        return $request;
+        try {
+            $sql = "SELECT p.*, d.nombre as dependencia_nombre 
+                    FROM publicaciones p 
+                    LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk 
+                    WHERE p.status != 0 
+                    ORDER BY p.id_publicacion DESC";
+            $request = $this->select_all($sql);
+            
+            if (!is_array($request)) {
+                return array();
+            }
+            
+            return $request;
+        } catch (Exception $e) {
+            error_log("Error en selectPublicaciones: " . $e->getMessage());
+            return array();
+        }
     }
 
     // Obtener una publicación específica
