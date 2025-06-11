@@ -110,11 +110,12 @@ class FuncionariosViaticosModel extends Mysql
     public function getHistoricoViaticos($year)
     {
         $sql = "SELECT v.funci_fk as idefuncionario, 
-                CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo, 
+                fp.nombre_completo, 
                 SUM(v.monto) as total_viaticos
                 FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
-                GROUP BY v.funci_fk";
+                GROUP BY v.funci_fk, fp.nombre_completo";
         $request = $this->select_all($sql, [$year]);
         return $request;
     }
@@ -123,10 +124,11 @@ class FuncionariosViaticosModel extends Mysql
     public function getDetalleViaticos($year)
     {
         $sql = "SELECT v.idViatico, 
-                CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo, 
+                fp.nombre_completo, 
                 v.descripcion, v.monto, 
                 v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso, v.estatus
                 FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
@@ -152,8 +154,9 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener todos los viáticos del año (activos y eliminados)
     public function getAllViaticos($year)
     {
-        $sql = "SELECT v.*, CONCAT('Funcionario ID: ', v.funci_fk) as nombre_completo
+        $sql = "SELECT v.*, fp.nombre_completo
                 FROM tbl_viaticos v
+                INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ?
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
