@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 05-06-2025 a las 17:51:29
+-- Servidor: 127.0.0.1:3307
+-- Tiempo de generación: 11-06-2025 a las 05:05:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -34,16 +34,16 @@ CREATE TABLE `archivos` (
   `descripcion` text DEFAULT NULL,
   `archivo` varchar(255) NOT NULL,
   `extension` varchar(10) NOT NULL,
-  `fecha_creacion` datetime NOT NULL
+  `fecha_creacion` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Estado del archivo: 1=activo, 0=eliminado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `archivos`
 --
 
-INSERT INTO `archivos` (`id`, `id_categoria`, `nombre`, `descripcion`, `archivo`, `extension`, `fecha_creacion`) VALUES
-(1, 8, 'Certificacion', 'Certificacion', '2ae47bb309e683e9ae03139f8d380e1c.docx', 'docx', '2025-05-18 23:00:30'),
-(3, 8, 'pdf 2', 'pdf 2', '0a006ee701b6ef45666604d584e7b9ca.pdf', 'pdf', '2025-05-18 23:09:53');
+INSERT INTO `archivos` (`id`, `id_categoria`, `nombre`, `descripcion`, `archivo`, `extension`, `fecha_creacion`, `status`) VALUES
+(5, 6, 'Tecnico Ntic', 'aa', 'e563c9982e66703755e03686a4f6a8d1.pdf', 'pdf', '2025-06-08 23:02:23', 1);
 
 -- --------------------------------------------------------
 
@@ -71,7 +71,8 @@ INSERT INTO `categorias_archivos` (`id_categoria`, `nombre`, `descripcion`, `sta
 (5, 'Certificaciones', 'Certificados y documentos oficiales', 1, '2025-06-05 10:01:34'),
 (6, 'Memorandos', 'Memorandos internos y comunicaciones', 1, '2025-06-05 10:01:34'),
 (7, 'Resoluciones', 'Resoluciones y documentos legales', 1, '2025-06-05 10:01:34'),
-(8, 'Otros', 'Documentos varios sin categoría específica', 1, '2025-06-05 10:01:34');
+(8, 'Otros', 'Documentos varios sin categoría específica', 1, '2025-06-05 10:01:34'),
+(9, 'Informes', 'Informes y reportes varios', 1, '2025-06-05 10:01:34');
 
 -- --------------------------------------------------------
 
@@ -102,7 +103,8 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 (9, 'Cargos', 'Gestión de cargos', 1),
 (11, 'Tareas', 'Gestión de Tareas', 1),
 (12, 'Publicaciones', 'Gestión de Publicaciones', 1),
-(13, 'Dependencian', 'Gestión de dependencias', 1);
+(13, 'Dependencian', 'Gestión de dependencias', 1),
+(14, 'Notificaciones', 'Gestión de notificaciones', 1);
 
 -- --------------------------------------------------------
 
@@ -137,27 +139,7 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (515, 1, 5, 1, 1, 1, 1, 1),
 (516, 1, 10, 1, 1, 1, 1, 1),
 (634, 1, 13, 1, 1, 1, 1, 1),
-(635, 2, 1, 0, 0, 0, 0, 0),
-(636, 2, 7, 1, 1, 1, 1, 1),
-(637, 2, 2, 0, 0, 0, 0, 0),
-(638, 2, 8, 0, 0, 0, 0, 1),
-(639, 2, 3, 0, 0, 0, 0, 0),
 (640, 1, 9, 1, 1, 1, 1, 1),
-(641, 2, 4, 0, 0, 0, 0, 0),
-(642, 2, 5, 0, 0, 0, 0, 0),
-(643, 2, 6, 1, 1, 1, 1, 1),
-(644, 2, 7, 1, 1, 1, 1, 1),
-(645, 2, 8, 0, 0, 0, 0, 1),
-(646, 2, 9, 1, 1, 1, 1, 1),
-(692, 4, 1, 0, 0, 0, 0, 0),
-(693, 4, 2, 0, 0, 0, 0, 0),
-(694, 4, 3, 0, 0, 0, 0, 0),
-(695, 4, 4, 0, 0, 0, 0, 0),
-(696, 4, 5, 0, 0, 0, 0, 0),
-(697, 4, 6, 0, 0, 0, 0, 0),
-(698, 4, 7, 0, 0, 0, 0, 0),
-(699, 4, 8, 1, 1, 1, 1, 1),
-(700, 4, 9, 0, 0, 0, 0, 0),
 (701, 11, 1, 1, 1, 1, 1, 1),
 (702, 11, 2, 0, 0, 0, 0, 1),
 (703, 11, 3, 0, 0, 0, 0, 1),
@@ -211,7 +193,38 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (846, 12, 8, 0, 0, 0, 0, 1),
 (847, 12, 9, 0, 0, 0, 0, 1),
 (848, 12, 11, 0, 0, 0, 0, 1),
-(849, 12, 12, 1, 1, 1, 1, 1);
+(849, 12, 12, 1, 1, 1, 1, 1),
+(850, 4, 1, 0, 0, 0, 0, 1),
+(851, 4, 2, 0, 0, 0, 0, 1),
+(852, 4, 3, 0, 0, 0, 0, 1),
+(853, 4, 4, 0, 0, 0, 0, 1),
+(854, 4, 5, 0, 0, 0, 0, 1),
+(855, 4, 6, 0, 0, 0, 0, 1),
+(856, 4, 7, 0, 0, 0, 0, 1),
+(857, 4, 8, 1, 1, 1, 1, 1),
+(858, 4, 9, 0, 0, 0, 0, 1),
+(859, 4, 11, 1, 1, 1, 1, 1),
+(860, 4, 12, 0, 0, 0, 0, 1),
+(861, 4, 13, 0, 0, 0, 0, 1),
+(862, 2, 1, 0, 0, 0, 0, 1),
+(863, 2, 2, 0, 0, 0, 0, 1),
+(864, 2, 3, 0, 0, 0, 0, 1),
+(865, 2, 4, 0, 0, 0, 0, 1),
+(866, 2, 5, 0, 0, 0, 0, 1),
+(867, 2, 6, 0, 0, 0, 0, 1),
+(868, 2, 7, 0, 0, 0, 0, 1),
+(869, 2, 8, 1, 1, 1, 1, 1),
+(870, 2, 9, 0, 0, 0, 0, 1),
+(871, 2, 11, 0, 0, 0, 0, 1),
+(872, 2, 12, 0, 0, 0, 0, 1),
+(873, 2, 13, 0, 0, 0, 0, 1),
+(874, 1, 14, 1, 1, 1, 1, 1),
+(875, 2, 14, 1, 1, 1, 1, 1),
+(876, 3, 14, 1, 1, 1, 1, 1),
+(877, 4, 14, 1, 1, 1, 1, 1),
+(878, 5, 14, 1, 1, 1, 1, 1),
+(879, 7, 14, 1, 1, 1, 1, 1),
+(880, 12, 14, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -585,6 +598,13 @@ CREATE TABLE `tbl_observaciones` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_observaciones`
+--
+
+INSERT INTO `tbl_observaciones` (`id_observacion`, `id_tarea`, `id_usuario`, `observacion`, `fecha_creacion`) VALUES
+(8, 12, 1, 'asdasdasd', '2025-06-06 06:55:43');
+
 -- --------------------------------------------------------
 
 --
@@ -648,6 +668,13 @@ CREATE TABLE `tbl_tareas` (
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_tareas`
+--
+
+INSERT INTO `tbl_tareas` (`id_tarea`, `id_usuario_creador`, `id_usuario_asignado`, `tipo`, `descripcion`, `dependencia_fk`, `estado`, `observacion`, `fecha_inicio`, `fecha_fin`, `fecha_completada`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(12, 1, 1, 'administrativa', 'asdsd', 1, 'completada', NULL, '2025-06-19 00:00:00', '2025-06-27 00:00:00', '2025-06-06 00:00:00', '2025-06-06 06:55:31', '2025-06-06 07:05:48');
+
 -- --------------------------------------------------------
 
 --
@@ -659,6 +686,13 @@ CREATE TABLE `tbl_tareas_usuarios` (
   `id_tarea` int(11) NOT NULL,
   `id_usuario` bigint(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_tareas_usuarios`
+--
+
+INSERT INTO `tbl_tareas_usuarios` (`id`, `id_tarea`, `id_usuario`) VALUES
+(15, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -673,18 +707,19 @@ CREATE TABLE `tbl_usuarios` (
   `password` varchar(100) DEFAULT NULL,
   `imgperfil` varchar(300) DEFAULT 'sin-imagen.png',
   `rolid` bigint(20) NOT NULL,
-  `status` int(32) NOT NULL
+  `status` int(32) NOT NULL,
+  `notificaciones_activas` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_usuarios`
 --
 
-INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgperfil`, `rolid`, `status`) VALUES
-(1, 'Luis Carlos Duran', 'admin.ntic@gmail.com.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'perfil_1.webp', 1, 1),
-(16, 'Tatiana Martínez Meneses', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'b3bac4078570ff255b11047d393c5a94a5e94767c426e7fc52e6eba3f44a6b8c', 'sin-imagen.png', 12, 1),
-(17, 'Maria Del Pilar Ureche Cobo', 'contratacion@lajaguadeibirico-cesar.gov.co', 'f952d6714fe2c4580aa988789b437e60619e87fc63baa4d54a6cda71566516c4', 'sin-imagen.png', 4, 1),
-(18, 'Moises Xavier Paternina', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'dbd1810444163ba9fde385331a2c457a4b2245473e85bbdfd0cebaa270cd5d3f', 'sin-imagen.png', 2, 1);
+INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgperfil`, `rolid`, `status`, `notificaciones_activas`) VALUES
+(1, 'Luis Carlos Duran', 'admin.ntic@gmail.com.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'perfil_1.webp', 1, 1, 1),
+(16, 'Tatiana Martínez Meneses', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'b3bac4078570ff255b11047d393c5a94a5e94767c426e7fc52e6eba3f44a6b8c', 'sin-imagen.png', 12, 1, 1),
+(17, 'Maria Del Pilar Ureche Cobo', 'contratacion@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 5, 1, 1),
+(18, 'Moises Xavier Paternina', 'talentohumano@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -910,25 +945,25 @@ ALTER TABLE `tbl_viaticos`
 -- AUTO_INCREMENT de la tabla `archivos`
 --
 ALTER TABLE `archivos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_archivos`
 --
 ALTER TABLE `categorias_archivos`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=850;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=881;
 
 --
 -- AUTO_INCREMENT de la tabla `publicaciones`
@@ -1000,7 +1035,7 @@ ALTER TABLE `tbl_notificaciones`
 -- AUTO_INCREMENT de la tabla `tbl_observaciones`
 --
 ALTER TABLE `tbl_observaciones`
-  MODIFY `id_observacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_observacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
@@ -1012,13 +1047,13 @@ ALTER TABLE `tbl_permisos`
 -- AUTO_INCREMENT de la tabla `tbl_tareas`
 --
 ALTER TABLE `tbl_tareas`
-  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas_usuarios`
 --
 ALTER TABLE `tbl_tareas_usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`

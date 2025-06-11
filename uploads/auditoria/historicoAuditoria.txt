@@ -799,3 +799,6 @@
 [2025-06-10 15:11:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.119 | Acción: Acceso al módulo Dashboard
 [2025-06-10 15:11:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.119 | Acción: Acceso al módulo Ajustes de Perfil
 [2025-06-10 15:11:35] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.119 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-10 21:55:13] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-10 21:55:13] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-10 22:08:03] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Archivos
