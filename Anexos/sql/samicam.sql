@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 11-06-2025 a las 05:05:50
+-- Tiempo de generación: 11-06-2025 a las 08:23:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `samicam`
+-- Base de datos: `samica`
 --
 
 -- --------------------------------------------------------
@@ -489,12 +489,11 @@ CREATE TABLE `tbl_funcionarios_ops` (
 CREATE TABLE `tbl_funcionarios_planta` (
   `idefuncionario` int(11) NOT NULL,
   `nombre_completo` varchar(255) DEFAULT NULL,
-  `imagen` varchar(300) DEFAULT NULL,
-  `nm_identificacion` int(255) DEFAULT NULL,
+  `nm_identificacion` varchar(20) DEFAULT NULL,
   `cargo_fk` int(11) DEFAULT NULL,
   `dependencia_fk` int(255) DEFAULT NULL,
   `contrato_fk` int(10) NOT NULL,
-  `celular` int(150) DEFAULT NULL,
+  `celular` varchar(20) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
   `correo_elc` varchar(255) DEFAULT NULL,
   `fecha_ingreso` date DEFAULT NULL,
@@ -508,7 +507,7 @@ CREATE TABLE `tbl_funcionarios_planta` (
   `formacion_academica` varchar(255) DEFAULT NULL,
   `nombre_formacion` varchar(255) DEFAULT NULL,
   `permisos_fk` int(25) DEFAULT NULL,
-  `status` int(15) NOT NULL,
+  `status` int(15) NOT NULL DEFAULT 1,
   `periodos_vacaciones` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -516,8 +515,10 @@ CREATE TABLE `tbl_funcionarios_planta` (
 -- Volcado de datos para la tabla `tbl_funcionarios_planta`
 --
 
-INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `imagen`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
-(17, 'Elías José Iguaran Márquez', 'func_ed747eb4ecb9ce403cadc57cef932997.jpg', 1003379050, 3, 1, 2, 2147483647, 'Dg 6 5N - 86 / Luis Carlos Galan', 'helias.iguaran@gmail.com', '2025-03-10', 0, '', 'masculino', 'La Jagua de Ibirico', 22, 'soltero', 'catolico', 'tecnico', 'Técnico en Sistemas', NULL, 1, 0);
+INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
+(17, 'Elías José Iguaran Márquez', '1003379050', 3, 1, 2, '2147483647', 'Dg 6 5N - 86 / Luis Carlos Galan', 'helias.iguaran@gmail.com', '2025-03-10', 0, '', 'masculino', 'La Jagua de Ibirico', 22, 'casado', 'catolico', 'tecnico', 'Técnico en Sistemas', NULL, 1, 0),
+(18, 'Juan Jose pertuz', '123223', 3, 18, 1, '123', '123', 'Juan@gmail.com', '2025-06-09', 0, '', 'masculino', '13', 123, 'casado', 'cristiano', 'bachiller', 'sadasd', NULL, 0, 0),
+(19, 'Sebastian tres carnes', '594582384', 33, 11, 2, '1', 'Dg 6 5N - 86 / Luis Carlos Galan', 'sofi_castillo@gmail.Ntic.co.com', '2025-06-12', 0, '', 'masculino', 'la jagua de ibirico', 89, 'viudo', 'otro', 'tecnico', 'sadasd', NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1011,7 +1012,7 @@ ALTER TABLE `tbl_funcionarios_ops`
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios_planta`
 --
 ALTER TABLE `tbl_funcionarios_planta`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
@@ -1099,6 +1100,9 @@ ALTER TABLE `publicaciones`
 -- Filtros para la tabla `tbl_funcionarios_planta`
 --
 ALTER TABLE `tbl_funcionarios_planta`
+  ADD CONSTRAINT `fk_funcionario_cargo` FOREIGN KEY (`cargo_fk`) REFERENCES `tbl_cargos` (`idecargos`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_funcionario_contrato` FOREIGN KEY (`contrato_fk`) REFERENCES `tbl_contrato` (`id_contrato`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_funcionario_dependencia` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_funcionarios_planta_ibfk_1` FOREIGN KEY (`cargo_fk`) REFERENCES `tbl_cargos` (`idecargos`),
   ADD CONSTRAINT `tbl_funcionarios_planta_ibfk_2` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_funcionarios_planta_ibfk_3` FOREIGN KEY (`contrato_fk`) REFERENCES `tbl_contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE,

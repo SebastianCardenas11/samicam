@@ -36,24 +36,6 @@
                                                     name="txtNombreFuncionario" required maxlength="50">
                                             </div>
 
-                                            <!-- Foto -->
-                                            <div class="mb-3">
-                                                <label for="foto" class="form-label">Foto</label>
-                                                <div class="prevPhoto">
-                                                    <span class="delPhoto notBlock">X</span>
-                                                    <label for="foto"></label>
-                                                    <div>
-                                                        <img id="img_funcionario" src="<?= media(); ?>/images/funcionarios/user.png">
-                                                    </div>
-                                                </div>
-                                                <div class="upimg">
-                                                    <input type="file" class="form-control" id="foto" name="foto"
-                                                        accept="image/jpeg,image/png">
-                                                </div>
-                                                <div id="form_alert"></div>
-                                                <input type="hidden" id="foto_actual" name="foto_actual" value="">
-                                                <input type="hidden" id="foto_remove" name="foto_remove" value="0">
-                                            </div>
 
                                             <!-- Identificación -->
                                             <div class="mb-3">
@@ -307,13 +289,7 @@
             <div class="modal-body">
                 <div class="container-fluid py-3">
                     <div class="row">
-                        <div class="col-md-3 text-center">
-                            <!-- Foto del funcionario -->
-                            <div class="mb-4">
-                                <img id="celImagenFuncionario" src="<?= media(); ?>/images/funcionarios/user.png"
-                                    alt="Foto funcionario" class="img-thumbnail rounded-circle"
-                                    style="width:220px; height:220px;">
-                            </div>
+                        <div class="col-md-3">
                             <div class="card mb-3">
                                 <div class="card-header bg-light">
                                     <h5 class="mb-0">Información Básica</h5>

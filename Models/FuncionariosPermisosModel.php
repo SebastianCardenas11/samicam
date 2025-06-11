@@ -4,7 +4,6 @@ class FuncionariosPermisosModel extends Mysql
     private $intIdeFuncionarios;
     private $strCorreoFuncionarios;
     private $strNombresFuncionarios;
-    private $strImagen;
     private $strStatusFuncionarios;
     private $strIdentificacion;
     private $intCargo;
@@ -50,7 +49,6 @@ class FuncionariosPermisosModel extends Mysql
             u.idefuncionario,
             u.correo_elc,
             u.nombre_completo,
-            u.imagen,
             u.status,
             u.nm_identificacion,
             c.nombre AS cargo_nombre,
@@ -88,7 +86,6 @@ class FuncionariosPermisosModel extends Mysql
                 u.idefuncionario,
                 u.correo_elc,
                 u.nombre_completo,
-                u.imagen,
                 u.status,
                 u.nm_identificacion,
                 u.cargo_fk,

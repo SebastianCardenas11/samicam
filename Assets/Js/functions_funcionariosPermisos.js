@@ -14,7 +14,6 @@ document.addEventListener(
             "dataSrc": ""
         },
         "columns": [
-            { "data": "imagen" },
             { "data": "nombre_completo" },
             { "data": "nm_identificacion" },
             { "data": "cargo_nombre" },
@@ -69,9 +68,6 @@ function fntViewInfo(idefuncionario) {
         document.querySelector("#celCargoFuncionario").innerHTML = objData.data.cargo_nombre;
         document.querySelector("#celDependenciaFuncionario").innerHTML = objData.data.dependencia_nombre;
         document.querySelector("#celPermisosMes").innerHTML = objData.data.permisos_mes_actual + "/3";
-        
-        // Mostrar la imagen del funcionario
-        document.querySelector("#celImagenFuncionario").src = objData.data.url_imagen;
 
         $("#modalViewFuncionario").modal("show");
       } else {
@@ -143,9 +139,6 @@ function fntViewHistorial(idefuncionario) {
       
       if (objData.status) {
         document.querySelector("#funcionarioHistorial").innerHTML = "Funcionario: " + objData.data.nombre_completo;
-        
-        // Mostrar imagen del funcionario
-        document.querySelector("#imgFuncionarioHistorial").src = objData.data.url_imagen;
         
         // Guardar el ID del funcionario para el botón de PDF
         document.querySelector("#btnGenerarPDF").setAttribute("data-id", idefuncionario);

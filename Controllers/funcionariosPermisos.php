@@ -40,15 +40,6 @@ class FuncionariosPermisos extends Controllers
                 $btnHistorial = '';
                 $btnPermisoEspecial = '';
 
-                // Agregar imagen del funcionario
-                $urlImagen = media().'/images/funcionarios/'.$arrData[$i]['imagen'];
-                // Verificar si existe la imagen
-                $rutaImagen = 'Assets/images/funcionarios/'.$arrData[$i]['imagen'];
-                if(!file_exists($rutaImagen)){
-                    $urlImagen = media().'/images/sin-imagen.png';
-                }
-                $arrData[$i]['imagen'] = '<img src="'.$urlImagen.'" alt="'.$arrData[$i]['nombre_completo'].'" class="img-thumbnail rounded-circle" style="width:50px; height:50px;">';
-
                 // Formatear el número de permisos como "X/3"
                 $arrData[$i]['permisos'] = $arrData[$i]['permisos_mes_actual'] . "/3";
 
@@ -101,14 +92,6 @@ class FuncionariosPermisos extends Controllers
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
-                    // Agregar URL de la imagen
-                    $urlImagen = media().'/images/funcionarios/'.$arrData['imagen'];
-                    // Verificar si existe la imagen
-                    $rutaImagen = 'Assets/images/funcionarios/'.$arrData['imagen'];
-                    if(!file_exists($rutaImagen)){
-                        $urlImagen = media().'/images/sin-imagen.png';
-                    }
-                    $arrData['url_imagen'] = $urlImagen;
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
@@ -252,36 +235,27 @@ class FuncionariosPermisos extends Controllers
                     $pdf->SetFont('Arial', 'B', 16);
                     
                     // Título
-                    $pdf->Cell(0, 10, utf8_decode('Historial de Permisos'), 0, 1, 'C');
+                    $pdf->Cell(0, 10, mb_convert_encoding('Historial de Permisos', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
                     $pdf->Ln(5);
                     
                     // Información del funcionario
                     $pdf->SetFont('Arial', 'B', 12);
-                    $pdf->Cell(0, 10, utf8_decode('Información del Funcionario'), 0, 1, 'L');
-                    
-                    // Imagen del funcionario
-                    $imagePath = 'Assets/images/funcionarios/'.$funcionario['imagen'];
-                    if(file_exists($imagePath)){
-                        $pdf->Image($imagePath, 160, 20, 30, 30);
-                    } else {
-                        // Usar imagen por defecto si no existe
-                        $pdf->Image('Assets/images/sin-imagen.png', 160, 20, 30, 30);
-                    }
+                    $pdf->Cell(0, 10, mb_convert_encoding('Información del Funcionario', 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
                     
                     $pdf->SetFont('Arial', '', 10);
                     
                     // Datos del funcionario
                     $pdf->Cell(40, 8, 'Nombre:', 1);
-                    $pdf->Cell(150, 8, utf8_decode($funcionario['nombre_completo']), 1, 1);
+                    $pdf->Cell(150, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 1, 1);
                     
-                    $pdf->Cell(40, 8, utf8_decode('Identificación:'), 1);
+                    $pdf->Cell(40, 8, mb_convert_encoding('Identificación:', 'ISO-8859-1', 'UTF-8'), 1);
                     $pdf->Cell(150, 8, $funcionario['nm_identificacion'], 1, 1);
                     
                     $pdf->Cell(40, 8, 'Cargo:', 1);
-                    $pdf->Cell(150, 8, utf8_decode($funcionario['cargo_nombre']), 1, 1);
+                    $pdf->Cell(150, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
                     
                     $pdf->Cell(40, 8, 'Dependencia:', 1);
-                    $pdf->Cell(150, 8, utf8_decode($funcionario['dependencia_nombre']), 1, 1);
+                    $pdf->Cell(150, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 1, 1);
                     
                     $pdf->Cell(40, 8, 'Permisos mes actual:', 1);
                     $pdf->Cell(150, 8, $funcionario['permisos_mes_actual'] . '/3', 1, 1);
@@ -305,8 +279,8 @@ class FuncionariosPermisos extends Controllers
                             $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
                             
                             $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
-                            $pdf->Cell(100, 8, utf8_decode($item['motivo']), 1, 0, 'L');
-                            $pdf->Cell(50, 8, utf8_decode($item['estado']), 1, 1, 'C');
+                            $pdf->Cell(100, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
+                            $pdf->Cell(50, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
                         }
                     } else {
                         $pdf->SetFont('Arial', '', 10);
@@ -393,7 +367,7 @@ class FuncionariosPermisos extends Controllers
                         
                         // Nombre del funcionario
                         $pdf->SetXY(60, 75);
-                        $pdf->Cell(140, 8, utf8_decode($funcionario['nombre_completo']), 0, 1);
+                        $pdf->Cell(140, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 0, 1);
                         
                         // Identificación
                         $pdf->SetXY(60, 83);
@@ -401,11 +375,11 @@ class FuncionariosPermisos extends Controllers
                         
                         // Cargo
                         $pdf->SetXY(60, 91);
-                        $pdf->Cell(140, 8, utf8_decode($funcionario['cargo_nombre']), 0, 1);
+                        $pdf->Cell(140, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
                         
                         // Dependencia
                         $pdf->SetXY(60, 99);
-                        $pdf->Cell(140, 8, utf8_decode($funcionario['dependencia_nombre']), 0, 1);
+                        $pdf->Cell(140, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
                         
                         // Fecha del permiso
                         $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
@@ -414,7 +388,7 @@ class FuncionariosPermisos extends Controllers
                         
                         // Motivo del permiso
                         $pdf->SetXY(60, 146);
-                        $pdf->MultiCell(130, 8, utf8_decode($permiso['motivo']), 0, 'L');
+                        $pdf->MultiCell(130, 8, mb_convert_encoding($permiso['motivo'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
                         
                         // Asegurarse de que no haya salida antes del PDF
                         while (ob_get_level()) {

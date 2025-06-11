@@ -22,7 +22,6 @@ headerAdmin($data);
                         <table class="table table-estilo" id="tableFuncionarios">
                             <thead class="table-success">
                                 <tr>
-                                    <th class="text-center">Foto</th>
                                     <th class="text-center">Nombre completo</th>
                                     <th class="text-center">Identificación</th> 
                                     <th class="text-center">Cargo</th> 
