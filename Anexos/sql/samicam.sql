@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 11-06-2025 a las 08:23:53
+-- Tiempo de generación: 11-06-2025 a las 10:42:49
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -301,7 +301,7 @@ CREATE TABLE `tbl_capital_viaticos` (
 --
 
 INSERT INTO `tbl_capital_viaticos` (`idCapital`, `anio`, `capital_total`, `capital_disponible`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 2025, 99999999.99, 99999999.99, '2025-05-15 19:38:53', '2025-06-04 19:46:50'),
+(1, 2025, 99999999.99, 99989999.99, '2025-05-15 19:38:53', '2025-06-11 07:57:30'),
 (2, 2023, 99999999.99, 99999999.99, '2025-05-17 21:14:06', '2025-05-17 21:14:06'),
 (3, 2024, 99999999.99, 99999999.99, '2025-05-17 21:14:08', '2025-05-17 21:14:08'),
 (4, 2026, 99999999.99, 99999999.99, '2025-05-17 21:14:12', '2025-05-17 21:14:12');
@@ -517,8 +517,8 @@ CREATE TABLE `tbl_funcionarios_planta` (
 
 INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
 (17, 'Elías José Iguaran Márquez', '1003379050', 3, 1, 2, '2147483647', 'Dg 6 5N - 86 / Luis Carlos Galan', 'helias.iguaran@gmail.com', '2025-03-10', 0, '', 'masculino', 'La Jagua de Ibirico', 22, 'casado', 'catolico', 'tecnico', 'Técnico en Sistemas', NULL, 1, 0),
-(18, 'Juan Jose pertuz', '123223', 3, 18, 1, '123', '123', 'Juan@gmail.com', '2025-06-09', 0, '', 'masculino', '13', 123, 'casado', 'cristiano', 'bachiller', 'sadasd', NULL, 0, 0),
-(19, 'Sebastian tres carnes', '594582384', 33, 11, 2, '1', 'Dg 6 5N - 86 / Luis Carlos Galan', 'sofi_castillo@gmail.Ntic.co.com', '2025-06-12', 0, '', 'masculino', 'la jagua de ibirico', 89, 'viudo', 'otro', 'tecnico', 'sadasd', NULL, 0, 0);
+(18, 'Juan Jose pertuz', '123223', 3, 18, 1, '123', '123', 'Juan@gmail.com', '2021-06-02', 0, '', 'masculino', '13', 123, 'casado', 'cristiano', 'bachiller', 'sadasd', NULL, 1, 0),
+(19, 'Sebastian tres carnes', '594582384', 33, 11, 2, '1', 'Dg 6 5N - 86 / Luis Carlos Galan', 'sofi_castillo@gmail.Ntic.co.com', '2021-06-11', 0, '', 'masculino', 'la jagua de ibirico', 89, 'viudo', 'otro', 'tecnico', 'sadasd', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -543,7 +543,8 @@ CREATE TABLE `tbl_historial_permisos` (
 --
 
 INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `fecha_registro`, `tipo_funcionario`) VALUES
-(9, 17, '2025-06-05', 6, 2025, 'Calamidad doméstica', 'Aprobado', '2025-06-05 10:16:34', 'planta');
+(9, 17, '2025-06-05', 6, 2025, 'Calamidad doméstica', 'Aprobado', '2025-06-05 10:16:34', 'planta'),
+(10, 17, '2025-06-11', 6, 2025, 'Calamidad doméstica', 'Aprobado', '2025-06-11 01:25:34', 'planta');
 
 -- --------------------------------------------------------
 
@@ -645,7 +646,8 @@ INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `me
 (37, 17, '2025-05-30', 5, 2025, 'Capacitación', 'Aprobado', 'planta'),
 (38, 17, '2025-05-31', 5, 2025, 'Cita médica', 'Aprobado', 'planta'),
 (39, 17, '2025-06-01', 6, 2025, 'Capacitación', 'Aprobado', 'planta'),
-(40, 17, '2025-06-05', 6, 2025, 'Calamidad doméstica', 'Aprobado', 'planta');
+(40, 17, '2025-06-05', 6, 2025, 'Calamidad doméstica', 'Aprobado', 'planta'),
+(41, 17, '2025-06-11', 6, 2025, 'Calamidad doméstica', 'Aprobado', 'planta');
 
 -- --------------------------------------------------------
 
@@ -740,6 +742,19 @@ CREATE TABLE `tbl_vacaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `tbl_vacaciones`
+--
+
+INSERT INTO `tbl_vacaciones` (`id_vacaciones`, `id_funcionario`, `fecha_inicio`, `fecha_fin`, `periodo`, `estado`, `fecha_registro`, `tipo_funcionario`) VALUES
+(49, 17, '2025-06-11', '2025-06-26', 1, 'Aprobado', '2025-06-11 02:22:35', 'planta'),
+(50, 17, '2025-06-11', '2025-06-26', 1, 'Aprobado', '2025-06-11 02:27:22', 'planta'),
+(51, 17, '2025-06-11', '2025-06-26', 1, 'Cancelado', '2025-06-11 02:34:57', 'planta'),
+(52, 17, '2025-06-11', '2025-06-26', 1, 'Aprobado', '2025-06-11 02:36:33', 'planta'),
+(53, 17, '2025-06-11', '2025-06-26', 1, 'Pendiente', '2025-06-11 02:38:56', 'planta'),
+(54, 18, '2025-06-11', '2025-06-26', 1, 'Aprobado', '2025-06-11 02:40:46', 'planta'),
+(55, 19, '2025-06-11', '2025-06-26', 1, 'Aprobado', '2025-06-11 02:40:52', 'planta');
+
+--
 -- Disparadores `tbl_vacaciones`
 --
 DELIMITER $$
@@ -780,6 +795,13 @@ CREATE TABLE `tbl_viaticos` (
   `estatus` tinyint(1) NOT NULL DEFAULT 1,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_viaticos`
+--
+
+INSERT INTO `tbl_viaticos` (`idViatico`, `funci_fk`, `descripcion`, `monto`, `fecha_aprobacion`, `fecha_salida`, `fecha_regreso`, `uso`, `estatus`, `fecha_creacion`) VALUES
+(5, 18, 'prostibulo', 10000.00, '2025-06-11', '2025-06-12', '2025-06-14', 'cositas', 1, '2025-06-11 07:57:30');
 
 --
 -- Índices para tablas volcadas
@@ -1018,7 +1040,7 @@ ALTER TABLE `tbl_funcionarios_planta`
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivo_permiso`
@@ -1042,7 +1064,7 @@ ALTER TABLE `tbl_observaciones`
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas`
@@ -1066,13 +1088,13 @@ ALTER TABLE `tbl_usuarios`
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
-  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_viaticos`
 --
 ALTER TABLE `tbl_viaticos`
-  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
