@@ -896,3 +896,15 @@
 [2025-06-11 15:34:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
 [2025-06-11 15:34:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
 [2025-06-11 15:37:47] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:40:35] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 10.90.1.10 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-11 15:40:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Dashboard
+[2025-06-11 15:41:27] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:41:33] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:42:13] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:42:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:43:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 15:46:28] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 10.90.1.10 | Acción: Acceso al módulo Dashboard
+[2025-06-11 15:47:04] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 10.90.1.10 | Acción: Acceso al módulo Dashboard
+[2025-06-11 15:51:28] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 10.90.1.10 | Acción: Acceso al módulo Dashboard
+[2025-06-11 15:52:52] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
+[2025-06-11 16:02:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 10.90.1.10 | Acción: Acceso al módulo Publicaciones
