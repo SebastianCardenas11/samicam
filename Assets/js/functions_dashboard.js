@@ -172,7 +172,7 @@ function cargarPermisosPorMes() {
                             label: 'Permisos',
                             tension: 0.4,
                             borderWidth: 3,
-                            pointRadius: 4,
+                            pointRadius: 2,
                             pointBackgroundColor: "#cb0c9f",
                             pointBorderColor: "#cb0c9f",
                             borderColor: "#cb0c9f",

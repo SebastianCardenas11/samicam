@@ -12,7 +12,7 @@
                             <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
                                 <i class="fas fa-users text-dark text-lg opacity-10" aria-hidden="true"></i>
                             </div>
-                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['usuarios'] ?></h5>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['usuarios']['status'] == 1?></h5>
                             <span class="text-white text-sm">Usuarios</span>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                             <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
                                 <i class="fas fa-user-cog text-dark text-lg opacity-10" aria-hidden="true"></i>
                             </div>
-                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['funcionariosops'] ?></h5>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['funcionariosops']['status'] == 1 ?></h5>
                             <span class="text-white text-sm">Funcionarios OPS</span>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                             <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
                                 <i class="fas fa-user-tie text-dark text-lg opacity-10" aria-hidden="true"></i>
                             </div>
-                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['funcionariosplanta'] ?></h5>
+                            <h5 class="text-white font-weight-bolder mb-0 mt-3"><?= $data['funcionariosplanta']['status'] == 1 ?></h5>
                             <span class="text-white text-sm">Funcionarios Planta</span>
                         </div>
                     </div>
