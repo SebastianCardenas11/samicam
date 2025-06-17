@@ -60,7 +60,8 @@ class PublicacionesModel extends Mysql
     // Insertar nueva publicación
     public function insertPublicacion(string $fechaRecibido, string $correoRecibido, string $asunto, 
                                     string $fechaPublicacion, string $respuestaEnvio, 
-                                    string $enlacePublicacion, int $dependencia, int $status)
+                                    string $enlacePublicacion, int $dependencia, int $status,
+                                    string $nombrePublicacion = '')
     {
         $return = 0;
         $this->strFechaRecibido = $fechaRecibido;
@@ -81,7 +82,7 @@ class PublicacionesModel extends Mysql
                                                      enlace_publicacion, dependencia_fk, status) 
                             VALUES(?,?,?,?,?,?,?,?,?)";
             $arrData = array(
-                $this->strAsunto, // Usando el asunto como nombre de publicación por defecto
+                $nombrePublicacion ?: $this->strAsunto, // Use provided nombre_publicacion or asunto as fallback
                 $this->strFechaRecibido,
                 $this->strCorreoRecibido,
                 $this->strAsunto,
@@ -194,7 +195,8 @@ class PublicacionesModel extends Mysql
 
     public function updatePublicacion(int $idPublicacion, string $fechaRecibido, string $correoRecibido, 
                                     string $asunto, string $fechaPublicacion, string $respuestaEnvio, 
-                                    string $enlacePublicacion, int $dependencia, int $status)
+                                    string $enlacePublicacion, int $dependencia, int $status,
+                                    string $nombrePublicacion = '')
     {
         $this->intIdPublicacion = $idPublicacion;
         $this->strFechaRecibido = $fechaRecibido;
@@ -205,6 +207,12 @@ class PublicacionesModel extends Mysql
         $this->strEnlacePublicacion = $enlacePublicacion;
         $this->intDependencia = $dependencia;
         $this->intStatus = $status;
+
+        // Get current publication data if nombre_publicacion is not provided
+        if (empty($nombrePublicacion)) {
+            $currentData = $this->selectPublicacion($idPublicacion);
+            $nombrePublicacion = $currentData['nombre_publicacion'];
+        }
 
         $sql = "UPDATE publicaciones SET 
                 fecha_recibido = ?, 
@@ -222,7 +230,7 @@ class PublicacionesModel extends Mysql
             $this->strFechaRecibido,
             $this->strCorreoRecibido,
             $this->strAsunto,
-            $this->strAsunto, // Usando el asunto como nombre de publicación
+            $nombrePublicacion,
             $this->strFechaPublicacion,
             $this->strRespuestaEnvio,
             $this->strEnlacePublicacion,

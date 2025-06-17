@@ -108,6 +108,7 @@ class Publicaciones extends Controllers
                 $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
             } else {
                 $intIdPublicacion = intval($_POST['idPublicacion']);
+                $strNombrePublicacion = strClean($_POST['txtNombrePublicacion']);
                 $strFechaRecibido = strClean($_POST['txtFechaRecibido']);
                 $strCorreoRecibido = strClean($_POST['txtCorreoRecibido']);
                 $strAsunto = strClean($_POST['txtAsunto']);
@@ -128,7 +129,8 @@ class Publicaciones extends Controllers
                             $strRespuestaEnvio,
                             $strEnlacePublicacion,
                             $intDependencia,
-                            $intStatus
+                            $intStatus,
+                            $strNombrePublicacion
                         );
                         $option = 1;
                     } else {
@@ -148,7 +150,8 @@ class Publicaciones extends Controllers
                             $strRespuestaEnvio,
                             $strEnlacePublicacion,
                             $intDependencia,
-                            $intStatus
+                            $intStatus,
+                            $strNombrePublicacion
                         );
                         $option = 2;
                     } else {
