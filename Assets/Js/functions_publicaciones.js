@@ -125,8 +125,8 @@ function initializeTable() {
                 "data": "status",
                 "render": function(data, type, row) {
                     return data == 1 ? 
-                        '<span class=" badge-success">Activo</span>' : 
-                        '<span class="badge badge-danger">Inactivo</span>';
+                        '<span class="badge text-bg-success">Activo</span>' : 
+                        '<span class="badge text-bg-danger">Inactivo</span>';
                 }
             },
             {"data": "options"}
@@ -195,8 +195,8 @@ function fntViewInfo(idpublicacion) {
                 let objData = JSON.parse(request.responseText);
                 if(objData.status) {
                     let estado = objData.data.status == 1 ? 
-                    '<span class="badge badge-success">Activo</span>' : 
-                    '<span class="badge badge-danger">Inactivo</span>';
+                    '<span class="badge text-bg-success">Activo</span>' : 
+                    '<span class="badge text-bg-danger">Inactivo</span>';
                     
                     document.querySelector("#celId").innerHTML = objData.data.id_publicacion;
                     document.querySelector("#celNombrePublicacion").innerHTML = objData.data.nombre_publicacion;
