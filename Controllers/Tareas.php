@@ -182,27 +182,42 @@
         public function setTarea()
         {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $id_tarea = isset($_POST['id_tarea']) ? intval($_POST['id_tarea']) : 0;
+                // Debug: Log todos los datos POST
+                error_log("=== DEBUG TAREAS ===");
+                error_log("POST data: " . print_r($_POST, true));
+                
+                $id_tarea = isset($_POST['idTarea']) ? intval($_POST['idTarea']) : 0;
                 $id_usuario_creador = $_SESSION['idUser'];
-                $usuarios_asignados = isset($_POST['usuarios_asignados']) ? $_POST['usuarios_asignados'] : [];
-                $tipo = isset($_POST['tipo']) ? $_POST['tipo'] : '';
-                $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
-                $dependencia_fk = isset($_POST['dependencia_fk']) ? intval($_POST['dependencia_fk']) : 0;
-                $fecha_inicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
-                $fecha_fin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
-                $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : '';
+                $usuarios_asignados = isset($_POST['usuariosIds']) ? $_POST['usuariosIds'] : [];
+                $tipo = isset($_POST['listTipo']) ? $_POST['listTipo'] : '';
+                $descripcion = isset($_POST['txtDescripcion']) ? $_POST['txtDescripcion'] : '';
+                $dependencia_fk = isset($_POST['listDependencia']) ? intval($_POST['listDependencia']) : 0;
+                $fecha_inicio = isset($_POST['txtFechaInicio']) ? $_POST['txtFechaInicio'] : '';
+                $fecha_fin = isset($_POST['txtFechaFin']) ? $_POST['txtFechaFin'] : '';
+                $observacion = isset($_POST['txtObservacion']) ? $_POST['txtObservacion'] : '';
+
+                // Debug: Log las variables procesadas
+                error_log("Variables procesadas:");
+                error_log("id_tarea: " . $id_tarea);
+                error_log("usuarios_asignados: " . print_r($usuarios_asignados, true));
+                error_log("tipo: " . $tipo);
+                error_log("descripcion: " . $descripcion);
+                error_log("dependencia_fk: " . $dependencia_fk);
+                error_log("fecha_inicio: " . $fecha_inicio);
+                error_log("fecha_fin: " . $fecha_fin);
+                error_log("observacion: " . $observacion);
 
                 // Verificar permisos
                 if ($id_tarea == 0) {
                     // Crear nueva tarea
-                    if (!permisosUsuario($_SESSION['idUser'], 'crear_tareas')) {
+                    if (empty($_SESSION['permisosMod']['w'])) {
                         $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para crear tareas.');
                         echo json_encode($arrResponse);
                         return;
                     }
                 } else {
                     // Editar tarea existente
-                    if (!permisosUsuario($_SESSION['idUser'], 'editar_tareas')) {
+                    if (empty($_SESSION['permisosMod']['u'])) {
                         $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para editar tareas.');
                         echo json_encode($arrResponse);
                         return;
@@ -216,7 +231,10 @@
                     return;
                 }
 
-                // Procesar usuarios asignados
+                // Procesar usuarios asignados - convertir de string a array
+                if (is_string($usuarios_asignados)) {
+                    $usuarios_asignados = !empty($usuarios_asignados) ? explode(',', $usuarios_asignados) : [];
+                }
                 $usuarios_asignados = is_array($usuarios_asignados) ? $usuarios_asignados : [$usuarios_asignados];
 
                 // Crear o actualizar tarea
@@ -233,6 +251,7 @@
 
                 if ($request_tarea > 0) {
                     // Enviar notificaciones a los usuarios asignados
+                    require_once "Models/NotificacionesModel.php";
                     $notificacionesModel = new NotificacionesModel();
                     foreach ($usuarios_asignados as $id_usuario) {
                         $mensaje = "Se te ha asignado una nueva tarea: " . $descripcion;

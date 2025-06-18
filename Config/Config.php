@@ -3,8 +3,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 //IP del servidor y local
-const PROTOCOL = "http";
-const IP_SERVER = "192.168.110.45:80";
+const PROTOCOL = "https";
+const IP_SERVER = "192.168.1.14:443";
 const IP_LOCAL = "localhost";
 const BASE_URL = PROTOCOL."://".IP_SERVER."/samicam";
 
@@ -12,7 +12,7 @@ const BASE_URL = PROTOCOL."://".IP_SERVER."/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = IP_LOCAL.":3306";
+const DB_HOST = IP_LOCAL.":3307";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";

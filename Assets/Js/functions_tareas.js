@@ -99,11 +99,11 @@ document.addEventListener('DOMContentLoaded', function(){
         let strFechaInicio = document.querySelector('#txtFechaInicio').value;
         let strFechaFin = document.querySelector('#txtFechaFin').value;
         
-        if(strUsuariosIds == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
-           strFechaInicio == '' || strFechaFin == '') {
-            Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-            return false;
-        }
+            if(strUsuariosIds == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
+            strFechaInicio == '' || strFechaFin == '') {
+                Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+                return false;
+            }
 
         // Validar que la fecha de fin sea posterior a la fecha de inicio
         let fechaInicio = new Date(strFechaInicio);
@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function(){
         request.send(formData);
         request.onreadystatechange = function(){
             if(request.readyState == 4 && request.status == 200){
+                console.log(request.responseText);
                 let objData = JSON.parse(request.responseText);
                 if(objData.status) {
                     var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
