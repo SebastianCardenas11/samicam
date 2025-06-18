@@ -73,14 +73,6 @@
             <button id="btnActionForm" class="btn btn-success" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>
             <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</button>
           </div>
-          
-          <!-- Indicador de carga -->
-          <div id="loadingIndicator" class="text-center p-3" style="display: none;">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Cargando...</span>
-            </div>
-            <p class="mt-2 mb-0 text-muted">Guardando tarea y enviando notificaciones...</p>
-          </div>
         </form>
       </div>
     </div>

@@ -89,3 +89,24 @@
 [2025-06-18 00:01:54] [ERROR] All providers failed
 [2025-06-18 00:01:54] [ERROR] Failed to send WhatsApp message to 573018467581
 [2025-06-18 00:01:54] [INFO] Enviado a número específico: 573018467581
+[2025-06-18 00:46:18] [INFO] Attempting to send WhatsApp message to 573018467581
+[2025-06-18 00:46:19] [WARNING] Primary provider failed, trying alternatives
+[2025-06-18 00:46:19] [INFO] Trying alternative provider: wamr
+[2025-06-18 00:46:20] [INFO] Trying alternative provider: whatsapp_business
+[2025-06-18 00:46:20] [ERROR] All providers failed
+[2025-06-18 00:46:20] [ERROR] Failed to send WhatsApp message to 573018467581
+[2025-06-18 00:46:20] [INFO] Enviado a número específico: 573018467581
+[2025-06-18 00:46:51] [INFO] Attempting to send WhatsApp message to 573018467581
+[2025-06-18 00:46:52] [WARNING] Primary provider failed, trying alternatives
+[2025-06-18 00:46:52] [INFO] Trying alternative provider: wamr
+[2025-06-18 00:46:53] [INFO] Trying alternative provider: whatsapp_business
+[2025-06-18 00:46:53] [ERROR] All providers failed
+[2025-06-18 00:46:53] [ERROR] Failed to send WhatsApp message to 573018467581
+[2025-06-18 00:46:53] [INFO] Enviado a número específico: 573018467581
+[2025-06-18 00:57:11] [INFO] Attempting to send WhatsApp message to 573018467581
+[2025-06-18 00:57:12] [WARNING] Primary provider failed, trying alternatives
+[2025-06-18 00:57:12] [INFO] Trying alternative provider: wamr
+[2025-06-18 00:57:13] [INFO] Trying alternative provider: whatsapp_business
+[2025-06-18 00:57:14] [ERROR] All providers failed
+[2025-06-18 00:57:14] [ERROR] Failed to send WhatsApp message to 573018467581
+[2025-06-18 00:57:14] [INFO] Enviado a número específico: 573018467581
