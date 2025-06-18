@@ -113,25 +113,9 @@ document.addEventListener('DOMContentLoaded', function(){
             return false;
         }
 
-        // Mostrar modal de carga con SweetAlert
-        Swal.fire({
-            title: "Guardando tarea...",
-            text: "Por favor espere mientras se guarda la tarea y se envían las notificaciones",
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Tareas/setTarea';
         let formData = new FormData(formTarea);
-        
-        // Configurar timeout de 60 segundos
-        request.timeout = 60000;
-        
         request.open("POST",ajaxUrl,true);
         request.send(formData);
         request.onreadystatechange = function(){
@@ -142,16 +126,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
                     modalTarea.hide();
                     formTarea.reset();
-                    
-                    // Mostrar modal de éxito
-                    Swal.fire({
-                        icon: "success",
-                        title: "¡Tarea guardada exitosamente!",
-                        text: objData.msg,
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#28a745"
-                    });
-                    
+                    Swal.fire("Tareas", objData.msg, "success");
                     tableTareas.api().ajax.reload();
                     if(window.calendar) {
                         window.calendar.refetchEvents();
@@ -161,16 +136,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
             }
         }
-        
-        // Manejar errores de red
-        request.onerror = function() {
-            Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
-        };
-        
-        // Manejar timeout
-        request.ontimeout = function() {
-            Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
-        };
     }
 
     // Formulario Nueva Observación
@@ -186,41 +151,17 @@ document.addEventListener('DOMContentLoaded', function(){
                 return false;
             }
 
-            // Mostrar modal de carga con SweetAlert
-            Swal.fire({
-                title: "Agregando observación...",
-                text: "Por favor espere",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/addObservacion';
             let formData = new FormData(formNuevaObservacion);
             request.open("POST",ajaxUrl,true);
-            
-            // Configurar timeout de 30 segundos
-            request.timeout = 30000;
-            
             request.send(formData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         document.querySelector('#txtNuevaObservacion').value = '';
-                        
-                        // Mostrar modal de éxito
-                        Swal.fire({
-                            icon: "success",
-                            title: "¡Observación agregada!",
-                            text: objData.msg,
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: "#28a745"
-                        });
+                        Swal.fire("Observación", objData.msg, "success");
                         
                         // Recargar la lista de observaciones
                         let idTarea = document.querySelector('#idTareaObsList').value;
@@ -233,16 +174,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     }
                 }
             }
-            
-            // Manejar errores de red
-            request.onerror = function() {
-                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
-            };
-            
-            // Manejar timeout
-            request.ontimeout = function() {
-                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
-            };
         }
     }
 
@@ -450,64 +381,31 @@ function fntDelTarea(idtarea) {
         showCancelButton: true,
         confirmButtonText: "Si, eliminar!",
         cancelButtonText: "No, cancelar!",
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
         closeOnConfirm: false,
         closeOnCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
-            // Mostrar indicador de carga
-            Swal.fire({
-                title: "Eliminando tarea...",
-                text: "Por favor espere",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-            
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/delTarea';
             let strData = "idTarea="+idtarea;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            
-            // Configurar timeout
-            request.timeout = 30000;
-            
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "¡Tarea eliminada!",
-                            text: objData.msg,
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: "#28a745"
-                        });
+                        Swal.fire("Eliminar!", objData.msg, "success");
                         tableTareas.api().ajax.reload(null, false);
                         // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
                         }
                     } else {
-                        Swal.fire("Error", objData.msg, "error");
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
-            
-            // Manejar errores
-            request.onerror = function() {
-                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
-            };
-            
-            request.ontimeout = function() {
-                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
-            };
         }
     });
 }
@@ -520,64 +418,31 @@ function fntStartTarea(idtarea) {
         showCancelButton: true,
         confirmButtonText: "Si, iniciar!",
         cancelButtonText: "No, cancelar!",
-        confirmButtonColor: "#ffc107",
-        cancelButtonColor: "#6c757d",
         closeOnConfirm: false,
         closeOnCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
-            // Mostrar indicador de carga
-            Swal.fire({
-                title: "Iniciando tarea...",
-                text: "Por favor espere",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-            
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/startTarea';
             let strData = "idTarea="+idtarea;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            
-            // Configurar timeout
-            request.timeout = 30000;
-            
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "¡Tarea iniciada!",
-                            text: objData.msg,
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: "#28a745"
-                        });
+                        Swal.fire("Tarea iniciada!", objData.msg, "success");
                         tableTareas.api().ajax.reload(null, false);
                         // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
                         }
                     } else {
-                        Swal.fire("Error", objData.msg, "error");
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
-            
-            // Manejar errores
-            request.onerror = function() {
-                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
-            };
-            
-            request.ontimeout = function() {
-                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
-            };
         }
     });
 }
@@ -590,62 +455,31 @@ function fntCompleteTarea(idtarea) {
         showCancelButton: true,
         confirmButtonText: "Si, completar!",
         cancelButtonText: "No, cancelar!",
-        confirmButtonColor: "#28a745",
-        cancelButtonColor: "#6c757d"
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Mostrar indicador de carga
-            Swal.fire({
-                title: "Completando tarea...",
-                text: "Por favor espere",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-            
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/completeTarea';
             let strData = "idTarea="+idtarea;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            
-            // Configurar timeout
-            request.timeout = 30000;
-            
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "¡Tarea completada!",
-                            text: objData.msg,
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: "#28a745"
-                        });
+                        Swal.fire("Tarea completada!", objData.msg, "success");
                         tableTareas.api().ajax.reload(null, false);
                         // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
                         }
                     } else {
-                        Swal.fire("Error", objData.msg, "error");
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
-            
-            // Manejar errores
-            request.onerror = function() {
-                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
-            };
-            
-            request.ontimeout = function() {
-                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
-            };
         }
     });
 }

@@ -276,7 +276,7 @@
                     }
 
                     if ($id_tarea == 0) {
-                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente. Se han enviado notificaciones a los usuarios asignados.');
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
                     } else {
                         $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
                     }
