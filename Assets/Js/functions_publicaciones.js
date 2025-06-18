@@ -120,7 +120,14 @@ function initializeTable() {
             {"data": "asunto"},
             {"data": "dependencia_nombre"},
             {"data": "fecha_publicacion"},
-            {"data": "respuesta_envio"},
+            {
+                "data": "respuesta_envio",
+                "render": function(data, type, row) {
+                    return data == 'Si' ? 
+                        '<span class="badge text-bg-success">Si</span>' : 
+                        '<span class="badge text-bg-warning">No</span>';
+                }
+            },
             {
                 "data": "status",
                 "render": function(data, type, row) {
@@ -205,7 +212,12 @@ function fntViewInfo(idpublicacion) {
                     document.querySelector("#celAsunto").innerHTML = objData.data.asunto;
                     document.querySelector("#celDependencia").innerHTML = objData.data.dependencia_nombre;
                     document.querySelector("#celFechaPublicacion").innerHTML = objData.data.fecha_publicacion;
-                    document.querySelector("#celRespuestaEnvio").innerHTML = objData.data.respuesta_envio;
+                    
+                    // Mostrar respuesta de envío con badge
+                    let respuestaEnvio = objData.data.respuesta_envio == 'Si' ? 
+                        '<span class="badge text-bg-success">Si</span>' : 
+                        '<span class="badge text-bg-warning">No</span>';
+                    document.querySelector("#celRespuestaEnvio").innerHTML = respuestaEnvio;
                     
                     // Hacer el enlace clicable en el modal de vista
                     if(objData.data.enlace_publicacion) {
