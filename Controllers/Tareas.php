@@ -181,74 +181,74 @@
 
         public function setTarea()
         {
-            // Solo el super admin puede crear tareas
-            if($_SESSION['userData']['idrol'] != 1) {
-                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para realizar esta acción.');
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-                die();
-            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $id_tarea = isset($_POST['id_tarea']) ? intval($_POST['id_tarea']) : 0;
+                $id_usuario_creador = $_SESSION['idUser'];
+                $usuarios_asignados = isset($_POST['usuarios_asignados']) ? $_POST['usuarios_asignados'] : [];
+                $tipo = isset($_POST['tipo']) ? $_POST['tipo'] : '';
+                $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
+                $dependencia_fk = isset($_POST['dependencia_fk']) ? intval($_POST['dependencia_fk']) : 0;
+                $fecha_inicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
+                $fecha_fin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
+                $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : '';
 
-            $idTarea = intval($_POST['idTarea']);
-            $usuariosIds = isset($_POST['usuariosIds']) ? $_POST['usuariosIds'] : '';
-            $tipo = strClean($_POST['listTipo']);
-            $descripcion = strClean($_POST['txtDescripcion']);
-            $dependencia = intval($_POST['listDependencia']);
-            $fechaInicio = $_POST['txtFechaInicio'];
-            $fechaFin = $_POST['txtFechaFin'];
-            $observacion = strClean($_POST['txtObservacion']);
-            $estado = isset($_POST['listEstado']) ? $_POST['listEstado'] : 'sin empezar';
-
-            // Convertir string de IDs a array
-            $usuariosAsignados = [];
-            if(!empty($usuariosIds)) {
-                $usuariosAsignados = explode(',', $usuariosIds);
-            }
-
-            if(empty($usuariosAsignados)) {
-                $arrResponse = array('status' => false, 'msg' => 'Debe seleccionar al menos un usuario para asignar la tarea.');
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-                die();
-            }
-
-            if($idTarea == 0) // Nueva tarea
-            {
-                $request_tarea = $this->model->insertTarea($_SESSION['idUser'], $usuariosAsignados, $tipo, 
-                                                          $descripcion, $dependencia, $fechaInicio, 
-                                                          $fechaFin, $observacion);
-                $option = 1;
-            } else { // Actualizar tarea
-                // Verificar si es el creador de la tarea
-                $arrTarea = $this->model->getTarea($idTarea);
-                if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
-                    $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para editar esta tarea.');
-                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-                    die();
-                }
-                
-                // Verificar que la tarea esté sin empezar
-                if($arrTarea['estado'] != 'sin empezar') {
-                    $arrResponse = array('status' => false, 'msg' => 'No se puede editar una tarea que ya está en curso o completada.');
-                    echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-                    die();
+                // Verificar permisos
+                if ($id_tarea == 0) {
+                    // Crear nueva tarea
+                    if (!permisosUsuario($_SESSION['idUser'], 'crear_tareas')) {
+                        $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para crear tareas.');
+                        echo json_encode($arrResponse);
+                        return;
+                    }
+                } else {
+                    // Editar tarea existente
+                    if (!permisosUsuario($_SESSION['idUser'], 'editar_tareas')) {
+                        $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para editar tareas.');
+                        echo json_encode($arrResponse);
+                        return;
+                    }
                 }
 
-                $request_tarea = $this->model->updateTarea($idTarea, $usuariosAsignados, $tipo, 
-                                                          $descripcion, $dependencia, $estado,
-                                                          $fechaInicio, $fechaFin, $observacion);
-                $option = 2;
-            }
-
-            if($request_tarea > 0)
-            {
-                if($option == 1){
-                    $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
-                }else{
-                    $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
+                // Validar datos
+                if (empty($tipo) || empty($descripcion) || empty($fecha_inicio) || empty($fecha_fin) || empty($usuarios_asignados)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
+                    echo json_encode($arrResponse);
+                    return;
                 }
-            }else{
-                $arrResponse = array('status' => false, 'msg' => 'Error al guardar los datos.');
+
+                // Procesar usuarios asignados
+                $usuarios_asignados = is_array($usuarios_asignados) ? $usuarios_asignados : [$usuarios_asignados];
+
+                // Crear o actualizar tarea
+                $request_tarea = $this->model->insertTarea(
+                    $id_usuario_creador,
+                    $usuarios_asignados,
+                    $tipo,
+                    $descripcion,
+                    $dependencia_fk,
+                    $fecha_inicio,
+                    $fecha_fin,
+                    $observacion
+                );
+
+                if ($request_tarea > 0) {
+                    // Enviar notificaciones a los usuarios asignados
+                    $notificacionesModel = new NotificacionesModel();
+                    foreach ($usuarios_asignados as $id_usuario) {
+                        $mensaje = "Se te ha asignado una nueva tarea: " . $descripcion;
+                        $notificacionesModel->insertNotificacion($id_usuario, 'tarea', $mensaje);
+                    }
+
+                    if ($id_tarea == 0) {
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
+                    } else {
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
+                    }
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al procesar la tarea.');
+                }
+                echo json_encode($arrResponse);
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
 

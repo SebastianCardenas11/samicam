@@ -4,9 +4,9 @@ ini_set('display_errors', 1);
 
 //IP del servidor y local
 const PROTOCOL = "http";
-const IP_SERVER = "10.90.1.84:4443";
+const IP_SERVER = "192.168.110.45:80";
 const IP_LOCAL = "localhost";
-const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
+const BASE_URL = PROTOCOL."://".IP_SERVER."/samicam";
 
 //Zona horaria
 date_default_timezone_set('America/Bogota');
