@@ -19,6 +19,14 @@
           </div>
         </form>
         
+        <!-- Indicador de carga para observaciones -->
+        <div id="loadingIndicatorObs" class="text-center p-2" style="display: none;">
+          <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <small class="text-muted ms-2">Agregando observación...</small>
+        </div>
+        
         <hr>
         
         <!-- Lista de observaciones -->

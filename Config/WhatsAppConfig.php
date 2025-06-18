@@ -22,9 +22,6 @@ define('CALLMEBOT_API_URL', 'https://api.callmebot.com/whatsapp.php');
 // Números alternativos de Callmebot si el principal no responde
 define('CALLMEBOT_ALTERNATIVE_NUMBERS', [
     '+34 644 51 95 23',  // Número principal
-    '+34 644 51 95 24',  // Número alternativo 1
-    '+34 644 51 95 25',  // Número alternativo 2
-    '+34 644 51 95 26'   // Número alternativo 3
 ]);
 
 // Configuración para WhatsApp Business API (Gratuito para desarrollo)

@@ -113,9 +113,30 @@ document.addEventListener('DOMContentLoaded', function(){
             return false;
         }
 
+        // Mostrar indicador de carga
+        let btnSubmit = document.querySelector('#btnActionForm');
+        let btnText = document.querySelector('#btnText');
+        let originalText = btnText.innerHTML;
+        let originalIcon = btnSubmit.innerHTML;
+        let loadingIndicator = document.querySelector('#loadingIndicator');
+        
+        // Deshabilitar el botón y mostrar carga
+        btnSubmit.disabled = true;
+        btnText.innerHTML = 'Guardando...';
+        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span id="btnText">Guardando...</span>';
+        
+        // Mostrar indicador de carga en el modal
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'block';
+        }
+
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Tareas/setTarea';
         let formData = new FormData(formTarea);
+        
+        // Configurar timeout de 60 segundos
+        request.timeout = 60000;
+        
         request.open("POST",ajaxUrl,true);
         request.send(formData);
         request.onreadystatechange = function(){
@@ -134,8 +155,46 @@ document.addEventListener('DOMContentLoaded', function(){
                 } else {
                     Swal.fire("Error", objData.msg, "error");
                 }
+                
+                // Restaurar el botón
+                btnSubmit.disabled = false;
+                btnText.innerHTML = originalText;
+                btnSubmit.innerHTML = originalIcon;
+                
+                // Ocultar indicador de carga en el modal
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
             }
         }
+        
+        // Manejar errores de red
+        request.onerror = function() {
+            Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
+            // Restaurar el botón
+            btnSubmit.disabled = false;
+            btnText.innerHTML = originalText;
+            btnSubmit.innerHTML = originalIcon;
+            
+            // Ocultar indicador de carga en el modal
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        };
+        
+        // Manejar timeout
+        request.ontimeout = function() {
+            Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
+            // Restaurar el botón
+            btnSubmit.disabled = false;
+            btnText.innerHTML = originalText;
+            btnSubmit.innerHTML = originalIcon;
+            
+            // Ocultar indicador de carga en el modal
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        };
     }
 
     // Formulario Nueva Observación
@@ -151,10 +210,31 @@ document.addEventListener('DOMContentLoaded', function(){
                 return false;
             }
 
+            // Mostrar indicador de carga
+            let btnAgregarObs = document.querySelector('#btnAgregarObs');
+            let btnAgregarText = btnAgregarObs.querySelector('span');
+            let originalObsText = btnAgregarText.innerHTML;
+            let originalObsIcon = btnAgregarObs.innerHTML;
+            let loadingIndicatorObs = document.querySelector('#loadingIndicatorObs');
+            
+            // Deshabilitar el botón y mostrar carga
+            btnAgregarObs.disabled = true;
+            btnAgregarText.innerHTML = 'Agregando...';
+            btnAgregarObs.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Agregando...</span>';
+            
+            // Mostrar indicador de carga en el modal
+            if (loadingIndicatorObs) {
+                loadingIndicatorObs.style.display = 'block';
+            }
+
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/addObservacion';
             let formData = new FormData(formNuevaObservacion);
             request.open("POST",ajaxUrl,true);
+            
+            // Configurar timeout de 30 segundos
+            request.timeout = 30000;
+            
             request.send(formData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
@@ -172,8 +252,46 @@ document.addEventListener('DOMContentLoaded', function(){
                     } else {
                         Swal.fire("Error", objData.msg, "error");
                     }
+                    
+                    // Restaurar el botón
+                    btnAgregarObs.disabled = false;
+                    btnAgregarText.innerHTML = originalObsText;
+                    btnAgregarObs.innerHTML = originalObsIcon;
+                    
+                    // Ocultar indicador de carga en el modal
+                    if (loadingIndicatorObs) {
+                        loadingIndicatorObs.style.display = 'none';
+                    }
                 }
             }
+            
+            // Manejar errores de red
+            request.onerror = function() {
+                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
+                // Restaurar el botón
+                btnAgregarObs.disabled = false;
+                btnAgregarText.innerHTML = originalObsText;
+                btnAgregarObs.innerHTML = originalObsIcon;
+                
+                // Ocultar indicador de carga en el modal
+                if (loadingIndicatorObs) {
+                    loadingIndicatorObs.style.display = 'none';
+                }
+            };
+            
+            // Manejar timeout
+            request.ontimeout = function() {
+                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
+                // Restaurar el botón
+                btnAgregarObs.disabled = false;
+                btnAgregarText.innerHTML = originalObsText;
+                btnAgregarObs.innerHTML = originalObsIcon;
+                
+                // Ocultar indicador de carga en el modal
+                if (loadingIndicatorObs) {
+                    loadingIndicatorObs.style.display = 'none';
+                }
+            };
         }
     }
 
@@ -385,11 +503,27 @@ function fntDelTarea(idtarea) {
         closeOnCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            // Mostrar indicador de carga
+            Swal.fire({
+                title: "Eliminando tarea...",
+                text: "Por favor espere",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/delTarea';
             let strData = "idTarea="+idtarea;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+            // Configurar timeout
+            request.timeout = 30000;
+            
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
@@ -406,6 +540,15 @@ function fntDelTarea(idtarea) {
                     }
                 }
             }
+            
+            // Manejar errores
+            request.onerror = function() {
+                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
+            };
+            
+            request.ontimeout = function() {
+                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
+            };
         }
     });
 }
@@ -422,11 +565,27 @@ function fntStartTarea(idtarea) {
         closeOnCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            // Mostrar indicador de carga
+            Swal.fire({
+                title: "Iniciando tarea...",
+                text: "Por favor espere",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/startTarea';
             let strData = "idTarea="+idtarea;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+            // Configurar timeout
+            request.timeout = 30000;
+            
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
@@ -443,6 +602,15 @@ function fntStartTarea(idtarea) {
                     }
                 }
             }
+            
+            // Manejar errores
+            request.onerror = function() {
+                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
+            };
+            
+            request.ontimeout = function() {
+                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
+            };
         }
     });
 }
@@ -459,11 +627,27 @@ function fntCompleteTarea(idtarea) {
         cancelButtonColor: '#d33'
     }).then((result) => {
         if (result.isConfirmed) {
+            // Mostrar indicador de carga
+            Swal.fire({
+                title: "Completando tarea...",
+                text: "Por favor espere",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/completeTarea';
             let strData = "idTarea="+idtarea;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+            // Configurar timeout
+            request.timeout = 30000;
+            
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
@@ -480,6 +664,15 @@ function fntCompleteTarea(idtarea) {
                     }
                 }
             }
+            
+            // Manejar errores
+            request.onerror = function() {
+                Swal.fire("Error", "Error de conexión. Por favor, inténtalo de nuevo.", "error");
+            };
+            
+            request.ontimeout = function() {
+                Swal.fire("Error", "La solicitud tardó demasiado. Por favor, inténtalo de nuevo.", "error");
+            };
         }
     });
 }
