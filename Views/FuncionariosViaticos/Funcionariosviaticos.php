@@ -58,8 +58,12 @@ canvas {
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-9 col-12 mb-2">
-                <h2 class="content-header-title">Módulo de Viáticos</h2>
+                <h2 class="content-header-title"><i class="bi bi-cash-stack"></i> <?= $data['page_title'] ?></h2>
             </div>
+            <ul class="app-breadcrumb breadcrumb">
+                <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
+                <li class="breadcrumb-item"><a href="<?= base_url(); ?>/funcionariosviaticos"><?= $data['page_title'] ?></a></li>
+            </ul>
             <div class="content-header-right text-md-end col-md-5 col-12 d-md-block d-none">
                 <div class="btn-group" role="group">
                     <button class="btn btn-primary" onclick="openModalViatico();"><i class="bi bi-plus-lg"></i> Agregar Viático</button>

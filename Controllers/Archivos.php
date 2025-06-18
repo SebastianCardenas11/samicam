@@ -19,7 +19,7 @@ class Archivos extends Controllers
         }
         $data['page_id'] = 8;
         $data['page_tag'] = "Archivos";
-        $data['page_title'] = "MÓDULO DE ARCHIVOS";
+        $data['page_title'] = "Archivos";
         $data['page_name'] = "archivos";
         $data['page_functions_js'] = "functions_archivos.js";
         $this->views->getView($this, "Archivos", $data);

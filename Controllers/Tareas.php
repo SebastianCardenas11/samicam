@@ -20,8 +20,8 @@
             }
             
             $data['page_tag'] = "Tareas";
-            $data['page_title'] = "TAREAS";
-            $data['page_name'] = "tareas";
+            $data['page_title'] = "Tareas";
+            $data['page_name'] = "Tareas";
             $data['page_functions_js'] = "functions_tareas.js";
             $data['usuarios_asignables'] = $this->model->getUsuariosAsignables();
             $this->views->getView($this,"tareas",$data);

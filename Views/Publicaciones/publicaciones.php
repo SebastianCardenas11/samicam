@@ -9,8 +9,8 @@
             <h1><i class="bi bi-newspaper"></i> <?= $data['page_title'] ?></h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
-            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"></a></li>
+            <li class="breadcrumb-item"><i class="bi bi-house fs-6"></i></li>
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"><?= $data['page_title'] ?></a></li>
         </ul>
     </div>
 
