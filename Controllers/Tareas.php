@@ -253,9 +253,26 @@
                     // Enviar notificaciones a los usuarios asignados
                     require_once "Models/NotificacionesModel.php";
                     $notificacionesModel = new NotificacionesModel();
+                    
+                    // Obtener información completa de los usuarios asignados
+                    $usuarios_info = $this->model->getUsuariosInfoCompleta($usuarios_asignados);
+                    
+                    // Enviar notificaciones internas del sistema
                     foreach ($usuarios_asignados as $id_usuario) {
                         $mensaje = "Se te ha asignado una nueva tarea: " . $descripcion;
                         $notificacionesModel->insertNotificacion($id_usuario, 'tarea', $mensaje);
+                    }
+                    
+                    // Enviar notificaciones de WhatsApp (solo para nuevas tareas)
+                    if ($id_tarea == 0 && !empty($usuarios_info)) {
+                        $this->enviarNotificacionesWhatsApp($usuarios_info, [
+                            'descripcion' => $descripcion,
+                            'tipo' => $tipo,
+                            'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
+                            'fecha_inicio' => $fecha_inicio,
+                            'fecha_fin' => $fecha_fin,
+                            'observacion' => $observacion
+                        ]);
                     }
 
                     if ($id_tarea == 0) {
@@ -442,6 +459,50 @@
             }
             echo $htmlOptions;
             die();
+        }
+
+        /**
+         * Envía notificaciones de WhatsApp a los usuarios asignados
+         * @param array $usuarios_info Información de los usuarios
+         * @param array $tarea_info Información de la tarea
+         */
+        private function enviarNotificacionesWhatsApp($usuarios_info, $tarea_info)
+        {
+            try {
+                // Incluir el helper de WhatsApp
+                require_once "Helpers/WhatsAppHelper.php";
+                $whatsappHelper = new WhatsAppHelper();
+                
+                // Configurar API key (deberías obtener esto de configuración)
+                // $whatsappHelper->setApiKey('TU_API_KEY_AQUI');
+                
+                // Enviar notificaciones
+                $resultados = $whatsappHelper->sendTareaNotification($usuarios_info, $tarea_info);
+                
+                // Log de resultados
+                foreach ($resultados as $resultado) {
+                    if ($resultado['enviado']) {
+                        error_log("WhatsApp enviado a {$resultado['nombre']} ({$resultado['telefono']})");
+                    } else {
+                        error_log("Error enviando WhatsApp a {$resultado['nombre']}: {$resultado['mensaje']}");
+                    }
+                }
+                
+            } catch (Exception $e) {
+                error_log("Error en envío de WhatsApp: " . $e->getMessage());
+            }
+        }
+        
+        /**
+         * Obtiene el nombre de la dependencia por ID
+         * @param int $dependencia_id ID de la dependencia
+         * @return string Nombre de la dependencia
+         */
+        private function getDependenciaNombre($dependencia_id)
+        {
+            $sql = "SELECT nombre FROM tbl_dependencia WHERE dependencia_pk = ?";
+            $result = $this->model->select($sql, [$dependencia_id]);
+            return $result ? $result['nombre'] : 'Sin dependencia';
         }
 
         public function getEstadisticasTareas()

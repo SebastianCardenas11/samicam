@@ -946,3 +946,34 @@
 [2025-06-17 23:09:32] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Dashboard
 [2025-06-17 23:09:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 192.168.1.14 | Acción: Acceso al módulo Tareas
 [2025-06-17 23:10:06] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Dashboard
+[2025-06-17 23:31:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:31:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:32:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:32:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:33:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:33:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:34:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:34:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:49:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 192.168.1.14 | Acción: Acceso al módulo Tareas
+[2025-06-17 23:53:49] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:53:49] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:53:54] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:53:54] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:04] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:04] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:14] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:14] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:24] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:24] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:34] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:34] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:44] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:54:44] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:55:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:55:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:56:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:56:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:57:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:57:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:58:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors
+[2025-06-17 23:58:02] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: 192.168.1.4 | Acción: Acceso al módulo Errors

@@ -457,5 +457,33 @@
                     LIMIT 12";
             return $this->select_all($sql);
         }
+
+        // Obtener todos los usuarios asignados a una tarea con información de contacto
+        public function getUsuariosTareaConContacto(int $id_tarea)
+        {
+            $sql = "SELECT u.ideusuario, u.nombres, u.correo, fp.celular, fp.correo_elc
+                    FROM tbl_usuarios u 
+                    INNER JOIN tbl_tareas_usuarios tu ON u.ideusuario = tu.id_usuario 
+                    LEFT JOIN tbl_funcionarios_planta fp ON u.correo = fp.correo_elc
+                    WHERE tu.id_tarea = $id_tarea
+                    ORDER BY u.nombres ASC";
+            return $this->select_all($sql);
+        }
+
+        // Obtener información completa de usuarios por IDs
+        public function getUsuariosInfoCompleta(array $usuarios_ids)
+        {
+            if (empty($usuarios_ids)) {
+                return [];
+            }
+            
+            $ids = implode(',', $usuarios_ids);
+            $sql = "SELECT u.ideusuario as id, u.nombres, u.correo, fp.celular, fp.correo_elc
+                    FROM tbl_usuarios u 
+                    LEFT JOIN tbl_funcionarios_planta fp ON u.correo = fp.correo_elc
+                    WHERE u.ideusuario IN ($ids)
+                    ORDER BY u.nombres ASC";
+            return $this->select_all($sql);
+        }
     }
 ?>
