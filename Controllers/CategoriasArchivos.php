@@ -19,7 +19,7 @@ class CategoriasArchivos extends Controllers
         }
         $data['page_id'] = 8;
         $data['page_tag'] = "Categorías de Archivos";
-        $data['page_title'] = "CATEGORÍAS DE ARCHIVOS";
+        $data['page_title'] = "Categorías de Archivos";
         $data['page_name'] = "categorias_archivos";
         $data['page_functions_js'] = "functions_categorias_archivos.js";
         $this->views->getView($this, "CategoriasArchivos", $data);
@@ -36,21 +36,21 @@ class CategoriasArchivos extends Controllers
                 $btnDelete = '';
 
                 if ($arrData[$i]['status'] == 1) {
-                    $arrData[$i]['status'] = '<span class="badge badge-success">Activo</span>';
+                    $arrData[$i]['status'] = '<span class="badge text-bg-success">Activo</span>';
                 } else {
-                    $arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
+                    $arrData[$i]['status'] = '<span class="badge text-bg-danger">Inactivo</span>';
                 }
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Ver categoría"><i class="far fa-eye-fill"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Ver categoría"><i class="far fa-eye"></i></button>';
                 }
                 
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Editar categoría"><i class="fas fa-pencil-alt-fill"></i></button>';
+                    $btnEdit = '<button class="btn btn-warning " onClick="fntEditCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Editar categoría"><i class="fas fa-pencil-alt"></i></button>';
                 }
                 
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Eliminar categoría"><i class="bi bi-trash-fill"></i></button>';
+                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Eliminar categoría"><i class="bi bi-trash-fill"></i></button>';
                 }
                 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';

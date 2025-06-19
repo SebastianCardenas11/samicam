@@ -135,7 +135,7 @@ function cargarPestanasCategoria() {
             let contentHTML = '<div class="tab-pane fade show active" id="todos" role="tabpanel" aria-labelledby="todos-tab"><div class="row mt-3" id="fileExplorer"></div></div>';
             
             objData.forEach(function(categoria) {
-                if(categoria.status == '<span class="badge badge-success">Activo</span>') {
+                if(categoria.status == '<span class="badge text-bg-success">Activo</span>') {
                     let idTab = 'categoria-' + categoria.id_categoria;
                     tabsHTML += `<li class="nav-item">
                         <a class="nav-link" id="${idTab}-tab" data-bs-toggle="tab" href="#${idTab}" role="tab" aria-controls="${idTab}" aria-selected="false">${categoria.nombre}</a>
@@ -153,7 +153,7 @@ function cargarPestanasCategoria() {
             // Cargar archivos para cada categoría
             cargarExplorador();
             objData.forEach(function(categoria) {
-                if(categoria.status == '<span class="badge badge-success">Activo</span>') {
+                if(categoria.status == '<span class="badge text-bg-success">Activo</span>') {
                     cargarArchivosPorCategoria(categoria.id_categoria);
                 }
             });
@@ -202,7 +202,7 @@ function cargarArchivosPorCategoria(idCategoria) {
                             </div>
                             <div class="card-footer bg-transparent border-0">
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                    <i class="far fa-eye-fill"></i>
+                                    <i class="far fa-eye"></i>
                                 </button>
                                 <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
@@ -250,7 +250,7 @@ function cargarExplorador() {
                         </div>
                         <div class="card-footer bg-transparent border-0">
                             <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                <i class="far fa-eye-fill"></i>
+                                <i class="far fa-eye"></i>
                             </button>
                             <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                 <i class="bi bi-download"></i>
@@ -380,7 +380,7 @@ function fntSearchArchivo() {
                             </div>
                             <div class="card-footer bg-transparent border-0">
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                    <i class="far fa-eye-fill"></i>
+                                    <i class="far fa-eye"></i>
                                 </button>
                                 <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
@@ -440,7 +440,7 @@ function fntFilterByCategoria() {
                                 </div>
                                 <div class="card-footer bg-transparent border-0">
                                     <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                        <i class="far fa-eye-fill"></i>
+                                        <i class="far fa-eye"></i>
                                     </button>
                                     <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                         <i class="bi bi-download"></i>

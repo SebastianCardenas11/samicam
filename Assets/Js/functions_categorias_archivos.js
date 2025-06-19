@@ -92,8 +92,8 @@ function fntViewCategoria(idcategoria) {
                 document.querySelector("#celNombre").innerHTML = objData.data.nombre;
                 document.querySelector("#celDescripcion").innerHTML = objData.data.descripcion;
                 document.querySelector("#celEstado").innerHTML = objData.data.status == 1 ? 
-                    '<span class="badge badge-success">Activo</span>' : 
-                    '<span class="badge badge-danger">Inactivo</span>';
+                    '<span class="badge text-bg-success">Activo</span>' : 
+                    '<span class="badge text-bg-danger">Inactivo</span>';
                 document.querySelector("#celFechaCreacion").innerHTML = objData.data.fecha_creacion;
                 
                 $('#modalViewCategoria').modal('show');
