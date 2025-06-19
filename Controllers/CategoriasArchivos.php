@@ -42,11 +42,11 @@ class CategoriasArchivos extends Controllers
                 }
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Ver categoría"><i class="bi bi-eye-fill"></i></button>';
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Ver categoría"><i class="far fa-eye-fill"></i></button>';
                 }
                 
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Editar categoría"><i class="bi bi-pencil-fill"></i></button>';
+                    $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditCategoria(' . $arrData[$i]['id_categoria'] . ')" title="Editar categoría"><i class="fas fa-pencil-alt-fill"></i></button>';
                 }
                 
                 if ($_SESSION['permisosMod']['d']) {

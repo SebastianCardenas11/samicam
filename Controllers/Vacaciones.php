@@ -37,7 +37,7 @@ class Vacaciones extends Controllers
                 $btnHistorial = '';
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="far fa-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u'] && $arrData[$i]['periodos_disponibles'] > 0) {
                     $btnVacaciones = '<button class="btn btn-success" onClick="fntVacacionesInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Registrar Vacaciones"><i class="bi bi-calendar-check"></i></button>';

@@ -35,23 +35,23 @@
                                 <?php } ?>
                             </div>
                             <div class="table-responsive">
+                                
                                 <table class="table table-hover table-bordered" id="tablePublicaciones">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Fecha Recibido</th>
-                                            <th>Correo</th>
-                                            <th>Asunto</th>
-                                            <th>Dependencia</th>
-                                            <th>Fecha Publicación</th>
-                                            <th>Respuesta</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                            <thead class="table-success">
+                                <tr>
+                                    <th class="text-center">Fecha Recibido</th>
+                                    <th class="text-center">Correo</th>
+                                    <th class="text-center">Asunto</th> 
+                                    <th class="text-center">Dependencia</th> 
+                                    <th class="text-center">Fecha Publicación</th> 
+                                    <th class="text-center">Respuesta</th> 
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th> 
+                             </tr>
+                            </thead>
+                            <tbody class="table-group-divider text-center">
+                            </tbody>
+                        </table>
                             </div>
                         </div>
                         

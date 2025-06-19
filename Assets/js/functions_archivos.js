@@ -202,7 +202,7 @@ function cargarArchivosPorCategoria(idCategoria) {
                             </div>
                             <div class="card-footer bg-transparent border-0">
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                    <i class="bi bi-eye-fill"></i>
+                                    <i class="far fa-eye-fill"></i>
                                 </button>
                                 <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
@@ -250,7 +250,7 @@ function cargarExplorador() {
                         </div>
                         <div class="card-footer bg-transparent border-0">
                             <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                <i class="bi bi-eye-fill"></i>
+                                <i class="far fa-eye-fill"></i>
                             </button>
                             <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                 <i class="bi bi-download"></i>
@@ -380,7 +380,7 @@ function fntSearchArchivo() {
                             </div>
                             <div class="card-footer bg-transparent border-0">
                                 <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                    <i class="bi bi-eye-fill"></i>
+                                    <i class="far fa-eye-fill"></i>
                                 </button>
                                 <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
@@ -440,7 +440,7 @@ function fntFilterByCategoria() {
                                 </div>
                                 <div class="card-footer bg-transparent border-0">
                                     <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                        <i class="bi bi-eye-fill"></i>
+                                        <i class="far fa-eye-fill"></i>
                                     </button>
                                     <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                         <i class="bi bi-download"></i>

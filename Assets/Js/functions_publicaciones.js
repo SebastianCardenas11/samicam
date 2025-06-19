@@ -114,7 +114,7 @@ function initializeTable() {
             "dataSrc": ""
         },
         "columns": [
-            {"data": "id_publicacion"},
+            // {"data": "id_publicacion"},
             {"data": "fecha_recibido"},
             {"data": "correo_recibido"},
             {"data": "asunto"},

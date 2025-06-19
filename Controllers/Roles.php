@@ -52,8 +52,8 @@ class Roles extends Controllers
                 if ($arrData[$i]['idrol'] == 1) {
                     // Para el superadministrador, todos los botones deshabilitados
                     $btnView = '<button class="btn btn-secondary" disabled><i class="bi bi-toggles"></i></button>';
-                    $btnEdit = '<button class="btn btn-secondary" disabled><i class="bi bi-pencil"></i></button>';
-                    $btnDelete = '<button class="btn btn-secondary" disabled><i class="bi bi-trash3"></i></button>';
+                    $btnEdit = '<button class="btn btn-secondary" disabled><i class="fas fa-pencil-alt"></i></button>';
+                    $btnDelete = '<button class="btn btn-secondary" disabled><i class="far fa-trash-alt"></i></button>';
                 } else {
                     // Para otros roles, mostrar botones según permisos
                     if ($_SESSION['permisosMod']['r']) {
@@ -61,12 +61,12 @@ class Roles extends Controllers
                     }
 
                     if ($_SESSION['permisosMod']['u']) {
-                        $btnEdit = '<button class="btn btn-warning btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="bi bi-pencil"></i></button>';
+                        $btnEdit = '<button class="btn btn-warning btnEditRol" onClick="fntEditRol(' . $arrData[$i]['idrol'] . ')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
                     }
 
                     if ($_SESSION['permisosMod']['d']) {
                         // Permitir eliminar roles a cualquier usuario con permiso de eliminación
-                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="bi bi-trash3"></i></button>';
+                        $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelRol(' . $arrData[$i]['idrol'] . ')" title="Eliminar"><i class="far fa-trash-alt"></i></button>';
                     }
                 }
 
