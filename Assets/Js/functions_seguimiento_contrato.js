@@ -14,12 +14,22 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc": ""
         },
         "columns": [
-            { "data": "objeto_contrato" },
+            { 
+                "data": "objeto_contrato",
+                "render": function(data, type, row) {
+                    if (typeof data === 'string' && data.length > 50) {
+                        return data.substring(0, 50) + '...';
+                    }
+                    return data;
+                }
+            },
             { "data": "fecha_inicio" },
             { "data": "fecha_terminacion" },
             { "data": "valor_total_contrato" },
             { "data": "liquidacion" },
             { "data": "estado" },
+            { "data": "numero_contrato" },
+            { "data": "fecha_aprobacion_entidad" },
             { "data": "options" }
         ],
         'dom': 'lBfrtip',
@@ -58,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     if (objData.status) {
                         $('#modalFormSeguimientoContrato').modal("hide");
                         formSeguimientoContrato.reset();
+                        if(document.querySelector("#numero_contrato")) document.querySelector("#numero_contrato").value = "";
+                        if(document.querySelector("#fecha_aprobacion_entidad")) document.querySelector("#fecha_aprobacion_entidad").value = "";
                         Swal.fire("Seguimiento de Contrato", objData.msg, "success");
                         tableSeguimientoContrato.api().ajax.reload();
                     } else {
@@ -90,6 +102,8 @@ function fntViewContrato(id) {
                 document.querySelector("#celFechaVerificacion").innerHTML = objData.data.fecha_verificacion;
                 document.querySelector("#celLiquidacion").innerHTML = '$' + parseFloat(objData.data.liquidacion).toFixed(2);
                 document.querySelector("#celEstado").innerHTML = estado;
+                document.querySelector("#celNumeroContrato").innerHTML = objData.data.numero_contrato;
+                document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
                 $('#modalViewContrato').modal('show');
             } else {
                 Swal.fire("Error", objData.msg, "error");
@@ -124,8 +138,22 @@ function fntEditContrato(element, id) {
                 document.querySelector("#evidenciado_secop").value = objData.data.evidenciado_secop;
                 document.querySelector("#fecha_verificacion").value = objData.data.fecha_verificacion;
                 document.querySelector("#liquidacion").value = objData.data.liquidacion;
+                document.querySelector("#numero_contrato").value = objData.data.numero_contrato;
+                document.querySelector("#fecha_aprobacion_entidad").value = objData.data.fecha_aprobacion_entidad;
                 if(document.querySelector("#estado")){
-                    document.querySelector("#estado").value = objData.data.estado == 1 ? 1 : 0;
+                    let estadoValue = objData.data.estado;
+                    if (typeof estadoValue === 'string') {
+                        if (estadoValue.includes('Liquidado')) {
+                            estadoValue = '1';
+                        } else if (estadoValue.includes('En ejecución')) {
+                            estadoValue = '2';
+                        } else if (estadoValue.includes('Terminado')) {
+                            estadoValue = '3';
+                        } else {
+                            estadoValue = '1'; // Por defecto
+                        }
+                    }
+                    document.querySelector("#estado").value = estadoValue;
                 }
             }
         }
@@ -172,6 +200,8 @@ function openModal() {
     document.querySelector('#btnText').innerHTML = "Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Contrato";
     document.querySelector("#formSeguimientoContrato").reset();
+    if(document.querySelector("#numero_contrato")) document.querySelector("#numero_contrato").value = "";
+    if(document.querySelector("#fecha_aprobacion_entidad")) document.querySelector("#fecha_aprobacion_entidad").value = "";
     $('#modalFormSeguimientoContrato').modal('show');
 }
 
@@ -222,8 +252,6 @@ if(document.querySelector('#chartContratosMes')){
         cargarGraficoContratosMes();
     });
 }
-
-// Gráfico de contratos activos vs inactivos
 if(document.querySelector('#chartContratosActivos')){
     let chartContratosActivos;
     const ctxActivos = document.getElementById('chartContratosActivos').getContext('2d');
@@ -236,9 +264,9 @@ if(document.querySelector('#chartContratosActivos')){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
                 if(objData.status){
-                    let data = [objData.data.activos, objData.data.inactivos];
-                    let labels = ['Activos', 'Inactivos'];
-                    let bgColors = ['#28a745', '#dc3545'];
+                    let data = [objData.data.liquidado, objData.data.en_ejecucion, objData.data.terminado];
+                    let labels = ['Liquidado', 'En ejecución', 'Terminado'];
+                    let bgColors = ['#0dcaf0', '#ffc107', '#dc3545']; // azul claro, amarillo, rojo
                     if(chartContratosActivos) chartContratosActivos.destroy();
                     chartContratosActivos = new Chart(ctxActivos, {
                         type: 'doughnut',

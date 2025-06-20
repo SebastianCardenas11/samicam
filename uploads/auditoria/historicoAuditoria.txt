@@ -56,41 +56,30 @@
 [2025-06-20 10:12:33] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
 [2025-06-20 10:12:37] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo WhatsApp
 [2025-06-20 10:14:41] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
-[2025-06-20 11:04:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 11:04:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
-[2025-06-20 14:26:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:26:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:29:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:29:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:29:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:30:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:30:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:31:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:32:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:32:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:33:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 14:51:13] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:51:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:51:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:51:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:51:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:51:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
-[2025-06-20 14:54:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
-[2025-06-20 14:54:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:54:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:54:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:54:20] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
-[2025-06-20 14:54:21] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
-[2025-06-20 14:54:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
-[2025-06-20 14:54:30] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
-[2025-06-20 14:54:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
-[2025-06-20 14:54:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
-[2025-06-20 14:54:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
-[2025-06-20 14:54:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
-[2025-06-20 14:55:00] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:55:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 14:55:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
-[2025-06-20 16:54:06] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
-[2025-06-20 16:54:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
-[2025-06-20 16:54:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
-[2025-06-20 16:59:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-06-20 11:10:52] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo WhatsApp
+[2025-06-20 11:14:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-20 11:14:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-06-20 11:14:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-06-20 11:19:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:19:55] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.111.220.13 | Navegador: Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Brave/1 Mobile/15E148 Safari/604.1 | Acción: Inicio de sesión
+[2025-06-20 11:19:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:20:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:22:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:23:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:24:47] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:27:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:28:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:29:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:31:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:32:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:33:45] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:33:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-06-20 11:33:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-06-20 11:33:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:34:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:39:02] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 11:39:18] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-06-20 11:44:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:45:03] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:45:46] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 11:47:08] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
