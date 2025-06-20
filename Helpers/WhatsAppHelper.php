@@ -461,4 +461,8 @@ class WhatsAppHelper
         logWhatsAppMessage("Todos los proveedores fallaron", "ERROR");
         return false;
     }
+    
+    public function getNumeroEspecifico() {
+        return $this->config['specific_number'];
+    }
 } 

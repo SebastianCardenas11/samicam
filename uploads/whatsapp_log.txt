@@ -12,3 +12,79 @@
 [2025-06-20 01:16:17] [ERROR] All providers failed
 [2025-06-20 01:16:17] [ERROR] Failed to send WhatsApp message to 573018467581
 [2025-06-20 01:16:17] [INFO] Enviado a número específico: 573018467581
+[2025-06-20 01:22:08] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:22:08] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:22:08] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:22:08] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:22:09] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:22:09] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:22:09] [INFO] Enviado a número específico: 573018467581
+[2025-06-20 01:24:44] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:24:44] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:24:44] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:24:45] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:24:45] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:24:45] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:24:45] [INFO] Enviado a número específico: 573018467581
+[2025-06-20 01:26:00] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:26:01] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:26:01] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:26:01] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:26:01] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:26:01] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:26:25] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:26:26] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:26:26] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:26:26] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:26:26] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:26:26] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:26:26] [INFO] Enviado a número específico: 573018467581
+[2025-06-20 01:26:35] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:26:35] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:26:35] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:26:36] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:26:36] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:26:36] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:27:00] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:27:01] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:27:01] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:27:01] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:27:01] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:27:01] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:27:10] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:27:11] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:27:11] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:27:11] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:27:11] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:27:11] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:28:04] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:28:04] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:28:04] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:28:04] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:28:05] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:28:05] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:28:05] [INFO] Enviado a número específico: 573018467581
+[2025-06-20 01:28:42] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:28:43] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:28:43] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:28:43] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:28:44] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:28:44] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:28:53] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:28:54] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:28:54] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:28:54] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:28:54] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:28:54] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:29:07] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:29:07] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:29:07] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:29:08] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:29:08] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:29:08] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:29:24] [INFO] Intentando enviar mensaje de WhatsApp al número 573018467581
+[2025-06-20 01:29:25] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-06-20 01:29:25] [INFO] Intentando proveedor alternativo: wamr
+[2025-06-20 01:29:25] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-06-20 01:29:25] [ERROR] Todos los proveedores fallaron
+[2025-06-20 01:29:25] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573018467581
