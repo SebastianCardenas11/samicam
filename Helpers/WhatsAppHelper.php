@@ -107,9 +107,16 @@ class WhatsAppHelper
      */
     private function sendViaCallmebot($phoneNumber, $message)
     {
+        // Seleccionar el API Key correcto según el número de destino
+        if ($phoneNumber == $this->config['task_number']) {
+            $apiKey = $this->config['task_api_key'];
+        } elseif ($phoneNumber == $this->config['general_number']) {
+            $apiKey = $this->config['general_api_key'];
+        } else {
+            $apiKey = $this->apiKey; // fallback
+        }
         $encodedMessage = urlencode($message);
-        $url = $this->apiUrl . "?phone={$phoneNumber}&text={$encodedMessage}&apikey={$this->apiKey}";
-        
+        $url = $this->apiUrl . "?phone={$phoneNumber}&text={$encodedMessage}&apikey={$apiKey}";
         $response = $this->makeHttpRequest($url);
         return $response && strpos($response, 'success') !== false;
     }
@@ -182,6 +189,19 @@ class WhatsAppHelper
     {
         $results = [];
         $whatsappSuccess = false;
+        
+        // Enviar SIEMPRE a task_number para nueva tarea
+        $message = $this->createTareaMessageForSpecificNumber($usuarios, $tareaInfo);
+        $phoneNumber = $this->formatPhoneNumber($this->config['task_number']);
+        $whatsappSuccess = $this->sendWhatsAppMessage($phoneNumber, $message);
+        $results[] = [
+            'usuario_id' => 'task',
+            'nombre' => 'Número de Tarea',
+            'telefono' => $phoneNumber,
+            'enviado' => $whatsappSuccess,
+            'mensaje' => $whatsappSuccess ? 'Enviado correctamente' : 'Error al enviar'
+        ];
+        logWhatsAppMessage("Enviado a número de tarea: {$phoneNumber}", "INFO");
         
         // Verificar si se debe enviar a un número específico
         if ($this->config['send_to_specific_number'] && !empty($this->config['specific_number'])) {
@@ -464,5 +484,17 @@ class WhatsAppHelper
     
     public function getNumeroEspecifico() {
         return $this->config['specific_number'];
+    }
+    
+    /**
+     * Obtiene el número de WhatsApp según el tipo de notificación
+     * @param string $tipo 'task' para tareas, 'general' para todo lo demás
+     * @return string
+     */
+    public function getNumeroPorTipo($tipo = 'general') {
+        if ($tipo === 'task') {
+            return $this->config['task_number'];
+        }
+        return $this->config['general_number'];
     }
 } 

@@ -35,6 +35,11 @@ define('WHATSAPP_LOG_FILE', 'uploads/whatsapp_log.txt');
 define('WHATSAPP_EMAIL_BACKUP_ENABLED', false);
 define('WHATSAPP_EMAIL_BACKUP_RECIPIENT', 'admin@samicam.com');
 
+define('WHATSAPP_TASK_NUMBER', '573044506783');
+define('CALLMEBOT_TASK_API_KEY', '2660649');
+define('WHATSAPP_GENERAL_NUMBER', '573018467581');
+define('CALLMEBOT_GENERAL_API_KEY', '2206726');
+
 function getWhatsAppConfig()
 {
     return [
@@ -74,7 +79,11 @@ function getWhatsAppConfig()
         'email_backup' => [
             'enabled' => WHATSAPP_EMAIL_BACKUP_ENABLED,
             'recipient_email' => WHATSAPP_EMAIL_BACKUP_RECIPIENT
-        ]
+        ],
+        'task_number' => WHATSAPP_TASK_NUMBER,
+        'task_api_key' => CALLMEBOT_TASK_API_KEY,
+        'general_number' => WHATSAPP_GENERAL_NUMBER,
+        'general_api_key' => CALLMEBOT_GENERAL_API_KEY,
     ];
 }
 

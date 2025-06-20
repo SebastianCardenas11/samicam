@@ -320,7 +320,7 @@
                 $usuario = $_SESSION['userData']['nombres'];
                 $fecha = date('d/m/Y H:i');
                 $mensaje = "▶️ La tarea '{$arrTarea['descripcion']}' fue iniciada el {$fecha} por {$usuario}.";
-                $numero = $whatsappHelper->getNumeroEspecifico();
+                $numero = $whatsappHelper->getNumeroPorTipo('general');
                 $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea iniciada correctamente.');
             } else {
@@ -353,7 +353,7 @@
                 $usuario = $_SESSION['userData']['nombres'];
                 $fecha = date('d/m/Y H:i');
                 $mensaje = "✅ La tarea '{$arrTarea['descripcion']}' cambió de estado a COMPLETADA el {$fecha} por {$usuario}.";
-                $numero = $whatsappHelper->getNumeroEspecifico();
+                $numero = $whatsappHelper->getNumeroPorTipo('general');
                 $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea completada correctamente.');
             } else {
@@ -394,7 +394,7 @@
                 $usuario = $_SESSION['userData']['nombres'];
                 $fecha = date('d/m/Y H:i');
                 $mensaje = "📝 Se agregó una observación a la tarea '{$arrTarea['descripcion']}' el {$fecha} por {$usuario}:\n'{$observacion}'";
-                $numero = $whatsappHelper->getNumeroEspecifico();
+                $numero = $whatsappHelper->getNumeroPorTipo('general');
                 $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Observación agregada correctamente.');
             } else {
@@ -440,7 +440,7 @@
             $usuario = $_SESSION['userData']['nombres'];
             $fecha = date('d/m/Y H:i');
             $mensaje = "❌ La tarea '{$arrTarea['descripcion']}' fue eliminada el {$fecha} por {$usuario}.";
-            $numero = $whatsappHelper->getNumeroEspecifico();
+            $numero = $whatsappHelper->getNumeroPorTipo('general');
             $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
             $request_delete = $this->model->deleteTarea($idTarea);
             if($request_delete)
