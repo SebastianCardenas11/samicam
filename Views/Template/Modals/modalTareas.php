@@ -79,6 +79,19 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalLoadingTarea" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0 shadow-none">
+      <div class="modal-body text-center">
+        <div class="spinner-border text-success" style="width: 4rem; height: 4rem;" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <div class="mt-3 text-white fw-bold">Enviando tarea y notificación WhatsApp...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <style>
 .selected-users {
   min-height: 40px;

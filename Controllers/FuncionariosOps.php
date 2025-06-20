@@ -204,13 +204,13 @@ class FuncionariosOps extends Controllers
                     $btnDelete = '';
 
                     if ($_SESSION['permisosMod']['r']) {
-                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo('.$arrData[$i]['id'].')" title="Ver Funcionario"><i class="bi bi-eye"></i></button>';
+                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo('.$arrData[$i]['id'].')" title="Ver Funcionario"><i class="far fa-eye"></i></button>';
                     }
                     if ($_SESSION['permisosMod']['u']) {
-                        $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditInfo(this,'.$arrData[$i]['id'].')" title="Editar Funcionario"><i class="bi bi-pencil"></i></button>';
+                        $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditInfo(this,'.$arrData[$i]['id'].')" title="Editar Funcionario"><i class="fas fa-pencil-alt"></i></button>';
                     }
                     if ($_SESSION['permisosMod']['d']) {
-                        $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo('.$arrData[$i]['id'].')" title="Eliminar Funcionario"><i class="bi bi-trash3"></i></button>';
+                        $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo('.$arrData[$i]['id'].')" title="Eliminar Funcionario"><i class="far fa-trash-alt"></i></button>';
                     }
 
                     $arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';

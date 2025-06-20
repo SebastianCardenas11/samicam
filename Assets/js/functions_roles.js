@@ -268,3 +268,35 @@ function fntSavePermisos(evnet){
     }
     
 }
+
+// Checkbox maestro por fila en permisos
+$(document).on('change', '.check-row-master', function() {
+    var row = $(this).data('row');
+    var checked = $(this).is(':checked');
+    $(this).closest('tr').find('input[type=checkbox]').not(this).prop('checked', checked);
+});
+
+// Función para sincronizar el checkbox maestro de cada fila
+function sincronizarCheckboxMaestroPermisos() {
+    $('tr').each(function() {
+        var checkboxes = $(this).find('input[type=checkbox]').not('.check-row-master');
+        var master = $(this).find('.check-row-master');
+        if (checkboxes.length && master.length) {
+            var allChecked = true;
+            checkboxes.each(function() {
+                if (!$(this).is(':checked')) allChecked = false;
+            });
+            master.prop('checked', allChecked);
+        }
+    });
+}
+
+// Ejecutar al cargar la página
+$(document).ready(function() {
+    sincronizarCheckboxMaestroPermisos();
+});
+
+// Ejecutar cada vez que se muestre el modal de permisos
+$(document).on('shown.bs.modal', '#modalFormPermiso', function() {
+    sincronizarCheckboxMaestroPermisos();
+});

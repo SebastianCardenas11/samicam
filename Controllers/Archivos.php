@@ -19,7 +19,7 @@ class Archivos extends Controllers
         }
         $data['page_id'] = 8;
         $data['page_tag'] = "Archivos";
-        $data['page_title'] = "MÓDULO DE ARCHIVOS";
+        $data['page_title'] = "Archivos";
         $data['page_name'] = "archivos";
         $data['page_functions_js'] = "functions_archivos.js";
         $this->views->getView($this, "Archivos", $data);
@@ -37,7 +37,7 @@ class Archivos extends Controllers
 
                 // Botón de ver
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="bi bi-eye-fill"></i></button>';
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="far fa-eye"></i></button>';
                 }
                 
                 // Botón de descargar
@@ -217,7 +217,7 @@ class Archivos extends Controllers
                     $btnDelete = '';
 
                     // Botón de ver
-                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="bi bi-eye-fill"></i></button>';
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="far fa-eye"></i></button>';
                     
                     // Botón de descargar
                     $btnDownload = '<a class="btn btn-primary btn-sm" href="' . base_url() . '/uploads/archivos/' . $arrData[$i]['archivo'] . '" download="' . $arrData[$i]['nombre'] . '.' . $arrData[$i]['extension'] . '" title="Descargar"><i class="bi bi-download"></i></a>';
@@ -275,7 +275,7 @@ class Archivos extends Controllers
 
                 // Botón de ver
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="bi bi-eye-fill"></i></button>';
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewArchivo(' . $arrData[$i]['id'] . ')" title="Ver archivo"><i class="far fa-eye"></i></button>';
                 }
                 
                 // Botón de descargar

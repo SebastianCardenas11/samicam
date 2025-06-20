@@ -41,13 +41,13 @@ class Publicaciones extends Controllers
                     $btnDelete = '';
 
                     if ($_SESSION['permisosMod']['r']) {
-                        $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Ver publicación"><i class="far fa-eye"></i></button>';
+                        $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Ver publicación"><i class="far fa-eye"></i></button>';
                     }
                     if ($_SESSION['permisosMod']['u']) {
-                        $btnEdit = '<button class="btn btn-primary btn-sm" onClick="fntEditInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Editar publicación"><i class="fas fa-pencil-alt"></i></button>';
+                        $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Editar publicación"><i class="fas fa-pencil-alt"></i></button>';
                     }
                     if ($_SESSION['permisosMod']['d']) {
-                        $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Eliminar publicación"><i class="far fa-trash-alt"></i></button>';
+                        $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['id_publicacion'] . ')" title="Eliminar publicación"><i class="far fa-trash-alt"></i></button>';
                     }
                     $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
                     

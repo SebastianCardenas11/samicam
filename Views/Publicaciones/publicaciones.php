@@ -9,8 +9,8 @@
             <h1><i class="bi bi-newspaper"></i> <?= $data['page_title'] ?></h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
-            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"></a></li>
+            <li class="breadcrumb-item"><i class="bi bi-house fs-6"></i></li>
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"><?= $data['page_title'] ?></a></li>
         </ul>
     </div>
 
@@ -35,23 +35,23 @@
                                 <?php } ?>
                             </div>
                             <div class="table-responsive">
+                                
                                 <table class="table table-hover table-bordered" id="tablePublicaciones">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Fecha Recibido</th>
-                                            <th>Correo</th>
-                                            <th>Asunto</th>
-                                            <th>Dependencia</th>
-                                            <th>Fecha Publicación</th>
-                                            <th>Respuesta</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                            <thead class="table-success">
+                                <tr>
+                                    <th class="text-center">Fecha Recibido</th>
+                                    <th class="text-center">Correo</th>
+                                    <th class="text-center">Asunto</th> 
+                                    <th class="text-center">Dependencia</th> 
+                                    <th class="text-center">Fecha Publicación</th> 
+                                    <th class="text-center">Respuesta</th> 
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th> 
+                             </tr>
+                            </thead>
+                            <tbody class="table-group-divider text-center">
+                            </tbody>
+                        </table>
                             </div>
                         </div>
                         

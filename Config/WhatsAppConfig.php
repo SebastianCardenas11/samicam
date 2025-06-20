@@ -1,65 +1,45 @@
 <?php
 
-/**
- * Configuración para notificaciones de WhatsApp
- * 
- * Este archivo contiene la configuración necesaria para enviar
- * notificaciones automáticas de WhatsApp cuando se crean tareas.
- */
+define('WHATSAPP_ENABLED', true);
+define('WHATSAPP_PROVIDER', 'callmebot');
 
-// Configuración de WhatsApp
-define('WHATSAPP_ENABLED', true); // Habilitar/deshabilitar notificaciones de WhatsApp
-define('WHATSAPP_PROVIDER', 'callmebot'); // callmebot, whatsapp_business, wamr
+define('WHATSAPP_SEND_TO_SPECIFIC_NUMBER', true);
+define('WHATSAPP_SPECIFIC_NUMBER', '+573163819809');
 
-// Configuración para envío a número específico
-define('WHATSAPP_SEND_TO_SPECIFIC_NUMBER', true); // Enviar a número específico
-define('WHATSAPP_SPECIFIC_NUMBER', '+573018467581'); // Número específico para recibir todas las notificaciones
-
-// Configuración para Callmebot (Gratuito)
-define('CALLMEBOT_API_KEY', '2206726'); // Tu API key de Callmebot
+define('CALLMEBOT_API_KEY', '123456');
 define('CALLMEBOT_API_URL', 'https://api.callmebot.com/whatsapp.php');
 
-// Números alternativos de Callmebot si el principal no responde
 define('CALLMEBOT_ALTERNATIVE_NUMBERS', [
-    '+34 644 51 95 23',  // Número principal
-    '+34 644 51 95 24',  // Número alternativo 1
-    '+34 644 51 95 25',  // Número alternativo 2
-    '+34 644 51 95 26'   // Número alternativo 3
+    '+34 644 51 95 23',
 ]);
 
-// Configuración para WhatsApp Business API (Gratuito para desarrollo)
-define('WHATSAPP_BUSINESS_TOKEN', ''); // Tu token de WhatsApp Business
-define('WHATSAPP_PHONE_NUMBER_ID', ''); // Tu Phone Number ID
+define('WHATSAPP_BUSINESS_TOKEN', '');
+define('WHATSAPP_PHONE_NUMBER_ID', '');
 
-// Configuración para WAMR (Gratuito con límites)
-define('WAMR_API_KEY', ''); // Tu API key de WAMR
+define('WAMR_API_KEY', '');
 define('WAMR_API_URL', 'https://api.wamr.com/v1/message');
 
-// Configuración general
-define('WHATSAPP_MESSAGE_TEMPLATE', true); // Usar plantilla de mensaje
-define('WHATSAPP_RETRY_ATTEMPTS', 3); // Número de intentos de reenvío
-define('WHATSAPP_RETRY_DELAY', 5); // Segundos entre intentos
+define('WHATSAPP_MESSAGE_TEMPLATE', true);
+define('WHATSAPP_RETRY_ATTEMPTS', 3);
+define('WHATSAPP_RETRY_DELAY', 5);
 
-// Configuración de mensajes
 define('WHATSAPP_MESSAGE_PREFIX', '🔔 *SAMICAM - Nueva Tarea*');
 define('WHATSAPP_MESSAGE_SUFFIX', '💻 Accede al sistema para más detalles.');
 
-// Configuración de números de teléfono
-define('DEFAULT_COUNTRY_CODE', '57'); // Código de país por defecto (Colombia)
-define('PHONE_NUMBER_FORMAT', 'international'); // international, national
+define('DEFAULT_COUNTRY_CODE', '57');
+define('PHONE_NUMBER_FORMAT', 'international');
 
-// Configuración de logs
-define('WHATSAPP_LOG_ENABLED', true); // Habilitar logs de WhatsApp
-define('WHATSAPP_LOG_FILE', 'uploads/whatsapp_log.txt'); // Archivo de log
+define('WHATSAPP_LOG_ENABLED', true);
+define('WHATSAPP_LOG_FILE', 'uploads/whatsapp_log.txt');
 
-// Configuración para respaldo por email
-define('WHATSAPP_EMAIL_BACKUP_ENABLED', false); // Deshabilitado temporalmente para evitar warnings de SMTP
-define('WHATSAPP_EMAIL_BACKUP_RECIPIENT', 'admin@samicam.com'); // Email para recibir respaldos
+define('WHATSAPP_EMAIL_BACKUP_ENABLED', false);
+define('WHATSAPP_EMAIL_BACKUP_RECIPIENT', 'admin@samicam.com');
 
-/**
- * Obtiene la configuración de WhatsApp
- * @return array Configuración completa
- */
+define('WHATSAPP_TASK_NUMBER', '573183687660');
+define('CALLMEBOT_TASK_API_KEY', '8086746');
+define('WHATSAPP_GENERAL_NUMBER', '573163819809');
+define('CALLMEBOT_GENERAL_API_KEY', '1234652');
+
 function getWhatsAppConfig()
 {
     return [
@@ -99,15 +79,14 @@ function getWhatsAppConfig()
         'email_backup' => [
             'enabled' => WHATSAPP_EMAIL_BACKUP_ENABLED,
             'recipient_email' => WHATSAPP_EMAIL_BACKUP_RECIPIENT
-        ]
+        ],
+        'task_number' => WHATSAPP_TASK_NUMBER,
+        'task_api_key' => CALLMEBOT_TASK_API_KEY,
+        'general_number' => WHATSAPP_GENERAL_NUMBER,
+        'general_api_key' => CALLMEBOT_GENERAL_API_KEY,
     ];
 }
 
-/**
- * Registra un mensaje en el log de WhatsApp
- * @param string $message Mensaje a registrar
- * @param string $level Nivel del log (INFO, ERROR, WARNING)
- */
 function logWhatsAppMessage($message, $level = 'INFO')
 {
     if (!WHATSAPP_LOG_ENABLED) {
@@ -120,28 +99,18 @@ function logWhatsAppMessage($message, $level = 'INFO')
     $logFile = WHATSAPP_LOG_FILE;
     $logDir = dirname($logFile);
     
-    // Crear directorio si no existe
     if (!is_dir($logDir)) {
         mkdir($logDir, 0755, true);
     }
     
-    // Escribir en el archivo de log
     file_put_contents($logFile, $logMessage, FILE_APPEND | LOCK_EX);
 }
 
-/**
- * Verifica si las notificaciones de WhatsApp están habilitadas
- * @return bool True si están habilitadas
- */
 function isWhatsAppEnabled()
 {
     return WHATSAPP_ENABLED && !empty(getWhatsAppConfig()['provider']);
 }
 
-/**
- * Obtiene la API key del proveedor configurado
- * @return string API key o cadena vacía
- */
 function getWhatsAppApiKey()
 {
     $config = getWhatsAppConfig();
@@ -157,4 +126,4 @@ function getWhatsAppApiKey()
         default:
             return '';
     }
-} 
+}

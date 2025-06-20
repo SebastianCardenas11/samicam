@@ -8,7 +8,7 @@ getModal('modalCategoriasArchivos', $data);
         <div>
             <h1><i class="bi bi-folder"></i> <?= $data['page_title'] ?>
                 <?php if ($_SESSION['permisosMod']['w']) { ?>
-                    <button class="btn btn-primary ms-5" type="button" onclick="openModal();"><i class="bi bi-plus-lg"></i> Nueva Categoría</button>
+                    <button class="btn btn-warning ms-5" type="button" onclick="openModal();"><i class="bi bi-plus-lg"></i> Nueva Categoría</button>
                 <?php } ?>
             </h1>
         </div>

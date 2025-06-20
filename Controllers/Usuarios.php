@@ -131,10 +131,10 @@ class Usuarios extends Controllers
                 }
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['ideusuario'] . ')" title="Ver Usuario"><i class="bi bi-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['ideusuario'] . ')" title="Ver Usuario"><i class="far fa-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['ideusuario'] . ')" title="Editar Usuario"><i class="bi bi-pencil"></i></button>';
+                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['ideusuario'] . ')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
                 }
 
                 if($_SESSION['permisosMod']['d']){
@@ -143,7 +143,7 @@ class Usuarios extends Controllers
                     if($arrData[$i]['idrol'] == 1 || $_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
                         // No mostrar botón para superadmin o para sí mismo
                     } else {
-                        $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="bi bi-trash3"></i></button>';
+                        $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="far fa-trash-alt"></i></button>';
                     }
                 }
 

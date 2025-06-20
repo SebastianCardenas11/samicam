@@ -53,7 +53,7 @@ class WhatsAppHelper
     {
         // Verificar si WhatsApp está habilitado
         if (!isWhatsAppEnabled()) {
-            logWhatsAppMessage("WhatsApp notifications are disabled", "WARNING");
+            logWhatsAppMessage("Las notificaciones de WhatsApp están desactivadas", "WARNING");
             return false;
         }
         
@@ -62,7 +62,7 @@ class WhatsAppHelper
             $phoneNumber = $this->formatPhoneNumber($phoneNumber);
             
             // Log del intento de envío
-            logWhatsAppMessage("Attempting to send WhatsApp message to {$phoneNumber}");
+            logWhatsAppMessage("Intentando enviar mensaje de WhatsApp al número {$phoneNumber}");
             
             $provider = $this->config['provider'];
             $success = false;
@@ -84,20 +84,20 @@ class WhatsAppHelper
             
             // Si falla, intentar con proveedores alternativos
             if (!$success) {
-                logWhatsAppMessage("Primary provider failed, trying alternatives", "WARNING");
+                logWhatsAppMessage("El proveedor principal falló, intentando alternativas", "WARNING");
                 $success = $this->tryAlternativeProviders($phoneNumber, $message);
             }
             
             if ($success) {
-                logWhatsAppMessage("WhatsApp message sent successfully to {$phoneNumber}");
+                logWhatsAppMessage("Mensaje de WhatsApp enviado correctamente al número {$phoneNumber}");
             } else {
-                logWhatsAppMessage("Failed to send WhatsApp message to {$phoneNumber}", "ERROR");
+                logWhatsAppMessage("No se pudo enviar el mensaje de WhatsApp al número {$phoneNumber}", "ERROR");
             }
             
             return $success;
             
         } catch (Exception $e) {
-            logWhatsAppMessage("Error sending WhatsApp message: " . $e->getMessage(), "ERROR");
+            logWhatsAppMessage("Error al enviar mensaje de WhatsApp: " . $e->getMessage(), "ERROR");
             return false;
         }
     }
@@ -107,9 +107,16 @@ class WhatsAppHelper
      */
     private function sendViaCallmebot($phoneNumber, $message)
     {
+        // Seleccionar el API Key correcto según el número de destino
+        if ($phoneNumber == $this->config['task_number']) {
+            $apiKey = $this->config['task_api_key'];
+        } elseif ($phoneNumber == $this->config['general_number']) {
+            $apiKey = $this->config['general_api_key'];
+        } else {
+            $apiKey = $this->apiKey; // fallback
+        }
         $encodedMessage = urlencode($message);
-        $url = $this->apiUrl . "?phone={$phoneNumber}&text={$encodedMessage}&apikey={$this->apiKey}";
-        
+        $url = $this->apiUrl . "?phone={$phoneNumber}&text={$encodedMessage}&apikey={$apiKey}";
         $response = $this->makeHttpRequest($url);
         return $response && strpos($response, 'success') !== false;
     }
@@ -182,61 +189,23 @@ class WhatsAppHelper
     {
         $results = [];
         $whatsappSuccess = false;
-        
-        // Verificar si se debe enviar a un número específico
-        if ($this->config['send_to_specific_number'] && !empty($this->config['specific_number'])) {
-            // Enviar a número específico con información de todos los usuarios
-            $message = $this->createTareaMessageForSpecificNumber($usuarios, $tareaInfo);
-            $phoneNumber = $this->formatPhoneNumber($this->config['specific_number']);
-            $whatsappSuccess = $this->sendWhatsAppMessage($phoneNumber, $message);
-            
-            $results[] = [
-                'usuario_id' => 'specific',
-                'nombre' => 'Número Específico',
-                'telefono' => $phoneNumber,
-                'enviado' => $whatsappSuccess,
-                'mensaje' => $whatsappSuccess ? 'Enviado correctamente' : 'Error al enviar'
-            ];
-            
-            logWhatsAppMessage("Enviado a número específico: {$phoneNumber}", "INFO");
-        } else {
-            // Envío normal a cada usuario individual
-            foreach ($usuarios as $usuario) {
-                $phoneNumber = $this->getUserPhoneNumber($usuario);
-                
-                if ($phoneNumber) {
-                    $message = $this->createTareaMessage($tareaInfo, $usuario);
-                    $success = $this->sendWhatsAppMessage($phoneNumber, $message);
-                    
-                    if ($success) {
-                        $whatsappSuccess = true;
-                    }
-                    
-                    $results[] = [
-                        'usuario_id' => $usuario['id'],
-                        'nombre' => $usuario['nombres'],
-                        'telefono' => $phoneNumber,
-                        'enviado' => $success,
-                        'mensaje' => $success ? 'Enviado correctamente' : 'Error al enviar'
-                    ];
-                } else {
-                    $results[] = [
-                        'usuario_id' => $usuario['id'],
-                        'nombre' => $usuario['nombres'],
-                        'telefono' => 'No disponible',
-                        'enviado' => false,
-                        'mensaje' => 'Número de teléfono no disponible'
-                    ];
-                }
-            }
-        }
-        
+        // Enviar SOLO a task_number para nueva tarea
+        $message = $this->createTareaMessageForSpecificNumber($usuarios, $tareaInfo);
+        $phoneNumber = $this->formatPhoneNumber($this->config['task_number']);
+        $whatsappSuccess = $this->sendWhatsAppMessage($phoneNumber, $message);
+        $results[] = [
+            'usuario_id' => 'task',
+            'nombre' => 'Número de Tarea',
+            'telefono' => $phoneNumber,
+            'enviado' => $whatsappSuccess,
+            'mensaje' => $whatsappSuccess ? 'Enviado correctamente' : 'Error al enviar'
+        ];
+        logWhatsAppMessage("Enviado a número de tarea: {$phoneNumber}", "INFO");
         // Si WhatsApp falló completamente, intentar email de respaldo
         if (!$whatsappSuccess && $this->config['email_backup']['enabled']) {
             logWhatsAppMessage("WhatsApp failed, trying email backup", "WARNING");
             $this->sendEmailBackup($usuarios, $tareaInfo);
         }
-        
         return $results;
     }
     
@@ -437,7 +406,7 @@ class WhatsAppHelper
                 continue; // Saltar el proveedor principal ya que ya falló
             }
             
-            logWhatsAppMessage("Trying alternative provider: {$provider}", "INFO");
+            logWhatsAppMessage("Intentando proveedor alternativo: {$provider}", "INFO");
             
             $success = false;
             switch ($provider) {
@@ -453,12 +422,28 @@ class WhatsAppHelper
             }
             
             if ($success) {
-                logWhatsAppMessage("Message sent successfully via alternative provider: {$provider}", "INFO");
+                logWhatsAppMessage("Mensaje enviado correctamente mediante proveedor alternativo: {$provider}", "INFO");
                 return true;
             }
         }
         
-        logWhatsAppMessage("All providers failed", "ERROR");
+        logWhatsAppMessage("Todos los proveedores fallaron", "ERROR");
         return false;
+    }
+    
+    public function getNumeroEspecifico() {
+        return $this->config['specific_number'];
+    }
+    
+    /**
+     * Obtiene el número de WhatsApp según el tipo de notificación
+     * @param string $tipo 'task' para tareas, 'general' para todo lo demás
+     * @return string
+     */
+    public function getNumeroPorTipo($tipo = 'general') {
+        if ($tipo === 'task') {
+            return $this->config['task_number'];
+        }
+        return $this->config['general_number'];
     }
 } 

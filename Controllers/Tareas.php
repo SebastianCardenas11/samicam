@@ -20,8 +20,8 @@
             }
             
             $data['page_tag'] = "Tareas";
-            $data['page_title'] = "TAREAS";
-            $data['page_name'] = "tareas";
+            $data['page_title'] = "Tareas";
+            $data['page_name'] = "Tareas";
             $data['page_functions_js'] = "functions_tareas.js";
             $data['usuarios_asignables'] = $this->model->getUsuariosAsignables();
             $this->views->getView($this,"tareas",$data);
@@ -314,6 +314,14 @@
             $request_tarea = $this->model->updateEstadoTarea($idTarea, 'en curso');
             
             if($request_tarea > 0) {
+                // Enviar WhatsApp
+                require_once "Helpers/WhatsAppHelper.php";
+                $whatsappHelper = new WhatsAppHelper();
+                $usuario = $_SESSION['userData']['nombres'];
+                $fecha = date('d/m/Y H:i');
+                $mensaje = "▶️ La tarea '{$arrTarea['descripcion']}' fue iniciada el {$fecha} por {$usuario}.";
+                $numero = $whatsappHelper->getNumeroPorTipo('general');
+                $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea iniciada correctamente.');
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al iniciar la tarea.');
@@ -326,30 +334,31 @@
         public function completeTarea()
         {
             $idTarea = intval($_POST['idTarea']);
-            
-            // Verificar si es el creador de la tarea
             $arrTarea = $this->model->getTarea($idTarea);
             if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para completar esta tarea.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
-            
-            // Verificar que la tarea esté en curso
             if($arrTarea['estado'] != 'en curso') {
                 $arrResponse = array('status' => false, 'msg' => 'Solo se pueden completar tareas que estén en curso.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
-
             $request_tarea = $this->model->updateEstadoTarea($idTarea, 'completada');
-            
             if($request_tarea > 0) {
+                // Enviar WhatsApp
+                require_once "Helpers/WhatsAppHelper.php";
+                $whatsappHelper = new WhatsAppHelper();
+                $usuario = $_SESSION['userData']['nombres'];
+                $fecha = date('d/m/Y H:i');
+                $mensaje = "✅ La tarea '{$arrTarea['descripcion']}' cambió de estado a COMPLETADA el {$fecha} por {$usuario}.";
+                $numero = $whatsappHelper->getNumeroPorTipo('general');
+                $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea completada correctamente.');
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al completar la tarea.');
             }
-            
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -358,27 +367,18 @@
         {
             $idTarea = intval($_POST['idTarea']);
             $observacion = strClean($_POST['txtObservacion']);
-            
-            // Verificar si es el usuario asignado
             $arrTarea = $this->model->getTarea($idTarea);
-            
-            // Verificar si el usuario actual está entre los asignados
             $esUsuarioAsignado = $this->model->esUsuarioAsignadoATarea($idTarea, $_SESSION['idUser']);
-            
             if(!$esUsuarioAsignado) {
                 $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para agregar observaciones a esta tarea.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
-
-            // Verificar que la tarea no esté completada
             if($arrTarea['estado'] == 'completada') {
                 $arrResponse = array('status' => false, 'msg' => 'No se puede agregar observaciones a una tarea completada.');
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
-
-            // Verificar que no haya vencido la fecha de fin
             $fechaActual = new DateTime();
             $fechaFin = new DateTime($arrTarea['fecha_fin']);
             if($fechaFin < $fechaActual) {
@@ -386,15 +386,20 @@
                 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
                 die();
             }
-
             $request_obs = $this->model->insertObservacion($idTarea, $_SESSION['idUser'], $observacion);
-            
             if($request_obs > 0) {
+                // Enviar WhatsApp
+                require_once "Helpers/WhatsAppHelper.php";
+                $whatsappHelper = new WhatsAppHelper();
+                $usuario = $_SESSION['userData']['nombres'];
+                $fecha = date('d/m/Y H:i');
+                $mensaje = "📝 Se agregó una observación a la tarea '{$arrTarea['descripcion']}' el {$fecha} por {$usuario}:\n'{$observacion}'";
+                $numero = $whatsappHelper->getNumeroPorTipo('general');
+                $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Observación agregada correctamente.');
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al agregar la observación.');
             }
-            
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -429,6 +434,14 @@
                 die();
             }
 
+            // Enviar WhatsApp antes de eliminar
+            require_once "Helpers/WhatsAppHelper.php";
+            $whatsappHelper = new WhatsAppHelper();
+            $usuario = $_SESSION['userData']['nombres'];
+            $fecha = date('d/m/Y H:i');
+            $mensaje = "❌ La tarea '{$arrTarea['descripcion']}' fue eliminada el {$fecha} por {$usuario}.";
+            $numero = $whatsappHelper->getNumeroPorTipo('general');
+            $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
             $request_delete = $this->model->deleteTarea($idTarea);
             if($request_delete)
             {

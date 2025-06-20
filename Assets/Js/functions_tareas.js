@@ -116,23 +116,31 @@ document.addEventListener('DOMContentLoaded', function(){
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Tareas/setTarea';
         let formData = new FormData(formTarea);
+        // Mostrar modal de cargando
+        var modalLoading = new bootstrap.Modal(document.getElementById('modalLoadingTarea'));
+        modalLoading.show();
         request.open("POST",ajaxUrl,true);
         request.send(formData);
         request.onreadystatechange = function(){
-            if(request.readyState == 4 && request.status == 200){
-                console.log(request.responseText);
-                let objData = JSON.parse(request.responseText);
-                if(objData.status) {
-                    var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
-                    modalTarea.hide();
-                    formTarea.reset();
-                    Swal.fire("Tareas", objData.msg, "success");
-                    tableTareas.api().ajax.reload();
-                    if(window.calendar) {
-                        window.calendar.refetchEvents();
+            if(request.readyState == 4){
+                modalLoading.hide();
+                if(request.status == 200){
+                    console.log(request.responseText);
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status) {
+                        var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
+                        modalTarea.hide();
+                        formTarea.reset();
+                        Swal.fire("Tareas", objData.msg, "success");
+                        tableTareas.api().ajax.reload();
+                        if(window.calendar) {
+                            window.calendar.refetchEvents();
+                        }
+                    } else {
+                        Swal.fire("Error", objData.msg, "error");
                     }
                 } else {
-                    Swal.fire("Error", objData.msg, "error");
+                    Swal.fire("Error", "Error de conexión o servidor.", "error");
                 }
             }
         }
@@ -151,6 +159,13 @@ document.addEventListener('DOMContentLoaded', function(){
                 return false;
             }
 
+            Swal.fire({
+                title: 'Enviando...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/addObservacion';
             let formData = new FormData(formNuevaObservacion);
@@ -158,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function(){
             request.send(formData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
+                    Swal.close();
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         document.querySelector('#txtNuevaObservacion').value = '';
@@ -422,6 +438,13 @@ function fntStartTarea(idtarea) {
         closeOnCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Enviando...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/startTarea';
             let strData = "idTarea="+idtarea;
@@ -430,11 +453,11 @@ function fntStartTarea(idtarea) {
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
+                    Swal.close();
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         Swal.fire("Tarea iniciada!", objData.msg, "success");
                         tableTareas.api().ajax.reload(null, false);
-                        // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
                         }
@@ -459,6 +482,13 @@ function fntCompleteTarea(idtarea) {
         cancelButtonColor: '#d33'
     }).then((result) => {
         if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Enviando...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/completeTarea';
             let strData = "idTarea="+idtarea;
@@ -467,11 +497,11 @@ function fntCompleteTarea(idtarea) {
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
+                    Swal.close();
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         Swal.fire("Tarea completada!", objData.msg, "success");
                         tableTareas.api().ajax.reload(null, false);
-                        // Actualizar calendario si existe la función
                         if (typeof refreshCalendar === 'function') {
                             refreshCalendar();
                         }
