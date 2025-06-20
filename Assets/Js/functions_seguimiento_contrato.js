@@ -143,11 +143,11 @@ function fntEditContrato(element, id) {
                 if(document.querySelector("#estado")){
                     let estadoValue = objData.data.estado;
                     if (typeof estadoValue === 'string') {
-                        if (estadoValue.includes('En progreso')) {
+                        if (estadoValue.includes('Liquidado')) {
                             estadoValue = '1';
-                        } else if (estadoValue.includes('Finalizado')) {
+                        } else if (estadoValue.includes('En ejecución')) {
                             estadoValue = '2';
-                        } else if (estadoValue.includes('Liquidado')) {
+                        } else if (estadoValue.includes('Terminado')) {
                             estadoValue = '3';
                         } else {
                             estadoValue = '1'; // Por defecto
@@ -252,8 +252,6 @@ if(document.querySelector('#chartContratosMes')){
         cargarGraficoContratosMes();
     });
 }
-
-// Gráfico de contratos activos vs inactivos
 if(document.querySelector('#chartContratosActivos')){
     let chartContratosActivos;
     const ctxActivos = document.getElementById('chartContratosActivos').getContext('2d');
@@ -266,9 +264,9 @@ if(document.querySelector('#chartContratosActivos')){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
                 if(objData.status){
-                    let data = [objData.data.activos, objData.data.inactivos];
-                    let labels = ['Activos', 'Inactivos'];
-                    let bgColors = ['#28a745', '#dc3545'];
+                    let data = [objData.data.liquidado, objData.data.en_ejecucion, objData.data.terminado];
+                    let labels = ['Liquidado', 'En ejecución', 'Terminado'];
+                    let bgColors = ['#0dcaf0', '#ffc107', '#dc3545']; // azul claro, amarillo, rojo
                     if(chartContratosActivos) chartContratosActivos.destroy();
                     chartContratosActivos = new Chart(ctxActivos, {
                         type: 'doughnut',

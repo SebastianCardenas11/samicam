@@ -64,7 +64,7 @@ getModal('modalSeguimientoContrato', $data);
                 <h5 class="mb-3">Gráfico de contratos por mes </h5>
                 <canvas id="chartContratosMes" height="100"></canvas>
                 <hr>
-                <h5 class="mb-3">Contratos activos vs inactivos</h5>
+                <h5 class="mb-3">Contratos liquidados, en ejcucion y Terminados </h5>
                 <div style="max-width:350px;margin:0 auto;">
                   <canvas id="chartContratosActivos" height="60"></canvas>
                 </div>

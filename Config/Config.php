@@ -60,5 +60,10 @@ const MWHATSAPP = 15;
 //Páginas
 const PINICIO = 1;
 
+//Roles
+const RADMINISTRADOR = 1;
+const RCOORDINADOR = 2;    
+
 // Paginación
+const CANTPAGINAS = 10;
 const PROAPAGINAR = 20;
