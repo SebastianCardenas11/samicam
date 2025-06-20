@@ -1,0 +1,1 @@
+[2025-06-20 01:08:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas

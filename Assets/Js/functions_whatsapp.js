@@ -30,12 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (formattedContent.trim() === '') {
                     formattedContent = '<span class="info">No hay mensajes de WhatsApp disponibles.</span>';
                 } else {
-                    formattedContent = formattedContent.replace(/\[([\d\-\s:]+)\]/g, function(match, p1) {
-                        return '<span class="timestamp">[' + p1 + ']</span>';
-                    });
-                    formattedContent = formattedContent.replace(/(Usuario:\s*[^|]+)/g, '<span class="user">$1</span>');
-                    formattedContent = formattedContent.replace(/(Mensaje:\s*[^
-]+)/g, '<span class="message">$1</span>');
+                    let temp = formattedContent;
+                    if (!/Usuario:|Mensaje:/.test(temp)) {
+                        formattedContent = temp.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+                    } else {
+                        formattedContent = formattedContent.replace(/\[([\d\-\s:]+)\]/g, function(match, p1) {
+                            return '<span class="timestamp">[' + p1 + ']</span>';
+                        });
+                        formattedContent = formattedContent.replace(/(Usuario:\s*[^|]+)/g, '<span class="user">$1</span>');
+                        formattedContent = formattedContent.replace(/(Mensaje:\s*[^|\n]+)/g, '<span class="message">$1</span>');
+                    }
                 }
                 contenido += formattedContent;
                 document.getElementById('archivo-contenido').innerHTML = contenido;
@@ -78,8 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         return '<span class="timestamp">[' + p1 + ']</span>';
                     });
                     formattedContent = formattedContent.replace(/(Usuario:\s*[^|]+)/g, '<span class="user">$1</span>');
-                    formattedContent = formattedContent.replace(/(Mensaje:\s*[^
-]+)/g, '<span class="message">$1</span>');
+                    formattedContent = formattedContent.replace(/(Mensaje:\s*[^|\n]+)/g, '<span class="message">$1</span>');
                 }
                 contenido += formattedContent;
                 document.getElementById('archivo-contenido').innerHTML = contenido;
