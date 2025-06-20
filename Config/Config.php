@@ -6,7 +6,9 @@ ini_set('display_errors', 1);
 const PROTOCOL = "https";
 const IP_SERVER = "100.85.55.128:4443";
 const IP_LOCAL = "localhost";
-const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
+const BASE_URL = PROTOCOL."://".IP_SERVER."/samicam";
+
+
 
 //Zona horaria
 date_default_timezone_set('America/Bogota');
@@ -14,12 +16,10 @@ date_default_timezone_set('America/Bogota');
 //Datos de conexión a Base de Datos
 const DB_HOST = IP_LOCAL.":3306";
 const DB_NAME = "samicam";
-const NOMBRE_REMITENTE = "Alcaldia de la jagua de ibirico";
-const EMAIL_REMITENTE = "Alcaldia@lajaguadeibirico-cesar.gov.co";
-const NOMBRE_EMPESA = "Alcaldia de la jagua de ibirico";
-const WEB_EMPRESA = "https://www.lajaguadeibirico-cesar.gov.co/";
-const DESCRIPCION = "Alcaldia de la jagua de ibirico";
-const SHAREDHASH = "Alcaldia de la jagua de ibirico";
+const DB_USER = "root";
+const DB_PASSWORD = "";
+const DB_CHARSET = "utf8";
+
 
 //Datos Empresa
 const DIRECCION = "La Jagua - Cesar, Colombia"; 
@@ -30,6 +30,12 @@ const EMAIL_JUDICIAL = "notificacionjudicial@lajaguadeibirico-cesar.gov.co";
 const CAT_SLIDER = "1,2,3";
 const CAT_BANNER = "4,5,6";
 const CAT_FOOTER = "1,2,3,4,5";
+const NOMBRE_REMITENTE = "Alcaldia de la jagua de ibirico";
+const EMAIL_REMITENTE = "Alcaldia@lajaguadeibirico-cesar.gov.co";
+const NOMBRE_EMPESA = "Alcaldia de la jagua de ibirico";
+const WEB_EMPRESA = "https://www.lajaguadeibirico-cesar.gov.co/";
+const DESCRIPCION = "Alcaldia de la jagua de ibirico";
+const SHAREDHASH = "Alcaldia de la jagua de ibirico";
 
 //Datos para Encriptar / Desencriptar
 const KEY = 'samicam_key_cam';
