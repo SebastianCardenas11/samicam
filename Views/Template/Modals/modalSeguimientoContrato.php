@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <form id="formSeguimientoContrato" name="formSeguimientoContrato" class="form-horizontal">
                     <input type="hidden" id="id" name="id" value="">
-                    <p class="text-primary">Todos los campos son obligatorios.</p>
+                    <p class="text-danger">Todos los campos son obligatorios.</p>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -68,9 +68,10 @@
                             <input type="number" class="form-control" id="liquidacion" name="liquidacion" step="0.01" required>
                         </div>
                     </div>
+                    <br><br>
 
                     <div class="tile-footer">
-                        <button id="btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;
+                        <button id="btnActionForm" class="btn btn-warning" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;
                         <button class="btn btn-danger" type="button" data-bs-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</button>
                     </div>
                 </form>
