@@ -17,10 +17,10 @@ class WhatsApp extends Controllers
 
     public function index()
     {
-        $this->consola();
+        $this->whatsapp();
     }
 
-    public function consola()
+    public function whatsapp()
     {
         $data['page_tag'] = "Registro de Mensajes WhatsApp";
         $data['page_title'] = "Registro de Mensajes WhatsApp";
