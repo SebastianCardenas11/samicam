@@ -11,11 +11,11 @@ getModal('modalSeguimientoContrato', $data);
                 <i class="bi bi-plus-lg"></i> Nuevo Contrato
             </button>
         </div>
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
-            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/seguimientoContrato"><?= $data['page_title'] ?></a></li>
-        </ul>
     </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
+        <li class="breadcrumb-item"><a href="<?= base_url(); ?>/seguimientoContrato"><?= $data['page_title'] ?></a></li>
+    </ul>
 
     <div class="row">
         <div class="col-md-12">
