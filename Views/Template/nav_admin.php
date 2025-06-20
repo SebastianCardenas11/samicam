@@ -154,6 +154,15 @@
          </li>
        <?php } ?>
 
+       <li class="nav-item">
+         <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/seguimientoContrato')) ? 'active' : '' ?>" href="<?= base_url(); ?>/seguimientoContrato">
+           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+             <i class="fas fa-file-signature text-dark"></i>
+           </div>
+           <span class="nav-link-text ms-1">Seguimiento Contrato</span>
+         </a>
+       </li>
+
        <?php
        // Mostrar separador Gestión de Contenidos solo si el usuario tiene permisos en al menos uno de los módulos
        $showContentSection = (
