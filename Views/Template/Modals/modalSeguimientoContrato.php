@@ -68,12 +68,25 @@
                             <input type="number" class="form-control" id="liquidacion" name="liquidacion" step="0.01" required>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="numero_contrato">Número de Contrato</label>
+                            <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_aprobacion_entidad">Fecha de Aprobación de la Entidad</label>
+                            <input type="date" class="form-control" id="fecha_aprobacion_entidad" name="fecha_aprobacion_entidad" required>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                                <option value="1">Activo</option>
-                                <option value="2">Inactivo</option>
+                                <option value="1">En progreso</option>
+                                <option value="2">Finalizado</option>
+                                <option value="3">Liquidado</option>
                             </select>
                         </div>
                     </div>
@@ -104,7 +117,7 @@
           <tbody>
             <tr>
               <td>Objeto del Contrato:</td>
-              <td id="celObjetoContrato"></td>
+              <td id="celObjetoContrato" style="white-space:pre-line; word-break:break-word; max-width:400px;"></td>
             </tr>
             <tr>
               <td>Fecha de Inicio:</td>
@@ -145,6 +158,14 @@
             <tr>
               <td>Estado:</td>
               <td id="celEstado"></td>
+            </tr>
+            <tr>
+              <td>Número de Contrato:</td>
+              <td id="celNumeroContrato"></td>
+            </tr>
+            <tr>
+              <td>Fecha de Aprobación de la Entidad:</td>
+              <td id="celFechaAprobacionEntidad"></td>
             </tr>
           </tbody>
         </table>

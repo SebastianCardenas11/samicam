@@ -13,6 +13,8 @@ class SeguimientoContratoModel extends Mysql
     private $strFechaVerificacion;
     private $decLiquidacion;
     private $intEstado;
+    private $strNumeroContrato;
+    private $strFechaAprobacionEntidad;
 
     public function __construct()
     {
@@ -23,6 +25,8 @@ class SeguimientoContratoModel extends Mysql
         string $objeto_contrato,
         string $fecha_inicio,
         string $fecha_terminacion,
+        string $fecha_aprobacion_entidad,
+        string $numero_contrato,
         int $plazo_meses,
         float $valor_total_contrato,
         string $dia_corte_informe,
@@ -43,17 +47,21 @@ class SeguimientoContratoModel extends Mysql
         $this->strFechaVerificacion = $fecha_verificacion;
         $this->decLiquidacion = $liquidacion;
         $this->intEstado = $estado;
+        $this->strNumeroContrato = $numero_contrato;
+        $this->strFechaAprobacionEntidad = $fecha_aprobacion_entidad;
 
         $return = 0;
         $sql = "SELECT * FROM seguimiento_contrato WHERE objeto_contrato = '{$this->strObjetoContrato}'";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            $query_insert = "INSERT INTO seguimiento_contrato(objeto_contrato, fecha_inicio, fecha_terminacion, plazo_meses, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+            $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo_meses, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arrData = array(
+                $this->strNumeroContrato,
                 $this->strObjetoContrato,
                 $this->strFechaInicio,
                 $this->strFechaTerminacion,
+                $this->strFechaAprobacionEntidad,
                 $this->intPlazoMeses,
                 $this->decValorTotalContrato,
                 $this->strDiaCorteInforme,
@@ -91,6 +99,8 @@ class SeguimientoContratoModel extends Mysql
         string $objeto_contrato,
         string $fecha_inicio,
         string $fecha_terminacion,
+        string $fecha_aprobacion_entidad,
+        string $numero_contrato,
         int $plazo_meses,
         float $valor_total_contrato,
         string $dia_corte_informe,
@@ -112,16 +122,20 @@ class SeguimientoContratoModel extends Mysql
         $this->strFechaVerificacion = $fecha_verificacion;
         $this->decLiquidacion = $liquidacion;
         $this->intEstado = $estado;
+        $this->strNumeroContrato = $numero_contrato;
+        $this->strFechaAprobacionEntidad = $fecha_aprobacion_entidad;
 
         $sql = "SELECT * FROM seguimiento_contrato WHERE (objeto_contrato = '{$this->strObjetoContrato}' AND id != $this->intId)";
         $request = $this->select_all($sql);
 
         if (empty($request)) {
-            $sql = "UPDATE seguimiento_contrato SET objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, plazo_meses=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
+            $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo_meses=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
             $arrData = array(
+                $this->strNumeroContrato,
                 $this->strObjetoContrato,
                 $this->strFechaInicio,
                 $this->strFechaTerminacion,
+                $this->strFechaAprobacionEntidad,
                 $this->intPlazoMeses,
                 $this->decValorTotalContrato,
                 $this->strDiaCorteInforme,

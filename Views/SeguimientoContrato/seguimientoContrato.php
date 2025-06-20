@@ -42,6 +42,8 @@ getModal('modalSeguimientoContrato', $data);
                                         <th class="text-center">Valor Total</th>
                                         <th class="text-center">Liquidación</th>
                                         <th class="text-center">Estado</th>
+                                        <th class="text-center">Número de Contrato</th>
+                                        <th class="text-center">Fecha Aprobación Entidad</th>
                                         <th class="text-center">Acciones</th>
                                     </tr>
                                 </thead>

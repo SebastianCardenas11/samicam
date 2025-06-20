@@ -11,5 +11,7 @@ CREATE TABLE `seguimiento_contrato` (
   `fecha_verificacion` date DEFAULT NULL,
   `liquidacion` decimal(20,2) DEFAULT 0.00,
   `estado` int(11) NOT NULL DEFAULT 1,
+  `numero_contrato` varchar(50) DEFAULT NULL,
+  `fecha_aprobacion_entidad` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 

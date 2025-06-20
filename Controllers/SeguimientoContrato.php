@@ -41,6 +41,8 @@ class SeguimientoContrato extends Controllers
             $strFechaVerificacion = strClean($_POST['fecha_verificacion']);
             $decLiquidacion = floatval($_POST['liquidacion']);
             $intEstado = isset($_POST['estado']) ? intval($_POST['estado']) : 1;
+            $strNumeroContrato = strClean($_POST['numero_contrato']);
+            $strFechaAprobacionEntidad = strClean($_POST['fecha_aprobacion_entidad']);
 
             if ($intId == 0) {
                 $option = 1;
@@ -49,6 +51,8 @@ class SeguimientoContrato extends Controllers
                         $strObjetoContrato,
                         $strFechaInicio,
                         $strFechaTerminacion,
+                        $strFechaAprobacionEntidad,
+                        $strNumeroContrato,
                         $intPlazoMeses,
                         $decValorTotalContrato,
                         $strDiaCorteInforme,
@@ -67,6 +71,8 @@ class SeguimientoContrato extends Controllers
                         $strObjetoContrato,
                         $strFechaInicio,
                         $strFechaTerminacion,
+                        $strFechaAprobacionEntidad,
+                        $strNumeroContrato,
                         $intPlazoMeses,
                         $decValorTotalContrato,
                         $strDiaCorteInforme,
@@ -108,10 +114,18 @@ class SeguimientoContrato extends Controllers
                 $arrData[$i]['liquidacion'] = '$' . number_format($arrData[$i]['liquidacion'], 2, ',', '.');
                 
                 if ($arrData[$i]['estado'] == 1) {
-                    $arrData[$i]['estado'] = '<span class="badge text-bg-success">Activo</span>';
+                    $arrData[$i]['estado'] = '<span class="badge text-bg-warning">En progreso</span>';
+                } else if ($arrData[$i]['estado'] == 2) {
+                    $arrData[$i]['estado'] = '<span class="badge text-bg-danger">Finalizado</span>';
+                } else if ($arrData[$i]['estado'] == 3) {
+                    $arrData[$i]['estado'] = '<span class="badge text-bg-info">Liquidado</span>';
                 } else {
-                    $arrData[$i]['estado'] = '<span class="badge text-bg-danger">Inactivo</span>';
+                    $arrData[$i]['estado'] = '<span class="badge text-bg-secondary">Desconocido</span>';
                 }
+
+                // Asegurar que los campos nuevos estén presentes y sin formato
+                $arrData[$i]['numero_contrato'] = $arrData[$i]['numero_contrato'];
+                $arrData[$i]['fecha_aprobacion_entidad'] = $arrData[$i]['fecha_aprobacion_entidad'];
 
                 if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewContrato(' . $arrData[$i]['id'] . ')" title="Ver Contrato"><i class="far fa-eye"></i></button>';
