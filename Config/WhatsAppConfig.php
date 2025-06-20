@@ -4,9 +4,9 @@ define('WHATSAPP_ENABLED', true);
 define('WHATSAPP_PROVIDER', 'callmebot');
 
 define('WHATSAPP_SEND_TO_SPECIFIC_NUMBER', true);
-define('WHATSAPP_SPECIFIC_NUMBER', '+573018467581');
+define('WHATSAPP_SPECIFIC_NUMBER', '+573163819809');
 
-define('CALLMEBOT_API_KEY', '2206726');
+define('CALLMEBOT_API_KEY', '123456');
 define('CALLMEBOT_API_URL', 'https://api.callmebot.com/whatsapp.php');
 
 define('CALLMEBOT_ALTERNATIVE_NUMBERS', [
@@ -35,10 +35,10 @@ define('WHATSAPP_LOG_FILE', 'uploads/whatsapp_log.txt');
 define('WHATSAPP_EMAIL_BACKUP_ENABLED', false);
 define('WHATSAPP_EMAIL_BACKUP_RECIPIENT', 'admin@samicam.com');
 
-define('WHATSAPP_TASK_NUMBER', '573044506783');
-define('CALLMEBOT_TASK_API_KEY', '2660649');
-define('WHATSAPP_GENERAL_NUMBER', '573018467581');
-define('CALLMEBOT_GENERAL_API_KEY', '2206726');
+define('WHATSAPP_TASK_NUMBER', '573183687660');
+define('CALLMEBOT_TASK_API_KEY', '8086746');
+define('WHATSAPP_GENERAL_NUMBER', '573163819809');
+define('CALLMEBOT_GENERAL_API_KEY', '1234652');
 
 function getWhatsAppConfig()
 {
