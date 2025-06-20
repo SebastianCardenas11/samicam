@@ -124,6 +124,9 @@ function fntEditContrato(element, id) {
                 document.querySelector("#evidenciado_secop").value = objData.data.evidenciado_secop;
                 document.querySelector("#fecha_verificacion").value = objData.data.fecha_verificacion;
                 document.querySelector("#liquidacion").value = objData.data.liquidacion;
+                if(document.querySelector("#estado")){
+                    document.querySelector("#estado").value = objData.data.estado == 1 ? 1 : 0;
+                }
             }
         }
         $('#modalFormSeguimientoContrato').modal('show');

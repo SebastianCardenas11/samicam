@@ -68,6 +68,15 @@
                             <input type="number" class="form-control" id="liquidacion" name="liquidacion" step="0.01" required>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" name="estado" required>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
                     <br><br>
 
                     <div class="tile-footer">

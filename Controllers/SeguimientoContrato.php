@@ -40,6 +40,7 @@ class SeguimientoContrato extends Controllers
             $strEvidenciadoSecop = strClean($_POST['evidenciado_secop']);
             $strFechaVerificacion = strClean($_POST['fecha_verificacion']);
             $decLiquidacion = floatval($_POST['liquidacion']);
+            $intEstado = isset($_POST['estado']) ? intval($_POST['estado']) : 1;
 
             if ($intId == 0) {
                 $option = 1;
@@ -54,7 +55,8 @@ class SeguimientoContrato extends Controllers
                         $strObservacionesEjecucion,
                         $strEvidenciadoSecop,
                         $strFechaVerificacion,
-                        $decLiquidacion
+                        $decLiquidacion,
+                        $intEstado
                     );
                 }
             } else {
@@ -71,7 +73,8 @@ class SeguimientoContrato extends Controllers
                         $strObservacionesEjecucion,
                         $strEvidenciadoSecop,
                         $strFechaVerificacion,
-                        $decLiquidacion
+                        $decLiquidacion,
+                        $intEstado
                     );
                 }
             }
