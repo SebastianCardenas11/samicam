@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
     registrarAccesoModulo("Dependencias");
   } else if (currentUrl.includes("/seguimientoContrato")) {
     registrarAccesoModulo("Seguimiento de Contratos");
+  } else if (currentUrl.includes("/whatsapp")) {
+    registrarAccesoModulo("WhatsApp");
   }
 
   // Registrar acceso cuando se hace clic en enlaces de navegación
@@ -65,6 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
         registrarAccesoModulo("Dependencias");
       } else if (href.includes("/seguimientoContrato")) {
         registrarAccesoModulo("Seguimiento de Contratos");
+      } else if (href.includes("/whatsapp")) {
+        registrarAccesoModulo("WhatsApp");
       }
     });
   });
