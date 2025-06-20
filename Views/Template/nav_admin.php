@@ -164,6 +164,17 @@
          </a>
        </li>
        <?php } ?>
+      
+          <?php if (!empty($_SESSION['permisos'][MINVENTARIO]['r'])) { ?>
+         <li class="nav-item">
+           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/Inventario')) ? 'active' : '' ?>" href="<?= base_url(); ?>/Inventario">
+             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="bi bi-box-seam text-dark"></i>
+             </div>
+             <span class="nav-link-text ms-1">Inventario</span>
+           </a>
+         </li>
+       <?php } ?> 
 
        <?php
        // Mostrar separador Gestión de Contenidos solo si el usuario tiene permisos en al menos uno de los módulos
@@ -200,16 +211,7 @@
          </li>
        <?php } ?>
 
-       <!-- <?php if (!empty($_SESSION['permisos'][MINVENTARIO]['r'])) { ?>
-         <li class="nav-item">
-           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/Inventario')) ? 'active' : '' ?>" href="<?= base_url(); ?>/Inventario">
-             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="bi bi-box-seam text-dark"></i>
-             </div>
-             <span class="nav-link-text ms-1">Inventario</span>
-           </a>
-         </li>
-       <?php } ?> -->
+      
 
        <li class="nav-item mt-2">
          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Control y seguridad</h6>

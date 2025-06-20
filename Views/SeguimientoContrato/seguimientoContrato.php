@@ -36,14 +36,19 @@ getModal('modalSeguimientoContrato', $data);
                             <table class="table table-hover cell-border " id="tableSeguimientoContrato">
                                 <thead class="table-success">
                                     <tr>
+                                        <th class="text-center">Fecha Aprobación Entidad (Suscripción)</th>
+                                        <th class="text-center">Número de Contrato</th>
                                         <th class="text-center">Objeto del Contrato</th>
                                         <th class="text-center">Fecha Inicio</th>
                                         <th class="text-center">Fecha Fin</th>
-                                        <th class="text-center">Valor Total</th>
+                                        <th class="text-center">Plazo</th>
+                                        <th class="text-center">Valor Total del Contrato</th>
+                                        <th class="text-center">Día de Corte Informe de Periodo Mensual</th>
+                                        <th class="text-center">Observaciones Ejecución</th>
+                                        <th class="text-center">Evidenciado Secop</th>
+                                        <th class="text-center">Fecha Verificación</th>
                                         <th class="text-center">Liquidación</th>
                                         <th class="text-center">Estado</th>
-                                        <th class="text-center">Número de Contrato</th>
-                                        <th class="text-center">Fecha Aprobación Entidad</th>
                                         <th class="text-center">Acciones</th>
                                     </tr>
                                 </thead>

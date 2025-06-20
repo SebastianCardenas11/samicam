@@ -117,6 +117,7 @@ function initializeTable() {
             // {"data": "id_publicacion"},
             {"data": "fecha_recibido"},
             {"data": "correo_recibido"},
+            {"data": "nombre_publicacion"},
             {"data": "asunto"},
             {"data": "dependencia_nombre"},
             {"data": "fecha_publicacion"},
