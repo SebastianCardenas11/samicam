@@ -223,7 +223,18 @@
              <span class="nav-link-text ms-1">Notificaciones</span>
            </a>
          </li>
-       
+
+       <?php if (!empty($_SESSION['permisos'][MWHATSAPP]['r'])) { ?>
+       <li class="nav-item">
+         <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/whatsapp')) ? 'active' : '' ?>" href="<?= base_url(); ?>/whatsapp">
+           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+             <i class="fab fa-whatsapp text-success"></i>
+           </div>
+           <span class="nav-link-text ms-1">WhatsApp</span>
+         </a>
+       </li>
+       <?php } ?>
+
        <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">

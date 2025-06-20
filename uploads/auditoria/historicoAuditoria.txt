@@ -155,3 +155,41 @@
 [2025-06-20 00:51:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
 [2025-06-20 00:51:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
 [2025-06-20 00:54:02] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:55:48] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-20 00:55:50] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-20 00:56:33] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:56:36] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Auditoría
+[2025-06-20 00:56:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:56:45] ID: 17 | Usuario: Maria Del Pilar Ureche Cobo | Rol: Tecnico Ntic | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-06-20 00:58:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:58:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:59:28] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:59:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 00:59:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 01:00:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 01:00:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:00:45] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 01:01:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:02:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:02:36] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:03:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:04:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:04:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:04:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:04:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
+[2025-06-20 01:04:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:05:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:05:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:05:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Errors
+[2025-06-20 01:05:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-06-20 01:05:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-06-20 01:05:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-20 01:05:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-20 01:05:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Cargos
+[2025-06-20 01:05:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
+[2025-06-20 01:05:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
+[2025-06-20 01:05:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-20 01:05:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-20 01:05:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-06-20 01:05:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-20 01:05:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Viáticos

@@ -55,6 +55,7 @@ const MTAREAS = 11;
 const MPUBLICACIONES = 12;
 const MDEPENDENCIAS = 13;
 const MSEGUIMIENTOCONTRATO = 14;
+const MWHATSAPP = 15;
 
 //Páginas
 const PINICIO = 1;
