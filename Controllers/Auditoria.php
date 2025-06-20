@@ -21,8 +21,7 @@ class Auditoria extends Controllers
             die();
         }
         
-        // Asignar permisos para el módulo de auditoría
-        getPermisos(MAUDITORIA);
+        
     }
 
     public function index()

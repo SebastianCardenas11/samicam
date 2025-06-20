@@ -18,3 +18,15 @@
 [2025-06-20 01:24:08] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
 [2025-06-20 01:24:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
 [2025-06-20 01:25:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas
+[2025-06-20 09:11:07] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-20 09:11:07] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 09:11:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-20 09:16:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Auditoría
+[2025-06-20 09:19:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Auditoría
+[2025-06-20 09:19:16] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-06-20 09:20:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-06-20 09:20:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-20 09:20:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-20 09:21:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-20 09:21:05] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-20 09:21:13] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo WhatsApp
