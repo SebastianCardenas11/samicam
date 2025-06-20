@@ -3,17 +3,21 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 //IP del servidor y local
-const PROTOCOL = "https";
+const PROTOCOL = "http";
 const IP_SERVER = "100.85.55.128:4443";
 const IP_LOCAL = "localhost";
 const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
+const DB_USER = "root";
+const DB_PASSWORD = "";
+const DB_CHARSET = "utf8";
+
 
 //Zona horaria
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
 const DB_HOST = IP_LOCAL.":3306";
-const DB_NAME = "samicam";
+const DB_NAME = "sami";
 const NOMBRE_REMITENTE = "Alcaldia de la jagua de ibirico";
 const EMAIL_REMITENTE = "Alcaldia@lajaguadeibirico-cesar.gov.co";
 const NOMBRE_EMPESA = "Alcaldia de la jagua de ibirico";
@@ -49,7 +53,8 @@ const MTAREAS = 11;
 const MPUBLICACIONES = 12;
 const MDEPENDENCIAS = 13;
 const MSEGUIMIENTOCONTRATO = 14;
-const MWHATSAPP = 15;
+const MINVENTARIO = 15;
+const MWHATSAPP = 16;
 
 //Páginas
 const PINICIO = 1;

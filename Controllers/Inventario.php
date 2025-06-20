@@ -17,7 +17,6 @@ class Inventario extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
-       
         $data['page_tag'] = "Inventario";
         $data['page_title'] = "Inventario";
         $data['page_name'] = "inventario";
