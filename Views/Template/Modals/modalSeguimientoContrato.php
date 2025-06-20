@@ -12,6 +12,15 @@
                     <p class="text-danger">Todos los campos son obligatorios.</p>
 
                     <div class="row">
+                      <div class="col-md-6">
+                            <label for="numero_contrato">Número de Contrato</label>
+                            <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" required>
+                            
+                        </div>
+                         <div class="col-md-6">
+                            <label for="fecha_aprobacion_entidad">Fecha de Aprobación de la Entidad</label>
+                            <input type="date" class="form-control" id="fecha_aprobacion_entidad" name="fecha_aprobacion_entidad" required>
+                        </div>
                         <div class="col-md-12">
                             <label for="objeto_contrato">Objeto del Contrato</label>
                             <textarea id="objeto_contrato" class="form-control" name="objeto_contrato" rows="2" required></textarea>
@@ -31,7 +40,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="plazo_meses">Plazo (meses)</label>
+                            <label for="plazo_meses">Plazo</label>
                             <input type="number" class="form-control" id="plazo_meses" name="plazo_meses" required>
                         </div>
                         <div class="col-md-6">
@@ -71,17 +80,6 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="numero_contrato">Número de Contrato</label>
-                            <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="fecha_aprobacion_entidad">Fecha de Aprobación de la Entidad</label>
-                            <input type="date" class="form-control" id="fecha_aprobacion_entidad" name="fecha_aprobacion_entidad" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="1">Liquidado</option>
@@ -89,6 +87,7 @@
                                 <option value="3">Terminado</option>
                             </select>
                         </div>
+                       
                     </div>
                     <br><br>
 

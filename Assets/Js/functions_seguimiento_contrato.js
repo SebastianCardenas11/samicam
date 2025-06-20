@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc": ""
         },
         "columns": [
+            { "data": "fecha_aprobacion_entidad" },
+            { "data": "numero_contrato" },
             { 
                 "data": "objeto_contrato",
                 "render": function(data, type, row) {
@@ -25,11 +27,14 @@ document.addEventListener('DOMContentLoaded', function(){
             },
             { "data": "fecha_inicio" },
             { "data": "fecha_terminacion" },
+            { "data": "plazo_meses" },
             { "data": "valor_total_contrato" },
+            { "data": "dia_corte_informe" },
+            { "data": "observaciones_ejecucion" },
+            { "data": "evidenciado_secop" },
+            { "data": "fecha_verificacion" },
             { "data": "liquidacion" },
             { "data": "estado" },
-            { "data": "numero_contrato" },
-            { "data": "fecha_aprobacion_entidad" },
             { "data": "options" }
         ],
         'dom': 'lBfrtip',

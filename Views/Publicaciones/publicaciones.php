@@ -41,6 +41,7 @@
                                 <tr>
                                     <th class="text-center">Fecha Recibido</th>
                                     <th class="text-center">Correo</th>
+                                    <th class="text-center">Nombre Publicación</th>
                                     <th class="text-center">Asunto</th> 
                                     <th class="text-center">Dependencia</th> 
                                     <th class="text-center">Fecha Publicación</th> 
