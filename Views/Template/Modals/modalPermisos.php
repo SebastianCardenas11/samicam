@@ -24,13 +24,13 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Marcar Fila</th>
-                                                <th>Ìtem</th>
+                                                <th>Item</th>
                                                 <th>Módulo</th>
                                                 <th>Ver</th>
                                                 <th>Crear</th>
                                                 <th>Actualizar</th>
                                                 <th>Eliminar</th>
+                                                <th>Marcar Fila</th>
                                                 <!-- <th>Visible en Menú</th> -->
                                             </tr>
                                         </thead>
@@ -51,12 +51,9 @@
                                                 ?>
                                                 <tr>
                                                     <td>
-                                                        <input type="checkbox" class="check-row-master" data-row="<?= $i ?>">
-                                                    </td>
-                                                    <td>
                                                         <?= $no; ?>
                                                         <input type="hidden" name="modulos[<?= $i; ?>][idmodulo]"
-                                                            value="<?= $idmod ?>" required>
+                                                        value="<?= $idmod ?>" required>
                                                     </td>
                                                     <td>
                                                         <?= $modulos[$i]['titulo']; ?>
@@ -75,9 +72,9 @@
                                                         <div class="form-check form-switch">
                                                             <label>
                                                                 <input class="form-check-input" role="switch"
-                                                                    type="checkbox" name="modulos[<?= $i; ?>][w]"
-                                                                    <?= $wCheck ?>><span class="flip-indecator"
-                                                                    data-toggle-on="ON" data-toggle-off="OFF"></span>
+                                                                type="checkbox" name="modulos[<?= $i; ?>][w]"
+                                                                <?= $wCheck ?>><span class="flip-indecator"
+                                                                data-toggle-on="ON" data-toggle-off="OFF"></span>
                                                             </label>
                                                         </div>
                                                     </td>
@@ -85,7 +82,7 @@
                                                         <div class="form-check form-switch">
                                                             <label>
                                                                 <input class="form-check-input" role="switch"
-                                                                    type="checkbox" name="modulos[<?= $i; ?>][u]"
+                                                                type="checkbox" name="modulos[<?= $i; ?>][u]"
                                                                     <?= $uCheck ?>><span class="flip-indecator"
                                                                     data-toggle-on="ON" data-toggle-off="OFF"></span>
                                                             </label>
@@ -98,6 +95,13 @@
                                                                     type="checkbox" name="modulos[<?= $i; ?>][d]"
                                                                     <?= $dCheck ?>><span class="flip-indecator"
                                                                     data-toggle-on="ON" data-toggle-off="OFF"></span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check form-switch">
+                                                            <label>
+                                                                <input type="checkbox" class="form-check-input check-row-master" data-row="<?= $i ?>">
                                                             </label>
                                                         </div>
                                                     </td>

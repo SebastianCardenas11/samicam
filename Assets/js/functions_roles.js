@@ -276,8 +276,8 @@ $(document).on('change', '.check-row-master', function() {
     $(this).closest('tr').find('input[type=checkbox]').not(this).prop('checked', checked);
 });
 
-// Sincronizar el checkbox maestro al cargar la tabla
-$(document).ready(function() {
+// Función para sincronizar el checkbox maestro de cada fila
+function sincronizarCheckboxMaestroPermisos() {
     $('tr').each(function() {
         var checkboxes = $(this).find('input[type=checkbox]').not('.check-row-master');
         var master = $(this).find('.check-row-master');
@@ -289,16 +289,14 @@ $(document).ready(function() {
             master.prop('checked', allChecked);
         }
     });
+}
+
+// Ejecutar al cargar la página
+$(document).ready(function() {
+    sincronizarCheckboxMaestroPermisos();
 });
 
-// Al cambiar cualquier permiso individual, actualizar el maestro
-$(document).on('change', 'tr input[type=checkbox]:not(.check-row-master)', function() {
-    var row = $(this).closest('tr');
-    var checkboxes = row.find('input[type=checkbox]').not('.check-row-master');
-    var master = row.find('.check-row-master');
-    var allChecked = true;
-    checkboxes.each(function() {
-        if (!$(this).is(':checked')) allChecked = false;
-    });
-    master.prop('checked', allChecked);
+// Ejecutar cada vez que se muestre el modal de permisos
+$(document).on('shown.bs.modal', '#modalFormPermiso', function() {
+    sincronizarCheckboxMaestroPermisos();
 });
