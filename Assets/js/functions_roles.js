@@ -268,3 +268,37 @@ function fntSavePermisos(evnet){
     }
     
 }
+
+// Checkbox maestro por fila en permisos
+$(document).on('change', '.check-row-master', function() {
+    var row = $(this).data('row');
+    var checked = $(this).is(':checked');
+    $(this).closest('tr').find('input[type=checkbox]').not(this).prop('checked', checked);
+});
+
+// Sincronizar el checkbox maestro al cargar la tabla
+$(document).ready(function() {
+    $('tr').each(function() {
+        var checkboxes = $(this).find('input[type=checkbox]').not('.check-row-master');
+        var master = $(this).find('.check-row-master');
+        if (checkboxes.length && master.length) {
+            var allChecked = true;
+            checkboxes.each(function() {
+                if (!$(this).is(':checked')) allChecked = false;
+            });
+            master.prop('checked', allChecked);
+        }
+    });
+});
+
+// Al cambiar cualquier permiso individual, actualizar el maestro
+$(document).on('change', 'tr input[type=checkbox]:not(.check-row-master)', function() {
+    var row = $(this).closest('tr');
+    var checkboxes = row.find('input[type=checkbox]').not('.check-row-master');
+    var master = row.find('.check-row-master');
+    var allChecked = true;
+    checkboxes.each(function() {
+        if (!$(this).is(':checked')) allChecked = false;
+    });
+    master.prop('checked', allChecked);
+});

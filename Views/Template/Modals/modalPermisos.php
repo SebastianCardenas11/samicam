@@ -24,6 +24,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
+                                                <th>Marcar Fila</th>
                                                 <th>Ìtem</th>
                                                 <th>Módulo</th>
                                                 <th>Ver</th>
@@ -49,6 +50,9 @@
                                                 $idmod = $modulos[$i]['idmodulo'];
                                                 ?>
                                                 <tr>
+                                                    <td>
+                                                        <input type="checkbox" class="check-row-master" data-row="<?= $i ?>">
+                                                    </td>
                                                     <td>
                                                         <?= $no; ?>
                                                         <input type="hidden" name="modulos[<?= $i; ?>][idmodulo]"
