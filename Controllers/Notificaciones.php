@@ -9,7 +9,6 @@ class Notificaciones extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        getPermisos(MNOTIFICACIONES);
     }
 
     public function Notificaciones()

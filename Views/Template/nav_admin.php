@@ -154,6 +154,7 @@
          </li>
        <?php } ?>
 
+       <?php if (!empty($_SESSION['permisos'][MSEGUIMIENTOCONTRATO]['r'])) { ?>
        <li class="nav-item">
          <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/seguimientoContrato')) ? 'active' : '' ?>" href="<?= base_url(); ?>/seguimientoContrato">
            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -162,6 +163,7 @@
            <span class="nav-link-text ms-1">Seguimiento Contrato</span>
          </a>
        </li>
+       <?php } ?>
 
        <?php
        // Mostrar separador Gestión de Contenidos solo si el usuario tiene permisos en al menos uno de los módulos
@@ -212,7 +214,7 @@
        <li class="nav-item mt-2">
          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Control y seguridad</h6>
        </li>
-       <?php if (isset($_SESSION['permisos'][MNOTIFICACIONES]) && !empty($_SESSION['permisos'][MNOTIFICACIONES]['r']) && (!isset($_SESSION['permisos'][MNOTIFICACIONES]['v']) || $_SESSION['permisos'][MNOTIFICACIONES]['v'] == 1)) { ?>
+       
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/notificaciones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/notificaciones">
              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -221,7 +223,7 @@
              <span class="nav-link-text ms-1">Notificaciones</span>
            </a>
          </li>
-       <?php } ?>
+       
        <?php if (isset($_SESSION['userData']['nombrerol']) && $_SESSION['userData']['nombrerol'] == 'Superadministrador') { ?>
          <li class="nav-item">
            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/auditoria')) ? 'active' : '' ?>" href="<?= base_url(); ?>/auditoria">

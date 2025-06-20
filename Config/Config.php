@@ -54,7 +54,7 @@ const MAUDITORIA = 10;
 const MTAREAS = 11;
 const MPUBLICACIONES = 12;
 const MDEPENDENCIAS = 13;
-const MNOTIFICACIONES = 14;
+const MSEGUIMIENTOCONTRATO = 14;
 
 //Páginas
 const PINICIO = 1;
@@ -62,3 +62,7 @@ const PINICIO = 1;
 //Roles
 const RADMINISTRADOR = 1;
 const RCOORDINADOR = 2;    
+
+// Paginación
+const CANTPAGINAS = 10;
+const PROAPAGINAR = 20;

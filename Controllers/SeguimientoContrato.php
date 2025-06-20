@@ -10,16 +10,14 @@ class SeguimientoContrato extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
-        // Assuming a new permission module is needed.
-        // Make sure to add this constant to the permissions system.
-        // getPermisos(MSEGUIMIENTOCONTRATO);
+        getPermisos(MSEGUIMIENTOCONTRATO);
     }
 
     public function SeguimientoContrato()
     {
-        // if (empty($_SESSION['permisosMod']['r'])) {
-        //     header("Location:" . base_url() . '/dashboard');
-        // }
+        if (empty($_SESSION['permisosMod']['r'])) {
+            header("Location:" . base_url() . '/dashboard');
+        }
         $data['page_tag'] = "Seguimiento de Contratos";
         $data['page_title'] = "Seguimiento de Contratos";
         $data['page_name'] = "seguimiento_contrato";
@@ -45,7 +43,7 @@ class SeguimientoContrato extends Controllers
 
             if ($intId == 0) {
                 $option = 1;
-                // if ($_SESSION['permisosMod']['w']) {
+                if ($_SESSION['permisosMod']['w']) {
                     $request_contrato = $this->model->insertContrato(
                         $strObjetoContrato,
                         $strFechaInicio,
@@ -58,10 +56,10 @@ class SeguimientoContrato extends Controllers
                         $strFechaVerificacion,
                         $decLiquidacion
                     );
-                // }
+                }
             } else {
                 $option = 2;
-                // if ($_SESSION['permisosMod']['u']) {
+                if ($_SESSION['permisosMod']['u']) {
                     $request_contrato = $this->model->updateContrato(
                         $intId,
                         $strObjetoContrato,
@@ -75,7 +73,7 @@ class SeguimientoContrato extends Controllers
                         $strFechaVerificacion,
                         $decLiquidacion
                     );
-                // }
+                }
             }
 
             if ($request_contrato > 0) {
@@ -96,7 +94,7 @@ class SeguimientoContrato extends Controllers
 
     public function getContratos()
     {
-        // if ($_SESSION['permisosMod']['r']) {
+        if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectContratos();
             for ($i = 0; $i < count($arrData); $i++) {
                 $btnView = '';
@@ -112,26 +110,26 @@ class SeguimientoContrato extends Controllers
                     $arrData[$i]['estado'] = '<span class="badge text-bg-danger">Inactivo</span>';
                 }
 
-                // if ($_SESSION['permisosMod']['r']) {
+                if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewContrato(' . $arrData[$i]['id'] . ')" title="Ver Contrato"><i class="far fa-eye"></i></button>';
-                // }
-                // if ($_SESSION['permisosMod']['u']) {
+                }
+                if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditContrato(this,' . $arrData[$i]['id'] . ')" title="Editar Contrato"><i class="fas fa-pencil-alt"></i></button>';
-                // }
-                // if ($_SESSION['permisosMod']['d']) {
+                }
+                if ($_SESSION['permisosMod']['d']) {
                     $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelContrato(' . $arrData[$i]['id'] . ')" title="Eliminar Contrato"><i class="far fa-trash-alt"></i></button>';
-                // }
+                }
 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        // }
+        }
         die();
     }
 
     public function getContrato($id)
     {
-        // if ($_SESSION['permisosMod']['r']) {
+        if ($_SESSION['permisosMod']['r']) {
             $id = intval($id);
             if ($id > 0) {
                 $arrData = $this->model->selectContrato($id);
@@ -142,14 +140,14 @@ class SeguimientoContrato extends Controllers
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
-        // }
+        }
         die();
     }
 
     public function delContrato()
     {
         if ($_POST) {
-            // if ($_SESSION['permisosMod']['d']) {
+            if ($_SESSION['permisosMod']['d']) {
                 $intId = intval($_POST['id']);
                 $requestDelete = $this->model->deleteContrato($intId);
                 if ($requestDelete) {
@@ -158,7 +156,7 @@ class SeguimientoContrato extends Controllers
                     $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el Contrato.');
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-            // }
+            }
         }
         die();
     }
