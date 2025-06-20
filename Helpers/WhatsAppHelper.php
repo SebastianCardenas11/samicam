@@ -53,7 +53,7 @@ class WhatsAppHelper
     {
         // Verificar si WhatsApp está habilitado
         if (!isWhatsAppEnabled()) {
-            logWhatsAppMessage("WhatsApp notifications are disabled", "WARNING");
+            logWhatsAppMessage("Las notificaciones de WhatsApp están desactivadas", "WARNING");
             return false;
         }
         
@@ -62,7 +62,7 @@ class WhatsAppHelper
             $phoneNumber = $this->formatPhoneNumber($phoneNumber);
             
             // Log del intento de envío
-            logWhatsAppMessage("Attempting to send WhatsApp message to {$phoneNumber}");
+            logWhatsAppMessage("Intentando enviar mensaje de WhatsApp al número {$phoneNumber}");
             
             $provider = $this->config['provider'];
             $success = false;
@@ -84,20 +84,20 @@ class WhatsAppHelper
             
             // Si falla, intentar con proveedores alternativos
             if (!$success) {
-                logWhatsAppMessage("Primary provider failed, trying alternatives", "WARNING");
+                logWhatsAppMessage("El proveedor principal falló, intentando alternativas", "WARNING");
                 $success = $this->tryAlternativeProviders($phoneNumber, $message);
             }
             
             if ($success) {
-                logWhatsAppMessage("WhatsApp message sent successfully to {$phoneNumber}");
+                logWhatsAppMessage("Mensaje de WhatsApp enviado correctamente al número {$phoneNumber}");
             } else {
-                logWhatsAppMessage("Failed to send WhatsApp message to {$phoneNumber}", "ERROR");
+                logWhatsAppMessage("No se pudo enviar el mensaje de WhatsApp al número {$phoneNumber}", "ERROR");
             }
             
             return $success;
             
         } catch (Exception $e) {
-            logWhatsAppMessage("Error sending WhatsApp message: " . $e->getMessage(), "ERROR");
+            logWhatsAppMessage("Error al enviar mensaje de WhatsApp: " . $e->getMessage(), "ERROR");
             return false;
         }
     }
@@ -437,7 +437,7 @@ class WhatsAppHelper
                 continue; // Saltar el proveedor principal ya que ya falló
             }
             
-            logWhatsAppMessage("Trying alternative provider: {$provider}", "INFO");
+            logWhatsAppMessage("Intentando proveedor alternativo: {$provider}", "INFO");
             
             $success = false;
             switch ($provider) {
@@ -453,12 +453,12 @@ class WhatsAppHelper
             }
             
             if ($success) {
-                logWhatsAppMessage("Message sent successfully via alternative provider: {$provider}", "INFO");
+                logWhatsAppMessage("Mensaje enviado correctamente mediante proveedor alternativo: {$provider}", "INFO");
                 return true;
             }
         }
         
-        logWhatsAppMessage("All providers failed", "ERROR");
+        logWhatsAppMessage("Todos los proveedores fallaron", "ERROR");
         return false;
     }
 } 

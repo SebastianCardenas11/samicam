@@ -116,23 +116,31 @@ document.addEventListener('DOMContentLoaded', function(){
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url+'/Tareas/setTarea';
         let formData = new FormData(formTarea);
+        // Mostrar modal de cargando
+        var modalLoading = new bootstrap.Modal(document.getElementById('modalLoadingTarea'));
+        modalLoading.show();
         request.open("POST",ajaxUrl,true);
         request.send(formData);
         request.onreadystatechange = function(){
-            if(request.readyState == 4 && request.status == 200){
-                console.log(request.responseText);
-                let objData = JSON.parse(request.responseText);
-                if(objData.status) {
-                    var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
-                    modalTarea.hide();
-                    formTarea.reset();
-                    Swal.fire("Tareas", objData.msg, "success");
-                    tableTareas.api().ajax.reload();
-                    if(window.calendar) {
-                        window.calendar.refetchEvents();
+            if(request.readyState == 4){
+                modalLoading.hide();
+                if(request.status == 200){
+                    console.log(request.responseText);
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status) {
+                        var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
+                        modalTarea.hide();
+                        formTarea.reset();
+                        Swal.fire("Tareas", objData.msg, "success");
+                        tableTareas.api().ajax.reload();
+                        if(window.calendar) {
+                            window.calendar.refetchEvents();
+                        }
+                    } else {
+                        Swal.fire("Error", objData.msg, "error");
                     }
                 } else {
-                    Swal.fire("Error", objData.msg, "error");
+                    Swal.fire("Error", "Error de conexión o servidor.", "error");
                 }
             }
         }
