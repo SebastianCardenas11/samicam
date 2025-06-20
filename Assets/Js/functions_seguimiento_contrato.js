@@ -170,4 +170,98 @@ function openModal() {
     document.querySelector('#titleModal').innerHTML = "Nuevo Contrato";
     document.querySelector("#formSeguimientoContrato").reset();
     $('#modalFormSeguimientoContrato').modal('show');
+}
+
+// Gráfico de contratos por mes
+if(document.querySelector('#chartContratosMes')){
+    let chartContratosMes;
+    const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const ctx = document.getElementById('chartContratosMes').getContext('2d');
+    function cargarGraficoContratosMes() {
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url + '/SeguimientoContrato/getContratosPorMes';
+        request.open("GET", ajaxUrl, true);
+        request.send();
+        request.onreadystatechange = function() {
+            if(request.readyState == 4 && request.status == 200){
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    let data = Object.values(objData.data);
+                    if(chartContratosMes) chartContratosMes.destroy();
+                    chartContratosMes = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: meses,
+                            datasets: [{
+                                label: 'Contratos por mes',
+                                data: data,
+                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    precision:0
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+    // Cargar al mostrar el tab de gráficos
+    document.getElementById('tab-graficos').addEventListener('shown.bs.tab', function (e) {
+        cargarGraficoContratosMes();
+    });
+}
+
+// Gráfico de contratos activos vs inactivos
+if(document.querySelector('#chartContratosActivos')){
+    let chartContratosActivos;
+    const ctxActivos = document.getElementById('chartContratosActivos').getContext('2d');
+    function cargarGraficoContratosActivos() {
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url + '/SeguimientoContrato/getContratosActivosInactivos';
+        request.open("GET", ajaxUrl, true);
+        request.send();
+        request.onreadystatechange = function() {
+            if(request.readyState == 4 && request.status == 200){
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    let data = [objData.data.activos, objData.data.inactivos];
+                    let labels = ['Activos', 'Inactivos'];
+                    let bgColors = ['#28a745', '#dc3545'];
+                    if(chartContratosActivos) chartContratosActivos.destroy();
+                    chartContratosActivos = new Chart(ctxActivos, {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: bgColors
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+    // Cargar al mostrar el tab de gráficos
+    document.getElementById('tab-graficos').addEventListener('shown.bs.tab', function (e) {
+        cargarGraficoContratosActivos();
+    });
 } 

@@ -160,4 +160,41 @@ class SeguimientoContrato extends Controllers
         }
         die();
     }
+
+    public function getContratosPorMes()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $anio = date('Y');
+            $model = $this->model;
+            $sql = "SELECT MONTH(fecha_inicio) as mes, COUNT(*) as cantidad FROM seguimiento_contrato WHERE YEAR(fecha_inicio) = $anio GROUP BY mes ORDER BY mes";
+            $result = $model->select_all($sql);
+            $data = array_fill(1, 12, 0);
+            foreach ($result as $row) {
+                $data[(int)$row['mes']] = (int)$row['cantidad'];
+            }
+            echo json_encode(['status'=>true,'data'=>$data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getContratosActivosInactivos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT estado, COUNT(*) as cantidad FROM seguimiento_contrato GROUP BY estado";
+            $result = $this->model->select_all($sql);
+            $data = [
+                'activos' => 0,
+                'inactivos' => 0
+            ];
+            foreach ($result as $row) {
+                if ($row['estado'] == 1) {
+                    $data['activos'] = (int)$row['cantidad'];
+                } else {
+                    $data['inactivos'] = (int)$row['cantidad'];
+                }
+            }
+            echo json_encode(['status'=>true,'data'=>$data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 } 
