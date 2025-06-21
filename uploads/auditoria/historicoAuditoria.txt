@@ -109,3 +109,5 @@
 [2025-06-21 00:11:47] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-06-21 00:15:46] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-06-21 00:18:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-21 00:21:33] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-21 00:23:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos

@@ -18,6 +18,7 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 - **Contenedores responsivos**: Altura fija para mejor visualización
 - **Opciones de exportación**: Menú dropdown con opciones de exportar e imprimir
 - **Sin efectos hover**: Gráficos limpios sin efectos de interacción
+- **Exportación masiva**: Botón para descargar todas las gráficas en formato ZIP
 
 ### 3. Organización Visual Mejorada
 - **Tabs mejorados**: Iconos y mejor diseño en las pestañas
@@ -90,6 +91,15 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 - `formatCurrency()`: Formateo de moneda colombiana
 - `exportChartAsImage()`: Exportación de gráficos como imagen
 - `printChart()`: Impresión de gráficos
+- `exportAllCharts()`: Exportación masiva de todas las gráficas en ZIP
+
+### Funcionalidades de Exportación
+- **Exportación individual**: Cada gráfico tiene su propio menú de exportación
+- **Exportación masiva**: Botón central para descargar todas las gráficas
+- **Formato ZIP**: Descarga comprimida con todas las imágenes
+- **Notificaciones**: Feedback visual con SweetAlert2
+- **Impresión**: Función de impresión con formato profesional
+- **Calidad alta**: Imágenes PNG de alta resolución
 
 ### Mejoras en Gráficos
 - **Responsive**: `maintainAspectRatio: false` para mejor adaptación
@@ -147,6 +157,9 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 - **Tarjetas**: Sin efectos de elevación al pasar el mouse
 - **Tabs**: Sin efectos hover en navegación
 - **Dropdowns**: Sin efectos hover en menús
+- **Botones**: Sin efectos de transformación o sombra
+- **Elementos interactivos**: Sin transiciones ni efectos hover
+- **CSS específico**: Reglas para deshabilitar todos los efectos hover de Bootstrap
 
 ### Corrección de Datos
 - **Gráfico "Valores por Estado"**: Ahora muestra datos reales del sistema
@@ -160,6 +173,23 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
   - JavaScript corregido: Lógica de mapeo actualizada
   - Controlador verificado: Estados correctos en la base de datos
 - **Resultado**: Los estados ahora se muestran y guardan correctamente
+
+### Funcionalidades de Exportación Implementadas
+- **Exportación individual**: Cada gráfico tiene menú dropdown con opciones de exportar e imprimir
+- **Exportación masiva**: Botón central para descargar todas las gráficas en formato ZIP
+- **Características técnicas**:
+  - Formato PNG de alta calidad (1.0)
+  - Nombres de archivo descriptivos
+  - Notificaciones de éxito/error con SweetAlert2
+  - Función de impresión con formato profesional
+  - Fallback para navegadores sin soporte ZIP
+- **Gráficos exportables**:
+  - Evolución Temporal de Contratos
+  - Distribución por Estado
+  - Contratos por Mes - Combo Chart
+  - Valores por Estado - Stacked Bar
+  - Tendencia Mensual
+  - Progreso Anual
 
 ## 📋 Próximas Mejoras Sugeridas
 

@@ -759,39 +759,177 @@ function cargarGraficoProgreso() {
 
 // Función para exportar gráfico como imagen
 function exportChartAsImage(chartInstance, filename = 'grafica') {
-    if (!chartInstance) return;
+    if (!chartInstance) {
+        Swal.fire("Error", "Gráfico no disponible", "error");
+        return;
+    }
     
-    const canvas = chartInstance.canvas;
-    const link = document.createElement('a');
-    link.download = filename + '.png';
-    link.href = canvas.toDataURL();
-    link.click();
+    try {
+        const canvas = chartInstance.canvas;
+        const link = document.createElement('a');
+        link.download = filename + '.png';
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+        
+        // Mostrar notificación de éxito
+        Swal.fire({
+            title: "¡Éxito!",
+            text: "Gráfico exportado correctamente",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    } catch (error) {
+        console.error('Error al exportar gráfico:', error);
+        Swal.fire("Error", "No se pudo exportar el gráfico", "error");
+    }
 }
 
 // Función para imprimir gráfico
 function printChart(chartInstance) {
-    if (!chartInstance) return;
+    if (!chartInstance) {
+        Swal.fire("Error", "Gráfico no disponible", "error");
+        return;
+    }
     
-    const canvas = chartInstance.canvas;
-    const dataURL = canvas.toDataURL();
+    try {
+        const canvas = chartInstance.canvas;
+        const dataURL = canvas.toDataURL('image/png', 1.0);
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Imprimir Gráfico</title>
+                    <style>
+                        body { 
+                            margin: 0; 
+                            padding: 20px; 
+                            text-align: center; 
+                            font-family: Arial, sans-serif;
+                        }
+                        img { 
+                            max-width: 100%; 
+                            height: auto; 
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                        }
+                        .header {
+                            margin-bottom: 20px;
+                            color: #333;
+                        }
+                        @media print {
+                            body { padding: 0; }
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h2>Gráfico de Seguimiento de Contratos</h2>
+                        <p>Fecha de impresión: ${new Date().toLocaleDateString('es-CO')}</p>
+                    </div>
+                    <img src="${dataURL}" alt="Gráfico">
+                    <div class="no-print" style="margin-top: 20px;">
+                        <button onclick="window.print()">Imprimir</button>
+                        <button onclick="window.close()">Cerrar</button>
+                    </div>
+                    <script>
+                        window.onload = function() { 
+                            // Auto-print after a short delay
+                            setTimeout(function() {
+                                window.print();
+                            }, 500);
+                        }
+                    </script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    } catch (error) {
+        console.error('Error al imprimir gráfico:', error);
+        Swal.fire("Error", "No se pudo imprimir el gráfico", "error");
+    }
+}
+
+// Función para exportar todas las gráficas
+function exportAllCharts() {
+    const chartNames = {
+        'timeScale': 'evolucion-temporal',
+        'doughnut': 'distribucion-estado',
+        'combo': 'contratos-mes-combo',
+        'stacked': 'valores-estado-stacked',
+        'area': 'tendencia-mensual',
+        'progress': 'progreso-anual'
+    };
     
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>Imprimir Gráfico</title>
-                <style>
-                    body { margin: 0; padding: 20px; text-align: center; }
-                    img { max-width: 100%; height: auto; }
-                </style>
-            </head>
-            <body>
-                <img src="${dataURL}" alt="Gráfico">
-                <script>window.onload = function() { window.print(); }</script>
-            </body>
-        </html>
-    `);
-    printWindow.document.close();
+    let exportedCount = 0;
+    const totalCharts = Object.keys(chartNames).length;
+    
+    Swal.fire({
+        title: "Exportando gráficos...",
+        text: "Preparando archivos para descarga",
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    
+    // Crear un ZIP con todas las imágenes
+    const JSZip = window.JSZip;
+    if (JSZip) {
+        const zip = new JSZip();
+        
+        Object.keys(chartNames).forEach((chartKey, index) => {
+            const chart = charts[chartKey];
+            if (chart && chart.canvas) {
+                try {
+                    const canvas = chart.canvas;
+                    const dataURL = canvas.toDataURL('image/png', 1.0);
+                    const base64Data = dataURL.split(',')[1];
+                    
+                    zip.file(`${chartNames[chartKey]}.png`, base64Data, {base64: true});
+                    exportedCount++;
+                } catch (error) {
+                    console.error(`Error al exportar ${chartKey}:`, error);
+                }
+            }
+        });
+        
+        // Generar y descargar el ZIP
+        zip.generateAsync({type: "blob"}).then(function(content) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = `graficos-seguimiento-contratos-${new Date().toISOString().split('T')[0]}.zip`;
+            link.click();
+            
+            Swal.fire({
+                title: "¡Éxito!",
+                text: `${exportedCount} gráficos exportados correctamente`,
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        });
+    } else {
+        // Fallback: exportar una por una
+        Object.keys(chartNames).forEach((chartKey, index) => {
+            const chart = charts[chartKey];
+            if (chart) {
+                setTimeout(() => {
+                    exportChartAsImage(chart, chartNames[chartKey]);
+                }, index * 500);
+            }
+        });
+        
+        Swal.fire({
+            title: "Exportación iniciada",
+            text: "Los gráficos se descargarán uno por uno",
+            icon: "info",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
 }
 
 // Función principal para cargar todos los gráficos

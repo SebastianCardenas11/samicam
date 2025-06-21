@@ -38,7 +38,7 @@
 
 /* Efectos hover para las tarjetas */
 .card {
-    transition: all 0.3s ease;
+    /* Sin transiciones para evitar efectos hover */
 }
 
 /* Estilos para los headers de las tarjetas */
@@ -148,7 +148,7 @@ canvas {
     border-radius: 15px;
     border: none;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    /* Sin transiciones para evitar efectos hover */
     overflow: hidden;
     position: relative;
 }
@@ -283,7 +283,7 @@ canvas {
 /* Efectos de hover para elementos interactivos */
 .interactive-element {
     cursor: pointer;
-    transition: all 0.2s ease;
+    /* Sin transiciones para evitar efectos hover */
 }
 
 /* Gradientes para fondos */
@@ -330,7 +330,7 @@ canvas {
     border-bottom: 3px solid transparent;
     color: #6c757d;
     font-weight: 500;
-    transition: all 0.3s ease;
+    /* Sin transiciones para evitar efectos hover */
 }
 
 .nav-tabs .nav-link.active {
@@ -365,4 +365,38 @@ canvas {
     .text-xs {
         font-size: 0.65rem;
     }
+}
+
+/* Deshabilitar todos los efectos hover */
+.card:hover,
+.card:focus,
+.card:active {
+    transform: none !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    transition: none !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: transparent !important;
+    color: #5a5c69 !important;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+    border-color: transparent !important;
+    color: #6c757d !important;
+    background-color: transparent !important;
+}
+
+.btn:hover,
+.btn:focus {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Efectos de hover para elementos interactivos */
+.interactive-element {
+    cursor: pointer;
+    /* Sin transiciones para evitar efectos hover */
 }
