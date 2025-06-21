@@ -41,11 +41,6 @@
     transition: all 0.3s ease;
 }
 
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-
 /* Estilos para los headers de las tarjetas */
 .card-header {
     background-color: #f8f9fc;
@@ -85,11 +80,6 @@
 .dropdown-item {
     color: #5a5c69;
     font-weight: 500;
-}
-
-.dropdown-item:hover {
-    background-color: #eaecf4;
-    color: #2e59d9;
 }
 
 /* Estilos para las métricas de resumen */
@@ -171,11 +161,6 @@ canvas {
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.3) 100%);
-}
-
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .card-body {
@@ -301,11 +286,6 @@ canvas {
     transition: all 0.2s ease;
 }
 
-.interactive-element:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
-}
-
 /* Gradientes para fondos */
 .gradient-bg-1 {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -351,11 +331,6 @@ canvas {
     color: #6c757d;
     font-weight: 500;
     transition: all 0.3s ease;
-}
-
-.nav-tabs .nav-link:hover {
-    border-color: #dee2e6;
-    color: #495057;
 }
 
 .nav-tabs .nav-link.active {

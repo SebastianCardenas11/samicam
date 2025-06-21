@@ -9,7 +9,7 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 ### 1. Dashboard Mejorado con Tarjetas de Métricas
 - **Tarjetas de métricas principales**: Total de contratos, en progreso, finalizados y liquidados
 - **Diseño responsive**: Adaptable a diferentes tamaños de pantalla
-- **Animaciones suaves**: Efectos de entrada y hover para mejor UX
+- **Animaciones suaves**: Efectos de entrada para mejor UX
 - **Iconografía**: Iconos descriptivos para cada métrica
 
 ### 2. Gráficos Optimizados con Bootstrap
@@ -17,6 +17,7 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 - **Headers informativos**: Títulos claros con iconos descriptivos
 - **Contenedores responsivos**: Altura fija para mejor visualización
 - **Opciones de exportación**: Menú dropdown con opciones de exportar e imprimir
+- **Sin efectos hover**: Gráficos limpios sin efectos de interacción
 
 ### 3. Organización Visual Mejorada
 - **Tabs mejorados**: Iconos y mejor diseño en las pestañas
@@ -30,33 +31,38 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 1. **Evolución Temporal de Contratos** (8 columnas)
    - Gráfico de línea con área rellena
    - Gradiente de fondo
-   - Tooltips interactivos
+   - Sin tooltips para interfaz limpia
    - Opciones de exportación
 
 2. **Distribución por Estado** (4 columnas)
    - Gráfico de dona (doughnut)
    - Colores diferenciados por estado
    - Leyenda en la parte inferior
+   - Datos reales del sistema
 
 ### Gráficos Secundarios
 3. **Contratos por Mes - Combo Chart** (6 columnas)
    - Gráfico combinado de barras y línea
    - Dos ejes Y para diferentes métricas
    - Tendencia superpuesta
+   - Sin efectos hover
 
 4. **Valores por Estado - Stacked Bar** (6 columnas)
    - Gráfico de barras apiladas
-   - Distribución por estado y mes
+   - Datos reales por estado (En Progreso, Finalizado, Liquidado)
    - Colores diferenciados
+   - Interfaz limpia sin tooltips
 
 ### Gráficos Adicionales
 5. **Tendencia Mensual** (4 columnas)
    - Gráfico de área
    - Visualización de tendencias
+   - Sin efectos de interacción
 
 6. **Progreso Anual** (4 columnas)
    - Gráfico de línea de progreso
    - Porcentajes acumulados
+   - Interfaz limpia
 
 7. **Resumen de Valores** (4 columnas)
    - Métricas en formato de tarjetas
@@ -65,10 +71,10 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 ## 🎨 Mejoras de Diseño
 
 ### CSS Personalizado
-- **Estilos para tarjetas de métricas**: Bordes de colores y efectos hover
-- **Animaciones**: Efectos de entrada y transiciones suaves
+- **Estilos para tarjetas de métricas**: Bordes de colores sin efectos hover
+- **Animaciones**: Efectos de entrada sin interacciones
 - **Responsive design**: Adaptación para móviles y tablets
-- **Gradientes y sombras**: Efectos visuales modernos
+- **Gradientes y sombras**: Efectos visuales modernos estáticos
 
 ### Componentes Bootstrap
 - **Cards**: Estructura principal para gráficos y métricas
@@ -87,9 +93,10 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 
 ### Mejoras en Gráficos
 - **Responsive**: `maintainAspectRatio: false` para mejor adaptación
-- **Tooltips mejorados**: Información contextual detallada
+- **Sin tooltips**: Interfaz limpia sin efectos hover
 - **Animaciones**: Transiciones suaves en la carga
 - **Colores consistentes**: Paleta de colores profesional
+- **Datos reales**: Todos los gráficos muestran información real del sistema
 
 ## 📱 Responsive Design
 
@@ -124,12 +131,35 @@ Se han implementado mejoras significativas en el módulo de seguimiento de contr
 - **Información clara**: Métricas destacadas y fáciles de leer
 - **Navegación intuitiva**: Tabs y menús mejor organizados
 - **Funcionalidades avanzadas**: Exportación e impresión de gráficos
+- **Interfaz limpia**: Sin efectos hover distractores
 
 ### Para el Sistema
 - **Código más limpio**: Estructura HTML semántica
 - **Mantenibilidad**: CSS y JS organizados y comentados
 - **Escalabilidad**: Fácil agregar nuevos gráficos o métricas
 - **Performance**: Carga optimizada de gráficos
+- **Datos reales**: Todos los gráficos muestran información actual del sistema
+
+## 🔄 Cambios Recientes
+
+### Eliminación de Efectos Hover
+- **Gráficos**: Tooltips deshabilitados para interfaz más limpia
+- **Tarjetas**: Sin efectos de elevación al pasar el mouse
+- **Tabs**: Sin efectos hover en navegación
+- **Dropdowns**: Sin efectos hover en menús
+
+### Corrección de Datos
+- **Gráfico "Valores por Estado"**: Ahora muestra datos reales del sistema
+- **Gráfico "Distribución por Estado"**: Datos reales en lugar de simulados
+- **Métricas**: Todas las tarjetas muestran información actualizada
+
+### Corrección de Estados
+- **Problema identificado**: Los estados estaban mal mapeados en el modal y JavaScript
+- **Solución implementada**: 
+  - Modal corregido: 1=En progreso, 2=Finalizado, 3=Liquidado
+  - JavaScript corregido: Lógica de mapeo actualizada
+  - Controlador verificado: Estados correctos en la base de datos
+- **Resultado**: Los estados ahora se muestran y guardan correctamente
 
 ## 📋 Próximas Mejoras Sugeridas
 

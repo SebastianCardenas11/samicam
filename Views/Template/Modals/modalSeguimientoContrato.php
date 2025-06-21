@@ -82,9 +82,9 @@
                         <div class="col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                                <option value="1">Liquidado</option>
-                                <option value="2">En ejecución</option>
-                                <option value="3">Terminado</option>
+                                <option value="1">En progreso</option>
+                                <option value="2">Finalizado</option>
+                                <option value="3">Liquidado</option>
                             </select>
                         </div>
                        

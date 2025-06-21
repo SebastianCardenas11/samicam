@@ -148,11 +148,11 @@ function fntEditContrato(element, id) {
                 if(document.querySelector("#estado")){
                     let estadoValue = objData.data.estado;
                     if (typeof estadoValue === 'string') {
-                        if (estadoValue.includes('Liquidado')) {
+                        if (estadoValue.includes('En progreso')) {
                             estadoValue = '1';
-                        } else if (estadoValue.includes('En ejecución')) {
+                        } else if (estadoValue.includes('Finalizado')) {
                             estadoValue = '2';
-                        } else if (estadoValue.includes('Terminado')) {
+                        } else if (estadoValue.includes('Liquidado')) {
                             estadoValue = '3';
                         } else {
                             estadoValue = '1'; // Por defecto
@@ -328,10 +328,9 @@ function cargarGraficoTimeScale() {
                             fill: true,
                             pointBackgroundColor: colores.primary,
                             pointBorderColor: '#fff',
-                            pointBorderWidth: 3,
-                            pointRadius: 6,
-                            pointHoverRadius: 8,
-                            borderWidth: 3
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            borderWidth: 2
                         }]
                     },
                     options: {
@@ -392,28 +391,11 @@ function cargarGraficoTimeScale() {
                                 }
                             },
                             tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                borderColor: 'rgba(255, 255, 255, 0.1)',
-                                borderWidth: 1,
-                                cornerRadius: 8,
-                                displayColors: true,
-                                padding: 12,
-                                mode: 'index',
-                                intersect: false,
-                                callbacks: {
-                                    title: function(context) {
-                                        return 'Mes: ' + context[0].label;
-                                    },
-                                    label: function(context) {
-                                        return context.dataset.label + ': ' + context.parsed.y + ' contratos';
-                                    }
-                                }
+                                enabled: false
                             }
                         },
                         animation: {
-                            duration: 2000,
+                            duration: 1000,
                             easing: 'easeInOutQuart'
                         }
                     }
@@ -460,7 +442,9 @@ function cargarGraficoCombo() {
                             borderColor: colores.success,
                             backgroundColor: colores.success + '20',
                             tension: 0.4,
-                            yAxisID: 'y1'
+                            yAxisID: 'y1',
+                            pointRadius: 3,
+                            pointBorderWidth: 1
                         }]
                     },
                     options: {
@@ -498,6 +482,9 @@ function cargarGraficoCombo() {
                         plugins: {
                             legend: {
                                 position: 'top'
+                            },
+                            tooltip: {
+                                enabled: false
                             }
                         }
                     }
@@ -512,7 +499,7 @@ function cargarGraficoStacked() {
     if(!document.querySelector('#chartStackedBar')) return;
     
     let request = new XMLHttpRequest();
-    let ajaxUrl = base_url + '/SeguimientoContrato/getContratosPorMes';
+    let ajaxUrl = base_url + '/SeguimientoContrato/getContratosActivosInactivos';
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function() {
@@ -522,30 +509,30 @@ function cargarGraficoStacked() {
                 const ctx = document.getElementById('chartStackedBar').getContext('2d');
                 if(charts.stacked) charts.stacked.destroy();
                 
-                let data = Object.values(objData.data);
-                let data1 = data.map(val => Math.floor(val * 0.4));
-                let data2 = data.map(val => Math.floor(val * 0.3));
-                let data3 = data.map(val => Math.floor(val * 0.3));
+                // Usar datos reales del estado
+                let enProgreso = objData.data.en_progreso || 0;
+                let finalizado = objData.data.finalizado || 0;
+                let liquidado = objData.data.liquidado || 0;
                 
                 charts.stacked = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: meses,
+                        labels: ['Contratos por Estado'],
                         datasets: [{
                             label: 'En Progreso',
-                            data: data1,
+                            data: [enProgreso],
                             backgroundColor: colores.warning + '80',
                             borderColor: colores.warning,
                             borderWidth: 1
                         }, {
                             label: 'Finalizado',
-                            data: data2,
+                            data: [finalizado],
                             backgroundColor: colores.danger + '80',
                             borderColor: colores.danger,
                             borderWidth: 1
                         }, {
                             label: 'Liquidado',
-                            data: data3,
+                            data: [liquidado],
                             backgroundColor: colores.info + '80',
                             borderColor: colores.info,
                             borderWidth: 1
@@ -554,6 +541,10 @@ function cargarGraficoStacked() {
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
                         scales: {
                             x: {
                                 stacked: true
@@ -563,13 +554,16 @@ function cargarGraficoStacked() {
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Cantidad'
+                                    text: 'Cantidad de Contratos'
                                 }
                             }
                         },
                         plugins: {
                             legend: {
                                 position: 'top'
+                            },
+                            tooltip: {
+                                enabled: false
                             }
                         }
                     }
@@ -605,7 +599,9 @@ function cargarGraficoArea() {
                             borderColor: colores.primary,
                             backgroundColor: colores.primary + '30',
                             fill: true,
-                            tension: 0.4
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointBorderWidth: 1
                         }]
                     },
                     options: {
@@ -614,6 +610,9 @@ function cargarGraficoArea() {
                         plugins: {
                             legend: {
                                 display: false
+                            },
+                            tooltip: {
+                                enabled: false
                             }
                         },
                         scales: {
@@ -643,12 +642,17 @@ function cargarGraficoDoughnut() {
                 const ctx = document.getElementById('chartDoughnutValores').getContext('2d');
                 if(charts.doughnut) charts.doughnut.destroy();
                 
+                // Usar datos reales
+                let enProgreso = objData.data.en_progreso || 0;
+                let finalizado = objData.data.finalizado || 0;
+                let liquidado = objData.data.liquidado || 0;
+                
                 charts.doughnut = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
                         labels: ['En Progreso', 'Finalizados', 'Liquidados'],
                         datasets: [{
-                            data: [40, 35, 25],
+                            data: [enProgreso, finalizado, liquidado],
                             backgroundColor: [
                                 colores.warning + '80',
                                 colores.danger + '80',
@@ -672,6 +676,9 @@ function cargarGraficoDoughnut() {
                                     boxWidth: 12,
                                     padding: 10
                                 }
+                            },
+                            tooltip: {
+                                enabled: false
                             }
                         }
                     }
@@ -718,7 +725,7 @@ function cargarGraficoProgreso() {
                             pointBackgroundColor: colores.success,
                             pointBorderColor: '#fff',
                             pointBorderWidth: 2,
-                            pointRadius: 5
+                            pointRadius: 4
                         }]
                     },
                     options: {
@@ -727,6 +734,9 @@ function cargarGraficoProgreso() {
                         plugins: {
                             legend: {
                                 display: false
+                            },
+                            tooltip: {
+                                enabled: false
                             }
                         },
                         scales: {
