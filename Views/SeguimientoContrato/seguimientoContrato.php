@@ -2,6 +2,7 @@
 headerAdmin($data);
 getModal('modalSeguimientoContrato', $data);
 ?>
+<link rel="stylesheet" href="<?= media(); ?>/css/seguimiento-graficas.css">
 <div id="contentAjax"></div>
 <main class="app-content">
     <div class="app-title d-flex justify-content-between align-items-center">
@@ -62,22 +63,58 @@ getModal('modalSeguimientoContrato', $data);
         </div>
       </div>
       <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="tab-graficos">
-        <div class="row">
-          <div class="col-md-12">
+      
+        
+        <!-- Fila 2: Gráficos combinados -->
+        <div class="row mb-4">
+          <div class="col-lg-6">
             <div class="tile">
               <div class="tile-body">
-                <h5 class="mb-3">Gráfico de contratos por mes </h5>
-                <canvas id="chartContratosMes" height="100"></canvas>
-                <hr>
-                <h5 class="mb-3">Contratos liquidados, en ejcucion y Terminados </h5>
-                <div style="max-width:350px;margin:0 auto;">
-                  <canvas id="chartContratosActivos" height="60"></canvas>
-                </div>
+                <h5 class="mb-3"><i class="fas fa-chart-bar"></i> Contratos por Mes - Combo Chart</h5>
+                <canvas id="chartComboMes" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="tile">
+              <div class="tile-body">
+                <h5 class="mb-3"><i class="fas fa-layer-group"></i> Valores por Estado - Stacked Bar</h5>
+                <canvas id="chartStackedBar" height="100"></canvas>
               </div>
             </div>
           </div>
         </div>
+        
+        <!-- Fila 3: Gráficos adicionales -->
+        <div class="row mb-4">
+          <div class="col-lg-4">
+            <div class="tile">
+              <div class="tile-body">
+                <h5 class="mb-3"><i class="fas fa-chart-area"></i> Tendencia Mensual</h5>
+                <canvas id="chartAreaTendencia" height="120"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="tile">
+              <div class="tile-body">
+                <h5 class="mb-3"><i class="fas fa-bullseye"></i> Distribución de Valores</h5>
+                <canvas id="chartDoughnutValores" height="120"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="tile">
+              <div class="tile-body">
+                <h5 class="mb-3"><i class="fas fa-chart-line"></i> Progreso Anual</h5>
+                <canvas id="chartProgressLine" height="120"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+    
       </div>
     </div>
 </main>
+<script src="<?= media(); ?>/Js/chart-helpers.js"></script>
 <?php footerAdmin($data); ?> 

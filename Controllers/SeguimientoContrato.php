@@ -201,15 +201,92 @@ class SeguimientoContrato extends Controllers
             $result = $this->model->select_all($sql);
             $data = [
                 'activos' => 0,
-                'inactivos' => 0
+                'inactivos' => 0,
+                'en_progreso' => 0,
+                'finalizado' => 0,
+                'liquidado' => 0
             ];
             foreach ($result as $row) {
                 if ($row['estado'] == 1) {
-                    $data['activos'] = (int)$row['cantidad'];
-                } else {
-                    $data['inactivos'] = (int)$row['cantidad'];
+                    $data['en_progreso'] = (int)$row['cantidad'];
+                    $data['activos'] += (int)$row['cantidad'];
+                } else if ($row['estado'] == 2) {
+                    $data['finalizado'] = (int)$row['cantidad'];
+                    $data['inactivos'] += (int)$row['cantidad'];
+                } else if ($row['estado'] == 3) {
+                    $data['liquidado'] = (int)$row['cantidad'];
+                    $data['inactivos'] += (int)$row['cantidad'];
                 }
             }
+            echo json_encode(['status'=>true,'data'=>$data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getEstadisticasAvanzadas()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $anio = date('Y');
+            
+            // Contratos por mes con valores
+            $sqlMes = "SELECT MONTH(fecha_inicio) as mes, COUNT(*) as cantidad, SUM(valor_total_contrato) as valor_total 
+                      FROM seguimiento_contrato WHERE YEAR(fecha_inicio) = $anio GROUP BY mes ORDER BY mes";
+            $resultMes = $this->model->select_all($sqlMes);
+            
+            // Valores por estado
+            $sqlEstado = "SELECT estado, COUNT(*) as cantidad, SUM(valor_total_contrato) as valor_total 
+                         FROM seguimiento_contrato GROUP BY estado";
+            $resultEstado = $this->model->select_all($sqlEstado);
+            
+            // Métricas generales
+            $sqlTotal = "SELECT COUNT(*) as total, SUM(valor_total_contrato) as valor_total, AVG(valor_total_contrato) as promedio 
+                        FROM seguimiento_contrato";
+            $resultTotal = $this->model->select_all($sqlTotal);
+            
+            $data = [
+                'meses' => array_fill(1, 12, ['cantidad' => 0, 'valor' => 0]),
+                'estados' => [
+                    'en_progreso' => ['cantidad' => 0, 'valor' => 0],
+                    'finalizado' => ['cantidad' => 0, 'valor' => 0],
+                    'liquidado' => ['cantidad' => 0, 'valor' => 0]
+                ],
+                'totales' => [
+                    'total' => 0,
+                    'valor_total' => 0,
+                    'promedio' => 0,
+                    'activos' => 0
+                ]
+            ];
+            
+            // Procesar datos por mes
+            foreach ($resultMes as $row) {
+                $mes = (int)$row['mes'];
+                $data['meses'][$mes] = [
+                    'cantidad' => (int)$row['cantidad'],
+                    'valor' => (float)$row['valor_total']
+                ];
+            }
+            
+            // Procesar datos por estado
+            foreach ($resultEstado as $row) {
+                $estado = (int)$row['estado'];
+                $key = $estado == 1 ? 'en_progreso' : ($estado == 2 ? 'finalizado' : 'liquidado');
+                $data['estados'][$key] = [
+                    'cantidad' => (int)$row['cantidad'],
+                    'valor' => (float)$row['valor_total']
+                ];
+                if ($estado == 1) {
+                    $data['totales']['activos'] = (int)$row['cantidad'];
+                }
+            }
+            
+            // Procesar totales
+            if (!empty($resultTotal)) {
+                $data['totales']['total'] = (int)$resultTotal[0]['total'];
+                $data['totales']['valor_total'] = (float)$resultTotal[0]['valor_total'];
+                $data['totales']['promedio'] = (float)$resultTotal[0]['promedio'];
+            }
+            
             echo json_encode(['status'=>true,'data'=>$data], JSON_UNESCAPED_UNICODE);
         }
         die();
