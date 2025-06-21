@@ -7,7 +7,126 @@
     padding: 20px 0;
 }
 
+/* Estilos para las tarjetas de métricas */
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
 
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+
+.text-xs {
+    font-size: 0.7rem;
+}
+
+.text-gray-300 {
+    color: #dddfeb !important;
+}
+
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+
+/* Efectos hover para las tarjetas */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Estilos para los headers de las tarjetas */
+.card-header {
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.card-header h6 {
+    color: #5a5c69;
+    font-weight: 700;
+}
+
+/* Contenedores de gráficos */
+.chart-container {
+    position: relative;
+    margin: auto;
+}
+
+/* Estilos para los dropdowns */
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu {
+    border: 0;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.dropdown-header {
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+    color: #4e73df;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
+.dropdown-item {
+    color: #5a5c69;
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background-color: #eaecf4;
+    color: #2e59d9;
+}
+
+/* Estilos para las métricas de resumen */
+.h4 {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.text-muted {
+    color: #858796 !important;
+    font-size: 0.8rem;
+}
+
+/* Responsive para las tarjetas */
+@media (max-width: 768px) {
+    .col-xl-3 {
+        margin-bottom: 1rem;
+    }
+    
+    .chart-container {
+        height: 250px !important;
+    }
+    
+    .card-body .h5 {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .chart-container {
+        height: 200px !important;
+    }
+    
+    .card-header h6 {
+        font-size: 0.9rem;
+    }
+}
 
 .tile-body {
     padding: 25px;
@@ -96,10 +215,6 @@ canvas {
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;
     color: #2c3e50 !important;
 }
-
-
-
-
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -206,4 +321,73 @@ canvas {
 
 .gradient-bg-4 {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* Animaciones para las tarjetas de métricas */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Estilos para los tabs mejorados */
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #6c757d;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #dee2e6;
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    border-color: #4e73df;
+    color: #4e73df;
+    background-color: transparent;
+}
+
+/* Estilos para el contenedor de gráficos principales */
+.chart-container {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 576px) {
+    .app-title h1 {
+        font-size: 1.5rem;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .card-header h6 {
+        font-size: 0.9rem;
+    }
+    
+    .text-xs {
+        font-size: 0.65rem;
+    }
 }

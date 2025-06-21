@@ -222,6 +222,67 @@ const colores = {
     secondary: '#6c757d'
 };
 
+// Función para cargar métricas de las tarjetas
+function cargarMetricas() {
+    let request = new XMLHttpRequest();
+    let ajaxUrl = base_url + '/SeguimientoContrato/getEstadisticasAvanzadas';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status){
+                // Actualizar tarjetas de métricas
+                document.getElementById('totalContratos').textContent = objData.data.total || 0;
+                document.getElementById('enProgreso').textContent = objData.data.enProgreso || 0;
+                document.getElementById('finalizados').textContent = objData.data.finalizados || 0;
+                document.getElementById('liquidados').textContent = objData.data.liquidados || 0;
+                
+                // Actualizar métricas de resumen
+                document.getElementById('valorTotal').textContent = formatCurrency(objData.data.valorTotal || 0);
+                document.getElementById('valorPromedio').textContent = formatCurrency(objData.data.valorPromedio || 0);
+                document.getElementById('contratosActivos').textContent = objData.data.contratosActivos || 0;
+                document.getElementById('plazoPromedio').textContent = (objData.data.plazoPromedio || 0).toFixed(1);
+                
+                // Animar contadores
+                animateCounter('totalContratos', objData.data.total || 0);
+                animateCounter('enProgreso', objData.data.enProgreso || 0);
+                animateCounter('finalizados', objData.data.finalizados || 0);
+                animateCounter('liquidados', objData.data.liquidados || 0);
+            }
+        }
+    }
+}
+
+// Función para formatear moneda
+function formatCurrency(value) {
+    return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(value);
+}
+
+// Función para animar contadores
+function animateCounter(elementId, finalValue, duration = 2000) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const startValue = 0;
+    const increment = finalValue / (duration / 16);
+    let currentValue = startValue;
+    
+    const timer = setInterval(() => {
+        currentValue += increment;
+        if (currentValue >= finalValue) {
+            currentValue = finalValue;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(currentValue);
+    }, 16);
+}
+
 // 1. Gráfico Time Scale - Evolución temporal mejorado
 function cargarGraficoTimeScale() {
     if(!document.querySelector('#chartTimeScale')) return;
@@ -275,7 +336,7 @@ function cargarGraficoTimeScale() {
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: true,
+                        maintainAspectRatio: false,
                         interaction: {
                             intersect: false,
                             mode: 'index'
@@ -362,8 +423,6 @@ function cargarGraficoTimeScale() {
     }
 }
 
-
-
 // 3. Combo Chart - Contratos y valores por mes
 function cargarGraficoCombo() {
     if(!document.querySelector('#chartComboMes')) return;
@@ -406,6 +465,7 @@ function cargarGraficoCombo() {
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         interaction: {
                             intersect: false,
                             mode: 'index'
@@ -493,6 +553,7 @@ function cargarGraficoStacked() {
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
                             x: {
                                 stacked: true
@@ -549,6 +610,7 @@ function cargarGraficoArea() {
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             legend: {
                                 display: false
@@ -584,17 +646,15 @@ function cargarGraficoDoughnut() {
                 charts.doughnut = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Bajo', 'Medio', 'Alto', 'Premium'],
+                        labels: ['En Progreso', 'Finalizados', 'Liquidados'],
                         datasets: [{
-                            data: [25, 35, 30, 10],
+                            data: [40, 35, 25],
                             backgroundColor: [
-                                colores.success + '80',
                                 colores.warning + '80',
                                 colores.danger + '80',
                                 colores.info + '80'
                             ],
                             borderColor: [
-                                colores.success,
                                 colores.warning,
                                 colores.danger,
                                 colores.info
@@ -604,6 +664,7 @@ function cargarGraficoDoughnut() {
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             legend: {
                                 position: 'bottom',
@@ -662,6 +723,7 @@ function cargarGraficoProgreso() {
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             legend: {
                                 display: false
@@ -685,10 +747,46 @@ function cargarGraficoProgreso() {
     }
 }
 
+// Función para exportar gráfico como imagen
+function exportChartAsImage(chartInstance, filename = 'grafica') {
+    if (!chartInstance) return;
+    
+    const canvas = chartInstance.canvas;
+    const link = document.createElement('a');
+    link.download = filename + '.png';
+    link.href = canvas.toDataURL();
+    link.click();
+}
 
+// Función para imprimir gráfico
+function printChart(chartInstance) {
+    if (!chartInstance) return;
+    
+    const canvas = chartInstance.canvas;
+    const dataURL = canvas.toDataURL();
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Imprimir Gráfico</title>
+                <style>
+                    body { margin: 0; padding: 20px; text-align: center; }
+                    img { max-width: 100%; height: auto; }
+                </style>
+            </head>
+            <body>
+                <img src="${dataURL}" alt="Gráfico">
+                <script>window.onload = function() { window.print(); }</script>
+            </body>
+        </html>
+    `);
+    printWindow.document.close();
+}
 
 // Función principal para cargar todos los gráficos
 function cargarTodosLosGraficos() {
+    cargarMetricas();
     cargarGraficoTimeScale();
     cargarGraficoCombo();
     cargarGraficoStacked();

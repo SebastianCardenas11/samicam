@@ -19,15 +19,21 @@ getModal('modalSeguimientoContrato', $data);
     </ul>
 
     <!-- Tabs -->
-    <ul class="nav nav-tabs mb-3" id="seguimientoTabs" role="tablist">
+    <ul class="nav nav-tabs mb-4" id="seguimientoTabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="tab-contratos" data-bs-toggle="tab" data-bs-target="#contratos" type="button" role="tab" aria-controls="contratos" aria-selected="true">Contratos</button>
+        <button class="nav-link active" id="tab-contratos" data-bs-toggle="tab" data-bs-target="#contratos" type="button" role="tab" aria-controls="contratos" aria-selected="true">
+            <i class="fas fa-table me-2"></i>Contratos
+        </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="tab-graficos" data-bs-toggle="tab" data-bs-target="#graficos" type="button" role="tab" aria-controls="graficos" aria-selected="false">Gráficos</button>
+        <button class="nav-link" id="tab-graficos" data-bs-toggle="tab" data-bs-target="#graficos" type="button" role="tab" aria-controls="graficos" aria-selected="false">
+            <i class="fas fa-chart-bar me-2"></i>Dashboard
+        </button>
       </li>
     </ul>
+    
     <div class="tab-content" id="seguimientoTabsContent">
+      <!-- Tab Contratos -->
       <div class="tab-pane fade show active" id="contratos" role="tabpanel" aria-labelledby="tab-contratos">
         <div class="row">
             <div class="col-md-12">
@@ -62,59 +68,228 @@ getModal('modalSeguimientoContrato', $data);
             </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="tab-graficos">
       
+      <!-- Tab Gráficos -->
+      <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="tab-graficos">
         
-        <!-- Fila 2: Gráficos combinados -->
+        <!-- Tarjetas de Métricas -->
         <div class="row mb-4">
-          <div class="col-lg-6">
-            <div class="tile">
-              <div class="tile-body">
-                <h5 class="mb-3"><i class="fas fa-chart-bar"></i> Contratos por Mes - Combo Chart</h5>
-                <canvas id="chartComboMes" height="100"></canvas>
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      Total Contratos</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalContratos">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-file-contract fa-2x text-gray-300"></i>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                      En Progreso</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="enProgreso">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      Finalizados</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="finalizados">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Liquidados</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="liquidados">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráficos Principales -->
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-line me-2"></i>Evolución Temporal de Contratos
+                </h6>
+                <div class="dropdown no-arrow">
+                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Opciones:</div>
+                    <a class="dropdown-item" href="#" onclick="exportChartAsImage(charts.timeScale, 'evolucion-temporal')">
+                      <i class="fas fa-download fa-sm fa-fw me-2 text-gray-400"></i>Exportar Imagen
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="printChart(charts.timeScale)">
+                      <i class="fas fa-print fa-sm fa-fw me-2 text-gray-400"></i>Imprimir
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 400px;">
+                  <canvas id="chartTimeScale"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-pie me-2"></i>Distribución por Estado
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 300px;">
+                  <canvas id="chartDoughnutValores"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráficos Secundarios -->
+        <div class="row mb-4">
           <div class="col-lg-6">
-            <div class="tile">
-              <div class="tile-body">
-                <h5 class="mb-3"><i class="fas fa-layer-group"></i> Valores por Estado - Stacked Bar</h5>
-                <canvas id="chartStackedBar" height="100"></canvas>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-bar me-2"></i>Contratos por Mes - Combo Chart
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 300px;">
+                  <canvas id="chartComboMes"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-layer-group me-2"></i>Valores por Estado - Stacked Bar
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 300px;">
+                  <canvas id="chartStackedBar"></canvas>
+                </div>
               </div>
             </div>
           </div>
         </div>
         
-        <!-- Fila 3: Gráficos adicionales -->
+        <!-- Gráficos Adicionales -->
         <div class="row mb-4">
           <div class="col-lg-4">
-            <div class="tile">
-              <div class="tile-body">
-                <h5 class="mb-3"><i class="fas fa-chart-area"></i> Tendencia Mensual</h5>
-                <canvas id="chartAreaTendencia" height="120"></canvas>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-area me-2"></i>Tendencia Mensual
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 250px;">
+                  <canvas id="chartAreaTendencia"></canvas>
+                </div>
               </div>
             </div>
           </div>
+          
           <div class="col-lg-4">
-            <div class="tile">
-              <div class="tile-body">
-                <h5 class="mb-3"><i class="fas fa-bullseye"></i> Distribución de Valores</h5>
-                <canvas id="chartDoughnutValores" height="120"></canvas>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-line me-2"></i>Progreso Anual
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 250px;">
+                  <canvas id="chartProgressLine"></canvas>
+                </div>
               </div>
             </div>
           </div>
+          
           <div class="col-lg-4">
-            <div class="tile">
-              <div class="tile-body">
-                <h5 class="mb-3"><i class="fas fa-chart-line"></i> Progreso Anual</h5>
-                <canvas id="chartProgressLine" height="120"></canvas>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-bullseye me-2"></i>Resumen de Valores
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="row text-center">
+                  <div class="col-6 mb-3">
+                    <div class="border-end">
+                      <div class="h4 text-primary" id="valorTotal">$0</div>
+                      <small class="text-muted">Valor Total</small>
+                    </div>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <div class="h4 text-success" id="valorPromedio">$0</div>
+                    <small class="text-muted">Valor Promedio</small>
+                  </div>
+                  <div class="col-6">
+                    <div class="h4 text-warning" id="contratosActivos">0</div>
+                    <small class="text-muted">Contratos Activos</small>
+                  </div>
+                  <div class="col-6">
+                    <div class="h4 text-info" id="plazoPromedio">0</div>
+                    <small class="text-muted">Plazo Promedio (meses)</small>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-    
       </div>
     </div>
 </main>
+
 <script src="<?= media(); ?>/Js/chart-helpers.js"></script>
 <?php footerAdmin($data); ?> 

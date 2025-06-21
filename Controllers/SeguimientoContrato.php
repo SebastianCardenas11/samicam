@@ -234,57 +234,48 @@ class SeguimientoContrato extends Controllers
             $resultMes = $this->model->select_all($sqlMes);
             
             // Valores por estado
-            $sqlEstado = "SELECT estado, COUNT(*) as cantidad, SUM(valor_total_contrato) as valor_total 
+            $sqlEstado = "SELECT estado, COUNT(*) as cantidad, SUM(valor_total_contrato) as valor_total, AVG(plazo_meses) as plazo_promedio
                          FROM seguimiento_contrato GROUP BY estado";
             $resultEstado = $this->model->select_all($sqlEstado);
             
             // Métricas generales
-            $sqlTotal = "SELECT COUNT(*) as total, SUM(valor_total_contrato) as valor_total, AVG(valor_total_contrato) as promedio 
-                        FROM seguimiento_contrato";
+            $sqlTotal = "SELECT COUNT(*) as total, SUM(valor_total_contrato) as valor_total, AVG(valor_total_contrato) as promedio, AVG(plazo_meses) as plazo_promedio
+                        FROM seguimiento_contrato WHERE estado != 0";
             $resultTotal = $this->model->select_all($sqlTotal);
             
+            // Inicializar datos
             $data = [
-                'meses' => array_fill(1, 12, ['cantidad' => 0, 'valor' => 0]),
-                'estados' => [
-                    'en_progreso' => ['cantidad' => 0, 'valor' => 0],
-                    'finalizado' => ['cantidad' => 0, 'valor' => 0],
-                    'liquidado' => ['cantidad' => 0, 'valor' => 0]
-                ],
-                'totales' => [
-                    'total' => 0,
-                    'valor_total' => 0,
-                    'promedio' => 0,
-                    'activos' => 0
-                ]
+                'total' => 0,
+                'enProgreso' => 0,
+                'finalizados' => 0,
+                'liquidados' => 0,
+                'valorTotal' => 0,
+                'valorPromedio' => 0,
+                'contratosActivos' => 0,
+                'plazoPromedio' => 0
             ];
             
-            // Procesar datos por mes
-            foreach ($resultMes as $row) {
-                $mes = (int)$row['mes'];
-                $data['meses'][$mes] = [
-                    'cantidad' => (int)$row['cantidad'],
-                    'valor' => (float)$row['valor_total']
-                ];
+            // Procesar totales generales
+            if (!empty($resultTotal)) {
+                $data['total'] = (int)$resultTotal[0]['total'];
+                $data['valorTotal'] = (float)$resultTotal[0]['valor_total'];
+                $data['valorPromedio'] = (float)$resultTotal[0]['promedio'];
+                $data['plazoPromedio'] = (float)$resultTotal[0]['plazo_promedio'];
             }
             
             // Procesar datos por estado
             foreach ($resultEstado as $row) {
                 $estado = (int)$row['estado'];
-                $key = $estado == 1 ? 'en_progreso' : ($estado == 2 ? 'finalizado' : 'liquidado');
-                $data['estados'][$key] = [
-                    'cantidad' => (int)$row['cantidad'],
-                    'valor' => (float)$row['valor_total']
-                ];
+                $cantidad = (int)$row['cantidad'];
+                
                 if ($estado == 1) {
-                    $data['totales']['activos'] = (int)$row['cantidad'];
+                    $data['enProgreso'] = $cantidad;
+                    $data['contratosActivos'] = $cantidad;
+                } else if ($estado == 2) {
+                    $data['finalizados'] = $cantidad;
+                } else if ($estado == 3) {
+                    $data['liquidados'] = $cantidad;
                 }
-            }
-            
-            // Procesar totales
-            if (!empty($resultTotal)) {
-                $data['totales']['total'] = (int)$resultTotal[0]['total'];
-                $data['totales']['valor_total'] = (float)$resultTotal[0]['valor_total'];
-                $data['totales']['promedio'] = (float)$resultTotal[0]['promedio'];
             }
             
             echo json_encode(['status'=>true,'data'=>$data], JSON_UNESCAPED_UNICODE);
