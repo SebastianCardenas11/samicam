@@ -148,7 +148,7 @@ getModal('modalSeguimientoContrato', $data);
         <!-- Gráficos Principales -->
         <div class="row mb-4">
           <div class="col-lg-8">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-chart-line me-2"></i>Evolución Temporal de Contratos
@@ -177,7 +177,7 @@ getModal('modalSeguimientoContrato', $data);
           </div>
           
           <div class="col-lg-4">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-chart-pie me-2"></i>Distribución por Estado
@@ -209,7 +209,7 @@ getModal('modalSeguimientoContrato', $data);
         <!-- Gráficos Secundarios -->
         <div class="row mb-4">
           <div class="col-lg-6">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-chart-bar me-2"></i>Contratos por Mes - Combo Chart
@@ -238,7 +238,7 @@ getModal('modalSeguimientoContrato', $data);
           </div>
           
           <div class="col-lg-6">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-layer-group me-2"></i>Valores por Estado - Stacked Bar
@@ -270,7 +270,7 @@ getModal('modalSeguimientoContrato', $data);
         <!-- Gráficos Adicionales -->
         <div class="row mb-4">
           <div class="col-lg-4">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-chart-area me-2"></i>Tendencia Mensual
@@ -299,7 +299,7 @@ getModal('modalSeguimientoContrato', $data);
           </div>
           
           <div class="col-lg-4">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-chart-line me-2"></i>Progreso Anual
@@ -328,7 +328,7 @@ getModal('modalSeguimientoContrato', $data);
           </div>
           
           <div class="col-lg-4">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 h-100">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                   <i class="fas fa-bullseye me-2"></i>Resumen de Valores
@@ -359,7 +359,7 @@ getModal('modalSeguimientoContrato', $data);
             </div>
           </div>
            <!-- Botón para exportar todas las gráficas -->
-        <div class="row mb-4">
+        <div class="row mb-4 mt-4">
           <div class="col-12">
             <div class="card shadow">
               <div class="card-body text-center">
