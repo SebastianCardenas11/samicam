@@ -143,21 +143,7 @@ getModal('modalSeguimientoContrato', $data);
           </div>
         </div>
 
-        <!-- Botón para exportar todas las gráficas -->
-        <div class="row mb-4">
-          <div class="col-12">
-            <div class="card shadow">
-              <div class="card-body text-center">
-                <button class="btn btn-primary btn-lg" onclick="exportAllCharts()">
-                  <i class="fas fa-download me-2"></i>Exportar Todas las Gráficas
-                </button>
-                <p class="text-muted mt-2 mb-0">
-                  <small>Descarga todas las gráficas del dashboard en formato ZIP</small>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+       
 
         <!-- Gráficos Principales -->
         <div class="row mb-4">
@@ -169,7 +155,7 @@ getModal('modalSeguimientoContrato', $data);
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                     <div class="dropdown-header">Opciones:</div>
@@ -198,7 +184,7 @@ getModal('modalSeguimientoContrato', $data);
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink2">
                     <div class="dropdown-header">Opciones:</div>
@@ -230,7 +216,7 @@ getModal('modalSeguimientoContrato', $data);
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink3">
                     <div class="dropdown-header">Opciones:</div>
@@ -259,7 +245,7 @@ getModal('modalSeguimientoContrato', $data);
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink4">
                     <div class="dropdown-header">Opciones:</div>
@@ -291,7 +277,7 @@ getModal('modalSeguimientoContrato', $data);
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink5">
                     <div class="dropdown-header">Opciones:</div>
@@ -320,7 +306,7 @@ getModal('modalSeguimientoContrato', $data);
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink6">
                     <div class="dropdown-header">Opciones:</div>
@@ -372,6 +358,21 @@ getModal('modalSeguimientoContrato', $data);
               </div>
             </div>
           </div>
+           <!-- Botón para exportar todas las gráficas -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card shadow">
+              <div class="card-body text-center">
+                <button class="btn btn-primary btn-lg" onclick="exportAllCharts()">
+                  <i class="fas fa-download me-2"></i>Exportar Todas las Gráficas
+                </button>
+                <p class="text-muted mt-2 mb-0">
+                  <small>Descarga todas las gráficas del dashboard en formato ZIP</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
