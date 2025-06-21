@@ -185,8 +185,6 @@ class Publicaciones extends Controllers
                         );
                         $this->model->insertAudit($arrAudit);
                     }
-                } else if($request_publicacion == 'exist') {
-                    $arrResponse = array('status' => false, 'msg' => '¡Atención! La publicación ya existe.');
                 } else {
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
