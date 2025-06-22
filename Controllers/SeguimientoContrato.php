@@ -241,12 +241,12 @@ class SeguimientoContrato extends Controllers
             $resultMes = $this->model->select_all($sqlMes);
             
             // Valores por estado
-            $sqlEstado = "SELECT estado, COUNT(*) as cantidad, SUM(valor_total_contrato) as valor_total, AVG(plazo_meses) as plazo_promedio
+            $sqlEstado = "SELECT estado, COUNT(*) as cantidad, SUM(valor_total_contrato) as valor_total, AVG(plazo) as plazo_promedio
                          FROM seguimiento_contrato GROUP BY estado";
             $resultEstado = $this->model->select_all($sqlEstado);
             
             // Métricas generales
-            $sqlTotal = "SELECT COUNT(*) as total, SUM(valor_total_contrato) as valor_total, AVG(valor_total_contrato) as promedio, AVG(plazo_meses) as plazo_promedio
+            $sqlTotal = "SELECT COUNT(*) as total, SUM(valor_total_contrato) as valor_total, AVG(valor_total_contrato) as promedio, AVG(plazo) as plazo_promedio
                         FROM seguimiento_contrato WHERE estado != 0";
             $resultTotal = $this->model->select_all($sqlTotal);
             

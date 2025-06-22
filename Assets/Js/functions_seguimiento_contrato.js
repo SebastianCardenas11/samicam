@@ -70,16 +70,22 @@ document.addEventListener('DOMContentLoaded', function(){
             request.send(formData);
             request.onreadystatechange = function() {
                 if (request.readyState == 4 && request.status == 200) {
-                    let objData = JSON.parse(request.responseText);
-                    if (objData.status) {
-                        $('#modalFormSeguimientoContrato').modal("hide");
-                        formSeguimientoContrato.reset();
-                        if(document.querySelector("#numero_contrato")) document.querySelector("#numero_contrato").value = "";
-                        if(document.querySelector("#fecha_aprobacion_entidad")) document.querySelector("#fecha_aprobacion_entidad").value = "";
-                        Swal.fire("Seguimiento de Contrato", objData.msg, "success");
-                        tableSeguimientoContrato.api().ajax.reload();
-                    } else {
-                        Swal.fire("Error", objData.msg, "error");
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        if (objData.status) {
+                            $('#modalFormSeguimientoContrato').modal("hide");
+                            formSeguimientoContrato.reset();
+                            if(document.querySelector("#numero_contrato")) document.querySelector("#numero_contrato").value = "";
+                            if(document.querySelector("#fecha_aprobacion_entidad")) document.querySelector("#fecha_aprobacion_entidad").value = "";
+                            Swal.fire("Seguimiento de Contrato", objData.msg, "success");
+                            tableSeguimientoContrato.api().ajax.reload();
+                        } else {
+                            Swal.fire("Error", objData.msg, "error");
+                        }
+                    } catch (error) {
+                        console.error('Error al procesar formulario:', error);
+                        console.error('Respuesta del servidor:', request.responseText);
+                        Swal.fire("Error", "Error al procesar la solicitud", "error");
                     }
                 }
             }
@@ -94,29 +100,35 @@ function fntViewContrato(id) {
     request.send();
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200) {
-            let objData = JSON.parse(request.responseText);
-            if (objData.status) {
-                let estado = objData.data.estado == 1 ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-danger">Inactivo</span>';
-                document.querySelector("#celObjetoContrato").innerHTML = objData.data.objeto_contrato;
-                document.querySelector("#celFechaInicio").innerHTML = objData.data.fecha_inicio;
-                document.querySelector("#celFechaTerminacion").innerHTML = objData.data.fecha_terminacion;
-                
-                // Mostrar el plazo con su tipo
-                let tipoPlazo = objData.data.tipo_plazo == 'dias' ? 'días' : 'meses';
-                document.querySelector("#celPlazo").innerHTML = objData.data.plazo + ' ' + tipoPlazo;
-                
-                document.querySelector("#celValorTotalContrato").innerHTML = objData.data.valor_total_contrato;
-                document.querySelector("#celDiaCorteInforme").innerHTML = objData.data.dia_corte_informe;
-                document.querySelector("#celObservacionesEjecucion").innerHTML = objData.data.observaciones_ejecucion;
-                document.querySelector("#celEvidenciadoSecop").innerHTML = objData.data.evidenciado_secop;
-                document.querySelector("#celFechaVerificacion").innerHTML = objData.data.fecha_verificacion;
-                document.querySelector("#celLiquidacion").innerHTML = '$' + parseFloat(objData.data.liquidacion).toFixed(2);
-                document.querySelector("#celEstado").innerHTML = estado;
-                document.querySelector("#celNumeroContrato").innerHTML = objData.data.numero_contrato;
-                document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
-                $('#modalViewContrato').modal('show');
-            } else {
-                Swal.fire("Error", objData.msg, "error");
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status) {
+                    let estado = objData.data.estado == 1 ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-danger">Inactivo</span>';
+                    document.querySelector("#celObjetoContrato").innerHTML = objData.data.objeto_contrato;
+                    document.querySelector("#celFechaInicio").innerHTML = objData.data.fecha_inicio;
+                    document.querySelector("#celFechaTerminacion").innerHTML = objData.data.fecha_terminacion;
+                    
+                    // Mostrar el plazo con su tipo
+                    let tipoPlazo = objData.data.tipo_plazo == 'dias' ? 'días' : 'meses';
+                    document.querySelector("#celPlazo").innerHTML = objData.data.plazo + ' ' + tipoPlazo;
+                    
+                    document.querySelector("#celValorTotalContrato").innerHTML = objData.data.valor_total_contrato;
+                    document.querySelector("#celDiaCorteInforme").innerHTML = objData.data.dia_corte_informe;
+                    document.querySelector("#celObservacionesEjecucion").innerHTML = objData.data.observaciones_ejecucion;
+                    document.querySelector("#celEvidenciadoSecop").innerHTML = objData.data.evidenciado_secop;
+                    document.querySelector("#celFechaVerificacion").innerHTML = objData.data.fecha_verificacion;
+                    document.querySelector("#celLiquidacion").innerHTML = '$' + parseFloat(objData.data.liquidacion).toFixed(2);
+                    document.querySelector("#celEstado").innerHTML = estado;
+                    document.querySelector("#celNumeroContrato").innerHTML = objData.data.numero_contrato;
+                    document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
+                    $('#modalViewContrato').modal('show');
+                } else {
+                    Swal.fire("Error", objData.msg, "error");
+                }
+            } catch (error) {
+                console.error('Error al cargar datos del contrato:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+                Swal.fire("Error", "Error al cargar los datos del contrato", "error");
             }
         }
     }
@@ -135,37 +147,43 @@ function fntEditContrato(element, id) {
     request.send();
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200) {
-            let objData = JSON.parse(request.responseText);
-            if (objData.status) {
-                document.querySelector("#id").value = objData.data.id;
-                document.querySelector("#objeto_contrato").value = objData.data.objeto_contrato;
-                document.querySelector("#fecha_inicio").value = objData.data.fecha_inicio;
-                document.querySelector("#fecha_terminacion").value = objData.data.fecha_terminacion;
-                document.querySelector("#plazo").value = objData.data.plazo;
-                document.querySelector("#tipo_plazo").value = objData.data.tipo_plazo;
-                document.querySelector("#valor_total_contrato").value = objData.data.valor_total_contrato;
-                document.querySelector("#dia_corte_informe").value = objData.data.dia_corte_informe;
-                document.querySelector("#observaciones_ejecucion").value = objData.data.observaciones_ejecucion;
-                document.querySelector("#evidenciado_secop").value = objData.data.evidenciado_secop;
-                document.querySelector("#fecha_verificacion").value = objData.data.fecha_verificacion;
-                document.querySelector("#liquidacion").value = objData.data.liquidacion;
-                document.querySelector("#numero_contrato").value = objData.data.numero_contrato;
-                document.querySelector("#fecha_aprobacion_entidad").value = objData.data.fecha_aprobacion_entidad;
-                if(document.querySelector("#estado")){
-                    let estadoValue = objData.data.estado;
-                    if (typeof estadoValue === 'string') {
-                        if (estadoValue.includes('En progreso')) {
-                            estadoValue = '1';
-                        } else if (estadoValue.includes('Finalizado')) {
-                            estadoValue = '2';
-                        } else if (estadoValue.includes('Liquidado')) {
-                            estadoValue = '3';
-                        } else {
-                            estadoValue = '1'; // Por defecto
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status) {
+                    document.querySelector("#id").value = objData.data.id;
+                    document.querySelector("#objeto_contrato").value = objData.data.objeto_contrato;
+                    document.querySelector("#fecha_inicio").value = objData.data.fecha_inicio;
+                    document.querySelector("#fecha_terminacion").value = objData.data.fecha_terminacion;
+                    document.querySelector("#plazo").value = objData.data.plazo;
+                    document.querySelector("#tipo_plazo").value = objData.data.tipo_plazo;
+                    document.querySelector("#valor_total_contrato").value = objData.data.valor_total_contrato;
+                    document.querySelector("#dia_corte_informe").value = objData.data.dia_corte_informe;
+                    document.querySelector("#observaciones_ejecucion").value = objData.data.observaciones_ejecucion;
+                    document.querySelector("#evidenciado_secop").value = objData.data.evidenciado_secop;
+                    document.querySelector("#fecha_verificacion").value = objData.data.fecha_verificacion;
+                    document.querySelector("#liquidacion").value = objData.data.liquidacion;
+                    document.querySelector("#numero_contrato").value = objData.data.numero_contrato;
+                    document.querySelector("#fecha_aprobacion_entidad").value = objData.data.fecha_aprobacion_entidad;
+                    if(document.querySelector("#estado")){
+                        let estadoValue = objData.data.estado;
+                        if (typeof estadoValue === 'string') {
+                            if (estadoValue.includes('En progreso')) {
+                                estadoValue = '1';
+                            } else if (estadoValue.includes('Finalizado')) {
+                                estadoValue = '2';
+                            } else if (estadoValue.includes('Liquidado')) {
+                                estadoValue = '3';
+                            } else {
+                                estadoValue = '1'; // Por defecto
+                            }
                         }
+                        document.querySelector("#estado").value = estadoValue;
                     }
-                    document.querySelector("#estado").value = estadoValue;
                 }
+            } catch (error) {
+                console.error('Error al cargar datos para editar:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+                Swal.fire("Error", "Error al cargar los datos para editar", "error");
             }
         }
         $('#modalFormSeguimientoContrato').modal('show');
@@ -190,12 +208,18 @@ function fntDelContrato(id) {
             request.send(strData);
             request.onreadystatechange = function() {
                 if (request.readyState == 4 && request.status == 200) {
-                    let objData = JSON.parse(request.responseText);
-                    if (objData.status) {
-                        Swal.fire("Eliminar!", objData.msg, "success");
-                        tableSeguimientoContrato.api().ajax.reload();
-                    } else {
-                        Swal.fire("Atención!", objData.msg, "error");
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        if (objData.status) {
+                            Swal.fire("Eliminar!", objData.msg, "success");
+                            tableSeguimientoContrato.api().ajax.reload();
+                        } else {
+                            Swal.fire("Atención!", objData.msg, "error");
+                        }
+                    } catch (error) {
+                        console.error('Error al eliminar contrato:', error);
+                        console.error('Respuesta del servidor:', request.responseText);
+                        Swal.fire("Error", "Error al eliminar el contrato", "error");
                     }
                 }
             }
@@ -233,25 +257,41 @@ function cargarMetricas() {
     request.send();
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status){
-                // Actualizar tarjetas de métricas
-                document.getElementById('totalContratos').textContent = objData.data.total || 0;
-                document.getElementById('enProgreso').textContent = objData.data.enProgreso || 0;
-                document.getElementById('finalizados').textContent = objData.data.finalizados || 0;
-                document.getElementById('liquidados').textContent = objData.data.liquidados || 0;
-                
-                // Actualizar métricas de resumen
-                document.getElementById('valorTotal').textContent = formatCurrency(objData.data.valorTotal || 0);
-                document.getElementById('valorPromedio').textContent = formatCurrency(objData.data.valorPromedio || 0);
-                document.getElementById('contratosActivos').textContent = objData.data.contratosActivos || 0;
-                document.getElementById('plazoPromedio').textContent = (objData.data.plazoPromedio || 0).toFixed(1);
-                
-                // Animar contadores
-                animateCounter('totalContratos', objData.data.total || 0);
-                animateCounter('enProgreso', objData.data.enProgreso || 0);
-                animateCounter('finalizados', objData.data.finalizados || 0);
-                animateCounter('liquidados', objData.data.liquidados || 0);
+            console.log(request.responseText);
+            
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    // Actualizar tarjetas de métricas
+                    document.getElementById('totalContratos').textContent = objData.data.total || 0;
+                    document.getElementById('enProgreso').textContent = objData.data.enProgreso || 0;
+                    document.getElementById('finalizados').textContent = objData.data.finalizados || 0;
+                    document.getElementById('liquidados').textContent = objData.data.liquidados || 0;
+                    
+                    // Actualizar métricas de resumen
+                    document.getElementById('valorTotal').textContent = formatCurrency(objData.data.valorTotal || 0);
+                    document.getElementById('valorPromedio').textContent = formatCurrency(objData.data.valorPromedio || 0);
+                    document.getElementById('contratosActivos').textContent = objData.data.contratosActivos || 0;
+                    document.getElementById('plazoPromedio').textContent = (objData.data.plazoPromedio || 0).toFixed(1);
+                    
+                    // Animar contadores
+                    animateCounter('totalContratos', objData.data.total || 0);
+                    animateCounter('enProgreso', objData.data.enProgreso || 0);
+                    animateCounter('finalizados', objData.data.finalizados || 0);
+                    animateCounter('liquidados', objData.data.liquidados || 0);
+                }
+            } catch (error) {
+                console.error('Error al parsear JSON:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+                // Establecer valores por defecto en caso de error
+                document.getElementById('totalContratos').textContent = '0';
+                document.getElementById('enProgreso').textContent = '0';
+                document.getElementById('finalizados').textContent = '0';
+                document.getElementById('liquidados').textContent = '0';
+                document.getElementById('valorTotal').textContent = formatCurrency(0);
+                document.getElementById('valorPromedio').textContent = formatCurrency(0);
+                document.getElementById('contratosActivos').textContent = '0';
+                document.getElementById('plazoPromedio').textContent = '0.0';
             }
         }
     }
@@ -301,108 +341,117 @@ function cargarGraficoTimeScale() {
     request.send();
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status){
-                const ctx = document.getElementById('chartTimeScale').getContext('2d');
-                if(charts.timeScale) charts.timeScale.destroy();
-                
-                // Ocultar loading
-                if (window.chartHelpers) {
-                    window.chartHelpers.hideChartLoading('chartTimeScale');
-                }
-                
-                let data = Object.values(objData.data);
-                
-                // Crear gradiente para el fondo
-                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-                gradient.addColorStop(0, colores.primary + '40');
-                gradient.addColorStop(1, colores.primary + '10');
-                
-                charts.timeScale = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [{
-                            label: 'Contratos por Mes',
-                            data: data,
-                            borderColor: colores.primary,
-                            backgroundColor: gradient,
-                            tension: 0.4,
-                            fill: true,
-                            pointBackgroundColor: colores.primary,
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2,
-                            pointRadius: 4,
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: {
-                            intersect: false,
-                            mode: 'index'
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    const ctx = document.getElementById('chartTimeScale').getContext('2d');
+                    if(charts.timeScale) charts.timeScale.destroy();
+                    
+                    // Ocultar loading
+                    if (window.chartHelpers) {
+                        window.chartHelpers.hideChartLoading('chartTimeScale');
+                    }
+                    
+                    let data = Object.values(objData.data);
+                    
+                    // Crear gradiente para el fondo
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, colores.primary + '40');
+                    gradient.addColorStop(1, colores.primary + '10');
+                    
+                    charts.timeScale = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: meses,
+                            datasets: [{
+                                label: 'Contratos por Mes',
+                                data: data,
+                                borderColor: colores.primary,
+                                backgroundColor: gradient,
+                                tension: 0.4,
+                                fill: true,
+                                pointBackgroundColor: colores.primary,
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointRadius: 4,
+                                borderWidth: 2
+                            }]
                         },
-                        scales: {
-                            x: {
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)',
-                                    lineWidth: 1
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Evolución Temporal Continua',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    },
-                                    color: '#495057'
-                                },
-                                ticks: {
-                                    maxRotation: 45,
-                                    minRotation: 0
-                                }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                                mode: 'index'
                             },
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)',
-                                    lineWidth: 1
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Cantidad de Contratos',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
+                            scales: {
+                                x: {
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)',
+                                        lineWidth: 1
                                     },
-                                    color: '#495057'
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    usePointStyle: true,
-                                    pointStyle: 'circle',
-                                    padding: 20,
-                                    font: {
-                                        size: 13,
-                                        weight: '500'
+                                    title: {
+                                        display: true,
+                                        text: 'Evolución Temporal Continua',
+                                        font: {
+                                            size: 14,
+                                            weight: 'bold'
+                                        },
+                                        color: '#495057'
+                                    },
+                                    ticks: {
+                                        maxRotation: 45,
+                                        minRotation: 0
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)',
+                                        lineWidth: 1
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Cantidad de Contratos',
+                                        font: {
+                                            size: 14,
+                                            weight: 'bold'
+                                        },
+                                        color: '#495057'
                                     }
                                 }
                             },
-                            tooltip: {
-                                enabled: false
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        usePointStyle: true,
+                                        pointStyle: 'circle',
+                                        padding: 20,
+                                        font: {
+                                            size: 13,
+                                            weight: '500'
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: false
+                                }
+                            },
+                            animation: {
+                                duration: 1000,
+                                easing: 'easeInOutQuart'
                             }
-                        },
-                        animation: {
-                            duration: 1000,
-                            easing: 'easeInOutQuart'
                         }
-                    }
-                });
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar gráfico TimeScale:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+                // Ocultar loading en caso de error
+                if (window.chartHelpers) {
+                    window.chartHelpers.hideChartLoading('chartTimeScale');
+                }
             }
         }
     }
@@ -418,80 +467,85 @@ function cargarGraficoCombo() {
     request.send();
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status){
-                const ctx = document.getElementById('chartComboMes').getContext('2d');
-                if(charts.combo) charts.combo.destroy();
-                
-                let data = Object.values(objData.data);
-                let lineData = data.map(val => val * 1.5); // Simulando valores
-                
-                charts.combo = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: meses,
-                        datasets: [{
-                            type: 'bar',
-                            label: 'Cantidad de Contratos',
-                            data: data,
-                            backgroundColor: colores.primary + '80',
-                            borderColor: colores.primary,
-                            borderWidth: 1,
-                            yAxisID: 'y'
-                        }, {
-                            type: 'line',
-                            label: 'Tendencia',
-                            data: lineData,
-                            borderColor: colores.success,
-                            backgroundColor: colores.success + '20',
-                            tension: 0.4,
-                            yAxisID: 'y1',
-                            pointRadius: 3,
-                            pointBorderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: {
-                            intersect: false,
-                            mode: 'index'
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    const ctx = document.getElementById('chartComboMes').getContext('2d');
+                    if(charts.combo) charts.combo.destroy();
+                    
+                    let data = Object.values(objData.data);
+                    let lineData = data.map(val => val * 1.5); // Simulando valores
+                    
+                    charts.combo = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: meses,
+                            datasets: [{
+                                type: 'bar',
+                                label: 'Cantidad de Contratos',
+                                data: data,
+                                backgroundColor: colores.primary + '80',
+                                borderColor: colores.primary,
+                                borderWidth: 1,
+                                yAxisID: 'y'
+                            }, {
+                                type: 'line',
+                                label: 'Tendencia',
+                                data: lineData,
+                                borderColor: colores.success,
+                                backgroundColor: colores.success + '20',
+                                tension: 0.4,
+                                yAxisID: 'y1',
+                                pointRadius: 3,
+                                pointBorderWidth: 1
+                            }]
                         },
-                        scales: {
-                            y: {
-                                type: 'linear',
-                                display: true,
-                                position: 'left',
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Cantidad'
-                                }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                                mode: 'index'
                             },
-                            y1: {
-                                type: 'linear',
-                                display: true,
-                                position: 'right',
-                                beginAtZero: true,
-                                title: {
+                            scales: {
+                                y: {
+                                    type: 'linear',
                                     display: true,
-                                    text: 'Tendencia'
+                                    position: 'left',
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Cantidad'
+                                    }
                                 },
-                                grid: {
-                                    drawOnChartArea: false
+                                y1: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'right',
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Tendencia'
+                                    },
+                                    grid: {
+                                        drawOnChartArea: false
+                                    }
                                 }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                position: 'top'
                             },
-                            tooltip: {
-                                enabled: false
+                            plugins: {
+                                legend: {
+                                    position: 'top'
+                                },
+                                tooltip: {
+                                    enabled: false
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar gráfico Combo:', error);
+                console.error('Respuesta del servidor:', request.responseText);
             }
         }
     }
