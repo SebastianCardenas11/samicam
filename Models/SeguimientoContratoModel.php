@@ -53,33 +53,25 @@ class SeguimientoContratoModel extends Mysql
         $this->strNumeroContrato = $numero_contrato;
         $this->strFechaAprobacionEntidad = $fecha_aprobacion_entidad;
 
-        $sql = "SELECT * FROM seguimiento_contrato WHERE objeto_contrato = '{$this->strObjetoContrato}'";
-        $request = $this->select_all($sql);
-
-        if (empty($request)) {
-            $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo, tipo_plazo, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            $arrData = array(
-                $this->strNumeroContrato,
-                $this->strObjetoContrato,
-                $this->strFechaInicio,
-                $this->strFechaTerminacion,
-                $this->strFechaAprobacionEntidad,
-                $this->intPlazo,
-                $this->strTipoPlazo,
-                $this->decValorTotalContrato,
-                $this->strDiaCorteInforme,
-                $this->strObservacionesEjecucion,
-                $this->strEvidenciadoSecop,
-                $this->strFechaVerificacion,
-                $this->decLiquidacion,
-                $this->intEstado
-            );
-            $request_insert = $this->insert($query_insert, $arrData);
-            $return = $request_insert;
-        } else {
-            $return = "exist";
-        }
-        return $return;
+        $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo, tipo_plazo, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array(
+            $this->strNumeroContrato,
+            $this->strObjetoContrato,
+            $this->strFechaInicio,
+            $this->strFechaTerminacion,
+            $this->strFechaAprobacionEntidad,
+            $this->intPlazo,
+            $this->strTipoPlazo,
+            $this->decValorTotalContrato,
+            $this->strDiaCorteInforme,
+            $this->strObservacionesEjecucion,
+            $this->strEvidenciadoSecop,
+            $this->strFechaVerificacion,
+            $this->decLiquidacion,
+            $this->intEstado
+        );
+        $request_insert = $this->insert($query_insert, $arrData);
+        return $request_insert;
     }
 
     public function selectContratos()
@@ -130,32 +122,25 @@ class SeguimientoContratoModel extends Mysql
         $this->strNumeroContrato = $numero_contrato;
         $this->strFechaAprobacionEntidad = $fecha_aprobacion_entidad;
 
-        $sql = "SELECT * FROM seguimiento_contrato WHERE (objeto_contrato = '{$this->strObjetoContrato}' AND id != $this->intId)";
-        $request = $this->select_all($sql);
-
-        if (empty($request)) {
-            $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo=?, tipo_plazo=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
-            $arrData = array(
-                $this->strNumeroContrato,
-                $this->strObjetoContrato,
-                $this->strFechaInicio,
-                $this->strFechaTerminacion,
-                $this->strFechaAprobacionEntidad,
-                $this->intPlazo,
-                $this->strTipoPlazo,
-                $this->decValorTotalContrato,
-                $this->strDiaCorteInforme,
-                $this->strObservacionesEjecucion,
-                $this->strEvidenciadoSecop,
-                $this->strFechaVerificacion,
-                $this->decLiquidacion,
-                $this->intEstado,
-                $this->intId
-            );
-            $request = $this->update($sql, $arrData);
-        } else {
-            $request = "exist";
-        }
+        $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo=?, tipo_plazo=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
+        $arrData = array(
+            $this->strNumeroContrato,
+            $this->strObjetoContrato,
+            $this->strFechaInicio,
+            $this->strFechaTerminacion,
+            $this->strFechaAprobacionEntidad,
+            $this->intPlazo,
+            $this->strTipoPlazo,
+            $this->decValorTotalContrato,
+            $this->strDiaCorteInforme,
+            $this->strObservacionesEjecucion,
+            $this->strEvidenciadoSecop,
+            $this->strFechaVerificacion,
+            $this->decLiquidacion,
+            $this->intEstado,
+            $this->intId
+        );
+        $request = $this->update($sql, $arrData);
         return $request;
     }
 

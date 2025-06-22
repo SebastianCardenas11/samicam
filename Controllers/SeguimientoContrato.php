@@ -94,8 +94,6 @@ class SeguimientoContrato extends Controllers
                 } else {
                     $arrResponse = array('status' => true, 'msg' => 'Contrato actualizado correctamente');
                 }
-            } else if ($request_contrato == "exist") {
-                $arrResponse = array('status' => false, 'msg' => '¡Atención! El contrato ya existe.');
             } else {
                 $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
             }
