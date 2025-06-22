@@ -291,4 +291,219 @@ class SeguimientoContrato extends Controllers
         }
         die();
     }
+
+    // MÉTODOS PARA LIQUIDACIONES
+    public function getLiquidaciones()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $estado = isset($_GET['estado']) ? strClean($_GET['estado']) : '';
+            $fechaDesde = isset($_GET['fecha_desde']) ? strClean($_GET['fecha_desde']) : '';
+            $fechaHasta = isset($_GET['fecha_hasta']) ? strClean($_GET['fecha_hasta']) : '';
+            
+            $arrData = $this->model->selectLiquidaciones($estado, $fechaDesde, $fechaHasta);
+            
+            for ($i = 0; $i < count($arrData); $i++) {
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
+
+                $arrData[$i]['valor_liquidado'] = '$' . number_format($arrData[$i]['valor_liquidado'], 2, ',', '.');
+                
+                // Estado con colores
+                switch($arrData[$i]['estado']) {
+                    case 'Completada':
+                        $arrData[$i]['estado'] = '<span class="badge bg-success">Completada</span>';
+                        break;
+                    case 'En Proceso':
+                        $arrData[$i]['estado'] = '<span class="badge bg-primary">En Proceso</span>';
+                        break;
+                    case 'Pendiente':
+                        $arrData[$i]['estado'] = '<span class="badge bg-warning">Pendiente</span>';
+                        break;
+                    case 'Rechazada':
+                        $arrData[$i]['estado'] = '<span class="badge bg-danger">Rechazada</span>';
+                        break;
+                }
+                
+                // Truncar observaciones si son muy largas
+                if (strlen($arrData[$i]['observaciones']) > 50) {
+                    $arrData[$i]['observaciones'] = substr($arrData[$i]['observaciones'], 0, 50) . '...';
+                }
+
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="viewLiquidacion(' . $arrData[$i]['id_liquidacion'] . ')" title="Ver Liquidación"><i class="far fa-eye"></i></button>';
+                }
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnEdit = '<button class="btn btn-warning btn-sm" onClick="editLiquidacion(' . $arrData[$i]['id_liquidacion'] . ')" title="Editar Liquidación"><i class="fas fa-pencil-alt"></i></button>';
+                }
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="deleteLiquidacion(' . $arrData[$i]['id_liquidacion'] . ')" title="Eliminar Liquidación"><i class="far fa-trash-alt"></i></button>';
+                }
+
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+            }
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getLiquidacion($id)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $id = intval($id);
+            if ($id > 0) {
+                $arrData = $this->model->selectLiquidacion($id);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function setLiquidacion()
+    {
+        if ($_POST) {
+            $intId = intval($_POST['idLiquidacion']);
+            $intIdContrato = intval($_POST['listContratoLiq']);
+            $strTipoLiquidacion = strClean($_POST['listTipoLiquidacion']);
+            $strFechaLiquidacion = strClean($_POST['txtFechaLiquidacion']);
+            $decValorLiquidado = floatval($_POST['txtValorLiquidar']);
+            $strEstado = strClean($_POST['listEstadoLiquidacion']);
+            $strResponsable = strClean($_POST['txtResponsableLiq']);
+            $strNumeroActa = strClean($_POST['txtNumeroActa']);
+            $decValorEjecutado = floatval($_POST['txtValorEjecutado']);
+            $decSaldoPorEjecutar = floatval($_POST['txtSaldoPorEjecutar']);
+            $decMultas = floatval($_POST['txtMultas']);
+            $decDescuentos = floatval($_POST['txtDescuentos']);
+            $strObservaciones = strClean($_POST['txtObservacionesLiq']);
+
+            if ($intId == 0) {
+                $option = 1;
+                if ($_SESSION['permisosMod']['w']) {
+                    $request_liquidacion = $this->model->insertLiquidacion(
+                        $intIdContrato,
+                        $strTipoLiquidacion,
+                        $strFechaLiquidacion,
+                        $decValorLiquidado,
+                        $strEstado,
+                        $strResponsable,
+                        $strNumeroActa,
+                        $decValorEjecutado,
+                        $decSaldoPorEjecutar,
+                        $decMultas,
+                        $decDescuentos,
+                        $strObservaciones
+                    );
+                }
+            } else {
+                $option = 2;
+                if ($_SESSION['permisosMod']['u']) {
+                    $request_liquidacion = $this->model->updateLiquidacion(
+                        $intId,
+                        $intIdContrato,
+                        $strTipoLiquidacion,
+                        $strFechaLiquidacion,
+                        $decValorLiquidado,
+                        $strEstado,
+                        $strResponsable,
+                        $strNumeroActa,
+                        $decValorEjecutado,
+                        $decSaldoPorEjecutar,
+                        $decMultas,
+                        $decDescuentos,
+                        $strObservaciones
+                    );
+                }
+            }
+
+            if ($request_liquidacion > 0) {
+                if ($option == 1) {
+                    $arrResponse = array('status' => true, 'msg' => 'Liquidación guardada correctamente');
+                } else {
+                    $arrResponse = array('status' => true, 'msg' => 'Liquidación actualizada correctamente');
+                }
+            } else {
+                $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function delLiquidacion()
+    {
+        if ($_POST) {
+            if ($_SESSION['permisosMod']['d']) {
+                $intId = intval($_POST['idLiquidacion']);
+                $requestDelete = $this->model->deleteLiquidacion($intId);
+                if ($requestDelete) {
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado la Liquidación');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar la Liquidación.');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function getSelectContratos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $htmlOptions = '<option value="">Seleccionar contrato...</option>';
+            $arrData = $this->model->selectContratosActivos();
+            if (count($arrData) > 0) {
+                for ($i = 0; $i < count($arrData); $i++) {
+                    $htmlOptions .= '<option value="' . $arrData[$i]['id'] . '">' . $arrData[$i]['numero_contrato'] . ' - ' . substr($arrData[$i]['objeto_contrato'], 0, 50) . '...</option>';
+                }
+            }
+            echo $htmlOptions;
+        }
+        die();
+    }
+
+    public function getLiquidacionesMetrics()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->selectLiquidacionesMetrics();
+            echo json_encode(['status' => true, 'data' => $arrData], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function exportLiquidaciones()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $estado = isset($_GET['estado']) ? strClean($_GET['estado']) : '';
+            $fechaDesde = isset($_GET['fecha_desde']) ? strClean($_GET['fecha_desde']) : '';
+            $fechaHasta = isset($_GET['fecha_hasta']) ? strClean($_GET['fecha_hasta']) : '';
+            
+            $arrData = $this->model->selectLiquidaciones($estado, $fechaDesde, $fechaHasta);
+            
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="liquidaciones_' . date('Y-m-d') . '.xls"');
+            header('Cache-Control: max-age=0');
+            
+            echo '<table border="1">';
+            echo '<tr><th>ID</th><th>Número Contrato</th><th>Tipo</th><th>Fecha</th><th>Valor</th><th>Estado</th><th>Responsable</th></tr>';
+            
+            foreach ($arrData as $row) {
+                echo '<tr>';
+                echo '<td>' . $row['id_liquidacion'] . '</td>';
+                echo '<td>' . $row['numero_contrato'] . '</td>';
+                echo '<td>' . $row['tipo_liquidacion'] . '</td>';
+                echo '<td>' . $row['fecha_liquidacion'] . '</td>';
+                echo '<td>' . $row['valor_liquidado'] . '</td>';
+                echo '<td>' . $row['estado'] . '</td>';
+                echo '<td>' . $row['responsable'] . '</td>';
+                echo '</tr>';
+            }
+            echo '</table>';
+        }
+        die();
+    }
 } 
