@@ -755,61 +755,64 @@ function cargarGraficoProgreso() {
     request.send();
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status){
-                const ctx = document.getElementById('chartProgressLine').getContext('2d');
-                if(charts.progress) charts.progress.destroy();
-                
-                let data = Object.values(objData.data);
-                let total = data.reduce((a, b) => a + b, 0);
-                let progreso = [];
-                let acumulado = 0;
-                data.forEach(val => {
-                    acumulado += val;
-                    progreso.push(total > 0 ? (acumulado / total * 100).toFixed(1) : 0);
-                });
-                
-                charts.progress = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [{
-                            label: 'Progreso Acumulado',
-                            data: progreso,
-                            borderColor: colores.success,
-                            backgroundColor: colores.success + '20',
-                            fill: true,
-                            tension: 0.3,
-                            pointBackgroundColor: colores.success,
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2,
-                            pointRadius: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                enabled: false
-                            }
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    const ctx = document.getElementById('chartProgressLine').getContext('2d');
+                    if(charts.progress) charts.progress.destroy();
+                    
+                    let data = Object.values(objData.data);
+
+                    charts.progress = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: meses,
+                            datasets: [{
+                                label: 'Contratos por Mes',
+                                data: data,
+                                backgroundColor: colores.primary + '90',
+                                borderColor: colores.primary,
+                                borderRadius: 6, // Bordes redondeados
+                                borderSkipped: false,
+                            }]
                         },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                max: 100,
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + '%';
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                },
+                                tooltip: {
+                                    enabled: true,
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Cantidad de Contratos'
+                                    },
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)', // Líneas horizontales muy tenues
+                                    },
+                                    ticks: {
+                                        precision: 0 // Asegurar que solo haya números enteros
                                     }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false, // Sin líneas verticales
+                                    },
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar gráfico de progreso:', error);
+                console.error('Respuesta del servidor:', request.responseText);
             }
         }
     }

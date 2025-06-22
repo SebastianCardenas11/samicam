@@ -212,7 +212,7 @@ getModal('modalSeguimientoContrato', $data);
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
-                  <i class="fas fa-chart-bar me-2"></i>Contratos por Mes - Combo Chart
+                  <i class="fas fa-chart-bar me-2"></i>Contratos por Mes
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,7 +241,7 @@ getModal('modalSeguimientoContrato', $data);
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
-                  <i class="fas fa-layer-group me-2"></i>Valores por Estado - Stacked Bar
+                  <i class="fas fa-layer-group me-2"></i>Valores por Estado 
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -362,7 +362,7 @@ getModal('modalSeguimientoContrato', $data);
           
            <!-- Botón para exportar todas las gráficas -->
         <div class="row mb-4 mt-4">
-          <div class="col-12">
+          <div class="col-lg-12">
             <div class="card shadow">
               <div class="card-body text-center">
                 <button class="btn btn-primary btn-lg" onclick="exportAllCharts()">
