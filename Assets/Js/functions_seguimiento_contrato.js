@@ -347,7 +347,7 @@ function formatCurrency(value) {
 }
 
 // Función para animar contadores
-function animateCounter(elementId, finalValue, duration = 2000) {
+function animateCounter(elementId, finalValue, duration = 100) {
     const element = document.getElementById(elementId);
     if (!element) return;
     
