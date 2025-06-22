@@ -26,8 +26,28 @@ getModal('modalSeguimientoContrato', $data);
         </button>
       </li>
       <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-resumen" data-bs-toggle="tab" data-bs-target="#resumen" type="button" role="tab" aria-controls="resumen" aria-selected="false">
+            <i class="fas fa-info-circle me-2"></i>Resumen
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
         <button class="nav-link" id="tab-graficos" data-bs-toggle="tab" data-bs-target="#graficos" type="button" role="tab" aria-controls="graficos" aria-selected="false">
             <i class="fas fa-chart-bar me-2"></i>Graficos
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-vencimientos" data-bs-toggle="tab" data-bs-target="#vencimientos" type="button" role="tab" aria-controls="vencimientos" aria-selected="false">
+            <i class="fas fa-calendar-times me-2"></i>Vencimientos
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-valor" data-bs-toggle="tab" data-bs-target="#valor" type="button" role="tab" aria-controls="valor" aria-selected="false">
+            <i class="fas fa-chart-area me-2"></i>Análisis de Valor
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-liquidacion" data-bs-toggle="tab" data-bs-target="#liquidacion" type="button" role="tab" aria-controls="liquidacion" aria-selected="false">
+            <i class="fas fa-hand-holding-usd me-2"></i>Liquidaciones
         </button>
       </li>
     </ul>
@@ -69,82 +89,93 @@ getModal('modalSeguimientoContrato', $data);
         </div>
       </div>
       
+      <!-- Tab Resumen -->
+      <div class="tab-pane fade" id="resumen" role="tabpanel" aria-labelledby="tab-resumen">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <!-- Tarjetas de Métricas -->
+                        <div class="row mb-4">
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                      Total Contratos</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalContratos">0</div>
+                                  </div>
+                                  <div class="col-auto">
+                                    <i class="fas fa-file-contract fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                      En Progreso</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="enProgreso">0</div>
+                                  </div>
+                                  <div class="col-auto">
+                                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                      Finalizados</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="finalizados">0</div>
+                                  </div>
+                                  <div class="col-auto">
+                                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                      Liquidados</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="liquidados">0</div>
+                                  </div>
+                                  <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      
       <!-- Tab Gráficos -->
       <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="tab-graficos">
         
-        <!-- Tarjetas de Métricas -->
-        <div class="row mb-4">
-          <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                      Total Contratos</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalContratos">0</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-file-contract fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                      En Progreso</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="enProgreso">0</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-clock fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                      Finalizados</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="finalizados">0</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                      Liquidados</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="liquidados">0</div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-       
-
         <!-- Gráficos Principales -->
         <div class="row mb-4">
           <div class="col-lg-8">
@@ -269,7 +300,7 @@ getModal('modalSeguimientoContrato', $data);
         
         <!-- Gráficos Adicionales -->
         <div class="row mb-4">
-          <div class="col-lg-6">
+          <div class="col-lg-12">
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
@@ -300,37 +331,7 @@ getModal('modalSeguimientoContrato', $data);
           
           
           
-          <div class="col-lg-6">
-            <div class="card shadow mb-4 h-100">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                  <i class="fas fa-bullseye me-2"></i>Resumen de Valores
-                </h6>
-              </div>
-              <div class="card-body">
-                <div class="row text-center">
-                  <div class="col-6 mb-3">
-                    <div class="border-end">
-                      <div class="h4 text-primary" id="valorTotal">$0</div>
-                      <small class="text-muted">Valor Total</small>
-                    </div>
-                  </div>
-                  <div class="col-6 mb-3">
-                    <div class="h4 text-success" id="valorPromedio">$0</div>
-                    <small class="text-muted">Valor Promedio</small>
-                  </div>
-                  <div class="col-6">
-                    <div class="h4 text-warning" id="contratosActivos">0</div>
-                    <small class="text-muted">Contratos Activos</small>
-                  </div>
-                  <div class="col-6">
-                    <div class="h4 text-info" id="plazoPromedio">0</div>
-                    <small class="text-muted">Plazo Promedio (meses)</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        
           <div class="col-lg-12 mt-4">
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -377,6 +378,202 @@ getModal('modalSeguimientoContrato', $data);
         </div>
         </div>
       </div>
+
+      <!-- Tab Vencimientos -->
+      <div class="tab-pane fade" id="vencimientos" role="tabpanel" aria-labelledby="tab-vencimientos">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4>Contratos Próximos a Vencer</h4>
+                            <div class="d-flex align-items-center">
+                                <label for="selectVencimiento" class="form-label me-2 mb-0">Ver contratos que vencen en:</label>
+                                <select class="form-select" id="selectVencimiento" style="width: auto;">
+                                    <option value="0" selected>Vencen Hoy</option>
+                                    <option value="7">Próximos 7 días</option>
+                                    <option value="15">Próximos 15 días</option>
+                                    <option value="30" >Próximos 30 días</option>
+                                    <option value="60">Próximos 60 días</option>
+                                    <option value="90">Próximos 90 días</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered" id="tableVencimientos">
+                                <thead class="table-danger">
+                                    <tr>
+                                        <th>Número de Contrato</th>
+                                        <th>Objeto del Contrato</th>
+                                        <th>Fecha de Terminación</th>
+                                        <th>Días Restantes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Filas se insertarán dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      <!-- Tab Análisis de Valor -->
+      <div class="tab-pane fade" id="valor" role="tabpanel" aria-labelledby="tab-valor">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <h4>Análisis de Valor de los Contratos</h4>
+                        <div class="row mt-4">
+                            <!-- Tarjeta Valor Total -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Valor Total Contratado</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorTotalContratado">$ 0.00</div>
+                                            </div>
+                                            <div class="col-auto"><i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tarjeta Valor Promedio -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Valor Promedio por Contrato</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorPromedioContrato">$ 0.00</div>
+                                            </div>
+                                            <div class="col-auto"><i class="fas fa-balance-scale fa-2x text-gray-300"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tarjeta Contratos Activos -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Contratos Activos (En Progreso)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="contratosActivos">0</div>
+                                            </div>
+                                            <div class="col-auto"><i class="fas fa-play-circle fa-2x text-gray-300"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Tarjeta Plazo Promedio -->
+                             <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-secondary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Plazo Promedio (Días)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="plazoPromedio">0</div>
+                                            </div>
+                                            <div class="col-auto"><i class="fas fa-hourglass-half fa-2x text-gray-300"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-chart-bar me-2"></i>Valor de Contratos por Estado</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container" style="position: relative; height: 350px;">
+                                            <canvas id="chartValorPorEstado"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Tab Liquidaciones -->
+      <div class="tab-pane fade" id="liquidacion" role="tabpanel" aria-labelledby="tab-liquidacion">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <h4>Estado de Liquidación de Contratos</h4>
+                        <div class="row mt-4">
+                            <!-- Tarjeta Valor Total Liquidado -->
+                            <div class="col-xl-6 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Valor Total Liquidado</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorTotalLiquidado">$ 0.00</div>
+                                            </div>
+                                            <div class="col-auto"><i class="fas fa-check-double fa-2x text-gray-300"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tarjeta Pendiente de Liquidar -->
+                            <div class="col-xl-6 col-md-6 mb-4">
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Valor Pendiente de Liquidar (Contratos Finalizados)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorPendienteLiquidacion">$ 0.00</div>
+                                            </div>
+                                            <div class="col-auto"><i class="fas fa-gavel fa-2x text-gray-300"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-tasks me-2"></i>Contratos Pendientes de Liquidación (Finalizados)</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered" id="tablePendientesLiquidacion">
+                                                <thead class="table-warning">
+                                                    <tr>
+                                                        <th>Número de Contrato</th>
+                                                        <th>Objeto</th>
+                                                        <th>Fecha de Finalización</th>
+                                                        <th>Valor del Contrato</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Filas se insertarán dinámicamente -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
     </div>
 </main>
 

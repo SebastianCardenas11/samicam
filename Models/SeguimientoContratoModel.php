@@ -152,4 +152,14 @@ class SeguimientoContratoModel extends Mysql
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
+    public function selectContratosPorVencer(int $dias)
+    {
+        $sql = "SELECT id, numero_contrato, objeto_contrato, fecha_terminacion, DATEDIFF(fecha_terminacion, CURDATE()) as dias_restantes
+                FROM seguimiento_contrato 
+                WHERE estado = 1 AND fecha_terminacion BETWEEN DATE_SUB(CURDATE(), INTERVAL 15 DAY) AND DATE_ADD(CURDATE(), INTERVAL $dias DAY)
+                ORDER BY dias_restantes ASC";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 } 

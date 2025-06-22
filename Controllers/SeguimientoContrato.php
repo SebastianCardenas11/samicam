@@ -248,42 +248,13 @@ class SeguimientoContrato extends Controllers
                         FROM seguimiento_contrato WHERE estado != 0";
             $resultTotal = $this->model->select_all($sqlTotal);
             
-            // Inicializar datos
-            $data = [
-                'total' => 0,
-                'enProgreso' => 0,
-                'finalizados' => 0,
-                'liquidados' => 0,
-                'valorTotal' => 0,
-                'valorPromedio' => 0,
-                'contratosActivos' => 0,
-                'plazoPromedio' => 0
+            $arrResponse = [
+                'status' => true,
+                'mes' => $resultMes,
+                'estado' => $resultEstado,
+                'total' => $resultTotal
             ];
-            
-            // Procesar totales generales
-            if (!empty($resultTotal)) {
-                $data['total'] = (int)$resultTotal[0]['total'];
-                $data['valorTotal'] = (float)$resultTotal[0]['valor_total'];
-                $data['valorPromedio'] = (float)$resultTotal[0]['promedio'];
-                $data['plazoPromedio'] = (float)$resultTotal[0]['plazo_promedio'];
-            }
-            
-            // Procesar datos por estado
-            foreach ($resultEstado as $row) {
-                $estado = (int)$row['estado'];
-                $cantidad = (int)$row['cantidad'];
-                
-                if ($estado == 1) {
-                    $data['enProgreso'] = $cantidad;
-                    $data['contratosActivos'] = $cantidad;
-                } else if ($estado == 2) {
-                    $data['finalizados'] = $cantidad;
-                } else if ($estado == 3) {
-                    $data['liquidados'] = $cantidad;
-                }
-            }
-            
-            echo json_encode(['status'=>true,'data'=>$data], JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -306,6 +277,17 @@ class SeguimientoContrato extends Controllers
             }
             
             echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getContratosPorVencer()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $dias = isset($_GET['dias']) ? intval($_GET['dias']) : 30; // Por defecto, 30 días
+            $arrData = $this->model->selectContratosPorVencer($dias);
+            
+            echo json_encode(['status' => true, 'data' => $arrData], JSON_UNESCAPED_UNICODE);
         }
         die();
     }

@@ -52,6 +52,41 @@ document.addEventListener('DOMContentLoaded', function(){
         "order": [[0, "desc"]]
     });
 
+    // Lógica para la pestaña de Vencimientos
+    const selectVencimiento = document.querySelector('#selectVencimiento');
+    if(selectVencimiento) {
+        // Cargar datos cuando la pestaña se muestra por primera vez
+        document.querySelector('#tab-vencimientos').addEventListener('shown.bs.tab', function () {
+            cargarDatosVencimientos();
+        });
+
+        // Recargar datos cuando cambia la selección
+        selectVencimiento.addEventListener('change', cargarDatosVencimientos);
+    }
+
+    const tabResumen = document.querySelector('#tab-resumen');
+    if(tabResumen){
+        tabResumen.addEventListener('shown.bs.tab', function(){
+            // Esta función es para las tarjetas de conteo (Total, En progreso, etc.)
+            cargarMetricas();
+        });
+    }
+
+    const tabValor = document.querySelector('#tab-valor');
+    if(tabValor){
+        tabValor.addEventListener('shown.bs.tab', function(){
+            // Esta función es para las tarjetas de análisis de valor y el gráfico.
+            cargarDatosAnalisisValor();
+        });
+    }
+
+    const tabLiquidacion = document.querySelector('#tab-liquidacion');
+    if(tabLiquidacion){
+        tabLiquidacion.addEventListener('shown.bs.tab', function(){
+            cargarDatosLiquidacion();
+        });
+    }
+
     if (document.querySelector("#formSeguimientoContrato")) {
         let formSeguimientoContrato = document.querySelector("#formSeguimientoContrato");
         formSeguimientoContrato.onsubmit = function(e) {
@@ -259,47 +294,40 @@ const colores = {
 
 // Función para cargar métricas de las tarjetas
 function cargarMetricas() {
-    let request = new XMLHttpRequest();
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/SeguimientoContrato/getEstadisticasAvanzadas';
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function() {
-        if(request.readyState == 4 && request.status == 200){
-            console.log(request.responseText);
-            
+        if (request.readyState == 4 && request.status == 200) {
             try {
                 let objData = JSON.parse(request.responseText);
-                if(objData.status){
-                    // Actualizar tarjetas de métricas
-                    document.getElementById('totalContratos').textContent = objData.data.total || 0;
-                    document.getElementById('enProgreso').textContent = objData.data.enProgreso || 0;
-                    document.getElementById('finalizados').textContent = objData.data.finalizados || 0;
-                    document.getElementById('liquidados').textContent = objData.data.liquidados || 0;
-                    
-                    // Actualizar métricas de resumen
-                    document.getElementById('valorTotal').textContent = formatCurrency(objData.data.valorTotal || 0);
-                    document.getElementById('valorPromedio').textContent = formatCurrency(objData.data.valorPromedio || 0);
-                    document.getElementById('contratosActivos').textContent = objData.data.contratosActivos || 0;
-                    document.getElementById('plazoPromedio').textContent = (objData.data.plazoPromedio || 0).toFixed(1);
-                    
-                    // Animar contadores
-                    animateCounter('totalContratos', objData.data.total || 0);
-                    animateCounter('enProgreso', objData.data.enProgreso || 0);
-                    animateCounter('finalizados', objData.data.finalizados || 0);
-                    animateCounter('liquidados', objData.data.liquidados || 0);
+                if (objData.status) {
+                    let data = objData; // The structure is now different
+                    let totalContratos = (data.total && data.total[0]) ? parseInt(data.total[0].total) : 0;
+                    let enProgreso = 0;
+                    let finalizados = 0;
+                    let liquidados = 0;
+
+                    if(data.estado){
+                        data.estado.forEach(item => {
+                            if(item.estado == 1) enProgreso = parseInt(item.cantidad);
+                            if(item.estado == 2) finalizados = parseInt(item.cantidad);
+                            if(item.estado == 3) liquidados = parseInt(item.cantidad);
+                        });
+                    }
+
+                    animateCounter('totalContratos', totalContratos);
+                    animateCounter('enProgreso', enProgreso);
+                    animateCounter('finalizados', finalizados);
+                    animateCounter('liquidados', liquidados);
+
+                } else {
+                    console.error('No se pudieron cargar las métricas.');
                 }
             } catch (error) {
-                console.error('Error al parsear JSON:', error);
-                console.error('Respuesta del servidor:', request.responseText);
-                // Establecer valores por defecto en caso de error
-                document.getElementById('totalContratos').textContent = '0';
-                document.getElementById('enProgreso').textContent = '0';
-                document.getElementById('finalizados').textContent = '0';
-                document.getElementById('liquidados').textContent = '0';
-                document.getElementById('valorTotal').textContent = formatCurrency(0);
-                document.getElementById('valorPromedio').textContent = formatCurrency(0);
-                document.getElementById('contratosActivos').textContent = '0';
-                document.getElementById('plazoPromedio').textContent = '0.0';
+                console.error("Error al procesar métricas:", error);
+                console.error("Respuesta del servidor:", request.responseText);
             }
         }
     }
@@ -307,6 +335,9 @@ function cargarMetricas() {
 
 // Función para formatear moneda
 function formatCurrency(value) {
+    if (typeof value !== 'number') {
+        return '0';
+    }
     return new Intl.NumberFormat('es-CO', {
         style: 'currency',
         currency: 'COP',
@@ -1016,4 +1047,209 @@ function cargarTodosLosGraficos() {
 // Event listener para cargar gráficos al mostrar el tab
 document.getElementById('tab-graficos').addEventListener('shown.bs.tab', function (e) {
     setTimeout(cargarTodosLosGraficos, 100);
-}); 
+});
+
+function cargarDatosVencimientos() {
+    let dias = document.querySelector('#selectVencimiento').value;
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getContratosPorVencer?dias=' + dias;
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status) {
+                    let tableBody = document.querySelector("#tableVencimientos tbody");
+                    tableBody.innerHTML = ""; // Limpiar tabla
+                    if(objData.data.length > 0){
+                        objData.data.forEach(function(contrato) {
+                            let dias_restantes = parseInt(contrato.dias_restantes);
+                            let badgeClass = 'bg-info';
+                            let textoBadge = `Vence en ${dias_restantes} días`;
+
+                            if (dias_restantes < 0) {
+                                badgeClass = 'bg-danger';
+                                textoBadge = `Vencido hace ${Math.abs(dias_restantes)} días`;
+                            } else if (dias_restantes == 0) {
+                                badgeClass = 'bg-warning text-dark';
+                                textoBadge = 'Vence Hoy';
+                            } else if (dias_restantes == 1) {
+                                textoBadge = 'Vence Mañana';
+                            }
+
+                            let row = `<tr>
+                                <td>${contrato.numero_contrato}</td>
+                                <td>${contrato.objeto_contrato}</td>
+                                <td>${contrato.fecha_terminacion}</td>
+                                <td><span class="badge ${badgeClass}">${textoBadge}</span></td>
+                            </tr>`;
+                            tableBody.innerHTML += row;
+                        });
+                    } else {
+                        tableBody.innerHTML = `<tr><td colspan="4" class="text-center">No hay contratos por vencer o recién vencidos en el período seleccionado.</td></tr>`;
+                    }
+                } else {
+                    console.error("Error al obtener los datos de vencimientos.");
+                }
+            } catch (error) {
+                console.error('Error al procesar datos de vencimientos:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+            }
+        }
+    }
+}
+
+function cargarDatosAnalisisValor(){
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getEstadisticasAvanzadas';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    // Verificar que 'total' y sus datos existan
+                    const valorTotal = (objData.total && objData.total[0]) ? parseFloat(objData.total[0].valor_total) : 0;
+                    const valorPromedio = (objData.total && objData.total[0]) ? parseFloat(objData.total[0].promedio) : 0;
+                    const plazoPromedio = (objData.total && objData.total[0]) ? parseFloat(objData.total[0].plazo_promedio) : 0;
+                    let contratosActivos = 0;
+
+                    if(objData.estado){
+                        objData.estado.forEach(item => {
+                            if(item.estado == 1) contratosActivos = parseInt(item.cantidad);
+                        });
+                    }
+                    
+                    document.querySelector('#valorTotalContratado').textContent = `$ ${valorTotal.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.querySelector('#valorPromedioContrato').textContent = `$ ${valorPromedio.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.querySelector('#contratosActivos').textContent = contratosActivos;
+                    document.querySelector('#plazoPromedio').textContent = Math.round(plazoPromedio);
+
+                    // Preparar datos para el gráfico
+                    let labels = ['En Progreso', 'Finalizado', 'Liquidado'];
+                    let dataValues = [0, 0, 0];
+
+                    objData.estado.forEach(item => {
+                        if(item.estado == 1) dataValues[0] = parseFloat(item.valor_total);
+                        if(item.estado == 2) dataValues[1] = parseFloat(item.valor_total);
+                        if(item.estado == 3) dataValues[2] = parseFloat(item.valor_total);
+                    });
+                    
+                    // Renderizar gráfico
+                    renderizarGraficoValorEstado(labels, dataValues);
+                }
+            } catch (error) {
+                console.error('Error al procesar análisis de valor:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+            }
+        }
+    }
+}
+
+function renderizarGraficoValorEstado(labels, dataValues){
+    const ctx = document.getElementById('chartValorPorEstado').getContext('2d');
+    
+    if(charts.valorPorEstado) {
+        charts.valorPorEstado.destroy();
+    }
+
+    charts.valorPorEstado = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Valor Total por Estado',
+                data: dataValues,
+                backgroundColor: [
+                    'rgba(255, 193, 7, 0.5)',  // Warning
+                    'rgba(220, 53, 69, 0.5)', // Danger
+                    'rgba(13, 202, 240, 0.5)'  // Info
+                ],
+                borderColor: [
+                    'rgba(255, 193, 7, 1)',
+                    'rgba(220, 53, 69, 1)',
+                    'rgba(13, 202, 240, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return '$ ' + value.toLocaleString('es-PE');
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += '$ ' + context.parsed.y.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function cargarDatosLiquidacion(){
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getEstadisticasAvanzadas'; // Reutilizamos el endpoint
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    let valorLiquidado = 0;
+                    let valorPendiente = 0;
+                    let contratosPendientes = [];
+
+                    objData.estado.forEach(item => {
+                        if(item.estado == 3) { // Liquidado
+                            valorLiquidado = parseFloat(item.valor_total);
+                        }
+                        if(item.estado == 2) { // Finalizado pero no liquidado
+                            valorPendiente = parseFloat(item.valor_total);
+                        }
+                    });
+
+                    document.querySelector('#valorTotalLiquidado').textContent = `$ ${valorLiquidado.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.querySelector('#valorPendienteLiquidacion').textContent = `$ ${valorPendiente.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    
+                    // Para la tabla, necesitamos otra consulta o filtrar los datos existentes
+                    // Por ahora, asumimos que podríamos necesitar un nuevo endpoint para la tabla
+                    // O podríamos hacer un filtrado del request principal `getContratos`
+                    // Como solución temporal, mostraremos un mensaje.
+                    // Para una implementación completa, se crearía un `getContratosPendientesLiquidacion`.
+                    let tablaBody = document.querySelector('#tablePendientesLiquidacion tbody');
+                    tablaBody.innerHTML = `<tr><td colspan="4" class="text-center">Funcionalidad de tabla pendiente de implementación.</td></tr>`;
+
+                }
+            } catch (error) {
+                console.error('Error al procesar datos de liquidación:', error);
+                console.error('Respuesta del servidor:', request.responseText);
+            }
+        }
+    }
+} 
