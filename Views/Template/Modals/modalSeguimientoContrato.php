@@ -108,73 +108,69 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para Ver Contrato -->
 <div class="modal fade" id="modalViewContrato" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header header-primary">
         <h5 class="modal-title" id="titleModal">Datos del Contrato</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <td>Objeto del Contrato:</td>
-              <td id="celObjetoContrato" style="white-space:pre-line; word-break:break-word; max-width:400px;"></td>
-            </tr>
-            <tr>
-              <td>Fecha de Inicio:</td>
-              <td id="celFechaInicio"></td>
-            </tr>
-            <tr>
-              <td>Fecha de Terminación:</td>
-              <td id="celFechaTerminacion"></td>
-            </tr>
-            <tr>
-              <td>Plazo:</td>
-              <td id="celPlazo"></td>
-            </tr>
-            <tr>
-              <td>Valor Total del Contrato:</td>
-              <td id="celValorTotalContrato"></td>
-            </tr>
-            <tr>
-              <td>Día de Corte de Informe:</td>
-              <td id="celDiaCorteInforme"></td>
-            </tr>
-            <tr>
-              <td>Observaciones de Ejecución:</td>
-              <td id="celObservacionesEjecucion"></td>
-            </tr>
-            <tr>
-              <td>Evidenciado en SECOP 2:</td>
-              <td id="celEvidenciadoSecop"></td>
-            </tr>
-            <tr>
-              <td>Fecha de Verificación:</td>
-              <td id="celFechaVerificacion"></td>
-            </tr>
-            <tr>
-              <td>Liquidación:</td>
-              <td id="celLiquidacion"></td>
-            </tr>
-            <tr>
-              <td>Estado:</td>
-              <td id="celEstado"></td>
-            </tr>
-            <tr>
-              <td>Número de Contrato:</td>
-              <td id="celNumeroContrato"></td>
-            </tr>
-            <tr>
-              <td>Fecha de Aprobación de la Entidad:</td>
-              <td id="celFechaAprobacionEntidad"></td>
-            </tr>
-          </tbody>
-        </table>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Fecha Aprobación Entidad:</strong>
+            <span id="celFechaAprobacionEntidad"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Número de Contrato:</strong>
+            <span id="celNumeroContrato"></span>
+          </li>
+          <li class="list-group-item">
+            <strong>Objeto del Contrato:</strong>
+            <p class="mb-0" id="celObjetoContrato"></p>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Fecha Inicio:</strong>
+            <span id="celFechaInicio"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Fecha Fin:</strong>
+            <span id="celFechaTerminacion"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Plazo:</strong>
+            <span id="celPlazo"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Valor Total del Contrato:</strong>
+            <span id="celValorTotalContrato"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Día de Corte Informe:</strong>
+            <span id="celDiaCorteInforme"></span>
+          </li>
+          <li class="list-group-item">
+            <strong>Observaciones Ejecución:</strong>
+            <p class="mb-0" id="celObservacionesEjecucion"></p>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Evidenciado Secop:</strong>
+            <span id="celEvidenciadoSecop"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Fecha Verificación:</strong>
+            <span id="celFechaVerificacion"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Liquidación:</strong>
+            <span id="celLiquidacion"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Estado:</strong>
+            <span id="celEstado"></span>
+          </li>
+        </ul>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>

@@ -44,13 +44,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 "text": "<i class='fas fa-file-excel'></i> Excel",
                 "titleAttr": "Exportar a Excel",
                 "className": "btn btn-success mt-3"
-            }, {
-                "extend": "pdfHtml5",
-                "text": "<i class='fas fa-file-pdf'></i> PDF",
-                "titleAttr": "Exportar a PDF",
-                "className": "btn btn-danger mt-3"
             }
-            
         ],
         "responsive": "true",
         "bDestroy": true,
@@ -103,22 +97,36 @@ function fntViewContrato(id) {
             try {
                 let objData = JSON.parse(request.responseText);
                 if (objData.status) {
-                    let estado = objData.data.estado == 1 ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-danger">Inactivo</span>';
+                    let estadoHtml = '';
+                    switch (parseInt(objData.data.estado)) {
+                        case 1:
+                            estadoHtml = '<span class="badge text-bg-warning">En progreso</span>';
+                            break;
+                        case 2:
+                            estadoHtml = '<span class="badge text-bg-danger">Finalizado</span>';
+                            break;
+                        case 3:
+                            estadoHtml = '<span class="badge text-bg-info">Liquidado</span>';
+                            break;
+                        default:
+                            estadoHtml = '<span class="badge text-bg-secondary">Desconocido</span>';
+                            break;
+                    }
+
                     document.querySelector("#celObjetoContrato").innerHTML = objData.data.objeto_contrato;
                     document.querySelector("#celFechaInicio").innerHTML = objData.data.fecha_inicio;
                     document.querySelector("#celFechaTerminacion").innerHTML = objData.data.fecha_terminacion;
                     
-                    // Mostrar el plazo con su tipo
                     let tipoPlazo = objData.data.tipo_plazo == 'dias' ? 'días' : 'meses';
                     document.querySelector("#celPlazo").innerHTML = objData.data.plazo + ' ' + tipoPlazo;
                     
-                    document.querySelector("#celValorTotalContrato").innerHTML = objData.data.valor_total_contrato;
+                    document.querySelector("#celValorTotalContrato").innerHTML = formatCurrency(objData.data.valor_total_contrato);
                     document.querySelector("#celDiaCorteInforme").innerHTML = objData.data.dia_corte_informe;
                     document.querySelector("#celObservacionesEjecucion").innerHTML = objData.data.observaciones_ejecucion;
                     document.querySelector("#celEvidenciadoSecop").innerHTML = objData.data.evidenciado_secop;
                     document.querySelector("#celFechaVerificacion").innerHTML = objData.data.fecha_verificacion;
-                    document.querySelector("#celLiquidacion").innerHTML = '$' + parseFloat(objData.data.liquidacion).toFixed(2);
-                    document.querySelector("#celEstado").innerHTML = estado;
+                    document.querySelector("#celLiquidacion").innerHTML = formatCurrency(objData.data.liquidacion);
+                    document.querySelector("#celEstado").innerHTML = estadoHtml;
                     document.querySelector("#celNumeroContrato").innerHTML = objData.data.numero_contrato;
                     document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
                     $('#modalViewContrato').modal('show');
