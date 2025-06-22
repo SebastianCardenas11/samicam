@@ -287,4 +287,26 @@ class SeguimientoContrato extends Controllers
         }
         die();
     }
+
+    public function getContratosPorTipoPlazo()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT tipo_plazo, COUNT(*) as cantidad FROM seguimiento_contrato WHERE estado != 0 GROUP BY tipo_plazo";
+            $result = $this->model->select_all($sql);
+            
+            $data = [
+                'dias' => 0,
+                'meses' => 0,
+            ];
+
+            foreach ($result as $row) {
+                if (isset($data[$row['tipo_plazo']])) {
+                    $data[$row['tipo_plazo']] = (int)$row['cantidad'];
+                }
+            }
+            
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 } 

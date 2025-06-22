@@ -180,7 +180,7 @@ getModal('modalSeguimientoContrato', $data);
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
-                  <i class="fas fa-chart-pie me-2"></i>Distribución por Estado
+                  <i class="fas fa-chart-pie me-2"></i>Distribución por Tipo de Plazo
                 </h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -188,7 +188,7 @@ getModal('modalSeguimientoContrato', $data);
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink2">
                     <div class="dropdown-header">Opciones:</div>
-                    <a class="dropdown-item" href="#" onclick="exportChartAsImage(charts.doughnut, 'distribucion-estado')">
+                    <a class="dropdown-item" href="#" onclick="exportChartAsImage(charts.doughnut, 'distribucion-tipo-plazo')">
                       <i class="fas fa-download fa-sm fa-fw me-2 text-gray-400"></i>Exportar Imagen
                     </a>
                     <a class="dropdown-item" href="#" onclick="printChart(charts.doughnut)">

@@ -689,57 +689,58 @@ function cargarGraficoDoughnut() {
     if(!document.querySelector('#chartDoughnutValores')) return;
     
     let request = new XMLHttpRequest();
-    let ajaxUrl = base_url + '/SeguimientoContrato/getContratosActivosInactivos';
+    let ajaxUrl = base_url + '/SeguimientoContrato/getContratosPorTipoPlazo';
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status){
-                const ctx = document.getElementById('chartDoughnutValores').getContext('2d');
-                if(charts.doughnut) charts.doughnut.destroy();
-                
-                // Usar datos reales
-                let enProgreso = objData.data.en_progreso || 0;
-                let finalizado = objData.data.finalizado || 0;
-                let liquidado = objData.data.liquidado || 0;
-                
-                charts.doughnut = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['En Progreso', 'Finalizados', 'Liquidados'],
-                        datasets: [{
-                            data: [enProgreso, finalizado, liquidado],
-                            backgroundColor: [
-                                colores.warning + '80',
-                                colores.danger + '80',
-                                colores.info + '80'
-                            ],
-                            borderColor: [
-                                colores.warning,
-                                colores.danger,
-                                colores.info
-                            ],
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    boxWidth: 12,
-                                    padding: 10
+            try {
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    const ctx = document.getElementById('chartDoughnutValores').getContext('2d');
+                    if(charts.doughnut) charts.doughnut.destroy();
+                    
+                    let dias = objData.data.dias || 0;
+                    let meses = objData.data.meses || 0;
+                    
+                    charts.doughnut = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Días', 'Meses'],
+                            datasets: [{
+                                data: [dias, meses],
+                                backgroundColor: [
+                                    colores.info + '80',
+                                    colores.success + '80',
+                                ],
+                                borderColor: [
+                                    colores.info,
+                                    colores.success,
+                                ],
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        boxWidth: 12,
+                                        padding: 20
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true,
                                 }
-                            },
-                            tooltip: {
-                                enabled: false
                             }
                         }
-                    }
-                });
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar gráfico de tipo de plazo:', error);
+                console.error('Respuesta del servidor:', request.responseText);
             }
         }
     }
