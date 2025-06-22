@@ -26,10 +26,10 @@
                 <div class="tile-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="tabla-tab" data-bs-toggle="tab" href="#tabla" role="tab" aria-controls="tabla" aria-selected="true">Tabla</a>
+                            <a class="nav-link active" id="tabla-tab" data-bs-toggle="tab" href="#tabla" role="tab" aria-controls="tabla" aria-selected="true"><i class="bi bi-table me-2"></i>Tabla</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="graficos-tab" data-bs-toggle="tab" href="#graficos" role="tab" aria-controls="graficos" aria-selected="false">Gráficos</a>
+                            <a class="nav-link" id="graficos-tab" data-bs-toggle="tab" href="#graficos" role="tab" aria-controls="graficos" aria-selected="false"><i class="bi bi-bar-chart-line-fill me-2"></i>Gráficos</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
