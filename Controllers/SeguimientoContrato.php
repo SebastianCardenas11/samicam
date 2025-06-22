@@ -33,7 +33,8 @@ class SeguimientoContrato extends Controllers
             $strObjetoContrato = strClean($_POST['objeto_contrato']);
             $strFechaInicio = strClean($_POST['fecha_inicio']);
             $strFechaTerminacion = strClean($_POST['fecha_terminacion']);
-            $intPlazoMeses = intval($_POST['plazo_meses']);
+            $intPlazo = intval($_POST['plazo']);
+            $strTipoPlazo = strClean($_POST['tipo_plazo']);
             $decValorTotalContrato = floatval($_POST['valor_total_contrato']);
             $strDiaCorteInforme = strClean($_POST['dia_corte_informe']);
             $strObservacionesEjecucion = strClean($_POST['observaciones_ejecucion']);
@@ -53,7 +54,8 @@ class SeguimientoContrato extends Controllers
                         $strFechaTerminacion,
                         $strFechaAprobacionEntidad,
                         $strNumeroContrato,
-                        $intPlazoMeses,
+                        $intPlazo,
+                        $strTipoPlazo,
                         $decValorTotalContrato,
                         $strDiaCorteInforme,
                         $strObservacionesEjecucion,
@@ -73,7 +75,8 @@ class SeguimientoContrato extends Controllers
                         $strFechaTerminacion,
                         $strFechaAprobacionEntidad,
                         $strNumeroContrato,
-                        $intPlazoMeses,
+                        $intPlazo,
+                        $strTipoPlazo,
                         $decValorTotalContrato,
                         $strDiaCorteInforme,
                         $strObservacionesEjecucion,
@@ -112,6 +115,10 @@ class SeguimientoContrato extends Controllers
 
                 $arrData[$i]['valor_total_contrato'] = '$' . number_format($arrData[$i]['valor_total_contrato'], 2, ',', '.');
                 $arrData[$i]['liquidacion'] = '$' . number_format($arrData[$i]['liquidacion'], 2, ',', '.');
+                
+                // Formatear el plazo con su tipo
+                $tipoPlazo = $arrData[$i]['tipo_plazo'] == 'dias' ? 'días' : 'meses';
+                $arrData[$i]['plazo'] = $arrData[$i]['plazo'] . ' ' . $tipoPlazo;
                 
                 if ($arrData[$i]['estado'] == 1) {
                     $arrData[$i]['estado'] = '<span class="badge text-bg-warning">En progreso</span>';

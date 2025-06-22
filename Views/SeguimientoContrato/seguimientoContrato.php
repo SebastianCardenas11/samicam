@@ -27,7 +27,7 @@ getModal('modalSeguimientoContrato', $data);
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="tab-graficos" data-bs-toggle="tab" data-bs-target="#graficos" type="button" role="tab" aria-controls="graficos" aria-selected="false">
-            <i class="fas fa-chart-bar me-2"></i>Dashboard
+            <i class="fas fa-chart-bar me-2"></i>Graficos
         </button>
       </li>
     </ul>

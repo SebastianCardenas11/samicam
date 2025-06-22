@@ -39,9 +39,16 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="plazo_meses">Plazo</label>
-                            <input type="number" class="form-control" id="plazo_meses" name="plazo_meses" required>
+                        <div class="col-md-4">
+                            <label for="plazo">Plazo</label>
+                            <input type="number" class="form-control" id="plazo" name="plazo" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="tipo_plazo">Tipo</label>
+                            <select class="form-control" id="tipo_plazo" name="tipo_plazo" required>
+                                <option value="dias">Días</option>
+                                <option value="meses" selected>Meses</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label for="valor_total_contrato">Valor Total del Contrato</label>
@@ -127,8 +134,8 @@
               <td id="celFechaTerminacion"></td>
             </tr>
             <tr>
-              <td>Plazo (meses):</td>
-              <td id="celPlazoMeses"></td>
+              <td>Plazo:</td>
+              <td id="celPlazo"></td>
             </tr>
             <tr>
               <td>Valor Total del Contrato:</td>

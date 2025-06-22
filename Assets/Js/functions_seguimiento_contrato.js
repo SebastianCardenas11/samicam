@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function(){
             },
             { "data": "fecha_inicio" },
             { "data": "fecha_terminacion" },
-            { "data": "plazo_meses" },
+            { "data": "plazo" },
             { "data": "valor_total_contrato" },
             { "data": "dia_corte_informe" },
             { "data": "observaciones_ejecucion" },
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 "titleAttr": "Exportar a PDF",
                 "className": "btn btn-danger mt-3"
             }
+            
         ],
         "responsive": "true",
         "bDestroy": true,
@@ -99,7 +100,11 @@ function fntViewContrato(id) {
                 document.querySelector("#celObjetoContrato").innerHTML = objData.data.objeto_contrato;
                 document.querySelector("#celFechaInicio").innerHTML = objData.data.fecha_inicio;
                 document.querySelector("#celFechaTerminacion").innerHTML = objData.data.fecha_terminacion;
-                document.querySelector("#celPlazoMeses").innerHTML = objData.data.plazo_meses;
+                
+                // Mostrar el plazo con su tipo
+                let tipoPlazo = objData.data.tipo_plazo == 'dias' ? 'días' : 'meses';
+                document.querySelector("#celPlazo").innerHTML = objData.data.plazo + ' ' + tipoPlazo;
+                
                 document.querySelector("#celValorTotalContrato").innerHTML = objData.data.valor_total_contrato;
                 document.querySelector("#celDiaCorteInforme").innerHTML = objData.data.dia_corte_informe;
                 document.querySelector("#celObservacionesEjecucion").innerHTML = objData.data.observaciones_ejecucion;
@@ -136,7 +141,8 @@ function fntEditContrato(element, id) {
                 document.querySelector("#objeto_contrato").value = objData.data.objeto_contrato;
                 document.querySelector("#fecha_inicio").value = objData.data.fecha_inicio;
                 document.querySelector("#fecha_terminacion").value = objData.data.fecha_terminacion;
-                document.querySelector("#plazo_meses").value = objData.data.plazo_meses;
+                document.querySelector("#plazo").value = objData.data.plazo;
+                document.querySelector("#tipo_plazo").value = objData.data.tipo_plazo;
                 document.querySelector("#valor_total_contrato").value = objData.data.valor_total_contrato;
                 document.querySelector("#dia_corte_informe").value = objData.data.dia_corte_informe;
                 document.querySelector("#observaciones_ejecucion").value = objData.data.observaciones_ejecucion;
@@ -198,15 +204,12 @@ function fntDelContrato(id) {
 }
 
 function openModal() {
-    rowTable = "";
     document.querySelector('#id').value = "";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-warning");
+    document.querySelector('#btnActionForm').classList.replace("btn-warning", "btn-warning");
     document.querySelector('#btnText').innerHTML = "Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Contrato";
     document.querySelector("#formSeguimientoContrato").reset();
-    if(document.querySelector("#numero_contrato")) document.querySelector("#numero_contrato").value = "";
-    if(document.querySelector("#fecha_aprobacion_entidad")) document.querySelector("#fecha_aprobacion_entidad").value = "";
     $('#modalFormSeguimientoContrato').modal('show');
 }
 
