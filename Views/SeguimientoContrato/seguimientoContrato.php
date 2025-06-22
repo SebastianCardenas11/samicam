@@ -269,7 +269,7 @@ getModal('modalSeguimientoContrato', $data);
         
         <!-- Gráficos Adicionales -->
         <div class="row mb-4">
-          <div class="col-lg-4">
+          <div class="col-lg-6">
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
@@ -298,36 +298,9 @@ getModal('modalSeguimientoContrato', $data);
             </div>
           </div>
           
-          <div class="col-lg-4">
-            <div class="card shadow mb-4 h-100">
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">
-                  <i class="fas fa-chart-line me-2"></i>Progreso Anual
-                </h6>
-                <div class="dropdown no-arrow">
-                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink6">
-                    <div class="dropdown-header">Opciones:</div>
-                    <a class="dropdown-item" href="#" onclick="exportChartAsImage(charts.progress, 'progreso-anual')">
-                      <i class="fas fa-download fa-sm fa-fw me-2 text-gray-400"></i>Exportar Imagen
-                    </a>
-                    <a class="dropdown-item" href="#" onclick="printChart(charts.progress)">
-                      <i class="fas fa-print fa-sm fa-fw me-2 text-gray-400"></i>Imprimir
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart-container" style="position: relative; height: 250px;">
-                  <canvas id="chartProgressLine"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
           
-          <div class="col-lg-4">
+          
+          <div class="col-lg-6">
             <div class="card shadow mb-4 h-100">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
@@ -358,6 +331,35 @@ getModal('modalSeguimientoContrato', $data);
               </div>
             </div>
           </div>
+          <div class="col-lg-12 mt-4">
+            <div class="card shadow mb-4 h-100">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-line me-2"></i>Progreso Anual
+                </h6>
+                <div class="dropdown no-arrow">
+                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog fa-sm fa-fw text-gray-400"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink6">
+                    <div class="dropdown-header">Opciones:</div>
+                    <a class="dropdown-item" href="#" onclick="exportChartAsImage(charts.progress, 'progreso-anual')">
+                      <i class="fas fa-download fa-sm fa-fw me-2 text-gray-400"></i>Exportar Imagen
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="printChart(charts.progress)">
+                      <i class="fas fa-print fa-sm fa-fw me-2 text-gray-400"></i>Imprimir
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" style="position: relative; height: 250px;">
+                  <canvas id="chartProgressLine"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          
            <!-- Botón para exportar todas las gráficas -->
         <div class="row mb-4 mt-4">
           <div class="col-12">

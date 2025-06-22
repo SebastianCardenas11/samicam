@@ -778,6 +778,7 @@ function cargarGraficoProgreso() {
                             data: progreso,
                             borderColor: colores.success,
                             backgroundColor: colores.success + '20',
+                            fill: true,
                             tension: 0.3,
                             pointBackgroundColor: colores.success,
                             pointBorderColor: '#fff',
