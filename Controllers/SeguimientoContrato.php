@@ -508,6 +508,11 @@ class SeguimientoContrato extends Controllers
             header('Content-Disposition: attachment; filename="Reporte_Liquidaciones_' . date('Y-m-d_H-i-s') . '.xls"');
             header('Cache-Control: max-age=0');
             
+            // BOM UTF-8 como PRIMERA salida
+            echo "\xEF\xBB\xBF";
+            // Meta charset como PRIMERA línea HTML
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
+            
             // Crear contenido del Excel
             echo '<table border="1">';
             
