@@ -25,11 +25,11 @@ getModal('modalSeguimientoContrato', $data);
             <i class="fas fa-table me-2"></i>Contratos
         </button>
       </li>
-      <li class="nav-item" role="presentation">
+      <!-- <li class="nav-item" role="presentation">
         <button class="nav-link" id="tab-resumen" data-bs-toggle="tab" data-bs-target="#resumen" type="button" role="tab" aria-controls="resumen" aria-selected="false">
             <i class="fas fa-info-circle me-2"></i>Resumen
         </button>
-      </li>
+      </li> -->
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="tab-graficos" data-bs-toggle="tab" data-bs-target="#graficos" type="button" role="tab" aria-controls="graficos" aria-selected="false">
             <i class="fas fa-chart-bar me-2"></i>Graficos
@@ -90,93 +90,78 @@ getModal('modalSeguimientoContrato', $data);
         </div>
       </div>
       
-      <!-- Tab Resumen -->
-      <div class="tab-pane fade" id="resumen" role="tabpanel" aria-labelledby="tab-resumen">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="tile">
-                    <div class="tile-body">
-                        <!-- Tarjetas de Métricas -->
-                        <div class="row mb-4">
-                          <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                              <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                      Total Contratos</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalContratos">0</div>
-                                  </div>
-                                  <div class="col-auto">
-                                    <i class="fas fa-file-contract fa-2x text-gray-300"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                              <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                      En Progreso</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="enProgreso">0</div>
-                                  </div>
-                                  <div class="col-auto">
-                                    <i class="fas fa-clock fa-2x text-gray-300"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                              <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                      Finalizados</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="finalizados">0</div>
-                                  </div>
-                                  <div class="col-auto">
-                                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                              <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                      Liquidados</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="liquidados">0</div>
-                                  </div>
-                                  <div class="col-auto">
-                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
-      
       <!-- Tab Gráficos -->
       <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="tab-graficos">
-        
+        <!-- Tarjetas de Métricas (antes estaban en Resumen) -->
+        <div class="row mb-4">
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      Total Contratos</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalContratos">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-file-contract fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                      En Progreso</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="enProgreso">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      Finalizados</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="finalizados">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Liquidados</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="liquidados">0</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Gráficos Principales -->
         <div class="row mb-4">
           <div class="col-lg-8">
@@ -605,6 +590,13 @@ getModal('modalSeguimientoContrato', $data);
                 </div>
                 
                 <!-- Tabla de Detalle -->
+                <div class="row mb-2">
+                  <div class="col-lg-12 d-flex justify-content-end">
+                    <a href="<?= base_url(); ?>/SeguimientoContrato/exportarLiquidacionesExcel" class="btn btn-success mb-2" target="_blank">
+                      <i class="fas fa-file-excel me-1"></i> Exportar a Excel
+                    </a>
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="card shadow mb-4">

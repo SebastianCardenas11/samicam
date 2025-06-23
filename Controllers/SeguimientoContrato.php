@@ -454,4 +454,104 @@ class SeguimientoContrato extends Controllers
         }
         die();
     }
+
+    public function exportarLiquidacionesExcel()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            // Obtener datos de liquidaciones
+            $sql = "SELECT 
+                        numero_contrato,
+                        objeto_contrato,
+                        valor_total_contrato as valor,
+                        fecha_inicio,
+                        fecha_terminacion,
+                        liquidacion,
+                        estado,
+                        CASE 
+                            WHEN estado = 3 THEN 'Liquidado'
+                            WHEN estado = 2 THEN 'Finalizado'
+                            ELSE 'En Progreso'
+                        END as estado_texto,
+                        CASE 
+                            WHEN estado = 3 AND liquidacion > 0 THEN DATEDIFF(fecha_terminacion, fecha_inicio)
+                            ELSE NULL
+                        END as dias
+                    FROM seguimiento_contrato 
+                    WHERE estado != 0 
+                    ORDER BY fecha_inicio DESC";
+            
+            $liquidaciones = $this->model->select_all($sql);
+            
+            // Calcular métricas
+            $total_liquidado = 0;
+            $pendiente_liquidacion = 0;
+            $liquidaciones_completadas = 0;
+            $dias_totales = 0;
+            
+            foreach ($liquidaciones as $liquidacion) {
+                if ($liquidacion['estado'] == 'Liquidado') {
+                    $total_liquidado += floatval($liquidacion['valor']);
+                    $liquidaciones_completadas++;
+                    if ($liquidacion['dias'] !== null) {
+                        $dias_totales += $liquidacion['dias'];
+                    }
+                } else {
+                    $pendiente_liquidacion += floatval($liquidacion['valor']);
+                }
+            }
+            
+            $promedio_liquidacion = $liquidaciones_completadas > 0 ? $total_liquidado / $liquidaciones_completadas : 0;
+            $tiempo_promedio = $liquidaciones_completadas > 0 ? round($dias_totales / $liquidaciones_completadas) : 0;
+            
+            // Configurar headers para descarga de Excel
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment; filename="Reporte_Liquidaciones_' . date('Y-m-d_H-i-s') . '.xls"');
+            header('Cache-Control: max-age=0');
+            
+            // Crear contenido del Excel
+            echo '<table border="1">';
+            
+            // Título del reporte
+            echo '<tr><td colspan="8" style="background-color: #4e73df; color: white; text-align: center; font-weight: bold; font-size: 16px;">REPORTE DE LIQUIDACIONES DE CONTRATOS</td></tr>';
+            echo '<tr><td colspan="8" style="text-align: center; font-weight: bold;">Fecha de generación: ' . date('d/m/Y H:i:s') . '</td></tr>';
+            echo '<tr><td colspan="8"></td></tr>';
+            
+            // Métricas resumen
+            echo '<tr><td colspan="8" style="background-color: #f8f9fc; font-weight: bold;">RESUMEN DE MÉTRICAS</td></tr>';
+            echo '<tr><td colspan="2">Total Liquidado:</td><td colspan="2">$ ' . number_format($total_liquidado, 2, ',', '.') . '</td>';
+            echo '<td colspan="2">Pendiente de Liquidación:</td><td colspan="2">$ ' . number_format($pendiente_liquidacion, 2, ',', '.') . '</td></tr>';
+            echo '<tr><td colspan="2">Promedio Liquidación:</td><td colspan="2">$ ' . number_format($promedio_liquidacion, 2, ',', '.') . '</td>';
+            echo '<td colspan="2">Tiempo Promedio:</td><td colspan="2">' . $tiempo_promedio . ' días</td></tr>';
+            echo '<tr><td colspan="8"></td></tr>';
+            
+            // Encabezados de la tabla
+            echo '<tr style="background-color: #4e73df; color: white; font-weight: bold;">';
+            echo '<td>Número de Contrato</td>';
+            echo '<td>Objeto del Contrato</td>';
+            echo '<td>Valor Total</td>';
+            echo '<td>Fecha de Inicio</td>';
+            echo '<td>Fecha de Terminación</td>';
+            echo '<td>Días de Ejecución</td>';
+            echo '<td>Estado</td>';
+            echo '<td>Liquidación</td>';
+            echo '</tr>';
+            
+            // Datos de liquidaciones
+            foreach ($liquidaciones as $liquidacion) {
+                echo '<tr>';
+                echo '<td>' . $liquidacion['numero_contrato'] . '</td>';
+                echo '<td>' . $liquidacion['objeto_contrato'] . '</td>';
+                echo '<td>$ ' . number_format($liquidacion['valor'], 2, ',', '.') . '</td>';
+                echo '<td>' . $liquidacion['fecha_inicio'] . '</td>';
+                echo '<td>' . ($liquidacion['fecha_terminacion'] ?: 'Pendiente') . '</td>';
+                echo '<td>' . ($liquidacion['dias'] ?: '-') . '</td>';
+                echo '<td>' . $liquidacion['estado_texto'] . '</td>';
+                echo '<td>$ ' . number_format($liquidacion['liquidacion'], 2, ',', '.') . '</td>';
+                echo '</tr>';
+            }
+            
+            echo '</table>';
+        }
+        die();
+    }
 } 
