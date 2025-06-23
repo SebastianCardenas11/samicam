@@ -1,5 +1,12 @@
 <?php
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 class SeguimientoContrato extends Controllers
 {
     public function __construct()
@@ -457,106 +464,133 @@ class SeguimientoContrato extends Controllers
 
     public function exportarLiquidacionesExcel()
     {
-        if ($_SESSION['permisosMod']['r']) {
-            // Obtener datos de liquidaciones
-            $sql = "SELECT 
-                        numero_contrato,
-                        objeto_contrato,
-                        valor_total_contrato as valor,
-                        fecha_inicio,
-                        fecha_terminacion,
-                        liquidacion,
-                        estado,
-                        CASE 
-                            WHEN estado = 3 THEN 'Liquidado'
-                            WHEN estado = 2 THEN 'Finalizado'
-                            ELSE 'En Progreso'
-                        END as estado_texto,
-                        CASE 
-                            WHEN estado = 3 AND liquidacion > 0 THEN DATEDIFF(fecha_terminacion, fecha_inicio)
-                            ELSE NULL
-                        END as dias
-                    FROM seguimiento_contrato 
-                    WHERE estado != 0 
-                    ORDER BY fecha_inicio DESC";
-            
-            $liquidaciones = $this->model->select_all($sql);
-            
-            // Calcular métricas
-            $total_liquidado = 0;
-            $pendiente_liquidacion = 0;
-            $liquidaciones_completadas = 0;
-            $dias_totales = 0;
-            
-            foreach ($liquidaciones as $liquidacion) {
-                if ($liquidacion['estado'] == 'Liquidado') {
-                    $total_liquidado += floatval($liquidacion['valor']);
-                    $liquidaciones_completadas++;
-                    if ($liquidacion['dias'] !== null) {
-                        $dias_totales += $liquidacion['dias'];
-                    }
-                } else {
-                    $pendiente_liquidacion += floatval($liquidacion['valor']);
-                }
-            }
-            
-            $promedio_liquidacion = $liquidaciones_completadas > 0 ? $total_liquidado / $liquidaciones_completadas : 0;
-            $tiempo_promedio = $liquidaciones_completadas > 0 ? round($dias_totales / $liquidaciones_completadas) : 0;
-            
-            // Configurar headers para descarga de Excel
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment; filename="Reporte_Liquidaciones_' . date('Y-m-d_H-i-s') . '.xls"');
-            header('Cache-Control: max-age=0');
-            
-            // BOM UTF-8 como PRIMERA salida
-            echo "\xEF\xBB\xBF";
-            // Meta charset como PRIMERA línea HTML
-            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
-            
-            // Crear contenido del Excel
-            echo '<table border="1">';
-            
-            // Título del reporte
-            echo '<tr><td colspan="8" style="background-color: #4e73df; color: white; text-align: center; font-weight: bold; font-size: 16px;">REPORTE DE LIQUIDACIONES DE CONTRATOS</td></tr>';
-            echo '<tr><td colspan="8" style="text-align: center; font-weight: bold;">Fecha de generación: ' . date('d/m/Y H:i:s') . '</td></tr>';
-            echo '<tr><td colspan="8"></td></tr>';
-            
-            // Métricas resumen
-            echo '<tr><td colspan="8" style="background-color: #f8f9fc; font-weight: bold;">RESUMEN DE MÉTRICAS</td></tr>';
-            echo '<tr><td colspan="2">Total Liquidado:</td><td colspan="2">$ ' . number_format($total_liquidado, 2, ',', '.') . '</td>';
-            echo '<td colspan="2">Pendiente de Liquidación:</td><td colspan="2">$ ' . number_format($pendiente_liquidacion, 2, ',', '.') . '</td></tr>';
-            echo '<tr><td colspan="2">Promedio Liquidación:</td><td colspan="2">$ ' . number_format($promedio_liquidacion, 2, ',', '.') . '</td>';
-            echo '<td colspan="2">Tiempo Promedio:</td><td colspan="2">' . $tiempo_promedio . ' días</td></tr>';
-            echo '<tr><td colspan="8"></td></tr>';
-            
-            // Encabezados de la tabla
-            echo '<tr style="background-color: #4e73df; color: white; font-weight: bold;">';
-            echo '<td>Número de Contrato</td>';
-            echo '<td>Objeto del Contrato</td>';
-            echo '<td>Valor Total</td>';
-            echo '<td>Fecha de Inicio</td>';
-            echo '<td>Fecha de Terminación</td>';
-            echo '<td>Días de Ejecución</td>';
-            echo '<td>Estado</td>';
-            echo '<td>Liquidación</td>';
-            echo '</tr>';
-            
-            // Datos de liquidaciones
-            foreach ($liquidaciones as $liquidacion) {
-                echo '<tr>';
-                echo '<td>' . $liquidacion['numero_contrato'] . '</td>';
-                echo '<td>' . $liquidacion['objeto_contrato'] . '</td>';
-                echo '<td>$ ' . number_format($liquidacion['valor'], 2, ',', '.') . '</td>';
-                echo '<td>' . $liquidacion['fecha_inicio'] . '</td>';
-                echo '<td>' . ($liquidacion['fecha_terminacion'] ?: 'Pendiente') . '</td>';
-                echo '<td>' . ($liquidacion['dias'] ?: '-') . '</td>';
-                echo '<td>' . $liquidacion['estado_texto'] . '</td>';
-                echo '<td>$ ' . number_format($liquidacion['liquidacion'], 2, ',', '.') . '</td>';
-                echo '</tr>';
-            }
-            
-            echo '</table>';
+        if (!isset($_SESSION['permisosMod']['r']) || !$_SESSION['permisosMod']['r']) {
+            // No hay permisos, no hacer nada o mostrar error
+            return;
         }
+
+        // 1. Obtener los datos de la base de datos
+        $sql = "SELECT 
+                    numero_contrato,
+                    objeto_contrato,
+                    valor_total_contrato as valor,
+                    fecha_inicio,
+                    fecha_terminacion,
+                    liquidacion,
+                    estado,
+                    CASE 
+                        WHEN estado = 3 THEN 'Liquidado'
+                        WHEN estado = 2 THEN 'Finalizado'
+                        ELSE 'En Progreso'
+                    END as estado_texto,
+                    CASE 
+                        WHEN estado = 3 AND liquidacion > 0 THEN DATEDIFF(fecha_terminacion, fecha_inicio)
+                        ELSE NULL
+                    END as dias
+                FROM seguimiento_contrato 
+                WHERE estado != 0 
+                ORDER BY fecha_inicio DESC";
+        $liquidaciones = $this->model->select_all($sql);
+
+        // 2. Crear una nueva instancia de Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // 3. Estilos
+        $styleTitle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 16],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4E73DF']]
+        ];
+        $styleHeader = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4E73DF']]
+        ];
+        $styleMetricHeader = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F8F9FC']]
+        ];
+
+        // 4. Escribir Título y Fecha
+        $sheet->mergeCells('A1:H1');
+        $sheet->setCellValue('A1', 'REPORTE DE LIQUIDACIONES DE CONTRATOS');
+        $sheet->getStyle('A1')->applyFromArray($styleTitle);
+        $sheet->getRowDimension('1')->setRowHeight(30);
+
+        $sheet->mergeCells('A2:H2');
+        $sheet->setCellValue('A2', 'Fecha de generación: ' . date('d/m/Y H:i:s'));
+        $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // 5. Calcular y escribir métricas
+        // ... (cálculo de métricas igual que antes)
+        $total_liquidado = 0;
+        $pendiente_liquidacion = 0;
+        $liquidaciones_completadas = 0;
+        $dias_totales = 0;
+        foreach ($liquidaciones as $liq) {
+            if ($liq['estado'] == 3) { // Liquidado
+                $total_liquidado += floatval($liq['valor']);
+                $liquidaciones_completadas++;
+                if ($liq['dias'] !== null) $dias_totales += $liq['dias'];
+            } else {
+                $pendiente_liquidacion += floatval($liq['valor']);
+            }
+        }
+        $promedio_liquidacion = $liquidaciones_completadas > 0 ? $total_liquidado / $liquidaciones_completadas : 0;
+        $tiempo_promedio = $liquidaciones_completadas > 0 ? round($dias_totales / $liquidaciones_completadas) : 0;
+
+        $sheet->mergeCells('A4:H4');
+        $sheet->setCellValue('A4', 'RESUMEN DE MÉTRICAS');
+        $sheet->getStyle('A4')->applyFromArray($styleMetricHeader);
+
+        $sheet->setCellValue('A5', 'Total Liquidado:');
+        $sheet->setCellValue('B5', $total_liquidado)->getStyle('B5')->getNumberFormat()->setFormatCode('"$"#,##0.00');
+        $sheet->setCellValue('C5', 'Pendiente de Liquidación:');
+        $sheet->setCellValue('D5', $pendiente_liquidacion)->getStyle('D5')->getNumberFormat()->setFormatCode('"$"#,##0.00');
+        
+        $sheet->setCellValue('A6', 'Promedio Liquidación:');
+        $sheet->setCellValue('B6', $promedio_liquidacion)->getStyle('B6')->getNumberFormat()->setFormatCode('"$"#,##0.00');
+        $sheet->setCellValue('C6', 'Tiempo Promedio:');
+        $sheet->setCellValue('D6', $tiempo_promedio . ' días');
+
+        // 6. Escribir encabezados de la tabla
+        $headerRow = 8;
+        $sheet->setCellValue('A' . $headerRow, 'Número de Contrato');
+        $sheet->setCellValue('B' . $headerRow, 'Objeto del Contrato');
+        $sheet->setCellValue('C' . $headerRow, 'Valor Total');
+        $sheet->setCellValue('D' . $headerRow, 'Fecha de Inicio');
+        $sheet->setCellValue('E' . $headerRow, 'Fecha de Terminación');
+        $sheet->setCellValue('F' . $headerRow, 'Días de Ejecución');
+        $sheet->setCellValue('G' . $headerRow, 'Estado');
+        $sheet->setCellValue('H' . $headerRow, 'Liquidación');
+        $sheet->getStyle('A' . $headerRow . ':H' . $headerRow)->applyFromArray($styleHeader);
+
+        // 7. Escribir datos
+        $row = $headerRow + 1;
+        foreach ($liquidaciones as $liquidacion) {
+            $sheet->setCellValue('A' . $row, $liquidacion['numero_contrato']);
+            $sheet->setCellValue('B' . $row, $liquidacion['objeto_contrato']);
+            $sheet->setCellValue('C' . $row, $liquidacion['valor'])->getStyle('C'.$row)->getNumberFormat()->setFormatCode('"$"#,##0.00');
+            $sheet->setCellValue('D' . $row, $liquidacion['fecha_inicio']);
+            $sheet->setCellValue('E' . $row, $liquidacion['fecha_terminacion'] ?: 'Pendiente');
+            $sheet->setCellValue('F' . $row, $liquidacion['dias'] ?: '-');
+            $sheet->setCellValue('G' . $row, $liquidacion['estado_texto']);
+            $sheet->setCellValue('H' . $row, $liquidacion['liquidacion'])->getStyle('H'.$row)->getNumberFormat()->setFormatCode('"$"#,##0.00');
+            $row++;
+        }
+
+        // 8. Autoajustar columnas
+        foreach (range('A', 'H') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // 9. Configurar headers y enviar al navegador
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Reporte_Liquidaciones_' . date('Y-m-d_H-i-s') . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
         die();
     }
 } 
