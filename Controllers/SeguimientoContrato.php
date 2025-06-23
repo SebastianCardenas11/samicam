@@ -291,4 +291,167 @@ class SeguimientoContrato extends Controllers
         }
         die();
     }
+
+    public function getLiquidaciones()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT 
+                        numero_contrato,
+                        valor_total_contrato as valor,
+                        fecha_inicio as fecha,
+                        CASE 
+                            WHEN estado = 3 THEN 'Liquidado'
+                            WHEN estado = 2 THEN 'Finalizado'
+                            ELSE 'En Progreso'
+                        END as estado
+                    FROM seguimiento_contrato 
+                    WHERE estado != 0 
+                    ORDER BY fecha_inicio DESC";
+            
+            $liquidaciones = $this->model->select_all($sql);
+            
+            // Calcular totales
+            $total_liquidado = 0;
+            $pendiente_liquidacion = 0;
+            
+            foreach ($liquidaciones as $liquidacion) {
+                if ($liquidacion['estado'] == 'Liquidado') {
+                    $total_liquidado += floatval($liquidacion['valor']);
+                } else {
+                    $pendiente_liquidacion += floatval($liquidacion['valor']);
+                }
+            }
+            
+            $arrResponse = [
+                'status' => true,
+                'liquidaciones' => $liquidaciones,
+                'total_liquidado' => $total_liquidado,
+                'pendiente_liquidacion' => $pendiente_liquidacion
+            ];
+            
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getLiquidacionesCompletas()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            // Obtener datos de liquidaciones con cálculos
+            $sql = "SELECT 
+                        numero_contrato,
+                        valor_total_contrato as valor,
+                        fecha_inicio,
+                        fecha_terminacion,
+                        liquidacion,
+                        estado,
+                        CASE 
+                            WHEN estado = 3 THEN 'Liquidado'
+                            WHEN estado = 2 THEN 'Finalizado'
+                            ELSE 'En Progreso'
+                        END as estado_texto,
+                        CASE 
+                            WHEN estado = 3 AND liquidacion > 0 THEN DATEDIFF(fecha_terminacion, fecha_inicio)
+                            ELSE NULL
+                        END as dias
+                    FROM seguimiento_contrato 
+                    WHERE estado != 0 
+                    ORDER BY fecha_inicio DESC";
+            
+            $liquidaciones = $this->model->select_all($sql);
+            
+            // Calcular métricas
+            $total_liquidado = 0;
+            $pendiente_liquidacion = 0;
+            $liquidaciones_completadas = 0;
+            $dias_totales = 0;
+            
+            foreach ($liquidaciones as $liquidacion) {
+                if ($liquidacion['estado'] == 'Liquidado') {
+                    $total_liquidado += floatval($liquidacion['valor']);
+                    $liquidaciones_completadas++;
+                    if ($liquidacion['dias'] !== null) {
+                        $dias_totales += $liquidacion['dias'];
+                    }
+                } else {
+                    $pendiente_liquidacion += floatval($liquidacion['valor']);
+                }
+            }
+            
+            $promedio_liquidacion = $liquidaciones_completadas > 0 ? $total_liquidado / $liquidaciones_completadas : 0;
+            $tiempo_promedio = $liquidaciones_completadas > 0 ? round($dias_totales / $liquidaciones_completadas) : 0;
+            
+            // Datos para gráficos
+            $sql_evolucion = "SELECT 
+                                DATE_FORMAT(fecha_inicio, '%Y-%m') as mes,
+                                COUNT(*) as cantidad,
+                                SUM(valor_total_contrato) as valor_total
+                              FROM seguimiento_contrato 
+                              WHERE estado = 3 
+                              GROUP BY DATE_FORMAT(fecha_inicio, '%Y-%m')
+                              ORDER BY mes DESC 
+                              LIMIT 12";
+            
+            $evolucion = $this->model->select_all($sql_evolucion);
+            
+            $sql_distribucion = "SELECT 
+                                  MONTH(fecha_inicio) as mes,
+                                  COUNT(*) as cantidad
+                                FROM seguimiento_contrato 
+                                WHERE estado = 3 AND YEAR(fecha_inicio) = YEAR(CURDATE())
+                                GROUP BY MONTH(fecha_inicio)
+                                ORDER BY mes";
+            
+            $distribucion = $this->model->select_all($sql_distribucion);
+            
+            // Preparar datos para gráficos
+            $meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            $cantidades = array_fill(0, 12, 0);
+            
+            foreach ($distribucion as $item) {
+                $cantidades[$item['mes'] - 1] = (int)$item['cantidad'];
+            }
+            
+            $arrResponse = [
+                'status' => true,
+                'liquidaciones' => $liquidaciones,
+                'total_liquidado' => $total_liquidado,
+                'pendiente_liquidacion' => $pendiente_liquidacion,
+                'promedio_liquidacion' => $promedio_liquidacion,
+                'tiempo_promedio' => $tiempo_promedio,
+                'grafico_evolucion' => $evolucion,
+                'grafico_distribucion' => [
+                    'meses' => $meses,
+                    'cantidades' => $cantidades
+                ]
+            ];
+            
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getContratosPendientesLiquidacion()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT 
+                        numero_contrato,
+                        objeto_contrato,
+                        fecha_terminacion,
+                        valor_total_contrato
+                    FROM seguimiento_contrato 
+                    WHERE estado = 2 
+                    ORDER BY fecha_terminacion DESC";
+            
+            $contratos = $this->model->select_all($sql);
+            
+            $arrResponse = [
+                'status' => true,
+                'data' => $contratos
+            ];
+            
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 } 

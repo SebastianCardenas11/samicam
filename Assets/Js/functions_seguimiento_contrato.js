@@ -87,6 +87,13 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    const tabLiquidacionesDetalle = document.getElementById('liquidaciones-tab-btn');
+    if(tabLiquidacionesDetalle) {
+        tabLiquidacionesDetalle.addEventListener('shown.bs.tab', function() {
+            cargarDatosLiquidaciones();
+        });
+    }
+
     if (document.querySelector("#formSeguimientoContrato")) {
         let formSeguimientoContrato = document.querySelector("#formSeguimientoContrato");
         formSeguimientoContrato.onsubmit = function(e) {
@@ -685,6 +692,7 @@ function cargarGraficoArea() {
                 if(charts.area) charts.area.destroy();
                 
                 let data = Object.values(objData.data);
+
                 charts.area = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -1213,7 +1221,7 @@ function renderizarGraficoValorEstado(labels, dataValues){
 
 function cargarDatosLiquidacion(){
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/SeguimientoContrato/getEstadisticasAvanzadas'; // Reutilizamos el endpoint
+    let ajaxUrl = base_url + '/SeguimientoContrato/getEstadisticasAvanzadas';
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function(){
@@ -1223,7 +1231,6 @@ function cargarDatosLiquidacion(){
                 if(objData.status){
                     let valorLiquidado = 0;
                     let valorPendiente = 0;
-                    let contratosPendientes = [];
 
                     objData.estado.forEach(item => {
                         if(item.estado == 3) { // Liquidado
@@ -1234,22 +1241,192 @@ function cargarDatosLiquidacion(){
                         }
                     });
 
-                    document.querySelector('#valorTotalLiquidado').textContent = `$ ${valorLiquidado.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                    document.querySelector('#valorPendienteLiquidacion').textContent = `$ ${valorPendiente.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.querySelector('#valorTotalLiquidado').textContent = `$ ${valorLiquidado.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.querySelector('#valorPendienteLiquidacion').textContent = `$ ${valorPendiente.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                     
-                    // Para la tabla, necesitamos otra consulta o filtrar los datos existentes
-                    // Por ahora, asumimos que podríamos necesitar un nuevo endpoint para la tabla
-                    // O podríamos hacer un filtrado del request principal `getContratos`
-                    // Como solución temporal, mostraremos un mensaje.
-                    // Para una implementación completa, se crearía un `getContratosPendientesLiquidacion`.
-                    let tablaBody = document.querySelector('#tablePendientesLiquidacion tbody');
-                    tablaBody.innerHTML = `<tr><td colspan="4" class="text-center">Funcionalidad de tabla pendiente de implementación.</td></tr>`;
-
+                    // Obtener contratos pendientes de liquidación
+                    let sqlPendientes = "SELECT numero_contrato, objeto_contrato, fecha_terminacion, valor_total_contrato FROM seguimiento_contrato WHERE estado = 2 ORDER BY fecha_terminacion DESC";
+                    let contratosPendientes = [];
+                    
+                    // Hacer una llamada adicional para obtener contratos pendientes
+                    let requestPendientes = new XMLHttpRequest();
+                    requestPendientes.open("GET", base_url + '/SeguimientoContrato/getContratosPendientesLiquidacion', true);
+                    requestPendientes.send();
+                    requestPendientes.onreadystatechange = function(){
+                        if(requestPendientes.readyState == 4 && requestPendientes.status == 200){
+                            try {
+                                let dataPendientes = JSON.parse(requestPendientes.responseText);
+                                if(dataPendientes.status && dataPendientes.data){
+                                    let tablaBody = document.querySelector('#tablePendientesLiquidacion tbody');
+                                    tablaBody.innerHTML = '';
+                                    
+                                    dataPendientes.data.forEach(contrato => {
+                                        let row = document.createElement('tr');
+                                        row.innerHTML = `
+                                            <td>${contrato.numero_contrato}</td>
+                                            <td>${contrato.objeto_contrato}</td>
+                                            <td>${contrato.fecha_terminacion}</td>
+                                            <td>$ ${parseFloat(contrato.valor_total_contrato).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                        `;
+                                        tablaBody.appendChild(row);
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Error al procesar contratos pendientes:', error);
+                            }
+                        }
+                    };
                 }
             } catch (error) {
                 console.error('Error al procesar datos de liquidación:', error);
                 console.error('Respuesta del servidor:', request.responseText);
             }
         }
+    };
+}
+
+function cargarDatosLiquidaciones() {
+    let request = new XMLHttpRequest();
+    let url = base_url + '/SeguimientoContrato/getLiquidacionesCompletas';
+    
+    request.open('GET', url, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if (request.readyState === 4 && request.status === 200) {
+            try {
+                console.log(request.responseText);
+                
+                let response = JSON.parse(request.responseText);
+                if (response.status) {
+                    // Actualizar métricas
+                    document.getElementById('total-liquidado').textContent = '$' + parseFloat(response.total_liquidado).toLocaleString('es-CO');
+                    document.getElementById('pendiente-liquidacion').textContent = '$' + parseFloat(response.pendiente_liquidacion).toLocaleString('es-CO');
+                    document.getElementById('promedio-liquidacion').textContent = '$' + parseFloat(response.promedio_liquidacion).toLocaleString('es-CO');
+                    
+                    // Llenar tabla
+                    let tbody = document.querySelector('#tabla-liquidaciones tbody');
+                    tbody.innerHTML = '';
+                    
+                    response.liquidaciones.forEach(item => {
+                        let row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.numero_contrato}</td>
+                            <td>$${parseFloat(item.valor).toLocaleString('es-CO')}</td>
+                            <td>${item.fecha_inicio}</td>
+                            <td>${item.fecha_terminacion || 'Pendiente'}</td>
+                            <td>${item.dias || '-'}</td>
+                            <td><span class="badge ${item.estado_texto === 'Liquidado' ? 'bg-success' : item.estado_texto === 'Finalizado' ? 'bg-warning' : 'bg-info'}">${item.estado_texto}</span></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    
+                    // Crear gráficos si existen los elementos
+                    if (response.grafico_evolucion && document.getElementById('chartLiquidacionesArea')) {
+                        crearGraficoLiquidacionesArea(response.grafico_evolucion);
+                    }
+                    if (response.grafico_distribucion && document.getElementById('chartLiquidacionesBar')) {
+                        crearGraficoLiquidacionesBar(response.grafico_distribucion);
+                    }
+                }
+            } catch (error) {
+                console.error('Error al procesar liquidaciones:', error);
+            }
+        }
+    };
+}
+
+// Función para crear gráfico de área de evolución
+function crearGraficoLiquidacionesArea(datos) {
+    if (!document.getElementById('chartLiquidacionesArea')) return;
+    
+    if (charts.liquidacionesArea) {
+        charts.liquidacionesArea.destroy();
     }
-} 
+    
+    let ctx = document.getElementById('chartLiquidacionesArea').getContext('2d');
+    
+    // Preparar datos para el gráfico
+    let labels = [];
+    let valores = [];
+    
+    datos.forEach(item => {
+        labels.push(item.mes);
+        valores.push(parseFloat(item.valor_total));
+    });
+    
+    charts.liquidacionesArea = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Valor Liquidado',
+                data: valores,
+                backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                borderColor: 'rgba(78, 115, 223, 1)',
+                pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+                fill: true
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString('es-CO');
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return '$' + context.raw.toLocaleString('es-CO');
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Función para crear gráfico de barras de distribución
+function crearGraficoLiquidacionesBar(datos) {
+    if (!document.getElementById('chartLiquidacionesBar')) return;
+    
+    if (charts.liquidacionesBar) {
+        charts.liquidacionesBar.destroy();
+    }
+    
+    let ctx = document.getElementById('chartLiquidacionesBar').getContext('2d');
+    charts.liquidacionesBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: datos.meses,
+            datasets: [{
+                label: 'Liquidaciones por Mes',
+                data: datos.cantidades,
+                backgroundColor: 'rgba(54, 185, 204, 0.5)',
+                borderColor: 'rgba(54, 185, 204, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+}

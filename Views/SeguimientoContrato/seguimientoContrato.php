@@ -45,9 +45,10 @@ getModal('modalSeguimientoContrato', $data);
             <i class="fas fa-chart-area me-2"></i>Análisis de Valor
         </button>
       </li>
+    
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="tab-liquidacion" data-bs-toggle="tab" data-bs-target="#liquidacion" type="button" role="tab" aria-controls="liquidacion" aria-selected="false">
-            <i class="fas fa-hand-holding-usd me-2"></i>Liquidaciones
+        <button class="nav-link" id="liquidaciones-tab-btn" data-bs-toggle="tab" data-bs-target="#liquidaciones-tab" type="button" role="tab" aria-controls="liquidaciones-tab" aria-selected="false">
+            <i class="fas fa-file-invoice-dollar me-2"></i>Liquidaciones Detalle
         </button>
       </li>
     </ul>
@@ -505,72 +506,136 @@ getModal('modalSeguimientoContrato', $data);
         </div>
       </div>
 
-      <!-- Tab Liquidaciones -->
-      <div class="tab-pane fade" id="liquidacion" role="tabpanel" aria-labelledby="tab-liquidacion">
+      <!-- Tab Liquidaciones Detalle -->
+      <div class="tab-pane fade" id="liquidaciones-tab" role="tabpanel" aria-labelledby="liquidaciones-tab-btn">
         <div class="row">
-            <div class="col-md-12">
-                <div class="tile">
-                    <div class="tile-body">
-                        <h4>Estado de Liquidación de Contratos</h4>
-                        <div class="row mt-4">
-                            <!-- Tarjeta Valor Total Liquidado -->
-                            <div class="col-xl-6 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Valor Total Liquidado</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorTotalLiquidado">$ 0.00</div>
-                                            </div>
-                                            <div class="col-auto"><i class="fas fa-check-double fa-2x text-gray-300"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Tarjeta Pendiente de Liquidar -->
-                            <div class="col-xl-6 col-md-6 mb-4">
-                                <div class="card border-left-danger shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Valor Pendiente de Liquidar (Contratos Finalizados)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorPendienteLiquidacion">$ 0.00</div>
-                                            </div>
-                                            <div class="col-auto"><i class="fas fa-gavel fa-2x text-gray-300"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+          <div class="col-md-12">
+            <div class="tile">
+              <div class="tile-body">
+                <!-- Tarjetas de Métricas -->
+                <div class="row mb-4">
+                  <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Liquidado</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="total-liquidado">$0.00</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                          </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-tasks me-2"></i>Contratos Pendientes de Liquidación (Finalizados)</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-bordered" id="tablePendientesLiquidacion">
-                                                <thead class="table-warning">
-                                                    <tr>
-                                                        <th>Número de Contrato</th>
-                                                        <th>Objeto</th>
-                                                        <th>Fecha de Finalización</th>
-                                                        <th>Valor del Contrato</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Filas se insertarán dinámicamente -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      </div>
                     </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pendiente Liquidación</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="pendiente-liquidacion">$0.00</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Promedio Liquidación</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="promedio-liquidacion">$0.00</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-calculator fa-2x text-gray-300"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tiempo Promedio</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="tiempo-promedio">0 días</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-stopwatch fa-2x text-gray-300"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
+                <!-- Gráficos -->
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Evolución de Liquidaciones</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-area">
+                          <canvas id="chartLiquidacionesArea"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Distribución por Mes</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-bar">
+                          <canvas id="chartLiquidacionesBar"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Tabla de Detalle -->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Detalle de Liquidaciones</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table table-bordered" id="tabla-liquidaciones">
+                            <thead>
+                              <tr>
+                                <th>Contrato</th>
+                                <th>Valor</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Liquidación</th>
+                                <th>Días</th>
+                                <th>Estado</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <!-- Datos se cargarán dinámicamente -->
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
 
