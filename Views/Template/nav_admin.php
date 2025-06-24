@@ -211,7 +211,16 @@
          </li>
        <?php } ?>
 
-      
+       <?php if (isset($_SESSION['permisos'][MTAREAS]) && !empty($_SESSION['permisos'][MTAREAS]['r']) && (!isset($_SESSION['permisos'][MTAREAS]['v']) || $_SESSION['permisos'][MTAREAS]['v'] == 1)) { ?>
+        <li class="nav-item">
+          <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/tareas')) ? 'active' : '' ?>" href="<?= base_url(); ?>/tareas">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="bi bi-card-checklist text-dark"></i>
+            </div>
+            <span class="nav-link-text ms-1">Tareas</span>
+          </a>
+        </li>
+      <?php } ?>
 
        <li class="nav-item mt-2">
          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Control y seguridad</h6>

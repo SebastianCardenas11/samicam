@@ -5,14 +5,20 @@
 <link rel="stylesheet" href="<?= media() ?>/css/publicaciones.css">
 <main class="app-content">
     <div class="app-title">
-        <div>
-            <h1><i class="bi bi-newspaper"></i> <?= $data['page_title'] ?></h1>
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
+                <h1 class="me-3"><i class="bi bi-newspaper"></i> <?= $data['page_title'] ?></h1>
+                <?php if($_SESSION['permisosMod']['w']){ ?>
+                    <button class="btn btn-warning" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nueva Publicación</button>
+                <?php } ?>
+            </div>
         </div>
-        <ul class="app-breadcrumb breadcrumb">
+        <ul class="app-breadcrumb breadcrumb m-0">
             <li class="breadcrumb-item"><i class="bi bi-house fs-6"></i></li>
             <li class="breadcrumb-item"><a href="<?= base_url(); ?>/publicaciones"><?= $data['page_title'] ?></a></li>
         </ul>
     </div>
+    <br>
 
     <div class="row">
         <div class="col-md-12">
@@ -20,22 +26,16 @@
                 <div class="tile-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="tabla-tab" data-bs-toggle="tab" href="#tabla" role="tab" aria-controls="tabla" aria-selected="true">Tabla</a>
+                            <a class="nav-link active" id="tabla-tab" data-bs-toggle="tab" href="#tabla" role="tab" aria-controls="tabla" aria-selected="true"><i class="bi bi-table me-2"></i>Tabla</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="graficos-tab" data-bs-toggle="tab" href="#graficos" role="tab" aria-controls="graficos" aria-selected="false">Gráficos</a>
+                            <a class="nav-link" id="graficos-tab" data-bs-toggle="tab" href="#graficos" role="tab" aria-controls="graficos" aria-selected="false"><i class="bi bi-bar-chart-line-fill me-2"></i>Gráficos</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <!-- Tab de Tabla -->
                         <div class="tab-pane fade show active" id="tabla" role="tabpanel" aria-labelledby="tabla-tab">
-                            <div class="mb-3">
-                                <?php if($_SESSION['permisosMod']['w']){ ?>
-                                <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i> Nueva Publicación</button>
-                                <?php } ?>
-                            </div>
-                            <div class="table-responsive">
-                                
+                            <div class="table-responsive mt-3">
                                 <table class="table table-hover table-bordered" id="tablePublicaciones">
                             <thead class="table-success">
                                 <tr>
@@ -324,3 +324,8 @@ function initCharts() {
     });
 }
 </script>
+
+<!-- DataTables Buttons -->
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>

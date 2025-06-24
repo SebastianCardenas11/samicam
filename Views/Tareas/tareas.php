@@ -501,9 +501,35 @@ function initCalendar() {
         hour12: false
       },
       eventDidMount: function(info) {
-        // Personalizar el título del evento para mostrar la descripción
-        const descripcion = info.event.extendedProps.descripcion || info.event.title;
-        info.el.querySelector('.fc-event-title').innerText = descripcion;
+        // Solo ejecutar si el elemento del título existe (evita errores en la vista de mes)
+        let titleEl = info.el.querySelector('.fc-event-title');
+        if (titleEl) {
+          // Asigna el ID del creador como un atributo de datos
+          titleEl.setAttribute('data-creator-id', info.event.extendedProps.creator_id);
+
+          // Cambiar el color del texto si el creador es el usuario actual
+          if (info.event.extendedProps.creator_id == document.querySelector('#idUser').value) {
+            titleEl.style.color = '#000'; // Puedes elegir el color que prefieras
+          }
+          
+          // Agregar contador de usuarios asignados
+          let userCount = info.event.extendedProps.user_count || 0;
+          if (userCount > 1) {
+              let userCountEl = document.createElement('span');
+              userCountEl.className = 'contador-usuarios';
+              userCountEl.innerText = `+${userCount - 1}`;
+              info.el.querySelector('.fc-event-main-frame').appendChild(userCountEl);
+          }
+
+          // Agregar contador de observaciones
+          let obsCount = info.event.extendedProps.observaciones_count || 0;
+          if (obsCount > 0) {
+              let obsCountEl = document.createElement('span');
+              obsCountEl.className = 'observaciones-badge';
+              obsCountEl.innerHTML = `<i class="bi bi-chat-dots"></i> ${obsCount}`;
+              info.el.querySelector('.fc-event-main-frame').appendChild(obsCountEl);
+          }
+        }
       }
     });
     

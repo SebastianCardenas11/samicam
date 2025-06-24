@@ -90,24 +90,7 @@ function initializeTable() {
         "aProcessing": true,
         "aServerSide": true,
         "language": {
-            "decimal": "",
-            "emptyTable": "No hay datos disponibles",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
-            "infoFiltered": "(filtrado de _MAX_ registros totales)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "No se encontraron registros",
-            "paginate": {
-                "first": "Primero",
-                "last": "Último",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
+            "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
         },
         "ajax": {
             "url": base_url + "/Publicaciones/getPublicaciones",
@@ -138,6 +121,15 @@ function initializeTable() {
                 }
             },
             {"data": "options"}
+        ],
+        'dom': 'lBfrtip',
+        'buttons': [
+            {
+                "extend": "excelHtml5",
+                "text": "<i class='fas fa-file-excel'></i> Excel",
+                "titleAttr": "Exportar a Excel",
+                "className": "btn btn-success"
+            }
         ],
         "responsive": true,
         "bDestroy": true,

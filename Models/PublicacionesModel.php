@@ -73,30 +73,24 @@ class PublicacionesModel extends Mysql
         $this->intDependencia = $dependencia;
         $this->intStatus = $status;
 
-        $sql = "SELECT * FROM publicaciones WHERE asunto = '{$this->strAsunto}' AND correo_recibido = '{$this->strCorreoRecibido}'";
-        $request = $this->select_all($sql);
-
-        if (empty($request)) {
-            $query_insert = "INSERT INTO publicaciones(nombre_publicacion, fecha_recibido, correo_recibido, 
-                                                     asunto, fecha_publicacion, respuesta_envio, 
-                                                     enlace_publicacion, dependencia_fk, status) 
-                            VALUES(?,?,?,?,?,?,?,?,?)";
-            $arrData = array(
-                $nombrePublicacion ?: $this->strAsunto, // Use provided nombre_publicacion or asunto as fallback
-                $this->strFechaRecibido,
-                $this->strCorreoRecibido,
-                $this->strAsunto,
-                $this->strFechaPublicacion,
-                $this->strRespuestaEnvio,
-                $this->strEnlacePublicacion,
-                $this->intDependencia,
-                $this->intStatus
-            );
-            $request_insert = $this->insert($query_insert, $arrData);
-            $return = $request_insert;
-        } else {
-            $return = "exist";
-        }
+        $query_insert = "INSERT INTO publicaciones(nombre_publicacion, fecha_recibido, correo_recibido, 
+                                                 asunto, fecha_publicacion, respuesta_envio, 
+                                                 enlace_publicacion, dependencia_fk, status) 
+                        VALUES(?,?,?,?,?,?,?,?,?)";
+        $arrData = array(
+            $nombrePublicacion ?: $this->strAsunto, // Use provided nombre_publicacion or asunto as fallback
+            $this->strFechaRecibido,
+            $this->strCorreoRecibido,
+            $this->strAsunto,
+            $this->strFechaPublicacion,
+            $this->strRespuestaEnvio,
+            $this->strEnlacePublicacion,
+            $this->intDependencia,
+            $this->intStatus
+        );
+        $request_insert = $this->insert($query_insert, $arrData);
+        $return = $request_insert;
+        
         return $return;
     }
 
