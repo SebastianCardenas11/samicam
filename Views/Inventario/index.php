@@ -12,7 +12,7 @@ require_once 'Views/Template/nav_admin.php';
       <li class="breadcrumb-item"><a href="#">Inventario</a></li>
     </ul>
   </div>
-  <div class="container mt-4">
+  <div class="container-fluid mt-3">
     <!-- Botones principales arriba -->
     <div class="mb-4 d-flex gap-3">
       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalIngreso">Ingresos</button>
