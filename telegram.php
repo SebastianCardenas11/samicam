@@ -100,7 +100,6 @@ if(isset($update["message"])) {
     $debug_info .= "No se encontró 'message' en el update\n";
 }
 
-file_put_contents('webhook_debug.txt', $debug_info . "\n", FILE_APPEND);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -161,7 +160,7 @@ file_put_contents('webhook_debug.txt', $debug_info . "\n", FILE_APPEND);
             margin-top: 2px;
         }
         .message .usuario {
-            font-size: 0.85em;
+            fonwebhook_debugt-size: 0.85em;
             color: #333;
             margin-bottom: 2px;
             align-self: flex-start;
