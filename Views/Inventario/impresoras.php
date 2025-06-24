@@ -31,6 +31,7 @@
       <table class="table table-hover align-middle mb-0" id="tablaImpresoras">
         <thead class="table-light">
           <tr>
+            <th>Número de impresora</th>
             <th>Marca</th>
             <th>Modelo</th>
             <th>Serial</th>
@@ -48,6 +49,7 @@
         <tbody>
           <?php foreach($impresoras as $imp): ?>
           <tr>
+              <td><?= htmlspecialchars($imp['numero_impresora']) ?></td>
               <td><?= htmlspecialchars($imp['marca']) ?></td>
               <td><?= htmlspecialchars($imp['modelo']) ?></td>
               <td><?= htmlspecialchars($imp['serial']) ?></td>
