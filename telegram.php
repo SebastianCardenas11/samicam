@@ -72,7 +72,14 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 if(isset($update["message"])) {
     $chat_id = $update["message"]["chat"]["id"];
     $text = $update["message"]["text"] ?? '';
-    $from = $update["message"]["from"]["first_name"] ?? 'Usuario';
+    // Manejar nombre de usuario o título del grupo
+    if (isset($update["message"]["from"]["first_name"])) {
+        $from = $update["message"]["from"]["first_name"];
+    } elseif (isset($update["message"]["sender_chat"]["title"])) {
+        $from = $update["message"]["sender_chat"]["title"];
+    } else {
+        $from = 'Usuario';
+    }
     $hora = date('H:i', $update["message"]["date"]);
     $debug_info .= "Mensaje recibido: chat_id=$chat_id, usuario=$from, texto=$text, hora=$hora\n";
     if ($chat_id == $chat_id_grupo) {
