@@ -2,7 +2,7 @@
   <div class="card-header d-flex justify-content-between align-items-center bg-light text-dark">
     <h5 class="mb-0"><i class="bi bi-droplet-half"></i> Tintas y Tóner</h5>
     <div class="d-flex gap-2">
-      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTintaToner">
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTintasToner">
         <i class="bi bi-plus-circle"></i> Agregar Tinta/Tóner
       </button>
       <button class="btn btn-success btn-sm" onclick="descargarExcelTintasToner()" title="Descargar Excel"><i class="bi bi-file-earmark-excel"></i></button>
@@ -45,7 +45,7 @@
     </div>
   </div>
 </div>
-<?php if (file_exists('Views/Inventario/modals/modal_tinta_toner.php')) include 'Views/Inventario/modals/modal_tinta_toner.php'; ?>
+<?php include 'Views/Inventario/modals/modal_tintas_toner.php'; ?>
 <script>
 function buscarEnTabla(idTabla, texto) {
   const tabla = document.getElementById(idTabla);

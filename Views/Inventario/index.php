@@ -8,9 +8,9 @@ require_once 'Views/Template/nav_admin.php';
       <h1><i class="bi bi-box-seam"></i> Inventario</h1>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalIngreso">Ingresos</button>
-      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalSalida">Salidas</button>
-      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalPrestamo">Préstamos</button>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalIngreso" data-bs-backdrop="static" data-bs-keyboard="false">Ingresos</button>
+      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalSalida" data-bs-backdrop="static" data-bs-keyboard="false">Salidas</button>
+      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalPrestamo" data-bs-backdrop="static" data-bs-keyboard="false">Préstamos</button>
     </div>
   </div>
   <nav aria-label="breadcrumb">
@@ -19,6 +19,37 @@ require_once 'Views/Template/nav_admin.php';
       <li class="breadcrumb-item active" aria-current="page">Inventario</li>
     </ol>
   </nav>
+  
+  <!-- Mensajes de éxito y error -->
+  <?php if (isset($_GET['success']) && $_GET['success'] === 'impresora_guardada'): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle"></i> <strong>¡Éxito!</strong> La impresora se ha guardado correctamente.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  <?php endif; ?>
+  
+  <?php if (isset($_GET['error'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle"></i> <strong>Error:</strong> 
+      <?php 
+        switch($_GET['error']) {
+          case 'campos_requeridos':
+            echo 'Por favor complete todos los campos requeridos.';
+            break;
+          case 'error_guardar':
+            echo 'Error al guardar la impresora. Intente nuevamente.';
+            break;
+          case 'error_sistema':
+            echo 'Error del sistema. Contacte al administrador.';
+            break;
+          default:
+            echo 'Ha ocurrido un error inesperado.';
+        }
+      ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  <?php endif; ?>
+  
   <div class="container-fluid mt-3">
     <!-- Tabs principales -->
     <ul class="nav nav-tabs custom-tabs" id="tabInventario" role="tablist">
@@ -184,9 +215,9 @@ require_once 'Views/Template/nav_admin.php';
     </div>
 
     <!-- Modales para Ingresos, Salidas y Préstamos (placeholders) -->
-    <?php //if (file_exists('Views/Inventario/modals/modal_ingreso.php')) require_once 'Views/Inventario/modals/modal_ingreso.php'; ?>
-    <?php //if (file_exists('Views/Inventario/modals/modal_salida.php')) require_once 'Views/Inventario/modals/modal_salida.php'; ?>
-    <?php //if (file_exists('Views/Inventario/modals/modal_prestamo.php')) require_once 'Views/Inventario/modals/modal_prestamo.php'; ?>
+    <?php require_once 'Views/Inventario/modals/modal_ingreso.php'; ?>
+    <?php require_once 'Views/Inventario/modals/modal_salida.php'; ?>
+    <?php require_once 'Views/Inventario/modals/modal_prestamo.php'; ?>
   </div>
 </main>
 
@@ -516,4 +547,29 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
+<!-- Script para activar pestaña de impresoras después de guardar -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Si hay un mensaje de éxito de impresora guardada, activar la pestaña de impresoras
+  <?php if (isset($_GET['success']) && $_GET['success'] === 'impresora_guardada'): ?>
+    // Activar la pestaña de impresoras
+    const impresorasTab = document.getElementById('impresoras-tab');
+    const impresorasContent = document.getElementById('impresoras');
+    
+    if (impresorasTab && impresorasContent) {
+      // Remover clase active de todas las pestañas y contenido
+      document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(content => {
+        content.classList.remove('show', 'active');
+      });
+      
+      // Activar la pestaña de impresoras
+      impresorasTab.classList.add('active');
+      impresorasContent.classList.add('show', 'active');
+    }
+  <?php endif; ?>
+});
+</script>
+
 <?php require_once 'Views/Template/footer_admin.php'; ?> 

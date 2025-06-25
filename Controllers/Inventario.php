@@ -1,4 +1,6 @@
 <?php
+require_once 'Controllers/Inventario/Impresoras.php';
+
 class Inventario extends Controllers
 {
     public function __construct()
@@ -22,6 +24,21 @@ class Inventario extends Controllers
         $data['page_name'] = "inventario";
         $data['page_functions_js'] = "functions_inventario.js";
         $this->views->getView($this, "index", $data);
+    }
+    
+    public function Impresoras($params = '')
+    {
+        $impresoras = new Impresoras();
+        
+        // Extraer el método de los parámetros
+        $arrParams = !empty($params) ? explode(',', $params) : [];
+        $method = !empty($arrParams[0]) ? $arrParams[0] : 'index';
+        
+        if (method_exists($impresoras, $method)) {
+            $impresoras->{$method}();
+        } else {
+            $impresoras->index();
+        }
     }
 
 }
