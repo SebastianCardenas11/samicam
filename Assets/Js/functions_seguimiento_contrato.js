@@ -1357,6 +1357,7 @@ function cargarDatosLiquidaciones() {
                         row.innerHTML = `
                             <td>${item.numero_contrato}</td>
                             <td>$${parseFloat(item.valor).toLocaleString('es-CO')}</td>
+                            <td>$${parseFloat(item.liquidacion).toLocaleString('es-CO')}</td>
                             <td>${item.fecha_inicio}</td>
                             <td>${item.fecha_terminacion || 'Pendiente'}</td>
                             <td>${item.dias || '-'}</td>

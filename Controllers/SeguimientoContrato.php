@@ -331,7 +331,7 @@ class SeguimientoContrato extends Controllers
             $pendiente_liquidacion = 0;
             
             foreach ($liquidaciones as $liquidacion) {
-                if ($liquidacion['estado'] == 'Liquidado') {
+                if ($liquidacion['estado'] == 3) { // Estado numérico
                     $total_liquidado += floatval($liquidacion['valor']);
                 } else {
                     $pendiente_liquidacion += floatval($liquidacion['valor']);
@@ -383,7 +383,7 @@ class SeguimientoContrato extends Controllers
             $dias_totales = 0;
             
             foreach ($liquidaciones as $liquidacion) {
-                if ($liquidacion['estado'] == 'Liquidado') {
+                if ($liquidacion['estado'] == 3) { // Estado numérico
                     $total_liquidado += floatval($liquidacion['valor']);
                     $liquidaciones_completadas++;
                     if ($liquidacion['dias'] !== null) {
@@ -537,7 +537,7 @@ class SeguimientoContrato extends Controllers
         $liquidaciones_completadas = 0;
         $dias_totales = 0;
         foreach ($liquidaciones as $liq) {
-            if ($liq['estado'] == 3) { // Liquidado
+            if ($liq['estado'] == 3) { // Liquidado - Estado numérico
                 $total_liquidado += floatval($liq['valor']);
                 $liquidaciones_completadas++;
                 if ($liq['dias'] !== null) $dias_totales += $liq['dias'];

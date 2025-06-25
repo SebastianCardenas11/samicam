@@ -643,6 +643,7 @@ getModal('modalSeguimientoContrato', $data);
                               <tr>
                                 <th>Contrato</th>
                                 <th>Valor</th>
+                                <th>Total Liquidado</th>
                                 <th>Fecha Inicio</th>
                                 <th>Fecha Liquidación</th>
                                 <th>Días</th>
