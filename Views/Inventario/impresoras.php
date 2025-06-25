@@ -1,4 +1,10 @@
-<?php if (!isset($impresoras) || !is_array($impresoras)) $impresoras = []; ?>
+<?php 
+if (!isset($data['impresoras']) || !is_array($data['impresoras'])) {
+    $impresoras = [];
+} else {
+    $impresoras = $data['impresoras'];
+}
+?>
 <div class="card mb-4 shadow-sm border-0">
   <div class="card-header d-flex justify-content-between align-items-center bg-light text-dark">
     <h5 class="mb-0"><i class="bi bi-printer"></i> Impresoras</h5>
