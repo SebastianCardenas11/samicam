@@ -177,4 +177,71 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal Prórroga -->
+<div class="modal fade" id="modalProrrogaContrato" tabindex="-1" aria-labelledby="modalProrrogaContratoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formProrrogaContrato">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalProrrogaContratoLabel">Prórroga de Contrato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="prorroga_id_contrato" name="id_contrato">
+          <div class="mb-3">
+            <label for="prorroga_fecha_anterior" class="form-label">Fecha de terminación actual</label>
+            <input type="date" class="form-control" id="prorroga_fecha_anterior" name="fecha_anterior" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="prorroga_nueva_fecha" class="form-label">Nueva fecha de terminación</label>
+            <input type="date" class="form-control" id="prorroga_nueva_fecha" name="nueva_fecha" required>
+            <div class="form-text text-primary" id="prorroga_dias_diferencia" style="font-weight:bold;"></div>
+          </div>
+          <div class="mb-3">
+            <label for="prorroga_motivo" class="form-label">Motivo</label>
+            <textarea class="form-control" id="prorroga_motivo" name="motivo" rows="2" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar Prórroga</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Historial de Prórrogas Individual -->
+<div class="modal fade" id="modalHistorialProrrogas" tabindex="-1" aria-labelledby="modalHistorialProrrogasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalHistorialProrrogasLabel"><i class="fas fa-history"></i> Historial de Prórrogas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-sm align-middle mb-0" id="tablaHistorialProrrogasIndividual">
+            <thead class="table-light text-center">
+              <tr>
+                <th style="min-width:110px">Fecha anterior</th>
+                <th style="min-width:110px">Nueva fecha</th>
+                <th style="min-width:80px">Días</th>
+                <th style="min-width:150px">Motivo</th>
+                <th style="min-width:140px">Registrado</th>
+              </tr>
+            </thead>
+            <tbody class="text-center align-middle">
+              <!-- Aquí se cargará el historial por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div> 

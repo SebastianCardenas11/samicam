@@ -94,6 +94,14 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    // Cargar historial general de prórrogas al mostrar el tab
+    const tabHistorialProrrogas = document.getElementById('tab-historial-prorrogas');
+    if(tabHistorialProrrogas){
+        tabHistorialProrrogas.addEventListener('shown.bs.tab', function(){
+            cargarHistorialProrrogasGeneral();
+        });
+    }
+
     if (document.querySelector("#formSeguimientoContrato")) {
         let formSeguimientoContrato = document.querySelector("#formSeguimientoContrato");
         formSeguimientoContrato.onsubmit = function(e) {
@@ -120,6 +128,42 @@ document.addEventListener('DOMContentLoaded', function(){
                         }
                     } catch (error) {
                         console.error('Error al procesar formulario:', error);
+                        console.error('Respuesta del servidor:', request.responseText);
+                        Swal.fire("Error", "Error al procesar la solicitud", "error");
+                    }
+                }
+            }
+        }
+    }
+
+    if (document.querySelector("#formProrrogaContrato")) {
+        let formProrrogaContrato = document.querySelector("#formProrrogaContrato");
+        formProrrogaContrato.onsubmit = function(e) {
+            e.preventDefault();
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url + '/SeguimientoContrato/setProrrogaContrato';
+            let formData = new FormData(formProrrogaContrato);
+            // Calcular días y agregarlo al formData
+            let fechaAnterior = document.querySelector('#prorroga_fecha_anterior').value;
+            let nuevaFecha = document.querySelector('#prorroga_nueva_fecha').value;
+            let dias = calcularDiferenciaDias(fechaAnterior, nuevaFecha);
+            formData.append('dias_prorroga', dias);
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        if (objData.status) {
+                            $('#modalProrrogaContrato').modal("hide");
+                            formProrrogaContrato.reset();
+                            Swal.fire("Prórroga", objData.msg, "success");
+                            tableSeguimientoContrato.api().ajax.reload();
+                        } else {
+                            Swal.fire("Error", objData.msg, "error");
+                        }
+                    } catch (error) {
+                        console.error('Error al procesar prórroga:', error);
                         console.error('Respuesta del servidor:', request.responseText);
                         Swal.fire("Error", "Error al procesar la solicitud", "error");
                     }
@@ -1429,4 +1473,133 @@ function crearGraficoLiquidacionesBar(datos) {
             }
         }
     });
+}
+
+function fntProrrogaContrato(id, fecha_terminacion) {
+    document.querySelector('#prorroga_id_contrato').value = id;
+    document.querySelector('#prorroga_fecha_anterior').value = fecha_terminacion;
+    document.querySelector('#prorroga_nueva_fecha').value = '';
+    document.querySelector('#prorroga_motivo').value = '';
+    document.querySelector('#prorroga_dias_diferencia').textContent = '';
+    $('#modalProrrogaContrato').modal('show');
+    // Evento para calcular diferencia de días y validar
+    const inputNuevaFecha = document.querySelector('#prorroga_nueva_fecha');
+    const btnGuardar = document.querySelector('#formProrrogaContrato button[type="submit"]');
+    inputNuevaFecha.oninput = function() {
+        let fechaAnterior = document.querySelector('#prorroga_fecha_anterior').value;
+        let nuevaFecha = this.value;
+        let dias = calcularDiferenciaDias(fechaAnterior, nuevaFecha);
+        if (nuevaFecha && fechaAnterior && !isNaN(dias)) {
+            if (dias <= 0) {
+                document.querySelector('#prorroga_dias_diferencia').innerHTML = '<span class="text-danger">La nueva fecha debe ser mayor a la actual de terminación.</span>';
+                btnGuardar.disabled = true;
+            } else {
+                document.querySelector('#prorroga_dias_diferencia').textContent = `Diferencia: ${dias} día(s)`;
+                btnGuardar.disabled = false;
+            }
+        } else {
+            document.querySelector('#prorroga_dias_diferencia').textContent = '';
+            btnGuardar.disabled = false;
+        }
+    };
+}
+
+function calcularDiferenciaDias(fecha1, fecha2) {
+    let f1 = new Date(fecha1);
+    let f2 = new Date(fecha2);
+    let diff = Math.round((f2 - f1) / (1000 * 60 * 60 * 24));
+    return diff;
+}
+
+function fntHistorialProrrogas(id) {
+    let tbody = document.querySelector('#tablaHistorialProrrogasIndividual tbody');
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-secondary">Cargando...</td></tr>';
+    $('#modalHistorialProrrogas').modal('show');
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getProrrogasContrato/' + id;
+    request.open('GET', ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status && objData.data.length > 0) {
+                    let html = '';
+                    objData.data.forEach(function(item) {
+                        let fechaAnterior = formatearFecha(item.fecha_anterior);
+                        let nuevaFecha = formatearFecha(item.nueva_fecha);
+                        let fechaRegistro = formatearFechaHora(item.fecha_registro);
+                        let motivo = item.motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        html += `<tr>
+                            <td>${fechaAnterior}</td>
+                            <td>${nuevaFecha}</td>
+                            <td>${item.dias_prorroga}</td>
+                            <td>${motivoHtml}</td>
+                            <td>${fechaRegistro}</td>
+                        </tr>`;
+                    });
+                    tbody.innerHTML = html;
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Sin prórrogas registradas</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error al cargar historial</td></tr>';
+            }
+        }
+    }
+}
+
+function cargarHistorialProrrogasGeneral() {
+    let tbody = document.querySelector('#tablaHistorialProrrogasGeneral tbody');
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-secondary">Cargando...</td></tr>';
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getAllProrrogas';
+    request.open('GET', ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status && objData.data.length > 0) {
+                    let html = '';
+                    objData.data.forEach(function(item) {
+                        let fechaAnterior = formatearFecha(item.fecha_anterior);
+                        let nuevaFecha = formatearFecha(item.nueva_fecha);
+                        let fechaRegistro = formatearFechaHora(item.fecha_registro);
+                        let motivo = item.motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        html += `<tr>
+                            <td>${item.numero_contrato}</td>
+                            <td>${item.objeto_contrato ? item.objeto_contrato.substring(0, 40) + (item.objeto_contrato.length > 40 ? '...' : '') : ''}</td>
+                            <td>${fechaAnterior}</td>
+                            <td>${nuevaFecha}</td>
+                            <td>${item.dias_prorroga}</td>
+                            <td>${motivoHtml}</td>
+                            <td>${fechaRegistro}</td>
+                        </tr>`;
+                    });
+                    tbody.innerHTML = html;
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">Sin prórrogas registradas</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error al cargar historial</td></tr>';
+            }
+        }
+    }
+}
+
+function formatearFecha(fecha) {
+    if (!fecha) return '';
+    let d = new Date(fecha);
+    if (isNaN(d)) return fecha;
+    return d.toLocaleDateString('es-CO');
+}
+
+function formatearFechaHora(fechaHora) {
+    if (!fechaHora) return '';
+    let d = new Date(fechaHora.replace(' ', 'T'));
+    if (isNaN(d)) return fechaHora;
+    return d.toLocaleDateString('es-CO') + ' ' + d.toLocaleTimeString('es-CO', {hour: '2-digit', minute:'2-digit'});
 }

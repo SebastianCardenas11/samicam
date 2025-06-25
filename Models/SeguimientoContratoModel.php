@@ -162,4 +162,24 @@ class SeguimientoContratoModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+
+    // Guardar prórroga y actualizar fecha de terminación
+    public function saveProrrogaContrato($id_contrato, $fecha_anterior, $nueva_fecha, $dias_prorroga, $motivo) {
+        // 1. Insertar prórroga
+        $sqlProrroga = "INSERT INTO prorrogas_contrato (id_contrato, fecha_anterior, nueva_fecha, dias_prorroga, motivo) VALUES (?, ?, ?, ?, ?)";
+        $arrDataProrroga = array($id_contrato, $fecha_anterior, $nueva_fecha, $dias_prorroga, $motivo);
+        $requestProrroga = $this->insert($sqlProrroga, $arrDataProrroga);
+        // 2. Actualizar fecha de terminación en el contrato principal
+        $sqlUpdate = "UPDATE seguimiento_contrato SET fecha_terminacion = ? WHERE id = ?";
+        $arrDataUpdate = array($nueva_fecha, $id_contrato);
+        $requestUpdate = $this->update($sqlUpdate, $arrDataUpdate);
+        return ($requestProrroga && $requestUpdate);
+    }
+
+    // Obtener historial de prórrogas de un contrato
+    public function getProrrogasContrato($id_contrato) {
+        $sql = "SELECT * FROM prorrogas_contrato WHERE id_contrato = ? ORDER BY fecha_registro DESC";
+        $arrData = array($id_contrato);
+        return $this->select_all($sql, $arrData);
+    }
 } 

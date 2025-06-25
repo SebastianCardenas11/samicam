@@ -150,3 +150,183 @@
 [2025-06-24 14:59:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
 [2025-06-24 14:59:25] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-06-24 15:03:21] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-24 15:21:33] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Auditoría
+[2025-06-24 15:21:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:21:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-06-24 15:22:10] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Errors
+[2025-06-24 15:22:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Errors
+[2025-06-24 15:31:11] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:31:12] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:31:56] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:48:15] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.83.108.115 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-24 15:48:15] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:48:45] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:50:19] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.80.114.121 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-24 15:50:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:50:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-24 15:50:37] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:51:14] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:51:15] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:51:32] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:51:33] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:52:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-24 15:54:18] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:54:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-24 15:54:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-24 15:55:10] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:56:03] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:56:04] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:58:41] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Archivos
+[2025-06-24 15:58:42] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:59:24] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:59:25] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:59:32] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:59:32] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-24 15:59:33] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 15:59:46] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 16:00:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-24 16:00:36] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-24 16:00:37] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-24 16:02:04] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 16:02:37] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-24 16:05:00] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-24 16:05:10] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Dashboard
+[2025-06-24 16:05:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Vacaciones
+[2025-06-24 16:05:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Vacaciones
+[2025-06-24 16:05:32] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-24 16:05:38] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-06-24 16:05:51] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Viáticos
+[2025-06-24 16:06:19] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-24 16:06:19] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-24 16:06:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Dashboard
+[2025-06-25 08:48:30] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.112.190.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 08:48:30] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.190.16 | Acción: Acceso al módulo Dashboard
+[2025-06-25 08:48:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.190.16 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 08:49:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.190.16 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 08:50:37] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 08:51:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.190.16 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 08:54:18] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 08:54:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-25 08:54:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 08:57:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-25 08:57:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 09:29:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 09:31:08] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.80.114.121 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 09:31:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Dashboard
+[2025-06-25 09:31:23] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 09:42:44] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 09:52:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-25 09:52:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 10:00:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-25 10:03:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 10:16:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 10:19:46] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.80.114.121 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 10:19:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:19:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 10:20:13] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 10:32:11] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.80.114.121 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 10:32:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:32:20] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-25 10:34:02] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.109.28.87 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 10:34:02] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:34:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-25 10:34:21] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:34:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-25 10:35:27] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:35:34] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:35:37] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:35:41] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:37:01] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:39:36] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-25 10:41:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-25 10:42:10] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:46:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Errors
+[2025-06-25 10:46:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Errors
+[2025-06-25 10:49:54] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:50:28] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:50:54] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:51:30] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:51:45] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:52:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-25 10:52:51] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:53:13] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:54:25] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Publicaciones
+[2025-06-25 10:54:28] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:54:33] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 10:58:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-25 11:00:32] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:02:05] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Archivos
+[2025-06-25 11:03:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-25 11:03:41] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Viáticos
+[2025-06-25 11:04:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Archivos
+[2025-06-25 11:05:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Roles
+[2025-06-25 11:07:32] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:08:22] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:08:31] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 11:09:15] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Cierre de sesión
+[2025-06-25 11:09:32] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.109.28.87 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 11:09:32] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:09:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 11:10:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 11:10:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:10:12] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 11:11:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 11:12:07] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Funcionarios Planta
+[2025-06-25 11:12:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 11:18:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Auditoría
+[2025-06-25 11:21:01] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.107.154.89 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 11:21:02] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:21:26] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-25 11:21:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Auditoría
+[2025-06-25 11:21:35] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:21:55] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:21:58] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:22:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Auditoría
+[2025-06-25 11:22:03] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Funcionarios Ops
+[2025-06-25 11:22:51] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:23:47] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.107.154.89 | Acción: Cierre de sesión
+[2025-06-25 11:24:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-25 11:24:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-06-25 11:27:34] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Usuarios
+[2025-06-25 11:29:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-06-25 11:32:53] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-25 12:13:10] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.111.220.13 | Navegador: Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Brave/1 Mobile/15E148 Safari/604.1 | Acción: Inicio de sesión
+[2025-06-25 12:13:10] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Dashboard
+[2025-06-25 12:15:12] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Dashboard
+[2025-06-25 12:15:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Dashboard
+[2025-06-25 12:16:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 13:04:05] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.111.220.13 | Navegador: Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Brave/1 Mobile/15E148 Safari/604.1 | Acción: Inicio de sesión
+[2025-06-25 13:04:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Dashboard
+[2025-06-25 13:04:27] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.111.220.13 | Acción: Acceso al módulo Publicaciones
+[2025-06-25 15:13:07] ID: 20 | Usuario: Jesus David Usma Días | Correo: jesususma721@gmail.com | Rol: Tecnico Ntic | IP: 100.107.121.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 15:13:08] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-06-25 15:13:26] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-06-25 16:03:26] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-25 16:03:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-25 16:03:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-06-25 16:04:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-06-25 16:04:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Errors
+[2025-06-25 16:04:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 16:11:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-06-25 16:11:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-06-25 16:38:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 16:38:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 16:39:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 16:43:06] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 16:45:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 16:51:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:03:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:03:18] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:03:25] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:06:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-06-25 17:06:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:12:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:13:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:16:00] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:22:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:31:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:31:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:31:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:34:16] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:37:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-25 17:38:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos

@@ -51,6 +51,11 @@ getModal('modalSeguimientoContrato', $data);
             <i class="fas fa-file-invoice-dollar me-2"></i>Liquidaciones Detalle
         </button>
       </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-historial-prorrogas" data-bs-toggle="tab" data-bs-target="#historial-prorrogas" type="button" role="tab" aria-controls="historial-prorrogas" aria-selected="false">
+            <i class="fas fa-history me-2"></i>Historial de Prórrogas
+        </button>
+      </li>
     </ul>
     
     <div class="tab-content" id="seguimientoTabsContent">
@@ -654,6 +659,32 @@ getModal('modalSeguimientoContrato', $data);
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Historial de Prórrogas -->
+      <div class="tab-pane fade" id="historial-prorrogas" role="tabpanel" aria-labelledby="tab-historial-prorrogas">
+        <div class="tile">
+          <div class="tile-body">
+            <div class="table-responsive mt-2">
+              <table class="table table-hover table-bordered table-sm align-middle" id="tablaHistorialProrrogasGeneral">
+                <thead class="table-info text-center">
+                  <tr>
+                    <th>Número de Contrato</th>
+                    <th>Objeto del Contrato</th>
+                    <th>Fecha anterior</th>
+                    <th>Nueva fecha</th>
+                    <th>Días</th>
+                    <th>Motivo</th>
+                    <th>Registrado</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center align-middle">
+                  <!-- Aquí se cargará el historial general por JS -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

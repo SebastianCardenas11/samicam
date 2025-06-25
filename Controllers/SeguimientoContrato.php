@@ -116,7 +116,9 @@ class SeguimientoContrato extends Controllers
             for ($i = 0; $i < count($arrData); $i++) {
                 $btnView = '';
                 $btnEdit = '';
+                $btnProrroga = '';
                 $btnDelete = '';
+                $btnHistorial = '';
 
                 $arrData[$i]['valor_total_contrato'] = '$' . number_format($arrData[$i]['valor_total_contrato'], 2, ',', '.');
                 $arrData[$i]['liquidacion'] = '$' . number_format($arrData[$i]['liquidacion'], 2, ',', '.');
@@ -144,12 +146,19 @@ class SeguimientoContrato extends Controllers
                 }
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditContrato(this,' . $arrData[$i]['id'] . ')" title="Editar Contrato"><i class="fas fa-pencil-alt"></i></button>';
+                    // Botón de prórroga
+                    $btnProrroga = '<button class="btn btn-primary btn-sm" onClick="fntProrrogaContrato(' . $arrData[$i]['id'] . ',\'' . $arrData[$i]['fecha_terminacion'] . '\')" title="Prórroga"><i class="fas fa-clock"></i></button>';
+                    // Botón de historial
+                    $btnHistorial = '<button class="btn btn-info btn-sm" onClick="fntHistorialProrrogas(' . $arrData[$i]['id'] . ')" title="Historial de Prórrogas"><i class="fas fa-history"></i></button>';
+                } else {
+                    $btnProrroga = '';
+                    $btnHistorial = '';
                 }
                 if ($_SESSION['permisosMod']['d']) {
                     $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelContrato(' . $arrData[$i]['id'] . ')" title="Eliminar Contrato"><i class="far fa-trash-alt"></i></button>';
                 }
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnProrroga . ' ' . $btnHistorial . ' ' . $btnDelete . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -591,6 +600,45 @@ class SeguimientoContrato extends Controllers
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
+        die();
+    }
+
+    public function setProrrogaContrato()
+    {
+        if ($_POST) {
+            $id_contrato = intval($_POST['id_contrato']);
+            $fecha_anterior = strClean($_POST['fecha_anterior']);
+            $nueva_fecha = strClean($_POST['nueva_fecha']);
+            $dias_prorroga = intval($_POST['dias_prorroga']);
+            $motivo = strClean($_POST['motivo']);
+            $request = $this->model->saveProrrogaContrato($id_contrato, $fecha_anterior, $nueva_fecha, $dias_prorroga, $motivo);
+            if ($request) {
+                $arrResponse = array('status' => true, 'msg' => 'Prórroga registrada y fecha de terminación actualizada');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'No se pudo registrar la prórroga');
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getProrrogasContrato($id_contrato)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $id_contrato = intval($id_contrato);
+            $data = $this->model->getProrrogasContrato($id_contrato);
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getAllProrrogas()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT p.*, c.numero_contrato, c.objeto_contrato FROM prorrogas_contrato p INNER JOIN seguimiento_contrato c ON p.id_contrato = c.id ORDER BY p.fecha_registro DESC";
+            $data = $this->model->select_all($sql);
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
         die();
     }
 } 
