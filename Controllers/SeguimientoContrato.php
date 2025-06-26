@@ -119,7 +119,11 @@ class SeguimientoContrato extends Controllers
                 $btnProrroga = '';
                 $btnDelete = '';
                 $btnHistorial = '';
+                $btnAdicion = '';
+                $btnHistorialAdiciones = '';
 
+                // Guardar valor sin formatear para el botón de adición
+                $arrData[$i]['valor_total_contrato_raw'] = $arrData[$i]['valor_total_contrato'];
                 $arrData[$i]['valor_total_contrato'] = '$' . number_format($arrData[$i]['valor_total_contrato'], 2, ',', '.');
                 $arrData[$i]['liquidacion'] = '$' . number_format($arrData[$i]['liquidacion'], 2, ',', '.');
                 
@@ -148,17 +152,23 @@ class SeguimientoContrato extends Controllers
                     $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditContrato(this,' . $arrData[$i]['id'] . ')" title="Editar Contrato"><i class="fas fa-pencil-alt"></i></button>';
                     // Botón de prórroga
                     $btnProrroga = '<button class="btn btn-primary btn-sm" onClick="fntProrrogaContrato(' . $arrData[$i]['id'] . ',\'' . $arrData[$i]['fecha_terminacion'] . '\')" title="Prórroga"><i class="fas fa-clock"></i></button>';
-                    // Botón de historial
+                    // Botón de historial de prórrogas
                     $btnHistorial = '<button class="btn btn-info btn-sm" onClick="fntHistorialProrrogas(' . $arrData[$i]['id'] . ')" title="Historial de Prórrogas"><i class="fas fa-history"></i></button>';
+                    // Botón de adición
+                    $btnAdicion = '<button class="btn btn-success btn-sm" onClick="fntAdicionContrato(' . $arrData[$i]['id'] . ',' . $arrData[$i]['valor_total_contrato_raw'] . ')" title="Crear Adición"><i class="fas fa-plus-circle"></i></button>';
+                    // Botón de historial de adiciones
+                    $btnHistorialAdiciones = '<button class="btn btn-warning btn-sm" onClick="fntHistorialAdiciones(' . $arrData[$i]['id'] . ')" title="Historial de Adiciones"><i class="fas fa-history"></i></button>';
                 } else {
                     $btnProrroga = '';
                     $btnHistorial = '';
+                    $btnAdicion = '';
+                    $btnHistorialAdiciones = '';
                 }
                 if ($_SESSION['permisosMod']['d']) {
                     $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelContrato(' . $arrData[$i]['id'] . ')" title="Eliminar Contrato"><i class="far fa-trash-alt"></i></button>';
                 }
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnProrroga . ' ' . $btnHistorial . ' ' . $btnDelete . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnProrroga . ' ' . $btnHistorial . ' ' . $btnAdicion . ' ' . $btnHistorialAdiciones . ' ' . $btnDelete . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -637,6 +647,40 @@ class SeguimientoContrato extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             $sql = "SELECT p.*, c.numero_contrato, c.objeto_contrato FROM prorrogas_contrato p INNER JOIN seguimiento_contrato c ON p.id_contrato = c.id ORDER BY p.fecha_registro DESC";
             $data = $this->model->select_all($sql);
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // Guardar adición
+    public function setAdicionContrato()
+    {
+        if ($_POST) {
+            $id_contrato = intval($_POST['id_contrato']);
+            $valor_adicion = floatval($_POST['valor_adicion']);
+            $motivo = strClean($_POST['motivo']);
+            $request = $this->model->saveAdicionContrato($id_contrato, $valor_adicion, $motivo);
+            echo json_encode($request, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // Historial de adiciones de un contrato
+    public function getAdicionesContrato($id_contrato)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $id_contrato = intval($id_contrato);
+            $data = $this->model->getAdicionesContrato($id_contrato);
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // Historial general de adiciones
+    public function getAllAdiciones()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $data = $this->model->getAllAdiciones();
             echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
         }
         die();

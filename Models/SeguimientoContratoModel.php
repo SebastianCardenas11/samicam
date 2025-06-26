@@ -182,4 +182,65 @@ class SeguimientoContratoModel extends Mysql
         $arrData = array($id_contrato);
         return $this->select_all($sql, $arrData);
     }
+
+    // Guardar adición y actualizar valor del contrato si no supera el 50%
+    public function saveAdicionContrato($id_contrato, $valor_adicion, $motivo) {
+        // 1. Obtener valor inicial del contrato
+        $sqlValor = "SELECT valor_total_contrato FROM seguimiento_contrato WHERE id = ?";
+        $valorContrato = $this->select($sqlValor, [$id_contrato]);
+        if (!$valorContrato) return ['status'=>false, 'msg'=>'Contrato no encontrado'];
+        $valorInicial = floatval($valorContrato['valor_total_contrato']);
+        
+        // 2. Sumar adiciones existentes
+        $sqlSuma = "SELECT COALESCE(SUM(valor_adicion), 0) as suma_adiciones FROM adiciones_contrato WHERE id_contrato = ?";
+        $suma = $this->select($sqlSuma, [$id_contrato]);
+        $totalAdicionesExistentes = floatval($suma['suma_adiciones']);
+        
+        // 3. Calcular el límite del 50%
+        $limiteMaximo = floatval($valorInicial) * 0.5;
+        $nuevoTotalAdiciones = $totalAdicionesExistentes + floatval($valor_adicion);
+        
+        // 4. Validar que no supere el 50%
+        if ($nuevoTotalAdiciones > $limiteMaximo) {
+            $disponible = $limiteMaximo - $totalAdicionesExistentes;
+            return [
+                'status' => false, 
+                'msg' => sprintf(
+                    'La adición supera el límite del 50%%. Valor disponible: $%s. Total con esta adición: $%s / Máximo permitido: $%s',
+                    number_format($disponible, 0, ',', '.'),
+                    number_format($nuevoTotalAdiciones, 0, ',', '.'),
+                    number_format($limiteMaximo, 0, ',', '.')
+                )
+            ];
+        }
+        
+        // 5. Insertar adición
+        $sqlAdicion = "INSERT INTO adiciones_contrato (id_contrato, valor_adicion, motivo) VALUES (?, ?, ?)";
+        $insertResult = $this->insert($sqlAdicion, [$id_contrato, $valor_adicion, $motivo]);
+        
+        if ($insertResult) {
+            return [
+                'status' => true, 
+                'msg' => sprintf(
+                    'Adición registrada correctamente. Total adiciones: $%s / Máximo permitido: $%s',
+                    number_format($nuevoTotalAdiciones, 0, ',', '.'),
+                    number_format($limiteMaximo, 0, ',', '.')
+                )
+            ];
+        } else {
+            return ['status' => false, 'msg' => 'Error al registrar la adición'];
+        }
+    }
+
+    // Obtener historial de adiciones de un contrato
+    public function getAdicionesContrato($id_contrato) {
+        $sql = "SELECT * FROM adiciones_contrato WHERE id_contrato = ? ORDER BY fecha_adicion DESC";
+        return $this->select_all($sql, [$id_contrato]);
+    }
+
+    // Obtener todas las adiciones (historial general)
+    public function getAllAdiciones() {
+        $sql = "SELECT a.*, c.numero_contrato, c.objeto_contrato FROM adiciones_contrato a INNER JOIN seguimiento_contrato c ON a.id_contrato = c.id ORDER BY a.fecha_adicion DESC";
+        return $this->select_all($sql);
+    }
 } 

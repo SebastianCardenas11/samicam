@@ -56,6 +56,11 @@ getModal('modalSeguimientoContrato', $data);
             <i class="fas fa-history me-2"></i>Historial de Prórrogas
         </button>
       </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-historial-adiciones" data-bs-toggle="tab" data-bs-target="#historial-adiciones" type="button" role="tab" aria-controls="historial-adiciones" aria-selected="false">
+            <i class="fas fa-plus-circle me-2"></i>Historial de Adiciones
+        </button>
+      </li>
     </ul>
     
     <div class="tab-content" id="seguimientoTabsContent">
@@ -680,6 +685,30 @@ getModal('modalSeguimientoContrato', $data);
                     <th>Días</th>
                     <th>Motivo</th>
                     <th>Registrado</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center align-middle">
+                  <!-- Aquí se cargará el historial general por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Historial de Adiciones -->
+      <div class="tab-pane fade" id="historial-adiciones" role="tabpanel" aria-labelledby="tab-historial-adiciones">
+        <div class="tile">
+          <div class="tile-body">
+            <div class="table-responsive mt-2">
+              <table class="table table-hover table-bordered table-sm align-middle" id="tablaHistorialAdicionesGeneral">
+                <thead class="table-warning text-center">
+                  <tr>
+                    <th>Número de Contrato</th>
+                    <th>Objeto del Contrato</th>
+                    <th>Valor de la Adición</th>
+                    <th>Motivo</th>
+                    <th>Fecha de Adición</th>
                   </tr>
                 </thead>
                 <tbody class="text-center align-middle">

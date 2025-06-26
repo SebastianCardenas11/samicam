@@ -244,4 +244,76 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal Adición -->
+<div class="modal fade" id="modalAdicionContrato" tabindex="-1" aria-labelledby="modalAdicionContratoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formAdicionContrato">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAdicionContratoLabel">Adición de Contrato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="adicion_id_contrato" name="id_contrato">
+          <div class="mb-2">
+            <label class="form-label">Valor Total del Contrato</label>
+            <input type="text" class="form-control" id="adicion_valor_total_contrato" readonly>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Máximo Permitido (50%)</label>
+            <input type="text" class="form-control" id="adicion_valor_maximo" readonly>
+          </div>
+          <div class="mb-3 text-center">
+            <canvas id="graficoAdicionContrato" height="60"></canvas>
+          </div>
+          <div class="mb-3">
+            <label for="adicion_valor" class="form-label">Valor de la Adición</label>
+            <input type="number" class="form-control" id="adicion_valor" name="valor_adicion" step="0.01" min="0" required>
+            <div class="form-text text-primary" id="adicion_validacion" style="font-weight:bold;"></div>
+          </div>
+          <div class="mb-3">
+            <label for="adicion_motivo" class="form-label">Motivo</label>
+            <textarea class="form-control" id="adicion_motivo" name="motivo" rows="2" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar Adición</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Historial de Adiciones Individual -->
+<div class="modal fade" id="modalHistorialAdiciones" tabindex="-1" aria-labelledby="modalHistorialAdicionesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalHistorialAdicionesLabel"><i class="fas fa-history"></i> Historial de Adiciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-sm align-middle mb-0" id="tablaHistorialAdicionesIndividual">
+            <thead class="table-warning text-center">
+              <tr>
+                <th>Valor de la Adición</th>
+                <th>Motivo</th>
+                <th>Fecha de Adición</th>
+              </tr>
+            </thead>
+            <tbody class="text-center align-middle">
+              <!-- Aquí se cargará el historial por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div> 

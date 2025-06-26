@@ -183,6 +183,36 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         }
     }
+
+    // --- SUBMIT ADICIÓN ---
+    if (document.querySelector("#formAdicionContrato")) {
+        let formAdicionContrato = document.querySelector("#formAdicionContrato");
+        formAdicionContrato.onsubmit = function(e) {
+            e.preventDefault();
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url + '/SeguimientoContrato/setAdicionContrato';
+            let formData = new FormData(formAdicionContrato);
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        if (objData.status) {
+                            $('#modalAdicionContrato').modal("hide");
+                            formAdicionContrato.reset();
+                            Swal.fire("Adición", objData.msg, "success");
+                            tableSeguimientoContrato.api().ajax.reload();
+                        } else {
+                            Swal.fire("Error", objData.msg, "error");
+                        }
+                    } catch (error) {
+                        Swal.fire("Error", "Error al procesar la solicitud", "error");
+                    }
+                }
+            }
+        }
+    }
 }, false);
 
 function fntViewContrato(id) {
@@ -1626,4 +1656,195 @@ function formatearFechaHora(fechaHora) {
     let d = new Date(fechaHora.replace(' ', 'T'));
     if (isNaN(d)) return fechaHora;
     return d.toLocaleDateString('es-CO') + ' ' + d.toLocaleTimeString('es-CO', {hour: '2-digit', minute:'2-digit'});
+}
+
+// Función para abrir el modal de adición
+function fntAdicionContrato(id, valorContrato) {
+    document.querySelector('#adicion_id_contrato').value = id;
+    document.querySelector('#adicion_valor').value = '';
+    document.querySelector('#adicion_motivo').value = '';
+    document.querySelector('#adicion_validacion').textContent = '';
+    document.querySelector('#adicion_valor').setAttribute('data-valor-contrato', valorContrato);
+    // Mostrar valores en los inputs
+    document.querySelector('#adicion_valor_total_contrato').value = `$${parseFloat(valorContrato).toLocaleString('es-CO')}`;
+    let maximo = valorContrato * 0.5;
+    document.querySelector('#adicion_valor_maximo').value = `$${parseFloat(maximo).toLocaleString('es-CO')}`;
+    // Inicializar gráfico vacío
+    actualizarGraficoAdicion(valorContrato, maximo, 0, 0);
+    $('#modalAdicionContrato').modal('show');
+    // Validación visual del 50% y gráfico
+    const inputValor = document.querySelector('#adicion_valor');
+    const btnGuardar = document.querySelector('#formAdicionContrato button[type="submit"]');
+    inputValor.oninput = function() {
+        let valorInicial = parseFloat(inputValor.getAttribute('data-valor-contrato'));
+        let valor = parseFloat(this.value);
+        if (isNaN(valor) || valor <= 0) {
+            document.querySelector('#adicion_validacion').textContent = '';
+            btnGuardar.disabled = true;
+            actualizarGraficoAdicion(valorInicial, valorInicial * 0.5, 0, 0);
+            return;
+        }
+        // Consultar suma de adiciones actuales por AJAX
+        let idContrato = document.querySelector('#adicion_id_contrato').value;
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url + '/SeguimientoContrato/getAdicionesContrato/' + idContrato;
+        request.open('GET', ajaxUrl, true);
+        request.send();
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                let objData = JSON.parse(request.responseText);
+                let suma = 0;
+                if (objData.status && objData.data.length > 0) {
+                    objData.data.forEach(function(item) {
+                        suma += parseFloat(item.valor_adicion);
+                    });
+                }
+                let nuevoTotal = suma + valor;
+                let maximo = valorInicial * 0.5;
+                let disponible = maximo - suma;
+                
+                actualizarGraficoAdicion(valorInicial, maximo, suma, valor);
+                
+                if (nuevoTotal > maximo) {
+                    document.querySelector('#adicion_validacion').innerHTML = `<span class="text-danger">La adición supera el límite del 50%. Valor disponible: $${disponible.toLocaleString('es-CO')}. Total con esta: $${nuevoTotal.toLocaleString('es-CO')} / Máximo permitido: $${maximo.toLocaleString('es-CO')}</span>`;
+                    btnGuardar.disabled = true;
+                } else {
+                    document.querySelector('#adicion_validacion').innerHTML = `<span class="text-success">Adición válida. Total con esta: $${nuevoTotal.toLocaleString('es-CO')} / Máximo permitido: $${maximo.toLocaleString('es-CO')}</span>`;
+                    btnGuardar.disabled = false;
+                }
+            }
+        }
+    };
+    // Disparar el evento para inicializar el gráfico
+    inputValor.dispatchEvent(new Event('input'));
+}
+
+// Función para actualizar el gráfico de adición
+let chartAdicion = null;
+function actualizarGraficoAdicion(valorContrato, maximo, sumaAdiciones, nuevaAdicion) {
+    let ctx = document.getElementById('graficoAdicionContrato').getContext('2d');
+    let totalConNueva = sumaAdiciones + nuevaAdicion;
+    if (window.chartAdicion) {
+        window.chartAdicion.destroy();
+    }
+    if (window.Chart) {
+        window.chartAdicion = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Máximo 50%', 'Actual + Nueva'],
+                datasets: [{
+                    label: 'Valores',
+                    data: [maximo, totalConNueva],
+                    backgroundColor: [
+                        'rgba(255, 193, 7, 0.7)',
+                        totalConNueva > maximo ? 'rgba(220,53,69,0.7)' : 'rgba(40,167,69,0.7)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: Math.max(valorContrato, maximo * 1.1, totalConNueva * 1.1)
+                    }
+                }
+            }
+        });
+    } else {
+        // Fallback: dibujar simple
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.fillStyle = '#ffc107';
+        let bar1 = Math.round((maximo / valorContrato) * ctx.canvas.width);
+        ctx.fillRect(10, 10, bar1, 20);
+        ctx.fillStyle = totalConNueva > maximo ? '#dc3545' : '#28a745';
+        let bar2 = Math.round((totalConNueva / valorContrato) * ctx.canvas.width);
+        ctx.fillRect(10, 40, bar2, 20);
+        ctx.fillStyle = '#000';
+        ctx.fillText('Máximo 50%', 10, 8);
+        ctx.fillText('Actual + Nueva', 10, 38);
+    }
+}
+
+// Cargar historial general de adiciones al mostrar el tab
+const tabHistorialAdiciones = document.getElementById('tab-historial-adiciones');
+if(tabHistorialAdiciones){
+    tabHistorialAdiciones.addEventListener('shown.bs.tab', function(){
+        cargarHistorialAdicionesGeneral();
+    });
+}
+
+function cargarHistorialAdicionesGeneral() {
+    let tbody = document.querySelector('#tablaHistorialAdicionesGeneral tbody');
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-secondary">Cargando...</td></tr>';
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getAllAdiciones';
+    request.open('GET', ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status && objData.data.length > 0) {
+                    let html = '';
+                    objData.data.forEach(function(item) {
+                        let fecha = formatearFechaHora(item.fecha_adicion);
+                        let motivo = item.motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        html += `<tr>
+                            <td>${item.numero_contrato}</td>
+                            <td>${item.objeto_contrato ? item.objeto_contrato.substring(0, 40) + (item.objeto_contrato.length > 40 ? '...' : '') : ''}</td>
+                            <td>$${parseFloat(item.valor_adicion).toLocaleString('es-CO')}</td>
+                            <td>${motivoHtml}</td>
+                            <td>${fecha}</td>
+                        </tr>`;
+                    });
+                    tbody.innerHTML = html;
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Sin adiciones registradas</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error al cargar historial</td></tr>';
+            }
+        }
+    }
+}
+
+function fntHistorialAdiciones(id) {
+    let tbody = document.querySelector('#tablaHistorialAdicionesIndividual tbody');
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-secondary">Cargando...</td></tr>';
+    $('#modalHistorialAdiciones').modal('show');
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/SeguimientoContrato/getAdicionesContrato/' + id;
+    request.open('GET', ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status && objData.data.length > 0) {
+                    let html = '';
+                    objData.data.forEach(function(item) {
+                        let fecha = formatearFechaHora(item.fecha_adicion);
+                        let motivo = item.motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        html += `<tr>
+                            <td>$${parseFloat(item.valor_adicion).toLocaleString('es-CO')}</td>
+                            <td>${motivoHtml}</td>
+                            <td>${fecha}</td>
+                        </tr>`;
+                    });
+                    tbody.innerHTML = html;
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Sin adiciones registradas</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">Error al cargar historial</td></tr>';
+            }
+        }
+    }
 }
