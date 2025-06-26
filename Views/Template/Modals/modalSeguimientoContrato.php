@@ -265,6 +265,14 @@
             <label class="form-label">Máximo Permitido (50%)</label>
             <input type="text" class="form-control" id="adicion_valor_maximo" readonly>
           </div>
+          <div class="mb-2">
+            <label class="form-label">Adiciones Existentes</label>
+            <input type="text" class="form-control" id="adicion_valor_usado" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><strong>Valor Disponible para Adiciones</strong></label>
+            <input type="text" class="form-control bg-success text-white fw-bold" id="adicion_valor_disponible" readonly>
+          </div>
           <div class="mb-3 text-center">
             <canvas id="graficoAdicionContrato" height="60"></canvas>
           </div>

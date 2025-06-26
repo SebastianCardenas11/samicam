@@ -201,15 +201,14 @@ class SeguimientoContratoModel extends Mysql
         $nuevoTotalAdiciones = $totalAdicionesExistentes + floatval($valor_adicion);
         
         // 4. Validar que no supere el 50%
+        $disponible = $limiteMaximo - $totalAdicionesExistentes;
         if ($nuevoTotalAdiciones > $limiteMaximo) {
-            $disponible = $limiteMaximo - $totalAdicionesExistentes;
             return [
                 'status' => false, 
                 'msg' => sprintf(
-                    'La adición supera el límite del 50%%. Valor disponible: $%s. Total con esta adición: $%s / Máximo permitido: $%s',
+                    'La adición supera el límite del 50%%. Valor máximo disponible: $%s. Valor solicitado: $%s',
                     number_format($disponible, 0, ',', '.'),
-                    number_format($nuevoTotalAdiciones, 0, ',', '.'),
-                    number_format($limiteMaximo, 0, ',', '.')
+                    number_format(floatval($valor_adicion), 0, ',', '.')
                 )
             ];
         }
@@ -219,12 +218,14 @@ class SeguimientoContratoModel extends Mysql
         $insertResult = $this->insert($sqlAdicion, [$id_contrato, $valor_adicion, $motivo]);
         
         if ($insertResult) {
+            $disponibleDespues = $limiteMaximo - $nuevoTotalAdiciones;
             return [
                 'status' => true, 
                 'msg' => sprintf(
-                    'Adición registrada correctamente. Total adiciones: $%s / Máximo permitido: $%s',
+                    'Adición registrada. Total adiciones: $%s / Máximo: $%s. Disponible: $%s',
                     number_format($nuevoTotalAdiciones, 0, ',', '.'),
-                    number_format($limiteMaximo, 0, ',', '.')
+                    number_format($limiteMaximo, 0, ',', '.'),
+                    number_format($disponibleDespues, 0, ',', '.')
                 )
             ];
         } else {

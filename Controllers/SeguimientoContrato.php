@@ -154,8 +154,18 @@ class SeguimientoContrato extends Controllers
                     $btnProrroga = '<button class="btn btn-primary btn-sm" onClick="fntProrrogaContrato(' . $arrData[$i]['id'] . ',\'' . $arrData[$i]['fecha_terminacion'] . '\')" title="Prórroga"><i class="fas fa-clock"></i></button>';
                     // Botón de historial de prórrogas
                     $btnHistorial = '<button class="btn btn-info btn-sm" onClick="fntHistorialProrrogas(' . $arrData[$i]['id'] . ')" title="Historial de Prórrogas"><i class="fas fa-history"></i></button>';
-                    // Botón de adición
-                    $btnAdicion = '<button class="btn btn-success btn-sm" onClick="fntAdicionContrato(' . $arrData[$i]['id'] . ',' . $arrData[$i]['valor_total_contrato_raw'] . ')" title="Crear Adición"><i class="fas fa-plus-circle"></i></button>';
+                    // Botón de adición - verificar si aún puede agregar adiciones
+                    $valorContrato = $arrData[$i]['valor_total_contrato_raw'];
+                    $limiteMaximo = $valorContrato * 0.5;
+                    $sqlSumaAdiciones = "SELECT COALESCE(SUM(valor_adicion), 0) as suma FROM adiciones_contrato WHERE id_contrato = ?";
+                    $sumaAdiciones = $this->model->select($sqlSumaAdiciones, [$arrData[$i]['id']]);
+                    $totalAdiciones = floatval($sumaAdiciones['suma']);
+                    
+                    if ($totalAdiciones < $limiteMaximo) {
+                        $btnAdicion = '<button class="btn btn-success btn-sm" onClick="fntAdicionContrato(' . $arrData[$i]['id'] . ',' . $valorContrato . ')" title="Crear Adición"><i class="fas fa-plus-circle"></i></button>';
+                    } else {
+                        $btnAdicion = '';
+                    }
                     // Botón de historial de adiciones
                     $btnHistorialAdiciones = '<button class="btn btn-warning btn-sm" onClick="fntHistorialAdiciones(' . $arrData[$i]['id'] . ')" title="Historial de Adiciones"><i class="fas fa-history"></i></button>';
                 } else {

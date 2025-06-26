@@ -1669,8 +1669,30 @@ function fntAdicionContrato(id, valorContrato) {
     document.querySelector('#adicion_valor_total_contrato').value = `$${parseFloat(valorContrato).toLocaleString('es-CO')}`;
     let maximo = valorContrato * 0.5;
     document.querySelector('#adicion_valor_maximo').value = `$${parseFloat(maximo).toLocaleString('es-CO')}`;
-    // Inicializar gráfico vacío
-    actualizarGraficoAdicion(valorContrato, maximo, 0, 0);
+    
+    // Consultar adiciones existentes para mostrar valores informativos
+    let idContrato = document.querySelector('#adicion_id_contrato').value;
+    let request = new XMLHttpRequest();
+    request.open('GET', base_url + '/SeguimientoContrato/getAdicionesContrato/' + idContrato, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let sumaExistente = 0;
+            if (objData.status && objData.data.length > 0) {
+                objData.data.forEach(function(item) {
+                    sumaExistente += parseFloat(item.valor_adicion);
+                });
+            }
+            let disponible = maximo - sumaExistente;
+            
+            document.querySelector('#adicion_valor_usado').value = `$${sumaExistente.toLocaleString('es-CO')}`;
+            document.querySelector('#adicion_valor_disponible').value = `$${disponible.toLocaleString('es-CO')}`;
+            
+            // Inicializar gráfico
+            actualizarGraficoAdicion(valorContrato, maximo, sumaExistente, 0);
+        }
+    };
     $('#modalAdicionContrato').modal('show');
     // Validación visual del 50% y gráfico
     const inputValor = document.querySelector('#adicion_valor');
@@ -1699,17 +1721,17 @@ function fntAdicionContrato(id, valorContrato) {
                         suma += parseFloat(item.valor_adicion);
                     });
                 }
-                let nuevoTotal = suma + valor;
                 let maximo = valorInicial * 0.5;
                 let disponible = maximo - suma;
                 
                 actualizarGraficoAdicion(valorInicial, maximo, suma, valor);
                 
-                if (nuevoTotal > maximo) {
-                    document.querySelector('#adicion_validacion').innerHTML = `<span class="text-danger">La adición supera el límite del 50%. Valor disponible: $${disponible.toLocaleString('es-CO')}. Total con esta: $${nuevoTotal.toLocaleString('es-CO')} / Máximo permitido: $${maximo.toLocaleString('es-CO')}</span>`;
+                if (valor > disponible) {
+                    document.querySelector('#adicion_validacion').innerHTML = `<span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Excede el valor disponible</span>`;
                     btnGuardar.disabled = true;
                 } else {
-                    document.querySelector('#adicion_validacion').innerHTML = `<span class="text-success">Adición válida. Total con esta: $${nuevoTotal.toLocaleString('es-CO')} / Máximo permitido: $${maximo.toLocaleString('es-CO')}</span>`;
+                    let restante = disponible - valor;
+                    document.querySelector('#adicion_validacion').innerHTML = `<span class="text-success"><i class="fas fa-check-circle"></i> Válido. Quedarán: $${restante.toLocaleString('es-CO')}</span>`;
                     btnGuardar.disabled = false;
                 }
             }
