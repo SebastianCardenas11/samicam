@@ -1649,7 +1649,7 @@ function fntHistorialProrrogas(id) {
 
 function cargarHistorialProrrogasGeneral() {
     let tbody = document.querySelector('#tablaHistorialProrrogasGeneral tbody');
-    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-secondary">Cargando...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-secondary">Cargando...</td></tr>';
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/SeguimientoContrato/getAllProrrogas';
     request.open('GET', ajaxUrl, true);
@@ -1668,6 +1668,7 @@ function cargarHistorialProrrogasGeneral() {
                         let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.numero_contrato}</td>
+                            <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
                             <td>${item.objeto_contrato ? item.objeto_contrato.substring(0, 40) + (item.objeto_contrato.length > 40 ? '...' : '') : ''}</td>
                             <td>${fechaAnterior}</td>
                             <td>${nuevaFecha}</td>
@@ -1678,10 +1679,10 @@ function cargarHistorialProrrogasGeneral() {
                     });
                     tbody.innerHTML = html;
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">Sin prórrogas registradas</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Sin prórrogas registradas</td></tr>';
                 }
             } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error al cargar historial</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">Error al cargar historial</td></tr>';
             }
         }
     }
@@ -1845,7 +1846,7 @@ if(tabHistorialAdiciones){
 
 function cargarHistorialAdicionesGeneral() {
     let tbody = document.querySelector('#tablaHistorialAdicionesGeneral tbody');
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-secondary">Cargando...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-secondary">Cargando...</td></tr>';
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/SeguimientoContrato/getAllAdiciones';
     request.open('GET', ajaxUrl, true);
@@ -1862,6 +1863,7 @@ function cargarHistorialAdicionesGeneral() {
                         let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.numero_contrato}</td>
+                            <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
                             <td>${item.objeto_contrato ? item.objeto_contrato.substring(0, 40) + (item.objeto_contrato.length > 40 ? '...' : '') : ''}</td>
                             <td>$${parseFloat(item.valor_adicion).toLocaleString('es-CO')}</td>
                             <td>${motivoHtml}</td>
@@ -1870,10 +1872,10 @@ function cargarHistorialAdicionesGeneral() {
                     });
                     tbody.innerHTML = html;
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Sin adiciones registradas</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Sin adiciones registradas</td></tr>';
                 }
             } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error al cargar historial</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error al cargar historial</td></tr>';
             }
         }
     }
@@ -1881,7 +1883,7 @@ function cargarHistorialAdicionesGeneral() {
 
 function fntHistorialAdiciones(id) {
     let tbody = document.querySelector('#tablaHistorialAdicionesIndividual tbody');
-    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-secondary">Cargando...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" class="text-center text-secondary">Cargando...</td></tr>';
     $('#modalHistorialAdiciones').modal('show');
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/SeguimientoContrato/getAdicionesContrato/' + id;
@@ -1898,6 +1900,7 @@ function fntHistorialAdiciones(id) {
                         let motivo = item.motivo;
                         let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
+                            <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
                             <td>$${parseFloat(item.valor_adicion).toLocaleString('es-CO')}</td>
                             <td>${motivoHtml}</td>
                             <td>${fecha}</td>
@@ -1905,10 +1908,10 @@ function fntHistorialAdiciones(id) {
                     });
                     tbody.innerHTML = html;
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Sin adiciones registradas</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Sin adiciones registradas</td></tr>';
                 }
             } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">Error al cargar historial</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error al cargar historial</td></tr>';
             }
         }
     }

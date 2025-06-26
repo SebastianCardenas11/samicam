@@ -317,6 +317,7 @@
           <table class="table table-bordered table-hover table-sm align-middle mb-0" id="tablaHistorialAdicionesIndividual">
             <thead class="table-warning text-center">
               <tr>
+                <th>Dependencia</th>
                 <th>Valor de la Adición</th>
                 <th>Motivo</th>
                 <th>Fecha de Adición</th>

@@ -666,7 +666,7 @@ class SeguimientoContrato extends Controllers
     public function getAllProrrogas()
     {
         if ($_SESSION['permisosMod']['r']) {
-            $sql = "SELECT p.*, c.numero_contrato, c.objeto_contrato FROM prorrogas_contrato p INNER JOIN seguimiento_contrato c ON p.id_contrato = c.id ORDER BY p.fecha_registro DESC";
+            $sql = "SELECT p.*, c.numero_contrato, c.objeto_contrato, d.nombre as dependencia FROM prorrogas_contrato p INNER JOIN seguimiento_contrato c ON p.id_contrato = c.id LEFT JOIN tbl_dependencia d ON c.dependencia_id = d.dependencia_pk ORDER BY p.fecha_registro DESC";
             $data = $this->model->select_all($sql);
             echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
         }
@@ -701,7 +701,8 @@ class SeguimientoContrato extends Controllers
     public function getAllAdiciones()
     {
         if ($_SESSION['permisosMod']['r']) {
-            $data = $this->model->getAllAdiciones();
+            $sql = "SELECT a.*, c.numero_contrato, c.objeto_contrato, d.nombre as dependencia FROM adiciones_contrato a INNER JOIN seguimiento_contrato c ON a.id_contrato = c.id LEFT JOIN tbl_dependencia d ON c.dependencia_id = d.dependencia_pk ORDER BY a.fecha_adicion DESC";
+            $data = $this->model->select_all($sql);
             echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
         }
         die();

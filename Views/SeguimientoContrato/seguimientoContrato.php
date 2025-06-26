@@ -685,6 +685,7 @@ getModal('modalSeguimientoContrato', $data);
                 <thead class="table-info text-center">
                   <tr>
                     <th>Número de Contrato</th>
+                    <th>Dependencia</th>
                     <th>Objeto del Contrato</th>
                     <th>Fecha anterior</th>
                     <th>Nueva fecha</th>
@@ -716,6 +717,7 @@ getModal('modalSeguimientoContrato', $data);
                 <thead class="table-warning text-center">
                   <tr>
                     <th>Número de Contrato</th>
+                    <th>Dependencia</th>
                     <th>Objeto del Contrato</th>
                     <th>Valor de la Adición</th>
                     <th>Motivo</th>
