@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function(){
             if(request.readyState == 4){
                 modalLoading.hide();
                 if(request.status == 200){
-                    console.log(request.responseText);
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));

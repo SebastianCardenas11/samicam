@@ -207,7 +207,6 @@ document.addEventListener(
               divLoading.style.display = "none";
             }
             if (request.status == 200) {
-              console.log("Respuesta del servidor:", request.responseText); // Depuración
               try {
                 let objData = JSON.parse(request.responseText);
                 if (objData.status) {

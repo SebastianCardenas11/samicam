@@ -161,7 +161,6 @@ function fntViewInfo(ideusuario){
     request.open("GET",ajaxUrl,true);
     request.send();
     request.onreadystatechange = function(){
-        // console.log(request.responseText);
         if(request.readyState == 4 && request.status == 200){
             let objData = JSON.parse(request.responseText);
            

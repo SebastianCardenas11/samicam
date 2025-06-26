@@ -66,7 +66,7 @@
                 $estado = strtolower($p['estado']);
                 if ($estado == 'liquidado') echo '<span class="badge bg-success">LIQUIDADO</span>';
                 elseif ($estado == 'finalizado') echo '<span class="badge bg-warning text-dark">FINALIZADO</span>';
-                elseif ($estado == 'en progreso') echo '<span class="badge bg-info text-white">EN PROGRESO</span>';
+                elseif ($estado == 'en ejecucion') echo '<span class="badge bg-info text-white">EN EJECUCION</span>';
                 else echo htmlspecialchars($p['estado']);
               ?>
             </td>

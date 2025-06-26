@@ -48,8 +48,6 @@ function actualizarEstadoVacaciones() {
         request.send();
         request.onreadystatechange = function() {
             if (request.readyState == 4 && request.status == 200) {
-                console.log("Estado de vacaciones actualizado");
-                // Recargar la tabla para mostrar los cambios
                 if (typeof tableFuncionarios !== 'undefined') {
                     tableFuncionarios.api().ajax.reload(null, false);
                 }

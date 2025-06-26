@@ -128,7 +128,7 @@ class SeguimientoContrato extends Controllers
                 $arrData[$i]['plazo'] = $arrData[$i]['plazo'] . ' ' . $tipoPlazo;
                 
                 if ($arrData[$i]['estado'] == 1) {
-                    $arrData[$i]['estado'] = '<span class="badge text-bg-warning">En progreso</span>';
+                    $arrData[$i]['estado'] = '<span class="badge text-bg-warning">En ejecucion</span>';
                 } else if ($arrData[$i]['estado'] == 2) {
                     $arrData[$i]['estado'] = '<span class="badge text-bg-danger">Finalizado</span>';
                 } else if ($arrData[$i]['estado'] == 3) {
@@ -318,7 +318,7 @@ class SeguimientoContrato extends Controllers
                         CASE 
                             WHEN estado = 3 THEN 'Liquidado'
                             WHEN estado = 2 THEN 'Finalizado'
-                            ELSE 'En Progreso'
+                            ELSE 'En Ejecucion'
                         END as estado
                     FROM seguimiento_contrato 
                     WHERE estado != 0 
@@ -364,10 +364,10 @@ class SeguimientoContrato extends Controllers
                         CASE 
                             WHEN estado = 3 THEN 'Liquidado'
                             WHEN estado = 2 THEN 'Finalizado'
-                            ELSE 'En Progreso'
+                            ELSE 'En Ejecucion'
                         END as estado_texto,
                         CASE 
-                            WHEN estado = 3 AND liquidacion > 0 THEN DATEDIFF(fecha_terminacion, fecha_inicio)
+                            WHEN estado = 3 AND fecha_terminacion IS NOT NULL AND fecha_inicio IS NOT NULL THEN DATEDIFF(fecha_terminacion, fecha_inicio)
                             ELSE NULL
                         END as dias
                     FROM seguimiento_contrato 
@@ -386,7 +386,7 @@ class SeguimientoContrato extends Controllers
                 if ($liquidacion['estado'] == 3) { // Estado numérico
                     $total_liquidado += floatval($liquidacion['valor']);
                     $liquidaciones_completadas++;
-                    if ($liquidacion['dias'] !== null) {
+                    if ($liquidacion['dias'] !== null && $liquidacion['dias'] >= 0) {
                         $dias_totales += $liquidacion['dias'];
                     }
                 } else {
@@ -490,10 +490,10 @@ class SeguimientoContrato extends Controllers
                     CASE 
                         WHEN estado = 3 THEN 'Liquidado'
                         WHEN estado = 2 THEN 'Finalizado'
-                        ELSE 'En Progreso'
+                        ELSE 'En Ejecucion'
                     END as estado_texto,
                     CASE 
-                        WHEN estado = 3 AND liquidacion > 0 THEN DATEDIFF(fecha_terminacion, fecha_inicio)
+                        WHEN estado = 3 AND fecha_terminacion IS NOT NULL AND fecha_inicio IS NOT NULL THEN DATEDIFF(fecha_terminacion, fecha_inicio)
                         ELSE NULL
                     END as dias
                 FROM seguimiento_contrato 

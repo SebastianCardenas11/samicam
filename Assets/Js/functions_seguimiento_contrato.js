@@ -89,9 +89,21 @@ document.addEventListener('DOMContentLoaded', function(){
 
     const tabLiquidacionesDetalle = document.getElementById('liquidaciones-tab-btn');
     if(tabLiquidacionesDetalle) {
+        
+        tabLiquidacionesDetalle.addEventListener('click', function() {
+            console.log('Tab liquidaciones clickeado');
+            setTimeout(function() {
+                cargarDatosLiquidaciones();
+            }, 100);
+        });
+        
+        // También mantener el evento original por si acaso
         tabLiquidacionesDetalle.addEventListener('shown.bs.tab', function() {
+            console.log('Evento shown.bs.tab disparado para liquidaciones');
             cargarDatosLiquidaciones();
         });
+    } else {
+        console.log('Tab liquidaciones no encontrado');
     }
 
     // Cargar historial general de prórrogas al mostrar el tab
@@ -186,7 +198,7 @@ function fntViewContrato(id) {
                     let estadoHtml = '';
                     switch (parseInt(objData.data.estado)) {
                         case 1:
-                            estadoHtml = '<span class="badge text-bg-warning">En progreso</span>';
+                            estadoHtml = '<span class="badge text-bg-warning">En ejecucion</span>';
                             break;
                         case 2:
                             estadoHtml = '<span class="badge text-bg-danger">Finalizado</span>';
@@ -261,7 +273,7 @@ function fntEditContrato(element, id) {
                     if(document.querySelector("#estado")){
                         let estadoValue = objData.data.estado;
                         if (typeof estadoValue === 'string') {
-                            if (estadoValue.includes('En progreso')) {
+                            if (estadoValue.includes('En ejecucion')) {
                                 estadoValue = '1';
                             } else if (estadoValue.includes('Finalizado')) {
                                 estadoValue = '2';
@@ -666,7 +678,7 @@ function cargarGraficoStacked() {
                     data: {
                         labels: ['Contratos por Estado'],
                         datasets: [{
-                            label: 'En Progreso',
+                            label: 'En Ejecucion',
                             data: [enProgreso],
                             backgroundColor: colores.warning + '80',
                             borderColor: colores.warning,
@@ -1180,7 +1192,7 @@ function cargarDatosAnalisisValor(){
                     document.querySelector('#plazoPromedio').textContent = Math.round(plazoPromedio);
 
                     // Preparar datos para el gráfico
-                    let labels = ['En Progreso', 'Finalizado', 'Liquidado'];
+                    let labels = ['En Ejecucion', 'Finalizado', 'Liquidado'];
                     let dataValues = [0, 0, 0];
 
                     objData.estado.forEach(item => {
@@ -1330,6 +1342,7 @@ function cargarDatosLiquidacion(){
 }
 
 function cargarDatosLiquidaciones() {
+    console.log('Función cargarDatosLiquidaciones ejecutándose...');
     let request = new XMLHttpRequest();
     let url = base_url + '/SeguimientoContrato/getLiquidacionesCompletas';
     
@@ -1339,32 +1352,37 @@ function cargarDatosLiquidaciones() {
     request.onreadystatechange = function() {
         if (request.readyState === 4 && request.status === 200) {
             try {
-                console.log(request.responseText);
-                
+                console.log('Respuesta recibida:', request.responseText);
                 let response = JSON.parse(request.responseText);
                 if (response.status) {
+                    console.log('Datos de liquidaciones:', response);
                     // Actualizar métricas
-                    document.getElementById('total-liquidado').textContent = '$' + parseFloat(response.total_liquidado).toLocaleString('es-CO');
-                    document.getElementById('pendiente-liquidacion').textContent = '$' + parseFloat(response.pendiente_liquidacion).toLocaleString('es-CO');
-                    document.getElementById('promedio-liquidacion').textContent = '$' + parseFloat(response.promedio_liquidacion).toLocaleString('es-CO');
+                    document.getElementById('total-liquidado').textContent = '$' + parseFloat(response.total_liquidado || 0).toLocaleString('es-CO');
+                    document.getElementById('pendiente-liquidacion').textContent = '$' + parseFloat(response.pendiente_liquidacion || 0).toLocaleString('es-CO');
+                    document.getElementById('promedio-liquidacion').textContent = '$' + parseFloat(response.promedio_liquidacion || 0).toLocaleString('es-CO');
+                    document.getElementById('tiempo-promedio').textContent = (response.tiempo_promedio || 0) + ' días';
                     
                     // Llenar tabla
                     let tbody = document.querySelector('#tabla-liquidaciones tbody');
                     tbody.innerHTML = '';
                     
-                    response.liquidaciones.forEach(item => {
-                        let row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${item.numero_contrato}</td>
-                            <td>$${parseFloat(item.valor).toLocaleString('es-CO')}</td>
-                            <td>$${parseFloat(item.liquidacion).toLocaleString('es-CO')}</td>
-                            <td>${item.fecha_inicio}</td>
-                            <td>${item.fecha_terminacion || 'Pendiente'}</td>
-                            <td>${item.dias || '-'}</td>
-                            <td><span class="badge ${item.estado_texto === 'Liquidado' ? 'bg-success' : item.estado_texto === 'Finalizado' ? 'bg-warning' : 'bg-info'}">${item.estado_texto}</span></td>
-                        `;
-                        tbody.appendChild(row);
-                    });
+                    if (response.liquidaciones && response.liquidaciones.length > 0) {
+                        response.liquidaciones.forEach(item => {
+                            let row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${item.numero_contrato || '-'}</td>
+                                <td>$${parseFloat(item.valor || 0).toLocaleString('es-CO')}</td>
+                                <td>$${parseFloat(item.liquidacion || 0).toLocaleString('es-CO')}</td>
+                                <td>${item.fecha_inicio || 'N/A'}</td>
+                                <td>${item.fecha_terminacion || 'Pendiente'}</td>
+                                <td>${item.dias !== null && item.dias >= 0 ? item.dias : '-'}</td>
+                                <td><span class="badge ${item.estado_texto === 'Liquidado' ? 'bg-success' : item.estado_texto === 'Finalizado' ? 'bg-warning' : 'bg-info'}">${item.estado_texto}</span></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No hay datos de liquidaciones disponibles</td></tr>';
+                    }
                     
                     // Crear gráficos si existen los elementos
                     if (response.grafico_evolucion && document.getElementById('chartLiquidacionesArea')) {
@@ -1373,9 +1391,14 @@ function cargarDatosLiquidaciones() {
                     if (response.grafico_distribucion && document.getElementById('chartLiquidacionesBar')) {
                         crearGraficoLiquidacionesBar(response.grafico_distribucion);
                     }
+                } else {
+                    console.error('Error en la respuesta del servidor:', response.msg || 'Error desconocido');
                 }
             } catch (error) {
                 console.error('Error al procesar liquidaciones:', error);
+                // Mostrar mensaje de error en la tabla
+                let tbody = document.querySelector('#tabla-liquidaciones tbody');
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error al cargar los datos</td></tr>';
             }
         }
     };

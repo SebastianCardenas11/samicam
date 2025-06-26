@@ -58,7 +58,7 @@ function cargarFuncionariosPorCargo() {
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
-                console.log('Datos de funcionarios por cargo:', data);
+               
                 const ctx = document.getElementById('chart-bars');
                 if (!ctx) {
                     console.error('No se encontró el elemento canvas #chart-bars');
@@ -147,7 +147,6 @@ function cargarPermisosPorMes() {
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
-                console.log('Datos de permisos por mes:', data);
                 const ctx = document.getElementById('chart-line');
                 if (!ctx) {
                     console.error('No se encontró el elemento canvas #chart-line');

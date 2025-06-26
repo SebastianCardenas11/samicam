@@ -310,7 +310,7 @@ function generarPermisoPDF(idPermiso) {
 }
 
 function fntPermisoEspecial(idFuncionario) {
-    console.log("Iniciando permiso especial para funcionario:", idFuncionario);
+    
     
     Swal.fire({
         title: '¿Está seguro?',
@@ -346,12 +346,7 @@ function fntPermisoEspecial(idFuncionario) {
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         document.querySelector("#txtNombreFuncionarioEspecial").value = objData.data.nombre_completo;
-                        console.log("Datos del formulario establecidos:", {
-                            idFuncionario: document.querySelector('#idFuncionarioEspecial').value,
-                            nombre: document.querySelector("#txtNombreFuncionarioEspecial").value,
-                            fechaInicio: document.querySelector("#txtFechaInicioEspecial").value,
-                            fechaFin: document.querySelector("#txtFechaFinEspecial").value
-                        });
+                    
                         
                         // Mostrar el modal después de establecer los datos
                         $('#modalPermisoEspecial').modal('show');
