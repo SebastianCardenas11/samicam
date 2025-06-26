@@ -28,9 +28,17 @@ class SeguimientoContrato extends Controllers
         $data['page_tag'] = "Seguimiento de Contratos";
         $data['page_title'] = "Seguimiento de Contratos";
         $data['page_name'] = "seguimiento_contrato";
-        $data['page_id'] = 11; // Choose an appropriate ID
+        $data['page_id'] = 11;
         $data['page_functions_js'] = "functions_seguimiento_contrato.js";
         $this->views->getView($this, "seguimientoContrato", $data);
+    }
+
+    public function getDependencias()
+    {
+        $sql = "SELECT dependencia_pk as id, nombre as dependencia FROM tbl_dependencia ORDER BY nombre ASC";
+        $dependencias = $this->model->select_all($sql);
+        echo json_encode($dependencias, JSON_UNESCAPED_UNICODE);
+        die();
     }
 
     public function setContrato()
@@ -50,6 +58,7 @@ class SeguimientoContrato extends Controllers
             $decLiquidacion = floatval($_POST['liquidacion']);
             $intEstado = isset($_POST['estado']) ? intval($_POST['estado']) : 1;
             $strNumeroContrato = strClean($_POST['numero_contrato']);
+            $intDependenciaId = intval($_POST['dependencia_id']);
             $strFechaAprobacionEntidad = strClean($_POST['fecha_aprobacion_entidad']);
 
             if ($intId == 0) {
@@ -61,6 +70,7 @@ class SeguimientoContrato extends Controllers
                         $strFechaTerminacion,
                         $strFechaAprobacionEntidad,
                         $strNumeroContrato,
+                        $intDependenciaId,
                         $intPlazo,
                         $strTipoPlazo,
                         $decValorTotalContrato,
@@ -82,6 +92,7 @@ class SeguimientoContrato extends Controllers
                         $strFechaTerminacion,
                         $strFechaAprobacionEntidad,
                         $strNumeroContrato,
+                        $intDependenciaId,
                         $intPlazo,
                         $strTipoPlazo,
                         $decValorTotalContrato,
@@ -693,6 +704,106 @@ class SeguimientoContrato extends Controllers
             $data = $this->model->getAllAdiciones();
             echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
         }
+        die();
+    }
+
+    public function exportarProrrogasExcel()
+    {
+        if (!isset($_SESSION['permisosMod']['r']) || !$_SESSION['permisosMod']['r']) {
+            return;
+        }
+
+        $sql = "SELECT p.*, c.numero_contrato, d.nombre as dependencia, c.objeto_contrato FROM prorrogas_contrato p INNER JOIN seguimiento_contrato c ON p.id_contrato = c.id LEFT JOIN tbl_dependencia d ON c.dependencia_id = d.dependencia_pk ORDER BY p.fecha_registro DESC";
+        $data = $this->model->select_all($sql);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'REPORTE DE PRÓRROGAS DE CONTRATOS');
+        $sheet->mergeCells('A1:G1');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->setCellValue('A3', 'Número Contrato');
+        $sheet->setCellValue('B3', 'Dependencia');
+        $sheet->setCellValue('C3', 'Objeto Contrato');
+        $sheet->setCellValue('D3', 'Fecha Anterior');
+        $sheet->setCellValue('E3', 'Nueva Fecha');
+        $sheet->setCellValue('F3', 'Días Prórroga');
+        $sheet->setCellValue('G3', 'Motivo');
+        $sheet->getStyle('A3:G3')->getFont()->setBold(true);
+
+        $row = 4;
+        foreach ($data as $item) {
+            $sheet->setCellValue('A' . $row, $item['numero_contrato']);
+            $sheet->setCellValue('B' . $row, $item['dependencia']);
+            $sheet->setCellValue('C' . $row, $item['objeto_contrato']);
+            $sheet->setCellValue('D' . $row, $item['fecha_anterior']);
+            $sheet->setCellValue('E' . $row, $item['nueva_fecha']);
+            $sheet->setCellValue('F' . $row, $item['dias_prorroga']);
+            $sheet->setCellValue('G' . $row, $item['motivo']);
+            $row++;
+        }
+
+        foreach (range('A', 'G') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Reporte_Prorrogas_' . date('Y-m-d') . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        die();
+    }
+
+    public function exportarAdicionesExcel()
+    {
+        if (!isset($_SESSION['permisosMod']['r']) || !$_SESSION['permisosMod']['r']) {
+            return;
+        }
+
+        $data = $this->model->getAllAdiciones();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'REPORTE DE ADICIONES DE CONTRATOS');
+        $sheet->mergeCells('A1:F1');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->setCellValue('A3', 'Número Contrato');
+        $sheet->setCellValue('B3', 'Dependencia');
+        $sheet->setCellValue('C3', 'Objeto Contrato');
+        $sheet->setCellValue('D3', 'Valor Adición');
+        $sheet->setCellValue('E3', 'Motivo');
+        $sheet->setCellValue('F3', 'Fecha Adición');
+        $sheet->getStyle('A3:F3')->getFont()->setBold(true);
+
+        $row = 4;
+        foreach ($data as $item) {
+            $sheet->setCellValue('A' . $row, $item['numero_contrato']);
+            $sheet->setCellValue('B' . $row, $item['dependencia'] ?? 'N/A');
+            $sheet->setCellValue('C' . $row, $item['objeto_contrato']);
+            $sheet->setCellValue('D' . $row, $item['valor_adicion']);
+            $sheet->getStyle('D' . $row)->getNumberFormat()->setFormatCode('"$"#,##0.00');
+            $sheet->setCellValue('E' . $row, $item['motivo']);
+            $sheet->setCellValue('F' . $row, $item['fecha_adicion']);
+            $row++;
+        }
+
+        foreach (range('A', 'F') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Reporte_Adiciones_' . date('Y-m-d') . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
         die();
     }
 } 

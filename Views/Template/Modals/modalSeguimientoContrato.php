@@ -15,7 +15,12 @@
                       <div class="col-md-6">
                             <label for="numero_contrato">Número de Contrato</label>
                             <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" required>
-                            
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dependencia_id">Dependencia</label>
+                            <select class="form-control" id="dependencia_id" name="dependencia_id" required>
+                                <option value="">Seleccionar dependencia</option>
+                            </select>
                         </div>
                          <div class="col-md-6">
                             <label for="fecha_aprobacion_entidad">Fecha de Aprobación de la Entidad</label>
@@ -125,6 +130,10 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <strong>Número de Contrato:</strong>
             <span id="celNumeroContrato"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Dependencia:</strong>
+            <span id="celDependencia"></span>
           </li>
           <li class="list-group-item">
             <strong>Objeto del Contrato:</strong>

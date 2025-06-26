@@ -3,6 +3,8 @@ let rowTable = "";
 let divLoading = document.querySelector("#divLoading");
 
 document.addEventListener('DOMContentLoaded', function(){
+    // Cargar dependencias al iniciar
+    cargarDependencias();
     tableSeguimientoContrato = $('#tableSeguimientoContrato').dataTable({
         "aProcessing": true,
         "aServerSide": true,
@@ -16,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "columns": [
             { "data": "fecha_aprobacion_entidad" },
             { "data": "numero_contrato" },
+            { "data": "dependencia_nombre" },
             { 
                 "data": "objeto_contrato",
                 "render": function(data, type, row) {
@@ -43,7 +46,21 @@ document.addEventListener('DOMContentLoaded', function(){
                 "extend": "excelHtml5",
                 "text": "<i class='fas fa-file-excel'></i> Excel",
                 "titleAttr": "Exportar a Excel",
-                "className": "btn btn-success mt-3"
+                "className": "btn btn-success mt-3",
+                "exportOptions": {
+                    "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                    "format": {
+                        "body": function(data, row, column, node) {
+                            // Para la columna 3 (objeto_contrato), obtener el texto original
+                            if (column === 3) {
+                                var api = $('#tableSeguimientoContrato').DataTable();
+                                var rowData = api.row(row).data();
+                                return rowData.objeto_contrato;
+                            }
+                            return data;
+                        }
+                    }
+                }
             }
         ],
         "responsive": "true",
@@ -127,7 +144,14 @@ document.addEventListener('DOMContentLoaded', function(){
             request.onreadystatechange = function() {
                 if (request.readyState == 4 && request.status == 200) {
                     try {
-                        let objData = JSON.parse(request.responseText);
+                        // Limpiar respuesta para extraer solo JSON
+                        let responseText = request.responseText;
+                        let jsonStart = responseText.indexOf('{');
+                        if (jsonStart > 0) {
+                            responseText = responseText.substring(jsonStart);
+                        }
+                        
+                        let objData = JSON.parse(responseText);
                         if (objData.status) {
                             $('#modalFormSeguimientoContrato').modal("hide");
                             formSeguimientoContrato.reset();
@@ -256,6 +280,7 @@ function fntViewContrato(id) {
                     document.querySelector("#celLiquidacion").innerHTML = formatCurrency(objData.data.liquidacion);
                     document.querySelector("#celEstado").innerHTML = estadoHtml;
                     document.querySelector("#celNumeroContrato").innerHTML = objData.data.numero_contrato;
+                    document.querySelector("#celDependencia").innerHTML = objData.data.dependencia_nombre || 'N/A';
                     document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
                     $('#modalViewContrato').modal('show');
                 } else {
@@ -299,6 +324,7 @@ function fntEditContrato(element, id) {
                     document.querySelector("#fecha_verificacion").value = objData.data.fecha_verificacion;
                     document.querySelector("#liquidacion").value = objData.data.liquidacion;
                     document.querySelector("#numero_contrato").value = objData.data.numero_contrato;
+                    document.querySelector("#dependencia_id").value = objData.data.dependencia_id || '';
                     document.querySelector("#fecha_aprobacion_entidad").value = objData.data.fecha_aprobacion_entidad;
                     if(document.querySelector("#estado")){
                         let estadoValue = objData.data.estado;
@@ -370,7 +396,24 @@ function openModal() {
     document.querySelector('#btnText').innerHTML = "Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Contrato";
     document.querySelector("#formSeguimientoContrato").reset();
+    cargarDependencias();
     $('#modalFormSeguimientoContrato').modal('show');
+}
+
+function cargarDependencias() {
+    let request = new XMLHttpRequest();
+    request.open('GET', base_url + '/SeguimientoContrato/getDependencias', true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let dependencias = JSON.parse(request.responseText);
+            let select = document.querySelector('#dependencia_id');
+            select.innerHTML = '<option value="">Seleccionar dependencia</option>';
+            dependencias.forEach(function(dep) {
+                select.innerHTML += `<option value="${dep.id}">${dep.dependencia}</option>`;
+            });
+        }
+    };
 }
 
 // Variables globales para los gráficos

@@ -76,6 +76,7 @@ getModal('modalSeguimientoContrato', $data);
                                     <tr>
                                         <th class="text-center">Fecha Aprobación Entidad (Suscripción)</th>
                                         <th class="text-center">Número de Contrato</th>
+                                        <th class="text-center">Dependencia</th>
                                         <th class="text-center">Objeto del Contrato</th>
                                         <th class="text-center">Fecha Inicio</th>
                                         <th class="text-center">Fecha Fin</th>
@@ -674,6 +675,11 @@ getModal('modalSeguimientoContrato', $data);
       <div class="tab-pane fade" id="historial-prorrogas" role="tabpanel" aria-labelledby="tab-historial-prorrogas">
         <div class="tile">
           <div class="tile-body">
+            <div class="d-flex justify-content-end mb-3">
+              <a href="<?= base_url(); ?>/SeguimientoContrato/exportarProrrogasExcel" class="btn btn-success" target="_blank">
+                <i class="fas fa-file-excel me-1"></i> Exportar a Excel
+              </a>
+            </div>
             <div class="table-responsive mt-2">
               <table class="table table-hover table-bordered table-sm align-middle" id="tablaHistorialProrrogasGeneral">
                 <thead class="table-info text-center">
@@ -700,6 +706,11 @@ getModal('modalSeguimientoContrato', $data);
       <div class="tab-pane fade" id="historial-adiciones" role="tabpanel" aria-labelledby="tab-historial-adiciones">
         <div class="tile">
           <div class="tile-body">
+            <div class="d-flex justify-content-end mb-3">
+              <a href="<?= base_url(); ?>/SeguimientoContrato/exportarAdicionesExcel" class="btn btn-success" target="_blank">
+                <i class="fas fa-file-excel me-1"></i> Exportar a Excel
+              </a>
+            </div>
             <div class="table-responsive mt-2">
               <table class="table table-hover table-bordered table-sm align-middle" id="tablaHistorialAdicionesGeneral">
                 <thead class="table-warning text-center">

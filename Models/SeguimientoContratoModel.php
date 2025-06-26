@@ -16,6 +16,7 @@ class SeguimientoContratoModel extends Mysql
     private $intEstado;
     private $strNumeroContrato;
     private $strFechaAprobacionEntidad;
+    private $intDependenciaId;
 
     public function __construct()
     {
@@ -28,6 +29,7 @@ class SeguimientoContratoModel extends Mysql
         string $fecha_terminacion,
         string $fecha_aprobacion_entidad,
         string $numero_contrato,
+        int $dependencia_id,
         int $plazo,
         string $tipo_plazo,
         float $valor_total_contrato,
@@ -52,10 +54,12 @@ class SeguimientoContratoModel extends Mysql
         $this->intEstado = $estado;
         $this->strNumeroContrato = $numero_contrato;
         $this->strFechaAprobacionEntidad = $fecha_aprobacion_entidad;
+        $this->intDependenciaId = $dependencia_id;
 
-        $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo, tipo_plazo, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, dependencia_id, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo, tipo_plazo, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $arrData = array(
             $this->strNumeroContrato,
+            $this->intDependenciaId,
             $this->strObjetoContrato,
             $this->strFechaInicio,
             $this->strFechaTerminacion,
@@ -76,7 +80,7 @@ class SeguimientoContratoModel extends Mysql
 
     public function selectContratos()
     {
-        $sql = "SELECT * FROM seguimiento_contrato WHERE estado != 0";
+        $sql = "SELECT sc.*, d.nombre as dependencia_nombre FROM seguimiento_contrato sc LEFT JOIN tbl_dependencia d ON sc.dependencia_id = d.dependencia_pk WHERE sc.estado != 0";
         $request = $this->select_all($sql);
         return $request;
     }
@@ -96,6 +100,7 @@ class SeguimientoContratoModel extends Mysql
         string $fecha_terminacion,
         string $fecha_aprobacion_entidad,
         string $numero_contrato,
+        int $dependencia_id,
         int $plazo,
         string $tipo_plazo,
         float $valor_total_contrato,
@@ -121,10 +126,12 @@ class SeguimientoContratoModel extends Mysql
         $this->intEstado = $estado;
         $this->strNumeroContrato = $numero_contrato;
         $this->strFechaAprobacionEntidad = $fecha_aprobacion_entidad;
+        $this->intDependenciaId = $dependencia_id;
 
-        $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo=?, tipo_plazo=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
+        $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, dependencia_id=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo=?, tipo_plazo=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
         $arrData = array(
             $this->strNumeroContrato,
+            $this->intDependenciaId,
             $this->strObjetoContrato,
             $this->strFechaInicio,
             $this->strFechaTerminacion,
@@ -241,7 +248,7 @@ class SeguimientoContratoModel extends Mysql
 
     // Obtener todas las adiciones (historial general)
     public function getAllAdiciones() {
-        $sql = "SELECT a.*, c.numero_contrato, c.objeto_contrato FROM adiciones_contrato a INNER JOIN seguimiento_contrato c ON a.id_contrato = c.id ORDER BY a.fecha_adicion DESC";
+        $sql = "SELECT a.*, c.numero_contrato, d.nombre as dependencia, c.objeto_contrato FROM adiciones_contrato a INNER JOIN seguimiento_contrato c ON a.id_contrato = c.id LEFT JOIN tbl_dependencia d ON c.dependencia_id = d.dependencia_pk ORDER BY a.fecha_adicion DESC";
         return $this->select_all($sql);
     }
 } 
