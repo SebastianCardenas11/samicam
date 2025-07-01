@@ -736,5 +736,24 @@ getModal('modalSeguimientoContrato', $data);
     </div>
 </main>
 
+<!-- Modal para más opciones de contrato -->
+<div class="modal fade" id="modalMoreOptions" tabindex="-1" aria-labelledby="modalMoreOptionsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalMoreOptionsLabel">Más opciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <input type="hidden" id="moreOptionsContratoId" value="">
+        <button id="btnProrroga" class="btn btn-primary m-2" type="button"><i class="fas fa-clock me-1"></i> Prórroga</button>
+        <button id="btnHistorialProrrogas" class="btn btn-info m-2" type="button"><i class="fas fa-history me-1"></i> Historial de Prórrogas</button>
+        <button id="btnAdicion" class="btn btn-success m-2" type="button"><i class="fas fa-plus-circle me-1"></i> Adición</button>
+        <button id="btnHistorialAdiciones" class="btn btn-warning m-2" type="button"><i class="fas fa-history me-1"></i> Historial de Adiciones</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="<?= media(); ?>/Js/chart-helpers.js"></script>
 <?php footerAdmin($data); ?> 

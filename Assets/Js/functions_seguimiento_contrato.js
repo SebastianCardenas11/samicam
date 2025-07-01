@@ -1916,3 +1916,42 @@ function fntHistorialAdiciones(id) {
         }
     }
 }
+
+// ... existing code ...
+function fntShowMoreOptions(id) {
+    // Asignar el ID al input oculto
+    document.getElementById('moreOptionsContratoId').value = id;
+    // Mostrar el modal
+    $('#modalMoreOptions').modal('show');
+}
+
+// Listeners para los botones del modal de más opciones
+$(document).ready(function() {
+    $('#btnProrroga').on('click', function() {
+        var id = document.getElementById('moreOptionsContratoId').value;
+        var row = tableSeguimientoContrato.api().rows().data().toArray().find(r => r.id == id);
+        if(row) {
+            fntProrrogaContrato(id, row.fecha_terminacion);
+        }
+        $('#modalMoreOptions').modal('hide');
+    });
+    $('#btnHistorialProrrogas').on('click', function() {
+        var id = document.getElementById('moreOptionsContratoId').value;
+        fntHistorialProrrogas(id);
+        $('#modalMoreOptions').modal('hide');
+    });
+    $('#btnAdicion').on('click', function() {
+        var id = document.getElementById('moreOptionsContratoId').value;
+        var row = tableSeguimientoContrato.api().rows().data().toArray().find(r => r.id == id);
+        if(row) {
+            fntAdicionContrato(id, row.valor_total_contrato_raw);
+        }
+        $('#modalMoreOptions').modal('hide');
+    });
+    $('#btnHistorialAdiciones').on('click', function() {
+        var id = document.getElementById('moreOptionsContratoId').value;
+        fntHistorialAdiciones(id);
+        $('#modalMoreOptions').modal('hide');
+    });
+});
+// ... existing code ...

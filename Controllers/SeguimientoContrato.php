@@ -189,7 +189,10 @@ class SeguimientoContrato extends Controllers
                     $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelContrato(' . $arrData[$i]['id'] . ')" title="Eliminar Contrato"><i class="far fa-trash-alt"></i></button>';
                 }
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnProrroga . ' ' . $btnHistorial . ' ' . $btnAdicion . ' ' . $btnHistorialAdiciones . ' ' . $btnDelete . '</div>';
+                // Botón de tres puntos para más opciones
+                $btnMore = '<button class="btn btn-secondary btn-sm" onClick="fntShowMoreOptions(' . $arrData[$i]['id'] . ')" title="Más opciones"><i class="fas fa-ellipsis-h"></i></button>';
+
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMore . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }

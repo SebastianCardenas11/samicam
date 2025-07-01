@@ -389,3 +389,36 @@
 [2025-06-26 02:26:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-06-26 02:28:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-06-26 02:30:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 08:45:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 08:45:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 08:49:21] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 08:51:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 08:51:41] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Tareas
+[2025-06-26 08:51:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Errors
+[2025-06-26 09:44:37] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.86.68.89 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0 | Acción: Inicio de sesión
+[2025-06-26 09:44:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-06-26 09:49:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 10:15:45] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 10:17:08] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 10:17:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Impresoras
+[2025-06-26 10:17:44] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Archivos
+[2025-06-26 10:19:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.80.114.121 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 11:14:45] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.86.68.89 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0 | Acción: Inicio de sesión
+[2025-06-26 11:14:45] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-06-26 11:15:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 11:27:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 11:35:46] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 14:37:32] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Correo: gobiernodigital@lajaguadeibirico-cesar.gov.co | Rol: Gobierno digital | IP: 100.114.115.67 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-26 14:37:32] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-26 14:37:50] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-06-26 15:30:38] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-06-26 15:30:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-06-26 15:30:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 15:36:51] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-06-26 16:41:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-07-01 11:10:48] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-01 11:10:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-01 11:10:51] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-07-01 11:22:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-07-01 11:22:24] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Errors
+[2025-07-01 11:22:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta

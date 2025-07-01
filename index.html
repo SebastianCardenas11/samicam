@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Propuestas de distribución de botones CRUD</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    .btn-group-wrap {
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+    .btn-icon {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-4">
+  <h2 class="mb-4">Propuestas para mostrar 9 botones CRUD</h2>
+
+  <!-- Propuesta 1: Botones en dos filas -->
+  <h5>Propuesta 1: Botones divididos en dos filas</h5>
+  <div class="border p-3 mb-4">
+    <div class="d-flex flex-wrap gap-2">
+      <button class="btn btn-sm btn-primary">Ver</button>
+      <button class="btn btn-sm btn-warning">Editar</button>
+      <button class="btn btn-sm btn-danger">Eliminar</button>
+      <button class="btn btn-sm btn-secondary">Activar</button>
+      <button class="btn btn-sm btn-secondary">Desactivar</button>
+      <button class="btn btn-sm btn-info">Duplicar</button>
+      <button class="btn btn-sm btn-success">Guardar</button>
+      <button class="btn btn-sm btn-dark">Asignar Rol</button>
+      <button class="btn btn-sm btn-light">Email</button>
+    </div>
+  </div>
+
+  <!-- Propuesta 2: Dropdown para 6 botones secundarios -->
+  <h5>Propuesta 2: 3 principales + dropdown para extras</h5>
+  <div class="border p-3 mb-4">
+    <div class="btn-group">
+      <button class="btn btn-sm btn-primary">Ver</button>
+      <button class="btn btn-sm btn-warning">Editar</button>
+      <button class="btn btn-sm btn-danger">Eliminar</button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Más</button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Activar</a></li>
+          <li><a class="dropdown-item" href="#">Desactivar</a></li>
+          <li><a class="dropdown-item" href="#">Duplicar</a></li>
+          <li><a class="dropdown-item" href="#">Guardar</a></li>
+          <li><a class="dropdown-item" href="#">Asignar Rol</a></li>
+          <li><a class="dropdown-item" href="#">Email</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Propuesta 3: Todos con iconos y tooltips -->
+  <h5>Propuesta 3: Solo iconos con tooltips</h5>
+  <div class="border p-3 mb-4">
+    <div class="d-flex btn-group-wrap">
+      <button class="btn btn-sm btn-primary btn-icon" title="Ver"><i class="bi bi-eye"></i></button>
+      <button class="btn btn-sm btn-warning btn-icon" title="Editar"><i class="bi bi-pencil"></i></button>
+      <button class="btn btn-sm btn-danger btn-icon" title="Eliminar"><i class="bi bi-trash"></i></button>
+      <button class="btn btn-sm btn-secondary btn-icon" title="Activar"><i class="bi bi-check-circle"></i></button>
+      <button class="btn btn-sm btn-secondary btn-icon" title="Desactivar"><i class="bi bi-x-circle"></i></button>
+      <button class="btn btn-sm btn-info btn-icon" title="Duplicar"><i class="bi bi-files"></i></button>
+      <button class="btn btn-sm btn-success btn-icon" title="Guardar"><i class="bi bi-save"></i></button>
+      <button class="btn btn-sm btn-dark btn-icon" title="Asignar Rol"><i class="bi bi-person-badge"></i></button>
+      <button class="btn btn-sm btn-light btn-icon" title="Email"><i class="bi bi-envelope"></i></button>
+    </div>
+  </div>
+
+  <!-- Propuesta 4: Acordeón para acciones secundarias -->
+  <h5>Propuesta 4: Acciones secundarias en acordeón</h5>
+  <div class="border p-3 mb-4">
+    <div>
+      <button class="btn btn-sm btn-primary">Ver</button>
+      <button class="btn btn-sm btn-warning">Editar</button>
+      <button class="btn btn-sm btn-danger">Eliminar</button>
+    </div>
+    <div class="accordion mt-2" id="accionesExtras">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExtras">
+            Más acciones
+          </button>
+        </h2>
+        <div id="collapseExtras" class="accordion-collapse collapse">
+          <div class="accordion-body d-flex flex-wrap gap-2">
+            <button class="btn btn-sm btn-secondary">Activar</button>
+            <button class="btn btn-sm btn-secondary">Desactivar</button>
+            <button class="btn btn-sm btn-info">Duplicar</button>
+            <button class="btn btn-sm btn-success">Guardar</button>
+            <button class="btn btn-sm btn-dark">Asignar Rol</button>
+            <button class="btn btn-sm btn-light">Email</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Propuesta 5: Botones con texto reducido -->
+  <h5>Propuesta 5: Texto corto en botones</h5>
+  <div class="border p-3 mb-4">
+    <div class="d-flex flex-wrap gap-1">
+      <button class="btn btn-sm btn-primary">Ver</button>
+      <button class="btn btn-sm btn-warning">Edit</button>
+      <button class="btn btn-sm btn-danger">Del</button>
+      <button class="btn btn-sm btn-secondary">Act</button>
+      <button class="btn btn-sm btn-secondary">Des</button>
+      <button class="btn btn-sm btn-info">Dup</button>
+      <button class="btn btn-sm btn-success">Save</button>
+      <button class="btn btn-sm btn-dark">Rol</button>
+      <button class="btn btn-sm btn-light">Mail</button>
+    </div>
+  </div>
+
+  <!-- Propuesta 6: Modal para acciones secundarias -->
+  <h5>Propuesta 6: Acciones secundarias en modal</h5>
+  <div class="border p-3 mb-4">
+    <button class="btn btn-sm btn-primary">Ver</button>
+    <button class="btn btn-sm btn-warning">Editar</button>
+    <button class="btn btn-sm btn-danger">Eliminar</button>
+    <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalExtras">Más...</button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalExtras" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Más acciones</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body d-flex flex-wrap gap-2">
+          <button class="btn btn-sm btn-secondary w-100">Activar</button>
+          <button class="btn btn-sm btn-secondary w-100">Desactivar</button>
+          <button class="btn btn-sm btn-info w-100">Duplicar</button>
+          <button class="btn btn-sm btn-success w-100">Guardar</button>
+          <button class="btn btn-sm btn-dark w-100">Asignar Rol</button>
+          <button class="btn btn-sm btn-light w-100">Email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
