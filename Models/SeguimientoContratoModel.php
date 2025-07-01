@@ -251,4 +251,12 @@ class SeguimientoContratoModel extends Mysql
         $sql = "SELECT a.*, c.numero_contrato, d.nombre as dependencia, c.objeto_contrato FROM adiciones_contrato a INNER JOIN seguimiento_contrato c ON a.id_contrato = c.id LEFT JOIN tbl_dependencia d ON c.dependencia_id = d.dependencia_pk ORDER BY a.fecha_adicion DESC";
         return $this->select_all($sql);
     }
+
+    public function updateEstadoContrato($id, $estado)
+    {
+        $sql = "UPDATE seguimiento_contrato SET estado = ? WHERE id = ?";
+        $arrData = array($estado, $id);
+        $request = $this->update($sql, $arrData);
+        return $request;
+    }
 } 

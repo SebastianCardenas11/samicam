@@ -132,6 +132,7 @@ class SeguimientoContrato extends Controllers
                 $btnHistorial = '';
                 $btnAdicion = '';
                 $btnHistorialAdiciones = '';
+                $btnEstado = '';
 
                 // Guardar valor sin formatear para el botón de adición
                 $arrData[$i]['valor_total_contrato_raw'] = $arrData[$i]['valor_total_contrato'];
@@ -161,29 +162,26 @@ class SeguimientoContrato extends Controllers
                 }
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditContrato(this,' . $arrData[$i]['id'] . ')" title="Editar Contrato"><i class="fas fa-pencil-alt"></i></button>';
-                    // Botón de prórroga
                     $btnProrroga = '<button class="btn btn-primary btn-sm" onClick="fntProrrogaContrato(' . $arrData[$i]['id'] . ',\'' . $arrData[$i]['fecha_terminacion'] . '\')" title="Prórroga"><i class="fas fa-clock"></i></button>';
-                    // Botón de historial de prórrogas
                     $btnHistorial = '<button class="btn btn-info btn-sm" onClick="fntHistorialProrrogas(' . $arrData[$i]['id'] . ')" title="Historial de Prórrogas"><i class="fas fa-history"></i></button>';
-                    // Botón de adición - verificar si aún puede agregar adiciones
                     $valorContrato = $arrData[$i]['valor_total_contrato_raw'];
                     $limiteMaximo = $valorContrato * 0.5;
                     $sqlSumaAdiciones = "SELECT COALESCE(SUM(valor_adicion), 0) as suma FROM adiciones_contrato WHERE id_contrato = ?";
                     $sumaAdiciones = $this->model->select($sqlSumaAdiciones, [$arrData[$i]['id']]);
                     $totalAdiciones = floatval($sumaAdiciones['suma']);
-                    
                     if ($totalAdiciones < $limiteMaximo) {
                         $btnAdicion = '<button class="btn btn-success btn-sm" onClick="fntAdicionContrato(' . $arrData[$i]['id'] . ',' . $valorContrato . ')" title="Crear Adición"><i class="fas fa-plus-circle"></i></button>';
                     } else {
                         $btnAdicion = '';
                     }
-                    // Botón de historial de adiciones
                     $btnHistorialAdiciones = '<button class="btn btn-warning btn-sm" onClick="fntHistorialAdiciones(' . $arrData[$i]['id'] . ')" title="Historial de Adiciones"><i class="fas fa-history"></i></button>';
+                    $btnEstado = '<button class="btn btn-primary btn-sm" onClick="fntCambiarEstadoContrato(' . $arrData[$i]['id'] . ')" title="Cambiar Estado"><i class="fas fa-exchange-alt"></i></button>';
                 } else {
                     $btnProrroga = '';
                     $btnHistorial = '';
                     $btnAdicion = '';
                     $btnHistorialAdiciones = '';
+                    $btnEstado = '';
                 }
                 if ($_SESSION['permisosMod']['d']) {
                     $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelContrato(' . $arrData[$i]['id'] . ')" title="Eliminar Contrato"><i class="far fa-trash-alt"></i></button>';
@@ -192,7 +190,7 @@ class SeguimientoContrato extends Controllers
                 // Botón de tres puntos para más opciones
                 $btnMore = '<button class="btn btn-secondary btn-sm" onClick="fntShowMoreOptions(' . $arrData[$i]['id'] . ')" title="Más opciones"><i class="fas fa-ellipsis-h"></i></button>';
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMore . '</div>';
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnEstado . ' ' . $btnDelete . ' ' . $btnMore . '</div>';
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
@@ -808,6 +806,26 @@ class SeguimientoContrato extends Controllers
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
+        die();
+    }
+
+    public function changeEstadoContrato()
+    {
+        if ($_POST) {
+            $id = intval($_POST['id']);
+            $estado = intval($_POST['estado']);
+            if ($_SESSION['permisosMod']['u']) {
+                $request = $this->model->updateEstadoContrato($id, $estado);
+                if ($request) {
+                    $arrResponse = array('status' => true, 'msg' => 'Estado actualizado correctamente');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'No se pudo actualizar el estado');
+                }
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos');
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
         die();
     }
 } 

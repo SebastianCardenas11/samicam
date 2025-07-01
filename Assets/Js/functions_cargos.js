@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function(){
                         }
                     } catch (error) {
                         console.error("Error al procesar la respuesta:", error);
-                        console.log("Respuesta recibida:", request.responseText);
                         Swal.fire({
                             title: "Error",
                             text: "Ocurrió un error al procesar la respuesta del servidor",

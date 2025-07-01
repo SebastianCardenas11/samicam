@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function(){
     if(tabLiquidacionesDetalle) {
         
         tabLiquidacionesDetalle.addEventListener('click', function() {
-            console.log('Tab liquidaciones clickeado');
             setTimeout(function() {
                 cargarDatosLiquidaciones();
             }, 100);
@@ -116,11 +115,8 @@ document.addEventListener('DOMContentLoaded', function(){
         
         // También mantener el evento original por si acaso
         tabLiquidacionesDetalle.addEventListener('shown.bs.tab', function() {
-            console.log('Evento shown.bs.tab disparado para liquidaciones');
             cargarDatosLiquidaciones();
         });
-    } else {
-        console.log('Tab liquidaciones no encontrado');
     }
 
     // Cargar historial general de prórrogas al mostrar el tab
@@ -237,6 +233,36 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         }
     }
+
+    if (tableSeguimientoContrato) {
+        tableSeguimientoContrato.on('draw', function() {
+            $('#tableSeguimientoContrato tbody tr').each(function() {
+                const $row = $(this);
+                const estadoHtml = $row.find('td:eq(13)').html();
+                if (estadoHtml && estadoHtml.includes('Liquidado')) {
+                    // Oculta todos los botones excepto el de ver
+                    $row.find('button, a').not('[title="Ver Contrato"]').hide();
+                }
+            });
+        });
+    }
+    // También ocultar los botones del modal de más opciones si el contrato está liquidado
+    $('#modalMoreOptions').on('show.bs.modal', function () {
+        var id = $('#moreOptionsContratoId').val();
+        // Buscar la fila correspondiente en la tabla
+        var $row = $('#tableSeguimientoContrato tbody tr').filter(function() {
+            return $(this).find('button[onClick*="fntViewContrato(' + id + '"]').length > 0;
+        });
+        if ($row.length) {
+            var estadoHtml = $row.find('td:eq(13)').html();
+            if (estadoHtml && estadoHtml.includes('Liquidado')) {
+                // Oculta todos los botones del modal
+                $('#modalMoreOptions .modal-body button').hide();
+            } else {
+                $('#modalMoreOptions .modal-body button').show();
+            }
+        }
+    });
 }, false);
 
 function fntViewContrato(id) {
@@ -1415,7 +1441,6 @@ function cargarDatosLiquidacion(){
 }
 
 function cargarDatosLiquidaciones() {
-    console.log('Función cargarDatosLiquidaciones ejecutándose...');
     let request = new XMLHttpRequest();
     let url = base_url + '/SeguimientoContrato/getLiquidacionesCompletas';
     
@@ -1425,10 +1450,8 @@ function cargarDatosLiquidaciones() {
     request.onreadystatechange = function() {
         if (request.readyState === 4 && request.status === 200) {
             try {
-                console.log('Respuesta recibida:', request.responseText);
                 let response = JSON.parse(request.responseText);
                 if (response.status) {
-                    console.log('Datos de liquidaciones:', response);
                     // Actualizar métricas
                     document.getElementById('total-liquidado').textContent = '$' + parseFloat(response.total_liquidado || 0).toLocaleString('es-CO');
                     document.getElementById('pendiente-liquidacion').textContent = '$' + parseFloat(response.pendiente_liquidacion || 0).toLocaleString('es-CO');
@@ -1955,3 +1978,97 @@ $(document).ready(function() {
     });
 });
 // ... existing code ...
+
+// Modal de cambio de estado
+let modalEstadoContrato = null;
+let idContratoCambioEstado = null;
+
+function fntCambiarEstadoContrato(id) {
+    idContratoCambioEstado = id;
+    if (!modalEstadoContrato) {
+        // Crear modal si no existe
+        const modalHtml = `
+        <div class="modal fade" id="modalCambioEstadoContrato" tabindex="-1" aria-labelledby="modalCambioEstadoContratoLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalCambioEstadoContratoLabel">Cambiar Estado del Contrato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <form id="formCambioEstadoContrato">
+                  <div class="mb-3">
+                    <label for="nuevo_estado_contrato" class="form-label">Nuevo Estado</label>
+                    <select class="form-control" id="nuevo_estado_contrato" name="nuevo_estado_contrato" required>
+                      <option value="1">En ejecucion</option>
+                      <option value="2">Finalizado</option>
+                      <option value="3">Liquidado</option>
+                    </select>
+                  </div>
+                  <div id="alertaLiquidado" class="alert alert-warning d-none" role="alert">
+                    Al ser el contrato liquidado, no se podrá editar ni eliminar, solo ver.
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmarCambioEstado">Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        modalEstadoContrato = new bootstrap.Modal(document.getElementById('modalCambioEstadoContrato'));
+        document.getElementById('btnConfirmarCambioEstado').onclick = confirmarCambioEstadoContrato;
+        document.getElementById('nuevo_estado_contrato').addEventListener('change', function() {
+            const alerta = document.getElementById('alertaLiquidado');
+            if (this.value == '3') {
+                alerta.classList.remove('d-none');
+            } else {
+                alerta.classList.add('d-none');
+            }
+        });
+    }
+    document.getElementById('formCambioEstadoContrato').reset();
+    document.getElementById('alertaLiquidado').classList.add('d-none');
+    modalEstadoContrato.show();
+}
+
+function confirmarCambioEstadoContrato() {
+    const nuevoEstado = document.getElementById('nuevo_estado_contrato').value;
+    if (!idContratoCambioEstado || !nuevoEstado) return;
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: '¿Desea cambiar el estado del contrato?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cambiar',
+        cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url + '/SeguimientoContrato/changeEstadoContrato';
+            let formData = new FormData();
+            formData.append('id', idContratoCambioEstado);
+            formData.append('estado', nuevoEstado);
+            request.open('POST', ajaxUrl, true);
+            request.send(formData);
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    try {
+                        let objData = JSON.parse(request.responseText);
+                        if (objData.status) {
+                            Swal.fire('Éxito', objData.msg, 'success');
+                            tableSeguimientoContrato.api().ajax.reload();
+                        } else {
+                            Swal.fire('Error', objData.msg, 'error');
+                        }
+                        modalEstadoContrato.hide();
+                    } catch (error) {
+                        Swal.fire('Error', 'Error al procesar la solicitud', 'error');
+                    }
+                }
+            }
+        }
+    });
+}
