@@ -128,7 +128,6 @@ class SeguimientoContrato extends Controllers
                 $btnView = '';
                 $btnEdit = '';
                 $btnProrroga = '';
-                $btnDelete = '';
                 $btnHistorial = '';
                 $btnAdicion = '';
                 $btnHistorialAdiciones = '';
@@ -183,19 +182,20 @@ class SeguimientoContrato extends Controllers
                     $btnHistorialAdiciones = '';
                     $btnEstado = '';
                 }
-                if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelContrato(' . $arrData[$i]['id'] . ')" title="Eliminar Contrato"><i class="far fa-trash-alt"></i></button>';
-                }
+                
 
                 // Botón de tres puntos para más opciones
                 $btnMore = '<button class="btn btn-secondary btn-sm" onClick="fntShowMoreOptions(' . $arrData[$i]['id'] . ')" title="Más opciones"><i class="fas fa-ellipsis-h"></i></button>';
 
-                // Botones de acción según estado
-                if ($arrData[$i]['estado'] == '<span class="badge text-bg-info">Liquidado</span>') {
-                    // Solo botón de ver
+                // Botones de acción según estado y rol
+                if (isset($_SESSION['userData']['idrol']) && $_SESSION['userData']['idrol'] == 1) {
+                    // Superadministrador ve todos los botones siempre
+                    $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit .  ' ' . $btnMore . '</div>';
+                } else if ($arrData[$i]['estado'] == '<span class="badge text-bg-info">Liquidado</span>') {
+                    // Solo botón de ver para los demás
                     $arrData[$i]['options'] = '<div class="text-center">' . $btnView . '</div>';
                 } else {
-                    $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMore . '</div>';
+                    $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnMore . '</div>';
                 }
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
