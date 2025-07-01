@@ -190,7 +190,13 @@ class SeguimientoContrato extends Controllers
                 // Botón de tres puntos para más opciones
                 $btnMore = '<button class="btn btn-secondary btn-sm" onClick="fntShowMoreOptions(' . $arrData[$i]['id'] . ')" title="Más opciones"><i class="fas fa-ellipsis-h"></i></button>';
 
-                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnEstado . ' ' . $btnDelete . ' ' . $btnMore . '</div>';
+                // Botones de acción según estado
+                if ($arrData[$i]['estado'] == '<span class="badge text-bg-info">Liquidado</span>') {
+                    // Solo botón de ver
+                    $arrData[$i]['options'] = '<div class="text-center">' . $btnView . '</div>';
+                } else {
+                    $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . ' ' . $btnMore . '</div>';
+                }
             }
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }

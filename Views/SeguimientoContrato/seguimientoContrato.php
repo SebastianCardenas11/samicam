@@ -750,6 +750,7 @@ getModal('modalSeguimientoContrato', $data);
         <button id="btnHistorialProrrogas" class="btn btn-info m-2" type="button"><i class="fas fa-history me-1"></i> Historial de Prórrogas</button>
         <button id="btnAdicion" class="btn btn-success m-2" type="button"><i class="fas fa-plus-circle me-1"></i> Adición</button>
         <button id="btnHistorialAdiciones" class="btn btn-warning m-2" type="button"><i class="fas fa-history me-1"></i> Historial de Adiciones</button>
+        <button id="btnCambiarEstado" class="btn btn-primary m-2" type="button"><i class="fas fa-exchange-alt me-1"></i> Cambiar Estado</button>
       </div>
     </div>
   </div>

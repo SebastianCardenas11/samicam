@@ -1976,6 +1976,11 @@ $(document).ready(function() {
         fntHistorialAdiciones(id);
         $('#modalMoreOptions').modal('hide');
     });
+    $('#btnCambiarEstado').on('click', function() {
+        var id = document.getElementById('moreOptionsContratoId').value;
+        fntCambiarEstadoContrato(id);
+        $('#modalMoreOptions').modal('hide');
+    });
 });
 // ... existing code ...
 
@@ -1985,6 +1990,24 @@ let idContratoCambioEstado = null;
 
 function fntCambiarEstadoContrato(id) {
     idContratoCambioEstado = id;
+    // Obtener el estado actual del contrato desde la tabla
+    let estadoActual = 1; // Por defecto En ejecucion
+    // Buscar la fila correspondiente en la tabla
+    let $row = $('#tableSeguimientoContrato tbody tr').filter(function() {
+        return $(this).find('button[onClick*="fntViewContrato(' + id + '"]').length > 0;
+    });
+    if ($row.length) {
+        let estadoHtml = $row.find('td:eq(13)').html();
+        if (estadoHtml) {
+            if (estadoHtml.includes('Liquidado')) {
+                estadoActual = 3;
+            } else if (estadoHtml.includes('Finalizado')) {
+                estadoActual = 2;
+            } else {
+                estadoActual = 1;
+            }
+        }
+    }
     if (!modalEstadoContrato) {
         // Crear modal si no existe
         const modalHtml = `
@@ -2031,6 +2054,11 @@ function fntCambiarEstadoContrato(id) {
     }
     document.getElementById('formCambioEstadoContrato').reset();
     document.getElementById('alertaLiquidado').classList.add('d-none');
+    // Seleccionar el estado actual en el select
+    document.getElementById('nuevo_estado_contrato').value = String(estadoActual);
+    if (estadoActual == 3) {
+        document.getElementById('alertaLiquidado').classList.remove('d-none');
+    }
     modalEstadoContrato.show();
 }
 
