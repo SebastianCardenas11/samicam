@@ -251,12 +251,12 @@ document.addEventListener('DOMContentLoaded', function(){
         var id = $('#moreOptionsContratoId').val();
         // Buscar la fila correspondiente en la tabla
         var $row = $('#tableSeguimientoContrato tbody tr').filter(function() {
-            return $(this).find('button[onClick*="fntViewContrato(' + id + '"]').length > 0;
+            return $(this).find('button[onclick*="fntViewContrato(' + id + ')"]').length > 0;
         });
         if ($row.length) {
             var estadoHtml = $row.find('td:eq(13)').html();
-            if (estadoHtml && estadoHtml.includes('Liquidado')) {
-                // Oculta todos los botones del modal
+            if (estadoHtml && estadoHtml.includes('Liquidado') && window.idrol !== 1) {
+                // Oculta todos los botones del modal SOLO si NO es superadmin
                 $('#modalMoreOptions .modal-body button').hide();
             } else {
                 $('#modalMoreOptions .modal-body button').show();
@@ -1994,7 +1994,7 @@ function fntCambiarEstadoContrato(id) {
     let estadoActual = 1; // Por defecto En ejecucion
     // Buscar la fila correspondiente en la tabla
     let $row = $('#tableSeguimientoContrato tbody tr').filter(function() {
-        return $(this).find('button[onClick*="fntViewContrato(' + id + '"]').length > 0;
+        return $(this).find('button[onclick*="fntViewContrato(' + id + ')"]').length > 0;
     });
     if ($row.length) {
         let estadoHtml = $row.find('td:eq(13)').html();

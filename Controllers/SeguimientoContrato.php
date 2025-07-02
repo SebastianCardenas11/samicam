@@ -189,7 +189,7 @@ class SeguimientoContrato extends Controllers
 
                 // Botones de acción según estado y rol
                 if (isset($_SESSION['userData']['idrol']) && $_SESSION['userData']['idrol'] == 1) {
-                    // Superadministrador ve todos los botones siempre
+                    // Superadministrador ve todos los botones SIEMPRE
                     $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit .  ' ' . $btnMore . '</div>';
                 } else if ($arrData[$i]['estado'] == '<span class="badge text-bg-info">Liquidado</span>') {
                     // Solo botón de ver para los demás

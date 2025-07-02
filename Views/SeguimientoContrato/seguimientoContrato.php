@@ -2,6 +2,7 @@
 headerAdmin($data);
 getModal('modalSeguimientoContrato', $data);
 ?>
+<script>window.idrol = <?php echo isset($_SESSION['userData']['idrol']) ? (int)$_SESSION['userData']['idrol'] : 0; ?>;</script>
 <link rel="stylesheet" href="<?= media(); ?>/css/seguimiento-graficas.css">
 <div id="contentAjax"></div>
 <main class="app-content">
