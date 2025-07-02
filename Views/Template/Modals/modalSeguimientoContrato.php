@@ -63,6 +63,20 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            <label for="tipo_informe">Tipo de Informe</label>
+                            <select class="form-control" id="tipo_informe" name="tipo_informe" required>
+                                <option value="acta parcial">Acta parcial</option>
+                                <option value="mes vencido">Mes vencido</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cantidad_informes">Cantidad de Informes</label>
+                            <input type="number" class="form-control" id="cantidad_informes" name="cantidad_informes" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <label for="dia_corte_informe">Día de Corte de Informe</label>
                             <input type="date" class="form-control" id="dia_corte_informe" name="dia_corte_informe" required>
                         </div>
@@ -167,6 +181,14 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <strong>Estado:</strong>
             <span id="celEstado"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Tipo de Informe:</strong>
+            <span id="celTipoInforme"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Cantidad de Informes:</strong>
+            <span id="celCantidadInformes"></span>
           </li>
         </ul>
       </div>

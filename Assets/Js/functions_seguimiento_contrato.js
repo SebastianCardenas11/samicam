@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function(){
             { "data": "evidenciado_secop" },
             { "data": "fecha_verificacion" },
             { "data": "liquidacion" },
+            { "data": "tipo_informe" },
+            { "data": "cantidad_informes" },
             { "data": "estado" },
             { "data": "options" }
         ],
@@ -308,6 +310,8 @@ function fntViewContrato(id) {
                     document.querySelector("#celNumeroContrato").innerHTML = objData.data.numero_contrato;
                     document.querySelector("#celDependencia").innerHTML = objData.data.dependencia_nombre || 'N/A';
                     document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
+                    document.querySelector('#celTipoInforme').textContent = objData.data.tipo_informe || '-';
+                    document.querySelector('#celCantidadInformes').textContent = objData.data.cantidad_informes || '-';
                     $('#modalViewContrato').modal('show');
                 } else {
                     Swal.fire("Error", objData.msg, "error");
@@ -367,6 +371,8 @@ function fntEditContrato(element, id) {
                         }
                         document.querySelector("#estado").value = estadoValue;
                     }
+                    document.querySelector('#tipo_informe').value = objData.data.tipo_informe || 'acta parcial';
+                    document.querySelector('#cantidad_informes').value = objData.data.cantidad_informes || 1;
                 }
             } catch (error) {
                 console.error('Error al cargar datos para editar:', error);

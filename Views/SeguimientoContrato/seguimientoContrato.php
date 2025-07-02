@@ -88,6 +88,8 @@ getModal('modalSeguimientoContrato', $data);
                                         <th class="text-center">Evidenciado Secop</th>
                                         <th class="text-center">Fecha Verificación</th>
                                         <th class="text-center">Liquidación</th>
+                                        <th class="text-center">Tipo de Informe</th>
+                                        <th class="text-center">Cantidad de Informes</th>
                                         <th class="text-center">Estado</th>
                                         <th class="text-center">Acciones</th>
                                     </tr>

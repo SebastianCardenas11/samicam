@@ -60,6 +60,8 @@ class SeguimientoContrato extends Controllers
             $strNumeroContrato = strClean($_POST['numero_contrato']);
             $intDependenciaId = intval($_POST['dependencia_id']);
             $strFechaAprobacionEntidad = strClean($_POST['fecha_aprobacion_entidad']);
+            $strTipoInforme = isset($_POST['tipo_informe']) && in_array($_POST['tipo_informe'], ['acta parcial', 'mes vencido']) ? strClean($_POST['tipo_informe']) : 'acta parcial';
+            $intCantidadInformes = isset($_POST['cantidad_informes']) ? intval($_POST['cantidad_informes']) : 1;
 
             if ($intId == 0) {
                 $option = 1;
@@ -73,6 +75,8 @@ class SeguimientoContrato extends Controllers
                         $intDependenciaId,
                         $intPlazo,
                         $strTipoPlazo,
+                        $strTipoInforme,
+                        $intCantidadInformes,
                         $decValorTotalContrato,
                         $strDiaCorteInforme,
                         $strObservacionesEjecucion,
@@ -95,6 +99,8 @@ class SeguimientoContrato extends Controllers
                         $intDependenciaId,
                         $intPlazo,
                         $strTipoPlazo,
+                        $strTipoInforme,
+                        $intCantidadInformes,
                         $decValorTotalContrato,
                         $strDiaCorteInforme,
                         $strObservacionesEjecucion,
