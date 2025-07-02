@@ -12,6 +12,14 @@ SAMICAM es una aplicación web desarrollada para facilitar la gestión y adminis
 - 📁 Administración de módulos de información
 - 📊 Visualización y organización del contenido del CAM
 - 🧩 Interfaz sencilla, clara y adaptable
+- 📂 Gestión de archivos y categorías
+- 🗃️ Inventario de equipos y materiales
+- 📅 Control de permisos, viáticos y vacaciones
+- 📈 Panel de control con gráficas y estadísticas
+- 🔔 Sistema de notificaciones internas
+- 🕵️ Auditoría de acciones y cambios
+- 💬 Integración con WhatsApp para notificaciones
+- 📝 Plantillas PDF para reportes y permisos
 
 ---
 
@@ -26,102 +34,72 @@ SAMICAM es una aplicación web desarrollada para facilitar la gestión y adminis
 
 ## 🗂️ Estructura del Proyecto
 
-SAMICAM
-├── Assets
-│   ├── css
-│   │   ├── selectpicker
-│   │   │   ├── picker.css
-│   │   │   └── picker.min.css
-│   │   ├── main.css
-│   │   ├── main.min.css
-│   │   ├── samicam.css
-│   │   ├── styles_login.css
-│   │   └── styles.css
-│   ├── images
-│   └── js
-│       ├── plugins
-│       │   ├── chart.js
-│       │   ├── jquery.dataTables.min.js
-│       │   └── sweetalert.min.js
-│       ├── selectpicker
-│       │   ├── picker.js
-│       │   └── picker.min.js
-│       ├── animations_login.js
-│       ├── bootstrap.min.js
-│       ├── functions_dashboard.js
-│       ├── functions_login.js
-│       ├── functions_roles.js
-│       ├── functions_usuarios.js
-│       ├── hola-login.js
-│       ├── jquery-3.7.0.min.js
-│       ├── main.js
-│       ├── overlay-quieto.js
-│       ├── popper.min.js
-│       └── ver-contrasena-login.js
-├── Config
-│   └── Config.php
-├── Controllers
-│   ├── Dashboard.php
-│   ├── Error.php
-│   ├── FuncionariosOps.php
-│   ├── FuncionariosPermisos.php
-│   ├── FuncionariosPlantas.php
-│   ├── FuncionariosViaticos.php
-│   ├── Login.php
-│   ├── Logout.php
-│   ├── Permisos.php
-│   ├── Roles.php
-│   └── Usuarios.php
-├── Helpers
-│   └── helpers.php
-├── Libraries
-├── Core
-│   ├── Autoload.php
-│   ├── Conexion.php
-│   ├── Controllers.php
-│   ├── Load.php
-│   ├── Mysql.php
-│   └── Views.php
-├── Models
-│   ├── DashboardModel.php
-│   ├── LoginModel.php
-│   ├── PermisosModel.php
-│   ├── RolesModel.php
-│   └── UsuariosModel.php
-├── Views
-│   ├── Dashboard
-│   ├── Errors
-│   ├── FuncionariosOps
-│   ├── FuncionariosPermisos
-│   ├── FuncionariosPlanta
-│   ├── FuncionariosViaticos
-│   ├── Login
-│   ├── Roles
-│   └── Template
-│       ├── Modals
-│       │   ├── footer_admin.php
-│       │   └── header_admin.php
-│       └── main_admin.php
-├── Usuarios
-├── index.php
-├── .gitattributes
-├── .htaccess
-├── .editorconfig
-├── index.php
-├── LICENSE
-└── README.md
+La estructura de carpetas del sistema es la siguiente:
 
+```
+samicam/
+├── Assets/                # Recursos estáticos (CSS, JS, imágenes, fuentes, plantillas PDF)
+│   ├── css/               # Hojas de estilo personalizadas y de terceros
+│   ├── fonts/             # Fuentes utilizadas en la interfaz
+│   ├── images/            # Imágenes, iconos y recursos gráficos
+│   ├── Js/                # Scripts JavaScript y plugins
+│   ├── plantillas/        # Plantillas PDF para reportes y permisos
+│   └── scss/              # Archivos fuente SCSS para estilos
+├── Config/                # Archivos de configuración del sistema
+├── Controllers/           # Controladores principales del sistema (MVC)
+│   └── Inventario/        # Controladores específicos del módulo de inventario
+├── Helpers/               # Funciones auxiliares y utilidades
+├── Libraries/             # Librerías internas y núcleo del sistema
+│   └── Core/              # Componentes base del framework
+├── Models/                # Modelos de datos y acceso a la base de datos
+│   └── Inventario/        # Modelos específicos del módulo de inventario
+├── Public/                # Archivos públicos, instaladores y scripts SQL
+│   ├── composer/          # Instalador de Composer y configuración PHP
+│   ├── sql/               # Scripts para la creación e importación de la base de datos
+│   └── templates/         # Documentación y plantillas públicas
+├── Views/                 # Vistas y plantillas HTML/PHP para la interfaz de usuario
+│   ├── Inventario/        # Vistas del módulo de inventario
+│   ├── Template/          # Componentes comunes (header, footer, modals)
+│   └── ...                # Vistas de otros módulos (Dashboard, Login, etc.)
+├── uploads/               # Archivos subidos por los usuarios (perfiles, documentos, etc.)
+│   ├── archivos/
+│   ├── auditoria/
+│   ├── perfiles/
+│   └── ...
+├── vendor/                # Dependencias externas (instaladas por Composer)
+├── index.php              # Punto de entrada principal de la aplicación
+├── composer.json          # Dependencias PHP del proyecto
+├── LICENSE                # Licencia del proyecto
+├── README.md              # Documentación principal
+└── es.json                # Archivo de traducción al español
+```
+
+### Descripción de carpetas principales
+
+- **Assets/**: Contiene todos los recursos estáticos como hojas de estilo, scripts JS, imágenes, fuentes y plantillas PDF.
+- **Config/**: Archivos de configuración global del sistema, como la conexión a la base de datos.
+- **Controllers/**: Lógica de control de cada módulo, siguiendo el patrón MVC.
+- **Helpers/**: Funciones auxiliares reutilizables en todo el sistema.
+- **Libraries/Core/**: Componentes base del framework propio, como el autoload, conexión, y gestión de vistas/controladores.
+- **Models/**: Acceso y manipulación de datos en la base de datos.
+- **Public/**: Archivos públicos, instaladores, scripts SQL y documentación.
+- **Views/**: Plantillas y vistas para la interfaz de usuario, organizadas por módulo.
+- **uploads/**: Carpeta para archivos subidos por los usuarios, como documentos, imágenes de perfil, etc.
+- **vendor/**: Dependencias externas instaladas mediante Composer.
+- **index.php**: Archivo principal que inicia la aplicación.
+- **es.json**: Archivo de traducción para internacionalización.
 
 ---
 
 ## ⚙️ Requisitos para ejecutar
 
-1. Tener instalado [XAMPP](https://www.apachefriends.org/)
+1. Tener instalado [XAMPP](https://www.apachefriends.org/) o un entorno compatible con PHP y MySQL
 2. Clonar o descargar este repositorio
-3. Crear una base de datos en MySQL y configurar la conexión en `config/config.php`
-4. Importar el archivo `.sql` correspondiente si está disponible
+3. Crear una base de datos en MySQL y configurar la conexión en `Config/Config.php`
+4. Importar el archivo `.sql` correspondiente desde `Public/sql/`
 5. Iniciar Apache y MySQL desde XAMPP
-6. Acceder desde `http://localhost/samicam/` en tu navegador
+6. Asegurarse de que la carpeta `uploads/` tenga permisos de escritura
+7. Acceder desde `http://localhost/samicam/` en tu navegador
 
 ---
 
@@ -136,6 +114,7 @@ Diseñado para ser intuitivo, modular y extensible para futuras integraciones.
 
 - Este sistema puede adaptarse fácilmente a otros entornos municipales o administrativos.
 - Las rutas, controladores y vistas están organizados siguiendo una estructura MVC para facilitar su mantenimiento y escalabilidad.
+- Para soporte o contribuciones, contacta al desarrollador principal o abre un issue en el repositorio.
 
 ---
 

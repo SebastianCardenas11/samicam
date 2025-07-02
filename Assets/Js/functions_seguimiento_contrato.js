@@ -265,6 +265,9 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         }
     });
+
+    cargarGraficoTipoInforme();
+    cargarGraficoCantidadInformes();
 }, false);
 
 function fntViewContrato(id) {
@@ -2105,4 +2108,102 @@ function confirmarCambioEstadoContrato() {
             }
         }
     });
+}
+
+// Gráfica Doughnut: cantidad de contratos por tipo de informe
+function cargarGraficoTipoInforme() {
+    if(!document.querySelector('#chartTipoInforme')) return;
+    let request = new XMLHttpRequest();
+    let ajaxUrl = base_url + '/SeguimientoContrato/getContratosPorTipoInforme';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status){
+                const ctx = document.getElementById('chartTipoInforme').getContext('2d');
+                if(charts.tipoInforme) charts.tipoInforme.destroy();
+                let labels = Object.keys(objData.data);
+                let data = Object.values(objData.data);
+                charts.tipoInforme = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [colores.info + '80', colores.success + '80'],
+                            borderColor: [colores.info, colores.success],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                enabled: true,
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+}
+
+// Gráfica Bar: suma total de informes por tipo de informe
+function cargarGraficoCantidadInformes() {
+    if(!document.querySelector('#chartCantidadInformes')) return;
+    let request = new XMLHttpRequest();
+    let ajaxUrl = base_url + '/SeguimientoContrato/getSumaInformesPorTipo';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status){
+                const ctx = document.getElementById('chartCantidadInformes').getContext('2d');
+                if(charts.cantidadInformes) charts.cantidadInformes.destroy();
+                let labels = Object.keys(objData.data);
+                let data = Object.values(objData.data);
+                charts.cantidadInformes = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Total de Informes',
+                            data: data,
+                            backgroundColor: colores.primary + '80',
+                            borderColor: colores.primary,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true,
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
 }

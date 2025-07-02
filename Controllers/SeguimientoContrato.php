@@ -840,4 +840,32 @@ class SeguimientoContrato extends Controllers
         }
         die();
     }
+
+    public function getContratosPorTipoInforme()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT tipo_informe, COUNT(*) as cantidad FROM seguimiento_contrato WHERE estado != 0 GROUP BY tipo_informe";
+            $result = $this->model->select_all($sql);
+            $data = [];
+            foreach ($result as $row) {
+                $data[$row['tipo_informe']] = (int)$row['cantidad'];
+            }
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getSumaInformesPorTipo()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $sql = "SELECT tipo_informe, SUM(cantidad_informes) as total_informes FROM seguimiento_contrato WHERE estado != 0 GROUP BY tipo_informe";
+            $result = $this->model->select_all($sql);
+            $data = [];
+            foreach ($result as $row) {
+                $data[$row['tipo_informe']] = (int)$row['total_informes'];
+            }
+            echo json_encode(['status' => true, 'data' => $data], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 } 

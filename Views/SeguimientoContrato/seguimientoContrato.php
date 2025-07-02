@@ -360,6 +360,32 @@ getModal('modalSeguimientoContrato', $data);
               </div>
             </div>
           </div>
+          <div class="row mb-4 mt-4">
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow h-100">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-pie me-2"></i>Contratos por Tipo de Informe
+                </h6>
+              </div>
+              <div class="card-body">
+                <canvas id="chartTipoInforme" height="180"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow h-100">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  <i class="fas fa-chart-bar me-2"></i>Suma total de Informes por Tipo
+                </h6>
+              </div>
+              <div class="card-body">
+                <canvas id="chartCantidadInformes" height="180"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
           
            <!-- Botón para exportar todas las gráficas -->
         <div class="row mb-4 mt-4">
@@ -376,6 +402,7 @@ getModal('modalSeguimientoContrato', $data);
             </div>
           </div>
         </div>
+       
         </div>
       </div>
 
