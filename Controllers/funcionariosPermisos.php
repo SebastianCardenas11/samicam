@@ -310,17 +310,16 @@ class FuncionariosPermisos extends Controllers
                     $pdf->SetFont('Arial', '', 10);
                     foreach ($historial as $item) {
                         $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
-                        
+                        $pdf->SetX(20);
                         $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
                         $pdf->Cell(90, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
                         $pdf->Cell(40, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
-                        
-                        // Si la tabla llega al final de la página, agregar una nueva
+                        // Si la tabla llega al final de la página, agregar una nueva y redibujar encabezado
                         if($pdf->GetY() > 250) {
                             $pdf->AddPage();
                             $pdf->useTemplate($tplIdx);
+                            $pdf->SetXY(40, 30);
                             $pdf->SetFont('Arial', 'B', 10);
-                            $pdf->SetXY(20, 30);
                             $pdf->SetFillColor(230, 230, 230);
                             $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
                             $pdf->Cell(90, 8, 'Motivo', 1, 0, 'C', true);
