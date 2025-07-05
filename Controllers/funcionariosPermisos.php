@@ -399,16 +399,16 @@ class FuncionariosPermisos extends Controllers
                     // Limpiar cualquier salida anterior
                     if (ob_get_length()) ob_clean();
                     
-                    // Incluir FPDI
+                    // Incluir FPDI para usar la plantilla
                     require_once 'vendor/setasign/fpdi/src/autoload.php';
                     
                     // Crear instancia de FPDI
                     $pdf = new \setasign\Fpdi\Fpdi();
                     
-                    // Ruta a la nueva plantilla
-                    $templatePath = 'Assets/plantillas/plantilla_permiso.pdf';
+                    // Ruta a la plantilla de la alcaldía
+                    $templatePath = 'Assets/plantillas/Plantillapdfalcaldia.pdf';
                     if (!file_exists($templatePath)) {
-                        throw new Exception("No se encontró la plantilla del permiso");
+                        throw new Exception("No se encontró la plantilla de la alcaldía");
                     }
                     
                     // Agregar la página de la plantilla
@@ -420,32 +420,62 @@ class FuncionariosPermisos extends Controllers
                     $pdf->useTemplate($tplIdx);
                     
                     // Configurar fuente
-                    $pdf->SetFont('Arial', '', 11);
+                    $pdf->SetFont('Arial', '', 12);
                     
-                    // Nombre del funcionario
-                    $pdf->SetXY(60, 75);
-                    $pdf->Cell(140, 8, mb_convert_encoding($funcionario['nombre_completo'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+                    // Fecha actual
+                    $fechaActual = date('d/m/Y');
                     
-                    // Identificación
-                    $pdf->SetXY(60, 83);
-                    $pdf->Cell(140, 8, $funcionario['nm_identificacion'], 0, 1);
+                    // Posición para la fecha (ajustar según la plantilla)
+                    $pdf->SetXY(25, 30);
+                    $pdf->Cell(0, 8, utf8_decode('La Jagua de Ibirico, Cesar ' . $fechaActual), 0, 1, 'L');
                     
-                    // Cargo
-                    $pdf->SetXY(60, 91);
-                    $pdf->Cell(140, 8, mb_convert_encoding($funcionario['cargo_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+                    // Destinatario
+                    $pdf->SetXY(25, 50);
+                    $pdf->Cell(0, 8, utf8_decode('Señor,'), 0, 1, 'L');
+                    $pdf->SetXY(25, 58);
+                    $pdf->Cell(0, 8, utf8_decode($funcionario['nombre_completo']), 0, 1, 'L');
+                    $pdf->SetXY(25, 66);
+                    $pdf->Cell(0, 8, utf8_decode($funcionario['cargo_nombre']), 0, 1, 'L');
+                    $pdf->SetXY(25, 74);
+                    $pdf->Cell(0, 8, utf8_decode('Alcaldía Municipal de La Jagua de Ibirico'), 0, 1, 'L');
                     
-                    // Dependencia
-                    $pdf->SetXY(60, 99);
-                    $pdf->Cell(140, 8, mb_convert_encoding($funcionario['dependencia_nombre'], 'ISO-8859-1', 'UTF-8'), 0, 1);
+                    // Asunto
+                    $pdf->SetXY(25, 90);
+                    $pdf->SetFont('Arial', 'B', 12);
+                    $pdf->Cell(0, 8, utf8_decode('Asunto: Respuesta a Solicitud'), 0, 1, 'L');
+                    
+                    // Saludo
+                    $pdf->SetXY(25, 110);
+                    $pdf->SetFont('Arial', '', 12);
+                    $pdf->Cell(0, 8, utf8_decode('Cordial saludo'), 0, 1, 'L');
                     
                     // Fecha del permiso
                     $fechaPermiso = date('d/m/Y', strtotime($permiso['fecha_permiso']));
-                    $pdf->SetXY(60, 137);
-                    $pdf->Cell(140, 8, $fechaPermiso, 0, 1);
                     
-                    // Motivo del permiso
-                    $pdf->SetXY(60, 146);
-                    $pdf->MultiCell(130, 8, mb_convert_encoding($permiso['motivo'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
+                    // Contenido principal
+                    $pdf->SetXY(25, 130);
+                    $contenido = 'De forma respetuosa y con aprecio me dirijo a usted para informarle que su solicitud de permiso para el día ' . $fechaPermiso . ', por concepto "' . $permiso['motivo'] . '" después de analizado fue aprobado por esta unidad.';
+                    $pdf->MultiCell(160, 8, utf8_decode($contenido), 0, 'J');
+                    
+                    // Firmas
+                    $pdf->SetXY(25, 170);
+                    $pdf->SetFont('Arial', 'B', 12);
+                    $pdf->Cell(0, 8, utf8_decode('MOISES XAVIER PATERNINA VASQUEZ'), 0, 1, 'C');
+                    $pdf->SetXY(25, 180);
+                    $pdf->SetFont('Arial', '', 12);
+                    $pdf->Cell(0, 8, utf8_decode('Jefe Oficina Asesora de Talento Humano'), 0, 1, 'C');
+                    
+                    // Proyectó y Revisó
+                    $pdf->SetXY(25, 200);
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(0, 6, utf8_decode('Proyectó:	Yuleima Aguilar Lima- Secretaria Ejecutiva'), 0, 1, 'L');
+                    $pdf->SetXY(25, 210);
+                    $pdf->Cell(0, 6, utf8_decode('Revisó:	Moisés Paternina Vásquez-jefe Talento Humano'), 0, 1, 'L');
+                    
+                    // Texto de responsabilidad (más pequeño)
+                    $pdf->SetXY(25, 230);
+                    $pdf->SetFont('Arial', '', 8);
+                    $pdf->MultiCell(160, 6, utf8_decode('Los arriba firmantes declaramos que hemos revisado el documento, cuyo contenido se encuentra ajustado a las disposiciones legales vigentes, bajo nuestra responsabilidad lo presentamos para firma.'), 0, 'J');
                     
                     // Asegurarse de que no haya salida antes del PDF
                     while (ob_get_level()) {

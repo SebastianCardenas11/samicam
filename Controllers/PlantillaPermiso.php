@@ -6,122 +6,64 @@ class PlantillaPermiso extends FPDF
 {
     function Header()
     {
-        // Logo (ajusta la ruta según tu logo)
-        $this->Image($baseDir . '/Assets/images/logo.png', 15, 10, 25);
-        
-        // Rectángulo decorativo superior
-        $this->SetFillColor(0, 82, 156); // Color azul institucional
-        $this->Rect(0, 0, 220, 40, 'F');
-        
-        // Título con color blanco
-        $this->SetTextColor(255, 255, 255);
-        $this->SetFont('Arial', 'B', 20);
-        $this->Cell(0, 15, '', 0, 1, 'C'); // Espacio para el logo
-        $this->Cell(0, 10, utf8_decode('ALCALDÍA MUNICIPAL'), 0, 1, 'C');
-        
-        // Subtítulo
-        $this->SetFont('Arial', 'B', 16);
-        $this->Cell(0, 10, utf8_decode('FORMATO DE PERMISO LABORAL'), 0, 1, 'C');
-        
-        // Restaurar color de texto
-        $this->SetTextColor(0, 0, 0);
-        
-        // Línea decorativa
-        $this->SetDrawColor(0, 82, 156); // Color azul para la línea
-        $this->SetLineWidth(0.5);
-        $this->Line(20, 45, 190, 45);
-        $this->Ln(15);
+        // No header para este formato de carta
     }
     
     function Footer()
     {
-        // Rectángulo decorativo inferior
-        $this->SetFillColor(0, 82, 156);
-        $this->Rect(0, 250, 220, 47, 'F');
-        
-        $this->SetY(-40);
-        
-        // Color blanco para el texto del pie
-        $this->SetTextColor(255, 255, 255);
-        
-        // Líneas para firmas en blanco
-        $this->SetDrawColor(255, 255, 255);
-        $this->Line(30, 240, 90, 240);
-        $this->Line(120, 240, 180, 240);
-        
-        $this->SetFont('Arial', '', 10);
-        $this->SetXY(30, 242);
-        $this->Cell(60, 5, 'Firma del Funcionario', 0, 0, 'C');
-        $this->SetXY(120, 242);
-        $this->Cell(60, 5, 'Firma del Superior', 0, 0, 'C');
-        
-        // Número de página
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, utf8_decode('Página ').$this->PageNo().'/{nb}', 0, 0, 'C');
+        // No footer para este formato de carta
     }
 }
 
 // Generar la plantilla
 $pdf = new PlantillaPermiso();
-$pdf->AliasNbPages();
 $pdf->AddPage();
 
-// Contenido base con diseño mejorado
-$pdf->SetFillColor(240, 240, 240); // Color gris claro para los encabezados
+// Configurar fuente y márgenes
+$pdf->SetFont('Arial', '', 12);
+$pdf->SetMargins(25, 25, 25);
 
-// Sección de información del funcionario
+// Encabezado con fecha y lugar
+$pdf->Cell(0, 8, utf8_decode('La Jagua de Ibirico, Cesar 27 de mayo de 2025'), 0, 1, 'L');
+$pdf->Ln(10);
+
+// Destinatario
+$pdf->Cell(0, 8, utf8_decode('Señor,'), 0, 1, 'L');
+$pdf->Cell(0, 8, utf8_decode('xxxxxxxxxxxxxxxxxxxxxxxxxxxx'), 0, 1, 'L');
+$pdf->Cell(0, 8, utf8_decode('Tecnico Operativo'), 0, 1, 'L');
+$pdf->Cell(0, 8, utf8_decode('Alcaldía Municipal de La Jagua de Ibirico'), 0, 1, 'L');
+$pdf->Ln(10);
+
+// Asunto
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->SetFillColor(0, 82, 156);
-$pdf->SetTextColor(255, 255, 255);
-$pdf->Cell(0, 8, utf8_decode('  INFORMACIÓN DEL FUNCIONARIO'), 1, 1, 'L', true);
+$pdf->Cell(0, 8, utf8_decode('Asunto: Respuesta a Solicitud'), 0, 1, 'L');
+$pdf->Ln(10);
+
+// Saludo
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(0, 8, utf8_decode('Cordial saludo'), 0, 1, 'L');
 $pdf->Ln(5);
 
-// Restaurar color de texto
-$pdf->SetTextColor(0, 0, 0);
-
-// Campos para información del funcionario con diseño mejorado
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(50, 8, '  Nombre:', 1, 0, 'L');
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(140, 8, '_________________________________________________', 1, 1, 'L');
-
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(50, 8, utf8_decode('  Identificación:'), 1, 0, 'L');
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(140, 8, '_________________________________________________', 1, 1, 'L');
-
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(50, 8, '  Cargo:', 1, 0, 'L');
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(140, 8, '_________________________________________________', 1, 1, 'L');
-
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(50, 8, '  Dependencia:', 1, 0, 'L');
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(140, 8, '_________________________________________________', 1, 1, 'L');
-
+// Contenido principal
+$pdf->MultiCell(0, 8, utf8_decode('De forma respetuosa y con aprecio me dirijo a usted para informarle que su solicitud de permiso para el día 30 de mayo de 2025, por concepto "llevar a hijos menores a cita médica" después de analizado fue aprobado por esta unidad.'), 0, 'J');
 $pdf->Ln(15);
 
-// Sección de información del permiso
+// Firmas
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->SetFillColor(0, 82, 156);
-$pdf->SetTextColor(255, 255, 255);
-$pdf->Cell(0, 8, utf8_decode('  INFORMACIÓN DEL PERMISO'), 1, 1, 'L', true);
-$pdf->Ln(5);
+$pdf->Cell(0, 8, utf8_decode('MOISES XAVIER PATERNINA VASQUEZ'), 0, 1, 'C');
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(0, 8, utf8_decode('Jefe Oficina Asesora de Talento Humano'), 0, 1, 'C');
+$pdf->Ln(10);
 
-// Restaurar color de texto
-$pdf->SetTextColor(0, 0, 0);
+// Proyectó y Revisó
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(0, 6, utf8_decode('Proyectó:	Yuleima Aguilar Lima- Secretaria Ejecutiva'), 0, 1, 'L');
+$pdf->Cell(0, 6, utf8_decode('Revisó:	Moisés Paternina Vásquez-jefe Talento Humano'), 0, 1, 'L');
+$pdf->Ln(10);
 
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(50, 8, '  Fecha:', 1, 0, 'L');
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(140, 8, '_________________________________________________', 1, 1, 'L');
-
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(50, 8, '  Motivo:', 1, 0, 'L');
-$pdf->SetFont('Arial', '', 11);
-$pdf->Cell(140, 30, '', 1, 1, 'L'); // Área más grande para el motivo
+// Texto de responsabilidad (más pequeño)
+$pdf->SetFont('Arial', '', 8);
+$pdf->MultiCell(0, 6, utf8_decode('Los arriba firmantes declaramos que hemos revisado el documento, cuyo contenido se encuentra ajustado a las disposiciones legales vigentes, bajo nuestra responsabilidad lo presentamos para firma.'), 0, 'J');
 
 // Guardar la plantilla
 $outputPath = $baseDir . '/Assets/plantillas/plantilla_permiso.pdf';
