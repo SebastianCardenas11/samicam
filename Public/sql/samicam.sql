@@ -1,4 +1,3 @@
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -728,6 +727,19 @@ INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgp
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_usuarios_roles`
+--
+
+CREATE TABLE `tbl_usuarios_roles` (
+  `id` bigint(20) NOT NULL,
+  `id_usuario` bigint(32) NOT NULL,
+  `id_rol` bigint(20) NOT NULL,
+  `fecha_asignacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_vacaciones`
 --
 
@@ -948,6 +960,14 @@ ALTER TABLE `tbl_usuarios`
   ADD KEY `rolid` (`rolid`);
 
 --
+-- Indices de la tabla `tbl_usuarios_roles`
+--
+ALTER TABLE `tbl_usuarios_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_rol` (`id_rol`);
+
+--
 -- Indices de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
@@ -1086,6 +1106,12 @@ ALTER TABLE `tbl_usuarios`
   MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_usuarios_roles`
+--
+ALTER TABLE `tbl_usuarios_roles`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
@@ -1170,6 +1196,13 @@ ALTER TABLE `tbl_tareas_usuarios`
 --
 ALTER TABLE `tbl_usuarios`
   ADD CONSTRAINT `tbl_usuarios_ibfk_1` FOREIGN KEY (`rolid`) REFERENCES `rol` (`idrol`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_usuarios_roles`
+--
+ALTER TABLE `tbl_usuarios_roles`
+  ADD CONSTRAINT `tbl_usuarios_roles_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuarios` (`ideusuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_usuarios_roles_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`idrol`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_vacaciones`

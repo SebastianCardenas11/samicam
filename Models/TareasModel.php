@@ -218,14 +218,28 @@
             return $this->select_all($sql);
         }
 
-        // Obtener usuarios con rol Técnico NTIC o Super Admin
+        // Obtener usuarios con rol Técnico NTIC o Super Admin (incluyendo roles adicionales)
         public function getUsuariosAsignables()
         {
-            $sql = "SELECT u.ideusuario, u.nombres 
+            $sql = "SELECT DISTINCT u.ideusuario, u.nombres 
                     FROM tbl_usuarios u 
-                    INNER JOIN rol r ON u.rolid = r.idrol 
-                    WHERE (r.nombrerol LIKE '%Tecnico%' OR r.nombrerol LIKE '%Técnico%' OR r.nombrerol = 'Superadministrador')
-                    AND u.status = 1
+                    WHERE u.status = 1
+                    AND (
+                        -- Usuario con rol principal que califica
+                        EXISTS (
+                            SELECT 1 FROM rol r 
+                            WHERE r.idrol = u.rolid 
+                            AND (r.nombrerol LIKE '%Tecnico%' OR r.nombrerol LIKE '%Técnico%' OR r.nombrerol = 'Superadministrador' OR r.nombrerol LIKE '%NTIC%')
+                        )
+                        OR
+                        -- Usuario con roles adicionales que califican
+                        EXISTS (
+                            SELECT 1 FROM tbl_usuarios_roles ur
+                            INNER JOIN rol r ON ur.id_rol = r.idrol
+                            WHERE ur.id_usuario = u.ideusuario
+                            AND (r.nombrerol LIKE '%Tecnico%' OR r.nombrerol LIKE '%Técnico%' OR r.nombrerol = 'Superadministrador' OR r.nombrerol LIKE '%NTIC%')
+                        )
+                    )
                     ORDER BY u.nombres ASC";
             
             return $this->select_all($sql);

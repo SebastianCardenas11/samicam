@@ -21,8 +21,12 @@
               <td id="celNombresUsuario"></td>
             </tr>
             <tr>
-              <td>Rol:</td>
+              <td>Rol Principal:</td>
               <td id="celRolUsuario"></td>
+            </tr>
+            <tr>
+              <td>Roles Adicionales:</td>
+              <td id="celRolesAdicionales"></td>
             </tr>
             <tr>
               <td>Estado:</td>

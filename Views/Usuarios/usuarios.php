@@ -28,7 +28,8 @@ headerAdmin($data);
                                 <tr>
                                     <th class="text-center">Correo</th>
                                     <th class="text-center">Nombres</th>
-                                    <th class="text-center">Rol</th>
+                                    <th class="text-center">Rol Principal</th>
+                                    <th class="text-center">Roles Adicionales</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>

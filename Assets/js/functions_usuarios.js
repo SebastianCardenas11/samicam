@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"correo"},
             {"data":"nombres"},
             {"data":"nombrerol"},
+            {"data":"roles_asignados"},
             {"data":"status"},
             {"data":"options"}
 
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Cargar roles al inicio
     fntRolesUsuario();
+    fntCargarRolesAdicionales();
     
     // Configurar el botón para mostrar/ocultar contraseña
     if(document.querySelector("#btnTogglePassword")){
@@ -91,6 +93,18 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
             }
             
+            // Obtener roles adicionales seleccionados
+            let rolesAdicionales = [];
+            document.querySelectorAll('input[name="txtRolesAdicionales[]"]:checked').forEach(function(checkbox) {
+                rolesAdicionales.push(checkbox.value);
+            });
+            
+            // Agregar roles adicionales al FormData
+            let formData = new FormData(formUsuario);
+            rolesAdicionales.forEach(function(rol) {
+                formData.append('txtRolesAdicionales[]', rol);
+            });
+            
             let elementsValid = document.getElementsByClassName("valid");
             for (let i = 0; i < elementsValid.length; i++) { 
                 if(elementsValid[i].classList.contains('is-invalid')) { 
@@ -101,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function(){
             if(divLoading) divLoading.style.display = "flex";
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Usuarios/setUsuario'; 
-            let formData = new FormData(formUsuario);
             request.open("POST",ajaxUrl,true);
             request.send(formData);
             request.onreadystatechange = function(){
@@ -111,17 +124,14 @@ document.addEventListener('DOMContentLoaded', function(){
                     {
                         if(rowTable == ""){
                             tableUsuarios.api().ajax.reload();
-                            // tableUsuarios.DataTable().ajax.reload();
                         }else{
                             htmlStatus = intStatus == 1 ? 
                             '<span class="badge text-bg-success">Activo</span>' : 
                             '<span class="badge text-bg-danger">Inactivo</span>';
-                            // tableUsuarios.api().ajax.reload();
-                           rowTable.cells[1].textContent =  strCorreoUsuario;
-                        //    rowTable.cells[2].textContent =  strRolUsuario;
-                           rowTable.cells[2].textContent = document.querySelector("#txtRolUsuario").selectedOptions[0].text;
+                            rowTable.cells[1].textContent =  strCorreoUsuario;
+                            rowTable.cells[2].textContent = document.querySelector("#txtRolUsuario").selectedOptions[0].text;
                             rowTable.cells[3].innerHTML = htmlStatus;
-                           rowTable = "";
+                            rowTable = "";
                         }
                         $('#modalFormUsuario').modal("hide");
                         formUsuario.reset();
@@ -155,6 +165,44 @@ function fntRolesUsuario(){
     }
 }
 
+// NUEVA FUNCIÓN: Cargar roles adicionales como checkboxes
+function fntCargarRolesAdicionales(){
+    let ajaxUrl = base_url+'/Roles/getSelectRoles';
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let rolesContainer = document.querySelector('#rolesAdicionalesContainer');
+            if(rolesContainer) {
+                rolesContainer.innerHTML = '';
+                
+                // Parsear la respuesta HTML para obtener las opciones
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = request.responseText;
+                let options = tempDiv.querySelectorAll('option');
+                
+                options.forEach(function(option) {
+                    if(option.value && option.value != '') {
+                        let checkboxDiv = document.createElement('div');
+                        checkboxDiv.className = 'form-check form-check-inline';
+                        checkboxDiv.innerHTML = `
+                            <input class="form-check-input" type="checkbox" 
+                                   name="txtRolesAdicionales[]" 
+                                   value="${option.value}" 
+                                   id="rol_${option.value}">
+                            <label class="form-check-label" for="rol_${option.value}">
+                                ${option.textContent}
+                            </label>
+                        `;
+                        rolesContainer.appendChild(checkboxDiv);
+                    }
+                });
+            }
+        }
+    }
+}
+
 function fntViewInfo(ideusuario){
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Usuarios/getUsuario/'+ideusuario;
@@ -177,6 +225,17 @@ function fntViewInfo(ideusuario){
                 document.querySelector("#celNombresUsuario").innerHTML = objData.data.nombres;
                 document.querySelector("#celRolUsuario").innerHTML = objData.data.nombrerol;
                 document.querySelector("#celEstadoUsuario").innerHTML = estadoUsuario;
+                
+                // Mostrar roles adicionales si existen
+                if(objData.data.roles && objData.data.roles.length > 0) {
+                    let rolesHtml = objData.data.roles.map(rol => 
+                        `<span class="badge text-bg-info me-1">${rol.nombrerol}</span>`
+                    ).join('');
+                    document.querySelector("#celRolesAdicionales").innerHTML = rolesHtml;
+                } else {
+                    document.querySelector("#celRolesAdicionales").innerHTML = 
+                        '<span class="text-muted">Sin roles adicionales</span>';
+                }
                 
                 $('#modalViewUsuario').modal('show');
             }else{
@@ -201,52 +260,51 @@ function fntEditInfo(element, ideusuario){
     request.open("GET",ajaxUrl,true);
     request.send();
     request.onreadystatechange = function(){
-
         if(request.readyState == 4 && request.status == 200){
             let objData = JSON.parse(request.responseText);
             if(objData.status)
             {
-                document.querySelector("#ideUsuario").value = objData.data.ideusuario;
-                document.querySelector("#txtCorreoUsuario").value = objData.data.correo;
-                document.querySelector("#txtNombresUsuario").value = objData.data.nombres;
+                document.querySelector('#ideUsuario').value = objData.data.ideusuario;
+                document.querySelector('#txtCorreoUsuario').value = objData.data.correo;
+                document.querySelector('#txtNombresUsuario').value = objData.data.nombres;
+                document.querySelector('#txtRolUsuario').value = objData.data.rolid;
+                document.querySelector('#listStatus').value = objData.data.status;
                 
-                // Dejar el campo de contraseña vacío
-                document.querySelector("#txtContrasenaUsuario").value = "";
-                
-                // Asegurarse de que los roles estén cargados antes de establecer el valor
-                fntRolesUsuario();
-                setTimeout(() => {
-                    document.querySelector("#txtRolUsuario").value = objData.data.idrol;
-                }, 500);
-                
-                // ESTADO ACTIVO O INACTIVO
-                if(objData.data.status == 1){
-                    document.querySelector("#listStatus").value = 1;
-                }else{
-                    document.querySelector("#listStatus").value = 2;
+                // Marcar roles adicionales si existen
+                if(objData.data.roles_ids && objData.data.roles_ids.length > 0) {
+                    // Desmarcar todos primero
+                    document.querySelectorAll('input[name="txtRolesAdicionales[]"]').forEach(function(checkbox) {
+                        checkbox.checked = false;
+                    });
+                    
+                    // Marcar los roles que tiene el usuario
+                    objData.data.roles_ids.forEach(function(rolId) {
+                        let checkbox = document.querySelector(`input[name="txtRolesAdicionales[]"][value="${rolId}"]`);
+                        if(checkbox) {
+                            checkbox.checked = true;
+                        }
+                    });
                 }
                 
+                $('#modalFormUsuario').modal('show');
+            }else{
+                Swal.fire("Error", objData.msg , "error");
             }
         }
-        $('#modalFormUsuario').modal('show');
-        
     }
-    
 }
 
 function fntDelInfo(ideusuario){
     Swal.fire({
-        title: "Eliminar la Asignación",
-        text: "¿Estás seguro?",
-        imageUrl: "Assets/images/iconos/eliminar.png" ,
+        icon: "warning",
+        title: "¿Está seguro de eliminar el Usuario?",
+        text: "Una vez eliminado no se podrá recuperar",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        cancelButtonColor: "#00A6FF",
-        confirmButtonText: "Eliminar",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: true
-      }).then((result) => {
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
         if (result.isConfirmed) {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Usuarios/delUsuario';
@@ -259,35 +317,32 @@ function fntDelInfo(ideusuario){
                     let objData = JSON.parse(request.responseText);
                     if(objData.status)
                     {
-                        Swal.fire("Eliminar!", objData.msg , "success");
+                        Swal.fire("Eliminado!", objData.msg, "success");
                         tableUsuarios.api().ajax.reload();
-                    }else{
-                        Swal.fire("Atención!", objData.msg , "error");
+                    } else {
+                        Swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
         }
-
     });
-
 }
 
 function openModal()
 {
-    rowTable = "";
     document.querySelector('#ideUsuario').value ="";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-warning");
+    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-success");
     document.querySelector('#btnText').innerHTML ="Guardar";
     document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
     document.querySelector("#formUsuario").reset();
-    
-    // Mostrar el campo de contraseña en modo creación
     document.querySelector('#divContrasena').style.display = 'block';
-    document.querySelector('#txtContrasenaUsuario').setAttribute('required', '');
+    document.querySelector('#txtContrasenaUsuario').setAttribute('required', 'required');
     
-    // Asegurarse de que los roles estén cargados
-    fntRolesUsuario();
+    // Desmarcar todos los checkboxes de roles adicionales
+    document.querySelectorAll('input[name="txtRolesAdicionales[]"]').forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
     
     $('#modalFormUsuario').modal('show');
 }

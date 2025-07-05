@@ -44,6 +44,12 @@ class Usuarios extends Controllers
                 $strRolUsuario = intval(strClean($_POST['txtRolUsuario']));
                 $intStatus = intval(strClean($_POST['listStatus']));
 
+                // Obtener roles adicionales si existen
+                $roles_adicionales = array();
+                if (isset($_POST['txtRolesAdicionales']) && is_array($_POST['txtRolesAdicionales'])) {
+                    $roles_adicionales = array_map('intval', $_POST['txtRolesAdicionales']);
+                }
+
                 $request_user = "";
                 if ($intIdeUsuario == 0) {
                     $option = 1;
@@ -65,6 +71,11 @@ class Usuarios extends Controllers
                             $strRolUsuario,
                             $intStatus
                         );
+                        
+                        // Si se creó el usuario exitosamente, asignar roles adicionales
+                        if ($request_user > 0 && !empty($roles_adicionales)) {
+                            $this->model->asignarRolesUsuario($request_user, $roles_adicionales);
+                        }
                     }
                 } else {
                     $option = 2;
@@ -82,6 +93,11 @@ class Usuarios extends Controllers
                                 $strRolUsuario,
                                 $intStatus
                             );
+                            
+                            // Actualizar roles adicionales
+                            if ($request_user && !empty($roles_adicionales)) {
+                                $this->model->updateRolesUsuario($intIdeUsuario, $roles_adicionales);
+                            }
                         }
                     } else {
                         // No modificar la contraseña al actualizar
@@ -93,6 +109,11 @@ class Usuarios extends Controllers
                                 $strRolUsuario,
                                 $intStatus
                             );
+                            
+                            // Actualizar roles adicionales
+                            if ($request_user && !empty($roles_adicionales)) {
+                                $this->model->updateRolesUsuario($intIdeUsuario, $roles_adicionales);
+                            }
                         }
                     }
                 }
@@ -117,7 +138,8 @@ class Usuarios extends Controllers
     public function getUsuarios()
     {
         if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectUsuarios();
+            // Usar el nuevo método que incluye múltiples roles
+            $arrData = $this->model->selectUsuariosConRoles();
             for ($i = 0; $i < count($arrData); $i++) {
                 $btnView = '';
                 $btnEdit = '';
@@ -130,6 +152,13 @@ class Usuarios extends Controllers
                     $arrData[$i]['status'] = '<span class="badge text-bg-danger">Inactivo</span>';
                 }
 
+                // Mostrar roles asignados
+                if (!empty($arrData[$i]['roles_asignados'])) {
+                    $arrData[$i]['roles_asignados'] = '<span class="badge text-bg-info">' . $arrData[$i]['roles_asignados'] . '</span>';
+                } else {
+                    $arrData[$i]['roles_asignados'] = '<span class="badge text-bg-secondary">Sin roles adicionales</span>';
+                }
+
                 if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['ideusuario'] . ')" title="Ver Usuario"><i class="far fa-eye"></i></button>';
                 }
@@ -140,7 +169,7 @@ class Usuarios extends Controllers
                 if($_SESSION['permisosMod']['d']){
                     // Permitir eliminar a cualquier usuario con permiso de eliminación
                     // excepto a sí mismo y al superadministrador (idrol = 1)
-                    if($arrData[$i]['idrol'] == 1 || $_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
+                    if($arrData[$i]['rol_principal'] == 1 || $_SESSION['userData']['ideusuario'] == $arrData[$i]['ideusuario']){
                         // No mostrar botón para superadmin o para sí mismo
                     } else {
                         $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['ideusuario'] . ')" title="Eliminar Usuario"><i class="far fa-trash-alt"></i></button>';
@@ -159,7 +188,8 @@ class Usuarios extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             $ideusuario = intval($ideusuario);
             if ($ideusuario > 0) {
-                $arrData = $this->model->selectUsuario($ideusuario);
+                // Usar el nuevo método que incluye todos los roles
+                $arrData = $this->model->selectUsuarioConRoles($ideusuario);
                 if (empty($arrData)) {
                     $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
                 } else {
@@ -186,6 +216,107 @@ class Usuarios extends Controllers
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
+        }
+        die();
+    }
+
+    // =====================================================
+    // NUEVOS MÉTODOS PARA MANEJAR MÚLTIPLES ROLES
+    // =====================================================
+
+    // Obtener roles disponibles para asignar
+    public function getRolesDisponibles()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->selectRoles();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // Obtener roles de un usuario específico
+    public function getRolesUsuario($ideusuario)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $ideusuario = intval($ideusuario);
+            if ($ideusuario > 0) {
+                $arrData = $this->model->getRolesUsuario($ideusuario);
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    // Asignar roles a un usuario
+    public function asignarRoles()
+    {
+        if ($_POST) {
+            if ($_SESSION['permisosMod']['u']) {
+                $intIdeUsuario = intval($_POST['ideUsuario']);
+                $roles = array();
+                
+                if (isset($_POST['roles']) && is_array($_POST['roles'])) {
+                    $roles = array_map('intval', $_POST['roles']);
+                }
+                
+                $request = $this->model->asignarRolesUsuario($intIdeUsuario, $roles);
+                
+                if ($request) {
+                    $arrResponse = array('status' => true, 'msg' => 'Roles asignados correctamente');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al asignar roles');
+                }
+                
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    // Verificar permisos de un usuario (combinando todos sus roles)
+    public function getPermisosUsuario($ideusuario)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $ideusuario = intval($ideusuario);
+            if ($ideusuario > 0) {
+                $arrData = $this->model->getPermisosUsuario($ideusuario);
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    // MÉTODO DE DEBUG: Verificar permisos del usuario actual
+    public function debugPermisosUsuario()
+    {
+        if (!empty($_SESSION['userData'])) {
+            $ideusuario = $_SESSION['userData']['ideusuario'];
+            $idrol = $_SESSION['userData']['idrol'];
+            
+            // Obtener roles del usuario
+            $roles = $this->model->getRolesUsuario($ideusuario);
+            
+            // Obtener permisos combinados
+            $permisosCombinados = $this->model->getPermisosUsuario($ideusuario);
+            
+            // Obtener permisos del rol principal
+            require_once("Models/PermisosModel.php");
+            $objPermisos = new PermisosModel();
+            $permisosRolPrincipal = $objPermisos->permisosModulo($idrol);
+            
+            $debug = array(
+                'usuario_id' => $ideusuario,
+                'rol_principal_id' => $idrol,
+                'roles_asignados' => $roles,
+                'permisos_rol_principal' => $permisosRolPrincipal,
+                'permisos_combinados' => $permisosCombinados,
+                'permisos_sesion' => $_SESSION['permisos'],
+                'permisos_modulo_actual' => $_SESSION['permisosMod']
+            );
+            
+            echo json_encode($debug, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(array('error' => 'No hay sesión activa'), JSON_UNESCAPED_UNICODE);
         }
         die();
     }

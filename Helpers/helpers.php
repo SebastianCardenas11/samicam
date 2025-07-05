@@ -60,16 +60,57 @@ function sendEmail($data, $template)
 function getPermisos(int $idmodulo)
 {
     require_once("Models/PermisosModel.php");
+    require_once("Models/UsuariosModel.php");
     $objPermisos = new PermisosModel();
+    $objUsuarios = new UsuariosModel();
+    
     if (!empty($_SESSION['userData'])) {
+        $ideusuario = $_SESSION['userData']['ideusuario'];
+        
+        // Obtener permisos del rol principal
         $idrol = $_SESSION['userData']['idrol'];
         $arrPermisos = $objPermisos->permisosModulo($idrol);
-        $permisos = '';
-        $permisosMod = '';
+        
+        // Obtener permisos de roles adicionales
+        $permisosAdicionales = $objUsuarios->getPermisosUsuario($ideusuario);
+        
+        // Combinar permisos del rol principal con roles adicionales
+        $permisosCombinados = array();
+        
+        // Primero agregar permisos del rol principal
         if (count($arrPermisos) > 0) {
-            $permisos = $arrPermisos;
-            $permisosMod = isset($arrPermisos[$idmodulo]) ? $arrPermisos[$idmodulo] : "";
+            foreach ($arrPermisos as $moduloId => $permiso) {
+                $permisosCombinados[$moduloId] = $permiso;
+            }
         }
+        
+        // Luego agregar/actualizar con permisos de roles adicionales
+        if (count($permisosAdicionales) > 0) {
+            foreach ($permisosAdicionales as $moduloId => $permiso) {
+                if (!isset($permisosCombinados[$moduloId])) {
+                    // Si el módulo no existe, agregarlo
+                    $permisosCombinados[$moduloId] = array(
+                        'rolid' => $idrol,
+                        'moduloid' => $moduloId,
+                        'modulo' => 'Módulo ' . $moduloId,
+                        'r' => $permiso['r'],
+                        'w' => $permiso['w'],
+                        'u' => $permiso['u'],
+                        'd' => $permiso['d']
+                    );
+                } else {
+                    // Si el módulo existe, combinar permisos (usar el máximo)
+                    $permisosCombinados[$moduloId]['r'] = max($permisosCombinados[$moduloId]['r'], $permiso['r']);
+                    $permisosCombinados[$moduloId]['w'] = max($permisosCombinados[$moduloId]['w'], $permiso['w']);
+                    $permisosCombinados[$moduloId]['u'] = max($permisosCombinados[$moduloId]['u'], $permiso['u']);
+                    $permisosCombinados[$moduloId]['d'] = max($permisosCombinados[$moduloId]['d'], $permiso['d']);
+                }
+            }
+        }
+        
+        $permisos = $permisosCombinados;
+        $permisosMod = isset($permisosCombinados[$idmodulo]) ? $permisosCombinados[$idmodulo] : "";
+        
         $_SESSION['permisos'] = $permisos;
         $_SESSION['permisosMod'] = $permisosMod;
     }
@@ -220,18 +261,8 @@ function getFile(string $url, $data)
 
 function getPermisosModulo(int $idmodulo)
 {
-    require_once("Models/PermisosModel.php");
-    $objPermisos = new PermisosModel();
-    $idrol = $_SESSION['userData']['idrol'];
-    $arrPermisos = $objPermisos->permisosModulo($idrol);
-    $permisos = '';
-    $permisosMod = '';
-    if (count($arrPermisos) > 0) {
-        $permisos = $arrPermisos;
-        $permisosMod = isset($arrPermisos[$idmodulo]) ? $arrPermisos[$idmodulo] : "";
-    }
-    $_SESSION['permisos'] = $permisos;
-    $_SESSION['permisosMod'] = $permisosMod;
+    // Usar la función getPermisos actualizada que maneja múltiples roles
+    getPermisos($idmodulo);
 }
 
 function isVisible($idmodulo)
