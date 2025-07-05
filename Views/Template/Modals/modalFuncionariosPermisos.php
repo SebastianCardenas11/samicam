@@ -127,6 +127,7 @@
                                 <tr class="bg-light">
                                     <th class="text-dark">Fecha</th>
                                     <th class="text-dark">Motivo</th>
+                                    <th class="text-dark">Tipo</th>
                                     <th class="text-dark">Estado</th>
                                     <th class="text-dark">Acciones</th>
                                 </tr>
@@ -180,8 +181,22 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="txtJustificacionEspecial" class="form-label">Justificación <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="txtJustificacionEspecial" name="txtJustificacionEspecial" rows="3" required placeholder="Describa detalladamente el motivo del permiso especial"></textarea>
+                        <label for="listJustificacionEspecial" class="form-label">Justificación <span class="text-danger">*</span></label>
+                        <select class="form-select" id="listJustificacionEspecial" name="listJustificacionEspecial" required>
+                            <option value="">Seleccione una justificación</option>
+                            <option value="Calamidad doméstica">Calamidad doméstica</option>
+                            <option value="Emergencia médica">Emergencia médica</option>
+                            <option value="Asunto familiar urgente">Asunto familiar urgente</option>
+                            <option value="Capacitación oficial">Capacitación oficial</option>
+                            <option value="Diligencia judicial">Diligencia judicial</option>
+                            <option value="Muerte familiar">Muerte familiar</option>
+                            <option value="Otro (especificar)">Otro (especificar)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group mb-3" id="divOtroJustificacion" style="display: none;">
+                        <label for="txtOtroJustificacion" class="form-label">Especificar otro motivo <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="txtOtroJustificacion" name="txtOtroJustificacion" rows="2" placeholder="Describa el motivo especial"></textarea>
                     </div>
 
                     <div class="modal-footer">

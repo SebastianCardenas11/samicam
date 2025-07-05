@@ -159,10 +159,13 @@ function fntViewHistorial(idefuncionario) {
             if (objDataHistorial.status) {
               objDataHistorial.data.forEach(function(item) {
                 let fechaFormateada = new Date(item.fecha_permiso + "T12:00:00").toLocaleDateString();
+                let tipoPermiso = item.es_permiso_especial == 1 ? 'Especial' : 'Normal';
+                
                 htmlHistorial += `<tr>
                   <td>${fechaFormateada}</td>
                   <td>${item.motivo}</td>
-                  <td class="text-success">${item.estado}</td>
+                  <td>${tipoPermiso}</td>
+                  <td>${item.estado}</td>
                   <td>
                     <button class="btn btn-primary btn-sm" onclick="generarPermisoPDF(${item.id_permiso})" title="Descargar PDF">
                       <i class="bi bi-file-pdf"></i>
@@ -172,7 +175,7 @@ function fntViewHistorial(idefuncionario) {
               });
               document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             } else {
-              htmlHistorial = `<tr><td colspan="4" class="text-center">No hay permisos registrados</td></tr>`;
+              htmlHistorial = `<tr><td colspan="5" class="text-center">No hay permisos registrados</td></tr>`;
               document.querySelector("#tableHistorialPermisos").innerHTML = htmlHistorial;
             }
             
@@ -244,10 +247,17 @@ document.addEventListener('DOMContentLoaded', function() {
       let idFuncionario = document.querySelector('#idFuncionarioEspecial').value;
       let fechaInicio = document.querySelector('#txtFechaInicioEspecial').value;
       let fechaFin = document.querySelector('#txtFechaFinEspecial').value;
-      let justificacion = document.querySelector('#txtJustificacionEspecial').value;
+      let justificacion = document.querySelector('#listJustificacionEspecial').value;
+      let otroJustificacion = document.querySelector('#txtOtroJustificacion').value;
       
-      if(idFuncionario == '' || fechaInicio == '' || fechaFin == '') {
+      if(idFuncionario == '' || fechaInicio == '' || fechaFin == '' || justificacion == '') {
         Swal.fire("Error", "Todos los campos son obligatorios", "error");
+        return false;
+      }
+      
+      // Si seleccionó "Otro (especificar)", validar que haya especificado
+      if(justificacion == 'Otro (especificar)' && otroJustificacion == '') {
+        Swal.fire("Error", "Debe especificar el motivo cuando selecciona 'Otro'", "error");
         return false;
       }
       
@@ -257,9 +267,18 @@ document.addEventListener('DOMContentLoaded', function() {
         return false;
       }
       
+      // Si seleccionó "Otro", usar el texto especificado, sino usar el valor del select
+      let justificacionFinal = justificacion;
+      if(justificacion == 'Otro (especificar)') {
+        justificacionFinal = otroJustificacion;
+      }
+      
       let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       let ajaxUrl = base_url + '/funcionariosPermisos/setPermisoEspecial';
       let formData = new FormData(formPermisoEspecial);
+      
+      // Reemplazar la justificación del select con la justificación final
+      formData.set('txtJustificacionEspecial', justificacionFinal);
       
       request.open("POST", ajaxUrl, true);
       request.send(formData);
@@ -284,6 +303,22 @@ document.addEventListener('DOMContentLoaded', function() {
   if(btnGenerarPDF){
     btnGenerarPDF.addEventListener('click', function() {
       generarPDF();
+    });
+  }
+  
+  // Manejar el cambio en el select de justificación especial
+  let listJustificacionEspecial = document.querySelector("#listJustificacionEspecial");
+  if(listJustificacionEspecial){
+    listJustificacionEspecial.addEventListener('change', function() {
+      let divOtroJustificacion = document.querySelector("#divOtroJustificacion");
+      if(this.value == 'Otro (especificar)') {
+        divOtroJustificacion.style.display = 'block';
+        document.querySelector("#txtOtroJustificacion").required = true;
+      } else {
+        divOtroJustificacion.style.display = 'none';
+        document.querySelector("#txtOtroJustificacion").required = false;
+        document.querySelector("#txtOtroJustificacion").value = '';
+      }
     });
   }
 });

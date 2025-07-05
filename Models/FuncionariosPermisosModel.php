@@ -66,7 +66,7 @@ class FuncionariosPermisosModel extends Mysql
             u.religion,
             u.formacion_academica,
             u.nombre_formacion,
-            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())) as permisos_mes_actual
+            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE()) AND es_permiso_especial = 0) as permisos_mes_actual
         FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -106,7 +106,7 @@ class FuncionariosPermisosModel extends Mysql
                 u.religion,
                 u.formacion_academica,
                 u.nombre_formacion,
-                (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())) as permisos_mes_actual
+                (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE()) AND es_permiso_especial = 0) as permisos_mes_actual
             FROM tbl_funcionarios_planta u
             INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
             INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -123,7 +123,9 @@ class FuncionariosPermisosModel extends Mysql
                 p.id_permiso,
                 p.fecha_permiso,
                 p.motivo,
-                p.estado
+                p.estado,
+                p.es_permiso_especial,
+                p.justificacion_especial
             FROM tbl_permisos p
             WHERE p.id_funcionario = $idFuncionario
             AND p.tipo_funcionario = 'planta'
@@ -156,7 +158,8 @@ class FuncionariosPermisosModel extends Mysql
                     WHERE id_funcionario = ? 
                     AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) 
                     AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE())
-                    AND tipo_funcionario = 'planta'";
+                    AND tipo_funcionario = 'planta'
+                    AND es_permiso_especial = 0";
             $arrData = array($idFuncionario);
             $request = $this->select($sql, $arrData);
             return $request['total'];
@@ -166,13 +169,23 @@ class FuncionariosPermisosModel extends Mysql
         }
     }
 
-    public function existePermisoEnFecha($idFuncionario, $fecha)
+    public function existePermisoEnFecha($idFuncionario, $fecha, $esPermisoEspecial = false)
     {
         try {
-            $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
-                    WHERE id_funcionario = ? 
-                    AND fecha_permiso = ?
-                    AND tipo_funcionario = 'planta'";
+            if ($esPermisoEspecial) {
+                // Para permisos especiales, solo verificar si ya existe otro permiso especial
+                $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
+                        WHERE id_funcionario = ? 
+                        AND fecha_permiso = ?
+                        AND tipo_funcionario = 'planta'
+                        AND es_permiso_especial = 1";
+            } else {
+                // Para permisos normales, verificar si ya existe cualquier permiso
+                $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
+                        WHERE id_funcionario = ? 
+                        AND fecha_permiso = ?
+                        AND tipo_funcionario = 'planta'";
+            }
             $arrData = array($idFuncionario, $fecha);
             $request = $this->select($sql, $arrData);
             return $request['total'] > 0;
@@ -186,7 +199,7 @@ class FuncionariosPermisosModel extends Mysql
     {
         try {
             // Verificar si ya existe un permiso en la misma fecha
-            if ($this->existePermisoEnFecha($idFuncionario, $fechaPermiso)) {
+            if ($this->existePermisoEnFecha($idFuncionario, $fechaPermiso, $esPermisoEspecial)) {
                 return -1; // Código especial para indicar permiso duplicado
             }
 
@@ -201,14 +214,18 @@ class FuncionariosPermisosModel extends Mysql
             
             $motivo_texto = $request_motivo['descripcion'];
             
+            if ($esPermisoEspecial) {
+                $motivo_texto = "Permiso Especial: " . $motivo_texto;
+            }
+            
             // Extraer mes y año de la fecha
             $fecha = new DateTime($fechaPermiso);
             $mes = $fecha->format('m');
             $anio = $fecha->format('Y');
             
-            // Insertar en la tabla tbl_permisos
-            $sql = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario) 
-                    VALUES(?, ?, ?, ?, ?, ?, ?)";
+            // Insertar en la tabla tbl_permisos con las nuevas columnas
+            $sql = "INSERT INTO tbl_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario, es_permiso_especial, justificacion_especial) 
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             $arrData = array(
                 $idFuncionario,
@@ -217,15 +234,17 @@ class FuncionariosPermisosModel extends Mysql
                 $anio,
                 $motivo_texto,
                 'Aprobado',
-                'planta'
+                'planta',
+                $esPermisoEspecial,
+                $justificacionEspecial
             );
             
             $request = $this->insert($sql, $arrData);
             
             if ($request > 0) {
-                // También insertar en el historial
-                $sql_historial = "INSERT INTO tbl_historial_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario) 
-                                VALUES(?, ?, ?, ?, ?, ?, ?)";
+                // También insertar en el historial con las nuevas columnas
+                $sql_historial = "INSERT INTO tbl_historial_permisos(id_funcionario, fecha_permiso, mes, anio, motivo, estado, tipo_funcionario, es_permiso_especial, justificacion_especial) 
+                                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $this->insert($sql_historial, $arrData);
             }
             

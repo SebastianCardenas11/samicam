@@ -302,29 +302,40 @@ class FuncionariosPermisos extends Controllers
                     // Encabezados de la tabla de historial
                     $pdf->SetFont('Arial', 'B', 10);
                     $pdf->SetFillColor(230, 230, 230);
-                    $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
-                    $pdf->Cell(90, 8, 'Motivo', 1, 0, 'C', true);
-                    $pdf->Cell(40, 8, 'Estado', 1, 1, 'C', true);
+                    $pdf->Cell(35, 8, 'Fecha', 1, 0, 'C', true);
+                    $pdf->Cell(85, 8, 'Motivo', 1, 0, 'C', true);
+                    $pdf->Cell(35, 8, 'Estado', 1, 0, 'C', true);
+                    $pdf->Cell(15, 8, 'Tipo', 1, 1, 'C', true);
                     
                     // Datos de la tabla
-                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->SetFont('Arial', '', 9);
                     foreach ($historial as $item) {
                         $fechaPermiso = date('d/m/Y', strtotime($item['fecha_permiso']));
                         $pdf->SetX(20);
-                        $pdf->Cell(40, 8, $fechaPermiso, 1, 0, 'C');
-                        $pdf->Cell(90, 8, mb_convert_encoding($item['motivo'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
-                        $pdf->Cell(40, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 1, 'C');
+                        $pdf->Cell(35, 8, $fechaPermiso, 1, 0, 'C');
+                        
+                        // Determinar el tipo de permiso
+                        $tipoPermiso = ($item['es_permiso_especial'] == 1) ? 'Especial' : 'Normal';
+                        $motivo = $item['motivo'];
+                        
+                        
+                        
+                        $pdf->Cell(85, 8, mb_convert_encoding($motivo, 'ISO-8859-1', 'UTF-8'), 1, 0, 'L');
+                        $pdf->Cell(35, 8, mb_convert_encoding($item['estado'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C');
+                        $pdf->Cell(15, 8, $tipoPermiso, 1, 1, 'C');
+                        
                         // Si la tabla llega al final de la página, agregar una nueva y redibujar encabezado
                         if($pdf->GetY() > 250) {
                             $pdf->AddPage();
                             $pdf->useTemplate($tplIdx);
-                            $pdf->SetXY(40, 30);
+                            $pdf->SetXY(20, 30);
                             $pdf->SetFont('Arial', 'B', 10);
                             $pdf->SetFillColor(230, 230, 230);
-                            $pdf->Cell(40, 8, 'Fecha', 1, 0, 'C', true);
-                            $pdf->Cell(90, 8, 'Motivo', 1, 0, 'C', true);
-                            $pdf->Cell(40, 8, 'Estado', 1, 1, 'C', true);
-                            $pdf->SetFont('Arial', '', 10);
+                            $pdf->Cell(35, 8, 'Fecha', 1, 0, 'C', true);
+                            $pdf->Cell(85, 8, 'Motivo', 1, 0, 'C', true);
+                            $pdf->Cell(35, 8, 'Estado', 1, 0, 'C', true);
+                            $pdf->Cell(15, 8, 'Tipo', 1, 1, 'C', true);
+                            $pdf->SetFont('Arial', '', 9);
                         }
                     }
                 } else {
@@ -539,32 +550,62 @@ class FuncionariosPermisos extends Controllers
                     die();
                 }
 
+                // Validar que el rango de fechas no sea muy extenso (máximo 30 días)
+                $fechaInicioObj = new DateTime($fechaInicio);
+                $fechaFinObj = new DateTime($fechaFin);
+                $diferencia = $fechaInicioObj->diff($fechaFinObj);
+                if ($diferencia->days > 30) {
+                    $arrResponse = array('status' => false, 'msg' => 'El rango de fechas no puede exceder los 30 días');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+
                 // Insertar el permiso especial para cada día en el rango
                 $fechaActual = new DateTime($fechaInicio);
                 $fechaFinal = new DateTime($fechaFin);
                 $exito = true;
+                $permisosInsertados = 0;
 
                 while ($fechaActual <= $fechaFinal) {
-                    $request = $this->model->insertPermiso(
-                        $idFuncionario,
-                        $fechaActual->format('Y-m-d'),
-                        1, // ID del motivo (puedes ajustar según tu necesidad)
-                        1, // Es permiso especial
-                        $justificacion
-                    );
+                    // Verificar si ya existe un permiso especial en esa fecha
+                    $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
+                            WHERE id_funcionario = ? 
+                            AND fecha_permiso = ?
+                            AND tipo_funcionario = 'planta'
+                            AND es_permiso_especial = 1";
+                    $arrData = array($idFuncionario, $fechaActual->format('Y-m-d'));
+                    $request = $this->model->select($sql, $arrData);
+                    
+                    if ($request['total'] == 0) {
+                        $request = $this->model->insertPermiso(
+                            $idFuncionario,
+                            $fechaActual->format('Y-m-d'),
+                            1, // ID del motivo (Cita médica como predeterminado)
+                            1, // Es permiso especial
+                            $justificacion
+                        );
 
-                    if ($request <= 0) {
+                        if ($request > 0) {
+                            $permisosInsertados++;
+                        } else {
+                            $exito = false;
+                            break;
+                        }
+                    } else {
+                        // Si ya existe un permiso especial en esa fecha, no permitir duplicado
                         $exito = false;
-                        break;
+                        $arrResponse = array('status' => false, 'msg' => 'Ya existe un permiso especial para la fecha ' . $fechaActual->format('d/m/Y') . '.');
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
                     }
 
                     $fechaActual->modify('+1 day');
                 }
 
-                if ($exito) {
-                    $arrResponse = array('status' => true, 'msg' => 'Permiso especial registrado correctamente');
+                if ($exito && $permisosInsertados > 0) {
+                    $arrResponse = array('status' => true, 'msg' => "Permiso especial registrado correctamente para $permisosInsertados día(s)");
                 } else {
-                    $arrResponse = array('status' => false, 'msg' => 'Error al registrar el permiso especial');
+                    $arrResponse = array('status' => false, 'msg' => 'Error al registrar el permiso especial o no se pudieron insertar permisos');
                 }
 
             } catch (Exception $e) {
