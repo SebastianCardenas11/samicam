@@ -88,3 +88,10 @@
 [2025-07-05 02:43:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-07-05 02:45:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-07-05 02:46:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-05 02:50:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-05 02:51:08] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-05 02:55:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-07-05 03:00:31] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-05 03:00:45] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-05 03:00:51] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-05 03:00:58] ID: 16 | Usuario: Tatiana Martínez Meneses | Rol: Gobierno digital | IP: ::1 | Acción: Acceso al módulo Dashboard

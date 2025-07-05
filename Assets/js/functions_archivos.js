@@ -1,6 +1,15 @@
 let tableArchivos;
 let rowTable = "";
+let permisosUsuario = { r: false, w: false, u: false, d: false };
+
 document.addEventListener('DOMContentLoaded', function(){
+
+    // Obtener permisos del usuario al cargar la página
+    obtenerPermisosUsuario().then(function(permisos) {
+        permisosUsuario = permisos;
+    }).catch(function(error) {
+        console.error(error);
+    });
 
     tableArchivos = $('#tableArchivos').dataTable( {
         "aProcessing":true,
@@ -86,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     tableArchivos.api().ajax.reload();
                     // Actualizar explorador después de subir archivo
                     setTimeout(function() {
-                        cargarExplorador();
-                        cargarPestanasCategoria();
+                        actualizarPermisosYRecargar();
                     }, 1000);
                 } else {
                     Swal.fire("Error", objData.msg , "error");
@@ -120,6 +128,55 @@ function cargarCategorias() {
             document.querySelector('#listCategoriaFilter').innerHTML = '<option value="0">Todas las categorías</option>' + request.responseText;
         }
     }
+}
+
+function obtenerPermisosUsuario() {
+    return new Promise((resolve, reject) => {
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Archivos/getPermisosUsuario';
+        request.open("GET", ajaxUrl, true);
+        request.send();
+        
+        request.onreadystatechange = function() {
+            if(request.readyState == 4 && request.status == 200) {
+                permisosUsuario = JSON.parse(request.responseText);
+                console.log('Permisos cargados:', permisosUsuario);
+                resolve(permisosUsuario);
+            } else if(request.readyState == 4 && request.status !== 200) {
+                console.error('Error al obtener permisos:', request.status, request.statusText);
+                reject('Error al obtener permisos');
+            }
+        }
+    });
+}
+
+function generarBotonesCarta(archivo, permisos = null) {
+    // Si no se pasan permisos, usar los globales
+    let permisosActuales = permisos || permisosUsuario;
+    let botones = '';
+    
+    // Botón de ver
+    if (permisosActuales.r) {
+        botones += `<button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+            <i class="far fa-eye"></i>
+        </button>`;
+    }
+    
+    // Botón de descargar
+    if (permisosActuales.r) {
+        botones += `<a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
+            <i class="bi bi-download"></i>
+        </a>`;
+    }
+    
+    // Botón de eliminar
+    if (permisosActuales.d) {
+        botones += `<button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
+            <i class="bi bi-trash-fill"></i>
+        </button>`;
+    }
+    
+    return botones;
 }
 
 function cargarPestanasCategoria() {
@@ -187,7 +244,109 @@ function cargarArchivosPorCategoria(idCategoria) {
             let fileExplorer = document.querySelector('#fileExplorer-'+idCategoria);
             let html = '';
             
-            if(objData.length > 0) {
+            // Asegurar que los permisos estén cargados antes de generar las cartas
+            obtenerPermisosUsuario().then(function(permisos) {
+                if(objData.length > 0) {
+                    objData.forEach(function(archivo) {
+                        let icono = getIconoArchivo(archivo.extension);
+                        html += `
+                        <div class="col-md-2 col-sm-4 col-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <div class="file-icon mb-3">
+                                        <i class="${icono}" style="font-size: 4rem;"></i>
+                                    </div>
+                                    <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                    <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    ${generarBotonesCarta(archivo, permisos)}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                } else {
+                    html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
+                }
+                
+                fileExplorer.innerHTML = html;
+            }).catch(function(error) {
+                console.error('Error al cargar permisos:', error);
+                // Si hay error, mostrar archivos sin botones de eliminar
+                if(objData.length > 0) {
+                    objData.forEach(function(archivo) {
+                        let icono = getIconoArchivo(archivo.extension);
+                        html += `
+                        <div class="col-md-2 col-sm-4 col-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <div class="file-icon mb-3">
+                                        <i class="${icono}" style="font-size: 4rem;"></i>
+                                    </div>
+                                    <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                    <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                    <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                } else {
+                    html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
+                }
+                
+                fileExplorer.innerHTML = html;
+            });
+        }
+    }
+}
+
+function cargarExplorador() {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Archivos/getArchivos';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if(request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            let fileExplorer = document.querySelector('#fileExplorer');
+            let html = '';
+            
+            // Asegurar que los permisos estén cargados antes de generar las cartas
+            obtenerPermisosUsuario().then(function(permisos) {
+                objData.forEach(function(archivo) {
+                    let icono = getIconoArchivo(archivo.extension);
+                    html += `
+                    <div class="col-md-2 col-sm-4 col-6 mb-4">
+                        <div class="card h-100 text-center">
+                            <div class="card-body">
+                                <div class="file-icon mb-3">
+                                    <i class="${icono}" style="font-size: 4rem;"></i>
+                                </div>
+                                <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                ${generarBotonesCarta(archivo, permisos)}
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+                
+                fileExplorer.innerHTML = html;
+            }).catch(function(error) {
+                console.error('Error al cargar permisos:', error);
+                // Si hay error, mostrar archivos sin botones de eliminar
                 objData.forEach(function(archivo) {
                     let icono = getIconoArchivo(archivo.extension);
                     html += `
@@ -207,64 +366,14 @@ function cargarArchivosPorCategoria(idCategoria) {
                                 <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
                                     <i class="bi bi-download"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
                     `;
                 });
-            } else {
-                html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
-            }
-            
-            fileExplorer.innerHTML = html;
-        }
-    }
-}
-
-function cargarExplorador() {
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url+'/Archivos/getArchivos';
-    request.open("GET", ajaxUrl, true);
-    request.send();
-    
-    request.onreadystatechange = function() {
-        if(request.readyState == 4 && request.status == 200) {
-            let objData = JSON.parse(request.responseText);
-            let fileExplorer = document.querySelector('#fileExplorer');
-            let html = '';
-            
-            objData.forEach(function(archivo) {
-                let icono = getIconoArchivo(archivo.extension);
-                html += `
-                <div class="col-md-2 col-sm-4 col-6 mb-4">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <div class="file-icon mb-3">
-                                <i class="${icono}" style="font-size: 4rem;"></i>
-                            </div>
-                            <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
-                            <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
-                        </div>
-                        <div class="card-footer bg-transparent border-0">
-                            <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                <i class="far fa-eye"></i>
-                            </button>
-                            <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
-                                <i class="bi bi-download"></i>
-                            </a>
-                            <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                `;
+                
+                fileExplorer.innerHTML = html;
             });
-            
-            fileExplorer.innerHTML = html;
         }
     }
 }
@@ -365,42 +474,73 @@ function fntSearchArchivo() {
             let fileExplorer = document.querySelector('#fileExplorer');
             let html = '';
             
-            if(objData.length > 0) {
-                objData.forEach(function(archivo) {
-                    let icono = getIconoArchivo(archivo.extension);
-                    html += `
-                    <div class="col-md-2 col-sm-4 col-6 mb-4">
-                        <div class="card h-100 text-center">
-                            <div class="card-body">
-                                <div class="file-icon mb-3">
-                                    <i class="${icono}" style="font-size: 4rem;"></i>
+            // Asegurar que los permisos estén cargados antes de generar las cartas
+            obtenerPermisosUsuario().then(function(permisos) {
+                if(objData.length > 0) {
+                    objData.forEach(function(archivo) {
+                        let icono = getIconoArchivo(archivo.extension);
+                        html += `
+                        <div class="col-md-2 col-sm-4 col-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <div class="file-icon mb-3">
+                                        <i class="${icono}" style="font-size: 4rem;"></i>
+                                    </div>
+                                    <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                    <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
                                 </div>
-                                <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
-                                <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0">
-                                <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                    <i class="far fa-eye"></i>
-                                </button>
-                                <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
-                                    <i class="bi bi-download"></i>
-                                </a>
-                                <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
+                                <div class="card-footer bg-transparent border-0">
+                                    ${generarBotonesCarta(archivo, permisos)}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    `;
-                });
-            } else {
-                html = '<div class="col-12 text-center"><p>No se encontraron archivos</p></div>';
-            }
-            
-            fileExplorer.innerHTML = html;
-            
-            // Actualizar tabla
-            tableArchivos.api().clear().rows.add(objData).draw();
+                        `;
+                    });
+                } else {
+                    html = '<div class="col-12 text-center"><p>No se encontraron archivos</p></div>';
+                }
+                
+                fileExplorer.innerHTML = html;
+                
+                // Actualizar tabla
+                tableArchivos.api().clear().rows.add(objData).draw();
+            }).catch(function(error) {
+                console.error('Error al cargar permisos:', error);
+                // Si hay error, mostrar archivos sin botones de eliminar
+                if(objData.length > 0) {
+                    objData.forEach(function(archivo) {
+                        let icono = getIconoArchivo(archivo.extension);
+                        html += `
+                        <div class="col-md-2 col-sm-4 col-6 mb-4">
+                            <div class="card h-100 text-center">
+                                <div class="card-body">
+                                    <div class="file-icon mb-3">
+                                        <i class="${icono}" style="font-size: 4rem;"></i>
+                                    </div>
+                                    <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                    <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                    <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    });
+                } else {
+                    html = '<div class="col-12 text-center"><p>No se encontraron archivos</p></div>';
+                }
+                
+                fileExplorer.innerHTML = html;
+                
+                // Actualizar tabla
+                tableArchivos.api().clear().rows.add(objData).draw();
+            });
         }
     }
 }
@@ -425,42 +565,73 @@ function fntFilterByCategoria() {
                 let fileExplorer = document.querySelector('#fileExplorer');
                 let html = '';
                 
-                if(objData.length > 0) {
-                    objData.forEach(function(archivo) {
-                        let icono = getIconoArchivo(archivo.extension);
-                        html += `
-                        <div class="col-md-2 col-sm-4 col-6 mb-4">
-                            <div class="card h-100 text-center">
-                                <div class="card-body">
-                                    <div class="file-icon mb-3">
-                                        <i class="${icono}" style="font-size: 4rem;"></i>
+                // Asegurar que los permisos estén cargados antes de generar las cartas
+                obtenerPermisosUsuario().then(function(permisos) {
+                    if(objData.length > 0) {
+                        objData.forEach(function(archivo) {
+                            let icono = getIconoArchivo(archivo.extension);
+                            html += `
+                            <div class="col-md-2 col-sm-4 col-6 mb-4">
+                                <div class="card h-100 text-center">
+                                    <div class="card-body">
+                                        <div class="file-icon mb-3">
+                                            <i class="${icono}" style="font-size: 4rem;"></i>
+                                        </div>
+                                        <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                        <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
                                     </div>
-                                    <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
-                                    <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
-                                </div>
-                                <div class="card-footer bg-transparent border-0">
-                                    <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                    <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
-                                        <i class="bi bi-download"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-danger" onclick="fntDelArchivo(${archivo.id})">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
+                                    <div class="card-footer bg-transparent border-0">
+                                        ${generarBotonesCarta(archivo, permisos)}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        `;
-                    });
-                } else {
-                    html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
-                }
-                
-                fileExplorer.innerHTML = html;
-                
-                // Actualizar tabla
-                tableArchivos.api().clear().rows.add(objData).draw();
+                            `;
+                        });
+                    } else {
+                        html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
+                    }
+                    
+                    fileExplorer.innerHTML = html;
+                    
+                    // Actualizar tabla
+                    tableArchivos.api().clear().rows.add(objData).draw();
+                }).catch(function(error) {
+                    console.error('Error al cargar permisos:', error);
+                    // Si hay error, mostrar archivos sin botones de eliminar
+                    if(objData.length > 0) {
+                        objData.forEach(function(archivo) {
+                            let icono = getIconoArchivo(archivo.extension);
+                            html += `
+                            <div class="col-md-2 col-sm-4 col-6 mb-4">
+                                <div class="card h-100 text-center">
+                                    <div class="card-body">
+                                        <div class="file-icon mb-3">
+                                            <i class="${icono}" style="font-size: 4rem;"></i>
+                                        </div>
+                                        <h6 class="card-title text-truncate" title="${archivo.nombre}">${archivo.nombre}</h6>
+                                        <p class="card-text small text-muted">${archivo.extension.toUpperCase()}</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-0">
+                                        <button class="btn btn-sm btn-info" onclick="fntViewArchivo(${archivo.id})">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                        <a class="btn btn-sm btn-primary" href="${base_url}/uploads/archivos/${archivo.archivo}" download="${archivo.nombre}.${archivo.extension}">
+                                            <i class="bi bi-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        });
+                    } else {
+                        html = '<div class="col-12 text-center"><p>No hay archivos en esta categoría</p></div>';
+                    }
+                    
+                    fileExplorer.innerHTML = html;
+                    
+                    // Actualizar tabla
+                    tableArchivos.api().clear().rows.add(objData).draw();
+                });
             }
         }
     }
@@ -507,8 +678,7 @@ function fntDelArchivo(idarchivo) {
                         tableArchivos.api().ajax.reload();
                         // Actualizar explorador después de eliminar
                         setTimeout(function() {
-                            cargarExplorador();
-                            cargarPestanasCategoria();
+                            actualizarPermisosYRecargar();
                         }, 1000);
                     } else {
                         Swal.fire("Atención", objData.msg , "error");
@@ -517,4 +687,19 @@ function fntDelArchivo(idarchivo) {
             }
         }
     });
+}
+
+function actualizarPermisosYRecargar() {
+    obtenerPermisosUsuario().then(function() {
+        // Recargar el explorador con los nuevos permisos
+        cargarExplorador();
+        cargarPestanasCategoria();
+    }).catch(function(error) {
+        console.error('Error al actualizar permisos:', error);
+    });
+}
+
+function debugPermisos() {
+    console.log('Permisos actuales:', permisosUsuario);
+    console.log('¿Puede eliminar?', permisosUsuario.d);
 }

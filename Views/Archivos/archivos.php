@@ -30,6 +30,10 @@ getModal('modalArchivos', $data);
                                 <button class="btn btn-outline-secondary mb-0" type="button" onclick="fntSearchArchivo()">
                                     <i class="bi bi-search"></i> Buscar
                                 </button>
+                                <!-- Botón de debug temporal -->
+                                <button class="btn btn-outline-info mb-0 ms-2" type="button" onclick="debugPermisos()">
+                                    <i class="bi bi-bug"></i> Debug Permisos
+                                </button>
                             </div>
                         </div>
                         <div class="col-md-4">

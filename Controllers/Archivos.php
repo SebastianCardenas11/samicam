@@ -295,5 +295,21 @@ class Archivos extends Controllers
         }
         die();
     }
+
+    public function getPermisosUsuario()
+    {
+        if ($_SESSION['login']) {
+            $permisos = array(
+                'r' => $_SESSION['permisosMod']['r'] ?? false,
+                'w' => $_SESSION['permisosMod']['w'] ?? false,
+                'u' => $_SESSION['permisosMod']['u'] ?? false,
+                'd' => $_SESSION['permisosMod']['d'] ?? false
+            );
+            echo json_encode($permisos, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(array('r' => false, 'w' => false, 'u' => false, 'd' => false), JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 }
 ?>
