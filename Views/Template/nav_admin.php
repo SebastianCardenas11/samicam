@@ -97,6 +97,16 @@
             </a>
           </li>
         <?php } ?>
+        <?php if (!empty($_SESSION['permisos'][MPRACTICANTES]['r']) && (!isset($_SESSION['permisos'][MPRACTICANTES]['v']) || $_SESSION['permisos'][MPRACTICANTES]['v'] == 1)) { ?>
+          <li class="nav-item">
+            <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 10) ? 'active' : ''; ?>" href="<?= base_url(); ?>/practicantes">
+              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="bi bi-person-workspace text-dark"></i>
+              </div>
+              <span class="nav-link-text ms-1">Practicantes</span>
+            </a>
+          </li>
+        <?php } ?>
         <?php if (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1)) { ?>
           <li class="nav-item">
             <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/funcionariosOps')) ? 'active' : '' ?>" href="<?= base_url(); ?>/funcionariosOps">

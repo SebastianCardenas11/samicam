@@ -51,6 +51,7 @@ const MVACACIONES = 6;
 const MVIATICOS = 7;
 const MARCHIVOS = 8;
 const MCARGOS = 9;
+const MPRACTICANTES = 10;
 const MTAREAS = 11;
 const MPUBLICACIONES = 12;
 const MDEPENDENCIAS = 13;
