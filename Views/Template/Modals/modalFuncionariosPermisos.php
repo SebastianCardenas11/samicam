@@ -200,10 +200,49 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="btnActionFormEspecial">Guardar</button>
+                        <button class="btn btn-success" type="submit">
+                            <i class="bi bi-floppy"></i> Guardar
+                        </button>
+                        <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg"></i> Cerrar
+                        </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Límite de Permisos Diarios -->
+<div class="modal fade modal-limite-permisos" id="modalLimitePermisos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> Límite de Permisos Alcanzado</h5>
+               
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-4">
+                    <i class="bi bi-calendar-x icono-grande"></i>
+                </div>
+                <h4 class="text-danger mb-3">¡Se han cumplido los 5 permisos diarios!</h4>
+                <p class="text-muted mb-3">Has alcanzado el límite máximo de permisos para hoy.</p>
+                <div class="tiempo-restante-modal">
+                    
+                    <p class="mb-0">Tiempo restante: <span id="tiempoRestanteModal" class="fw-bold">--:--:--</span></p>
+                </div>
+                <div class="mt-4">
+                    <p class="text-muted small">
+                        <i class="bi bi-info-circle"></i> 
+                        Si necesitas un permiso urgente, contacta a tu supervisor para solicitar un permiso especial.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                    <i class="bi bi-check2 "></i> Entendido
+                </button>
             </div>
         </div>
     </div>

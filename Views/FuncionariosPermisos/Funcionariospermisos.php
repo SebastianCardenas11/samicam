@@ -14,6 +14,48 @@ headerAdmin($data);
         </ul>
     </div>
 
+    <!-- Panel de Control de Permisos Diarios -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card permisos-panel">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 text-white"><i class="bi bi-calendar-check"></i> Control de Permisos Diarios</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center contador-permisos permisos-disponibles">
+                                <h4 class="text-primary" id="permisosDisponibles">5</h4>
+                                <p class="text-muted">Permisos Disponibles</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center contador-permisos permisos-usados">
+                                <h4 class="text-success" id="permisosUsados">0</h4>
+                                <p class="text-muted">Permisos Usados Hoy</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center contador-permisos tiempo-restante">
+                                <h4 class="text-info" id="tiempoRestante">--:--:--</h4>
+                                <p class="text-muted">Tiempo para Reset</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar bg-success" id="barraProgreso" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="5">
+                                    <span id="textoProgreso">0/5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="">

@@ -1,8 +1,15 @@
 let tableFuncionarios;
 let rowTable = "";
+let permisosDiarios = 0;
+let maxPermisosDiarios = 5;
+let intervaloReloj;
+
 document.addEventListener(
   "DOMContentLoaded",
   function () {
+    // Inicializar el sistema de permisos diarios
+    inicializarPermisosDiarios();
+    
     tableFuncionarios = $('#tableFuncionarios').dataTable({
         "aProcessing": true,
         "aServerSide": true,
@@ -28,6 +35,132 @@ document.addEventListener(
   },
   false
 );
+
+// Función para inicializar el sistema de permisos diarios
+function inicializarPermisosDiarios() {
+    // Verificar si es un nuevo día
+    verificarNuevoDia();
+    
+    // Cargar permisos del localStorage
+    cargarPermisosDelStorage();
+    
+    // Actualizar la interfaz
+    actualizarInterfazPermisos();
+    
+    // Iniciar el reloj
+    iniciarReloj();
+    
+    // Configurar el intervalo para verificar el reseteo cada minuto
+    setInterval(verificarNuevoDia, 60000);
+}
+
+// Función para verificar si es un nuevo día
+function verificarNuevoDia() {
+    const hoy = new Date().toLocaleDateString('es-CO');
+    const ultimoDia = localStorage.getItem('ultimoDiaPermisos');
+    
+    if (ultimoDia !== hoy) {
+        // Es un nuevo día, resetear permisos
+        localStorage.setItem('ultimoDiaPermisos', hoy);
+        localStorage.setItem('permisosDiarios', '0');
+        permisosDiarios = 0;
+        console.log('Nuevo día detectado. Permisos reseteados.');
+    }
+}
+
+// Función para cargar permisos del localStorage
+function cargarPermisosDelStorage() {
+    const permisosGuardados = localStorage.getItem('permisosDiarios');
+    permisosDiarios = permisosGuardados ? parseInt(permisosGuardados) : 0;
+}
+
+// Función para guardar permisos en localStorage
+function guardarPermisosEnStorage() {
+    localStorage.setItem('permisosDiarios', permisosDiarios.toString());
+}
+
+// Función para actualizar la interfaz de permisos
+function actualizarInterfazPermisos() {
+    const permisosDisponibles = maxPermisosDiarios - permisosDiarios;
+    const porcentaje = (permisosDiarios / maxPermisosDiarios) * 100;
+    
+    // Actualizar contadores
+    document.getElementById('permisosDisponibles').textContent = permisosDisponibles;
+    document.getElementById('permisosUsados').textContent = permisosDiarios;
+    
+    // Actualizar barra de progreso
+    const barraProgreso = document.getElementById('barraProgreso');
+    const textoProgreso = document.getElementById('textoProgreso');
+    
+    barraProgreso.style.width = porcentaje + '%';
+    barraProgreso.setAttribute('aria-valuenow', permisosDiarios);
+    textoProgreso.textContent = `${permisosDiarios}/${maxPermisosDiarios}`;
+    
+    // Cambiar color de la barra según el progreso
+    if (porcentaje >= 80) {
+        barraProgreso.className = 'progress-bar bg-danger';
+    } else if (porcentaje >= 60) {
+        barraProgreso.className = 'progress-bar bg-warning';
+    } else {
+        barraProgreso.className = 'progress-bar bg-success';
+    }
+}
+
+// Función para iniciar el reloj
+function iniciarReloj() {
+    function actualizarReloj() {
+        const ahora = new Date();
+        const colombiaTime = new Date(ahora.toLocaleString("en-US", {timeZone: "America/Bogota"}));
+        
+        // Calcular tiempo hasta medianoche (12:00 AM)
+        const medianoche = new Date(colombiaTime);
+        medianoche.setHours(24, 0, 0, 0);
+        
+        const tiempoRestante = medianoche - colombiaTime;
+        
+        if (tiempoRestante > 0) {
+            const horas = Math.floor(tiempoRestante / (1000 * 60 * 60));
+            const minutos = Math.floor((tiempoRestante % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((tiempoRestante % (1000 * 60)) / 1000);
+            
+            const tiempoFormateado = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+            
+            document.getElementById('tiempoRestante').textContent = tiempoFormateado;
+            document.getElementById('tiempoRestanteModal').textContent = tiempoFormateado;
+        } else {
+            // Es medianoche, resetear permisos
+            verificarNuevoDia();
+            actualizarInterfazPermisos();
+        }
+    }
+    
+    // Actualizar inmediatamente
+    actualizarReloj();
+    
+    // Actualizar cada segundo
+    intervaloReloj = setInterval(actualizarReloj, 1000);
+}
+
+// Función para verificar si se pueden agregar más permisos
+function verificarLimitePermisos() {
+    if (permisosDiarios >= maxPermisosDiarios) {
+        // Mostrar modal de límite alcanzado
+        $('#modalLimitePermisos').modal('show');
+        return false;
+    }
+    return true;
+}
+
+// Función para agregar un permiso
+function agregarPermiso() {
+    if (permisosDiarios < maxPermisosDiarios) {
+        permisosDiarios++;
+        guardarPermisosEnStorage();
+        actualizarInterfazPermisos();
+        return true;
+    }
+    return false;
+}
 
 function fntGetMotivosPermisos() {
   let request = window.XMLHttpRequest
@@ -78,6 +211,11 @@ function fntViewInfo(idefuncionario) {
 }
 
 function fntPermitInfo(idefuncionario) {
+  // Verificar límite de permisos diarios antes de abrir el modal
+  if (!verificarLimitePermisos()) {
+    return;
+  }
+
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
@@ -227,6 +365,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let objData = JSON.parse(request.responseText);
         
         if (objData.status) {
+          // Agregar permiso al contador diario solo si no es permiso especial
+          if (document.querySelector("#divPermisoEspecial").style.display !== "block") {
+            if (agregarPermiso()) {
+              console.log('Permiso agregado al contador diario');
+            }
+          }
+          
           $('#modalFormPermiso').modal("hide");
           formPermiso.reset();
           Swal.fire("Permisos", objData.msg, "success");
@@ -276,18 +421,18 @@ document.addEventListener('DOMContentLoaded', function() {
       let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       let ajaxUrl = base_url + '/funcionariosPermisos/setPermisoEspecial';
       let formData = new FormData(formPermisoEspecial);
-      
-      // Reemplazar la justificación del select con la justificación final
-      formData.set('txtJustificacionEspecial', justificacionFinal);
+      formData.append('justificacion_final', justificacionFinal);
       
       request.open("POST", ajaxUrl, true);
       request.send(formData);
       request.onreadystatechange = function() {
-        if(request.readyState == 4 && request.status == 200) {
+        if (request.readyState == 4 && request.status == 200) {
           let objData = JSON.parse(request.responseText);
-          if(objData.status) {
+          
+          if (objData.status) {
             $('#modalPermisoEspecial').modal("hide");
             formPermisoEspecial.reset();
+            document.querySelector("#divOtroJustificacion").style.display = "none";
             Swal.fire("Permisos", objData.msg, "success");
             tableFuncionarios.api().ajax.reload();
           } else {
@@ -298,96 +443,77 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Botón para generar PDF
-  let btnGenerarPDF = document.querySelector("#btnGenerarPDF");
-  if(btnGenerarPDF){
-    btnGenerarPDF.addEventListener('click', function() {
-      generarPDF();
+  // Event listener para el select de justificación especial
+  let selectJustificacion = document.querySelector("#listJustificacionEspecial");
+  if(selectJustificacion) {
+    selectJustificacion.addEventListener('change', function() {
+      let divOtro = document.querySelector("#divOtroJustificacion");
+      if(this.value === 'Otro (especificar)') {
+        divOtro.style.display = "block";
+      } else {
+        divOtro.style.display = "none";
+      }
     });
   }
   
-  // Manejar el cambio en el select de justificación especial
-  let listJustificacionEspecial = document.querySelector("#listJustificacionEspecial");
-  if(listJustificacionEspecial){
-    listJustificacionEspecial.addEventListener('change', function() {
-      let divOtroJustificacion = document.querySelector("#divOtroJustificacion");
-      if(this.value == 'Otro (especificar)') {
-        divOtroJustificacion.style.display = 'block';
-        document.querySelector("#txtOtroJustificacion").required = true;
-      } else {
-        divOtroJustificacion.style.display = 'none';
-        document.querySelector("#txtOtroJustificacion").required = false;
-        document.querySelector("#txtOtroJustificacion").value = '';
+  // Event listener para el botón de permiso especial
+  let btnPermisoEspecial = document.querySelector("#btnPermisoEspecial");
+  if(btnPermisoEspecial) {
+    btnPermisoEspecial.addEventListener('click', function() {
+      document.querySelector("#divPermisoEspecial").style.display = "block";
+      document.querySelector("#btnActionForm").style.display = "none";
+      this.style.display = "none";
+    });
+  }
+  
+  // Event listener para el botón de generar PDF
+  let btnGenerarPDF = document.querySelector("#btnGenerarPDF");
+  if(btnGenerarPDF) {
+    btnGenerarPDF.addEventListener('click', function() {
+      let idFuncionario = this.getAttribute("data-id");
+      if(idFuncionario) {
+        generarPDF(idFuncionario);
       }
     });
   }
 });
 
-function generarPDF() {
-  // Obtener el ID del funcionario directamente del botón
-  let idFuncionario = document.querySelector("#btnGenerarPDF").getAttribute("data-id");
-  
-  if (idFuncionario) {
-    // Redirigir a la URL para generar el PDF
-    window.open(base_url + '/funcionariosPermisos/generarPDF/' + idFuncionario, '_blank');
-  } else {
-    Swal.fire("Error", "No se pudo identificar el funcionario para generar el PDF", "error");
-  }
+function generarPDF(idFuncionario) {
+  window.open(base_url + '/funcionariosPermisos/generarPDF/' + idFuncionario, '_blank');
 }
 
 function generarPermisoPDF(idPermiso) {
-  if (idPermiso) {
-    // Redirigir a la URL para generar el PDF del permiso individual
-    window.open(base_url + '/funcionariosPermisos/generarPermisoPDF/' + idPermiso, '_blank');
-  } else {
-    Swal.fire("Error", "No se pudo identificar el permiso para generar el PDF", "error");
-  }
+  window.open(base_url + '/funcionariosPermisos/generarPermisoPDF/' + idPermiso, '_blank');
 }
 
 function fntPermisoEspecial(idFuncionario) {
-    
-    
-    Swal.fire({
-        title: '¿Está seguro?',
-        text: "Este permiso especial es solo para casos de calamidad o situaciones muy especiales. ¿Desea continuar?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, continuar',
-        cancelButtonText: 'No, cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Establecer fecha mínima como hoy para ambos campos de fecha
-            let today = new Date();
-            let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-            
-            // Primero establecemos los valores
-            document.querySelector('#idFuncionarioEspecial').value = idFuncionario;
-            document.querySelector("#txtFechaInicioEspecial").value = localISOTime;
-            document.querySelector("#txtFechaFinEspecial").value = localISOTime;
-            
-            // Luego establecemos los atributos min
-            document.querySelector("#txtFechaInicioEspecial").setAttribute("min", localISOTime);
-            document.querySelector("#txtFechaFinEspecial").setAttribute("min", localISOTime);
-            
-            // Obtener información del funcionario
-            let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url + '/funcionariosPermisos/getFuncionario/' + idFuncionario;
-            request.open("GET", ajaxUrl, true);
-            request.send();
-            request.onreadystatechange = function() {
-                if(request.readyState == 4 && request.status == 200) {
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.status) {
-                        document.querySelector("#txtNombreFuncionarioEspecial").value = objData.data.nombre_completo;
-                    
-                        
-                        // Mostrar el modal después de establecer los datos
-                        $('#modalPermisoEspecial').modal('show');
-                    }
-                }
-            }
-        }
-    });
+  let request = window.XMLHttpRequest
+    ? new XMLHttpRequest()
+    : new ActiveXObject("Microsoft.XMLHTTP");
+  let ajaxUrl =
+    base_url + "/funcionariosPermisos/getFuncionario/" + idFuncionario;
+  request.open("GET", ajaxUrl, true);
+  request.send();
+  request.onreadystatechange = function () {
+    if (request.readyState == 4 && request.status == 200) {
+      let objData = JSON.parse(request.responseText);
+        
+      if (objData.status) {
+        document.querySelector("#idFuncionarioEspecial").value = objData.data.idefuncionario;
+        document.querySelector("#txtNombreFuncionarioEspecial").value = objData.data.nombre_completo;
+        
+        // Establecer fecha mínima como hoy
+        let today = new Date();
+        let localISOTime = new Date(today.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+        document.querySelector("#txtFechaInicioEspecial").setAttribute("min", localISOTime);
+        document.querySelector("#txtFechaFinEspecial").setAttribute("min", localISOTime);
+        document.querySelector("#txtFechaInicioEspecial").value = localISOTime;
+        document.querySelector("#txtFechaFinEspecial").value = localISOTime;
+        
+        $('#modalPermisoEspecial').modal('show');
+      } else {
+        Swal.fire("Error", objData.msg, "error");
+      }
+    }
+  };
 }
