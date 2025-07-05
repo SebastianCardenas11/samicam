@@ -14,6 +14,8 @@
                                 <li><a href="#dashboard" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.1 Dashboard</a></li>
                                 <li><a href="#usuarios" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.2 Gestión de Usuarios</a></li>
                                 <li><a href="#funcionarios" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.3 Funcionarios</a></li>
+                                <li><a href="#funcionariosplanta" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.3.1 Funcionarios Planta</a></li>
+                                <li><a href="#funcionariosops" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.3.2 Funcionarios OPS</a></li>
                                 <li><a href="#permisos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.4 Permisos Diarios</a></li>
                                 <li><a href="#contratos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.5 Seguimiento de Contratos</a></li>
                                 <li><a href="#vacaciones" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.6 Vacaciones</a></li>
