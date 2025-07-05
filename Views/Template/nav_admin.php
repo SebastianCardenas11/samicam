@@ -248,6 +248,7 @@
           </a>
         </li>
       <?php } ?>
+     
       <!-- AJUSTES Y SALIR -->
       <li class="nav-item mt-3">
         <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/ajustes')) ? 'active' : ''; ?>" href="<?= base_url(); ?>/ajustes">

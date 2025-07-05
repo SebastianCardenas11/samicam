@@ -16,7 +16,7 @@
             <a href="<?=base_url();?>/documentacion" class="nav-link text-muted" target="_blank">Documentacion</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link text-muted" target="_blank">Manual de usuario</a>
+            <a href="<?=base_url();?>/manualusuario" class="nav-link text-muted" target="_blank">Manual de usuario</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link pe-0 text-muted" target="_blank">Licencia</a>

@@ -58,7 +58,7 @@ const MDEPENDENCIAS = 13;
 const MSEGUIMIENTOCONTRATO = 14;
 const MINVENTARIO = 15;
 const MWHATSAPP = 16;
-const MPSI = 17;
+const MMANUALUSUARIO = 17;
 
 //Páginas           
 const PINICIO = 1;
