@@ -461,6 +461,13 @@
 
         public function getTareasCompletadasPorMes()
         {
+            // Obtener los últimos 12 meses
+            $meses = array();
+            for ($i = 11; $i >= 0; $i--) {
+                $fecha = date('Y-m', strtotime("-$i months"));
+                $meses[$fecha] = 0;
+            }
+            
             $sql = "SELECT DATE_FORMAT(fecha_completada, '%Y-%m') as mes, 
                            COUNT(*) as cantidad
                     FROM tbl_tareas 
@@ -469,7 +476,25 @@
                     GROUP BY DATE_FORMAT(fecha_completada, '%Y-%m')
                     ORDER BY mes DESC 
                     LIMIT 12";
-            return $this->select_all($sql);
+            $resultados = $this->select_all($sql);
+            
+            // Llenar los datos en el array de meses
+            foreach ($resultados as $resultado) {
+                if (isset($meses[$resultado['mes']])) {
+                    $meses[$resultado['mes']] = (int)$resultado['cantidad'];
+                }
+            }
+            
+            // Convertir a formato de array para el gráfico
+            $datos = array();
+            foreach ($meses as $mes => $cantidad) {
+                $datos[] = array(
+                    'mes' => $mes,
+                    'cantidad' => $cantidad
+                );
+            }
+            
+            return $datos;
         }
 
         // Obtener todos los usuarios asignados a una tarea con información de contacto

@@ -1,51 +1,133 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar los gráficos cuando se cambia a la pestaña de gráficos
-    document.getElementById('graficos-tab').addEventListener('shown.bs.tab', function (e) {
-        cargarEstadisticas();
-    });
+    const graficosTab = document.getElementById('graficos-tab');
+    if (graficosTab) {
+        graficosTab.addEventListener('shown.bs.tab', function (e) {
+            cargarEstadisticas();
+        });
+    }
+    
+    // Si la pestaña de gráficos está activa al cargar la página, cargar estadísticas
+    if (document.querySelector('#graficos-tab.active')) {
+        setTimeout(() => {
+            cargarEstadisticas();
+        }, 500);
+    }
 });
 
 function cargarEstadisticas() {
+    // Mostrar loader mientras se cargan los datos
+    showLoading('graficosLoader', 'Cargando estadísticas...');
+    
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url+'/Tareas/getEstadisticas';
+    let ajaxUrl = base_url+'/Tareas/getEstadisticasTareas';
     request.open("GET", ajaxUrl, true);
     request.send();
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200) {
-            let data = JSON.parse(request.responseText);
-            actualizarContadores(data);
-            crearGraficoProgreso(data.progreso);
-            crearGraficoEstados(data.estados);
-            crearGraficoTipos(data.tipos);
+            try {
+                let data = JSON.parse(request.responseText);
+                if(data.success) {
+                    actualizarContadores(data);
+                    crearGraficoProgreso(data.tareasCompletadas);
+                    crearGraficoEstados(data.estadoTareas);
+                    crearGraficoTipos(data.tiposTarea);
+                } else {
+                    console.error("Error al cargar estadísticas:", data.msg);
+                    mostrarErrorGraficos("Error al cargar las estadísticas: " + data.msg);
+                }
+            } catch (error) {
+                console.error("Error al procesar datos:", error);
+                mostrarErrorGraficos("Error al procesar los datos de estadísticas");
+            }
+        } else if(request.readyState == 4 && request.status != 200) {
+            console.error("Error HTTP:", request.status);
+            mostrarErrorGraficos("Error de conexión al cargar estadísticas");
         }
+        
+        // Ocultar loader
+        hideLoading('graficosLoader');
     }
 }
 
+function mostrarErrorGraficos(mensaje) {
+    // Mostrar mensaje de error en los contenedores de gráficos
+    const contenedores = ['tareasCompletadasChart', 'estadoTareasChart', 'tipoTareasChart'];
+    contenedores.forEach(id => {
+        const canvas = document.getElementById(id);
+        if (canvas) {
+            mostrarMensajeEnCanvas(canvas, 'Error al cargar gráfico', mensaje, '#dc3545');
+        }
+    });
+}
+
+function mostrarMensajeSinDatos(canvas, mensaje) {
+    mostrarMensajeEnCanvas(canvas, 'Sin datos', mensaje, '#6c757d');
+}
+
+function mostrarMensajeEnCanvas(canvas, titulo, mensaje, color) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Crear un mensaje en el canvas
+    ctx.fillStyle = color;
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(titulo, canvas.width / 2, canvas.height / 2 - 10);
+    
+    ctx.font = '12px Arial';
+    ctx.fillText(mensaje, canvas.width / 2, canvas.height / 2 + 10);
+}
+
 function actualizarContadores(data) {
-    document.getElementById('completadas-count').textContent = data.estados.completadas || 0;
-    document.getElementById('encurso-count').textContent = data.estados.en_curso || 0;
-    document.getElementById('sinempezar-count').textContent = data.estados.sin_empezar || 0;
-    document.getElementById('vencidas-count').textContent = data.estados.vencidas || 0;
+    document.getElementById('completadas-count').textContent = data.estadoTareas.completadas || 0;
+    document.getElementById('encurso-count').textContent = data.estadoTareas.enCurso || 0;
+    document.getElementById('sinempezar-count').textContent = data.estadoTareas.sinEmpezar || 0;
+    document.getElementById('vencidas-count').textContent = data.estadoTareas.vencidas || 0;
 }
 
 function crearGraficoProgreso(data) {
-    const ctx = document.getElementById('tareasCompletadasChart').getContext('2d');
+    const canvas = document.getElementById('tareasCompletadasChart');
+    if (!canvas) {
+        console.error('Canvas tareasCompletadasChart no encontrado');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
     
     // Destruir el gráfico existente si hay uno
     if (window.progresoChart) {
         window.progresoChart.destroy();
     }
     
+    // Validar que los datos existan y no estén vacíos
+    if (!data || !Array.isArray(data) || data.length === 0) {
+        console.warn('No hay datos para el gráfico de progreso');
+        mostrarMensajeSinDatos(canvas, 'No hay datos de tareas completadas');
+        return;
+    }
+    
+    // Formatear los datos para el gráfico de línea
+    const meses = data.map(item => {
+        const [year, month] = item.mes.split('-');
+        return new Date(year, month - 1).toLocaleString('es', { month: 'long', year: '2-digit' });
+    }).reverse();
+
+    const cantidades = data.map(item => item.cantidad).reverse();
+    
     // Configurar datos para el gráfico de línea
     const chartData = {
-        labels: data.labels,
+        labels: meses,
         datasets: [{
             label: 'Tareas Completadas',
-            data: data.values,
+            data: cantidades,
             borderColor: '#28a745',
             backgroundColor: 'rgba(40, 167, 69, 0.1)',
             tension: 0.4,
-            fill: true
+            fill: true,
+            pointStyle: 'circle',
+            pointRadius: 6,
+            pointHoverRadius: 8
         }]
     };
     
@@ -55,8 +137,7 @@ function crearGraficoProgreso(data) {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                display: true,
-                position: 'top'
+                display: false
             },
             tooltip: {
                 mode: 'index',
@@ -68,6 +149,11 @@ function crearGraficoProgreso(data) {
                 beginAtZero: true,
                 ticks: {
                     stepSize: 1
+                }
+            },
+            x: {
+                grid: {
+                    display: false
                 }
             }
         }
@@ -82,11 +168,24 @@ function crearGraficoProgreso(data) {
 }
 
 function crearGraficoEstados(data) {
-    const ctx = document.getElementById('estadoTareasChart').getContext('2d');
+    const canvas = document.getElementById('estadoTareasChart');
+    if (!canvas) {
+        console.error('Canvas estadoTareasChart no encontrado');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
     
     // Destruir el gráfico existente si hay uno
     if (window.estadosChart) {
         window.estadosChart.destroy();
+    }
+    
+    // Validar que los datos existan
+    if (!data) {
+        console.warn('No hay datos para el gráfico de estados');
+        mostrarMensajeSinDatos(canvas, 'No hay datos de estados de tareas');
+        return;
     }
     
     // Configurar datos para el gráfico de dona
@@ -95,8 +194,8 @@ function crearGraficoEstados(data) {
         datasets: [{
             data: [
                 data.completadas || 0,
-                data.en_curso || 0,
-                data.sin_empezar || 0,
+                data.enCurso || 0,
+                data.sinEmpezar || 0,
                 data.vencidas || 0
             ],
             backgroundColor: [
@@ -114,7 +213,18 @@ function crearGraficoEstados(data) {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                position: 'right'
+                position: 'bottom',
+                labels: {
+                    padding: 20,
+                    usePointStyle: true
+                }
+            },
+            title: {
+                display: true,
+                text: 'Distribución Total de Tareas',
+                padding: {
+                    bottom: 30
+                }
             }
         }
     };
@@ -128,28 +238,34 @@ function crearGraficoEstados(data) {
 }
 
 function crearGraficoTipos(data) {
-    const ctx = document.getElementById('tipoTareasChart').getContext('2d');
+    const canvas = document.getElementById('tipoTareasChart');
+    if (!canvas) {
+        console.error('Canvas tipoTareasChart no encontrado');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
     
     // Destruir el gráfico existente si hay uno
     if (window.tiposChart) {
         window.tiposChart.destroy();
     }
     
+    // Validar que los datos existan y no estén vacíos
+    if (!data || !Array.isArray(data) || data.length === 0) {
+        console.warn('No hay datos para el gráfico de tipos');
+        mostrarMensajeSinDatos(canvas, 'No hay datos de tipos de tareas');
+        return;
+    }
+    
     // Configurar datos para el gráfico de barras
     const chartData = {
-        labels: Object.keys(data),
+        labels: data.map(tipo => tipo.nombre),
         datasets: [{
-            label: 'Tareas por Tipo',
-            data: Object.values(data),
-            backgroundColor: [
-                'rgba(40, 167, 69, 0.7)',  // Verde
-                'rgba(255, 193, 7, 0.7)'   // Amarillo
-            ],
-            borderColor: [
-                'rgb(40, 167, 69)',
-                'rgb(255, 193, 7)'
-            ],
-            borderWidth: 1
+            label: 'Cantidad de Tareas',
+            data: data.map(tipo => tipo.cantidad),
+            backgroundColor: '#007bff',
+            borderRadius: 6
         }]
     };
     
