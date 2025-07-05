@@ -51,6 +51,7 @@
 <!-- FUNCIONES PROPIAS -->
 <script type="text/javascript" src="<?=media();?>/js/functions_admin.js"></script>
 <script type="text/javascript" src="<?=media();?>/js/functions_audit_helper.js"></script>
+<script type="text/javascript" src="<?=media();?>/js/loader-manager.js"></script>
 
 
 <!-- PLUGINS DE TABLAS Y GRÁFICAS -->

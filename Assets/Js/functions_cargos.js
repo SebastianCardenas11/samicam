@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function(){
             } 
             if(divLoading) {
                 divLoading.style.display = "flex";
+            } else {
+                showLoading('divLoading', 'Guardando cargo...');
             }
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Cargos/setCargos'; 
@@ -135,6 +137,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 if(divLoading) {
                     divLoading.style.display = "none";
+                } else {
+                    hideLoading('divLoading');
                 }
                 return false;
             }

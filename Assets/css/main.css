@@ -64,3 +64,120 @@
 .dt-button, .dt-button:active, .dt-button:focus {
     outline: none !important;
 }
+
+/* Loader Global */
+.global-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.global-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader-text {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #5e72e4;
+    text-align: center;
+}
+
+/* Loader para divLoading existente */
+#divLoading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+#divLoading.show {
+    display: flex;
+}
+
+#divLoading l-jelly {
+    margin-bottom: 20px;
+}
+
+#divLoading .loader-text {
+    margin-top: 0;
+    font-size: 14px;
+    color: #5e72e4;
+}
+
+/* Loaders personalizados */
+.custom-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+.custom-loader.show {
+    display: flex;
+}
+
+.custom-loader l-jelly {
+    margin-bottom: 20px;
+}
+
+.custom-loader .loader-text {
+    margin-top: 0;
+    font-size: 14px;
+    color: #5e72e4;
+}
+
+/* Animación de fade para los loaders */
+.loader-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.loader-fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

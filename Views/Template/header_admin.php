@@ -44,9 +44,18 @@
   
   <!-- Script para formato de hora en 12 horas -->
   <script src="<?= media() ?>/js/clock-format.js"></script>
+  
+  <!-- Loader Jelly -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/jelly.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
+  <!-- Loader Global -->
+  <div id="globalLoader" class="global-loader">
+    <l-jelly size="40" speed="0.9" color="#5e72e4"></l-jelly>
+    <p class="loader-text">Cargando sistema...</p>
+  </div>
+  
   <?php require_once "nav_admin.php"; ?>
   <div class="container-fluid py-4">
 
