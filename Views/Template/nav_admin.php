@@ -238,15 +238,7 @@
           </a>
         </li>
       <?php } ?>
-      <!-- MANUAL DE USUARIO -->
-      <li class="nav-item mt-3">
-        <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/manualusuario')) ? 'active' : ''; ?>" href="<?= base_url(); ?>/manualusuario" target="_blank">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="fas fa-book text-info"></i>
-          </div>
-          <span class="nav-link-text ms-1">Manual de Usuario</span>
-        </a>
-      </li>
+     
       <!-- AJUSTES Y SALIR -->
       <li class="nav-item mt-3">
         <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/ajustes')) ? 'active' : ''; ?>" href="<?= base_url(); ?>/ajustes">
