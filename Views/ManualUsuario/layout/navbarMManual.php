@@ -14,15 +14,16 @@
                                 <li><a href="#dashboard" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.1 Dashboard</a></li>
                                 <li><a href="#usuarios" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.2 Gestión de Usuarios</a></li>
                                 <li><a href="#funcionarios" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.3 Funcionarios</a></li>
-                                <li><a href="#permisos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.4 Permisos</a></li>
-                                <li><a href="#vacaciones" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.5 Vacaciones</a></li>
-                                <li><a href="#viaticos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.6 Viáticos</a></li>
-                                <li><a href="#inventario" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.7 Inventario</a></li>
-                                <li><a href="#tareas" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.8 Tareas</a></li>
-                                <li><a href="#publicaciones" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.9 Publicaciones</a></li>
-                                <li><a href="#archivos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.10 Archivos</a></li>
-                                <li><a href="#auditoria" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.11 Auditoría</a></li>
-                                <li><a href="#configuracion" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.12 Configuración</a></li>
+                                <li><a href="#permisos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.4 Permisos Diarios</a></li>
+                                <li><a href="#contratos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.5 Seguimiento de Contratos</a></li>
+                                <li><a href="#vacaciones" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.6 Vacaciones</a></li>
+                                <li><a href="#viaticos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.7 Viáticos</a></li>
+                                <li><a href="#inventario" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.8 Inventario</a></li>
+                                <li><a href="#tareas" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.9 Tareas</a></li>
+                                <li><a href="#publicaciones" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.10 Publicaciones</a></li>
+                                <li><a href="#archivos" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.11 Archivos</a></li>
+                                <li><a href="#auditoria" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.12 Auditoría</a></li>
+                                <li><a href="#configuracion" class="block px-3 py-1 rounded hover:bg-gray-700 transition text-sm">4.13 Configuración</a></li>
                             </ul>
                         </li>
                         <li><a href="#problemas" class="block px-3 py-2 rounded hover:bg-gray-700 transition">5. Solución de Problemas</a></li>
