@@ -35,7 +35,7 @@
                 <div class="mt-8">
                     <h2 class="text-xl font-bold mb-4 text-blue-300 border-b border-blue-700 pb-2">Descargas</h2>
                     <ul class="space-y-2">
-                        <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-700 transition flex items-center"><i class="fas fa-file-pdf mr-2 text-red-500"></i> Manual Completo (PDF)</a></li>
+                        <li><a href="ManualUsuario/descargarPDFDirecto" class="block px-3 py-2 rounded hover:bg-gray-700 transition flex items-center"><i class="fas fa-file-pdf mr-2 text-red-500"></i> Manual Completo (PDF)</a></li>
                         <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-700 transition flex items-center"><i class="fas fa-file-word mr-2 text-blue-500"></i> Versión Editable (DOCX)</a></li>
                         <li><a href="#" class="block px-3 py-2 rounded hover:bg-gray-700 transition flex items-center"><i class="fas fa-images mr-2 text-green-500"></i> Capturas de Pantalla</a></li>
                     </ul>

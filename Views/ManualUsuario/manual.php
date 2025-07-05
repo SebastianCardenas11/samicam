@@ -2,6 +2,37 @@
 <div class="flex flex-col md:flex-row container mx-auto px-4 py-6">
     <?php include 'layout/navbarMManual.php'; ?>
     <main class="flex-1 bg-white rounded-lg shadow-md p-6">
+        <!-- Sistema de notificaciones -->
+        <?php if (isset($_GET['error']) && $_GET['error'] == 'archivo_no_encontrado'): ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6" role="alert">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm">
+                            <strong>Error:</strong> El archivo PDF del manual no está disponible en este momento. Por favor, contacte al administrador del sistema.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (isset($_GET['success']) && $_GET['success'] == 'descarga_exitosa'): ?>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6" role="alert">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm">
+                            <strong>Éxito:</strong> El manual PDF se ha descargado correctamente. Revise su carpeta de descargas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <!-- Panel dinámico para mostrar la explicación del módulo seleccionado -->
         <div id="detalleModulo" class="mb-8">
             <h2 class="text-2xl font-bold mb-4 text-blue-800">Bienvenido al Manual de Usuario</h2>

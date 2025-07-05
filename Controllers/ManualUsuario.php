@@ -41,14 +41,68 @@ class ManualUsuario extends Controllers
 
     public function descargarPDF()
     {
-     
-        $arrResponse = array(
-            'status' => true, 
-            'msg' => 'Función de descarga PDF en desarrollo'
-        );
+        // Ruta del archivo PDF del manual
+        $archivoPDF = 'uploads/manual/Mannual.pdf';
         
-        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-        die();
+        // Verificar si el archivo existe
+        if (!file_exists($archivoPDF)) {
+            $arrResponse = array(
+                'status' => false, 
+                'msg' => 'El archivo PDF del manual no está disponible'
+            );
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        
+        // Obtener información del archivo
+        $nombreArchivo = basename($archivoPDF);
+        $tamañoArchivo = filesize($archivoPDF);
+        $tipoMIME = mime_content_type($archivoPDF);
+        
+        // Configurar headers para descarga
+        header('Content-Type: ' . $tipoMIME);
+        header('Content-Disposition: attachment; filename="Manual_Usuario_SAMICAM.pdf"');
+        header('Content-Length: ' . $tamañoArchivo);
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        // Leer y enviar el archivo
+        readfile($archivoPDF);
+        exit();
+    }
+
+    public function descargarPDFDirecto()
+    {
+        // Método para descarga directa del PDF (sin AJAX)
+        $archivoPDF = 'uploads/manual/Mannual.pdf';
+        
+        // Verificar si el archivo existe
+        if (!file_exists($archivoPDF)) {
+            // Redirigir a la página del manual con mensaje de error
+            header('Location: ManualUsuario?error=archivo_no_encontrado');
+            exit();
+        }
+        
+        // Obtener información del archivo
+        $tamañoArchivo = filesize($archivoPDF);
+        $tipoMIME = mime_content_type($archivoPDF);
+        
+        // Configurar headers para descarga
+        header('Content-Type: ' . $tipoMIME);
+        header('Content-Disposition: attachment; filename="Manual_Usuario_SAMICAM.pdf"');
+        header('Content-Length: ' . $tamañoArchivo);
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        // Leer y enviar el archivo
+        readfile($archivoPDF);
+        
+        // Después de la descarga, redirigir con mensaje de éxito
+        // Nota: Esto solo se ejecutará si la descarga fue exitosa
+        header('Location: ManualUsuario?success=descarga_exitosa');
+        exit();
     }
 
     public function descargarDOCX()
