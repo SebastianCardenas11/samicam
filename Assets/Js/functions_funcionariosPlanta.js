@@ -80,6 +80,33 @@ document.addEventListener(
         let intDependencia = document.querySelector("#txtDependenciaFuncionario").value;
         let intContrato = document.querySelector("#txtContrato").value;
         let intStatus = document.querySelector("#listStatus").value;
+        
+        // Nuevos campos opcionales
+        let strLugarExpedicion = document.querySelector("#txtLugarExpedicion") ? document.querySelector("#txtLugarExpedicion").value : '';
+        let strLibreMilitar = document.querySelector("#txtLibreMilitar") ? document.querySelector("#txtLibreMilitar").value : '';
+        let strActoAdministrativo = document.querySelector("#txtActoAdministrativo") ? document.querySelector("#txtActoAdministrativo").value : '';
+        let strFechaActoNombramiento = document.querySelector("#txtFechaActoNombramiento") ? document.querySelector("#txtFechaActoNombramiento").value : '';
+        let strNoActaPosesion = document.querySelector("#txtNoActaPosesion") ? document.querySelector("#txtNoActaPosesion").value : '';
+        let strFechaActaPosesion = document.querySelector("#txtFechaActaPosesion") ? document.querySelector("#txtFechaActaPosesion").value : '';
+        let strTiempoLaborado = document.querySelector("#txtTiempoLaborado") ? document.querySelector("#txtTiempoLaborado").value : '';
+        let strCodigo = document.querySelector("#txtCodigo") ? document.querySelector("#txtCodigo").value : '';
+        let strGrado = document.querySelector("#txtGrado") ? document.querySelector("#txtGrado").value : '';
+        let strCiudadResidencia = document.querySelector("#txtCiudadResidencia") ? document.querySelector("#txtCiudadResidencia").value : '';
+        let strFechaNacimiento = document.querySelector("#txtFechaNacimiento") ? document.querySelector("#txtFechaNacimiento").value : '';
+        let strLugarNacimiento = document.querySelector("#txtLugarNacimiento") ? document.querySelector("#txtLugarNacimiento").value : '';
+        let strRh = document.querySelector("#txtRh") ? document.querySelector("#txtRh").value : '';
+        let strTitulo = document.querySelector("#txtTitulo") ? document.querySelector("#txtTitulo").value : '';
+        let strTarjetaProfesional = document.querySelector("#txtTarjetaProfesional") ? document.querySelector("#txtTarjetaProfesional").value : '';
+        let strOtrosEstudios = document.querySelector("#txtOtrosEstudios") ? document.querySelector("#txtOtrosEstudios").value : '';
+        let strCuentaNo = document.querySelector("#txtCuentaNo") ? document.querySelector("#txtCuentaNo").value : '';
+        let strBanco = document.querySelector("#txtBanco") ? document.querySelector("#txtBanco").value : '';
+        let strEps = document.querySelector("#txtEps") ? document.querySelector("#txtEps").value : '';
+        let strAfp = document.querySelector("#txtAfp") ? document.querySelector("#txtAfp").value : '';
+        let strAfc = document.querySelector("#txtAfc") ? document.querySelector("#txtAfc").value : '';
+        let strArl = document.querySelector("#txtArl") ? document.querySelector("#txtArl").value : '';
+        let strSindicalizado = document.querySelector("#txtSindicalizado") ? document.querySelector("#txtSindicalizado").value : '';
+        let strMadreCabezaHogar = document.querySelector("#txtMadreCabezaHogar") ? document.querySelector("#txtMadreCabezaHogar").value : '';
+        let strPrepensionado = document.querySelector("#txtPrepensionado") ? document.querySelector("#txtPrepensionado").value : '';
 
         if (
           strCorreo == "" ||
@@ -380,6 +407,83 @@ function fntEditInfo(element, idefuncionario) {
             document.querySelector("#txtNombreFormacion").value =
               objData.data.nombre_formacion;
             document.querySelector("#listStatus").value = objData.data.status;
+            
+            // Cargar nuevos campos si existen
+            if (document.querySelector("#txtLugarExpedicion")) {
+              document.querySelector("#txtLugarExpedicion").value = objData.data.lugar_expedicion || '';
+            }
+            if (document.querySelector("#txtLibreMilitar")) {
+              document.querySelector("#txtLibreMilitar").value = objData.data.libre_militar || '';
+            }
+            if (document.querySelector("#txtActoAdministrativo")) {
+              document.querySelector("#txtActoAdministrativo").value = objData.data.acto_administrativo || '';
+            }
+            if (document.querySelector("#txtFechaActoNombramiento")) {
+              document.querySelector("#txtFechaActoNombramiento").value = objData.data.fecha_acto_nombramiento || '';
+            }
+            if (document.querySelector("#txtNoActaPosesion")) {
+              document.querySelector("#txtNoActaPosesion").value = objData.data.no_acta_posesion || '';
+            }
+            if (document.querySelector("#txtFechaActaPosesion")) {
+              document.querySelector("#txtFechaActaPosesion").value = objData.data.fecha_acta_posesion || '';
+            }
+            if (document.querySelector("#txtTiempoLaborado")) {
+              document.querySelector("#txtTiempoLaborado").value = objData.data.tiempo_laborado || '';
+            }
+            if (document.querySelector("#txtCodigo")) {
+              document.querySelector("#txtCodigo").value = objData.data.codigo || '';
+            }
+            if (document.querySelector("#txtGrado")) {
+              document.querySelector("#txtGrado").value = objData.data.grado || '';
+            }
+            if (document.querySelector("#txtCiudadResidencia")) {
+              document.querySelector("#txtCiudadResidencia").value = objData.data.ciudad_residencia || '';
+            }
+            if (document.querySelector("#txtFechaNacimiento")) {
+              document.querySelector("#txtFechaNacimiento").value = objData.data.fecha_nacimiento || '';
+            }
+            if (document.querySelector("#txtLugarNacimiento")) {
+              document.querySelector("#txtLugarNacimiento").value = objData.data.lugar_nacimiento || '';
+            }
+            if (document.querySelector("#txtRh")) {
+              document.querySelector("#txtRh").value = objData.data.rh || '';
+            }
+            if (document.querySelector("#txtTitulo")) {
+              document.querySelector("#txtTitulo").value = objData.data.titulo || '';
+            }
+            if (document.querySelector("#txtTarjetaProfesional")) {
+              document.querySelector("#txtTarjetaProfesional").value = objData.data.tarjeta_profesional || '';
+            }
+            if (document.querySelector("#txtOtrosEstudios")) {
+              document.querySelector("#txtOtrosEstudios").value = objData.data.otros_estudios || '';
+            }
+            if (document.querySelector("#txtCuentaNo")) {
+              document.querySelector("#txtCuentaNo").value = objData.data.cuenta_no || '';
+            }
+            if (document.querySelector("#txtBanco")) {
+              document.querySelector("#txtBanco").value = objData.data.banco || '';
+            }
+            if (document.querySelector("#txtEps")) {
+              document.querySelector("#txtEps").value = objData.data.eps || '';
+            }
+            if (document.querySelector("#txtAfp")) {
+              document.querySelector("#txtAfp").value = objData.data.afp || '';
+            }
+            if (document.querySelector("#txtAfc")) {
+              document.querySelector("#txtAfc").value = objData.data.afc || '';
+            }
+            if (document.querySelector("#txtArl")) {
+              document.querySelector("#txtArl").value = objData.data.arl || '';
+            }
+            if (document.querySelector("#txtSindicalizado")) {
+              document.querySelector("#txtSindicalizado").value = objData.data.sindicalizado || '';
+            }
+            if (document.querySelector("#txtMadreCabezaHogar")) {
+              document.querySelector("#txtMadreCabezaHogar").value = objData.data.madre_cabeza_hogar || '';
+            }
+            if (document.querySelector("#txtPrepensionado")) {
+              document.querySelector("#txtPrepensionado").value = objData.data.prepensionado || '';
+            }
           } else {
             Swal.fire("Error", objData.msg, "error");
             return;

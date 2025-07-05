@@ -68,6 +68,8 @@ class FuncionariosPlanta extends Controllers
                 $strFormacionAcademica = strClean($_POST['txtFormacionFuncionario']);
                 $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
+                
+
     
                 $request = "";
                 if ($intIdeFuncionario == 0) {

@@ -53,7 +53,6 @@ class FuncionariosPlantaModel extends Mysql
         string $nombreformacion
     ) {
         try {
-            // Verificar que las claves foráneas existan
             $sqlCargo = "SELECT idecargos FROM tbl_cargos WHERE idecargos = $cargo";
             $requestCargo = $this->select($sqlCargo);
             if(empty($requestCargo)) {
@@ -173,45 +172,24 @@ class FuncionariosPlantaModel extends Mysql
         return $request;
     }
 
-  public function selectFuncionario(int $idefuncionarios)
-{
-    $this->intIdeFuncionarios = $idefuncionarios;
+    public function selectFuncionario(int $idefuncionarios)
+    {
+        $this->intIdeFuncionarios = $idefuncionarios;
 
-    $sql = "SELECT 
-                u.idefuncionario,
-                u.correo_elc,
-                u.nombre_completo,
-                u.status,
-                u.nm_identificacion,
-                u.cargo_fk,
+        $sql = "SELECT 
+                u.*,
                 c.nombre AS cargo_nombre,
-                u.dependencia_fk,
                 d.nombre AS dependencia_nombre,
-                u.contrato_fk,
-                ct.tipo_cont AS contrato_nombre,
-                u.celular,
-                u.direccion,
-                u.fecha_ingreso,
-                u.hijos,
-                u.nombres_de_hijos,
-                u.sexo,
-                u.lugar_de_residencia,
-                u.edad,
-                u.estado_civil,
-                u.religion,
-                u.formacion_academica,
-                u.nombre_formacion,
-                u.periodos_vacaciones
+                ct.tipo_cont AS contrato_nombre
             FROM tbl_funcionarios_planta u
             INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
             INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
             INNER JOIN tbl_contrato ct ON u.contrato_fk = ct.id_contrato
             WHERE u.idefuncionario = $this->intIdeFuncionarios";
 
-    $request = $this->select($sql);
-    return $request;
-}
-
+        $request = $this->select($sql);
+        return $request;
+    }
 
     public function updateFuncionario(
         int $idFuncionario,
@@ -312,6 +290,7 @@ class FuncionariosPlantaModel extends Mysql
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
     public function selectDependencias(){
         $sql = "SELECT dependencia_pk, nombre FROM tbl_dependencia";
         $request = $this->select_all($sql);
@@ -319,14 +298,14 @@ class FuncionariosPlantaModel extends Mysql
     }
 
     public function selectCargos() {
-    $sql = "SELECT idecargos, nombre, nivel, salario FROM tbl_cargos WHERE estatus = 1";
-    $request = $this->select_all($sql);
-    return $request;
+        $sql = "SELECT idecargos, nombre, nivel, salario FROM tbl_cargos WHERE estatus = 1";
+        $request = $this->select_all($sql);
+        return $request;
     }
-    public function selectContratoPlanta() {
-    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont IN ('Carrera', 'Libre Nombramiento')";
-    $request = $this->select_all($sql);
-    return $request;
-}
 
+    public function selectContratoPlanta() {
+        $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont IN ('Carrera', 'Libre Nombramiento')";
+        $request = $this->select_all($sql);
+        return $request;
+    }
 }

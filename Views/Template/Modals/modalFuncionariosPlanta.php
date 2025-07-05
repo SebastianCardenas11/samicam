@@ -202,6 +202,182 @@
                                 </div>
                             </div>
 
+                            <!-- Nuevos campos adicionales -->
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Información Adicional</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="txtLugarExpedicion" class="form-label">Lugar de Expedición</label>
+                                                <input type="text" class="form-control" id="txtLugarExpedicion" name="txtLugarExpedicion">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtLibretaMilitar" class="form-label">Libreta Militar</label>
+                                                <select class="form-select" id="txtLibretaMilitar" name="txtLibretaMilitar">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Si">Sí</option>
+                                                    <option value="No">No</option>
+                                                    <option value="No Aplica">No Aplica</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtTipoNombramiento" class="form-label">Tipo de Nombramiento</label>
+                                                <input type="text" class="form-control" id="txtTipoNombramiento" name="txtTipoNombramiento">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtNivel" class="form-label">Nivel</label>
+                                                <input type="text" class="form-control" id="txtNivel" name="txtNivel">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtSalarioBasico" class="form-label">Salario Básico</label>
+                                                <input type="number" step="0.01" class="form-control" id="txtSalarioBasico" name="txtSalarioBasico">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtEstudiosRealizados" class="form-label">Estudios Realizados</label>
+                                                <input type="text" class="form-control" id="txtEstudiosRealizados" name="txtEstudiosRealizados">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtCodigo" class="form-label">Código</label>
+                                                <input type="text" class="form-control" id="txtCodigo" name="txtCodigo">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtGrado" class="form-label">Grado</label>
+                                                <input type="text" class="form-control" id="txtGrado" name="txtGrado">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtCiudadResidencia" class="form-label">Ciudad de Residencia</label>
+                                                <input type="text" class="form-control" id="txtCiudadResidencia" name="txtCiudadResidencia">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtLugarNacimiento" class="form-label">Lugar de Nacimiento</label>
+                                                <input type="text" class="form-control" id="txtLugarNacimiento" name="txtLugarNacimiento">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtRh" class="form-label">RH</label>
+                                                <select class="form-select" id="txtRh" name="txtRh">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="O+">O+</option>
+                                                    <option value="O-">O-</option>
+                                                    <option value="A+">A+</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="B-">B-</option>
+                                                    <option value="AB+">AB+</option>
+                                                    <option value="AB-">AB-</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Información Laboral Adicional</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="txtActoAdministrativo" class="form-label">Acto Administrativo</label>
+                                                <input type="text" class="form-control" id="txtActoAdministrativo" name="txtActoAdministrativo">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtFechaActoNombramiento" class="form-label">Fecha Acto de Nombramiento</label>
+                                                <input type="date" class="form-control" id="txtFechaActoNombramiento" name="txtFechaActoNombramiento">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtNoActaPosesion" class="form-label">No. Acta de Posesión</label>
+                                                <input type="text" class="form-control" id="txtNoActaPosesion" name="txtNoActaPosesion">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtFechaActaPosesion" class="form-label">Fecha de Acta de Posesión</label>
+                                                <input type="date" class="form-control" id="txtFechaActaPosesion" name="txtFechaActaPosesion">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtTiempoLaborado" class="form-label">Tiempo Laborado</label>
+                                                <input type="text" class="form-control" id="txtTiempoLaborado" name="txtTiempoLaborado">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtTitulo" class="form-label">Título</label>
+                                                <input type="text" class="form-control" id="txtTitulo" name="txtTitulo">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtTarjetaProfesional" class="form-label">Tarjeta Profesional</label>
+                                                <input type="text" class="form-control" id="txtTarjetaProfesional" name="txtTarjetaProfesional">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtOtrosEstudios" class="form-label">Otros Estudios y/o Especializaciones</label>
+                                                <textarea class="form-control" id="txtOtrosEstudios" name="txtOtrosEstudios" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Información Financiera y Seguridad Social</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label for="txtCuentaNo" class="form-label">Cuenta No.</label>
+                                                <input type="text" class="form-control" id="txtCuentaNo" name="txtCuentaNo">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtBanco" class="form-label">Banco</label>
+                                                <input type="text" class="form-control" id="txtBanco" name="txtBanco">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtEps" class="form-label">E.P.S</label>
+                                                <input type="text" class="form-control" id="txtEps" name="txtEps">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtAfp" class="form-label">A.F.P</label>
+                                                <input type="text" class="form-control" id="txtAfp" name="txtAfp">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtAfc" class="form-label">A.F.C</label>
+                                                <input type="text" class="form-control" id="txtAfc" name="txtAfc">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtArl" class="form-label">A.R.L</label>
+                                                <input type="text" class="form-control" id="txtArl" name="txtArl">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtSindicalizado" class="form-label">Sindicalizado</label>
+                                                <select class="form-select" id="txtSindicalizado" name="txtSindicalizado">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Si">Sí</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtMadreCabezaHogar" class="form-label">Madre Cabeza de Hogar</label>
+                                                <select class="form-select" id="txtMadreCabezaHogar" name="txtMadreCabezaHogar">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Si">Sí</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtPrepensionado" class="form-label">Prepensionado</label>
+                                                <select class="form-select" id="txtPrepensionado" name="txtPrepensionado">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Si">Sí</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mt-4">
                                 <div class="col-md-6">
                                     <div class="card">
