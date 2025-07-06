@@ -5,47 +5,117 @@ let chartIngresos = null;
 let chartBubble = null;
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado, verificando elementos de gráficos...');
+    
     // Solo inicializar si estamos en la página del dashboard
-    if (document.getElementById('chart-bars') || document.getElementById('chart-ingresos') || document.getElementById('chart-bubble')) {
-      
-        inicializarGraficos();
-    } 
+    const chartElements = [
+        document.getElementById('chart-bars'),
+        document.getElementById('chart-ingresos'),
+        document.getElementById('chart-bubble')
+    ];
+    
+    const hasChartElements = chartElements.some(element => element !== null);
+    
+    if (hasChartElements) {
+        console.log('Elementos de gráficos encontrados, inicializando...');
+        // Pequeño retraso para asegurar que todo esté listo
+        setTimeout(() => {
+            inicializarGraficos();
+        }, 100);
+    } else {
+        console.log('No se encontraron elementos de gráficos en esta página');
+    }
 });
 
 function inicializarGraficos() {
+    console.log('Inicializando gráficos del dashboard...');
+    
+    // Verificar que Chart.js esté disponible
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js no está disponible. Cargando dinámicamente...');
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        script.onload = function() {
+            console.log('Chart.js cargado dinámicamente');
+            setTimeout(inicializarGraficos, 100);
+        };
+        document.head.appendChild(script);
+        return;
+    }
     
     // Inicializar gráfico de funcionarios por cargo
     if (document.getElementById('chart-bars')) {
-        cargarFuncionariosPorCargo();
-    } 
+        console.log('Inicializando gráfico de funcionarios por cargo...');
+        setTimeout(() => {
+            cargarFuncionariosPorCargo();
+        }, 200);
+    } else {
+        console.warn('Elemento chart-bars no encontrado');
+    }
     
     // Inicializar gráfico de ingresos por mes
     if (document.getElementById('chart-ingresos')) {
-        cargarGraficaIngresos();
+        console.log('Inicializando gráfico de ingresos...');
+        setTimeout(() => {
+            cargarGraficaIngresos();
+        }, 300);
+    } else {
+        console.warn('Elemento chart-ingresos no encontrado');
     }
     
     // Inicializar bubble chart
     if (document.getElementById('chart-bubble')) {
-        cargarBubbleChart();
-    } 
+        console.log('Inicializando bubble chart...');
+        setTimeout(() => {
+            cargarBubbleChart();
+        }, 400);
+    } else {
+        console.warn('Elemento chart-bubble no encontrado');
+    }
 }
 
 function cargarFuncionariosPorCargo() {
+    console.log('Iniciando carga de funcionarios por cargo...');
+    
     fetch(base_url + '/Dashboard/getFuncionariosPorCargo')
         .then(response => {
+            console.log('Respuesta del servidor:', response.status);
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
             return response.json();
         })
         .then(data => {
-            if (data.length > 0) {
+            console.log('Datos recibidos de funcionarios por cargo:', data);
+            
+            if (data && data.length > 0) {
                 const ctx = document.getElementById('chart-bars');
                 if (!ctx) {
                     console.error('No se encontró el elemento canvas #chart-bars');
                     return;
                 }
                 
+                // Destruir gráfico existente si existe
+                if (chartBars) {
+                    chartBars.destroy();
+                }
+                
                 const labels = data.map(item => item.nombre_cargo);
                 const valores = data.map(item => item.total_funcionarios);
                 
+                // Generar colores dinámicos para las barras
+                const colores = [
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 205, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(199, 199, 199, 0.8)',
+                    'rgba(83, 102, 255, 0.8)'
+                ];
+                
+                const backgroundColor = labels.map((_, index) => colores[index % colores.length]);
                 
                 chartBars = new Chart(ctx, {
                     type: 'bar',
@@ -53,13 +123,13 @@ function cargarFuncionariosPorCargo() {
                         labels: labels,
                         datasets: [{
                             label: 'Funcionarios',
-                            tension: 0.4,
-                            borderWidth: 0,
-                            borderRadius: 4,
-                            borderSkipped: false,
-                            backgroundColor: '#fff',
                             data: valores,
-                            maxBarThickness: 6
+                            backgroundColor: backgroundColor,
+                            borderColor: backgroundColor.map(color => color.replace('0.8', '1')),
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            borderSkipped: false,
+                            maxBarThickness: 50
                         }]
                     },
                     options: {
@@ -68,28 +138,36 @@ function cargarFuncionariosPorCargo() {
                         plugins: {
                             legend: {
                                 display: false,
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                borderColor: '#fff',
+                                borderWidth: 1,
+                                cornerRadius: 6,
+                                displayColors: true
                             }
                         },
                         scales: {
                             y: {
+                                beginAtZero: true,
                                 grid: {
                                     drawBorder: false,
-                                    display: false,
-                                    drawOnChartArea: false,
+                                    display: true,
+                                    drawOnChartArea: true,
                                     drawTicks: false,
+                                    borderDash: [5, 5],
+                                    color: 'rgba(0, 0, 0, 0.1)'
                                 },
                                 ticks: {
-                                    suggestedMin: 0,
-                                    suggestedMax: 500,
-                                    beginAtZero: true,
-                                    padding: 15,
+                                    padding: 10,
                                     font: {
                                         size: 12,
                                         family: "Open Sans, sans-serif",
-                                        style: 'normal',
-                                        lineHeight: 2
+                                        weight: 'bold'
                                     },
-                                    color: "#fff"
+                                    color: '#333'
                                 },
                             },
                             x: {
@@ -101,25 +179,52 @@ function cargarFuncionariosPorCargo() {
                                 },
                                 ticks: {
                                     display: true,
-                                    color: '#fff',
                                     padding: 10,
                                     font: {
-                                        size: 12,
+                                        size: 11,
                                         family: "Open Sans, sans-serif",
-                                        style: 'normal',
-                                        lineHeight: 2
+                                        weight: 'bold'
                                     },
+                                    color: '#333',
+                                    maxRotation: 45,
+                                    minRotation: 0
                                 }
                             },
                         },
+                        animation: {
+                            duration: 2000,
+                            easing: 'easeInOutQuart'
+                        }
                     },
                 });
+                
+                console.log('Gráfico de funcionarios por cargo cargado exitosamente');
             } else {
                 console.warn('No hay datos de funcionarios por cargo disponibles');
+                // Mostrar mensaje en el canvas
+                const ctx = document.getElementById('chart-bars');
+                if (ctx) {
+                    const context = ctx.getContext('2d');
+                    context.clearRect(0, 0, ctx.width, ctx.height);
+                    context.font = '16px Arial';
+                    context.fillStyle = '#666';
+                    context.textAlign = 'center';
+                    context.fillText('No hay datos disponibles', ctx.width / 2, ctx.height / 2);
+                }
             }
         })
         .catch(error => {
             console.error('Error al cargar datos de funcionarios por cargo:', error);
+            // Mostrar mensaje de error en el canvas
+            const ctx = document.getElementById('chart-bars');
+            if (ctx) {
+                const context = ctx.getContext('2d');
+                context.clearRect(0, 0, ctx.width, ctx.height);
+                context.font = '14px Arial';
+                context.fillStyle = '#ff0000';
+                context.textAlign = 'center';
+                context.fillText('Error al cargar datos', ctx.width / 2, ctx.height / 2);
+            }
         });
 }
 

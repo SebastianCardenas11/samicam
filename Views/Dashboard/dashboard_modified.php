@@ -154,8 +154,8 @@
           </p>
         </div>
         <div class="card-body p-3">
-          <div class="chart" style="width:100%;">
-            <canvas id="chart-bars" class="chart-canvas" height="300" style="width:100% !important;"></canvas>
+          <div class="chart" style="width:100%; height:300px; position:relative;">
+            <canvas id="chart-bars" class="chart-canvas" style="width:100% !important; height:100% !important;"></canvas>
           </div>
         </div>
       </div>

@@ -1,29 +1,30 @@
 /**
  * Script para corregir problemas con las gráficas del dashboard
  */
-document.addEventListener('DOMContentLoaded', function() {
-    // Verificar si estamos en la página del dashboard
-    if (document.getElementById('chart-bars') || document.getElementById('chart-line')) {
-        console.log('Inicializando corrección de gráficas del dashboard');
-        
-        // Asegurar que Chart.js esté cargado
-        if (typeof Chart === 'undefined') {
-            console.error('Chart.js no está cargado correctamente');
-            
-            // Cargar Chart.js dinámicamente si no está disponible
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-            script.onload = function() {
-                console.log('Chart.js cargado dinámicamente');
-                inicializarGraficas();
-            };
-            document.head.appendChild(script);
-        } else {
-            console.log('Chart.js ya está cargado');
-            inicializarGraficas();
-        }
-    }
-});
+// Archivo deshabilitado temporalmente para evitar conflictos con functions_dashboard.js
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Verificar si estamos en la página del dashboard
+//     if (document.getElementById('chart-bars') || document.getElementById('chart-line')) {
+//         console.log('Inicializando corrección de gráficas del dashboard');
+//         
+//         // Asegurar que Chart.js esté cargado
+//         if (typeof Chart === 'undefined') {
+//             console.error('Chart.js no está cargado correctamente');
+//             
+//             // Cargar Chart.js dinámicamente si no está disponible
+//             const script = document.createElement('script');
+//             script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+//             script.onload = function() {
+//                 console.log('Chart.js cargado dinámicamente');
+//                 inicializarGraficas();
+//             };
+//             document.head.appendChild(script);
+//         } else {
+//             console.log('Chart.js ya está cargado');
+//             inicializarGraficas();
+//         }
+//     }
+// });
 
 function inicializarGraficas() {
     // Intentar cargar las gráficas
