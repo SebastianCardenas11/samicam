@@ -273,4 +273,10 @@ class SeguimientoContratoModel extends Mysql
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
+    public function cantContratos() {
+        $sql = "SELECT COUNT(*) as total FROM seguimiento_contrato WHERE estado != 0";
+        $request = $this->select($sql);
+        return isset($request['total']) ? (int)$request['total'] : 0;
+    }
 } 
