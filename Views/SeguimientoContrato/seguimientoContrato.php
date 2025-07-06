@@ -76,7 +76,7 @@ getModal('modalSeguimientoContrato', $data);
                                 <thead class="table-success">
                                     <tr>
                                         <th class="text-center">Fecha Aprobación Entidad (Suscripción)</th>
-                                        <th class="text-center">Número de Contrato</th>
+                                        <th class="text-center">Número de C ontrato</th>
                                         <th class="text-center">Dependencia</th>
                                         <th class="text-center">Objeto del Contrato</th>
                                         <th class="text-center">Fecha Inicio</th>
