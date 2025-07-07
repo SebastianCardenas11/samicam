@@ -73,10 +73,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="listDependencia">Dependencia</label>
-                                <select class="form-control" id="listDependencia" name="listDependencia">
-                                    <option value="">Seleccione...</option>
-                                </select>
+                                <label for="txtDependencia">Dependencia</label>
+                                <input type="text" class="form-control" id="txtDependencia" name="txtDependencia" readonly>
                             </div>
                         </div>
                     </div>
@@ -99,18 +97,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="listCargo">Cargo</label>
-                                <select class="form-control" id="listCargo" name="listCargo">
-                                    <option value="">Seleccione...</option>
-                                </select>
+                                <label for="txtCargo">Cargo</label>
+                                <input type="text" class="form-control" id="txtCargo" name="txtCargo" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="listContacto">Contacto</label>
-                                <select class="form-control" id="listContacto" name="listContacto">
-                                    <option value="">Seleccione...</option>
-                                </select>
+                                <label for="txtContacto">Contacto</label>
+                                <input type="text" class="form-control" id="txtContacto" name="txtContacto" readonly>
                             </div>
                         </div>
                     </div>
@@ -176,7 +170,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="listDependenciaEscaner">Dependencia</label>
+                                <label for="txtDependenciaEscaner">Dependencia</label>
                                 <select class="form-control" id="listDependenciaEscaner" name="listDependencia">
                                     <option value="">Seleccione...</option>
                                 </select>
@@ -232,13 +226,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtDisponibilidadPapeleria">Disponibilidad *</label>
-                                <select class="form-control" id="txtDisponibilidadPapeleria" name="txtDisponibilidad" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="Disponible">Disponible</option>
-                                    <option value="Agotado">Agotado</option>
-                                    <option value="En Reposición">En Reposición</option>
-                                    <option value="No Disponible">No Disponible</option>
-                                </select>
+                                <input type="number" class="form-control" id="txtDisponibilidadPapeleria" name="txtDisponibilidad" min="0" required>
                             </div>
                         </div>
                     </div>

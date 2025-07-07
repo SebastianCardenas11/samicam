@@ -1,3 +1,73 @@
+// functions_psi.js
+
+let tblPrestamos, tblSalidas, tblIngresos;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initPsiTables();
+});
+
+function initPsiTables() {
+    tblPrestamos = $('#tablaPrestamos').DataTable({
+        language: { url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json' },
+        ajax: { url: base_url + '/psi/getPrestamos', dataSrc: '' },
+        columns: [
+            { data: 'id_prestamo' },
+            { data: 'fecha' },
+            { data: 'responsable' },
+            { data: 'elemento' },
+            { data: 'cantidad' },
+            { data: 'estado' },
+            { data: 'options' }
+        ],
+        responsive: true,
+        bDestroy: true,
+        iDisplayLength: 10,
+        order: [[0, 'desc']]
+    });
+    tblSalidas = $('#tablaSalidas').DataTable({
+        language: { url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json' },
+        ajax: { url: base_url + '/psi/getSalidas', dataSrc: '' },
+        columns: [
+            { data: 'id_salida' },
+            { data: 'fecha' },
+            { data: 'responsable' },
+            { data: 'elemento' },
+            { data: 'cantidad' },
+            { data: 'motivo' },
+            { data: 'options' }
+        ],
+        responsive: true,
+        bDestroy: true,
+        iDisplayLength: 10,
+        order: [[0, 'desc']]
+    });
+    tblIngresos = $('#tablaIngresos').DataTable({
+        language: { url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json' },
+        ajax: { url: base_url + '/psi/getIngresos', dataSrc: '' },
+        columns: [
+            { data: 'id_ingreso' },
+            { data: 'fecha' },
+            { data: 'responsable' },
+            { data: 'elemento' },
+            { data: 'cantidad' },
+            { data: 'origen' },
+            { data: 'options' }
+        ],
+        responsive: true,
+        bDestroy: true,
+        iDisplayLength: 10,
+        order: [[0, 'desc']]
+    });
+}
+
+function openModalPsi(tipo) {
+    // Aquí se puede cargar dinámicamente el formulario según el tipo (prestamo, salida, ingreso)
+    $('#modalPsi').modal('show');
+    // Lógica para cambiar el contenido del formulario según el tipo
+}
+
+// Aquí irá la lógica para los gráficos con Chart.js
+
 // inventario.js
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -134,11 +134,28 @@ class InventarioModel extends Mysql
     // ==================== PAPELERÍA ====================
     public function selectPapeleria()
     {
-        $sql = "SELECT id_papeleria, item, disponibilidad, status
-                FROM tbl_papeleria 
-                WHERE status != 0
-                ORDER BY item ASC";
+        $sql = "SELECT * FROM tbl_papeleria WHERE status != 0 ORDER BY item ASC";
         $data = $this->select_all($sql);
+
+        // Asegurar que disponibilidad sea int y agregar columna de opciones
+        if (!empty($data)) {
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['disponibilidad'] = (int)$data[$i]['disponibilidad'];
+                $btnEdit = '';
+                $btnDelete = '';
+
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnEdit = '<button class="btn btn-primary btn-sm" onClick="editArticuloPapeleria(' . $data[$i]['id_papeleria'] . ')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
+                }
+
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="delArticuloPapeleria(' . $data[$i]['id_papeleria'] . ')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>';
+                }
+
+                $data[$i]['options'] = '<div class="text-center">' . $btnEdit . ' ' . $btnDelete . '</div>';
+            }
+        }
+
         return $data;
     }
 
@@ -178,10 +195,19 @@ class InventarioModel extends Mysql
     // ==================== FUNCIONARIOS ====================
     public function selectFuncionarios()
     {
-        $sql = "SELECT id_funcionario, nombres, apellidos, CONCAT(nombres, ' ', apellidos) as nombre_completo 
-                FROM tbl_funcionarios_planta 
-                WHERE status != 0 
-                ORDER BY nombres ASC";
+        $sql = "SELECT 
+            f.idefuncionario AS id_funcionario, 
+            f.nombre_completo, 
+            f.dependencia_fk AS id_dependencia, 
+            d.nombre_dependencia, 
+            f.cargo_fk AS id_cargo, 
+            c.nombre_cargo, 
+            f.celular AS contacto
+        FROM tbl_funcionarios_planta f
+        LEFT JOIN tbl_dependencias d ON f.dependencia_fk = d.id_dependencia
+        LEFT JOIN tbl_cargos c ON f.cargo_fk = c.id_cargo
+        WHERE f.status = 1
+        ORDER BY f.nombre_completo ASC";
         $data = $this->select_all($sql);
         return $data;
     }
@@ -222,11 +248,27 @@ class InventarioModel extends Mysql
     // ==================== TINTAS Y TÓNER ====================
     public function selectTintasToner()
     {
-        $sql = "SELECT id_tinta_toner, item, disponibles, impresora, modelos_compatibles, fecha_ultima_actualizacion, status
-                FROM tbl_tintas_toner 
-                WHERE status != 0
-                ORDER BY item ASC";
+        $sql = "SELECT * FROM tbl_tintas_toner WHERE status != 0 ORDER BY item ASC";
         $data = $this->select_all($sql);
+
+        // Agregar columna de opciones para cada registro
+        if (!empty($data)) {
+            for ($i = 0; $i < count($data); $i++) {
+                $btnEdit = '';
+                $btnDelete = '';
+
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnEdit = '<button class="btn btn-primary btn-sm" onClick="editTintaToner(' . $data[$i]['id_tinta_toner'] . ')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
+                }
+
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="delTintaToner(' . $data[$i]['id_tinta_toner'] . ')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>';
+                }
+
+                $data[$i]['options'] = '<div class="text-center">' . $btnEdit . ' ' . $btnDelete . '</div>';
+            }
+        }
+
         return $data;
     }
 

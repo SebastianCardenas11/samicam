@@ -9,6 +9,7 @@ let tblTodoEnUno;
 let tblPortatiles;
 let tblHerramientas;
 let currentForm = 'impresora';
+let funcionariosPlanta = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar DataTables
@@ -117,79 +118,56 @@ function initDataTables() {
     }
 
     // DataTable para Papelería
-    if (tblPapeleria === undefined) {
-        tblPapeleria = $('#tablaPapeleria').DataTable({
-            "processing": true,
-            "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
-            "ajax": {
-                "url": base_url + "/Inventario/getPapeleria",
-                "dataSrc": ""
-            },
-            "columns": [
-                { "data": "item" },
-                { "data": "disponibilidad" },
-                { 
-                    "data": "id_papeleria",
-                    "render": function(data, type, row) {
-                        let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editArticuloPapeleria(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delArticuloPapeleria(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
-                        return buttons;
-                    }
-                }
-            ],
-            "responsive": true,
-            "bDestroy": true,
-            "iDisplayLength": 10,
-            "order": [[0, "asc"]]
-        });
+    if ($.fn.DataTable.isDataTable('#tablaPapeleria')) {
+        $('#tablaPapeleria').DataTable().destroy();
     }
+    tblPapeleria = $('#tablaPapeleria').DataTable({
+        "processing": true,
+        "serverSide": false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        },
+        "ajax": {
+            "url": base_url + "/Inventario/getPapeleria",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "item" },
+            { "data": "disponibilidad" },
+            { "data": "options", "orderable": false, "searchable": false }
+        ],
+        "responsive": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "order": [[0, "asc"]]
+    });
 
     // DataTable para Tintas y Tóner
-    if (tblTintasToner === undefined) {
-        tblTintasToner = $('#tablaTintasToner').DataTable({
-            "processing": true,
-            "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
-            "ajax": {
-                "url": base_url + "/Inventario/getTintasToner",
-                "dataSrc": ""
-            },
-            "columns": [
-                { "data": "item" },
-                { "data": "disponibles" },
-                { "data": "impresora" },
-                { "data": "modelos_compatibles" },
-                { "data": "fecha_ultima_actualizacion" },
-                { 
-                    "data": "id_tinta_toner",
-                    "render": function(data, type, row) {
-                        let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editTintaToner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delTintaToner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
-                        return buttons;
-                    }
-                }
-            ],
-            "responsive": true,
-            "bDestroy": true,
-            "iDisplayLength": 10,
-            "order": [[0, "asc"]]
-        });
+    if ($.fn.DataTable.isDataTable('#tablaTintasToner')) {
+        $('#tablaTintasToner').DataTable().destroy();
     }
+    tblTintasToner = $('#tablaTintasToner').DataTable({
+        "processing": true,
+        "serverSide": false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        },
+        "ajax": {
+            "url": base_url + "/Inventario/getTintasToner",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "item" },
+            { "data": "disponibles" },
+            { "data": "impresora" },
+            { "data": "modelos_compatibles" },
+            { "data": "options", "orderable": false, "searchable": false }
+        ],
+        "responsive": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "order": [[0, "asc"]]
+    });
 
     // DataTable para PC Torre
     if (tblPcTorre === undefined) {
@@ -471,6 +449,7 @@ function loadFuncionarios() {
     fetch(base_url + '/Inventario/getFuncionarios')
         .then(response => response.json())
         .then(data => {
+            funcionariosPlanta = data; // Guardar el array completo para uso posterior
             const selects = ['listFuncionario', 'listFuncionarioEscaner', 'listFuncionarioPapeleria'];
             selects.forEach(selectId => {
                 const select = document.getElementById(selectId);
@@ -852,7 +831,7 @@ function saveArticuloPapeleria() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formPapeleria')[0].reset();
-                    loadPapeleria();
+                    tblPapeleria.ajax.reload();
                     swal("¡Éxito!", response.msg, "success");
                 } else {
                     swal("Error", response.msg, "error");
@@ -889,7 +868,7 @@ function delArticuloPapeleria(idPapeleria) {
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
-                    loadPapeleria();
+                    tblPapeleria.ajax.reload();
                     Swal.fire(
                         '¡Eliminado!',
                         data.msg,
@@ -903,7 +882,14 @@ function delArticuloPapeleria(idPapeleria) {
                     );
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error',
+                    'Error al eliminar',
+                    'error'
+                );
+            });
         }
     });
 }
@@ -943,7 +929,7 @@ function saveTintaToner() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formTintaToner')[0].reset();
-                    loadTintasToner();
+                    tblTintasToner.ajax.reload();
                     swal("¡Éxito!", response.msg, "success");
                 } else {
                     swal("Error", response.msg, "error");
@@ -980,7 +966,7 @@ function delTintaToner(idTintaToner) {
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
-                    loadTintasToner();
+                    tblTintasToner.ajax.reload();
                     Swal.fire(
                         '¡Eliminado!',
                         data.msg,
@@ -994,7 +980,14 @@ function delTintaToner(idTintaToner) {
                     );
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error',
+                    'Error al eliminar',
+                    'error'
+                );
+            });
         }
     });
 }
@@ -1427,4 +1420,19 @@ function delHerramienta(idHerramienta) {
             });
         }
     });
-} 
+}
+
+// Evento para autocompletar dependencia, cargo y contacto al seleccionar funcionario en impresoras
+$(document).on('change', '#listFuncionario', function() {
+    const idFuncionario = $(this).val();
+    const funcionario = funcionariosPlanta.find(f => f.id_funcionario == idFuncionario);
+    if (funcionario) {
+        $('#txtDependencia').val(funcionario.nombre_dependencia);
+        $('#txtCargo').val(funcionario.nombre_cargo);
+        $('#txtContacto').val(funcionario.contacto);
+    } else {
+        $('#txtDependencia').val('');
+        $('#txtCargo').val('');
+        $('#txtContacto').val('');
+    }
+}); 

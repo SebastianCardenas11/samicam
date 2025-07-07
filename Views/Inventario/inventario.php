@@ -264,7 +264,6 @@
                                                                     <th>Disponibles</th>
                                                                     <th>Impresora</th>
                                                                     <th>Modelos Compatibles</th>
-                                                                    <th>Última Actualización</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
