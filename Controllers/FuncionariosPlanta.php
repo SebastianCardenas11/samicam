@@ -136,10 +136,8 @@ class FuncionariosPlanta extends Controllers
                 if ($request > 0) {
                     $msg = $option == 1 ? "Funcionario guardado correctamente" : "Funcionario actualizado correctamente";
                     $arrResponse = array("status" => true, "msg" => $msg);
-                } else if ($request == 'exist_email') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El correo electrónico ya está registrado en el sistema.');
-                } else if ($request == 'exist_id') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! El número de identificación ya está registrado en el sistema.');
+                } else if ($request == 'exist_email' || $request == 'exist_id') {
+                    $arrResponse = array("status" => false, "msg" => 'Funcionario ya existe');
                 } else {
                     $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                 }
