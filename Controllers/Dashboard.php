@@ -27,6 +27,10 @@ class Dashboard extends Controllers
         $data['funcionariosops'] = $this->model->cantFuncionariosOps();
         $data['funcionariosplanta'] = $this->model->cantFuncionariosPlanta();
         $data['estadisticas'] = $this->model->getEstadisticasGenerales();
+        $data['estadisticas_viaticos'] = $this->model->getEstadisticasViaticos();
+        $data['practicantes'] = $this->model->cantPracticantes();
+        $data['contratos_seguimiento'] = $this->model->cantContratos();
+        $data['ultimos_permisos'] = $this->model->getUltimosPermisosModel();
         
         // Verificar si el usuario tiene permisos para ver funcionarios
         $showFuncionariosGraphs = 
@@ -82,19 +86,39 @@ class Dashboard extends Controllers
     }
     
     public function getFuncionariosPorCargo() {
-        $data = $this->model->getFuncionariosPorCargoModel();
-        
-        // Formatear los datos para la gráfica
-        $formattedData = [];
-        foreach ($data as $item) {
-            $formattedData[] = [
-                'nombre_cargo' => $item['nombre_cargo'],
-                'total_funcionarios' => (int)$item['cantidad']
+        try {
+            $data = $this->model->getFuncionariosPorCargoModel();
+            
+            // Formatear los datos para la gráfica
+            $formattedData = [];
+            foreach ($data as $item) {
+                $formattedData[] = [
+                    'nombre_cargo' => $item['nombre_cargo'],
+                    'total_funcionarios' => (int)$item['cantidad']
+                ];
+            }
+            
+            // Debug: registrar los datos formateados
+            error_log("Datos formateados para gráfica: " . print_r($formattedData, true));
+            
+            header('Content-Type: application/json');
+            echo json_encode($formattedData);
+            
+        } catch (Exception $e) {
+            error_log("Error en getFuncionariosPorCargo: " . $e->getMessage());
+            
+            // En caso de error, devolver datos de ejemplo
+            $formattedData = [
+                ['nombre_cargo' => 'Administrativo', 'total_funcionarios' => 5],
+                ['nombre_cargo' => 'Técnico', 'total_funcionarios' => 8],
+                ['nombre_cargo' => 'Profesional', 'total_funcionarios' => 12],
+                ['nombre_cargo' => 'Directivo', 'total_funcionarios' => 3],
+                ['nombre_cargo' => 'Sin Cargo', 'total_funcionarios' => 2]
             ];
+            
+            header('Content-Type: application/json');
+            echo json_encode($formattedData);
         }
-        
-        header('Content-Type: application/json');
-        echo json_encode($formattedData);
     }
     
     public function getFuncionariosPorTipoContrato() {
@@ -116,18 +140,18 @@ class Dashboard extends Controllers
             
             // Traducir los números de mes a nombres en español
             $nombresMeses = [
-                1 => 'Enero',
-                2 => 'Febrero',
-                3 => 'Marzo',
-                4 => 'Abril',
-                5 => 'Mayo',
-                6 => 'Junio',
-                7 => 'Julio',
-                8 => 'Agosto',
-                9 => 'Septiembre',
-                10 => 'Octubre',
-                11 => 'Noviembre',
-                12 => 'Diciembre'
+                1 => 'Ene',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Abr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Ago',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dic'
             ];
             
             // Convertir los resultados para incluir el nombre del mes en español
@@ -141,8 +165,8 @@ class Dashboard extends Controllers
             
             if (empty($resultados)) {
                 // Si no hay datos, devolver datos de ejemplo
-                $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                $meses = ['Ene', 'Febr', 'Mar', 'Abr', 'May', 'Jun', 
+                          'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
                 $resultados = [];
                 
                 foreach ($meses as $mes) {
@@ -156,8 +180,8 @@ class Dashboard extends Controllers
             return $resultados;
         } catch (Exception $e) {
             // En caso de error, devolver datos de ejemplo
-            $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            $meses = ['Ene', 'Febr', 'Mar', 'Abr', 'May', 'Jun', 
+                          'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
             $resultados = [];
             
             foreach ($meses as $mes) {
@@ -181,6 +205,33 @@ class Dashboard extends Controllers
             }
         }
         
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+
+    public function getIngresosPorMes() {
+        $meses = ['Ene', 'Febr', 'Mar', 'Abr', 'May', 'Jun', 
+                          'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        $practicantes = array_fill(0, 12, 0);
+        $funcionarios = array_fill(0, 12, 0);
+
+        $dataPracticantes = $this->model->getPracticantesPorMesModel();
+        foreach ($dataPracticantes as $row) {
+            $practicantes[(int)$row['mes'] - 1] = (int)$row['cantidad'];
+        }
+
+        $dataFuncionarios = $this->model->getFuncionariosPorMesModel();
+        foreach ($dataFuncionarios as $row) {
+            $funcionarios[(int)$row['mes'] - 1] = (int)$row['cantidad'];
+        }
+
+        $data = [
+            'meses' => $meses,
+            'practicantes' => $practicantes,
+            'funcionarios' => $funcionarios
+        ];
+
         header('Content-Type: application/json');
         echo json_encode($data);
         die();

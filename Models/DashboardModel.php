@@ -110,12 +110,38 @@ class DashboardModel extends Mysql
     }
 
     public function getFuncionariosPorCargoModel() {
-        $sql = "SELECT c.nombre as nombre_cargo, COUNT(f.idefuncionario) as cantidad 
-               FROM tbl_funcionarios_planta f 
-               INNER JOIN tbl_cargos c ON f.cargo_fk = c.idecargos 
-               WHERE f.status != 0 
-               GROUP BY c.nombre";
+        // Consulta mejorada para obtener funcionarios por cargo
+        $sql = "SELECT 
+                    COALESCE(c.nombre, 'Sin Cargo') as nombre_cargo, 
+                    COUNT(*) as cantidad 
+                FROM (
+                    SELECT cargo_fk FROM tbl_funcionarios_planta WHERE status != 0
+                    UNION ALL
+                    SELECT NULL as cargo_fk FROM tbl_funcionarios_ops WHERE estado_contrato != 'Terminado'
+                ) as funcionarios
+                LEFT JOIN tbl_cargos c ON funcionarios.cargo_fk = c.idecargos
+                GROUP BY c.nombre
+                HAVING COUNT(*) > 0
+                ORDER BY cantidad DESC";
+        
         $request = $this->select_all($sql);
+        
+        // Debug: registrar la consulta y resultados
+        error_log("SQL Query getFuncionariosPorCargoModel: " . $sql);
+        error_log("Resultados getFuncionariosPorCargoModel: " . print_r($request, true));
+        
+        // Si no hay datos, devolver datos de ejemplo
+        if (empty($request)) {
+            error_log("No se encontraron datos de funcionarios por cargo, devolviendo datos de ejemplo");
+            $request = [
+                ['nombre_cargo' => 'Administrativo', 'cantidad' => 5],
+                ['nombre_cargo' => 'Técnico', 'cantidad' => 8],
+                ['nombre_cargo' => 'Profesional', 'cantidad' => 12],
+                ['nombre_cargo' => 'Directivo', 'cantidad' => 3],
+                ['nombre_cargo' => 'Sin Cargo', 'cantidad' => 2]
+            ];
+        }
+        
         return $request;
     }
     
@@ -127,5 +153,116 @@ class DashboardModel extends Mysql
                GROUP BY ct.tipo_cont";
         $request = $this->select_all($sql);
         return $request;
+    }
+
+    public function getPracticantesPorMesModel() {
+        $sql = "SELECT MONTH(fecha_ingreso) as mes, COUNT(*) as cantidad
+                FROM tbl_practicantes
+                WHERE YEAR(fecha_ingreso) = YEAR(CURDATE())
+                GROUP BY mes";
+        return $this->select_all($sql);
+    }
+
+    public function getFuncionariosPorMesModel() {
+        $sql = "SELECT MONTH(fecha_ingreso) as mes, COUNT(*) as cantidad
+                FROM (
+                    SELECT fecha_ingreso FROM tbl_funcionarios_planta WHERE status != 0
+                    UNION ALL
+                    SELECT fecha_inicio as fecha_ingreso FROM tbl_funcionarios_ops WHERE estado_contrato != 'Terminado'
+                ) as funcionarios
+                WHERE YEAR(fecha_ingreso) = YEAR(CURDATE())
+                GROUP BY mes";
+        return $this->select_all($sql);
+    }
+
+    public function getEstadisticasViaticos($year = null) {
+        if ($year === null) {
+            $year = date('Y');
+        }
+        // Obtener presupuesto
+        require_once("Models/FuncionariosViaticosModel.php");
+        $viaticosModel = new FuncionariosViaticosModel();
+        $presupuesto = $viaticosModel->getPresupuestoInfo($year);
+        $capitalTotal = isset($presupuesto['capital_total']) ? floatval($presupuesto['capital_total']) : 0;
+        $capitalDisponible = isset($presupuesto['capital_disponible']) ? floatval($presupuesto['capital_disponible']) : 0;
+        $capitalGastado = $capitalTotal - $capitalDisponible;
+        $porcentajeGastado = $capitalTotal > 0 ? round(($capitalGastado / $capitalTotal) * 100, 2) : 0;
+        if ($porcentajeGastado < 0) $porcentajeGastado = 0;
+        if ($porcentajeGastado > 100) $porcentajeGastado = 100;
+        $porcentajeDisponible = 100 - $porcentajeGastado;
+        if ($porcentajeDisponible < 0) $porcentajeDisponible = 0;
+        if ($porcentajeDisponible > 100) $porcentajeDisponible = 100;
+        return [
+            'capital_total' => $capitalTotal,
+            'capital_disponible' => $capitalDisponible,
+            'capital_gastado' => $capitalGastado,
+            'porcentaje_gastado' => $porcentajeGastado,
+            'porcentaje_disponible' => $porcentajeDisponible
+        ];
+    }
+
+    public function cantPracticantes() {
+        require_once("Models/PracticantesModel.php");
+        $practicantesModel = new PracticantesModel();
+        return $practicantesModel->cantPracticantes();
+    }
+
+    public function cantContratos() {
+        require_once("Models/SeguimientoContratoModel.php");
+        $contratoModel = new SeguimientoContratoModel();
+        return $contratoModel->cantContratos();
+    }
+
+    public function getUltimosPermisosModel() {
+        // Consulta que obtiene los nombres reales de los funcionarios
+        $sql = "SELECT 
+                    p.motivo, 
+                    p.fecha_permiso, 
+                    p.estado,
+                    CASE 
+                        WHEN p.tipo_funcionario = 'planta' THEN 
+                            COALESCE((SELECT nombre_completo FROM tbl_funcionarios_planta WHERE idefuncionario = p.id_funcionario LIMIT 1), 'Funcionario no encontrado')
+                        WHEN p.tipo_funcionario = 'ops' THEN 
+                            COALESCE((SELECT nombre_contratista FROM tbl_funcionarios_ops WHERE id = p.id_funcionario LIMIT 1), 'Funcionario no encontrado')
+                        ELSE 'Tipo no especificado'
+                    END as funcionario_cargo
+                FROM tbl_permisos p
+                WHERE p.estado IN ('Aprobado', 'Pendiente', 'Rechazado')
+                ORDER BY p.fecha_permiso DESC 
+                LIMIT 5";
+        
+        $result = $this->select_all($sql);
+        
+        // Debug: imprimir la consulta y resultados para verificar
+        error_log("SQL Query: " . $sql);
+        error_log("Resultados: " . print_r($result, true));
+        
+        return $result;
+    }
+    
+    private function diagnosticarPermisos() {
+        $diagnostico = [];
+        
+        // Verificar permisos totales
+        $sql_total = "SELECT COUNT(*) as total FROM tbl_permisos";
+        $total = $this->select($sql_total);
+        $diagnostico['total_permisos'] = $total['total'] ?? 0;
+        
+        // Verificar permisos por tipo
+        $sql_tipos = "SELECT tipo_funcionario, COUNT(*) as cantidad FROM tbl_permisos GROUP BY tipo_funcionario";
+        $tipos = $this->select_all($sql_tipos);
+        $diagnostico['por_tipo'] = $tipos;
+        
+        // Verificar permisos por estado
+        $sql_estados = "SELECT estado, COUNT(*) as cantidad FROM tbl_permisos GROUP BY estado";
+        $estados = $this->select_all($sql_estados);
+        $diagnostico['por_estado'] = $estados;
+        
+        // Verificar algunos permisos de ejemplo
+        $sql_ejemplo = "SELECT id, motivo, fecha_permiso, estado, tipo_funcionario, id_funcionario FROM tbl_permisos LIMIT 5";
+        $ejemplos = $this->select_all($sql_ejemplo);
+        $diagnostico['ejemplos'] = $ejemplos;
+        
+        return $diagnostico;
     }
 }

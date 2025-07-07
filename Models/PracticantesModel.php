@@ -318,4 +318,10 @@ class PracticantesModel extends Mysql
         $request = $this->insert($sql, $arrData);
         return $request;
     }
+
+    public function cantPracticantes() {
+        $sql = "SELECT COUNT(*) as total FROM tbl_practicantes WHERE status != 0";
+        $request = $this->select($sql);
+        return isset($request['total']) ? (int)$request['total'] : 0;
+    }
 } 
