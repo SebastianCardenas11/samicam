@@ -199,13 +199,13 @@ class InventarioModel extends Mysql
             f.idefuncionario AS id_funcionario, 
             f.nombre_completo, 
             f.dependencia_fk AS id_dependencia, 
-            d.nombre_dependencia, 
+            d.nombre AS nombre_dependencia, 
             f.cargo_fk AS id_cargo, 
-            c.nombre_cargo, 
+            c.nombre AS nombre_cargo, 
             f.celular AS contacto
         FROM tbl_funcionarios_planta f
-        LEFT JOIN tbl_dependencias d ON f.dependencia_fk = d.id_dependencia
-        LEFT JOIN tbl_cargos c ON f.cargo_fk = c.id_cargo
+        LEFT JOIN tbl_dependencia d ON f.dependencia_fk = d.dependencia_pk
+        LEFT JOIN tbl_cargos c ON f.cargo_fk = c.idecargos
         WHERE f.status = 1
         ORDER BY f.nombre_completo ASC";
         $data = $this->select_all($sql);
@@ -215,10 +215,9 @@ class InventarioModel extends Mysql
     // ==================== DEPENDENCIAS ====================
     public function selectDependencias()
     {
-        $sql = "SELECT id_dependencia, nombre_dependencia 
-                FROM tbl_dependencias 
-                WHERE status != 0 
-                ORDER BY nombre_dependencia ASC";
+        $sql = "SELECT dependencia_pk AS id_dependencia, nombre AS nombre_dependencia 
+                FROM tbl_dependencia 
+                ORDER BY nombre ASC";
         $data = $this->select_all($sql);
         return $data;
     }
@@ -226,10 +225,9 @@ class InventarioModel extends Mysql
     // ==================== CARGOS ====================
     public function selectCargos()
     {
-        $sql = "SELECT id_cargo, nombre_cargo 
+        $sql = "SELECT idecargos AS id_cargo, nombre AS nombre_cargo 
                 FROM tbl_cargos 
-                WHERE status != 0 
-                ORDER BY nombre_cargo ASC";
+                ORDER BY nombre ASC";
         $data = $this->select_all($sql);
         return $data;
     }
@@ -237,10 +235,10 @@ class InventarioModel extends Mysql
     // ==================== CONTACTOS ====================
     public function selectContactos()
     {
-        $sql = "SELECT id_contacto, nombre_contacto 
-                FROM tbl_contactos 
-                WHERE status != 0 
-                ORDER BY nombre_contacto ASC";
+        $sql = "SELECT f.idefuncionario AS id_contacto, f.nombre_completo AS nombre_contacto, f.celular AS telefono_contacto
+                FROM tbl_funcionarios_planta f
+                WHERE f.status = 1
+                ORDER BY f.nombre_completo ASC";
         $data = $this->select_all($sql);
         return $data;
     }

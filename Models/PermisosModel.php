@@ -245,4 +245,45 @@ class PermisosModel extends Mysql
         }
         return $arrPermisos;
     }
+
+    // Obtener todos los módulos activos
+    public function selectModulos()
+    {
+        $sql = "SELECT * FROM modulo WHERE status = 1 ORDER BY titulo";
+        return $this->select_all($sql);
+    }
+
+    // Obtener permisos de un rol sobre los módulos
+    public function selectPermisosRol($idrol)
+    {
+        $sql = "SELECT p.moduloid, p.r, p.w, p.u, p.d, p.v
+                FROM permisos p
+                INNER JOIN modulo m ON p.moduloid = m.idmodulo
+                WHERE p.rolid = ? AND m.status = 1
+                ORDER BY m.titulo";
+        return $this->select_all($sql, [$idrol]);
+    }
+
+    // Eliminar todos los permisos de un rol
+    public function deletePermisos($idrol)
+    {
+        $sql = "DELETE FROM permisos WHERE rolid = ?";
+        return $this->delete($sql, [$idrol]);
+    }
+
+    // Insertar permisos para un rol y módulo
+    public function insertPermisos($idrol, $idmodulo, $r, $w, $u, $d, $v)
+    {
+        $sql = "INSERT INTO permisos (rolid, moduloid, r, w, u, d, v) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $params = [$idrol, $idmodulo, $r, $w, $u, $d, $v];
+        return $this->insert($sql, $params);
+    }
+
+    // Obtener información de un rol
+    public function getRol($idrol)
+    {
+        require_once("Models/RolesModel.php");
+        $rolesModel = new RolesModel();
+        return $rolesModel->selectRol($idrol);
+    }
 }
