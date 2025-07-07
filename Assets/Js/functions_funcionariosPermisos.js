@@ -1,14 +1,15 @@
 let tableFuncionarios;
 let rowTable = "";
+let intervaloReloj;
 let permisosDiarios = 0;
 let maxPermisosDiarios = 5;
-let intervaloReloj;
 
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-    // Inicializar el sistema de permisos diarios
-    inicializarPermisosDiarios();
+    // Inicializar el reloj y contador de permisos
+    iniciarReloj();
+    cargarPermisosDiarios();
     
     tableFuncionarios = $('#tableFuncionarios').dataTable({
         "aProcessing": true,
@@ -36,73 +37,67 @@ document.addEventListener(
   false
 );
 
-// Función para inicializar el sistema de permisos diarios
-function inicializarPermisosDiarios() {
-    // Verificar si es un nuevo día
-    verificarNuevoDia();
+// Función para cargar los permisos diarios de hoy
+function cargarPermisosDiarios() {
+    // Obtener la fecha de hoy en formato YYYY-MM-DD
+    let today = new Date();
+    let fechaHoy = today.toISOString().split('T')[0];
     
-    // Cargar permisos del localStorage
-    cargarPermisosDelStorage();
+    // Hacer una petición para obtener los permisos de hoy
+    let request = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/funcionariosPermisos/getPermisosPorFecha/' + fechaHoy;
     
-    // Actualizar la interfaz
-    actualizarInterfazPermisos();
-    
-    // Iniciar el reloj
-    iniciarReloj();
-    
-    // Configurar el intervalo para verificar el reseteo cada minuto
-    setInterval(verificarNuevoDia, 60000);
-}
-
-// Función para verificar si es un nuevo día
-function verificarNuevoDia() {
-    const hoy = new Date().toLocaleDateString('es-CO');
-    const ultimoDia = localStorage.getItem('ultimoDiaPermisos');
-    
-    if (ultimoDia !== hoy) {
-        // Es un nuevo día, resetear permisos
-        localStorage.setItem('ultimoDiaPermisos', hoy);
-        localStorage.setItem('permisosDiarios', '0');
-        permisosDiarios = 0;
-        console.log('Nuevo día detectado. Permisos reseteados.');
-    }
-}
-
-// Función para cargar permisos del localStorage
-function cargarPermisosDelStorage() {
-    const permisosGuardados = localStorage.getItem('permisosDiarios');
-    permisosDiarios = permisosGuardados ? parseInt(permisosGuardados) : 0;
-}
-
-// Función para guardar permisos en localStorage
-function guardarPermisosEnStorage() {
-    localStorage.setItem('permisosDiarios', permisosDiarios.toString());
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                let objData = JSON.parse(request.responseText);
+                if (objData.status) {
+                    permisosDiarios = parseInt(objData.total);
+                    maxPermisosDiarios = parseInt(document.getElementById('permisosDisponibles').getAttribute('data-max') || 5);
+                    console.log('Permisos diarios cargados:', permisosDiarios, 'de', maxPermisosDiarios);
+                    actualizarInterfazPermisos();
+                }
+            } catch (error) {
+                console.error('Error al procesar la respuesta:', error);
+            }
+        }
+    };
 }
 
 // Función para actualizar la interfaz de permisos
 function actualizarInterfazPermisos() {
-    const permisosDisponibles = maxPermisosDiarios - permisosDiarios;
-    const porcentaje = (permisosDiarios / maxPermisosDiarios) * 100;
-    
-    // Actualizar contadores
-    document.getElementById('permisosDisponibles').textContent = permisosDisponibles;
-    document.getElementById('permisosUsados').textContent = permisosDiarios;
-    
-    // Actualizar barra de progreso
-    const barraProgreso = document.getElementById('barraProgreso');
-    const textoProgreso = document.getElementById('textoProgreso');
-    
-    barraProgreso.style.width = porcentaje + '%';
-    barraProgreso.setAttribute('aria-valuenow', permisosDiarios);
-    textoProgreso.textContent = `${permisosDiarios}/${maxPermisosDiarios}`;
-    
-    // Cambiar color de la barra según el progreso
-    if (porcentaje >= 80) {
-        barraProgreso.className = 'progress-bar bg-danger';
-    } else if (porcentaje >= 60) {
-        barraProgreso.className = 'progress-bar bg-warning';
-    } else {
-        barraProgreso.className = 'progress-bar bg-success';
+    try {
+        const permisosDisponibles = maxPermisosDiarios - permisosDiarios;
+        const porcentaje = (permisosDiarios / maxPermisosDiarios) * 100;
+        
+        console.log('Actualizando interfaz:', permisosDiarios, 'de', maxPermisosDiarios, '=', porcentaje + '%');
+        
+        // Actualizar contadores
+        document.getElementById('permisosDisponibles').textContent = permisosDisponibles;
+        document.getElementById('permisosUsados').textContent = permisosDiarios;
+        
+        // Actualizar barra de progreso
+        const barraProgreso = document.getElementById('barraProgreso');
+        const textoProgreso = document.getElementById('textoProgreso');
+        
+        if (barraProgreso && textoProgreso) {
+            barraProgreso.style.width = porcentaje + '%';
+            barraProgreso.setAttribute('aria-valuenow', permisosDiarios);
+            textoProgreso.textContent = `${permisosDiarios}/${maxPermisosDiarios}`;
+            
+            // Cambiar color de la barra según el progreso
+            if (porcentaje >= 80) {
+                barraProgreso.className = 'progress-bar bg-danger';
+            } else if (porcentaje >= 60) {
+                barraProgreso.className = 'progress-bar bg-warning';
+            } else {
+                barraProgreso.className = 'progress-bar bg-success';
+            }
+        }
+    } catch (error) {
+        console.error('Error al actualizar la interfaz:', error);
     }
 }
 
@@ -126,11 +121,9 @@ function iniciarReloj() {
             const tiempoFormateado = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
             
             document.getElementById('tiempoRestante').textContent = tiempoFormateado;
-            document.getElementById('tiempoRestanteModal').textContent = tiempoFormateado;
         } else {
             // Es medianoche, resetear permisos
-            verificarNuevoDia();
-            actualizarInterfazPermisos();
+            cargarPermisosDiarios();
         }
     }
     
@@ -141,26 +134,7 @@ function iniciarReloj() {
     intervaloReloj = setInterval(actualizarReloj, 1000);
 }
 
-// Función para verificar si se pueden agregar más permisos
-function verificarLimitePermisos() {
-    if (permisosDiarios >= maxPermisosDiarios) {
-        // Mostrar modal de límite alcanzado
-        $('#modalLimitePermisos').modal('show');
-        return false;
-    }
-    return true;
-}
 
-// Función para agregar un permiso
-function agregarPermiso() {
-    if (permisosDiarios < maxPermisosDiarios) {
-        permisosDiarios++;
-        guardarPermisosEnStorage();
-        actualizarInterfazPermisos();
-        return true;
-    }
-    return false;
-}
 
 function fntGetMotivosPermisos() {
   let request = window.XMLHttpRequest
@@ -211,11 +185,6 @@ function fntViewInfo(idefuncionario) {
 }
 
 function fntPermitInfo(idefuncionario) {
-  // Verificar límite de permisos diarios antes de abrir el modal
-  if (!verificarLimitePermisos()) {
-    return;
-  }
-
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
@@ -365,17 +334,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let objData = JSON.parse(request.responseText);
         
         if (objData.status) {
-          // Agregar permiso al contador diario solo si no es permiso especial
-          if (document.querySelector("#divPermisoEspecial").style.display !== "block") {
-            if (agregarPermiso()) {
-              console.log('Permiso agregado al contador diario');
-            }
-          }
-          
           $('#modalFormPermiso').modal("hide");
           formPermiso.reset();
           Swal.fire("Permisos", objData.msg, "success");
           tableFuncionarios.api().ajax.reload();
+          // Recargar los permisos diarios para actualizar la interfaz
+          cargarPermisosDiarios();
         } else {
           Swal.fire("Error", objData.msg, "error");
         }
@@ -435,6 +399,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#divOtroJustificacion").style.display = "none";
             Swal.fire("Permisos", objData.msg, "success");
             tableFuncionarios.api().ajax.reload();
+            // Recargar los permisos diarios para actualizar la interfaz
+            cargarPermisosDiarios();
           } else {
             Swal.fire("Error", objData.msg, "error");
           }
