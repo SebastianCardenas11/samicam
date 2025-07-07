@@ -92,7 +92,7 @@ class Dependencias extends Controllers
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-            }
+           }
         }
         die();
     }
