@@ -63,10 +63,13 @@
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="Nueva EPS">Nueva EPS</option>
                                                     <option value="Cajacopi EPS">Cajacopi EPS</option>
-                                                    <option value="Salud Total EPS-S">Salud Total EPS-S</option>
-                                                    <option value="Coosalud EPS-S">Coosalud EPS-S</option>
-                                                    <option value="Mutual Ser EPS">Mutual Ser EPS</option>
-                                                   
+                                                    <option value="Salud Total EPS">Salud Total EPS</option>
+                                                    <option value="Sanitas EPS">Sanitas EPS</option>
+                                                    <option value="Coosalud EPS">Coosalud EPS</option>
+                                                    <option value="Sura EPS">Sura EPS</option>
+                                                    <option value="Aliansalud EPS">Aliansalud EPS</option>
+                                                    <option value="Mutual SER EPS">Mutual SER EPS</option>
+                                                    <option value="Salud Mía EPS">Salud Mía EPS</option>
                                                 </select>
                                             </div>
 

@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 06-07-2025 a las 06:23:12
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 08-07-2025 a las 15:56:32
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,8 +40,12 @@ CREATE TABLE `adiciones_contrato` (
 --
 
 INSERT INTO `adiciones_contrato` (`id`, `id_contrato`, `valor_adicion`, `motivo`, `fecha_adicion`) VALUES
-(1, 7, 2000000.00, 'aa', '2025-06-26 01:11:13'),
-(2, 7, 2000000.00, 'aaa', '2025-06-26 01:18:03');
+(1, 2, 5000000.00, 'Ha', '2025-06-26 08:47:12'),
+(2, 2, 8000000.00, 'Aaa', '2025-06-26 08:48:04'),
+(3, 2, 1460000.00, 'A', '2025-06-26 08:48:19'),
+(4, 5, 10000000.00, 'pa los bolis', '2025-06-26 11:16:55'),
+(5, 5, 4000000.00, 'pa las frias', '2025-06-26 11:17:38'),
+(6, 5, 460000.00, 'las aspirinas', '2025-06-26 11:19:56');
 
 -- --------------------------------------------------------
 
@@ -65,7 +69,9 @@ CREATE TABLE `archivos` (
 --
 
 INSERT INTO `archivos` (`id`, `id_categoria`, `nombre`, `descripcion`, `archivo`, `extension`, `fecha_creacion`, `status`) VALUES
-(5, 6, 'Tecnico Ntic', 'aa', 'e563c9982e66703755e03686a4f6a8d1.pdf', 'pdf', '2025-06-08 23:02:23', 1);
+(5, 6, 'Tecnico Ntic', 'aa', 'e563c9982e66703755e03686a4f6a8d1.pdf', 'pdf', '2025-06-08 23:02:23', 0),
+(6, 4, 'Chelist', '', 'bc9d4635d92970a9c4bc522ec8289b6b.jpg', 'jpg', '2025-06-24 15:58:12', 0),
+(7, NULL, 'Gola', '', 'b4a9cccee763aba293afd92ede286887.pdf', 'pdf', '2025-06-25 11:02:30', 1);
 
 -- --------------------------------------------------------
 
@@ -93,8 +99,7 @@ INSERT INTO `categorias_archivos` (`id_categoria`, `nombre`, `descripcion`, `sta
 (5, 'Certificaciones', 'Certificados y documentos oficiales', 1, '2025-06-05 10:01:34'),
 (6, 'Memorandos', 'Memorandos internos y comunicaciones', 1, '2025-06-05 10:01:34'),
 (7, 'Resoluciones', 'Resoluciones y documentos legales', 1, '2025-06-05 10:01:34'),
-(8, 'Otros', 'Documentos varios sin categoría específica', 1, '2025-06-05 10:01:34'),
-(9, 'Informes', 'Informes y reportes varios', 1, '2025-06-05 10:01:34');
+(8, 'Otros', 'Documentos varios sin categoría específica', 1, '2025-06-05 10:01:34');
 
 -- --------------------------------------------------------
 
@@ -122,14 +127,14 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 (6, 'Vacaciones', 'Gestión de vacaciones', 1),
 (7, 'Viáticos', 'Gestión de viáticos', 1),
 (8, 'Archivos', 'Gestión de archivos', 1),
-(9, 'Cargos', 'Gestión de cargos', 1),
 (10, 'Practicantes', 'Gestión de Practicantes', 1),
 (11, 'Tareas', 'Gestión de Tareas', 1),
 (12, 'Publicaciones', 'Gestión de Publicaciones', 1),
 (13, 'Dependencian', 'Gestión de dependencias', 1),
-(14, 'Seguimiento Contrato', 'Gestión de Seguimiento Contrato', 1),
-(15, 'Inventario', 'Gestión de Inventario', 1),
-(16, 'Registros Whatsapp', 'Gestión de Registros Whatsapp', 1);
+(14, 'Seguimiento de Contrato', 'Gestión de Seguimiento de Contrato', 1),
+(15, 'Inventario', 'Gestión de inventario', 1),
+(16, 'Registros WhatsApp', 'Gestión de Registros WhatsApp', 1),
+(18, 'PSI', 'Gestión de PSI', 1);
 
 -- --------------------------------------------------------
 
@@ -162,101 +167,15 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (513, 1, 8, 1, 1, 1, 1, 1),
 (514, 1, 9, 1, 1, 1, 1, 1),
 (515, 1, 5, 1, 1, 1, 1, 1),
-(516, 1, 10, 1, 1, 1, 1, 1),
+(516, 1, 15, 1, 1, 1, 1, 1),
 (634, 1, 13, 1, 1, 1, 1, 1),
-(640, 1, 9, 1, 1, 1, 1, 1),
-(701, 11, 1, 1, 1, 1, 1, 1),
-(702, 11, 2, 0, 0, 0, 0, 1),
-(703, 11, 3, 0, 0, 0, 0, 1),
-(704, 11, 4, 0, 0, 0, 0, 1),
-(705, 11, 5, 0, 0, 0, 0, 1),
-(706, 11, 6, 0, 0, 0, 0, 1),
-(707, 11, 7, 0, 0, 0, 0, 1),
-(708, 11, 8, 0, 0, 0, 0, 1),
-(709, 11, 9, 0, 0, 0, 0, 1),
 (710, 1, 11, 1, 1, 1, 1, 1),
-(711, 3, 1, 1, 0, 0, 0, 1),
-(712, 3, 2, 0, 0, 0, 0, 1),
-(713, 3, 3, 0, 0, 0, 0, 1),
-(714, 3, 4, 1, 0, 0, 0, 1),
-(715, 3, 5, 1, 0, 0, 0, 1),
-(716, 3, 6, 1, 0, 0, 0, 1),
-(717, 3, 7, 0, 0, 0, 0, 1),
-(718, 3, 8, 1, 0, 0, 0, 1),
-(719, 3, 9, 0, 0, 0, 0, 1),
-(720, 1, 11, 1, 1, 1, 1, 1),
 (761, 1, 12, 1, 1, 1, 1, 1),
-(839, 12, 1, 1, 1, 1, 1, 1),
-(840, 12, 2, 0, 0, 0, 0, 1),
-(841, 12, 3, 0, 0, 0, 0, 1),
-(842, 12, 4, 0, 0, 0, 0, 1),
-(843, 12, 5, 0, 0, 0, 0, 1),
-(844, 12, 6, 0, 0, 0, 0, 1),
-(845, 12, 7, 0, 0, 0, 0, 1),
-(846, 12, 8, 0, 0, 0, 0, 1),
-(847, 12, 9, 0, 0, 0, 0, 1),
-(848, 12, 11, 0, 0, 0, 0, 1),
-(849, 12, 12, 1, 1, 1, 1, 1),
-(850, 4, 1, 0, 0, 0, 0, 1),
-(851, 4, 2, 0, 0, 0, 0, 1),
-(852, 4, 3, 0, 0, 0, 0, 1),
-(853, 4, 4, 0, 0, 0, 0, 1),
-(854, 4, 5, 0, 0, 0, 0, 1),
-(855, 4, 6, 0, 0, 0, 0, 1),
-(856, 4, 7, 0, 0, 0, 0, 1),
-(857, 4, 8, 1, 1, 1, 1, 1),
-(858, 4, 9, 0, 0, 0, 0, 1),
-(859, 4, 11, 1, 1, 1, 1, 1),
-(860, 4, 12, 0, 0, 0, 0, 1),
-(861, 4, 13, 0, 0, 0, 0, 1),
-(862, 2, 1, 0, 0, 0, 0, 1),
-(863, 2, 2, 0, 0, 0, 0, 1),
-(864, 2, 3, 0, 0, 0, 0, 1),
-(865, 2, 4, 0, 0, 0, 0, 1),
-(866, 2, 5, 0, 0, 0, 0, 1),
-(867, 2, 6, 0, 0, 0, 0, 1),
-(868, 2, 7, 0, 0, 0, 0, 1),
-(869, 2, 8, 1, 1, 1, 1, 1),
-(870, 2, 9, 0, 0, 0, 0, 1),
-(871, 2, 11, 0, 0, 0, 0, 1),
-(872, 2, 12, 0, 0, 0, 0, 1),
-(873, 2, 13, 0, 0, 0, 0, 1),
 (874, 1, 14, 1, 1, 1, 1, 1),
-(875, 2, 14, 1, 1, 1, 1, 1),
-(876, 3, 14, 1, 1, 1, 1, 1),
-(877, 4, 14, 1, 1, 1, 1, 1),
-(880, 12, 14, 1, 1, 1, 1, 1),
-(881, 7, 1, 1, 1, 1, 1, 1),
-(882, 7, 2, 0, 0, 0, 0, 1),
-(883, 7, 3, 0, 0, 0, 0, 1),
-(884, 7, 4, 0, 0, 0, 0, 1),
-(885, 7, 5, 0, 0, 0, 0, 1),
-(886, 7, 6, 0, 0, 0, 0, 1),
-(887, 7, 7, 0, 0, 0, 0, 1),
-(888, 7, 8, 0, 0, 0, 0, 1),
-(889, 7, 9, 0, 0, 0, 0, 1),
-(890, 7, 10, 0, 0, 0, 0, 1),
-(891, 7, 11, 0, 0, 0, 0, 1),
-(892, 7, 12, 1, 1, 1, 1, 1),
-(893, 7, 13, 0, 0, 0, 0, 1),
-(894, 7, 14, 0, 0, 0, 0, 1),
-(978, 1, 15, 1, 1, 1, 1, 1),
-(1084, 5, 1, 1, 1, 1, 1, 1),
-(1085, 5, 2, 0, 0, 0, 0, 1),
-(1086, 5, 3, 0, 0, 0, 0, 1),
-(1087, 5, 4, 0, 0, 0, 0, 1),
-(1088, 5, 5, 0, 0, 0, 0, 1),
-(1089, 5, 6, 0, 0, 0, 0, 1),
-(1090, 5, 7, 0, 0, 0, 0, 1),
-(1091, 5, 8, 1, 1, 1, 1, 1),
-(1092, 5, 9, 0, 0, 0, 0, 1),
-(1093, 5, 10, 1, 1, 1, 1, 1),
-(1094, 5, 11, 1, 1, 1, 1, 1),
-(1095, 5, 12, 0, 0, 0, 0, 1),
-(1096, 5, 13, 0, 0, 0, 0, 1),
-(1097, 5, 14, 0, 0, 0, 0, 1),
-(1098, 5, 15, 0, 0, 0, 0, 1),
-(1099, 1, 15, 1, 1, 1, 1, 1);
+(1141, 1, 16, 1, 1, 1, 1, 1),
+(1142, 1, 10, 1, 1, 1, 1, 1),
+(1143, 1, 18, 1, 1, 1, 1, 1),
+(1224, 1, 17, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -279,7 +198,10 @@ CREATE TABLE `prorrogas_contrato` (
 --
 
 INSERT INTO `prorrogas_contrato` (`id`, `id_contrato`, `fecha_anterior`, `nueva_fecha`, `dias_prorroga`, `motivo`, `fecha_registro`) VALUES
-(1, 5, '2025-06-22', '2025-06-30', 8, 'Cositas', '2025-06-25 23:51:10');
+(1, 2, '2025-06-30', '2025-06-30', 121, 'dsasa', '2025-06-25 17:15:43'),
+(2, 2, '2025-06-30', '2025-07-03', 3, 'Cosas', '2025-06-25 17:34:44'),
+(3, 5, '2025-05-30', '2025-06-30', 31, 'T5t', '2025-06-25 17:57:58'),
+(4, 5, '2025-06-30', '2025-07-01', 1, 'Rrr', '2025-06-25 17:58:23');
 
 -- --------------------------------------------------------
 
@@ -305,10 +227,70 @@ CREATE TABLE `publicaciones` (
 --
 
 INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_recibido`, `correo_recibido`, `asunto`, `fecha_publicacion`, `respuesta_envio`, `enlace_publicacion`, `dependencia_fk`, `status`) VALUES
-(7, 'yes', '2025-06-05', 'carlos@gmial.com', 'yes', '2025-06-20', 'Si', 'www.com', 16, 1),
-(8, 'Prueba', '2025-06-05', 'Prueba@xnpublicacin-obb', 'Prueba', '2025-06-05', 'Si', 'www.com', 11, 1),
-(9, '1', '2025-06-18', 'carlos@gmail.com', 'carta de aceptacion', '2025-06-19', 'Si', 'www.google.com.co', 7, 1),
-(10, 'carlos', '2025-06-20', 'carlos@gmail.com', 'carta de aceptacion', '2025-06-20', 'Si', 'www.google.com.co', 18, 1);
+(9, 'Calendario tributario 2025', '2025-01-07', 'comunicaciones@lajaguadeibirico-cesar.gov.co', 'Calendario tributario 2025', '2025-01-08', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/calendario-tributario-2025', 19, 1),
+(10, 'RESOLUCIÓN GCE-00001 DEL 7 DE ENERO 2025', '2025-01-09', 'contratacion@lajaguadeibirico-cesar.gov.co', 'RESOLUCIÓN GCE-00001 DEL 7 DE ENERO 2025', '2025-01-09', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-gce00001-del-7-de-enero-2025', 16, 1),
+(11, 'Informe Derecho de Autor vigencia 2024', '2025-02-18', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe Derecho de Autor vigencia 2024', '2025-02-19', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-de-derecho-de-autor-vigencia-2024', 14, 1),
+(12, 'Plan institucional de Bienestar 2025', '2025-02-24', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'Plan institucional de Bienestar 2025', '2025-02-24', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/plan-institucional-de-bienestar-2025', 13, 1),
+(13, 'RESOLUCIÓN GGE-00045 del 05 de Febrero de 2025', '2025-02-24', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'RESOLUCIÓN GGE-00045 del 05 de Febrero de 2025', '2025-02-24', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-gge00045', 13, 1),
+(14, 'DECRETO GGE-00037', '2025-02-27', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'DECRETO GGE-00037', '2025-02-27', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decretogge00037-del-17-de-febrero-de-2025', 13, 1),
+(15, 'Estrategia de Rendición de cuenta', '2025-03-17', 'loraine.mipg2024@gmail.com', 'Estrategia de Rendición de cuenta', '2025-03-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/estrategia-de-rendicion-de-cuentas-2024', 9, 1),
+(16, 'Notificación por aviso web', '2025-03-17', 'contratacion@lajaguadeibirico-cesar.gov.co', 'Notificación por aviso web', '2025-03-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/gaceta/notificacion-por-aviso-web', 16, 1),
+(17, 'Acuerdo Municipal No. 003 del 08 de enero de 2025', '2025-03-04', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'Acuerdos 001, 002, 003 y 004 de 2025', '2025-03-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/acuerdo-municipal-no-003-del-13-febrero-de-2025', 17, 1),
+(18, 'Acuerdo Municipal No. 002 del 31 de enero de 2025', '2025-03-04', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'Acuerdos 001, 002, 003 y 004 de 2025', '2025-03-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/acuerdo-municipal-no-002-del-31-de-enero-de-2025', 17, 1),
+(21, 'Acuerdo Municipal No. 002 del 31 de enero de 2025', '2025-03-04', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'Acuerdos 001, 002, 003 y 004 de 2025', '2025-03-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/acuerdo-municipal-no-002-del-31-de-enero-de-2025', 17, 1),
+(22, 'Plan de auditoria', '2025-03-18', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Plan de auditoria y las auditorias', '2025-03-25', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/plan-de-auditoria-2024', 14, 1),
+(23, 'Informe de Rendición de Cuentas Vigencia 2024 Implementación del Acuerdo Final de Paz (SIRCAP)5', '2025-03-31', 'planeacion@lajaguadeibirico-cesar.gov.co', 'INFORME RENDICION DE CUENTAS ACUERDO FINAL DE PAZ', '2025-03-31', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control/informe-de-rendicion-de-cuentas-vigencia-2024-implementacion', 9, 1),
+(24, 'INFORME DE EVALUACIÓN DE LA GESTIÓN Y RESULTADOS POR DEPENDENCIAS. vigencia 2024', '2025-04-01', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe de Evaluacion pór dependencia vigencia 2024', '2025-04-01', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-de-evaluacion-de-la-gestion-y-resultados-por-188970', 14, 1),
+(25, 'ESTADOS FINANCIEROS 2025', '2025-04-02', 'contabilidad@lajaguadeibirico-cesar.gov.co', 'ESTADOS FINANCIEROS 2025', '2025-04-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/presupuesto/estados-financieros-corte-31-de-diciembre2024', 11, 1),
+(26, 'DECRETO 00053 DEL 1 DE ABRIL DEL 2025', '2025-04-02', 'loraine.mipg2024@gmail.com', 'DECRETO 00053 DEL 1 DE ABRIL DEL 2025', '2025-04-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00053-del-1-de-abril-del-2025', 9, 1),
+(27, 'RESPUESTA DENUNCIA ANONIMA', '2025-04-07', 'contactenos@lajaguadeibirico-cesar.gov.co', 'Publicación denuncia Anónima', '2025-04-07', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/protocolo-de-atencion-922735/respuesta-denuncia-anonima', 20, 1),
+(28, 'rendición de cuentas', '2025-04-02', 'loraine.mipg2024@gmail.com', 'rendición de cuentas', '2025-04-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control/rendicion-de-cuentas-2024', 9, 1),
+(29, 'Actualización PAA 2025', '2025-04-08', 'almacen@lajaguadeibirico-cesar.gov.co', 'Actualización PAA 2025', '2025-04-08', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/actualizacion-plan-anual-de-adquisicion-2025', 18, 1),
+(30, 'MANUAL DE CONFLICTOS DE INTERESES O DECISIÓN DE IMPEDIMENTOS, RECUSACIONES, INHABILIDADES O INCOMPATIBILIDADES DE LA ALCALDÍA DE LA JAGUA DE IBIRICO', '2025-04-10', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'MANUAL DE CONFLICTOS DE INTERESES O DECISIÓN DE IMPEDIMENTOS, RECUSACIONES, INHABILIDADES O INCOMPATIBILIDADES DE LA ALCALDÍA DE LA JAGUA DE IBIRICO', '2025-04-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/manuales/manual-de-conflictos-de-intereses-o-decision-de-impedimentos-637770', 13, 1),
+(31, 'RESOLUCIÓN CONFORMACIÓN DE COMITÉS DE SEGURIDAD Y SALUD EN EL TRABAJO COPASST Y COCOLA DE LA ALCALDÍA DE LA JAGUA DE IBIRICO', '2025-04-10', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'RESOLUCIÓN CONFORMACIÓN DE COMITÉS DE SEGURIDAD Y SALUD EN EL TRABAJO COPASST Y COCOLA DE LA ALCALDÍA DE LA JAGUA DE IBIRICO', '2025-04-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-conformacion-de-comites-de-seguridad-y-salud', 13, 1),
+(32, 'CONTRATOS', '2025-04-11', 'lajaguasigep20@gmail.com', 'CONTRATOS RENDIDOS EN EL MES DE MARZO 2025', '2025-04-21', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
+(33, 'NORMOGRAMA INSTITUCIONAL DE LA ALCALDÍA DE LA JAGUA DE IBIRÍCO, CESAR- 2024', '2025-04-21', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Normagrama,para publicar.', '2025-04-21', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/normograma-institucional-de-la-alcaldia-de-la-jagua', 14, 1),
+(34, 'Informe Primer Trimestre de PQRS - 2025', '2025-04-22', 'contactenos@lajaguadeibirico-cesar.gov.co', 'Informe trimestral PQRS', '2025-04-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/protocolo-de-atencion-922735/informe-primer-trimestre-de-pqrs2025', 20, 1),
+(35, 'Acuerdo Municipal No. 004 del 14 de febrero de 2025', '2025-03-04', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'Acuerdos 001, 002, 003 y 004 de 2025', '2025-03-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/acuerdo-municipal-no-004-del-14-de-febrero-de-2025', 17, 1),
+(36, 'DECRETO 00058 DEL 11 DE ABRIL DEL 2025', '2025-04-22', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'Publicar Decreto en la pagina Web', '2025-04-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00058-del-11-de-abril-del-2025', 13, 1),
+(37, 'Notificación por aviso web', '2025-04-23', 'contratacion@lajaguadeibirico-cesar.gov.co', 'Notificación por aviso web', '2025-04-23', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/gaceta/notificacion-por-aviso-web-453423', 16, 1),
+(38, 'Notificación por aviso web', '2025-05-08', 'contratacion@lajaguadeibirico-cesar.gov.co', 'Notificación por aviso web', '2025-05-09', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/gaceta/notificacion-por-aviso-web-406386', 16, 1),
+(39, 'CONTRATOS', '2025-05-09', 'contratacion@lajaguadeibirico-cesar.gov.co', 'CONTRATOS RENDIDOS DEL MES DE ABRIL-2025', '2025-05-09', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
+(40, 'Respuesta queja radicada en la Página Institucional de manera anónima.', '2025-05-15', 'contactenos@lajaguadeibirico-cesar.gov.co', 'Respuesta queja radicada en la Página Institucional de manera anónima.', '2025-05-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/protocolo-de-atencion-922735/respuesta-queja-radicada-en-la-pagina-institucional', 20, 1),
+(41, 'PROGRAMA DE TRANSPARENCIA Y ETICA PUBLICA (PTEP)', '2025-05-20', 'loraine.mipg2024@gmail.com', 'PROGRAMA DE TRANSPARENCIA Y ETICA PUBLICA (PTEP)', '2025-05-21', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/programa-de-transparencia-y-etica-publica-ptep-2025', 9, 1),
+(42, 'NOTIFICACION DE ORDEN DE COMPARENDO A SIXTA TULIA BAEZ JARABA', '2025-05-27', 'transito@lajaguadeibirico-cesar.gov.co', 'SOLICTUD PUBLICACION DE COMPARENDOS EN LA PAGINA WEB INSTITUCIONAL', '2025-05-28', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-de-orden-de-comparendo-a-sixta-tulia-baez', 5, 1),
+(43, 'NOTIFICACION DE ORDEN DE COMPARENDO A YANDY CAROLINA LAGUNA RIOCAMPO', '2025-05-27', 'transito@lajaguadeibirico-cesar.gov.co', 'SOLICTUD PUBLICACION DE COMPARENDOS EN LA PAGINA WEB INSTITUCIONAL', '2025-05-28', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-de-orden-de-comparendo-a-yandy-carolina', 5, 1),
+(44, 'NOTIFICACION DE ORDEN DE COMPARENDO POR AVISO SINDY PAOLA GARAVITO MONTERROSA', '2025-06-05', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-06', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-por-aviso-sindy-paola', 5, 1),
+(45, 'NOTIFICACION DE ORDEN DE COMPARENDO POR AVISO FLORALBA BEDOYA ORTIZ', '2025-06-05', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-06', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-por-aviso-floralba', 5, 1),
+(46, 'NOTIFICACION DE ORDEN DE COMPARENDO YAMERLI PERALES URIBE', '2025-06-05', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-06', 'Si', 'https://la-jagua-de-ibirico.micolombiadigital.gov.co/sites/la-jagua-de-ibirico/content/files/001563/78130_notificacion-00122025comparendo-no-47565593notificacion-por-aviso.pdf', 5, 1),
+(47, 'NOTIFICACION DE ORDEN DE COMPARENDO POR AVISO FILBERTO MANUEL MACEA HERRERA', '2025-06-05', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-06', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-por-aviso-filiberto', 5, 1),
+(48, 'NOTIFICACION DE ORDEN DE COMPARENDO POR AVISO HECTOR FIDEL HERNANDEZ RODRIGUEZ', '2025-06-05', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-06', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-por-aviso-hector-fidel', 5, 1),
+(49, 'NOTIFICACION DE ORDEN DE COMPARENDO MANUEL GREGORIO FERREIRA RIVALDO', '2025-06-05', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-06', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-por-aviso-manuel-gregorio', 5, 1),
+(50, 'EJECUCIÓN DE CONTRATOS 2025', '2025-06-09', 'secoplajagua2023@gmail.com', 'INFORMACIÓN PARA PÁGINA WEB', '2025-06-09', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/ejecucion-de-contratos-176727/ejecucion-de-contratos-2025', 16, 1),
+(51, 'INFORME PRELIMINAR AUDITORÍA DE CUMPLIMIENTO A-C ALUMBRADO PÚBLICO', '2025-06-09', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'INFOMRE DEFINITO AUDITORIA ALUMBRADO PUEBLICO', '2025-06-09', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-preliminar-auditoria-de-cumplimiento-ac-alumbrado', 14, 1),
+(52, 'CONTRATOS', '2025-06-10', 'lajaguasigep20@gmail.com', 'CONTRATOS RENDIDOS DEL MES DE MAYO-2025', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
+(53, 'NOTIFICACIÓN ORDEN DE COMPARENDO CLEOTILDE DEL CARMEN VEGA DIAZ', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-cleotilde-del-carmen', 5, 1),
+(54, 'NOTIFICACIÓN ORDEN DE COMPARENDO EQUIMAC DEL CESAR SAS', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-equimac-del-cesar-sas', 5, 1),
+(55, 'NOTIFICACIÓN ORDEN DE COMPARENDO ALVARO DE JESUS BOLAÑO LOPEZ', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-alvaro-de-jesus-bolano', 5, 1),
+(56, 'NOTIFICACIÓN ORDEN DE COMPARENDO KATHERIN YULIETH CARRILLO GOMEZ', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-katherin-yulieth-carrillo', 5, 1),
+(57, 'PLAN DE MEJORAMIENTO ALUMBRADO PUBLICO 2025', '2025-06-10', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'PUBLICACIION PLAN DE MEJORAMIENTO ALUMBRADO PUBLICO', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/plan-de-mejoramiento-alumbrado-publico-2025', 14, 1),
+(58, 'NOTIFICACIÓN ORDEN DE COMPARENDO MAYERLIS RINCON CASTILLEJO', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-mayerlis-rincon-castillejo', 5, 1),
+(59, 'NOTIFICACIÓN ORDEN DE COMPARENDO RAFAEL LEONEL LOPEZ BARROS', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-rafael-leonel-lopez', 5, 1),
+(60, 'NOTIFICACIÓN ORDEN DE COMPARENDO EVER ANDRES SANCHEZ CHAVEZ', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-ever-andres-sanchez', 5, 1),
+(61, 'NOTIFICACIÓN ORDEN DE COMPARENDO JUAN CAMILO VANEGAS MIELES', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-juan-camilo-vanegas', 5, 1),
+(62, 'NOTIFICACIÓN ORDEN DE COMPARENDO ROBERTH ARLEY BANAVIDES VILLA', '2025-06-10', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-roberth-arley-banavides', 5, 1),
+(63, 'NOTIFICACIÓN ORDEN DE COMPARENDO EDUARDO ANDRES NIETO MEDEZ', '2025-06-11', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-eduardo-andres-nieto', 5, 1),
+(64, 'NOTIFICACIÓN ORDEN DE COMPARENDO TRANSPORTE JONCAR SAS', '2025-06-11', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-transporte-joncar-sas', 5, 1),
+(65, 'NOTIFICACIÓN ORDEN DE COMPARENDO FERMIN HOYOS CHACON', '2025-06-11', 'transito@lajaguadeibirico-cesar.gov.co', 'Solicitud Notificación Por Aviso de Comparendos en Pagina WEB', '2025-06-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/transito/notificacion-orden-de-comparendo-fermin-hoyos-chacon', 5, 1),
+(66, 'Constancia de fijación de aviso agencia nacional de tierras ANT auto No 202577000051509 del 09-06-2025', '2025-06-13', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'PUBLICAR AVISO', '0000-00-00', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/gaceta/constancia-de-fijacion-de-aviso-agencia-nacional-de', 17, 1),
+(67, 'Acuerdo Municipal No. 005 del 07 de Mayo de 2025', '2025-06-13', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'Acuerdos 005 y 006', '2025-06-13', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/acuerdo-municipal-no-006-del-13-de-mayo-de-2025', 17, 1),
+(68, 'Constancia de fijación de aviso agencia nacional de tierras ANT auto No 202577001778736 del 25-06-2025', '2025-06-25', 'alcaldia@lajaguadeibirico-cesar.gov.co', 'PUBLICAR AVISO', '2025-06-26', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/gaceta/constancia-de-fijacion-de-aviso-agencia-nacional-de-843364', 17, 1),
+(69, 'Registro de Activos de Información', '2025-05-22', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'Registro de Activos de Información', '2025-05-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/instrumento-de-gestion-de-la-informacion/registro-de-activos-de-informacion', 1, 1),
+(70, 'Esquema de Publicación de Información', '2025-05-27', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'Esquema de Publicación de Información', '2025-05-27', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/instrumento-de-gestion-de-la-informacion/esquema-de-publicacion-de-informacion-791756', 1, 1),
+(71, 'DECRETO No. 00081 de 18 DE JUNIO DE 2025', '2025-07-02', 'educacion@lajaguadeibirico-cesar.gov.co', 'DECRETO No. 00081', '2025-07-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-no-00081-de-18-de-junio-de-2025', 4, 1),
+(72, 'DECRETO 00086 de 24 JUNIO 2025', '2025-07-02', 'educacion@lajaguadeibirico-cesar.gov.co', 'DECRETO 00086', '2025-07-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00086-de-24-junio-2025', 4, 1),
+(73, 'Convocatoria N.º 001 de 2025 para Representación Juvenil en el CMJ – Jóvenes de Población Desplazada', '2025-07-02', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'Convocatoria N.º 001', '2025-07-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/convocatorias/convocatoria-n-001-de-2025-para-representacion-juvenil', 3, 1),
+(74, 'RESOLUCIÓN 16062025 - RETIRO DE BENEFICIARIOS DEL PROGRAMA COLOMBIA MAYOR', '2025-07-02', 'secretariadelamujer@lajaguadeibirico-cesar.gov.co', 'RESOLUCION PARA PUBLICAR', '2025-07-02', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-16062025-retiro-de-beneficiarios-del-programa', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -331,7 +313,7 @@ INSERT INTO `rol` (`idrol`, `nombrerol`, `descripcion`, `status`) VALUES
 (1, 'Superadministrador', 'Acceso a todo el sistema', 1),
 (2, 'Jefe Talento Humano', 'Acceso total al área de Talento Humano', 1),
 (3, 'Secretaria TH', 'Apoyo administrativo en el area de Talento Humano', 1),
-(4, 'Contratación', 'Acceso total al área de Contratación', 0),
+(4, 'Contratación', 'Acceso total al área de Contratación', 1),
 (5, 'Tecnico Ntic', 'Apoyo técnico en el área de Ntic', 1),
 (6, 'Usuario', 'el sugeto no presenta cambios', 0),
 (7, 'Secretaria Ntic', 'Apoyo administrativo en el área de Ntic ', 1),
@@ -351,7 +333,7 @@ CREATE TABLE `seguimiento_contrato` (
   `fecha_terminacion` date NOT NULL,
   `plazo` int(11) NOT NULL,
   `tipo_plazo` varchar(255) NOT NULL,
-  `tipo_informe` enum('acta parcial','mes vencido') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_nopad_ci DEFAULT 'acta parcial',
+  `tipo_informe` enum('acta parcial','mes vencido') DEFAULT 'acta parcial',
   `cantidad_informes` int(11) DEFAULT 1,
   `valor_total_contrato` decimal(20,2) NOT NULL,
   `dia_corte_informe` date NOT NULL,
@@ -370,11 +352,9 @@ CREATE TABLE `seguimiento_contrato` (
 --
 
 INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fecha_terminacion`, `plazo`, `tipo_plazo`, `tipo_informe`, `cantidad_informes`, `valor_total_contrato`, `dia_corte_informe`, `observaciones_ejecucion`, `evidenciado_secop`, `fecha_verificacion`, `liquidacion`, `estado`, `numero_contrato`, `dependencia_id`, `fecha_aprobacion_entidad`) VALUES
-(5, 'ENTIDAD PUBLICA', '2025-06-25', '2025-06-30', 23, 'dias', 'acta parcial', 1, 15000000.00, '2025-06-30', 'NINGUNA', 'OKKK', '2025-06-23', 20000000.00, 1, '614-23', 16, '2025-06-21'),
-(6, 'Prestación de servicios de mantenimiento de equiposaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2025-01-15', '2025-06-15', 5, 'meses', 'acta parcial', 1, 15000000.00, '2025-01-30', 'Contrato liquidado', 'Si', '2025-06-10', 15000000.00, 1, 'CT-001-2025', 9, '2025-01-10'),
-(7, 'Suministro de papelería', '2025-03-01', '2025-05-31', 3, 'meses', 'acta parcial', 1, 8000000.00, '2025-03-15', 'Contrato finalizado, pendiente liquidación', 'Si', '2025-06-01', 0.00, 1, 'CT-002-2025', 16, '2025-02-20'),
-(8, 'asddddddddddddd', '2025-07-15', '2025-07-14', 123, 'meses', 'acta parcial', 2, 123123.00, '2025-07-23', 'qeqweqwe', 'wqeqwe', '2025-07-23', 1222222222222.00, 1, '1111', 18, '2025-07-04'),
-(9, 'asddddddddddd', '2025-07-16', '2025-07-31', 12, 'dias', 'mes vencido', 1, 2111111111111100.00, '2025-07-10', 'dassssssssssss', 'asddasd', '2025-07-03', 1222222222223.00, 1, 'qweeeeeeee', 15, '2025-07-03');
+(1, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 3, 'meses', 'acta parcial', 1, 37591000.00, '2025-05-12', 'TODO OK', 'SI', '2025-06-13', 37591000.00, 3, '176-2025', 4, '2025-04-03'),
+(2, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-06-25', '2025-07-03', 12, 'dias', 'mes vencido', 1, 28920000.00, '2025-06-23', 'TODO O', 'SI', '2025-05-26', 28920000.00, 1, '215-2025', 18, '2025-05-12'),
+(5, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-07-01', 12, 'dias', 'mes vencido', 1, 28920000.00, '2025-06-23', 'TODO OK', 'SI', '2025-05-26', 28920000.00, 1, '215-2025', 18, '2025-05-12');
 
 -- --------------------------------------------------------
 
@@ -385,8 +365,8 @@ INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fe
 CREATE TABLE `tbl_capital_viaticos` (
   `idCapital` int(11) NOT NULL,
   `anio` int(4) NOT NULL,
-  `capital_total` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `capital_disponible` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `capital_total` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `capital_disponible` decimal(12,2) NOT NULL DEFAULT 0.00,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -396,10 +376,8 @@ CREATE TABLE `tbl_capital_viaticos` (
 --
 
 INSERT INTO `tbl_capital_viaticos` (`idCapital`, `anio`, `capital_total`, `capital_disponible`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 2025, 99999999.99, 99989999.99, '2025-05-15 19:38:53', '2025-06-11 07:57:30'),
-(2, 2023, 99999999.99, 99999999.99, '2025-05-17 21:14:06', '2025-05-17 21:14:06'),
-(3, 2024, 99999999.99, 99999999.99, '2025-05-17 21:14:08', '2025-05-17 21:14:08'),
-(4, 2026, 99999999.99, 99999999.99, '2025-05-17 21:14:12', '2025-05-17 21:14:12');
+(5, 2025, 400000000.00, 389499977.00, '2025-06-11 14:17:16', '2025-07-07 14:31:43'),
+(6, 2026, 500000000.00, 500000000.00, '2025-06-11 14:18:09', '2025-06-11 14:18:09');
 
 -- --------------------------------------------------------
 
@@ -454,29 +432,6 @@ INSERT INTO `tbl_cargos` (`idecargos`, `nombre`, `nivel`, `salario`, `estatus`) 
 (64, 'Profesional Universitario Área de Salud (GS 2)', 'Profesional', 5095929.00, 1),
 (65, 'Profesional Universitario Área de Salud (GS 1)', 'Profesional', 4202612.00, 1),
 (66, 'Profesional Especializado', 'Profesional', 5542687.00, 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_configuracion_permisos`
---
-
-CREATE TABLE `tbl_configuracion_permisos` (
-  `id_config` int(11) NOT NULL,
-  `limite_permisos_diarios` int(11) NOT NULL DEFAULT 5,
-  `hora_restablecimiento` time NOT NULL DEFAULT '00:00:00',
-  `fecha_ultimo_reset` date NOT NULL DEFAULT curdate(),
-  `activo` tinyint(1) NOT NULL DEFAULT 1,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_configuracion_permisos`
---
-
-INSERT INTO `tbl_configuracion_permisos` (`id_config`, `limite_permisos_diarios`, `hora_restablecimiento`, `fecha_ultimo_reset`, `activo`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 5, '00:00:00', '2025-07-05', 1, '2025-07-05 05:29:52', '2025-07-05 05:29:52');
 
 -- --------------------------------------------------------
 
@@ -538,7 +493,6 @@ CREATE TABLE `tbl_dependencia` (
 
 INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 (1, 'Oficina de las NTIC'),
-(2, 'Secretaría de Gobierno'),
 (3, 'Secretaría de Gobierno'),
 (4, 'Secretaría de Educación, Cultura y Deporte'),
 (5, 'Secretaría de Tránsito y Transporte'),
@@ -553,8 +507,10 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 (14, 'Oficina de Control Interno de Gestión'),
 (15, 'Oficina de Control Interno Disciplinario'),
 (16, 'Oficina de Contratación'),
-(17, 'Despacho del alcaldes'),
-(18, 'Almacenes');
+(17, 'Despacho'),
+(18, 'Almacen'),
+(19, 'Comunicaciones'),
+(20, 'Oficina de PQRS');
 
 -- --------------------------------------------------------
 
@@ -618,8 +574,17 @@ CREATE TABLE `tbl_funcionarios_ops` (
   `fecha_acta_liquidacion` date DEFAULT NULL,
   `estado_contrato` varchar(50) DEFAULT NULL,
   `observaciones` text DEFAULT NULL,
-  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL
+  `proviene_recurso_reactivacion` tinyint(1) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_funcionarios_ops`
+--
+
+INSERT INTO `tbl_funcionarios_ops` (`id`, `anio`, `nit`, `nombre_entidad`, `numero_contrato`, `fecha_firma_contrato`, `numero_proceso`, `forma_contratacion`, `codigo_banco_proyecto`, `linea_estrategia`, `fuente_recurso`, `objeto`, `fecha_inicio`, `plazo_contrato`, `valor_contrato`, `clase_contrato`, `nombre_contratista`, `identificacion_contratista`, `sexo`, `direccion_domicilio`, `telefono_contacto`, `correo_electronico`, `edad`, `entidad_bancaria`, `tipo_cuenta`, `numero_cuenta_bancaria`, `numero_disp_presupuestal`, `fecha_disp_presupuestal`, `valor_disp_presupuestal`, `numero_registro_presupuestal`, `fecha_registro_presupuestal`, `valor_registro_presupuestal`, `cod_rubro`, `rubro`, `fuente_financiacion`, `asignado_interventor`, `unidad_ejecucion`, `nombre_interventor`, `identificacion_interventor`, `tipo_vinculacion_interventor`, `fecha_aprobacion_garantia`, `anticipo_contrato`, `valor_pagado_anticipo`, `fecha_pago_anticipo`, `numero_adiciones`, `valor_total_adiciones`, `numero_prorrogas`, `tiempo_prorrogas`, `numero_suspensiones`, `tiempo_suspensiones`, `valor_total_pagos`, `fecha_terminacion`, `fecha_acta_liquidacion`, `estado_contrato`, `observaciones`, `proviene_recurso_reactivacion`, `status`) VALUES
+(1, '2025', '800108683', 'ALCALDIA MUNICIPAL DE LA JAGUA DE IBIRICO', '001-2025', '2025-01-28', 'CD 001-2025', 'CONTRATACIÓN DIRECTA', '0', 'N/A', 'ICLD PROPIOS', 'SERVICIOS PROFESIONALES PARA EL REPORTE, SEGUIMIENTO Y MONITOREO DEL SISTEMA ELECTRONICO DE CONTRATACION PUBLICA (SECOP I y SECOP II) EN LA ALCALDIA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-01-28', 'SEIS (06) MESES', 20400000.00, 'PRESTACIÓN DE SERVICIOS PROFESIONALES', 'DINA LUZ ALARCÓN CUELLO', '49.722.659', 'Femenino', 'CALLE 13B N°14-46 BARRIO OBRERO VALLEDUPAR', '5709810', 'dinany1@hotmail.com', 40, 'BBVA COLOMBIA', 'Ahorros', '940344914', 'CDP0021', '2025-01-28', 20400000.00, 'RP0033', '2025-01-29', 20400000.00, '2.1.2.02.02.008.01', 'FUNCIONAMIENTO', 'ICLD-INGRESOS CORRIENTES DE LIBRE DESTINACIÓN', 'SUPERVISOR', 'OFICINA DE CONTRATACIÓN', 'MARIA DEL PILAR URECHE COBO', '26.988.705', 'FUNCIONARIO PÚBLICO', NULL, 0.00, 0.00, NULL, 0, 0.00, 0, '0', 0, '0', 0.00, '2025-01-28', NULL, 'En ejecución', '', 0, 1),
+(2, '2025', '800108683', 'ALCALDIA MUNICIPAL DE LA JAGUA DE IBIRICO', '115-2025', '2025-02-28', 'CD 115-2025', 'CONTRATACIÓN DIRECTA', '2025-820400-001', 'N/A', '0', 'SERVICIOS TÉCNICOS DE APOYO A LA GESTIÓN EN LOS PROCESOS DE DIVULGACIÓN Y GENERACIÓN DE CONTENIDO DIGITAL DE LA SECRETARÍA DE PLANEACIÓN Y DESARROLLO ECONÓMICO EN EL MUNICIPIO DE LA JAGUA DE IBIRICO, CESAR', '2025-02-28', 'SEIS (06) MESES', 13194000.00, 'PRESTACIÓN DE SERVICIOS PROFESIONALES', 'ANA CAROLINA MENDOZA MOJICA', '1.007.624.430', 'Femenino', 'CRA 5 # 9-44 BARRIO 5 DE MARZO', '3224558203', 'anacarolinamendozamojica@gmail.com', 24, 'BANCOLOMBIA S.A', 'Ahorros', '91275524820', 'CDP0151', '2025-02-10', 13194000.00, 'RP0245', '2025-02-28', 13194000.00, '2.3.2.02.02.009.45.4599.031', 'INVERSIÓN', 'NACIÓN-DESTINACIÓN ESPECIFICA-SGP', 'SUPERVISOR', '9', 'MAHER SANTOS SOSA', '1.064.117.224', 'FUNCIONARIO PÚBLICO', NULL, 0.00, 0.00, NULL, 0, 0.00, 0, '0', 0, '0', 0.00, NULL, NULL, 'En ejecución', '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -631,6 +596,25 @@ CREATE TABLE `tbl_funcionarios_planta` (
   `idefuncionario` int(11) NOT NULL,
   `nombre_completo` varchar(255) DEFAULT NULL,
   `nm_identificacion` varchar(20) DEFAULT NULL,
+  `cargo_fk` int(11) DEFAULT NULL,
+  `dependencia_fk` int(255) DEFAULT NULL,
+  `contrato_fk` int(10) NOT NULL,
+  `celular` varchar(20) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `correo_elc` varchar(255) DEFAULT NULL,
+  `fecha_ingreso` date DEFAULT NULL,
+  `hijos` int(11) DEFAULT NULL,
+  `nombres_de_hijos` varchar(255) DEFAULT NULL,
+  `sexo` varchar(255) DEFAULT NULL,
+  `lugar_de_residencia` varchar(255) DEFAULT NULL,
+  `edad` int(11) DEFAULT NULL,
+  `estado_civil` varchar(255) DEFAULT NULL,
+  `religion` varchar(255) DEFAULT NULL,
+  `formacion_academica` varchar(255) DEFAULT NULL,
+  `nombre_formacion` varchar(255) DEFAULT NULL,
+  `permisos_fk` int(25) DEFAULT NULL,
+  `status` int(15) NOT NULL DEFAULT 1,
+  `periodos_vacaciones` int(11) NOT NULL DEFAULT 0,
   `lugar_expedicion` varchar(255) DEFAULT NULL,
   `libreta_militar` varchar(50) DEFAULT NULL,
   `tipo_nombramiento` varchar(100) DEFAULT NULL,
@@ -643,13 +627,7 @@ CREATE TABLE `tbl_funcionarios_planta` (
   `tiempo_laborado` varchar(100) DEFAULT NULL,
   `codigo` varchar(50) DEFAULT NULL,
   `grado` varchar(50) DEFAULT NULL,
-  `cargo_fk` int(11) DEFAULT NULL,
-  `dependencia_fk` int(255) DEFAULT NULL,
-  `contrato_fk` int(10) NOT NULL,
-  `celular` varchar(20) DEFAULT NULL,
-  `direccion` varchar(255) DEFAULT NULL,
   `ciudad_residencia` varchar(100) DEFAULT NULL,
-  `correo_elc` varchar(255) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
   `lugar_nacimiento` varchar(100) DEFAULT NULL,
   `rh` varchar(5) DEFAULT NULL,
@@ -657,13 +635,6 @@ CREATE TABLE `tbl_funcionarios_planta` (
   `titulo` varchar(255) DEFAULT NULL,
   `tarjeta_profesional` varchar(100) DEFAULT NULL,
   `otros_estudios` varchar(255) DEFAULT NULL,
-  `fecha_ingreso` date DEFAULT NULL,
-  `hijos` int(11) DEFAULT NULL,
-  `nombres_de_hijos` varchar(255) DEFAULT NULL,
-  `sexo` varchar(255) DEFAULT NULL,
-  `lugar_de_residencia` varchar(255) DEFAULT NULL,
-  `edad` int(11) DEFAULT NULL,
-  `estado_civil` varchar(255) DEFAULT NULL,
   `cuenta_no` varchar(100) DEFAULT NULL,
   `banco` varchar(100) DEFAULT NULL,
   `eps` varchar(100) DEFAULT NULL,
@@ -672,22 +643,18 @@ CREATE TABLE `tbl_funcionarios_planta` (
   `arl` varchar(100) DEFAULT NULL,
   `sindicalizado` tinyint(1) DEFAULT NULL,
   `madre_cabeza_hogar` tinyint(1) DEFAULT NULL,
-  `prepensionado` tinyint(1) DEFAULT NULL,
-  `religion` varchar(255) DEFAULT NULL,
-  `formacion_academica` varchar(255) DEFAULT NULL,
-  `nombre_formacion` varchar(255) DEFAULT NULL,
-  `permisos_fk` int(25) DEFAULT NULL,
-  `status` int(15) NOT NULL DEFAULT 1,
-  `periodos_vacaciones` int(11) NOT NULL DEFAULT 0
+  `prepensionado` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_funcionarios_planta`
 --
 
-INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `lugar_expedicion`, `libreta_militar`, `tipo_nombramiento`, `nivel`, `salario_basico`, `acto_administrativo`, `fecha_acto_nombramiento`, `no_acta_posesion`, `fecha_acta_posesion`, `tiempo_laborado`, `codigo`, `grado`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `ciudad_residencia`, `correo_elc`, `fecha_nacimiento`, `lugar_nacimiento`, `rh`, `estudios_realizados`, `titulo`, `tarjeta_profesional`, `otros_estudios`, `fecha_ingreso`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `cuenta_no`, `banco`, `eps`, `afp`, `afc`, `arl`, `sindicalizado`, `madre_cabeza_hogar`, `prepensionado`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`) VALUES
-(20, 'Juan Jose pertuz', '0000000000000', 'la jagua', 'no', 'adinisttrativo', '1', 9999999999999.99, '1111', '2025-06-25', '12312312', '2025-06-28', '23 meses', '12312', '3', 3, 1, 1, '12312', '12312312', 'la jagua', 'Juan@gmail.comsadddddddddddddd', '2025-06-26', 'sadasdd', 'ab+', '1', '11', '1', '1', '2025-06-24', 0, 'asdasd', 'masculino', '3123123123', 123, 'soltero', '11', '212', '1', '1212', '1212', '1212', 1, 1, 1, 'catolico', 'tecnico', 'asddasdasd', NULL, 1, 0),
-(21, 'Juan Pérez', '12345678', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 1, 1, '3001234567', 'Calle 123 #45-67', NULL, 'juan.perez@test.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-15', 0, '', 'masculino', 'La Jagua de Ibirico', 30, 'soltero', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'catolico', 'tecnico', 'Administración Pública', NULL, 1, 0);
+INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `nm_identificacion`, `cargo_fk`, `dependencia_fk`, `contrato_fk`, `celular`, `direccion`, `correo_elc`, `fecha_ingreso`, `hijos`, `nombres_de_hijos`, `sexo`, `lugar_de_residencia`, `edad`, `estado_civil`, `religion`, `formacion_academica`, `nombre_formacion`, `permisos_fk`, `status`, `periodos_vacaciones`, `lugar_expedicion`, `libreta_militar`, `tipo_nombramiento`, `nivel`, `salario_basico`, `acto_administrativo`, `fecha_acto_nombramiento`, `no_acta_posesion`, `fecha_acta_posesion`, `tiempo_laborado`, `codigo`, `grado`, `ciudad_residencia`, `fecha_nacimiento`, `lugar_nacimiento`, `rh`, `estudios_realizados`, `titulo`, `tarjeta_profesional`, `otros_estudios`, `cuenta_no`, `banco`, `eps`, `afp`, `afc`, `arl`, `sindicalizado`, `madre_cabeza_hogar`, `prepensionado`) VALUES
+(17, 'Elías José Iguaran Márquez', '1003379050', 3, 1, 2, '2147483647', 'Dg 6 5N - 86 / Luis Carlos Galan', 'helias.iguaran@gmail.com', '2025-03-10', 0, '', 'masculino', 'La Jagua de Ibirico', 22, 'casado', 'catolico', 'tecnico', 'Técnico en Sistemas', NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(18, 'Juan Jose pertuz', '123223', 3, 18, 1, '123', '123', 'Juan@gmail.com', '2024-01-02', 0, '', 'masculino', '13', 123, 'casado', 'cristiano', 'bachiller', 'sadasd', NULL, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, 'Sebastian tres carnes', '594582384', 33, 11, 2, '1423434', 'Dg 6 5N - 86 / Luis Carlos Galan', 'sofi_castillo@gmail.Ntic.co.com', '2021-06-11', 0, '', 'masculino', 'la jagua de ibirico', 89, 'viudo', 'otro', 'tecnico', 'sadasd', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, 'juan cardenas', '12324536434', 33, 1, 1, '345678906', '123', 'Juan12@gmail.com', '2023-10-11', 0, '', 'masculino', 'la jagua', 22, 'soltero', 'catolico', 'tecnico', 'sistemas', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -714,10 +681,38 @@ CREATE TABLE `tbl_historial_permisos` (
 --
 
 INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `fecha_registro`, `tipo_funcionario`, `es_permiso_especial`, `justificacion_especial`) VALUES
-(20, 20, '2025-07-05', 7, 2025, 'Cita médica', 'Aprobado', '2025-07-05 00:41:46', 'planta', 0, ''),
-(22, 20, '2025-07-14', 7, 2025, 'Cita médica', 'Aprobado', '2025-07-05 00:55:23', 'planta', 0, ''),
-(23, 20, '2025-07-30', 7, 2025, 'Capacitación', 'Aprobado', '2025-07-05 00:55:53', 'planta', 0, ''),
-(30, 20, '2025-07-07', 7, 2025, 'Calamidad doméstica', 'Aprobado', '2025-07-05 01:22:25', 'planta', 0, '');
+(17, 17, '2025-07-07', 7, 2025, 'Cita médica', 'Aprobado', '2025-07-07 14:27:25', 'planta', 0, ''),
+(18, 17, '2025-07-08', 7, 2025, 'Asunto familiar', 'Aprobado', '2025-07-07 14:27:34', 'planta', 0, ''),
+(19, 20, '2025-07-07', 7, 2025, 'Cita médica', 'Aprobado', '2025-07-07 14:27:39', 'planta', 0, ''),
+(20, 18, '2025-07-08', 7, 2025, 'Cita médica', 'Aprobado', '2025-07-07 14:27:46', 'planta', 0, ''),
+(21, 19, '2025-07-07', 7, 2025, 'Calamidad doméstica', 'Aprobado', '2025-07-07 15:01:59', 'planta', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_motivos_permisos`
+--
+
+CREATE TABLE `tbl_motivos_permisos` (
+  `id_motivo` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_motivos_permisos`
+--
+
+INSERT INTO `tbl_motivos_permisos` (`id_motivo`, `nombre`, `descripcion`, `status`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 'Cita médica', 'Permiso para asistir a cita médica personal', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15'),
+(2, 'Diligencias personales', 'Permiso para realizar diligencias de carácter personal', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15'),
+(3, 'Emergencia familiar', 'Permiso por emergencia o situación familiar urgente', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15'),
+(4, 'Trámites bancarios', 'Permiso para realizar trámites en entidades bancarias', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15'),
+(5, 'Cita odontológica', 'Permiso para asistir a cita odontológica', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15'),
+(6, 'Gestión académica', 'Permiso para asuntos relacionados con estudios', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15');
 
 -- --------------------------------------------------------
 
@@ -759,6 +754,13 @@ CREATE TABLE `tbl_notificaciones` (
   `tipo_funcionario` enum('planta','ops') DEFAULT 'planta'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_notificaciones`
+--
+
+INSERT INTO `tbl_notificaciones` (`id_notificacion`, `id_funcionario`, `tipo`, `mensaje`, `fecha_creacion`, `leido`, `tipo_funcionario`) VALUES
+(1, 19, 'tarea', 'Se te ha asignado una nueva tarea: Hola', '2025-06-19 14:57:14', 0, 'planta');
+
 -- --------------------------------------------------------
 
 --
@@ -772,17 +774,6 @@ CREATE TABLE `tbl_observaciones` (
   `observacion` text NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_observaciones`
---
-
-INSERT INTO `tbl_observaciones` (`id_observacion`, `id_tarea`, `id_usuario`, `observacion`, `fecha_creacion`) VALUES
-(8, 12, 1, 'asdasdasd', '2025-06-06 06:55:43'),
-(12, 16, 17, 'Tvyv5', '2025-06-18 04:09:50'),
-(13, 26, 1, 'asasddas', '2025-06-20 06:27:00'),
-(14, 27, 1, 'asdasdasd', '2025-06-20 06:28:53'),
-(15, 27, 1, 'Casi terminado por el', '2025-06-20 06:29:07');
 
 -- --------------------------------------------------------
 
@@ -809,37 +800,11 @@ CREATE TABLE `tbl_permisos` (
 --
 
 INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `mes`, `anio`, `motivo`, `estado`, `tipo_funcionario`, `es_permiso_especial`, `justificacion_especial`, `fecha_registro`) VALUES
-(59, 17, '2025-07-05', 7, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-05 01:18:05'),
-(60, 17, '2025-07-06', 7, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-05 01:22:19'),
-(61, 20, '2025-07-07', 7, 2025, 'Calamidad doméstica', 'Aprobado', 'planta', 0, '', '2025-07-05 01:22:25'),
-(62, 19, '2025-08-08', 8, 2025, 'Asunto familiar', 'Aprobado', 'planta', 0, '', '2025-07-05 01:22:31'),
-(63, 19, '2025-07-05', 7, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-05 01:22:36'),
-(64, 17, '2025-08-09', 8, 2025, 'Capacitación', 'Aprobado', 'planta', 0, '', '2025-07-05 01:28:17'),
-(65, 17, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-05 01:29:18');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_permisos_diarios`
---
-
-CREATE TABLE `tbl_permisos_diarios` (
-  `id_permiso_diario` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  `total_permisos` int(11) NOT NULL DEFAULT 0,
-  `limite_diario` int(11) NOT NULL DEFAULT 5,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `tbl_permisos_diarios`
---
-
-INSERT INTO `tbl_permisos_diarios` (`id_permiso_diario`, `fecha`, `total_permisos`, `limite_diario`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, '2025-07-05', 0, 5, '2025-07-05 06:25:47', '2025-07-05 06:25:47'),
-(2, '2025-08-09', 1, 5, '2025-07-05 06:28:17', '2025-07-05 06:28:17'),
-(3, '2025-09-23', 1, 5, '2025-07-05 06:29:18', '2025-07-05 06:29:18');
+(48, 17, '2025-07-07', 7, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-07 14:27:25'),
+(49, 17, '2025-07-08', 7, 2025, 'Asunto familiar', 'Aprobado', 'planta', 0, '', '2025-07-07 14:27:34'),
+(50, 20, '2025-07-07', 7, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-07 14:27:39'),
+(51, 18, '2025-07-08', 7, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-07-07 14:27:46'),
+(52, 19, '2025-07-07', 7, 2025, 'Calamidad doméstica', 'Aprobado', 'planta', 0, '', '2025-07-07 15:01:59');
 
 -- --------------------------------------------------------
 
@@ -874,9 +839,8 @@ CREATE TABLE `tbl_practicantes` (
 
 INSERT INTO `tbl_practicantes` (`idepracticante`, `nombre_completo`, `numero_identificacion`, `arl`, `edad`, `sexo`, `correo_electronico`, `telefono`, `direccion`, `dependencia_fk`, `cargo_hacer`, `fecha_ingreso`, `fecha_salida`, `contrato_practicante_fk`, `formacion_academica`, `programa_estudio`, `institucion_educativa`, `status`) VALUES
 (4, 'Juan Carlos Pérez López', '1234567890', 'Colmena', 22, 'masculino', 'juan.perez@ejemplo.com', '3001234567', 'Calle 15 # 25-30, La Jagua', 1, 'Apoyo en gestión administrativa y desarrollo de sistemas', '2024-01-15', '2024-06-15', 1, 'Técnico', 'Técnico en Sistemas', 'SENA', 1),
-(5, 'María Fernanda Rodríguez', '9876543210', 'Colpatria', 21, 'femenino', 'maria.rodriguez@ejemplo.com', '3109876543', 'Carrera 8 # 12-45, La Jagua', 2, 'Apoyo en atención al ciudadano y programación web', '2024-02-01', '2024-07-01', 2, 'Técnico', 'Técnico en Programación', 'Instituto Tecnológico', 0),
-(6, 'Carlos Andrés Morales', '1122334455', 'Colpatria', 20, 'masculino', 'carlos.morales@ejemplo.com', '3156789012', 'Avenida 5 # 10-20, La Jagua', 3, 'Desarrollo de aplicaciones y mantenimiento de sistemas', '2024-03-01', '2024-08-01', 3, 'Técnico', 'Técnico en Desarrollo de Software', 'SENA', 1),
-(7, 'Carlos David Lopez Tapia', '1065597082', 'Positiva', 19, 'masculino', 'carloslxpxz@gmail.com', '3216816858', 'calle 1c', 1, 'Programador', '2025-04-10', '2025-10-10', 1, 'Tecnico', 'Tecnico en Programacion de software', 'SENA', 1);
+(5, 'María Fernanda Rodríguez', '9876543210', 'Sura', 21, 'femenino', 'maria.rodriguez@ejemplo.com', '3109876543', 'Carrera 8 # 12-45, La Jagua', 2, 'Apoyo en atención al ciudadano y programación web', '2024-02-01', '2024-07-01', 2, 'Técnico', 'Técnico en Programación', 'Instituto Tecnológico', 1),
+(6, 'Carlos Andrés Morales', '1122334455', 'Colpatria', 20, 'masculino', 'carlos.morales@ejemplo.com', '3156789012', 'Avenida 5 # 10-20, La Jagua', 3, 'Desarrollo de aplicaciones y mantenimiento de sistemas', '2024-03-01', '2024-08-01', 3, 'Técnico', 'Técnico en Desarrollo de Software', 'SENA', 1);
 
 -- --------------------------------------------------------
 
@@ -900,19 +864,6 @@ CREATE TABLE `tbl_tareas` (
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_tareas`
---
-
-INSERT INTO `tbl_tareas` (`id_tarea`, `id_usuario_creador`, `id_usuario_asignado`, `tipo`, `descripcion`, `dependencia_fk`, `estado`, `observacion`, `fecha_inicio`, `fecha_fin`, `fecha_completada`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(12, 1, 1, 'administrativa', 'asdsd', 1, 'completada', NULL, '2025-06-19 00:00:00', '2025-06-27 00:00:00', '2025-06-06 00:00:00', '2025-06-06 06:55:31', '2025-06-06 07:05:48'),
-(16, 1, 17, 'administrativa', 'fdfsdf', 1, 'completada', NULL, '2025-06-18 00:00:00', '2025-06-20 00:00:00', '2025-06-17 00:00:00', '2025-06-18 04:09:25', '2025-06-18 04:10:03'),
-(23, 1, 17, 'administrativa', 'asdasd', 4, 'completada', NULL, '2025-06-20 00:00:00', '2025-06-23 00:00:00', '2025-06-20 00:00:00', '2025-06-20 06:16:16', '2025-06-20 06:21:06'),
-(24, 1, 1, 'técnica', 'asdasd', 1, 'completada', NULL, '2025-06-20 00:00:00', '2025-06-22 00:00:00', '2025-06-20 00:00:00', '2025-06-20 06:22:08', '2025-06-20 06:24:10'),
-(25, 1, 1, 'administrativa', 'asdasd', 5, 'completada', NULL, '2025-06-21 00:00:00', '2025-06-30 00:00:00', '2025-06-20 00:00:00', '2025-06-20 06:24:44', '2025-06-20 06:26:00'),
-(26, 1, 1, 'técnica', 'sdASas', 1, 'completada', NULL, '2025-06-20 00:00:00', '2025-06-23 00:00:00', '2025-06-20 00:00:00', '2025-06-20 06:26:25', '2025-06-20 06:27:10'),
-(27, 1, 1, 'técnica', 'asdasd', 5, 'completada', NULL, '2025-06-05 00:00:00', '2025-06-25 00:00:00', '2025-06-20 00:00:00', '2025-06-20 06:28:04', '2025-06-20 06:29:24');
-
 -- --------------------------------------------------------
 
 --
@@ -924,19 +875,6 @@ CREATE TABLE `tbl_tareas_usuarios` (
   `id_tarea` int(11) NOT NULL,
   `id_usuario` bigint(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_tareas_usuarios`
---
-
-INSERT INTO `tbl_tareas_usuarios` (`id`, `id_tarea`, `id_usuario`) VALUES
-(15, 12, 1),
-(19, 16, 17),
-(27, 23, 17),
-(28, 24, 1),
-(29, 25, 1),
-(30, 26, 1),
-(31, 27, 1);
 
 -- --------------------------------------------------------
 
@@ -960,10 +898,16 @@ CREATE TABLE `tbl_usuarios` (
 --
 
 INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgperfil`, `rolid`, `status`, `notificaciones_activas`) VALUES
-(1, 'Luis Carlos Duran', 'admin.ntic@gmail.com.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'perfil_1.webp', 1, 1, 1),
-(16, 'Tatiana Martínez Meneses', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 12, 1, 1),
-(17, 'Maria Del Pilar Ureche Cobo', 'contratacion@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 5, 1, 1),
-(18, 'Moises Xavier Paternina', 'talentohumano@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 2, 1, 1);
+(1, 'Luis Carlos Duran', 'admin.ntic@gmail.com.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'perfil_1.png', 1, 1, 1),
+(16, 'Tatiana Alejandra Martínez Meneses', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'b3bac4078570ff255b11047d393c5a94a5e94767c426e7fc52e6eba3f44a6b8c', 'sin-imagen.png', 12, 1, 1),
+(17, 'Maria Del Pilar Ureche Cobo', 'contratacion@lajaguadeibirico-cesar.gov.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'sin-imagen.png', 4, 1, 1),
+(18, 'Moises Xavier Paternina', 'talentohumano@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 2, 1, 1),
+(19, 'Fabián Duran Ortiz', 'fabianduran18@hotmail.com', '33882b27b999581a5679bcbe699e4cc2e3cfd37067791c051f17473843e009e8', 'sin-imagen.png', 5, 1, 1),
+(20, 'Jesus David Usma Días', 'jesususma721@gmail.com', '34fc34ff9be8e43e04aa773835016ce53a88749408ad81e891bc39e971399ba1', 'sin-imagen.png', 5, 1, 1),
+(21, 'Frank Luis Salcedo Redondo', 'fsalcedoredondo@gmail.com', '7cfd9a952732762e1ab94b5cadc90db27bf74720fd24d5aa8876e65f706ab6f4', 'perfil_21.jpg', 5, 1, 1),
+(22, 'Elías Iguaran Márquez', 'helias.iguaran@gmail.com', '7e82e7429c766d829ecd23ea74961495b99a065422a670c0a9404716c7343451', 'perfil_22.jpg', 5, 1, 1),
+(23, 'Luisa Fernanda Moreno', 'auxiliartic2024@gmail.com', '39253295aea0fd1ade2779006cf41b49376942284013bdb6e5316fcd322a567b', 'sin-imagen.png', 7, 1, 1),
+(24, 'Ana Carolina Mendoza', 'anacarolinamendozamojica@gmail.com', '0352709ad6ec43c6d165e948957d5e9b55e2519116147eed3e9f41fab47d91e6', 'sin-imagen.png', 12, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -983,11 +927,17 @@ CREATE TABLE `tbl_usuarios_roles` (
 --
 
 INSERT INTO `tbl_usuarios_roles` (`id`, `id_usuario`, `id_rol`, `fecha_asignacion`) VALUES
-(1, 1, 1, '2025-07-05 05:00:33'),
-(3, 17, 5, '2025-07-05 05:00:33'),
-(4, 18, 2, '2025-07-05 05:00:33'),
-(12, 16, 5, '2025-07-05 05:05:22'),
-(13, 16, 12, '2025-07-05 05:05:22');
+(1, 1, 1, '2025-07-07 14:23:16'),
+(3, 17, 4, '2025-07-07 14:23:16'),
+(4, 18, 2, '2025-07-07 14:23:16'),
+(5, 19, 5, '2025-07-07 14:23:16'),
+(6, 20, 5, '2025-07-07 14:23:16'),
+(7, 21, 5, '2025-07-07 14:23:16'),
+(8, 22, 5, '2025-07-07 14:23:16'),
+(9, 23, 7, '2025-07-07 14:23:16'),
+(10, 24, 12, '2025-07-07 14:23:16'),
+(16, 16, 5, '2025-07-07 14:33:52'),
+(17, 16, 12, '2025-07-07 14:33:52');
 
 -- --------------------------------------------------------
 
@@ -1003,8 +953,26 @@ CREATE TABLE `tbl_vacaciones` (
   `periodo` int(11) NOT NULL,
   `estado` varchar(20) NOT NULL DEFAULT 'Pendiente',
   `fecha_registro` datetime NOT NULL DEFAULT current_timestamp(),
-  `tipo_funcionario` enum('planta','ops') DEFAULT 'planta'
+  `tipo_funcionario` enum('planta','ops') DEFAULT 'planta',
+  `tipo_vacaciones` enum('Compensadas','Disfrutadas') DEFAULT 'Disfrutadas',
+  `valor` decimal(12,2) DEFAULT 0.00,
+  `fecha_pago` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_vacaciones`
+--
+
+INSERT INTO `tbl_vacaciones` (`id_vacaciones`, `id_funcionario`, `fecha_inicio`, `fecha_fin`, `periodo`, `estado`, `fecha_registro`, `tipo_funcionario`, `tipo_vacaciones`, `valor`, `fecha_pago`) VALUES
+(49, 17, '2025-06-11', '2025-06-26', 1, 'Cumplidas', '2025-06-11 02:22:35', 'planta', 'Disfrutadas', 0.00, NULL),
+(50, 17, '2025-06-11', '2025-06-26', 1, 'Cumplidas', '2025-06-11 02:27:22', 'planta', 'Disfrutadas', 0.00, NULL),
+(51, 17, '2025-06-11', '2025-06-26', 1, 'Cancelado', '2025-06-11 02:34:57', 'planta', 'Disfrutadas', 0.00, NULL),
+(52, 17, '2025-06-11', '2025-06-26', 1, 'Cumplidas', '2025-06-11 02:36:33', 'planta', 'Disfrutadas', 0.00, NULL),
+(53, 17, '2025-06-11', '2025-06-26', 1, 'Pendiente', '2025-06-11 02:38:56', 'planta', 'Disfrutadas', 0.00, NULL),
+(54, 18, '2025-06-11', '2025-06-26', 1, 'Cumplidas', '2025-06-11 02:40:46', 'planta', 'Disfrutadas', 0.00, NULL),
+(55, 19, '2025-06-11', '2025-06-26', 1, 'Cumplidas', '2025-06-11 02:40:52', 'planta', 'Disfrutadas', 0.00, NULL),
+(56, 20, '2025-06-20', '2025-07-10', 1, 'Aprobado', '2025-06-13 10:17:45', 'planta', 'Disfrutadas', 0.00, NULL),
+(57, 18, '2025-07-07', '2025-07-22', 1, 'Pendiente', '2025-07-07 15:07:45', 'planta', 'Disfrutadas', 0.00, NULL);
 
 --
 -- Disparadores `tbl_vacaciones`
@@ -1053,7 +1021,30 @@ CREATE TABLE `tbl_viaticos` (
 --
 
 INSERT INTO `tbl_viaticos` (`idViatico`, `funci_fk`, `descripcion`, `monto`, `fecha_aprobacion`, `fecha_salida`, `fecha_regreso`, `uso`, `estatus`, `fecha_creacion`) VALUES
-(5, 18, 'prostibulo', 10000.00, '2025-06-11', '2025-06-12', '2025-06-14', 'cositas', 1, '2025-06-11 07:57:30');
+(6, 17, 'salida local', 500000.00, '2025-06-13', '2025-06-16', '2025-06-16', 'transporte y viaticos', 1, '2025-06-13 15:29:25'),
+(7, 17, 'asdasd', 10000023.00, '2025-07-07', '2025-07-09', '2025-07-16', 'sadsad', 1, '2025-07-07 14:31:43');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `whatsapp_config`
+--
+
+CREATE TABLE `whatsapp_config` (
+  `id` int(11) NOT NULL,
+  `type` enum('task','general') NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `api_key` varchar(50) NOT NULL,
+  `status` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `whatsapp_config`
+--
+
+INSERT INTO `whatsapp_config` (`id`, `type`, `phone`, `api_key`, `status`) VALUES
+(1, 'task', '573183687660', '8086746', 1),
+(2, 'general', '573163819809', '1234652', 2);
 
 --
 -- Índices para tablas volcadas
@@ -1134,12 +1125,6 @@ ALTER TABLE `tbl_cargos`
   ADD PRIMARY KEY (`idecargos`);
 
 --
--- Indices de la tabla `tbl_configuracion_permisos`
---
-ALTER TABLE `tbl_configuracion_permisos`
-  ADD PRIMARY KEY (`id_config`);
-
---
 -- Indices de la tabla `tbl_contrato`
 --
 ALTER TABLE `tbl_contrato`
@@ -1182,6 +1167,12 @@ ALTER TABLE `tbl_historial_permisos`
   ADD KEY `idx_es_permiso_especial` (`es_permiso_especial`);
 
 --
+-- Indices de la tabla `tbl_motivos_permisos`
+--
+ALTER TABLE `tbl_motivos_permisos`
+  ADD PRIMARY KEY (`id_motivo`);
+
+--
 -- Indices de la tabla `tbl_motivo_permiso`
 --
 ALTER TABLE `tbl_motivo_permiso`
@@ -1208,16 +1199,7 @@ ALTER TABLE `tbl_observaciones`
 ALTER TABLE `tbl_permisos`
   ADD PRIMARY KEY (`id_permiso`),
   ADD KEY `idx_es_permiso_especial` (`es_permiso_especial`),
-  ADD KEY `idx_fecha_registro` (`fecha_registro`),
-  ADD KEY `idx_permisos_fecha_tipo` (`fecha_permiso`,`tipo_funcionario`,`es_permiso_especial`);
-
---
--- Indices de la tabla `tbl_permisos_diarios`
---
-ALTER TABLE `tbl_permisos_diarios`
-  ADD PRIMARY KEY (`id_permiso_diario`),
-  ADD UNIQUE KEY `fecha` (`fecha`),
-  ADD KEY `idx_fecha` (`fecha`);
+  ADD KEY `idx_fecha_registro` (`fecha_registro`);
 
 --
 -- Indices de la tabla `tbl_practicantes`
@@ -1279,6 +1261,12 @@ ALTER TABLE `tbl_viaticos`
   ADD KEY `funci_fk` (`funci_fk`);
 
 --
+-- Indices de la tabla `whatsapp_config`
+--
+ALTER TABLE `whatsapp_config`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -1286,13 +1274,13 @@ ALTER TABLE `tbl_viaticos`
 -- AUTO_INCREMENT de la tabla `adiciones_contrato`
 --
 ALTER TABLE `adiciones_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `archivos`
 --
 ALTER TABLE `archivos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias_archivos`
@@ -1304,25 +1292,25 @@ ALTER TABLE `categorias_archivos`
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1100;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1225;
 
 --
 -- AUTO_INCREMENT de la tabla `prorrogas_contrato`
 --
 ALTER TABLE `prorrogas_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -1334,25 +1322,19 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `seguimiento_contrato`
 --
 ALTER TABLE `seguimiento_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_capital_viaticos`
 --
 ALTER TABLE `tbl_capital_viaticos`
-  MODIFY `idCapital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idCapital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_cargos`
 --
 ALTER TABLE `tbl_cargos`
   MODIFY `idecargos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
-
---
--- AUTO_INCREMENT de la tabla `tbl_configuracion_permisos`
---
-ALTER TABLE `tbl_configuracion_permisos`
-  MODIFY `id_config` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_contrato`
@@ -1370,25 +1352,31 @@ ALTER TABLE `tbl_contratos_practicantes`
 -- AUTO_INCREMENT de la tabla `tbl_dependencia`
 --
 ALTER TABLE `tbl_dependencia`
-  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios_ops`
 --
 ALTER TABLE `tbl_funcionarios_ops`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios_planta`
 --
 ALTER TABLE `tbl_funcionarios_planta`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_motivos_permisos`
+--
+ALTER TABLE `tbl_motivos_permisos`
+  MODIFY `id_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivo_permiso`
@@ -1400,7 +1388,7 @@ ALTER TABLE `tbl_motivo_permiso`
 -- AUTO_INCREMENT de la tabla `tbl_notificaciones`
 --
 ALTER TABLE `tbl_notificaciones`
-  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_observaciones`
@@ -1412,55 +1400,55 @@ ALTER TABLE `tbl_observaciones`
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
-
---
--- AUTO_INCREMENT de la tabla `tbl_permisos_diarios`
---
-ALTER TABLE `tbl_permisos_diarios`
-  MODIFY `id_permiso_diario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_practicantes`
 --
 ALTER TABLE `tbl_practicantes`
-  MODIFY `idepracticante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idepracticante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas`
 --
 ALTER TABLE `tbl_tareas`
-  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas_usuarios`
 --
 ALTER TABLE `tbl_tareas_usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
 --
 ALTER TABLE `tbl_usuarios`
-  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios_roles`
 --
 ALTER TABLE `tbl_usuarios_roles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_vacaciones`
 --
 ALTER TABLE `tbl_vacaciones`
-  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_vacaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_viaticos`
 --
 ALTER TABLE `tbl_viaticos`
-  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `whatsapp_config`
+--
+ALTER TABLE `whatsapp_config`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
@@ -1532,13 +1520,6 @@ ALTER TABLE `tbl_notificaciones`
 ALTER TABLE `tbl_observaciones`
   ADD CONSTRAINT `tbl_observaciones_ibfk_1` FOREIGN KEY (`id_tarea`) REFERENCES `tbl_tareas` (`id_tarea`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_observaciones_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuarios` (`ideusuario`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `tbl_practicantes`
---
-ALTER TABLE `tbl_practicantes`
-  ADD CONSTRAINT `fk_practicantes_contrato` FOREIGN KEY (`contrato_practicante_fk`) REFERENCES `tbl_contratos_practicantes` (`id_contrato_practicante`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_practicantes_dependencia` FOREIGN KEY (`dependencia_fk`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_tareas`
