@@ -24,6 +24,9 @@ getModal('modalPermisos', $data);
                 <div class="tile-title-w-btn">
                     <h3 class="tile-title"><i class="fas fa-filter"></i> Filtros de Búsqueda</h3>
                     <div class="tile-title-btn">
+                        <a href="<?= base_url(); ?>/permisoscontroller/motivos" class="btn btn-warning">
+                            <i class="fas fa-cogs"></i> Gestión de Motivos
+                        </a>
                         <button class="btn btn-primary" onclick="openModal()">
                             <i class="fas fa-plus"></i> Nuevo Permiso
                         </button>
@@ -72,41 +75,88 @@ getModal('modalPermisos', $data);
         </div>
     </div>
 
-    <!-- Tabla de permisos -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-title-w-btn">
-                    <h3 class="tile-title"><i class="fas fa-list"></i> Lista de Permisos</h3>
-                    <div class="tile-title-btn">
-                        <button class="btn btn-success btn-sm" onclick="exportarExcel()">
-                            <i class="fas fa-file-excel"></i> Exportar
-                        </button>
-                        <button class="btn btn-info btn-sm" onclick="mostrarEstadisticas()">
-                            <i class="fas fa-chart-bar"></i> Estadísticas
-                        </button>
+    <!-- Tabs para lista y estadísticas -->
+    <ul class="nav nav-tabs mb-3" id="permisosTabs" role="tablist" style="margin-top: 1rem;">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-lista" data-bs-toggle="tab" data-bs-target="#tabLista" type="button" role="tab" aria-controls="tabLista" aria-selected="true">Lista de Permisos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-estadisticas" data-bs-toggle="tab" data-bs-target="#tabEstadisticas" type="button" role="tab" aria-controls="tabEstadisticas" aria-selected="false">Estadísticas</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="permisosTabsContent">
+        <div class="tab-pane fade show active" id="tabLista" role="tabpanel" aria-labelledby="tab-lista">
+            <!-- Tabla de permisos -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tile">
+                        <div class="tile-title-w-btn">
+                            <h3 class="tile-title"><i class="fas fa-list"></i> Lista de Permisos</h3>
+                            <div class="tile-title-btn">
+                                <button class="btn btn-success btn-sm" onclick="exportarExcel()">
+                                    <i class="fas fa-file-excel"></i> Exportar
+                                </button>
+                                <button class="btn btn-info btn-sm" onclick="mostrarEstadisticas()">
+                                    <i class="fas fa-chart-bar"></i> Estadísticas
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tile-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered" id="tablePermisos">
+                                    <thead>
+                                        <tr>
+                                            <th>Funcionario</th>
+                                            <th>Identificación</th>
+                                            <th>Cargo</th>
+                                            <th>Dependencia</th>
+                                            <th>Fecha</th>
+                                            <th>Tipo</th>
+                                            <th>Motivo</th>
+                                            <th>Estado</th>
+                                            <th>Especial</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="tile-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered" id="tablePermisos">
-                            <thead>
-                                <tr>
-                                    <th>Funcionario</th>
-                                    <th>Identificación</th>
-                                    <th>Cargo</th>
-                                    <th>Dependencia</th>
-                                    <th>Fecha</th>
-                                    <th>Tipo</th>
-                                    <th>Motivo</th>
-                                    <th>Estado</th>
-                                    <th>Especial</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tabEstadisticas" role="tabpanel" aria-labelledby="tab-estadisticas">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="filtroAnioEstadisticas">Año</label>
+                    <select class="form-control" id="filtroAnioEstadisticas"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">Funcionarios con más permisos por mes</div>
+                        <div class="card-body">
+                            <canvas id="chartPermisosPorMes"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">Cantidad de permisos por funcionario</div>
+                        <div class="card-body">
+                            <canvas id="chartPermisosPorFuncionario"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">Dependencia con más permisos</div>
+                        <div class="card-body">
+                            <canvas id="chartPermisosPorDependencia"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>

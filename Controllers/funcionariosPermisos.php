@@ -658,5 +658,51 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
- 
+
+    // API para gráficos de permisos
+    public function getFuncionariosMasPermisosPorMes()
+    {
+        if ($_POST) {
+            $anio = !empty($_POST['anio']) ? intval($_POST['anio']) : date('Y');
+            $data = $this->model->getFuncionariosMasPermisosPorMes($anio);
+            echo json_encode($data);
+        }
+        die();
+    }
+    public function getCantidadPermisosPorFuncionario()
+    {
+        if ($_POST) {
+            $anio = !empty($_POST['anio']) ? intval($_POST['anio']) : date('Y');
+            $data = $this->model->getCantidadPermisosPorFuncionario($anio);
+            echo json_encode($data);
+        }
+        die();
+    }
+    public function getDependenciaMasPermisos()
+    {
+        if ($_POST) {
+            $anio = !empty($_POST['anio']) ? intval($_POST['anio']) : date('Y');
+            $data = $this->model->getDependenciaMasPermisos($anio);
+            echo json_encode($data);
+        }
+        die();
+    }
+
+    public function getAniosConPermisos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $data = $this->model->getAniosConPermisos();
+            echo json_encode($data);
+        }
+        die();
+    }
+
+    public function getResumenPermisos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $data = $this->model->getResumenPermisos();
+            echo json_encode($data);
+        }
+        die();
+    }
 }

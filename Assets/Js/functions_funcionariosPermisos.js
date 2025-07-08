@@ -134,25 +134,23 @@ function iniciarReloj() {
     intervaloReloj = setInterval(actualizarReloj, 1000);
 }
 
-
-
 function fntGetMotivosPermisos() {
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
-  let ajaxUrl = base_url + "/funcionariosPermisos/getMotivosPermisos";
+  let ajaxUrl = base_url + "/MotivoPermiso/getMotivos";
   request.open("GET", ajaxUrl, true);
   request.send();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
       let objData = JSON.parse(request.responseText);
-      if (objData.status) {
-        let htmlOptions = '<option value="">Seleccione un motivo</option>';
-        objData.data.forEach(function(item) {
-          htmlOptions += `<option value="${item.id}">${item.motivo}</option>`;
+      let htmlOptions = '<option value="">Seleccione un motivo</option>';
+      if (Array.isArray(objData)) {
+        objData.forEach(function(item) {
+          htmlOptions += `<option value="${item.id_motivo}">${item.nombre}</option>`;
         });
-        document.querySelector("#listMotivoPermiso").innerHTML = htmlOptions;
       }
+      document.querySelector("#listMotivoPermiso").innerHTML = htmlOptions;
     }
   };
 }
@@ -222,6 +220,8 @@ function fntPermitInfo(idefuncionario) {
           document.querySelector("#permisosMesInfo").innerHTML = "Permisos utilizados este mes: " + objData.data.permisos_mes_actual + "/3";
         }
 
+        // Cargar motivos de la base de datos cada vez que se abre el modal
+        fntGetMotivosPermisos();
         $('#modalFormPermiso').modal('show');
       } else {
         Swal.fire("Error", objData.msg, "error");
@@ -483,3 +483,109 @@ function fntPermisoEspecial(idFuncionario) {
     }
   };
 }
+
+// Poblar el filtro de año en estadísticas solo con años que tienen permisos
+function poblarFiltroAnioEstadisticasFunc() {
+    const select = document.getElementById('filtroAnioEstadisticasFunc');
+    select.innerHTML = '';
+    $.get(base_url + '/funcionariosPermisos/getAniosConPermisos', function(response) {
+        const data = JSON.parse(response);
+        data.forEach(item => {
+            let opt = document.createElement('option');
+            opt.value = item.anio;
+            opt.textContent = item.anio;
+            select.appendChild(opt);
+        });
+        // Si hay al menos un año, cargar los gráficos para ese año
+        if(data.length > 0) {
+            select.value = data[0].anio;
+            cargarGraficosPermisosFunc();
+        }
+    });
+}
+
+// Cargar y mostrar los gráficos de estadísticas
+function cargarGraficosPermisosFunc() {
+    const anio = document.getElementById('filtroAnioEstadisticasFunc') ? document.getElementById('filtroAnioEstadisticasFunc').value : new Date().getFullYear();
+    // Funcionarios con más permisos por mes
+    $.post(base_url + '/funcionariosPermisos/getFuncionariosMasPermisosPorMes', {anio}, function(response) {
+        const data = JSON.parse(response);
+        const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+        let labels = meses;
+        let datasets = [];
+        let funcionarios = [...new Set(data.map(item => item.nombre_completo))];
+        funcionarios.forEach(func => {
+            let dataFunc = Array(12).fill(0);
+            data.filter(item => item.nombre_completo === func).forEach(item => {
+                dataFunc[item.mes - 1] = parseInt(item.total);
+            });
+            datasets.push({
+                label: func,
+                data: dataFunc,
+                borderWidth: 2,
+                fill: false
+            });
+        });
+        if(window.chartPermisosPorMesFunc && typeof window.chartPermisosPorMesFunc.destroy === 'function') window.chartPermisosPorMesFunc.destroy();
+        window.chartPermisosPorMesFunc = new Chart(document.getElementById('chartPermisosPorMesFunc').getContext('2d'), {
+            type: 'line',
+            data: { labels, datasets },
+            options: { responsive: true, plugins: { legend: { display: true } } }
+        });
+    });
+    // Cantidad de permisos por funcionario (TOP)
+    $.post(base_url + '/funcionariosPermisos/getCantidadPermisosPorFuncionario', {anio}, function(response) {
+        const data = JSON.parse(response);
+        let labels = data.map(item => item.nombre_completo);
+        let values = data.map(item => parseInt(item.total));
+        // Mostrar el top 5
+        let topLabels = labels.slice(0, 5);
+        let topValues = values.slice(0, 5);
+        if(window.chartPermisosPorFuncionarioFunc && typeof window.chartPermisosPorFuncionarioFunc.destroy === 'function') window.chartPermisosPorFuncionarioFunc.destroy();
+        window.chartPermisosPorFuncionarioFunc = new Chart(document.getElementById('chartPermisosPorFuncionarioFunc').getContext('2d'), {
+            type: 'bar',
+            data: { labels: topLabels, datasets: [{ label: 'Permisos', data: topValues, backgroundColor: '#36a2eb' }] },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+        // Llenar la tabla TOP 5
+        let html = '';
+        for(let i=0; i<topLabels.length; i++) {
+            html += `<tr><td>${topLabels[i]}</td><td>${topValues[i]}</td></tr>`;
+        }
+        document.querySelector('#tablaTop5Funcionarios tbody').innerHTML = html;
+    });
+    // Dependencia con más permisos
+    $.post(base_url + '/funcionariosPermisos/getDependenciaMasPermisos', {anio}, function(response) {
+        const data = JSON.parse(response);
+        let labels = data.map(item => item.dependencia);
+        let values = data.map(item => parseInt(item.total));
+        if(window.chartPermisosPorDependenciaFunc && typeof window.chartPermisosPorDependenciaFunc.destroy === 'function') window.chartPermisosPorDependenciaFunc.destroy();
+        window.chartPermisosPorDependenciaFunc = new Chart(document.getElementById('chartPermisosPorDependenciaFunc').getContext('2d'), {
+            type: 'bar',
+            data: { labels, datasets: [{ label: 'Permisos', data: values, backgroundColor: '#ff6384' }] },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+    });
+}
+
+// Llenar las tarjetas resumen de permisos
+function cargarResumenPermisos() {
+    $.get(base_url + '/funcionariosPermisos/getResumenPermisos', function(response) {
+        const data = JSON.parse(response);
+        document.getElementById('resumenTotalPermisos').textContent = data.total;
+        document.getElementById('resumenPermisosAnio').textContent = data.anio;
+        document.getElementById('resumenPermisosMes').textContent = data.mes;
+        document.getElementById('resumenPermisosHoy').textContent = data.hoy;
+    });
+}
+
+// Llamar al cargar el tab de estadísticas
+$(document).on('shown.bs.tab', 'button[data-bs-target="#tabEstadisticasFunc"]', function () {
+    poblarFiltroAnioEstadisticasFunc();
+    cargarResumenPermisos();
+});
+
+// Recargar gráficos al cambiar el año
+$(document).on('change', '#filtroAnioEstadisticasFunc', function() {
+    cargarGraficosPermisosFunc();
+});

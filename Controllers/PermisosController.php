@@ -191,4 +191,106 @@ class PermisosController extends Controllers
         }
         die();
     }
+
+    // Vista de gestión de motivos
+    public function motivos()
+    {
+        $data['page_tag'] = "Gestión de Motivos";
+        $data['page_title'] = "Motivos de Permisos";
+        $data['page_name'] = "motivos";
+        $data['page_functions_js'] = "functions_motivos.js";
+        
+        $this->views->getView($this, "motivos", $data);
+    }
+
+    // API para obtener motivos
+    public function getMotivos()
+    {
+        if ($_POST) {
+            $permisosModel = new PermisosModel();
+            $motivos = $permisosModel->getMotivos();
+            echo json_encode($motivos);
+        }
+        die();
+    }
+
+    // API para crear/editar motivo
+    public function setMotivo()
+    {
+        if ($_POST) {
+            $id = !empty($_POST['id_motivo']) ? intval($_POST['id_motivo']) : 0;
+            $nombre = strClean($_POST['nombre']);
+            $descripcion = strClean($_POST['descripcion']);
+            $status = intval($_POST['status']);
+
+            $permisosModel = new PermisosModel();
+            
+            if ($id == 0) {
+                $resultado = $permisosModel->insertMotivo($nombre, $descripcion, $status);
+                $msg = $resultado ? 'Motivo creado correctamente' : 'Error al crear el motivo';
+            } else {
+                $resultado = $permisosModel->updateMotivo($id, $nombre, $descripcion, $status);
+                $msg = $resultado ? 'Motivo actualizado correctamente' : 'Error al actualizar el motivo';
+            }
+            
+            echo json_encode(['status' => $resultado, 'msg' => $msg]);
+        }
+        die();
+    }
+
+    // API para obtener motivo por ID
+    public function getMotivo(int $id)
+    {
+        if ($id > 0) {
+            $permisosModel = new PermisosModel();
+            $motivo = $permisosModel->selectMotivo($id);
+            echo json_encode($motivo);
+        }
+        die();
+    }
+
+    // API para eliminar motivo
+    public function delMotivo()
+    {
+        if ($_POST) {
+            $id = intval($_POST['id_motivo']);
+            $permisosModel = new PermisosModel();
+            $resultado = $permisosModel->deleteMotivo($id);
+            $msg = $resultado ? 'Motivo eliminado correctamente' : 'Error al eliminar el motivo';
+            echo json_encode(['status' => $resultado, 'msg' => $msg]);
+        }
+        die();
+    }
+
+    // API para gráficos de permisos
+    public function getFuncionariosMasPermisosPorMes()
+    {
+        if ($_POST) {
+            $anio = !empty($_POST['anio']) ? intval($_POST['anio']) : date('Y');
+            $permisosModel = new PermisosModel();
+            $data = $permisosModel->getFuncionariosMasPermisosPorMes($anio);
+            echo json_encode($data);
+        }
+        die();
+    }
+    public function getCantidadPermisosPorFuncionario()
+    {
+        if ($_POST) {
+            $anio = !empty($_POST['anio']) ? intval($_POST['anio']) : date('Y');
+            $permisosModel = new PermisosModel();
+            $data = $permisosModel->getCantidadPermisosPorFuncionario($anio);
+            echo json_encode($data);
+        }
+        die();
+    }
+    public function getDependenciaMasPermisos()
+    {
+        if ($_POST) {
+            $anio = !empty($_POST['anio']) ? intval($_POST['anio']) : date('Y');
+            $permisosModel = new PermisosModel();
+            $data = $permisosModel->getDependenciaMasPermisos($anio);
+            echo json_encode($data);
+        }
+        die();
+    }
 }

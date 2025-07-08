@@ -287,4 +287,83 @@ class PermisosModel extends Mysql
         $rolesModel = new RolesModel();
         return $rolesModel->selectRol($idrol);
     }
+
+    // Funcionarios con más permisos por mes
+    public function getFuncionariosMasPermisosPorMes($anio = null) {
+        $anio = $anio ?? date('Y');
+        $sql = "SELECT f.nombre_completo, MONTH(p.fecha_permiso) as mes, COUNT(*) as total
+                FROM tbl_permisos p
+                INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+                WHERE YEAR(p.fecha_permiso) = ?
+                GROUP BY f.idefuncionario, mes
+                ORDER BY mes, total DESC";
+        return $this->select_all($sql, [$anio]);
+    }
+
+    // Cantidad de permisos por funcionario
+    public function getCantidadPermisosPorFuncionario($anio = null) {
+        $anio = $anio ?? date('Y');
+        $sql = "SELECT f.nombre_completo, COUNT(*) as total
+                FROM tbl_permisos p
+                INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+                WHERE YEAR(p.fecha_permiso) = ?
+                GROUP BY f.idefuncionario
+                ORDER BY total DESC";
+        return $this->select_all($sql, [$anio]);
+    }
+
+    // Dependencia con más permisos
+    public function getDependenciaMasPermisos($anio = null) {
+        $anio = $anio ?? date('Y');
+        $sql = "SELECT d.nombre as dependencia, COUNT(*) as total
+                FROM tbl_permisos p
+                INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+                INNER JOIN tbl_dependencia d ON f.dependencia_fk = d.dependencia_pk
+                WHERE YEAR(p.fecha_permiso) = ?
+                GROUP BY d.dependencia_pk
+                ORDER BY total DESC";
+        return $this->select_all($sql, [$anio]);
+    }
+
+    // CRUD Motivos de Permisos
+    public function getMotivos()
+    {
+        $sql = "SELECT * FROM tbl_motivos_permisos ORDER BY nombre";
+        return $this->select_all($sql);
+    }
+
+    public function selectMotivo($id)
+    {
+        $sql = "SELECT * FROM tbl_motivos_permisos WHERE id_motivo = ?";
+        return $this->select($sql, [$id]);
+    }
+
+    public function insertMotivo($nombre, $descripcion, $status)
+    {
+        $sql = "INSERT INTO tbl_motivos_permisos (nombre, descripcion, status) VALUES (?, ?, ?)";
+        return $this->insert($sql, [$nombre, $descripcion, $status]);
+    }
+
+    public function updateMotivo($id, $nombre, $descripcion, $status)
+    {
+        $sql = "UPDATE tbl_motivos_permisos SET nombre = ?, descripcion = ?, status = ? WHERE id_motivo = ?";
+        return $this->update($sql, [$nombre, $descripcion, $status, $id]);
+    }
+
+    public function deleteMotivo($id)
+    {
+        // Verificar si el motivo está siendo usado en permisos
+        $sqlCheck = "SELECT COUNT(*) as count FROM tbl_permisos WHERE motivo IN (SELECT nombre FROM tbl_motivos_permisos WHERE id_motivo = ?)";
+        $result = $this->select($sqlCheck, [$id]);
+        
+        if ($result && $result['count'] > 0) {
+            // Si está siendo usado, solo desactivar
+            $sql = "UPDATE tbl_motivos_permisos SET status = 0 WHERE id_motivo = ?";
+            return $this->update($sql, [$id]);
+        } else {
+            // Si no está siendo usado, eliminar completamente
+            $sql = "DELETE FROM tbl_motivos_permisos WHERE id_motivo = ?";
+            return $this->delete($sql, [$id]);
+        }
+    }
 }

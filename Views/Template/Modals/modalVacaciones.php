@@ -100,6 +100,11 @@
                                 <input type="number" class="form-control" id="txtValor" name="txtValor" min="0" step="0.01" placeholder="Valor de las vacaciones">
                             </div>
                             
+                            <div class="form-group mb-3">
+                                <label for="fechaPago" class="form-label">Fecha y hora de entrega del dinero</label>
+                                <input type="datetime-local" class="form-control" id="fechaPago" name="fechaPago">
+                            </div>
+                            
                             <div class="alert alert-info" role="alert">
                                 <p id="periodosInfo">Períodos disponibles: <span id="periodosDisponibles">0</span>/3</p>
                                 <p class="mb-0">Las vacaciones quedarán en estado "Pendiente" hasta su aprobación.</p>
