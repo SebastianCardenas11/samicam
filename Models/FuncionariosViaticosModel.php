@@ -82,12 +82,12 @@ class FuncionariosViaticosModel extends Mysql
         return false;
     }
 
-    // Obtener histórico de viáticos otorgados por funcionario para el año
+    // Obtener histórico de viáticos otorgados por funcionario para el año (por cantidad)
     public function getHistoricoViaticos($year)
     {
         $sql = "SELECT v.funci_fk as idefuncionario, 
                 fp.nombre_completo, 
-                SUM(v.total_liquidado) as total_viaticos
+                COUNT(v.idViatico) as cantidad_viaticos
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
@@ -241,5 +241,36 @@ class FuncionariosViaticosModel extends Mysql
     $request = $this->select_all($sql);
     return $request;
 }
+
+    // Viáticos entregados por mes (evolución anual)
+    public function getViaticosPorMes($year) {
+        $sql = "SELECT MONTH(fecha_aprobacion) as mes, SUM(total_liquidado) as total
+                FROM tbl_viaticos
+                WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1
+                GROUP BY mes
+                ORDER BY mes";
+        return $this->select_all($sql, [$year]);
+    }
+
+    // Capital total y disponible por mes (evolución mensual)
+    public function getCapitalPorMes($year) {
+        $sql = "SELECT anio, capital_total, capital_disponible
+                FROM tbl_capital_viaticos
+                WHERE anio = ?";
+        return $this->select($sql, [$year]);
+    }
+
+    // Top ciudades de comisión por frecuencia
+    public function getTopCiudadesComision($year, $limit = 10) {
+        $sql = "SELECT lugar_comision_ciudad, COUNT(*) as frecuencia
+                FROM tbl_viaticos
+                WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1
+                  AND lugar_comision_ciudad IS NOT NULL
+                  AND lugar_comision_ciudad != ''
+                GROUP BY lugar_comision_ciudad
+                ORDER BY frecuencia DESC
+                LIMIT ?";
+        return $this->select_all($sql, [$year, $limit]);
+    }
 
 }

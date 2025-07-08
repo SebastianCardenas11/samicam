@@ -3,6 +3,9 @@ let tableDetalle;
 let chartCapital;
 let chartComparativa;
 
+// ========== NUEVOS GRÁFICOS ========== //
+let chartTopFuncionarios, chartViaticosMes, chartCapitalMes, chartCiudadesFrecuentes;
+
 // --- Carga dinámica de departamentos y ciudades/municipios de Colombia (nueva API) ---
 function cargarDepartamentosColombia() {
     const selectDepartamento = document.getElementById('selectDepartamento');
@@ -73,7 +76,7 @@ function openModalViatico() {
 
 function openModalPresupuesto() {
     document.getElementById('formPresupuestoViaticos').reset();
-    const anio = document.getElementById('selectAnio').value;
+    const anio = document.getElementById('txtAnio').value;
     cargarPresupuestoActual(anio);
     $('#modalPresupuestoViaticos').modal('show');
 }
@@ -159,6 +162,202 @@ function cargarCapitalDisponible(anio) {
     cargarDetalleViaticos(anio);
 }
 
+// ========== NUEVOS GRÁFICOS ========== //
+function cargarGraficosAvanzados(anio) {
+  // Top funcionarios (por cantidad)
+  fetch(`${base_url}/FuncionariosViaticos/getHistoricoViaticos/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let top = Array.isArray(data) ? data.sort((a,b)=>b.cantidad_viaticos-a.cantidad_viaticos).slice(0,10) : [];
+      let labels = top.map(x=>x.nombre_completo);
+      let values = top.map(x=>parseInt(x.cantidad_viaticos));
+      const ctx = document.getElementById('barTopFuncionarios').getContext('2d');
+      if(chartTopFuncionarios) chartTopFuncionarios.destroy();
+      chartTopFuncionarios = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Cantidad de Viáticos',
+              data: values,
+              backgroundColor: 'rgba(37,99,235,0.3)',
+              borderColor: '#2563eb',
+              borderWidth: 1
+            },
+            {
+              label: 'Línea',
+              data: values,
+              type: 'line',
+              borderColor: '#2563eb',
+              backgroundColor: 'rgba(37,99,235,0.1)',
+              fill: false,
+              tension: 0.3,
+              pointRadius: 4,
+              pointBackgroundColor: '#2563eb',
+              order: 0
+            }
+          ]
+        },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{position:'top'},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
+            y:{beginAtZero:true}
+          }
+        }
+      });
+    });
+  // Viáticos por mes
+  fetch(`${base_url}/FuncionariosViaticos/getViaticosPorMes/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      let labels = meses;
+      let values = Array(12).fill(0);
+      if(Array.isArray(data)) data.forEach(x=>{ values[(x.mes-1)] = parseFloat(x.total); });
+      const ctx = document.getElementById('barViaticosMes').getContext('2d');
+      if(chartViaticosMes) chartViaticosMes.destroy();
+      chartViaticosMes = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Viáticos Entregados',
+              data: values,
+              backgroundColor: 'rgba(22,163,74,0.3)',
+              borderColor: '#16a34a',
+              borderWidth: 1
+            },
+            {
+              label: 'Línea',
+              data: values,
+              type: 'line',
+              borderColor: '#16a34a',
+              backgroundColor: 'rgba(22,163,74,0.1)',
+              fill: false,
+              tension: 0.3,
+              pointRadius: 4,
+              pointBackgroundColor: '#16a34a',
+              order: 0
+            }
+          ]
+        },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{position:'top'},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
+            y:{beginAtZero:true}
+          }
+        }
+      });
+    });
+  // Capital por mes (línea)
+  fetch(`${base_url}/FuncionariosViaticos/getCapitalPorMes/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      let total = parseFloat(data.capital_total||0);
+      let disponible = parseFloat(data.capital_disponible||0);
+      let usados = total-disponible;
+      let arrTotal = Array(12).fill(total);
+      let arrDisponible = Array(12).fill(disponible);
+      let arrUsados = Array(12).fill(usados);
+      const ctx = document.getElementById('lineCapitalMes').getContext('2d');
+      if(chartCapitalMes) chartCapitalMes.destroy();
+      chartCapitalMes = new Chart(ctx, {
+        type: 'line',
+        data: { labels: meses, datasets: [
+          { label:'Total', data:arrTotal, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,0.1)', fill:false, tension:0.3 },
+          { label:'Disponible', data:arrDisponible, borderColor:'#22c55e', backgroundColor:'rgba(34,197,94,0.1)', fill:false, tension:0.3 },
+          { label:'Usado', data:arrUsados, borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.1)', fill:false, tension:0.3 }
+        ] },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{position:'top'},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{ y:{beginAtZero:true} }
+        }
+      });
+    });
+  // Ciudades más frecuentes
+  fetch(`${base_url}/FuncionariosViaticos/getTopCiudadesComision/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let labels = Array.isArray(data) ? data.map(x=>x.lugar_comision_ciudad) : [];
+      let values = Array.isArray(data) ? data.map(x=>parseInt(x.frecuencia)) : [];
+      const ctx = document.getElementById('barCiudadesFrecuentes').getContext('2d');
+      if(chartCiudadesFrecuentes) chartCiudadesFrecuentes.destroy();
+      if(labels.length === 0) {
+        ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+        ctx.font = '18px sans-serif';
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'center';
+        ctx.fillText('No hay datos para mostrar', ctx.canvas.width/2, ctx.canvas.height/2);
+        return;
+      }
+      chartCiudadesFrecuentes = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Frecuencia', data: values, backgroundColor: 'rgba(234,179,8,0.3)', borderColor:'#eab308', borderWidth:1 }] },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{display:false},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{ y:{beginAtZero:true} }
+        }
+      });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar que jQuery esté disponible
     if (typeof jQuery === 'undefined') {
@@ -203,18 +402,28 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarDetalleViaticos(anioActual);
 
     // Evento para el botón de filtrar
-    document.getElementById('btnFiltrar').addEventListener('click', function() {
-        const anioSeleccionado = document.getElementById('selectAnio').value;
-        inicializarGraficos(anioSeleccionado);
-        cargarHistoricoViaticos(anioSeleccionado);
-        cargarDetalleViaticos(anioSeleccionado);
-    });
+    const btnFiltrar = document.getElementById('btnFiltrar');
+    if (btnFiltrar) {
+        btnFiltrar.addEventListener('click', function() {
+            const anioSeleccionado = document.getElementById('selectAnio').value;
+            inicializarGraficos(anioSeleccionado);
+            cargarHistoricoViaticos(anioSeleccionado);
+            cargarDetalleViaticos(anioSeleccionado);
+        });
+    } else {
+        console.warn('No se encontró el botón btnFiltrar');
+    }
 
     // Evento para el botón de reporte anual
-    document.getElementById('btnReporteAnual').addEventListener('click', function() {
-        const anio = document.getElementById('selectAnio').value;
-        window.location.href = base_url + '/FuncionariosViaticos/generarReporteAnual/' + anio;
-    });
+    const btnReporteAnual = document.getElementById('btnReporteAnual');
+    if (btnReporteAnual) {
+        btnReporteAnual.addEventListener('click', function() {
+            const anio = document.getElementById('selectAnio').value;
+            window.location.href = base_url + '/FuncionariosViaticos/generarReporteAnual/' + anio;
+        });
+    } else {
+        console.warn('No se encontró el botón btnReporteAnual');
+    }
     
     // Evento para el formulario de presupuesto
     const formPresupuesto = document.getElementById('formPresupuestoViaticos');
@@ -267,7 +476,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#modalPresupuestoViaticos').modal('hide');
                     // Recargar datos
                     const anioActual = document.getElementById('selectAnio').value;
-                    cargarCapitalDisponible(anioActual);
+                    inicializarGraficos(anioActual);
+                    cargarHistoricoViaticos(anioActual);
+                    cargarDetalleViaticos(anioActual);
+                    // Actualizar gráfico Polar Area si existe
+                    const anioPolar = document.getElementById('selectAnioPolar');
+                    if (anioPolar) {
+                        cargarPolarAreaCapital(anioPolar.value);
+                    }
                 } else {
                     Swal.fire('Error', data.msg || 'Error desconocido', 'error');
                 }
@@ -278,6 +494,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire('Error', 'Ocurrió un error al procesar la solicitud', 'error');
             });
         });
+    } else {
+        console.warn('No se encontró el formulario formPresupuestoViaticos');
     }
     
     // Evento para el formulario de viáticos
@@ -343,7 +561,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     txtFechaRegreso.min = this.value;
                 }
             });
+        } else {
+            console.warn('No se encontró el input txtFechaSalida');
         }
+    } else {
+        console.warn('No se encontró el formulario formViaticos');
+    }
+
+    // Cargar gráficos avanzados al cargar y al cambiar año
+    const anioPolar = document.getElementById('selectAnioPolar');
+    if(anioPolar) {
+      cargarGraficosAvanzados(anioPolar.value);
+      document.getElementById('btnFiltrarPolar').addEventListener('click', function() {
+        cargarGraficosAvanzados(anioPolar.value);
+      });
     }
 });
 
@@ -360,9 +591,20 @@ function inicializarGraficos(anio) {
             const capitalDisponible = parseFloat(data.capitalDisponible);
             const capitalUsado = capitalTotal - capitalDisponible;
 
-            // Actualizar textos
-            document.getElementById('totalViaticos').textContent = '$ ' + capitalTotal.toLocaleString();
-            document.getElementById('viaticosDescontados').textContent = '$ ' + capitalUsado.toLocaleString();
+            // Actualizar tarjetas resumen (conexión directa a la base de datos)
+            const cardTotal = document.getElementById('cardTotalViaticos');
+            if (cardTotal) cardTotal.textContent = '$ ' + capitalTotal.toLocaleString();
+            const cardUsados = document.getElementById('cardViaticosUsados');
+            if (cardUsados) cardUsados.textContent = '$ ' + capitalUsado.toLocaleString();
+            const cardDisponibles = document.getElementById('cardViaticosDisponibles');
+            if (cardDisponibles) cardDisponibles.textContent = '$ ' + capitalDisponible.toLocaleString();
+            // Viáticos entregados en el año (cantidad de registros)
+            fetch(base_url + '/FuncionariosViaticos/getDetalleViaticos/' + anio)
+                .then(resp => resp.json())
+                .then(detalle => {
+                    const cardEntregados = document.getElementById('cardViaticosEntregados');
+                    if (cardEntregados) cardEntregados.textContent = Array.isArray(detalle) ? detalle.length : 0;
+                });
 
             // Gráfico de dona para capital disponible
             const ctxDona = document.getElementById('chartCapitalDisponible');

@@ -578,4 +578,46 @@ class FuncionariosViaticos extends Controllers
         }
         exit();
     }
+
+    // API: Viáticos entregados por mes
+    public function getViaticosPorMes($year = null) {
+        header('Content-Type: application/json');
+        if (empty($_SESSION['permisosMod']['r'])) {
+            echo json_encode(['error' => 'No tiene permisos para esta acción']);
+            die();
+        }
+        $year = intval($year);
+        if ($year <= 0) $year = date('Y');
+        $data = $this->model->getViaticosPorMes($year);
+        echo json_encode($data);
+        die();
+    }
+
+    // API: Capital total y disponible por mes
+    public function getCapitalPorMes($year = null) {
+        header('Content-Type: application/json');
+        if (empty($_SESSION['permisosMod']['r'])) {
+            echo json_encode(['error' => 'No tiene permisos para esta acción']);
+            die();
+        }
+        $year = intval($year);
+        if ($year <= 0) $year = date('Y');
+        $data = $this->model->getCapitalPorMes($year);
+        echo json_encode($data);
+        die();
+    }
+
+    // API: Top ciudades de comisión
+    public function getTopCiudadesComision($year = null) {
+        header('Content-Type: application/json');
+        if (empty($_SESSION['permisosMod']['r'])) {
+            echo json_encode(['error' => 'No tiene permisos para esta acción']);
+            die();
+        }
+        $year = intval($year);
+        if ($year <= 0) $year = date('Y');
+        $data = $this->model->getTopCiudadesComision($year, 10);
+        echo json_encode($data);
+        die();
+    }
 }
