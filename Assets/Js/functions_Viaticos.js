@@ -1,10 +1,11 @@
+// Declaraciones globales (solo una vez al inicio)
 let tableHistorico;
 let tableDetalle;
 let chartCapital;
 let chartComparativa;
-
-// ========== NUEVOS GRÁFICOS ========== //
 let chartTopFuncionarios, chartViaticosMes, chartCapitalMes, chartCiudadesFrecuentes;
+let chartPolarArea = null;
+let listaDepartamentos = [];
 
 // --- Carga dinámica de departamentos y ciudades/municipios de Colombia (nueva API) ---
 function cargarDepartamentosColombia() {
@@ -13,6 +14,7 @@ function cargarDepartamentosColombia() {
     fetch('https://api-colombia.com/api/v1/Department')
         .then(response => response.json())
         .then(data => {
+            listaDepartamentos = data; // Guardar la lista globalmente
             selectDepartamento.innerHTML = '<option value="">Seleccione un departamento</option>';
             data.forEach(dep => {
                 const option = document.createElement('option');
@@ -24,6 +26,14 @@ function cargarDepartamentosColombia() {
         .catch(() => {
             selectDepartamento.innerHTML = '<option value="">Error al cargar departamentos</option>';
         });
+}
+
+function obtenerNombreDepartamento(id) {
+    if (!listaDepartamentos || listaDepartamentos.length === 0) return 'Desconocido';
+    // Convertir ambos a string y quitar ceros a la izquierda para comparar
+    const idStr = String(id).replace(/^0+/, '');
+    const dep = listaDepartamentos.find(d => String(d.id).replace(/^0+/, '') === idStr);
+    return dep ? dep.name : 'Desconocido';
 }
 
 function cargarCiudadesColombia(departamentoId) {
@@ -169,13 +179,14 @@ function cargarCapitalDisponible(anio) {
 
 // ========== NUEVOS GRÁFICOS ========== //
 function cargarGraficosAvanzados(anio) {
-  // Top funcionarios (por cantidad)
+  // Top funcionarios (por cantidad y valor total)
   fetch(`${base_url}/FuncionariosViaticos/getHistoricoViaticos/${anio}`)
     .then(res => res.json())
     .then(data => {
-      let top = Array.isArray(data) ? data.sort((a,b)=>b.cantidad_viaticos-a.cantidad_viaticos).slice(0,10) : [];
+      let top = Array.isArray(data) ? data.sort((a,b)=>b.total_viaticos_asignados-b.total_viaticos_asignados).slice(0,10) : [];
       let labels = top.map(x=>x.nombre_completo);
-      let values = top.map(x=>parseInt(x.cantidad_viaticos));
+      let valuesCantidad = top.map(x=>parseInt(x.total_viaticos_asignados));
+      let valuesValor = top.map(x=>parseFloat(x.total_valor_viaticos));
       const ctx = document.getElementById('barTopFuncionarios').getContext('2d');
       if(chartTopFuncionarios) chartTopFuncionarios.destroy();
       chartTopFuncionarios = new Chart(ctx, {
@@ -185,22 +196,18 @@ function cargarGraficosAvanzados(anio) {
           datasets: [
             {
               label: 'Cantidad de Viáticos',
-              data: values,
+              data: valuesCantidad,
               backgroundColor: 'rgba(37,99,235,0.3)',
               borderColor: '#2563eb',
               borderWidth: 1
             },
             {
-              label: 'Línea',
-              data: values,
-              type: 'line',
-              borderColor: '#2563eb',
-              backgroundColor: 'rgba(37,99,235,0.1)',
-              fill: false,
-              tension: 0.3,
-              pointRadius: 4,
-              pointBackgroundColor: '#2563eb',
-              order: 0
+              label: 'Valor Total de Viáticos',
+              data: valuesValor,
+              backgroundColor: 'rgba(34,197,94,0.3)',
+              borderColor: '#22c55e',
+              borderWidth: 1,
+              yAxisID: 'y1'
             }
           ]
         },
@@ -214,6 +221,9 @@ function cargarGraficosAvanzados(anio) {
                 label: function(context) {
                   let label = context.dataset.label || '';
                   let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  if(label.includes('Valor Total')) {
+                    return `${label}: $${value.toLocaleString('es-CO')}`;
+                  }
                   return `${label}: ${value}`;
                 }
               }
@@ -221,7 +231,13 @@ function cargarGraficosAvanzados(anio) {
           },
           scales:{
             x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
-            y:{beginAtZero:true}
+            y:{beginAtZero:true, title:{display:true, text:'Cantidad'}},
+            y1:{
+              beginAtZero:true,
+              position:'right',
+              grid:{drawOnChartArea:false},
+              title:{display:true, text:'Valor Total ($)'}
+            }
           }
         }
       });
@@ -234,6 +250,17 @@ function cargarGraficosAvanzados(anio) {
       let labels = meses;
       let values = Array(12).fill(0);
       if(Array.isArray(data)) data.forEach(x=>{ values[(x.mes-1)] = parseFloat(x.total); });
+      // Llenar la mini tabla de meses destacados
+      let topMeses = values.map((valor, i) => ({ mes: meses[i], valor })).sort((a,b)=>b.valor-a.valor).slice(0,3);
+      const tbody = document.getElementById('tbodyMesesDestacados');
+      if (tbody) {
+        tbody.innerHTML = '';
+        topMeses.forEach(m => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${m.mes}</td><td>$${m.valor.toLocaleString('es-CO')}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
       const ctx = document.getElementById('barViaticosMes').getContext('2d');
       if(chartViaticosMes) chartViaticosMes.destroy();
       chartViaticosMes = new Chart(ctx, {
@@ -284,7 +311,7 @@ function cargarGraficosAvanzados(anio) {
         }
       });
     });
-  // Capital por mes (línea)
+  // Capital por mes (área apilada)
   fetch(`${base_url}/FuncionariosViaticos/getCapitalPorMes/${anio}`)
     .then(res => res.json())
     .then(data => {
@@ -292,18 +319,35 @@ function cargarGraficosAvanzados(anio) {
       let total = parseFloat(data.capital_total||0);
       let disponible = parseFloat(data.capital_disponible||0);
       let usados = total-disponible;
-      let arrTotal = Array(12).fill(total);
       let arrDisponible = Array(12).fill(disponible);
       let arrUsados = Array(12).fill(usados);
       const ctx = document.getElementById('lineCapitalMes').getContext('2d');
       if(chartCapitalMes) chartCapitalMes.destroy();
       chartCapitalMes = new Chart(ctx, {
         type: 'line',
-        data: { labels: meses, datasets: [
-          { label:'Total', data:arrTotal, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,0.1)', fill:false, tension:0.3 },
-          { label:'Disponible', data:arrDisponible, borderColor:'#22c55e', backgroundColor:'rgba(34,197,94,0.1)', fill:false, tension:0.3 },
-          { label:'Usado', data:arrUsados, borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.1)', fill:false, tension:0.3 }
-        ] },
+        data: {
+          labels: meses,
+          datasets: [
+            {
+              label: 'Capital Usado',
+              data: arrUsados,
+              backgroundColor: 'rgba(239,68,68,0.3)',
+              borderColor: '#ef4444',
+              fill: true,
+              stack: 'Stack 0',
+              tension: 0.3
+            },
+            {
+              label: 'Capital Disponible',
+              data: arrDisponible,
+              backgroundColor: 'rgba(34,197,94,0.3)',
+              borderColor: '#22c55e',
+              fill: true,
+              stack: 'Stack 0',
+              tension: 0.3
+            }
+          ]
+        },
         options: {
           responsive:true,
           plugins:{
@@ -314,12 +358,15 @@ function cargarGraficosAvanzados(anio) {
                 label: function(context) {
                   let label = context.dataset.label || '';
                   let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
-                  return `${label}: ${value}`;
+                  return `${label}: $${value.toLocaleString('es-CO')}`;
                 }
               }
             }
           },
-          scales:{ y:{beginAtZero:true} }
+          scales:{
+            x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
+            y:{beginAtZero:true, title:{display:true, text:'Valor ($)'}}
+          }
         }
       });
     });
@@ -584,91 +631,40 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function inicializarGraficos(anio) {
-    fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
+    fetch(base_url + '/FuncionariosViaticos/getDetalleViaticos/' + anio)
         .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                return;
+        .then(detalle => {
+            // Sumar solo total_liquidado de todos los viáticos activos
+            let totalUsado = 0;
+            let totalEntregados = 0;
+            if (Array.isArray(detalle)) {
+                totalUsado = detalle.reduce((acc, item) => acc + (parseFloat(item.total_liquidado) || 0), 0);
+                totalEntregados = detalle.length;
             }
-
-            // Asegurar valores numéricos válidos
-            const capitalTotal = parseFloat(data.capitalTotal) || 0;
-            const capitalDisponible = parseFloat(data.capitalDisponible) || 0;
-            const capitalUsado = capitalTotal - capitalDisponible;
-
-            // Actualizar tarjetas resumen (conexión directa a la base de datos)
-            const cardTotal = document.getElementById('cardTotalViaticos');
-            if (cardTotal) cardTotal.textContent = '$ ' + capitalTotal.toLocaleString();
-            const cardUsados = document.getElementById('cardViaticosUsados');
-            if (cardUsados) cardUsados.textContent = '$ ' + capitalUsado.toLocaleString();
-            const cardDisponibles = document.getElementById('cardViaticosDisponibles');
-            if (cardDisponibles) cardDisponibles.textContent = '$ ' + capitalDisponible.toLocaleString();
-            // Viáticos entregados en el año (cantidad de registros)
-            fetch(base_url + '/FuncionariosViaticos/getDetalleViaticos/' + anio)
-                .then(resp => resp.json())
-                .then(detalle => {
+            // Obtener el capital total desde el backend
+            fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error(data.error);
+                        return;
+                    }
+                    const capitalTotal = parseFloat(data.capitalTotal) || 0;
+                    // Calcular viáticos disponibles en el frontend
+                    const viaticosDisponibles = capitalTotal - totalUsado;
+                    // Mostrar el total de viáticos
+                    const cardTotal = document.getElementById('cardTotalViaticos');
+                    if (cardTotal) cardTotal.textContent = '$ ' + capitalTotal.toLocaleString();
+                    // Mostrar el capital disponible calculado
+                    const cardDisponibles = document.getElementById('cardViaticosDisponibles');
+                    if (cardDisponibles) cardDisponibles.textContent = '$ ' + viaticosDisponibles.toLocaleString();
+                    // Mostrar viáticos usados
+                    const cardUsados = document.getElementById('cardViaticosUsados');
+                    if (cardUsados) cardUsados.textContent = '$ ' + totalUsado.toLocaleString();
+                    // Mostrar viáticos entregados en el año
                     const cardEntregados = document.getElementById('cardViaticosEntregados');
-                    if (cardEntregados) cardEntregados.textContent = Array.isArray(detalle) ? detalle.length : 0;
+                    if (cardEntregados) cardEntregados.textContent = totalEntregados;
                 });
-
-            // Gráfico de dona para capital disponible
-            const ctxDona = document.getElementById('chartCapitalDisponible');
-            if (ctxDona) {
-                if (chartCapital) chartCapital.destroy();
-                chartCapital = new Chart(ctxDona.getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Disponible', 'Usado'],
-                        datasets: [{
-                            data: [capitalDisponible, capitalUsado],
-                            backgroundColor: ['#2dce89', '#f5365c']
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-
-            // Gráfico de barras para comparativa
-            const ctxBarra = document.getElementById('chartComparativa');
-            if (ctxBarra) {
-                if (chartComparativa) chartComparativa.destroy();
-                chartComparativa = new Chart(ctxBarra.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['Capital'],
-                        datasets: [
-                            {
-                                label: 'Total',
-                                data: [capitalTotal],
-                                backgroundColor: '#5e72e4'
-                            },
-                            {
-                                label: 'Disponible',
-                                data: [capitalDisponible],
-                                backgroundColor: '#2dce89'
-                            },
-                            {
-                                label: 'Usado',
-                                data: [capitalUsado],
-                                backgroundColor: '#f5365c'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
         })
         .catch(error => console.error('Error:', error));
 }
@@ -692,7 +688,17 @@ function cargarHistoricoViaticos(anio) {
         .catch(error => console.error('Error:', error));
 }
 
+function formatPrecio(valor) {
+    return '$ ' + (parseFloat(valor) || 0).toLocaleString('es-CO');
+}
+
 function cargarDetalleViaticos(anio) {
+    // Esperar a que la lista de departamentos esté cargada
+    if (!listaDepartamentos || listaDepartamentos.length === 0) {
+        cargarDepartamentosColombia();
+        setTimeout(() => cargarDetalleViaticos(anio), 500);
+        return;
+    }
     fetch(base_url + '/FuncionariosViaticos/getDetalleViaticos/' + anio)
         .then(response => response.json())
         .then(data => {
@@ -715,7 +721,7 @@ function cargarDetalleViaticos(anio) {
                         item.cargo,
                         item.dependencia,
                         item.motivo_gasto,
-                        item.lugar_comision_departamento,
+                        obtenerNombreDepartamento(item.lugar_comision_departamento), // Mostrar nombre
                         item.lugar_comision_ciudad,
                         item.finalidad_comision,
                         item.descripcion,
@@ -723,11 +729,11 @@ function cargarDetalleViaticos(anio) {
                         item.fecha_salida ? item.fecha_salida.split(' ')[0] : '',
                         item.fecha_regreso ? item.fecha_regreso.split(' ')[0] : '',
                         item.n_dias,
-                        item.valor_dia,
-                        item.valor_viatico,
+                        formatPrecio(item.valor_dia),
+                        formatPrecio(item.valor_viatico),
                         item.tipo_transporte,
-                        item.valor_transporte,
-                        item.total_liquidado,
+                        formatPrecio(item.valor_transporte),
+                        formatPrecio(item.total_liquidado),
                         acciones
                     ]);
                 });
@@ -751,13 +757,22 @@ function eliminarViatico(idViatico) {
         if (result.isConfirmed) {
             const formData = new FormData();
             formData.append('idViatico', idViatico);
-            
+            // Mostrar spinner de carga
+            Swal.fire({
+                title: 'Eliminando...',
+                text: 'Actualizando datos',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
             fetch(base_url + '/FuncionariosViaticos/deleteViatico', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
+                Swal.close();
                 if (data.status) {
                     Swal.fire('Eliminado', data.msg, 'success');
                     const anioActual = document.getElementById('selectAnio').value;
@@ -769,6 +784,7 @@ function eliminarViatico(idViatico) {
                 }
             })
             .catch(error => {
+                Swal.close();
                 console.error('Error:', error);
                 Swal.fire('Error', 'Ocurrió un error al eliminar el viático', 'error');
             });
@@ -823,4 +839,67 @@ function guardarViatico(formElement) {
     });
     
     return false; // Evitar que el formulario se envíe de forma tradicional
+}
+
+function cargarPolarAreaCapital(anio) {
+    // Obtener datos del backend
+    fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+            const capitalTotal = parseFloat(data.capitalTotal) || 0;
+            const capitalDisponible = parseFloat(data.capitalDisponible) || 0;
+            const capitalUsado = capitalTotal - capitalDisponible;
+            const ctx = document.getElementById('polarAreaCapital');
+            if (!ctx) return;
+            // Fijar tamaño del canvas
+            ctx.width = 320;
+            ctx.height = 320;
+            if (chartPolarArea) chartPolarArea.destroy();
+            chartPolarArea = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: ['Total', 'Usado', 'Disponible'],
+                    datasets: [{
+                        data: [capitalTotal, capitalUsado, capitalDisponible],
+                        backgroundColor: [
+                            'rgba(59,130,246,0.3)', // Total (azul)
+                            'rgba(239,68,68,0.3)',  // Usado (rojo)
+                            'rgba(34,197,94,0.3)'   // Disponible (verde)
+                        ],
+                        borderColor: [
+                            '#3b82f6',
+                            '#ef4444',
+                            '#22c55e'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    let value = context.parsed && typeof context.parsed === 'object' && 'r' in context.parsed
+                                        ? context.parsed.r
+                                        : (typeof context.parsed === 'number' ? context.parsed : 0);
+                                    return `${label}: $${Number(value).toLocaleString('es-CO')}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {}
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar datos para el gráfico Polar Area:', error);
+        });
 }

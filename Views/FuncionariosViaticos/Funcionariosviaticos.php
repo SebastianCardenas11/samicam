@@ -264,7 +264,7 @@
           </div>
           <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="graficos-tab">
             <div class="row mb-4 justify-content-center">
-              <div class="col-md-7">
+              <div class="col-md-6">
                 <div class="card p-4">
                   <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
                     <h4 class="mb-0"><i class="bi bi-pie-chart"></i> Capital Viáticos (Polar Area)</h4>
@@ -281,8 +281,8 @@
                       <button id="btnFiltrarPolar" class="btn btn-sm btn-primary">Filtrar</button>
                     </div>
                   </div>
-                  <div style="min-height:320px;display:flex;align-items:center;justify-content:center;">
-                    <canvas id="polarAreaCapital" width="320" height="320"></canvas>
+                  <div style="min-height:200px;display:flex;align-items:center;justify-content:center;">
+                    <canvas id="polarAreaCapital" width="200" height="120" class="grafico-pequeno"></canvas>
                   </div>
                   <div class="row mt-3 text-center">
                     <div class="col-4">
@@ -297,31 +297,47 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="card p-4">
+                  <h4 class="mb-0"><i class="fa-solid fa-chart-bar"></i> Viáticos Entregados por Mes</h4>
+                  <div style="min-height:200px;display:flex;align-items:center;justify-content:center;">
+                    <canvas id="barViaticosMes" width="200" height="120" class="grafico-pequeno"></canvas>
+                  </div>
+                  <div class="card mt-4 p-3" id="cardMesesDestacados" style="box-shadow:none;background:transparent;">
+                    <h6 class="mb-3"><i class="fa-solid fa-calendar"></i> Top 3 meses con mayor entrega de viáticos</h6>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-sm mb-0" style="font-size:0.95rem;">
+                        <thead>
+                          <tr>
+                            <th>Mes</th>
+                            <th>Valor Entregado</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbodyMesesDestacados"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- NUEVOS GRÁFICOS -->
             <div class="row mb-4">
               <div class="col-md-6 mb-4">
                 <div class="card p-3">
                   <h5 class="mb-3"><i class="fa-solid fa-chart-bar"></i> Top 10 Funcionarios con más Viáticos</h5>
-                  <canvas id="barTopFuncionarios" height="260"></canvas>
-                </div>
-              </div>
-              <div class="col-md-6 mb-4">
-                <div class="card p-3">
-                  <h5 class="mb-3"><i class="fa-solid fa-chart-bar"></i> Viáticos Entregados por Mes</h5>
-                  <canvas id="barViaticosMes" height="260"></canvas>
+                  <canvas id="barTopFuncionarios" width="180" height="120" class="grafico-pequeno"></canvas>
                 </div>
               </div>
               <div class="col-md-6 mb-4">
                 <div class="card p-3">
                   <h5 class="mb-3"><i class="fa-solid fa-chart-line"></i> Evolución Capital Disponible/Entregado</h5>
-                  <canvas id="lineCapitalMes" height="260"></canvas>
+                  <canvas id="lineCapitalMes" width="180" height="120" class="grafico-pequeno"></canvas>
                 </div>
               </div>
               <div class="col-md-6 mb-4">
                 <div class="card p-3">
                   <h5 class="mb-3"><i class="fa-solid fa-location-dot"></i> Ciudades con Mayor Frecuencia de Viaje</h5>
-                  <canvas id="barCiudadesFrecuentes" height="260"></canvas>
+                  <canvas id="barCiudadesFrecuentes" width="180" height="120" class="grafico-pequeno"></canvas>
                 </div>
               </div>
             </div>

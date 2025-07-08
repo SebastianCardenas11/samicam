@@ -42,21 +42,34 @@ class FuncionariosViaticosModel extends Mysql
         $arrData = array(
             $funci_fk, $cargo, $dependencia, $motivo_gasto, $lugar_comision_departamento, $lugar_comision_ciudad, $finalidad_comision, $descripcion, $fecha_aprobacion, $fecha_salida, $fecha_regreso, $n_dias, $valor_dia, $valor_viatico, $tipo_transporte, $valor_transporte, $total_liquidado
         );
-        return $this->insert($sql, $arrData);
+        $request = $this->insert($sql, $arrData);
+        // Descontar el total_liquidado del capital disponible
+        if ($request > 0) {
+            $year = date('Y', strtotime($fecha_aprobacion));
+            $sqlCapital = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
+            $requestCapital = $this->select($sqlCapital, [$year]);
+            if ($requestCapital) {
+                $capitalDisponible = $requestCapital['capital_disponible'];
+                $nuevoCapital = $capitalDisponible - $total_liquidado;
+                $sqlUpdate = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
+                $this->update($sqlUpdate, [$nuevoCapital, $year]);
+            }
+        }
+        return $request;
     }
 
     // Eliminar un viático
     public function deleteViatico(int $idViatico)
     {
-        // Primero obtenemos el valor_viatico y la fecha del viático para actualizar el capital disponible
-        $sql = "SELECT valor_viatico, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
+        // Primero obtenemos el total_liquidado y la fecha del viático para actualizar el capital disponible
+        $sql = "SELECT total_liquidado, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
         $request = $this->select($sql, [$idViatico]);
         
         if (empty($request)) {
             return false;
         }
         
-        $valor_viatico = $request['valor_viatico'];
+        $total_liquidado = $request['total_liquidado'];
         $year = date('Y', strtotime($request['fecha_aprobacion']));
         
         // Actualizamos el estatus del viático a 0 (eliminado)
@@ -64,14 +77,13 @@ class FuncionariosViaticosModel extends Mysql
         $request = $this->update($sql, [$idViatico]);
         
         if ($request) {
-            // Devolvemos el valor_viatico al capital disponible
+            // Devolvemos el total_liquidado al capital disponible
             $sqlCapital = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
             $requestCapital = $this->select($sqlCapital, [$year]);
             
             if ($requestCapital) {
                 $capitalDisponible = $requestCapital['capital_disponible'];
-                $nuevoCapital = $capitalDisponible + $valor_viatico;
-                
+                $nuevoCapital = $capitalDisponible + $total_liquidado;
                 $sqlUpdate = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
                 $this->update($sqlUpdate, [$nuevoCapital, $year]);
             }
