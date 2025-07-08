@@ -214,7 +214,8 @@
                                 <thead>
                                     <tr>
                                         <th>Funcionario</th>
-                                        <th>Total Viáticos</th>
+                                        <th>Total Viáticos Asignados</th>
+                                        <th>Total Valor de Viáticos</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

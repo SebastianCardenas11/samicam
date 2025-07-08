@@ -62,9 +62,14 @@ function openModalViatico() {
     selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
     // Reasignar el evento cada vez que se abre el modal
     const selectDepartamento = document.getElementById('selectDepartamento');
+    const inputDeptoNombre = document.getElementById('lugar_comision_departamento_nombre');
     selectDepartamento.onchange = function() {
         const depId = this.value;
-        console.log('Departamento seleccionado:', depId);
+        // Guardar el nombre del departamento seleccionado
+        if (inputDeptoNombre) {
+            const selectedOption = this.options[this.selectedIndex];
+            inputDeptoNombre.value = selectedOption ? selectedOption.text : '';
+        }
         if (!depId) {
             selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
             return;
@@ -587,8 +592,9 @@ function inicializarGraficos(anio) {
                 return;
             }
 
-            const capitalTotal = parseFloat(data.capitalTotal);
-            const capitalDisponible = parseFloat(data.capitalDisponible);
+            // Asegurar valores numéricos válidos
+            const capitalTotal = parseFloat(data.capitalTotal) || 0;
+            const capitalDisponible = parseFloat(data.capitalDisponible) || 0;
             const capitalUsado = capitalTotal - capitalDisponible;
 
             // Actualizar tarjetas resumen (conexión directa a la base de datos)
@@ -676,7 +682,8 @@ function cargarHistoricoViaticos(anio) {
                 data.forEach(item => {
                     tableHistorico.row.add([
                         item.nombre_completo,
-                        '$ ' + parseFloat(item.total_viaticos).toLocaleString()
+                        item.total_viaticos_asignados || 0,
+                        '$ ' + (parseFloat(item.total_valor_viaticos) || 0).toLocaleString()
                     ]);
                 });
             }
@@ -770,6 +777,7 @@ function eliminarViatico(idViatico) {
 }
 
 function guardarViatico(formElement) {
+    // (Revertido) Ya no se cambia el value del select de departamento
     // Mostrar indicador de carga
     Swal.fire({
         title: 'Guardando...',

@@ -32,6 +32,7 @@
         <option value="">Seleccione un departamento</option>
     </select>
 </div>
+<input type="hidden" id="lugar_comision_departamento_nombre" name="lugar_comision_departamento_nombre">
 <div class="mb-3">
     <label for="selectCiudad" class="form-label">Lugar Comisión (Ciudad/Municipio)</label>
     <select class="form-select" id="selectCiudad" name="lugar_comision_ciudad" required>

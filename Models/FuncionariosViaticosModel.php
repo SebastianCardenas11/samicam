@@ -87,7 +87,8 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT v.funci_fk as idefuncionario, 
                 fp.nombre_completo, 
-                COUNT(v.idViatico) as cantidad_viaticos
+                COUNT(v.idViatico) as total_viaticos_asignados,
+                SUM(v.total_liquidado) as total_valor_viaticos
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1

@@ -214,6 +214,12 @@ class FuncionariosViaticos extends Controllers
                 $total_liquidado
             );
             if ($request > 0) {
+                // Descontar el valor del viático del capital disponible
+                $anio = intval(date('Y', strtotime($fecha_aprobacion)));
+                $capitalDisponibleActual = $this->model->getCapitalDisponible($anio);
+                $nuevoCapital = $capitalDisponibleActual - $total_liquidado;
+                if ($nuevoCapital < 0) $nuevoCapital = 0;
+                $this->model->actualizarCapitalDisponible($anio, $nuevoCapital);
                 echo json_encode(['status' => true, 'msg' => 'Viático asignado correctamente']);
             } else {
                 echo json_encode(['status' => false, 'msg' => 'Error al asignar viático']);
