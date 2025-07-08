@@ -165,64 +165,56 @@ class FuncionariosViaticos extends Controllers
     public function setViatico()
     {
         header('Content-Type: application/json');
-        
         if (!$_POST || empty($_SESSION['permisosMod']['w'])) {
             echo json_encode(['status' => false, 'msg' => 'No tiene permisos para realizar esta acción']);
             die();
         }
-        
         try {
-            if (empty($_POST['funci_fk'])) {
-                echo json_encode(['status' => false, 'msg' => 'Debe seleccionar un funcionario']);
-                die();
-            }
-            
             $idFuncionario = intval($_POST['funci_fk']);
+            $cargo = strClean($_POST['cargo']);
+            $dependencia = strClean($_POST['dependencia']);
+            $motivo_gasto = strClean($_POST['motivo_gasto']);
+            $lugar_comision_departamento = strClean($_POST['lugar_comision_departamento']);
+            $lugar_comision_ciudad = strClean($_POST['lugar_comision_ciudad']);
+            $finalidad_comision = strClean($_POST['finalidad_comision']);
             $descripcion = strClean($_POST['descripcion']);
-            $monto = floatval($_POST['monto']);
-            $fechaAprobacion = strClean($_POST['fecha_aprobacion']);
-            $fechaSalida = strClean($_POST['fecha_salida']);
-            $fechaRegreso = strClean($_POST['fecha_regreso']);
-            $uso = strClean($_POST['uso']);
+            $fecha_aprobacion = strClean($_POST['fecha_aprobacion']);
+            $fecha_salida = strClean($_POST['fecha_salida']);
+            $fecha_regreso = strClean($_POST['fecha_regreso']);
+            $n_dias = intval($_POST['n_dias']);
+            $valor_dia = floatval($_POST['valor_dia']);
+            $valor_viatico = floatval($_POST['valor_viatico']);
+            $tipo_transporte = strClean($_POST['tipo_transporte']);
+            $valor_transporte = floatval($_POST['valor_transporte']);
+            $total_liquidado = floatval($_POST['total_liquidado']);
 
-            if ($idFuncionario <= 0) {
-                echo json_encode(['status' => false, 'msg' => 'Funcionario no válido']);
-                die();
-            }
-            
-            if ($monto <= 0) {
-                echo json_encode(['status' => false, 'msg' => 'El monto debe ser mayor que cero']);
-                die();
-            }
-            
-            if (empty($fechaAprobacion) || empty($fechaSalida) || empty($fechaRegreso)) {
-                echo json_encode(['status' => false, 'msg' => 'Debe completar todas las fechas']);
-                die();
-            }
-            
-            // Validar que la fecha de salida no sea anterior a la fecha actual
-            $fechaActual = date('Y-m-d');
-            if (strtotime($fechaSalida) < strtotime($fechaActual)) {
-                echo json_encode(['status' => false, 'msg' => 'La fecha de salida no puede ser anterior a la fecha actual']);
-                die();
-            }
-            
-            // Validar que la fecha de regreso sea posterior a la fecha de salida
-            if (strtotime($fechaRegreso) < strtotime($fechaSalida)) {
-                echo json_encode(['status' => false, 'msg' => 'La fecha de regreso debe ser posterior a la fecha de salida']);
+            // Validaciones básicas (puedes agregar más según reglas de negocio)
+            if ($idFuncionario <= 0 || empty($cargo) || empty($dependencia) || empty($motivo_gasto) || empty($lugar_comision_departamento) || empty($lugar_comision_ciudad) || empty($finalidad_comision) || empty($descripcion) || empty($fecha_aprobacion) || empty($fecha_salida) || empty($fecha_regreso) || $n_dias <= 0 || $valor_dia <= 0 || $valor_viatico <= 0 || empty($tipo_transporte) || $valor_transporte < 0 || $total_liquidado < 0) {
+                echo json_encode(['status' => false, 'msg' => 'Todos los campos son obligatorios y deben ser válidos.']);
                 die();
             }
 
-            $request = $this->model->insertViatico($idFuncionario, $descripcion, $monto, $fechaAprobacion, $fechaSalida, $fechaRegreso, $uso);
-            
+            $request = $this->model->insertViatico(
+                $idFuncionario,
+                $cargo,
+                $dependencia,
+                $motivo_gasto,
+                $lugar_comision_departamento,
+                $lugar_comision_ciudad,
+                $finalidad_comision,
+                $descripcion,
+                $fecha_aprobacion,
+                $fecha_salida,
+                $fecha_regreso,
+                $n_dias,
+                $valor_dia,
+                $valor_viatico,
+                $tipo_transporte,
+                $valor_transporte,
+                $total_liquidado
+            );
             if ($request > 0) {
                 echo json_encode(['status' => true, 'msg' => 'Viático asignado correctamente']);
-            } else if ($request == "exist") {
-                echo json_encode(['status' => false, 'msg' => 'El funcionario ya tiene un viático asignado para esta fecha']);
-            } else if ($request == "nofunc") {
-                echo json_encode(['status' => false, 'msg' => 'El funcionario seleccionado no existe o no está activo']);
-            } else if ($request == "nocapital") {
-                echo json_encode(['status' => false, 'msg' => 'El monto excede el capital disponible para viáticos']);
             } else {
                 echo json_encode(['status' => false, 'msg' => 'Error al asignar viático']);
             }

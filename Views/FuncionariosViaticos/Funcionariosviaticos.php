@@ -156,11 +156,22 @@ canvas {
                             <thead>
                                 <tr>
                                     <th>Funcionario</th>
+                                    <th>Cargo</th>
+                                    <th>Dependencia</th>
+                                    <th>Motivo</th>
+                                    <th>Lugar Comisión (Depto)</th>
+                                    <th>Lugar Comisión (Ciudad)</th>
+                                    <th>Finalidad</th>
                                     <th>Descripción</th>
-                                    <th>Monto</th>
-                                    <th>Fechas (Salida - Regreso)</th>
-                                    <th>Uso</th>
                                     <th>Fecha Aprobación</th>
+                                    <th>Fecha Salida</th>
+                                    <th>Fecha Regreso</th>
+                                    <th>N° Días</th>
+                                    <th>Valor Día</th>
+                                    <th>Valor Viático</th>
+                                    <th>Tipo Transporte</th>
+                                    <th>Valor Transporte</th>
+                                    <th>Total Liquidado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>

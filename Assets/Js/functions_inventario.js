@@ -644,14 +644,14 @@ function saveImpresora() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formImpresora')[0].reset();
-                    loadImpresoras();
+                    tblImpresoras.ajax.reload();
                     swal("¡Éxito!", response.msg, "success");
                 } else {
                     swal("Error", response.msg, "error");
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -749,7 +749,7 @@ function saveEscaner() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -838,7 +838,7 @@ function saveArticuloPapeleria() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -936,7 +936,7 @@ function saveTintaToner() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -1050,7 +1050,7 @@ function savePcTorre() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -1161,7 +1161,7 @@ function saveTodoEnUno() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -1268,7 +1268,7 @@ function savePortatil() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
@@ -1366,7 +1366,7 @@ function saveHerramienta() {
                 }
             },
             error: function() {
-                swal("Error", "Error al guardar los datos", "error");
+                Swal.fire("Error", "Error al guardar los datos", "error");
             }
         });
     } else {
