@@ -74,6 +74,7 @@ class VacacionesModel extends Mysql
                 periodo,
                 tipo_vacaciones,
                 valor,
+                fecha_pago,
                 estado,
                 fecha_registro
             FROM tbl_vacaciones
@@ -100,7 +101,7 @@ class VacacionesModel extends Mysql
         return $this->update($sql, []);
     }
 
-    public function insertVacaciones(int $idFuncionario, string $fechaInicio, string $fechaFin, int $periodo, string $tipoVacaciones, float $valor)
+    public function insertVacaciones(int $idFuncionario, string $fechaInicio, string $fechaFin, int $periodo, string $tipoVacaciones, float $valor, $fechaPago)
     {
         date_default_timezone_set('America/Bogota');
         $this->intIdFuncionario = $idFuncionario;
@@ -122,8 +123,8 @@ class VacacionesModel extends Mysql
             return ["status" => false, "msg" => "El funcionario ya tiene vacaciones pendientes o aprobadas. No se pueden crear más hasta que se completen o cancelen las existentes."];
         }
         $estado = 'Pendiente';
-        $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado, tipo_funcionario, tipo_vacaciones, valor) 
-                        VALUES(?,?,?,?,?,?,?,?)";
+        $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado, tipo_funcionario, tipo_vacaciones, valor, fecha_pago) 
+                        VALUES(?,?,?,?,?,?,?,?,?)";
         $arrData = array(
             $this->intIdFuncionario,
             $this->dateFechaInicio,
@@ -132,7 +133,8 @@ class VacacionesModel extends Mysql
             $estado,
             'planta',
             $tipoVacaciones,
-            $valor
+            $valor,
+            $fechaPago
         );
         $request_insert = $this->insert($query_insert, $arrData);
         if ($request_insert > 0) {

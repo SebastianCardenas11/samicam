@@ -107,11 +107,12 @@ class Vacaciones extends Controllers
                         $periodo = intval($_POST['listPeriodo']);
                         $tipoVacaciones = $_POST['listTipoVacaciones'];
                         $valor = isset($_POST['txtValor']) ? floatval($_POST['txtValor']) : 0;
+                        $fechaPago = isset($_POST['fechaPago']) ? $_POST['fechaPago'] : null;
                         // Validar que la fecha de fin sea posterior a la de inicio
                         if (strtotime($fechaFin) <= strtotime($fechaInicio)) {
                             $arrResponse = array("status" => false, "msg" => 'La fecha de fin debe ser posterior a la fecha de inicio.');
                         } else {
-                            $request = $this->model->insertVacaciones($idFuncionario, $fechaInicio, $fechaFin, $periodo, $tipoVacaciones, $valor);
+                            $request = $this->model->insertVacaciones($idFuncionario, $fechaInicio, $fechaFin, $periodo, $tipoVacaciones, $valor, $fechaPago);
                             if ($request['status']) {
                                 $arrResponse = array('status' => true, 'msg' => $request['msg']);
                             } else {
@@ -312,6 +313,7 @@ class Vacaciones extends Controllers
                         $pdf->Cell(18, 8, mb_convert_encoding('Período', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', true);
                         $pdf->Cell(28, 8, 'Tipo', 1, 0, 'C', true);
                         $pdf->Cell(22, 8, 'Valor', 1, 0, 'C', true);
+                        $pdf->Cell(32, 8, 'Fecha de pago', 1, 0, 'C', true);
                         $pdf->Cell(28, 8, 'Estado', 1, 0, 'C', true);
                         $pdf->Cell(28, 8, 'F. Registro', 1, 1, 'C', true);
                         
@@ -338,6 +340,7 @@ class Vacaciones extends Controllers
                             $pdf->Cell(18, 8, $item['periodo'], 1, 0, 'C');
                             $pdf->Cell(28, 8, mb_convert_encoding($item['tipo_vacaciones'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'C');
                             $pdf->Cell(22, 8, number_format($item['valor'], 2, '.', ','), 1, 0, 'C');
+                            $pdf->Cell(32, 8, $item['fecha_pago'] ? date('d/m/Y H:i', strtotime($item['fecha_pago'])) : '', 1, 0, 'C');
                             $pdf->Cell(28, 8, mb_convert_encoding($estadoTexto, 'ISO-8859-1', 'UTF-8'), 1, 0, 'C');
                             $pdf->Cell(28, 8, $fechaRegistro, 1, 1, 'C');
                             
@@ -353,6 +356,7 @@ class Vacaciones extends Controllers
                                 $pdf->Cell(18, 8, mb_convert_encoding('Período', 'ISO-8859-1', 'UTF-8'), 1, 0, 'C', true);
                                 $pdf->Cell(28, 8, 'Tipo', 1, 0, 'C', true);
                                 $pdf->Cell(22, 8, 'Valor', 1, 0, 'C', true);
+                                $pdf->Cell(32, 8, 'Fecha de pago', 1, 0, 'C', true);
                                 $pdf->Cell(28, 8, 'Estado', 1, 0, 'C', true);
                                 $pdf->Cell(28, 8, 'F. Registro', 1, 1, 'C', true);
                                 $pdf->SetFont('Arial', '', 10);

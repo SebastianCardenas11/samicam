@@ -278,4 +278,61 @@ class FuncionariosPermisosModel extends Mysql
         $request = $this->select_all($sql);
         return $request;
     }
+
+    // Funcionarios con más permisos por mes
+    public function getFuncionariosMasPermisosPorMes($anio = null) {
+        $anio = $anio ?? date('Y');
+        $sql = "SELECT f.nombre_completo, MONTH(p.fecha_permiso) as mes, COUNT(*) as total
+                FROM tbl_permisos p
+                INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+                WHERE YEAR(p.fecha_permiso) = ?
+                GROUP BY f.idefuncionario, mes
+                ORDER BY mes, total DESC";
+        return $this->select_all($sql, [$anio]);
+    }
+
+    // Cantidad de permisos por funcionario
+    public function getCantidadPermisosPorFuncionario($anio = null) {
+        $anio = $anio ?? date('Y');
+        $sql = "SELECT f.nombre_completo, COUNT(*) as total
+                FROM tbl_permisos p
+                INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+                WHERE YEAR(p.fecha_permiso) = ?
+                GROUP BY f.idefuncionario
+                ORDER BY total DESC";
+        return $this->select_all($sql, [$anio]);
+    }
+
+    // Dependencia con más permisos
+    public function getDependenciaMasPermisos($anio = null) {
+        $anio = $anio ?? date('Y');
+        $sql = "SELECT d.nombre as dependencia, COUNT(*) as total
+                FROM tbl_permisos p
+                INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+                INNER JOIN tbl_dependencia d ON f.dependencia_fk = d.dependencia_pk
+                WHERE YEAR(p.fecha_permiso) = ?
+                GROUP BY d.dependencia_pk
+                ORDER BY total DESC";
+        return $this->select_all($sql, [$anio]);
+    }
+
+    // Obtener los años en los que existen permisos
+    public function getAniosConPermisos() {
+        $sql = "SELECT DISTINCT YEAR(fecha_permiso) as anio FROM tbl_permisos ORDER BY anio DESC";
+        return $this->select_all($sql);
+    }
+
+    // Resumen de permisos: total, año, mes, hoy
+    public function getResumenPermisos() {
+        $anio = date('Y');
+        $mes = date('n');
+        $hoy = date('Y-m-d');
+        $sql = "SELECT
+            (SELECT COUNT(*) FROM tbl_permisos) as total,
+            (SELECT COUNT(*) FROM tbl_permisos WHERE YEAR(fecha_permiso) = ?) as anio,
+            (SELECT COUNT(*) FROM tbl_permisos WHERE YEAR(fecha_permiso) = ? AND MONTH(fecha_permiso) = ?) as mes,
+            (SELECT COUNT(*) FROM tbl_permisos WHERE DATE(fecha_permiso) = ?) as hoy";
+        $params = [$anio, $anio, $mes, $hoy];
+        return $this->select($sql, $params);
+    }
 }
