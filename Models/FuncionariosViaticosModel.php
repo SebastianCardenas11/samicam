@@ -87,7 +87,7 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT v.funci_fk as idefuncionario, 
                 fp.nombre_completo, 
-                SUM(v.monto) as total_viaticos
+                SUM(v.total_liquidado) as total_viaticos
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
@@ -101,8 +101,8 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT v.idViatico, 
                 fp.nombre_completo, 
-                c.nombre as cargo,
-                d.nombre as dependencia,
+                v.cargo,
+                v.dependencia,
                 v.motivo_gasto,
                 v.lugar_comision_departamento,
                 v.lugar_comision_ciudad,
@@ -112,8 +112,6 @@ class FuncionariosViaticosModel extends Mysql
                 v.n_dias, v.valor_dia, v.valor_viatico, v.tipo_transporte, v.valor_transporte, v.total_liquidado
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
-                INNER JOIN tbl_cargos c ON v.cargo = c.idecargos
-                INNER JOIN tbl_dependencia d ON v.dependencia = d.dependencia_pk
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);
