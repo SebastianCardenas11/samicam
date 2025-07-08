@@ -48,15 +48,15 @@ class FuncionariosViaticosModel extends Mysql
     // Eliminar un viático
     public function deleteViatico(int $idViatico)
     {
-        // Primero obtenemos el monto y la fecha del viático para actualizar el capital disponible
-        $sql = "SELECT monto, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
+        // Primero obtenemos el valor_viatico y la fecha del viático para actualizar el capital disponible
+        $sql = "SELECT valor_viatico, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
         $request = $this->select($sql, [$idViatico]);
         
         if (empty($request)) {
             return false;
         }
         
-        $monto = $request['monto'];
+        $valor_viatico = $request['valor_viatico'];
         $year = date('Y', strtotime($request['fecha_aprobacion']));
         
         // Actualizamos el estatus del viático a 0 (eliminado)
@@ -64,13 +64,13 @@ class FuncionariosViaticosModel extends Mysql
         $request = $this->update($sql, [$idViatico]);
         
         if ($request) {
-            // Devolvemos el monto al capital disponible
+            // Devolvemos el valor_viatico al capital disponible
             $sqlCapital = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
             $requestCapital = $this->select($sqlCapital, [$year]);
             
             if ($requestCapital) {
                 $capitalDisponible = $requestCapital['capital_disponible'];
-                $nuevoCapital = $capitalDisponible + $monto;
+                $nuevoCapital = $capitalDisponible + $valor_viatico;
                 
                 $sqlUpdate = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
                 $this->update($sqlUpdate, [$nuevoCapital, $year]);
@@ -97,7 +97,7 @@ class FuncionariosViaticosModel extends Mysql
         return $request;
     }
 
-    // Obtener detalle de viáticos otorgados a funcionarios con descripción y uso
+    // Obtener detalle de viáticos otorgados a funcionarios con todos los campos nuevos
     public function getDetalleViaticos($year)
     {
         $sql = "SELECT v.idViatico, 
