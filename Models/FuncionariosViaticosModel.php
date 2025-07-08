@@ -16,57 +16,33 @@ class FuncionariosViaticosModel extends Mysql
         parent::__construct();
     }
     
-    // Insertar nuevo viático
+    // Insertar nuevo viático (todos los campos)
     public function insertViatico(
         int $funci_fk,
+        string $cargo,
+        string $dependencia,
+        string $motivo_gasto,
+        string $lugar_comision_departamento,
+        string $lugar_comision_ciudad,
+        string $finalidad_comision,
         string $descripcion,
-        float $monto,
         string $fecha_aprobacion,
         string $fecha_salida,
         string $fecha_regreso,
-        string $uso
+        int $n_dias,
+        float $valor_dia,
+        float $valor_viatico,
+        string $tipo_transporte,
+        float $valor_transporte,
+        float $total_liquidado
     ){
-        $this->intIdFuncionario = $funci_fk;
-        $this->strDescripcion = $descripcion;
-        $this->floatMonto = $monto;
-        $this->strFechaAprobacion = $fecha_aprobacion;
-        $this->strFechaSalida = $fecha_salida;
-        $this->strFechaRegreso = $fecha_regreso;
-        $this->strUso = $uso;
-        $this->intEstatus = 1; // Por defecto activo
-
-        $return = 0;
-        
-        // Verificar si hay suficiente capital disponible
-        $year = date('Y', strtotime($this->strFechaAprobacion));
-        $capitalDisponible = $this->getCapitalDisponible($year);
-        
-        if ($this->floatMonto > $capitalDisponible) {
-            return "nocapital"; // No hay suficiente capital disponible
-        }
-        
-        $sql = "INSERT INTO tbl_viaticos (funci_fk, descripcion, monto, fecha_aprobacion, fecha_salida, fecha_regreso, uso, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+        $sql = "INSERT INTO tbl_viaticos (
+            funci_fk, cargo, dependencia, motivo_gasto, lugar_comision_departamento, lugar_comision_ciudad, finalidad_comision, descripcion, fecha_aprobacion, fecha_salida, fecha_regreso, n_dias, valor_dia, valor_viatico, tipo_transporte, valor_transporte, total_liquidado, estatus
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
         $arrData = array(
-            $this->intIdFuncionario, 
-            $this->strDescripcion, 
-            $this->floatMonto, 
-            $this->strFechaAprobacion,
-            $this->strFechaSalida,
-            $this->strFechaRegreso,
-            $this->strUso, 
-            $this->intEstatus
+            $funci_fk, $cargo, $dependencia, $motivo_gasto, $lugar_comision_departamento, $lugar_comision_ciudad, $finalidad_comision, $descripcion, $fecha_aprobacion, $fecha_salida, $fecha_regreso, $n_dias, $valor_dia, $valor_viatico, $tipo_transporte, $valor_transporte, $total_liquidado
         );
-
-        $request = $this->insert($sql, $arrData);
-        
-        if ($request > 0) {
-            // Actualizar el capital disponible
-            $nuevoCapital = $capitalDisponible - $this->floatMonto;
-            $this->actualizarCapitalDisponible($year, $nuevoCapital);
-        }
-        
-        return $request;
+        return $this->insert($sql, $arrData);
     }
 
     // Eliminar un viático
@@ -125,10 +101,19 @@ class FuncionariosViaticosModel extends Mysql
     {
         $sql = "SELECT v.idViatico, 
                 fp.nombre_completo, 
-                v.descripcion, v.monto, 
-                v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso, v.uso, v.estatus
+                c.nombre as cargo,
+                d.nombre as dependencia,
+                v.motivo_gasto,
+                v.lugar_comision_departamento,
+                v.lugar_comision_ciudad,
+                v.finalidad_comision,
+                v.descripcion, 
+                v.fecha_aprobacion, v.fecha_salida, v.fecha_regreso,
+                v.n_dias, v.valor_dia, v.valor_viatico, v.tipo_transporte, v.valor_transporte, v.total_liquidado
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
+                INNER JOIN tbl_cargos c ON v.cargo = c.idecargos
+                INNER JOIN tbl_dependencia d ON v.dependencia = d.dependencia_pk
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
                 ORDER BY v.fecha_aprobacion DESC";
         $request = $this->select_all($sql, [$year]);

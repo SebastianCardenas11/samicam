@@ -3,16 +3,71 @@ let tableDetalle;
 let chartCapital;
 let chartComparativa;
 
+// --- Carga dinámica de departamentos y ciudades/municipios de Colombia (nueva API) ---
+function cargarDepartamentosColombia() {
+    const selectDepartamento = document.getElementById('selectDepartamento');
+    selectDepartamento.innerHTML = '<option value="">Cargando departamentos...</option>';
+    fetch('https://api-colombia.com/api/v1/Department')
+        .then(response => response.json())
+        .then(data => {
+            selectDepartamento.innerHTML = '<option value="">Seleccione un departamento</option>';
+            data.forEach(dep => {
+                const option = document.createElement('option');
+                option.value = dep.id;
+                option.textContent = dep.name;
+                selectDepartamento.appendChild(option);
+            });
+        })
+        .catch(() => {
+            selectDepartamento.innerHTML = '<option value="">Error al cargar departamentos</option>';
+        });
+}
+
+function cargarCiudadesColombia(departamentoId) {
+    const selectCiudad = document.getElementById('selectCiudad');
+    selectCiudad.innerHTML = '<option value="">Cargando ciudades...</option>';
+    if (!departamentoId) {
+        selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
+        return;
+    }
+    fetch('https://api-colombia.com/api/v1/Department/' + encodeURIComponent(departamentoId) + '/cities')
+        .then(response => response.json())
+        .then(data => {
+            selectCiudad.innerHTML = '<option value="">Seleccione una ciudad o municipio</option>';
+            data.forEach(mun => {
+                const option = document.createElement('option');
+                option.value = mun.name;
+                option.textContent = mun.name;
+                selectCiudad.appendChild(option);
+            });
+        })
+        .catch(() => {
+            selectCiudad.innerHTML = '<option value="">Error al cargar ciudades</option>';
+        });
+}
+
+// Al abrir el modal, cargar departamentos y limpiar ciudades
 function openModalViatico() {
     document.getElementById('formViaticos').reset();
     const hoy = new Date();
     document.getElementById('txtFechaAprobacion').valueAsDate = hoy;
     document.getElementById('txtFechaSalida').valueAsDate = hoy;
     document.getElementById('txtFechaRegreso').valueAsDate = hoy;
-    
-    // Cargar funcionarios al abrir el modal
     cargarFuncionariosValidos();
-    
+    cargarDepartamentosColombia();
+    const selectCiudad = document.getElementById('selectCiudad');
+    selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
+    // Reasignar el evento cada vez que se abre el modal
+    const selectDepartamento = document.getElementById('selectDepartamento');
+    selectDepartamento.onchange = function() {
+        const depId = this.value;
+        console.log('Departamento seleccionado:', depId);
+        if (!depId) {
+            selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
+            return;
+        }
+        cargarCiudadesColombia(depId);
+    };
     $('#modalViaticos').modal('show');
 }
 
@@ -44,6 +99,31 @@ function cargarFuncionariosValidos() {
             console.error('Error al cargar funcionarios:', error);
             Swal.fire('Error', 'No se pudieron cargar los funcionarios', 'error');
         });
+
+    // Evento para autollenar cargo y dependencia
+    selectFuncionarios.onchange = function() {
+        const idFuncionario = this.value;
+        if (!idFuncionario) {
+            document.getElementById('txtCargo').value = '';
+            document.getElementById('txtDependencia').value = '';
+            return;
+        }
+        fetch(base_url + '/FuncionariosPlanta/getFuncionario/' + idFuncionario)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status && data.data) {
+                    document.getElementById('txtCargo').value = data.data.cargo_nombre || '';
+                    document.getElementById('txtDependencia').value = data.data.dependencia_nombre || '';
+                } else {
+                    document.getElementById('txtCargo').value = '';
+                    document.getElementById('txtDependencia').value = '';
+                }
+            })
+            .catch(() => {
+                document.getElementById('txtCargo').value = '';
+                document.getElementById('txtDependencia').value = '';
+            });
+    };
 }
 
 // Función para cargar el presupuesto actual
@@ -370,7 +450,6 @@ function cargarDetalleViaticos(anio) {
             tableDetalle.clear();
             if (Array.isArray(data)) {
                 data.forEach(item => {
-                    const fechas = item.fecha_salida.split(' ')[0] + ' - ' + item.fecha_regreso.split(' ')[0];
                     const acciones = `
                         <div class="btn-group" role="group">
                             <a href="${base_url}/FuncionariosViaticos/generarReporteViatico/${item.idViatico}" 
@@ -382,14 +461,24 @@ function cargarDetalleViaticos(anio) {
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>`;
-                    
                     tableDetalle.row.add([
                         item.nombre_completo,
+                        item.cargo,
+                        item.dependencia,
+                        item.motivo_gasto,
+                        item.lugar_comision_departamento,
+                        item.lugar_comision_ciudad,
+                        item.finalidad_comision,
                         item.descripcion,
-                        '$ ' + parseFloat(item.monto).toLocaleString(),
-                        fechas,
-                        item.uso,
-                        item.fecha_aprobacion.split(' ')[0],
+                        item.fecha_aprobacion ? item.fecha_aprobacion.split(' ')[0] : '',
+                        item.fecha_salida ? item.fecha_salida.split(' ')[0] : '',
+                        item.fecha_regreso ? item.fecha_regreso.split(' ')[0] : '',
+                        item.n_dias,
+                        item.valor_dia,
+                        item.valor_viatico,
+                        item.tipo_transporte,
+                        item.valor_transporte,
+                        item.total_liquidado,
                         acciones
                     ]);
                 });
