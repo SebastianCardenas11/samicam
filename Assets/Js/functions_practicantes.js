@@ -19,6 +19,7 @@ document.addEventListener(
         { "data": "nombre_completo" },
         { "data": "numero_identificacion" },
         { "data": "arl" },
+        { "data": "eps" },
         { "data": "edad" },
         { "data": "sexo" },
         { "data": "dependencia" },
@@ -28,6 +29,25 @@ document.addEventListener(
         { "data": "institucion_educativa" },
         { "data": "fecha_ingreso" },
         { "data": "fecha_salida" },
+        { 
+          "data": "dias_restantes",
+          "render": function(data, type, row) {
+            let diasNum = row.dias_restantes_num;
+            let clase = '';
+            if (diasNum !== null && !isNaN(diasNum)) {
+              if (diasNum > 31) {
+                clase = 'badge text-bg-success';
+              } else if (diasNum > 0) {
+                clase = 'badge text-bg-warning';
+              } else {
+                clase = 'badge text-bg-danger';
+              }
+            } else {
+              clase = 'badge text-bg-secondary';
+            }
+            return '<span class="' + clase + '">' + data + '</span>';
+          }
+        },
         { "data": "status" },
         { "data": "options" }
       ],
@@ -44,7 +64,7 @@ document.addEventListener(
           "titleAttr": "Exportar a Excel",
           "className": "btn btn-success",
           "exportOptions": {
-            "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
           }
         }, {
           "extend": "pdfHtml5",
@@ -52,7 +72,7 @@ document.addEventListener(
           "titleAttr": "Exportar a PDF",
           "className": "btn btn-danger",
           "exportOptions": {
-            "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
           }
         }
       ],
@@ -70,6 +90,7 @@ document.addEventListener(
         let strNombre = document.querySelector("#txtNombrePracticante").value;
         let strIdentificacion = document.querySelector("#txtIdentificacionPracticante").value;
         let strArl = document.querySelector("#txtArlPracticante").value;
+        let strEps = document.querySelector("#txtEpsPracticante").value;
         let intEdad = document.querySelector("#txtEdadPracticante").value;
         let strSexo = document.querySelector("#txtSexoPracticante").value;
         let strTelefono = document.querySelector("#txtTelefonoPracticante").value;
@@ -89,6 +110,7 @@ document.addEventListener(
           strNombre == "" ||
           strIdentificacion == "" ||
           strArl == "" ||
+          strEps == "" ||
           intEdad == "" ||
           strSexo == "" ||
           strTelefono == "" ||
@@ -162,6 +184,7 @@ function fntViewInfo(idepracticante) {
         document.querySelector("#viewNombre").innerHTML = objPracticante.nombre_completo;
         document.querySelector("#viewIdentificacion").innerHTML = objPracticante.numero_identificacion;
         document.querySelector("#viewArl").innerHTML = objPracticante.arl;
+        document.querySelector("#viewEps").innerHTML = objPracticante.eps;
         document.querySelector("#viewEdad").innerHTML = objPracticante.edad;
         document.querySelector("#viewSexo").innerHTML = objPracticante.sexo;
         document.querySelector("#viewCorreo").innerHTML = objPracticante.correo_electronico;
@@ -171,6 +194,29 @@ function fntViewInfo(idepracticante) {
         document.querySelector("#viewCargoHacer").innerHTML = objPracticante.cargo_hacer;
         document.querySelector("#viewFechaIngreso").innerHTML = objPracticante.fecha_ingreso;
         document.querySelector("#viewFechaSalida").innerHTML = objPracticante.fecha_salida;
+        // Mostrar días restantes en formato meses y días si es mayor a 31
+        let diasRestantes = parseInt(objPracticante.dias_restantes);
+        let textoDiasRestantes = '';
+        if (!isNaN(diasRestantes)) {
+            if (diasRestantes > 31) {
+                let meses = Math.floor(diasRestantes / 30);
+                let dias = diasRestantes % 30;
+                if (meses > 0 && dias > 0) {
+                    textoDiasRestantes = meses + ' mes' + (meses > 1 ? 'es' : '') + ' y ' + dias + ' día' + (dias > 1 ? 's' : '');
+                } else if (meses > 0) {
+                    textoDiasRestantes = meses + ' mes' + (meses > 1 ? 'es' : '');
+                } else if (dias > 0) {
+                    textoDiasRestantes = dias + ' día' + (dias > 1 ? 's' : '');
+                }
+            } else if (diasRestantes > 0) {
+                textoDiasRestantes = diasRestantes + ' día' + (diasRestantes !== 1 ? 's' : '');
+            } else {
+                textoDiasRestantes = 'Finalizado';
+            }
+        } else {
+            textoDiasRestantes = 'Finalizado';
+        }
+        document.querySelector("#viewDiasRestantes").innerHTML = textoDiasRestantes;
         document.querySelector("#viewTipoContrato").innerHTML = objPracticante.tipo_contrato;
         document.querySelector("#viewFormacionAcademica").innerHTML = objPracticante.formacion_academica;
         document.querySelector("#viewProgramaEstudio").innerHTML = objPracticante.programa_estudio;
@@ -203,6 +249,7 @@ function fntEditInfo(element, idepracticante) {
         document.querySelector("#txtNombrePracticante").value = objPracticante.nombre_completo;
         document.querySelector("#txtIdentificacionPracticante").value = objPracticante.numero_identificacion;
         document.querySelector("#txtArlPracticante").value = objPracticante.arl;
+        document.querySelector("#txtEpsPracticante").value = objPracticante.eps;
         document.querySelector("#txtEdadPracticante").value = objPracticante.edad;
         document.querySelector("#txtSexoPracticante").value = objPracticante.sexo;
         document.querySelector("#txtCorreoPracticante").value = objPracticante.correo_electronico;

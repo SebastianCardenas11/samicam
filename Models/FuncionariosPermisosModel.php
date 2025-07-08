@@ -169,6 +169,22 @@ class FuncionariosPermisosModel extends Mysql
         }
     }
 
+    public function getPermisosPorFecha($fecha)
+    {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
+                    WHERE DATE(fecha_permiso) = ? 
+                    AND tipo_funcionario = 'planta'
+                    AND es_permiso_especial = 0";
+            $arrData = array($fecha);
+            $request = $this->select($sql, $arrData);
+            return $request['total'];
+        } catch (Exception $e) {
+            error_log("Error en getPermisosPorFecha: " . $e->getMessage());
+            return 0;
+        }
+    }
+
     public function existePermisoEnFecha($idFuncionario, $fecha, $esPermisoEspecial = false)
     {
         try {

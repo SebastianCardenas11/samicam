@@ -30,6 +30,7 @@ headerAdmin($data);
                                     <th class="text-center">Objeto</th>
                                     <th class="text-center">Valor Contrato</th>
                                     <th class="text-center">Fecha Inicio</th>
+                                    <th class="text-center">Días restantes</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>

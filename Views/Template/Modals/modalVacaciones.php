@@ -79,13 +79,25 @@
                             </div>
                             
                             <div class="form-group mb-3">
-                                <label for="txtFechaInicio" class="form-label">Fecha de Inicio <span class="text-danger">*</span></label>
+                                <label for="txtFechaInicio" class="form-label">Fecha de Salida <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="txtFechaInicio" name="txtFechaInicio" required>
                             </div>
                             
                             <div class="form-group mb-3">
-                                <label for="txtFechaFin" class="form-label">Fecha de Fin <span class="text-danger">*</span></label>
+                                <label for="txtFechaFin" class="form-label">Fecha de Ingreso <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="listTipoVacaciones" class="form-label">Tipo de Vacaciones <span class="text-danger">*</span></label>
+                                <select class="form-control" id="listTipoVacaciones" name="listTipoVacaciones" required>
+                                    <option value="Disfrutadas">Disfrutadas</option>
+                                    <option value="Compensadas">Compensadas</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="txtValor" class="form-label">Valor</label>
+                                <input type="number" class="form-control" id="txtValor" name="txtValor" min="0" step="0.01" placeholder="Valor de las vacaciones">
                             </div>
                             
                             <div class="alert alert-info" role="alert">
@@ -129,6 +141,8 @@
                                     <th class="text-dark">Fecha Inicio</th>
                                     <th class="text-dark">Fecha Fin</th>
                                     <th class="text-dark">Período</th>
+                                    <th class="text-dark">Tipo</th>
+                                    <th class="text-dark">Valor</th>
                                     <th class="text-dark">Estado</th>
                                     <th class="text-dark">Acciones</th>
                                 </tr>

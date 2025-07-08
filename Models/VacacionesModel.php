@@ -28,11 +28,7 @@ class VacacionesModel extends Mysql
             u.fecha_ingreso,
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
-            CASE 
-                WHEN TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) >= 1 THEN 
-                    GREATEST(0, 3 - u.periodos_vacaciones)
-                ELSE 0 
-            END as periodos_disponibles
+            LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE())) - u.periodos_vacaciones as periodos_disponibles
         FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -55,11 +51,7 @@ class VacacionesModel extends Mysql
             u.fecha_ingreso,
             u.periodos_vacaciones,
             TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) as anos_servicio,
-            CASE 
-                WHEN TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE()) >= 1 THEN 
-                    GREATEST(0, 3 - u.periodos_vacaciones)
-                ELSE 0 
-            END as periodos_disponibles
+            LEAST(3, TIMESTAMPDIFF(YEAR, u.fecha_ingreso, CURRENT_DATE())) - u.periodos_vacaciones as periodos_disponibles
         FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -80,6 +72,8 @@ class VacacionesModel extends Mysql
                 fecha_inicio,
                 fecha_fin,
                 periodo,
+                tipo_vacaciones,
+                valor,
                 estado,
                 fecha_registro
             FROM tbl_vacaciones
@@ -106,51 +100,41 @@ class VacacionesModel extends Mysql
         return $this->update($sql, []);
     }
 
-    public function insertVacaciones(int $idFuncionario, string $fechaInicio, string $fechaFin, int $periodo)
+    public function insertVacaciones(int $idFuncionario, string $fechaInicio, string $fechaFin, int $periodo, string $tipoVacaciones, float $valor)
     {
-        // Asegurar que estamos usando la zona horaria correcta
         date_default_timezone_set('America/Bogota');
-        
         $this->intIdFuncionario = $idFuncionario;
         $this->dateFechaInicio = $fechaInicio;
         $this->dateFechaFin = $fechaFin;
         $this->intPeriodo = $periodo;
-        
         // Verificar si el funcionario tiene períodos disponibles
         $funcionario = $this->selectFuncionario($idFuncionario);
         if ($funcionario['periodos_disponibles'] < $periodo) {
             return ["status" => false, "msg" => "El funcionario no tiene suficientes períodos de vacaciones disponibles."];
         }
-        
         // Verificar si ya hay vacaciones pendientes o aprobadas para este funcionario
         $sql_check = "SELECT COUNT(*) as total FROM tbl_vacaciones 
                      WHERE id_funcionario = $this->intIdFuncionario 
                      AND tipo_funcionario = 'planta'
                      AND estado IN ('Pendiente', 'Aprobado')";
-        
         $result_check = $this->select($sql_check);
         if ($result_check['total'] > 0) {
             return ["status" => false, "msg" => "El funcionario ya tiene vacaciones pendientes o aprobadas. No se pueden crear más hasta que se completen o cancelen las existentes."];
         }
-        
-        // Establecer el estado inicial como Pendiente
         $estado = 'Pendiente';
-        
-        // Insertar registro de vacaciones
-        $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado, tipo_funcionario) 
-                        VALUES(?,?,?,?,?,?)";
-        
+        $query_insert = "INSERT INTO tbl_vacaciones(id_funcionario, fecha_inicio, fecha_fin, periodo, estado, tipo_funcionario, tipo_vacaciones, valor) 
+                        VALUES(?,?,?,?,?,?,?,?)";
         $arrData = array(
             $this->intIdFuncionario,
             $this->dateFechaInicio,
             $this->dateFechaFin,
             $this->intPeriodo,
             $estado,
-            'planta'
+            'planta',
+            $tipoVacaciones,
+            $valor
         );
-        
         $request_insert = $this->insert($query_insert, $arrData);
-        
         if ($request_insert > 0) {
             return ["status" => true, "msg" => "Vacaciones registradas correctamente. Pendientes de aprobación.", "id" => $request_insert];
         } else {

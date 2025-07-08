@@ -34,6 +34,7 @@ headerAdmin($data);
                                     <th class="text-center">Nombre completo</th>
                                     <th class="text-center">Identificación</th> 
                                     <th class="text-center">ARL</th>
+                                    <th class="text-center">EPS</th>
                                     <th class="text-center">Edad</th>
                                     <th class="text-center">Sexo</th>
                                     <th class="text-center">Dependencia</th> 
@@ -43,6 +44,7 @@ headerAdmin($data);
                                     <th class="text-center">Institución</th>
                                     <th class="text-center">Fecha Ingreso</th>
                                     <th class="text-center">Fecha Salida</th>
+                                    <th class="text-center">Días restantes</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Acciones</th> 
                                 </tr>

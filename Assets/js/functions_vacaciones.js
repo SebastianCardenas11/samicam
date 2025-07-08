@@ -236,7 +236,9 @@ function fntViewHistorial(idefuncionario) {
                 htmlHistorial += `<tr>
                   <td>${fechaInicio}</td>
                   <td>${fechaFin}</td>
-                  <td>Período</td>
+                  <td>${item.periodo || ''}</td>
+                  <td>${item.tipo_vacaciones || ''}</td>
+                  <td>${item.valor !== undefined ? Number(item.valor).toLocaleString('es-CO', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : ''}</td>
                   <td><span class="${estadoClass}">${estadoTexto}</span></td>
                   <td>${btnAcciones}</td>
                 </tr>`;

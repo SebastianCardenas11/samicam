@@ -234,7 +234,8 @@ class PermisosModel extends Mysql
         $sql = "SELECT p.*, m.titulo as modulo 
                 FROM permisos p 
                 INNER JOIN modulo m ON p.moduloid = m.idmodulo 
-                WHERE p.rolid = ? AND m.status = 1";
+                WHERE p.rolid = ? AND m.status = 1
+                ORDER BY m.idmodulo";
         $permisos = $this->select_all($sql, [$idrol]);
         
         $arrPermisos = [];
@@ -249,7 +250,7 @@ class PermisosModel extends Mysql
     // Obtener todos los módulos activos
     public function selectModulos()
     {
-        $sql = "SELECT * FROM modulo WHERE status = 1 ORDER BY titulo";
+        $sql = "SELECT * FROM modulo WHERE status = 1 ORDER BY idmodulo";
         return $this->select_all($sql);
     }
 
@@ -260,7 +261,7 @@ class PermisosModel extends Mysql
                 FROM permisos p
                 INNER JOIN modulo m ON p.moduloid = m.idmodulo
                 WHERE p.rolid = ? AND m.status = 1
-                ORDER BY m.titulo";
+                ORDER BY m.idmodulo";
         return $this->select_all($sql, [$idrol]);
     }
 

@@ -7,6 +7,7 @@ class PracticantesModel extends Mysql
     private $strStatusPracticante;
     private $strIdentificacion;
     private $strArl;
+    private $strEps;
     private $intEdad;
     private $strSexo;
     private $strTelefono;
@@ -31,6 +32,7 @@ class PracticantesModel extends Mysql
         int $status,
         string $identificacion,
         string $arl,
+        string $eps,
         int $edad,
         string $sexo,
         string $telefono,
@@ -70,6 +72,7 @@ class PracticantesModel extends Mysql
                         nombre_completo,
                         numero_identificacion,
                         arl,
+                        eps,
                         edad,
                         sexo,
                         correo_electronico,
@@ -84,12 +87,13 @@ class PracticantesModel extends Mysql
                         programa_estudio,
                         institucion_educativa,
                         status
-                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     $arrData = array(
                         $nombres,
                         $identificacion,
                         $arl,
+                        $eps,
                         $edad,
                         $sexo,
                         $correo,
@@ -127,6 +131,7 @@ class PracticantesModel extends Mysql
                 p.nombre_completo,
                 p.numero_identificacion,
                 p.arl,
+                p.eps,
                 p.edad,
                 p.sexo,
                 p.correo_electronico,
@@ -135,6 +140,20 @@ class PracticantesModel extends Mysql
                 p.cargo_hacer,
                 p.fecha_ingreso,
                 p.fecha_salida,
+                DATEDIFF(p.fecha_salida, CURDATE()) AS dias_restantes_num,
+                CASE 
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) < 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) = 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 31 THEN 
+                        CONCAT(
+                            FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30), ' mes',
+                            IF(FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30) > 1, 'es', ''),
+                            IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 0, CONCAT(' y ', MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30), ' día', IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 1, 's', '')), '')
+                        )
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 0 THEN 
+                        CONCAT(DATEDIFF(p.fecha_salida, CURDATE()), ' día', IF(DATEDIFF(p.fecha_salida, CURDATE()) > 1, 's', ''))
+                    ELSE 'N/A'
+                END AS dias_restantes,
                 cp.nombre_contrato as tipo_contrato,
                 p.status,
                 d.nombre as dependencia,
@@ -162,6 +181,7 @@ class PracticantesModel extends Mysql
                 p.status,
                 p.numero_identificacion,
                 p.arl,
+                p.eps,
                 p.edad,
                 p.sexo,
                 p.telefono,
@@ -171,6 +191,20 @@ class PracticantesModel extends Mysql
                 p.cargo_hacer,
                 p.fecha_ingreso,
                 p.fecha_salida,
+                DATEDIFF(p.fecha_salida, CURDATE()) AS dias_restantes_num,
+                CASE 
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) < 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) = 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 31 THEN 
+                        CONCAT(
+                            FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30), ' mes',
+                            IF(FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30) > 1, 'es', ''),
+                            IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 0, CONCAT(' y ', MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30), ' día', IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 1, 's', '')), '')
+                        )
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 0 THEN 
+                        CONCAT(DATEDIFF(p.fecha_salida, CURDATE()), ' día', IF(DATEDIFF(p.fecha_salida, CURDATE()) > 1, 's', ''))
+                    ELSE 'N/A'
+                END AS dias_restantes,
                 cp.nombre_contrato as tipo_contrato,
                 p.contrato_practicante_fk,
                 p.formacion_academica,
@@ -191,6 +225,7 @@ class PracticantesModel extends Mysql
         int $status,
         string $identificacion,
         string $arl,
+        string $eps,
         int $edad,
         string $sexo,
         string $telefono,
@@ -211,6 +246,7 @@ class PracticantesModel extends Mysql
             $this->strStatusPracticante = $status;
             $this->strIdentificacion = $identificacion;
             $this->strArl = $arl;
+            $this->strEps = $eps;
             $this->intEdad = $edad;
             $this->strSexo = $sexo;
             $this->strTelefono = $telefono;
@@ -236,6 +272,7 @@ class PracticantesModel extends Mysql
                             nombre_completo = ?,
                             numero_identificacion = ?,
                             arl = ?,
+                            eps = ?,
                             edad = ?,
                             sexo = ?,
                             correo_electronico = ?,
@@ -256,6 +293,7 @@ class PracticantesModel extends Mysql
                         $this->strNombresPracticante,
                         $this->strIdentificacion,
                         $this->strArl,
+                        $this->strEps,
                         $this->intEdad,
                         $this->strSexo,
                         $this->strCorreoPracticante,

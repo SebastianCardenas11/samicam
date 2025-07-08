@@ -14,8 +14,8 @@ const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = IP_LOCAL.":3306";
-const DB_NAME = "samic";
+const DB_HOST = IP_LOCAL.":3307";
+const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
 const DB_CHARSET = "utf8";
@@ -58,8 +58,7 @@ const MDEPENDENCIAS = 13;
 const MSEGUIMIENTOCONTRATO = 14;
 const MINVENTARIO = 15;
 const MWHATSAPP = 16;
-const MMANUALUSUARIO = 17;
-const MPSI = 18;
+const MPSI = 17;
 
 //Páginas           
 const PINICIO = 1;
@@ -71,3 +70,6 @@ const RCOORDINADOR = 2;
 // Paginación
 const CANTPAGINAS = 10;
 const PROAPAGINAR = 20;
+
+// Límite de permisos diarios por fecha
+const MAX_PERMISOS_DIARIOS = 5;

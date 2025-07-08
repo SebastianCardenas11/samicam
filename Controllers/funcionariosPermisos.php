@@ -140,6 +140,27 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
+    
+    public function getPermisosPorFecha($fecha = null)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            try {
+                // Si no se proporciona fecha, usar la fecha actual
+                if ($fecha === null) {
+                    $fecha = date('Y-m-d');
+                }
+                
+                $total = $this->model->getPermisosPorFecha($fecha);
+                $arrResponse = array('status' => true, 'total' => $total);
+                
+            } catch (Exception $e) {
+                $arrResponse = array('status' => false, 'msg' => 'Error al obtener los permisos por fecha.');
+                error_log("Error en getPermisosPorFecha: " . $e->getMessage());
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 
     public function setPermiso()
     {
@@ -175,6 +196,15 @@ class FuncionariosPermisos extends Controllers
                     $permisosEnMes = $this->model->getPermisosEnMes($idFuncionario);
                     if ($permisosEnMes >= 3) {
                         $arrResponse = array('status' => false, 'msg' => 'El funcionario ya ha utilizado los 3 permisos permitidos para este mes');
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
+                    }
+                    
+                    // Validar límite de permisos por día específico
+                    $permisosPorFecha = $this->model->getPermisosPorFecha($fechaPermiso);
+                    if ($permisosPorFecha >= MAX_PERMISOS_DIARIOS) {
+                        $fechaFormateada = date('d/m/Y', strtotime($fechaPermiso));
+                        $arrResponse = array('status' => false, 'msg' => 'Ya se han otorgado los ' . MAX_PERMISOS_DIARIOS . ' permisos máximos permitidos para el día ' . $fechaFormateada);
                         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                         die();
                     }
@@ -567,14 +597,25 @@ class FuncionariosPermisos extends Controllers
                 $permisosInsertados = 0;
 
                 while ($fechaActual <= $fechaFinal) {
+                    $fechaFormato = $fechaActual->format('Y-m-d');
+                    
                     // Verificar si ya existe un permiso especial en esa fecha
                     $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
                             WHERE id_funcionario = ? 
                             AND fecha_permiso = ?
                             AND tipo_funcionario = 'planta'
                             AND es_permiso_especial = 1";
-                    $arrData = array($idFuncionario, $fechaActual->format('Y-m-d'));
+                    $arrData = array($idFuncionario, $fechaFormato);
                     $request = $this->model->select($sql, $arrData);
+                    
+                    // Verificar el límite de permisos diarios para esta fecha
+                    $permisosPorFecha = $this->model->getPermisosPorFecha($fechaFormato);
+                    if ($permisosPorFecha >= MAX_PERMISOS_DIARIOS) {
+                        $fechaFormateada = $fechaActual->format('d/m/Y');
+                        $arrResponse = array('status' => false, 'msg' => 'Ya se han otorgado los ' . MAX_PERMISOS_DIARIOS . ' permisos máximos permitidos para el día ' . $fechaFormateada);
+                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                        die();
+                    }
                     
                     if ($request['total'] == 0) {
                         $request = $this->model->insertPermiso(

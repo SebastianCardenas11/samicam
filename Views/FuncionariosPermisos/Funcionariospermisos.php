@@ -25,8 +25,8 @@ headerAdmin($data);
                     <div class="row">
                         <div class="col-md-4">
                             <div class="text-center contador-permisos permisos-disponibles">
-                                <h4 class="text-primary" id="permisosDisponibles">5</h4>
-                                <p class="text-muted">Permisos Disponibles</p>
+                                <h4 class="text-primary" id="permisosDisponibles" data-max="<?= MAX_PERMISOS_DIARIOS ?>"><?= MAX_PERMISOS_DIARIOS ?></h4>
+                                <p class="text-muted">Permisos Disponibles por Día</p>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -45,9 +45,16 @@ headerAdmin($data);
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <div class="progress" style="height: 25px;">
-                                <div class="progress-bar bg-success" id="barraProgreso" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="5">
-                                    <span id="textoProgreso">0/5</span>
+                                <div class="progress-bar bg-success" id="barraProgreso" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?= MAX_PERMISOS_DIARIOS ?>">
+                                    <span id="textoProgreso">0/<?= MAX_PERMISOS_DIARIOS ?></span>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <p class="mb-0"><i class="bi bi-info-circle"></i> La entidad permite un máximo de <strong><?= MAX_PERMISOS_DIARIOS ?> permisos diarios</strong> por fecha específica. Cada funcionario puede tener hasta <strong>3 permisos por mes</strong>.</p>
                             </div>
                         </div>
                     </div>
