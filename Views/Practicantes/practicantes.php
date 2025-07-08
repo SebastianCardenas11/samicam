@@ -44,6 +44,7 @@ headerAdmin($data);
                                     <th class="text-center">Institución</th>
                                     <th class="text-center">Fecha Ingreso</th>
                                     <th class="text-center">Fecha Salida</th>
+                                    <th class="text-center">Días restantes</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Acciones</th> 
                                 </tr>

@@ -29,6 +29,25 @@ document.addEventListener(
         { "data": "institucion_educativa" },
         { "data": "fecha_ingreso" },
         { "data": "fecha_salida" },
+        { 
+          "data": "dias_restantes",
+          "render": function(data, type, row) {
+            let diasNum = row.dias_restantes_num;
+            let clase = '';
+            if (diasNum !== null && !isNaN(diasNum)) {
+              if (diasNum > 31) {
+                clase = 'badge text-bg-success';
+              } else if (diasNum > 0) {
+                clase = 'badge text-bg-warning';
+              } else {
+                clase = 'badge text-bg-danger';
+              }
+            } else {
+              clase = 'badge text-bg-secondary';
+            }
+            return '<span class="' + clase + '">' + data + '</span>';
+          }
+        },
         { "data": "status" },
         { "data": "options" }
       ],
@@ -175,6 +194,29 @@ function fntViewInfo(idepracticante) {
         document.querySelector("#viewCargoHacer").innerHTML = objPracticante.cargo_hacer;
         document.querySelector("#viewFechaIngreso").innerHTML = objPracticante.fecha_ingreso;
         document.querySelector("#viewFechaSalida").innerHTML = objPracticante.fecha_salida;
+        // Mostrar días restantes en formato meses y días si es mayor a 31
+        let diasRestantes = parseInt(objPracticante.dias_restantes);
+        let textoDiasRestantes = '';
+        if (!isNaN(diasRestantes)) {
+            if (diasRestantes > 31) {
+                let meses = Math.floor(diasRestantes / 30);
+                let dias = diasRestantes % 30;
+                if (meses > 0 && dias > 0) {
+                    textoDiasRestantes = meses + ' mes' + (meses > 1 ? 'es' : '') + ' y ' + dias + ' día' + (dias > 1 ? 's' : '');
+                } else if (meses > 0) {
+                    textoDiasRestantes = meses + ' mes' + (meses > 1 ? 'es' : '');
+                } else if (dias > 0) {
+                    textoDiasRestantes = dias + ' día' + (dias > 1 ? 's' : '');
+                }
+            } else if (diasRestantes > 0) {
+                textoDiasRestantes = diasRestantes + ' día' + (diasRestantes !== 1 ? 's' : '');
+            } else {
+                textoDiasRestantes = 'Finalizado';
+            }
+        } else {
+            textoDiasRestantes = 'Finalizado';
+        }
+        document.querySelector("#viewDiasRestantes").innerHTML = textoDiasRestantes;
         document.querySelector("#viewTipoContrato").innerHTML = objPracticante.tipo_contrato;
         document.querySelector("#viewFormacionAcademica").innerHTML = objPracticante.formacion_academica;
         document.querySelector("#viewProgramaEstudio").innerHTML = objPracticante.programa_estudio;

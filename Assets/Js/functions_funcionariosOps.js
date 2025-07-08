@@ -54,6 +54,25 @@ document.addEventListener(
           }
         },
         { "data": "fecha_inicio", "defaultContent": "" },
+        { 
+          "data": "dias_restantes",
+          "render": function(data, type, row) {
+            let diasNum = row.dias_restantes_num;
+            let clase = '';
+            if (diasNum !== null && !isNaN(diasNum)) {
+              if (diasNum > 31) {
+                clase = 'badge text-bg-success';
+              } else if (diasNum > 0) {
+                clase = 'badge text-bg-warning';
+              } else {
+                clase = 'badge text-bg-danger';
+              }
+            } else {
+              clase = 'badge text-bg-secondary';
+            }
+            return '<span class="' + clase + '">' + data + '</span>';
+          }
+        },
         { "data": "estado_contrato", "defaultContent": "" },
         { "data": "options", "defaultContent": "" }
       ],
@@ -209,6 +228,8 @@ document.addEventListener(
             if (request.status == 200) {
               try {
                 let objData = JSON.parse(request.responseText);
+                
+                
                 if (objData.status) {
                   $('#modalFormFuncionariosOps').modal("hide");
                   formFuncionariosOps.reset();
@@ -272,6 +293,7 @@ function fntViewInfo(id) {
         set('view_fuente_recurso', data.fuente_recurso);
         set('view_objeto', data.objeto);
         set('view_fecha_inicio', data.fecha_inicio);
+        set('view_dias_restantes', data.dias_restantes);
         set('view_plazo_contrato', data.plazo_contrato);
         set('view_valor_contrato', data.valor_contrato);
         set('view_clase_contrato', data.clase_contrato);

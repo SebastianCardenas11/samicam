@@ -285,6 +285,7 @@
                         <p><strong>Cargo a hacer:</strong> <span id="viewCargoHacer"></span></p>
                         <p><strong>Fecha de ingreso:</strong> <span id="viewFechaIngreso"></span></p>
                         <p><strong>Fecha de salida:</strong> <span id="viewFechaSalida"></span></p>
+                        <p><strong>Días restantes:</strong> <span id="viewDiasRestantes"></span></p>
                         <p><strong>Tipo de contrato:</strong> <span id="viewTipoContrato"></span></p>
                     </div>
                     <div class="col-md-6">

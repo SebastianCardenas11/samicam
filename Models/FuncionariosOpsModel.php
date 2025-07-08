@@ -282,10 +282,24 @@ class FuncionariosOpsModel extends Mysql
     public function selectFuncionarios()
     {
         try {
-            $sql = "SELECT f.*, d.nombre as nombre_dependencia 
-                    FROM tbl_funcionarios_ops f 
-                    LEFT JOIN tbl_dependencia d ON f.unidad_ejecucion = d.dependencia_pk 
-                    WHERE f.status != 0";
+            $sql = "SELECT f.*, d.nombre as nombre_dependencia, 
+                DATEDIFF(f.fecha_terminacion, CURDATE()) AS dias_restantes_num,
+                CASE 
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) < 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) = 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) > 31 THEN 
+                        CONCAT(
+                            FLOOR(DATEDIFF(f.fecha_terminacion, CURDATE()) / 30), ' mes',
+                            IF(FLOOR(DATEDIFF(f.fecha_terminacion, CURDATE()) / 30) > 1, 'es', ''),
+                            IF(MOD(DATEDIFF(f.fecha_terminacion, CURDATE()), 30) > 0, CONCAT(' y ', MOD(DATEDIFF(f.fecha_terminacion, CURDATE()), 30), ' día', IF(MOD(DATEDIFF(f.fecha_terminacion, CURDATE()), 30) > 1, 's', '')), '')
+                        )
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) > 0 THEN 
+                        CONCAT(DATEDIFF(f.fecha_terminacion, CURDATE()), ' día', IF(DATEDIFF(f.fecha_terminacion, CURDATE()) > 1, 's', ''))
+                    ELSE 'N/A'
+                END AS dias_restantes
+                FROM tbl_funcionarios_ops f 
+                LEFT JOIN tbl_dependencia d ON f.unidad_ejecucion = d.dependencia_pk 
+                WHERE f.status != 0";
             $request = $this->select_all($sql);
             return $request;
         } catch (Exception $e) {
@@ -297,10 +311,24 @@ class FuncionariosOpsModel extends Mysql
     public function selectFuncionario(int $id)
     {
         try {
-            $sql = "SELECT f.*, d.nombre as nombre_dependencia 
-                    FROM tbl_funcionarios_ops f 
-                    LEFT JOIN tbl_dependencia d ON f.unidad_ejecucion = d.dependencia_pk 
-                    WHERE f.id = $id AND f.status != 0";
+            $sql = "SELECT f.*, d.nombre as nombre_dependencia, 
+                DATEDIFF(f.fecha_terminacion, CURDATE()) AS dias_restantes_num,
+                CASE 
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) < 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) = 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) > 31 THEN 
+                        CONCAT(
+                            FLOOR(DATEDIFF(f.fecha_terminacion, CURDATE()) / 30), ' mes',
+                            IF(FLOOR(DATEDIFF(f.fecha_terminacion, CURDATE()) / 30) > 1, 'es', ''),
+                            IF(MOD(DATEDIFF(f.fecha_terminacion, CURDATE()), 30) > 0, CONCAT(' y ', MOD(DATEDIFF(f.fecha_terminacion, CURDATE()), 30), ' día', IF(MOD(DATEDIFF(f.fecha_terminacion, CURDATE()), 30) > 1, 's', '')), '')
+                        )
+                    WHEN DATEDIFF(f.fecha_terminacion, CURDATE()) > 0 THEN 
+                        CONCAT(DATEDIFF(f.fecha_terminacion, CURDATE()), ' día', IF(DATEDIFF(f.fecha_terminacion, CURDATE()) > 1, 's', ''))
+                    ELSE 'N/A'
+                END AS dias_restantes
+                FROM tbl_funcionarios_ops f 
+                LEFT JOIN tbl_dependencia d ON f.unidad_ejecucion = d.dependencia_pk 
+                WHERE f.id = $id AND f.status != 0";
             $request = $this->select($sql);
             return $request;
         } catch (Exception $e) {

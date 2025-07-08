@@ -140,6 +140,20 @@ class PracticantesModel extends Mysql
                 p.cargo_hacer,
                 p.fecha_ingreso,
                 p.fecha_salida,
+                DATEDIFF(p.fecha_salida, CURDATE()) AS dias_restantes_num,
+                CASE 
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) < 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) = 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 31 THEN 
+                        CONCAT(
+                            FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30), ' mes',
+                            IF(FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30) > 1, 'es', ''),
+                            IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 0, CONCAT(' y ', MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30), ' día', IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 1, 's', '')), '')
+                        )
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 0 THEN 
+                        CONCAT(DATEDIFF(p.fecha_salida, CURDATE()), ' día', IF(DATEDIFF(p.fecha_salida, CURDATE()) > 1, 's', ''))
+                    ELSE 'N/A'
+                END AS dias_restantes,
                 cp.nombre_contrato as tipo_contrato,
                 p.status,
                 d.nombre as dependencia,
@@ -177,6 +191,20 @@ class PracticantesModel extends Mysql
                 p.cargo_hacer,
                 p.fecha_ingreso,
                 p.fecha_salida,
+                DATEDIFF(p.fecha_salida, CURDATE()) AS dias_restantes_num,
+                CASE 
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) < 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) = 0 THEN 'Finalizado'
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 31 THEN 
+                        CONCAT(
+                            FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30), ' mes',
+                            IF(FLOOR(DATEDIFF(p.fecha_salida, CURDATE()) / 30) > 1, 'es', ''),
+                            IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 0, CONCAT(' y ', MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30), ' día', IF(MOD(DATEDIFF(p.fecha_salida, CURDATE()), 30) > 1, 's', '')), '')
+                        )
+                    WHEN DATEDIFF(p.fecha_salida, CURDATE()) > 0 THEN 
+                        CONCAT(DATEDIFF(p.fecha_salida, CURDATE()), ' día', IF(DATEDIFF(p.fecha_salida, CURDATE()) > 1, 's', ''))
+                    ELSE 'N/A'
+                END AS dias_restantes,
                 cp.nombre_contrato as tipo_contrato,
                 p.contrato_practicante_fk,
                 p.formacion_academica,

@@ -100,6 +100,7 @@
                                 <div class="card-body">
                                     <p><b>Objeto del Contrato:</b> <span id="view_objeto"></span></p>
                                     <p><b>Fecha de Inicio:</b> <span id="view_fecha_inicio"></span></p>
+                                    <p><b>Días restantes:</b> <span id="view_dias_restantes"></span></p>
                                     <p><b>Plazo del Contrato:</b> <span id="view_plazo_contrato"></span></p>
                                     <p><b>Valor del Contrato:</b> <span id="view_valor_contrato"></span></p>
                                     <p><b>Clase de Contrato:</b> <span id="view_clase_contrato"></span></p>
