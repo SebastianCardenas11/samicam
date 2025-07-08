@@ -7,11 +7,11 @@ headerAdmin($data);
     <div class="app-title">
         <div>
             <h1><i class="fas fa-cogs"></i> <?= $data['page_title'] ?></h1>
-            <p>Gestión de motivos para permisos de funcionarios</p>
+           
         </div>
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>/dashboard">Inicio</a></li>
             <li class="breadcrumb-item"><a href="<?= base_url(); ?>/funcionariospermisos">Permisos</a></li>
             <li class="breadcrumb-item active"><?= $data['page_title'] ?></li>
         </ul>

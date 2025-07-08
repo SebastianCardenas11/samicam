@@ -202,9 +202,10 @@ class FuncionariosPermisos extends Controllers
                     
                     // Validar límite de permisos por día específico
                     $permisosPorFecha = $this->model->getPermisosPorFecha($fechaPermiso);
-                    if ($permisosPorFecha >= MAX_PERMISOS_DIARIOS) {
+                    $maxPermisosDiarios = defined('MAX_PERMISOS_DIARIOS') ? MAX_PERMISOS_DIARIOS : 5;
+                    if ($permisosPorFecha >= $maxPermisosDiarios) {
                         $fechaFormateada = date('d/m/Y', strtotime($fechaPermiso));
-                        $arrResponse = array('status' => false, 'msg' => 'Ya se han otorgado los ' . MAX_PERMISOS_DIARIOS . ' permisos máximos permitidos para el día ' . $fechaFormateada);
+                        $arrResponse = array('status' => false, 'msg' => 'Ya se han otorgado los ' . $maxPermisosDiarios . ' permisos máximos permitidos para el día ' . $fechaFormateada);
                         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                         die();
                     }
@@ -610,9 +611,10 @@ class FuncionariosPermisos extends Controllers
                     
                     // Verificar el límite de permisos diarios para esta fecha
                     $permisosPorFecha = $this->model->getPermisosPorFecha($fechaFormato);
-                    if ($permisosPorFecha >= MAX_PERMISOS_DIARIOS) {
+                    $maxPermisosDiarios = defined('MAX_PERMISOS_DIARIOS') ? MAX_PERMISOS_DIARIOS : 5;
+                    if ($permisosPorFecha >= $maxPermisosDiarios) {
                         $fechaFormateada = $fechaActual->format('d/m/Y');
-                        $arrResponse = array('status' => false, 'msg' => 'Ya se han otorgado los ' . MAX_PERMISOS_DIARIOS . ' permisos máximos permitidos para el día ' . $fechaFormateada);
+                        $arrResponse = array('status' => false, 'msg' => 'Ya se han otorgado los ' . $maxPermisosDiarios . ' permisos máximos permitidos para el día ' . $fechaFormateada);
                         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                         die();
                     }

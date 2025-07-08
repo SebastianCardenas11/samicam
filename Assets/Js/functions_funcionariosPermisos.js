@@ -56,7 +56,7 @@ function cargarPermisosDiarios() {
                 if (objData.status) {
                     permisosDiarios = parseInt(objData.total);
                     maxPermisosDiarios = parseInt(document.getElementById('permisosDisponibles').getAttribute('data-max') || 5);
-                    console.log('Permisos diarios cargados:', permisosDiarios, 'de', maxPermisosDiarios);
+                   
                     actualizarInterfazPermisos();
                 }
             } catch (error) {
@@ -72,8 +72,7 @@ function actualizarInterfazPermisos() {
         const permisosDisponibles = maxPermisosDiarios - permisosDiarios;
         const porcentaje = (permisosDiarios / maxPermisosDiarios) * 100;
         
-        console.log('Actualizando interfaz:', permisosDiarios, 'de', maxPermisosDiarios, '=', porcentaje + '%');
-        
+     
         // Actualizar contadores
         document.getElementById('permisosDisponibles').textContent = permisosDisponibles;
         document.getElementById('permisosUsados').textContent = permisosDiarios;
@@ -138,16 +137,16 @@ function fntGetMotivosPermisos() {
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
-  let ajaxUrl = base_url + "/MotivoPermiso/getMotivos";
+  let ajaxUrl = base_url + "/funcionariosPermisos/getMotivosPermisos";
   request.open("GET", ajaxUrl, true);
   request.send();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
       let objData = JSON.parse(request.responseText);
       let htmlOptions = '<option value="">Seleccione un motivo</option>';
-      if (Array.isArray(objData)) {
-        objData.forEach(function(item) {
-          htmlOptions += `<option value="${item.id_motivo}">${item.nombre}</option>`;
+      if (objData.status && Array.isArray(objData.data)) {
+        objData.data.forEach(function(item) {
+          htmlOptions += `<option value="${item.id}">${item.motivo}</option>`;
         });
       }
       document.querySelector("#listMotivoPermiso").innerHTML = htmlOptions;

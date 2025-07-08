@@ -31,48 +31,36 @@ class PermisosModel extends Mysql
     // Crear permiso con validación
     public function crearPermiso($data)
     {
-        // Validar límites primero
-        $validacion = $this->validarLimitePermisos(
-            $data['id_funcionario'],
-            $data['tipo_permiso_fk'],
-            $data['fecha_permiso'],
-            $data['tipo_funcionario']
-        );
-
-        if (!$validacion['permitido'] && !$data['es_permiso_especial']) {
-            return [
-                'success' => false,
-                'message' => "Límite mensual excedido. Permisos usados: {$validacion['permisos_usados']}/{$validacion['limite_mensual']}"
+        try {
+            $sql = "INSERT INTO tbl_permisos (id_funcionario, fecha_permiso, mes, anio, motivo, tipo_permiso_fk, 
+                    estado, tipo_funcionario, es_permiso_especial, justificacion_especial, observaciones) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            $params = [
+                $data['id_funcionario'],
+                $data['fecha_permiso'],
+                date('n', strtotime($data['fecha_permiso'])),
+                date('Y', strtotime($data['fecha_permiso'])),
+                $data['motivo'],
+                $data['tipo_permiso_fk'],
+                $data['estado'] ?? 'Aprobado',
+                $data['tipo_funcionario'] ?? 'planta',
+                $data['es_permiso_especial'] ?? 0,
+                $data['justificacion_especial'] ?? '',
+                $data['observaciones'] ?? ''
             ];
-        }
 
-        $sql = "INSERT INTO tbl_permisos (id_funcionario, fecha_permiso, mes, anio, motivo, tipo_permiso_fk, 
-                estado, tipo_funcionario, es_permiso_especial, justificacion_especial, observaciones) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        $params = [
-            $data['id_funcionario'],
-            $data['fecha_permiso'],
-            date('n', strtotime($data['fecha_permiso'])),
-            date('Y', strtotime($data['fecha_permiso'])),
-            $data['motivo'],
-            $data['tipo_permiso_fk'],
-            $data['estado'] ?? 'Aprobado',
-            $data['tipo_funcionario'] ?? 'planta',
-            $data['es_permiso_especial'] ?? 0,
-            $data['justificacion_especial'] ?? '',
-            $data['observaciones'] ?? ''
-        ];
-
-        $result = $this->insert($sql, $params);
-        
-        if ($result) {
-            // Registrar en historial
-            $this->registrarHistorial($data);
-            return ['success' => true, 'message' => 'Permiso creado exitosamente'];
+            $result = $this->insert($sql, $params);
+            
+            if ($result) {
+                return ['success' => true, 'message' => 'Permiso creado exitosamente'];
+            }
+            
+            return ['success' => false, 'message' => 'Error al crear el permiso'];
+        } catch (Exception $e) {
+          
+            return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
         }
-        
-        return ['success' => false, 'message' => 'Error al crear el permiso'];
     }
 
     // Registrar en historial
@@ -353,7 +341,9 @@ class PermisosModel extends Mysql
     public function deleteMotivo($id)
     {
         // Verificar si el motivo está siendo usado en permisos
-        $sqlCheck = "SELECT COUNT(*) as count FROM tbl_permisos WHERE motivo IN (SELECT nombre FROM tbl_motivos_permisos WHERE id_motivo = ?)";
+        $sqlCheck = "SELECT COUNT(*) as count FROM tbl_permisos p 
+                     INNER JOIN tbl_motivos_permisos m ON CONVERT(p.motivo USING utf8mb4) COLLATE utf8mb4_unicode_ci = CONVERT(m.nombre USING utf8mb4) COLLATE utf8mb4_unicode_ci 
+                     WHERE m.id_motivo = ?";
         $result = $this->select($sqlCheck, [$id]);
         
         if ($result && $result['count'] > 0) {

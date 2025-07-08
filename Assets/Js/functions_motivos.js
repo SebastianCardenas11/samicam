@@ -1,38 +1,45 @@
+let tableMotivos;
+
 document.addEventListener('DOMContentLoaded', function(){
     fntMotivos();
 });
 
 function fntMotivos(){
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    let ajaxUrl = base_url + '/MotivoPermiso/getMotivos';
-    request.open("POST", ajaxUrl, true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send();
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            try {
-                let objData = JSON.parse(request.responseText);
-            let htmlOptions = '';
-            objData.forEach(function(motivo) {
-                let status = motivo.status == 1 ? '<span class="badge text-bg-success">Activo</span>' : '<span class="badge text-bg-danger">Inactivo</span>';
-                htmlOptions += '<tr>';
-                htmlOptions += '<td>' + motivo.id_motivo + '</td>';
-                htmlOptions += '<td>' + motivo.nombre + '</td>';
-                htmlOptions += '<td>' + motivo.descripcion + '</td>';
-                htmlOptions += '<td>' + status + '</td>';
-                htmlOptions += '<td>';
-                htmlOptions += '<button class="btn btn-info btn-sm" onclick="fntViewMotivo(' + motivo.id_motivo + ')" title="Ver"><i class="far fa-eye"></i></button> ';
-                htmlOptions += '<button class="btn btn-primary btn-sm" onclick="fntEditMotivo(' + motivo.id_motivo + ')" title="Editar"><i class="fas fa-pencil-alt"></i></button> ';
-                htmlOptions += '<button class="btn btn-danger btn-sm" onclick="fntDelMotivo(' + motivo.id_motivo + ')" title="Eliminar"><i class="far fa-trash-alt"></i></button>';
-                htmlOptions += '</td>';
-                htmlOptions += '</tr>';
-            });
-            document.querySelector("#tableMotivos tbody").innerHTML = htmlOptions;
-            } catch(e) {
-                console.error('JSON Parse Error:', e);
-            }
-        }
+    if ($.fn.DataTable.isDataTable('#tableMotivos')) {
+        $('#tableMotivos').DataTable().destroy();
     }
+    
+    tableMotivos = $('#tableMotivos').DataTable({
+        "ajax": {
+            "url": base_url + '/MotivoPermiso/getMotivos',
+            "type": "POST",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "id_motivo" },
+            { "data": "nombre" },
+            { "data": "descripcion" },
+            { 
+                "data": "status",
+                "render": function(data) {
+                    return data == 1 ? '<span class="badge text-bg-success">Activo</span>' : '<span class="badge text-bg-danger">Inactivo</span>';
+                }
+            },
+            {
+                "data": "id_motivo",
+                "orderable": false,
+                "render": function(data) {
+                    return '<button class="btn btn-info btn-sm" onclick="fntViewMotivo(' + data + ')" title="Ver"><i class="far fa-eye"></i></button> ' +
+                           '<button class="btn btn-warning btn-sm" onclick="fntEditMotivo(' + data + ')" title="Editar"><i class="fas fa-pencil-alt"></i></button> ' +
+                           '<button class="btn btn-danger btn-sm" onclick="fntDelMotivo(' + data + ')" title="Eliminar"><i class="far fa-trash-alt"></i></button>';
+                }
+            }
+        ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        },
+        "responsive": true
+    });
 }
 
 function openModal(){
@@ -138,6 +145,7 @@ function fntDelMotivo(idmotivo){
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
+                    
                     let objData = JSON.parse(request.responseText);
                     if(objData.status){
                         Swal.fire({
@@ -146,7 +154,7 @@ function fntDelMotivo(idmotivo){
                             icon: 'success',
                             allowOutsideClick: false
                         }).then(() => {
-                            fntMotivos();
+                            tableMotivos.ajax.reload();
                         });
                     }else{
                         Swal.fire('Error', objData.msg, 'error');
@@ -175,7 +183,7 @@ function fntSaveMotivo(){
             if(objData.status){
                 $('#modalFormMotivo').modal("hide");
                 Swal.fire('Motivos de permisos', objData.msg, 'success');
-                fntMotivos();
+                tableMotivos.ajax.reload();
             }else{
                 Swal.fire('Error', objData.msg, 'error');
             }

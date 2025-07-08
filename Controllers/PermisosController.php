@@ -26,6 +26,7 @@ class PermisosController extends Controllers
     public function getTiposPermisos()
     {
         if ($_POST) {
+            require_once 'Models/PermisosModel.php';
             $permisosModel = new PermisosModel();
             $tipos = $permisosModel->getTiposPermisos();
             echo json_encode($tipos);
@@ -65,6 +66,7 @@ class PermisosController extends Controllers
                 'observaciones' => strClean($_POST['observaciones']) ?: ''
             ];
 
+            require_once 'Models/PermisosModel.php';
             $permisosModel = new PermisosModel();
             $resultado = $permisosModel->crearPermiso($data);
             
@@ -223,6 +225,7 @@ class PermisosController extends Controllers
             $descripcion = strClean($_POST['descripcion']);
             $status = intval($_POST['status']);
 
+            require_once 'Models/PermisosModel.php';
             $permisosModel = new PermisosModel();
             
             if ($id == 0) {

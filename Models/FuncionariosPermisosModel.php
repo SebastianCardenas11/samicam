@@ -220,9 +220,15 @@ class FuncionariosPermisosModel extends Mysql
             }
 
             // Obtener el texto del motivo
-            $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = ?";
+            $sql_motivo = "SELECT nombre as descripcion FROM tbl_motivos_permisos WHERE id_motivo = ? AND status = 1";
             $arrMotivo = array($idMotivo);
             $request_motivo = $this->select($sql_motivo, $arrMotivo);
+            
+            // Si no encuentra en tbl_motivos_permisos, intentar en tbl_motivo_permiso
+            if (empty($request_motivo)) {
+                $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = ? AND status = 1";
+                $request_motivo = $this->select($sql_motivo, $arrMotivo);
+            }
             
             if (empty($request_motivo)) {
                 return 0;
@@ -274,9 +280,22 @@ class FuncionariosPermisosModel extends Mysql
 
     public function getMotivosPermisos()
     {
-        $sql = "SELECT id_motivo as id, descripcion as motivo FROM tbl_motivo_permiso WHERE status = 1";
-        $request = $this->select_all($sql);
-        return $request;
+        try {
+            // Intentar primero con tbl_motivos_permisos
+            $sql = "SELECT id_motivo as id, nombre as motivo FROM tbl_motivos_permisos WHERE status = 1";
+            $request = $this->select_all($sql);
+            if (!empty($request)) {
+                return $request;
+            }
+            
+            // Si no existe, intentar con tbl_motivo_permiso
+            $sql = "SELECT id_motivo as id, descripcion as motivo FROM tbl_motivo_permiso WHERE status = 1";
+            $request = $this->select_all($sql);
+            return $request;
+        } catch (Exception $e) {
+            error_log("Error en getMotivosPermisos: " . $e->getMessage());
+            return [];
+        }
     }
 
     // Funcionarios con más permisos por mes
