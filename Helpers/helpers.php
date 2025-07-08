@@ -66,29 +66,24 @@ function getPermisos(int $idmodulo)
     
     if (!empty($_SESSION['userData'])) {
         $ideusuario = $_SESSION['userData']['ideusuario'];
-        
-        // Obtener permisos del rol principal
         $idrol = $_SESSION['userData']['idrol'];
-        $arrPermisos = $objPermisos->permisosModulo($idrol);
         
-        // Obtener permisos de roles adicionales
-        $permisosAdicionales = $objUsuarios->getPermisosUsuario($ideusuario);
-        
-        // Combinar permisos del rol principal con roles adicionales
+        // Obtener TODOS los permisos del usuario (rol principal + roles adicionales)
         $permisosCombinados = array();
         
-        // Primero agregar permisos del rol principal
+        // 1. Obtener permisos del rol principal
+        $arrPermisos = $objPermisos->permisosModulo($idrol);
         if (count($arrPermisos) > 0) {
             foreach ($arrPermisos as $moduloId => $permiso) {
                 $permisosCombinados[$moduloId] = $permiso;
             }
         }
         
-        // Luego agregar/actualizar con permisos de roles adicionales
+        // 2. Obtener y combinar permisos de roles adicionales
+        $permisosAdicionales = $objUsuarios->getPermisosUsuario($ideusuario);
         if (count($permisosAdicionales) > 0) {
             foreach ($permisosAdicionales as $moduloId => $permiso) {
                 if (!isset($permisosCombinados[$moduloId])) {
-                    // Si el módulo no existe, agregarlo
                     $permisosCombinados[$moduloId] = array(
                         'rolid' => $idrol,
                         'moduloid' => $moduloId,
@@ -99,7 +94,7 @@ function getPermisos(int $idmodulo)
                         'd' => $permiso['d']
                     );
                 } else {
-                    // Si el módulo existe, combinar permisos (usar el máximo)
+                    // Combinar permisos (usar el máximo)
                     $permisosCombinados[$moduloId]['r'] = max($permisosCombinados[$moduloId]['r'], $permiso['r']);
                     $permisosCombinados[$moduloId]['w'] = max($permisosCombinados[$moduloId]['w'], $permiso['w']);
                     $permisosCombinados[$moduloId]['u'] = max($permisosCombinados[$moduloId]['u'], $permiso['u']);
@@ -108,10 +103,13 @@ function getPermisos(int $idmodulo)
             }
         }
         
-        $permisos = $permisosCombinados;
-        $permisosMod = isset($permisosCombinados[$idmodulo]) ? $permisosCombinados[$idmodulo] : "";
+        // 3. Obtener permisos específicos del módulo solicitado
+        $permisosMod = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
+        if (isset($permisosCombinados[$idmodulo])) {
+            $permisosMod = $permisosCombinados[$idmodulo];
+        }
         
-        $_SESSION['permisos'] = $permisos;
+        $_SESSION['permisos'] = $permisosCombinados;
         $_SESSION['permisosMod'] = $permisosMod;
     }
 }
