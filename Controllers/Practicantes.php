@@ -54,6 +54,7 @@ class Practicantes extends Controllers
                 $strNombre = strClean($_POST['txtNombrePracticante']);
                 $strIdentificacion = strClean($_POST['txtIdentificacionPracticante']);
                 $strArl = strClean($_POST['txtArlPracticante']);
+                $strEps = strClean($_POST['txtEpsPracticante']);
                 $intEdad = intval($_POST['txtEdadPracticante']);
                 $strSexo = strClean($_POST['txtSexoPracticante']);
                 $strTelefono = strClean($_POST['txtTelefonoPracticante']);
@@ -79,6 +80,7 @@ class Practicantes extends Controllers
                                 $intStatus,
                                 $strIdentificacion,
                                 $strArl,
+                                $strEps,
                                 $intEdad,
                                 $strSexo,
                                 $strTelefono,
@@ -107,6 +109,7 @@ class Practicantes extends Controllers
                                 $intStatus,
                                 $strIdentificacion,
                                 $strArl,
+                                $strEps,
                                 $intEdad,
                                 $strSexo,
                                 $strTelefono,
@@ -134,7 +137,7 @@ class Practicantes extends Controllers
                 } else if ($request == 'exist_id') {
                     $arrResponse = array("status" => false, "msg" => '¡Atención! El número de identificación ya está registrado en el sistema.');
                 } else {
-                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                    $arrResponse = array("status" => false, "msg" => 'Practicante ya existe.');
                 }
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);

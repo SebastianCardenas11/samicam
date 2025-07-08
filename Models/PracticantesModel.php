@@ -7,6 +7,7 @@ class PracticantesModel extends Mysql
     private $strStatusPracticante;
     private $strIdentificacion;
     private $strArl;
+    private $strEps;
     private $intEdad;
     private $strSexo;
     private $strTelefono;
@@ -31,6 +32,7 @@ class PracticantesModel extends Mysql
         int $status,
         string $identificacion,
         string $arl,
+        string $eps,
         int $edad,
         string $sexo,
         string $telefono,
@@ -70,6 +72,7 @@ class PracticantesModel extends Mysql
                         nombre_completo,
                         numero_identificacion,
                         arl,
+                        eps,
                         edad,
                         sexo,
                         correo_electronico,
@@ -84,12 +87,13 @@ class PracticantesModel extends Mysql
                         programa_estudio,
                         institucion_educativa,
                         status
-                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     $arrData = array(
                         $nombres,
                         $identificacion,
                         $arl,
+                        $eps,
                         $edad,
                         $sexo,
                         $correo,
@@ -127,6 +131,7 @@ class PracticantesModel extends Mysql
                 p.nombre_completo,
                 p.numero_identificacion,
                 p.arl,
+                p.eps,
                 p.edad,
                 p.sexo,
                 p.correo_electronico,
@@ -162,6 +167,7 @@ class PracticantesModel extends Mysql
                 p.status,
                 p.numero_identificacion,
                 p.arl,
+                p.eps,
                 p.edad,
                 p.sexo,
                 p.telefono,
@@ -191,6 +197,7 @@ class PracticantesModel extends Mysql
         int $status,
         string $identificacion,
         string $arl,
+        string $eps,
         int $edad,
         string $sexo,
         string $telefono,
@@ -211,6 +218,7 @@ class PracticantesModel extends Mysql
             $this->strStatusPracticante = $status;
             $this->strIdentificacion = $identificacion;
             $this->strArl = $arl;
+            $this->strEps = $eps;
             $this->intEdad = $edad;
             $this->strSexo = $sexo;
             $this->strTelefono = $telefono;
@@ -236,6 +244,7 @@ class PracticantesModel extends Mysql
                             nombre_completo = ?,
                             numero_identificacion = ?,
                             arl = ?,
+                            eps = ?,
                             edad = ?,
                             sexo = ?,
                             correo_electronico = ?,
@@ -256,6 +265,7 @@ class PracticantesModel extends Mysql
                         $this->strNombresPracticante,
                         $this->strIdentificacion,
                         $this->strArl,
+                        $this->strEps,
                         $this->intEdad,
                         $this->strSexo,
                         $this->strCorreoPracticante,

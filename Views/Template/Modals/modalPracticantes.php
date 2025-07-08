@@ -56,6 +56,20 @@
                                                 </select>
                                             </div>
 
+                                            <!-- EPS -->
+                                            <div class="mb-3">
+                                                <label for="txtEpsPracticante" class="form-label">EPS <b class="required text-danger">*</b></label>
+                                                <select class="form-select" id="txtEpsPracticante" name="txtEpsPracticante">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Nueva EPS">Nueva EPS</option>
+                                                    <option value="Cajacopi EPS">Cajacopi EPS</option>
+                                                    <option value="Salud Total EPS-S">Salud Total EPS-S</option>
+                                                    <option value="Coosalud EPS-S">Coosalud EPS-S</option>
+                                                    <option value="Mutual Ser EPS">Mutual Ser EPS</option>
+                                                   
+                                                </select>
+                                            </div>
+
                                             <!-- Edad -->
                                             <div class="mb-3">
                                                 <label for="txtEdadPracticante" class="form-label">Edad <b class="required text-danger">*</b></label>
@@ -188,9 +202,7 @@
                                                             <option value="Técnico">Técnico</option>
                                                             <option value="Tecnólogo">Tecnólogo</option>
                                                             <option value="Profesional">Profesional</option>
-                                                            <option value="Especialización">Especialización</option>
-                                                            <option value="Maestría">Maestría</option>
-                                                            <option value="Doctorado">Doctorado</option>
+                                                           
                                                         </select>
                                                     </div>
                                                 </div>
@@ -254,6 +266,7 @@
                         <p><strong>Nombre:</strong> <span id="viewNombre"></span></p>
                         <p><strong>Identificación:</strong> <span id="viewIdentificacion"></span></p>
                         <p><strong>ARL:</strong> <span id="viewArl"></span></p>
+                        <p><strong>EPS:</strong> <span id="viewEps"></span></p>
                         <p><strong>Edad:</strong> <span id="viewEdad"></span></p>
                         <p><strong>Sexo:</strong> <span id="viewSexo"></span></p>
                     </div>
