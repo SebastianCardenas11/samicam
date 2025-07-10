@@ -235,5 +235,26 @@ class PublicacionesModel extends Mysql
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
+    public function getPublicacionesPorFecha($fechaInicio, $fechaFin)
+    {
+        $sql = "SELECT 
+            MONTH(fecha_publicacion) as mes,
+            COUNT(*) as total
+            FROM publicaciones 
+            WHERE fecha_publicacion BETWEEN ? AND ?
+            AND status = 1
+            GROUP BY MONTH(fecha_publicacion)
+            ORDER BY mes";
+        
+        $arrData = array($fechaInicio, $fechaFin);
+        $request = $this->select_all($sql, $arrData);
+        
+        if (!is_array($request)) {
+            return array();
+        }
+        
+        return $request;
+    }
 }
 ?>

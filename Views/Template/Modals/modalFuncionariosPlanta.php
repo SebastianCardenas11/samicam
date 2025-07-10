@@ -74,7 +74,6 @@
                                                     <option value="union libre">Unión libre</option>
                                                 </select>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +186,8 @@
                                                     <option value="tecnologo">Tecnólogo</option>
                                                     <option value="ingieneria">Ingeniería</option>
                                                     <option value="licenciatura">Licenciatura</option>
-                                                   
+                                                    <option value="maestria">Maestría</option>
+                                                    <option value="doctorado">Doctorado</option>
                                                 </select>
                                             </div>
 
@@ -335,28 +335,11 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtEps" class="form-label">E.P.S</label>
-                                                <select class="form-select" id="txtEps" name="txtEps">
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="Nueva EPS">Nueva EPS</option>
-                                                    <option value="Cajacopi EPS">Cajacopi EPS</option>
-                                                    <option value="Salud Total EPS">Salud Total EPS</option>
-                                                    <option value="Sanitas EPS">Sanitas EPS</option>
-                                                    <option value="Coosalud EPS">Coosalud EPS</option>
-                                                    <option value="Sura EPS">Sura EPS</option>
-                                                    <option value="Aliansalud EPS">Aliansalud EPS</option>
-                                                    <option value="Mutual SER EPS">Mutual SER EPS</option>
-                                                    <option value="Salud Mía EPS">Salud Mía EPS</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="txtEps" name="txtEps">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfp" class="form-label">A.F.P</label>
-                                                <select class="form-select" id="txtAfp" name="txtAfp">
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="Porvenir">Porvenir</option>
-                                                    <option value="Protección">Protección</option>
-                                                    <option value="Colfondos">Colfondos</option>
-                                                    <option value="Skandia">Skandia</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="txtAfp" name="txtAfp">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfc" class="form-label">A.F.C</label>
@@ -364,14 +347,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtArl" class="form-label">A.R.L</label>
-                                                <select class="form-select" id="txtArl" name="txtArl">
-                                                    <option value="">Selecciona una opción</option>
-                                                    <option value="Sura">Sura</option>
-                                                    <option value="Positiva">Positiva</option>
-                                                    <option value="Colpatria">Colpatria</option>
-                                                    <option value="Colmena">Colmena</option>
-                                                    <option value="Bolívar">Bolívar</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="txtArl" name="txtArl">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtSindicalizado" class="form-label">Sindicalizado</label>
