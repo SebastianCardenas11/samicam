@@ -1,1 +1,0 @@
-[2025-07-07 23:17:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Practicantes
