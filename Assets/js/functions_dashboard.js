@@ -386,11 +386,17 @@ function cargarBubbleChart() {
                 }
             });
 
-            const bubbleData = labelsMeses.map((mes, index) => ({
-                x: mes,
-                y: valoresPermisos[index],
-                r: valoresPermisos[index] > 0 ? Math.max(5, valoresPermisos[index] * 2) : 0 // Solo muestra burbuja si hay datos
-            }));
+            const bubbleData = labelsMeses.map((mes, index) => {
+                if (valoresPermisos[index] > 0) {
+                    return {
+                        x: mes,
+                        y: valoresPermisos[index],
+                        r: Math.min(30, Math.max(5, valoresPermisos[index] * 2))
+                    };
+                } else {
+                    return null;
+                }
+            }).filter(item => item !== null);
 
             chartBubble = new Chart(ctx, {
                 type: 'bubble',

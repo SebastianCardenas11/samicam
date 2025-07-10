@@ -50,7 +50,8 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Tarjetas a la izquierda -->
-    <div class="col-lg-8 d-flex flex-wrap align-content-stretch" style="gap: 20px;">
+    <div class="col-lg-12 d-flex flex-wrap align-content-stretch" style="gap: 20px;">
+      <?php if (!empty($_SESSION['permisos'][2]['d'])) { ?>
       <a href="<?=base_url()?>/usuarios" class="dashboard-card" style="flex: 1 1 30%; min-width: 250px; max-width: 32%;">
         <div class="d-flex align-items-center mb-2">
           <span class="icon"><i class="fa fa-users"></i></span>
@@ -58,6 +59,8 @@
         </div>
         <p class="mb-0">Usuarios Activos</p>
       </a>
+      <?php } ?>
+      <?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
       <a href="<?=base_url()?>/funcionariosOps" class="dashboard-card" style="flex: 1 1 30%; min-width: 250px; max-width: 32%;">
         <div class="d-flex align-items-center mb-2">
           <span class="icon"><i class="fa fa-user-cog"></i></span>
@@ -65,6 +68,8 @@
         </div>
         <p class="mb-0">Funcionarios OPS</p>
       </a>
+      <?php } ?>
+      <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
       <a href="<?=base_url()?>/funcionariosPlanta" class="dashboard-card" style="flex: 1 1 30%; min-width: 250px; max-width: 32%;">
         <div class="d-flex align-items-center mb-2">
           <span class="icon"><i class="fa fa-user-tie"></i></span>
@@ -72,6 +77,8 @@
         </div>
         <p class="mb-0">Funcionarios Planta</p>
       </a>
+      <?php } ?>
+      <?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
       <a href="<?=base_url()?>/vacaciones" class="dashboard-card" style="flex: 1 1 30%; min-width: 250px; max-width: 32%;">
         <div class="d-flex align-items-center mb-2">
           <span class="icon"><i class="fa fa-calendar-week"></i></span>
@@ -79,6 +86,8 @@
         </div>
         <p class="mb-0">Vacaciones Activas</p>
       </a>
+      <?php } ?>
+      <?php if (!empty($_SESSION['permisos'][14]['r'])) { ?>
       <a href="<?=base_url()?>/seguimientoContrato" class="dashboard-card" style="flex: 1 1 30%; min-width: 250px; max-width: 32%;">
         <div class="d-flex align-items-center mb-2">
           <span class="icon"><i class="fa fa-file-contract"></i></span>
@@ -86,6 +95,8 @@
         </div>
         <p class="mb-0">Seguimiento de Contrato</p>
       </a>
+      <?php } ?>
+      <?php if (!empty($_SESSION['permisos'][10]['r'])) { ?>
       <a href="<?=base_url()?>/practicantes" class="dashboard-card" style="flex: 1 1 30%; min-width: 250px; max-width: 32%;">
         <div class="d-flex align-items-center mb-2">
           <span class="icon"><i class="fa fa-user-graduate"></i></span>
@@ -93,9 +104,13 @@
         </div>
         <p class="mb-0">Practicantes</p>
       </a>
+      <?php } ?>
     </div>
-    <!-- Estadísticas de Viáticos a la derecha -->
-    <div class="col-lg-4">
+  </div>
+  <!-- Estadísticas de Viáticos debajo de las cards -->
+  <?php if (!empty($_SESSION['permisos'][14]['r']) || !empty($_SESSION['permisos'][10]['r'])) { ?>
+  <div class="row mt-4">
+    <div class="col-12">
       <div class="card h">
         <div class="card-body">
           <h5>Estadísticas de Viáticos</h5>
@@ -121,6 +136,7 @@
       </div>
     </div>
   </div>
+  <?php } ?>
 </div>
 
 <div class="row mt-4">

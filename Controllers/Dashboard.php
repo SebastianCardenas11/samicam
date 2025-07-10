@@ -43,6 +43,10 @@ class Dashboard extends Controllers
             
             // Obtener datos para las gráficas
             $funcionariosPorCargo = $this->model->getFuncionariosPorCargoModel();
+            // Filtrar 'Sin Cargo'
+            $funcionariosPorCargo = array_filter($funcionariosPorCargo, function($item) {
+                return $item['nombre_cargo'] !== 'Sin Cargo';
+            });
             $permisosPorMes = $this->getPermisosPorMesData();
             
             // Asegurar que hay datos para las gráficas
@@ -88,6 +92,10 @@ class Dashboard extends Controllers
     public function getFuncionariosPorCargo() {
         try {
             $data = $this->model->getFuncionariosPorCargoModel();
+            // Filtrar 'Sin Cargo'
+            $data = array_filter($data, function($item) {
+                return $item['nombre_cargo'] !== 'Sin Cargo';
+            });
             
             // Formatear los datos para la gráfica
             $formattedData = [];
@@ -162,21 +170,7 @@ class Dashboard extends Controllers
                     'total_permisos' => $permiso['total_permisos']
                 ];
             }
-            
-            if (empty($resultados)) {
-                // Si no hay datos, devolver datos de ejemplo
-                $meses = ['Ene', 'Febr', 'Mar', 'Abr', 'May', 'Jun', 
-                          'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                $resultados = [];
-                
-                foreach ($meses as $mes) {
-                    $resultados[] = [
-                        'mes' => $mes,
-                        'total_permisos' => rand(5, 20) // Valores aleatorios entre 5 y 20
-                    ];
-                }
-            }
-            
+            // Eliminado el bloque de datos de ejemplo: si no hay datos, se retorna array vacío
             return $resultados;
         } catch (Exception $e) {
             // En caso de error, devolver datos de ejemplo
