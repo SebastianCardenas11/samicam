@@ -246,99 +246,8 @@ function setupDateFilters() {
 }
 
 function initCharts() {
-    // Datos para las gráficas
     const estadisticas = <?= json_encode($data['estadisticas']) ?>;
-    
-    // Configuración de colores
-    const colors = {
-        primary: '#007bff',
-        success: '#28a745',
-        warning: '#ffc107',
-        danger: '#dc3545',
-        info: '#17a2b8'
-    };
-
-    // Gráfica de Publicaciones por Mes
-    crearGraficoTendencia(estadisticas.publicaciones_por_mes);
-
-    // Gráfica de Estado de Publicaciones
-    new Chart(document.getElementById('estadoPublicaciones'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Activas', 'Inactivas'],
-            datasets: [{
-                data: [
-                    estadisticas.estado_publicaciones.find(e => e.status == 1)?.total || 0,
-                    estadisticas.estado_publicaciones.find(e => e.status == 0)?.total || 0
-                ],
-                backgroundColor: [colors.success, colors.danger]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-
-    // Gráfica de Respuestas de Envío
-    new Chart(document.getElementById('respuestasEnvio'), {
-        type: 'pie',
-        data: {
-            labels: ['Respondidas', 'Pendientes'],
-            datasets: [{
-                data: [
-                    estadisticas.respuestas_envio.find(e => e.respuesta_envio == 'Si')?.total || 0,
-                    estadisticas.respuestas_envio.find(e => e.respuesta_envio == 'No')?.total || 0
-                ],
-                backgroundColor: [colors.success, colors.warning]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-
-    // Gráfica de Publicaciones por Dependencia
-    const dependenciasData = estadisticas.publicaciones_por_dependencia;
-    new Chart(document.getElementById('publicacionesPorDependencia'), {
-        type: 'bar',
-        data: {
-            labels: dependenciasData.map(item => item.dependencia),
-            datasets: [{
-                label: 'Publicaciones',
-                data: dependenciasData.map(item => parseInt(item.total)),
-                backgroundColor: colors.info
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
-                }
-            }
-        }
-    });
+    actualizarTodosLosGraficos(estadisticas);
 }
 
 function crearGraficoTendencia(datos) {
@@ -399,7 +308,7 @@ function cargarGraficoFiltrado(fechaInicio, fechaFin) {
     })
     .then(response => response.json())
     .then(data => {
-        crearGraficoTendencia(data);
+        actualizarTodosLosGraficos(data);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -409,7 +318,102 @@ function cargarGraficoFiltrado(fechaInicio, fechaFin) {
 
 function cargarGraficoOriginal() {
     const estadisticas = <?= json_encode($data['estadisticas']) ?>;
+    actualizarTodosLosGraficos(estadisticas);
+}
+
+function actualizarTodosLosGraficos(estadisticas) {
+    // Actualizar gráfico de tendencia
     crearGraficoTendencia(estadisticas.publicaciones_por_mes);
+    
+    // Actualizar gráfico de estado
+    actualizarGraficoEstado(estadisticas.estado_publicaciones);
+    
+    // Actualizar gráfico de respuestas
+    actualizarGraficoRespuestas(estadisticas.respuestas_envio);
+    
+    // Actualizar gráfico de dependencias
+    actualizarGraficoDependencias(estadisticas.publicaciones_por_dependencia);
+}
+
+let chartEstado, chartRespuestas, chartDependencias;
+
+function actualizarGraficoEstado(datos) {
+    const colors = { success: '#28a745', danger: '#dc3545' };
+    
+    if (chartEstado) chartEstado.destroy();
+    
+    chartEstado = new Chart(document.getElementById('estadoPublicaciones'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Activas', 'Inactivas'],
+            datasets: [{
+                data: [
+                    datos.find(e => e.status == 1)?.total || 0,
+                    datos.find(e => e.status == 0)?.total || 0
+                ],
+                backgroundColor: [colors.success, colors.danger]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+}
+
+function actualizarGraficoRespuestas(datos) {
+    const colors = { success: '#28a745', warning: '#ffc107' };
+    
+    if (chartRespuestas) chartRespuestas.destroy();
+    
+    chartRespuestas = new Chart(document.getElementById('respuestasEnvio'), {
+        type: 'pie',
+        data: {
+            labels: ['Respondidas', 'Pendientes'],
+            datasets: [{
+                data: [
+                    datos.find(e => e.respuesta_envio == 'Si')?.total || 0,
+                    datos.find(e => e.respuesta_envio == 'No')?.total || 0
+                ],
+                backgroundColor: [colors.success, colors.warning]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+}
+
+function actualizarGraficoDependencias(datos) {
+    const colors = { info: '#17a2b8' };
+    
+    if (chartDependencias) chartDependencias.destroy();
+    
+    chartDependencias = new Chart(document.getElementById('publicacionesPorDependencia'), {
+        type: 'bar',
+        data: {
+            labels: datos.map(item => item.dependencia),
+            datasets: [{
+                label: 'Publicaciones',
+                data: datos.map(item => parseInt(item.total)),
+                backgroundColor: colors.info
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
 }
 </script>
 

@@ -236,9 +236,10 @@ class PublicacionesModel extends Mysql
         return $request;
     }
 
-    public function getPublicacionesPorFecha($fechaInicio, $fechaFin)
+    public function getEstadisticasFiltradas($fechaInicio, $fechaFin)
     {
-        $sql = "SELECT 
+        // Publicaciones por mes filtradas
+        $sql_por_mes = "SELECT 
             MONTH(fecha_publicacion) as mes,
             COUNT(*) as total
             FROM publicaciones 
@@ -246,15 +247,45 @@ class PublicacionesModel extends Mysql
             AND status = 1
             GROUP BY MONTH(fecha_publicacion)
             ORDER BY mes";
-        
-        $arrData = array($fechaInicio, $fechaFin);
-        $request = $this->select_all($sql, $arrData);
-        
-        if (!is_array($request)) {
-            return array();
-        }
-        
-        return $request;
+        $publicaciones_por_mes = $this->select_all($sql_por_mes, [$fechaInicio, $fechaFin]);
+
+        // Estado de publicaciones filtradas
+        $sql_estado = "SELECT 
+            status,
+            COUNT(*) as total
+            FROM publicaciones 
+            WHERE fecha_publicacion BETWEEN ? AND ?
+            GROUP BY status";
+        $estado_publicaciones = $this->select_all($sql_estado, [$fechaInicio, $fechaFin]);
+
+        // Respuestas de envío filtradas
+        $sql_respuestas = "SELECT 
+            respuesta_envio,
+            COUNT(*) as total
+            FROM publicaciones 
+            WHERE fecha_publicacion BETWEEN ? AND ?
+            AND status = 1
+            GROUP BY respuesta_envio";
+        $respuestas_envio = $this->select_all($sql_respuestas, [$fechaInicio, $fechaFin]);
+
+        // Publicaciones por dependencia filtradas
+        $sql_dependencias = "SELECT 
+            d.nombre as dependencia,
+            COUNT(*) as total
+            FROM publicaciones p
+            LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk
+            WHERE p.fecha_publicacion BETWEEN ? AND ?
+            AND p.status = 1
+            GROUP BY d.dependencia_pk, d.nombre
+            ORDER BY total DESC";
+        $publicaciones_por_dependencia = $this->select_all($sql_dependencias, [$fechaInicio, $fechaFin]);
+
+        return array(
+            'publicaciones_por_mes' => $publicaciones_por_mes ?: [],
+            'estado_publicaciones' => $estado_publicaciones ?: [],
+            'respuestas_envio' => $respuestas_envio ?: [],
+            'publicaciones_por_dependencia' => $publicaciones_por_dependencia ?: []
+        );
     }
 }
 ?>

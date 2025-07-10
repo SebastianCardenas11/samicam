@@ -272,30 +272,30 @@ class DashboardModel extends Mysql
         $tareasModel = new TareasModel();
         
         // Contar tareas asignadas al usuario
-        $sql_asignadas = "SELECT COUNT(*) as total FROM tbl_tareas t 
-                         LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
-                         WHERE t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario";
+        $sql_asignadas = "SELECT COUNT(DISTINCT t.id_tarea) as total FROM tbl_tareas t 
+                         WHERE (t.id_usuario_asignado = $id_usuario 
+                                OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario))";
         $asignadas = $this->select($sql_asignadas);
         
         // Contar tareas completadas
-        $sql_completadas = "SELECT COUNT(*) as total FROM tbl_tareas t 
-                           LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
-                           WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario) 
+        $sql_completadas = "SELECT COUNT(DISTINCT t.id_tarea) as total FROM tbl_tareas t 
+                           WHERE (t.id_usuario_asignado = $id_usuario 
+                                  OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario)) 
                            AND t.estado = 'completada'";
         $completadas = $this->select($sql_completadas);
         
         // Contar tareas pendientes
-        $sql_pendientes = "SELECT COUNT(*) as total FROM tbl_tareas t 
-                          LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
-                          WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario) 
+        $sql_pendientes = "SELECT COUNT(DISTINCT t.id_tarea) as total FROM tbl_tareas t 
+                          WHERE (t.id_usuario_asignado = $id_usuario 
+                                 OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario)) 
                           AND t.estado IN ('sin empezar', 'en curso')";
         $pendientes = $this->select($sql_pendientes);
         
         // Contar tareas vencidas
         $fecha_actual = date('Y-m-d');
-        $sql_vencidas = "SELECT COUNT(*) as total FROM tbl_tareas t 
-                        LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
-                        WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario) 
+        $sql_vencidas = "SELECT COUNT(DISTINCT t.id_tarea) as total FROM tbl_tareas t 
+                        WHERE (t.id_usuario_asignado = $id_usuario 
+                               OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario)) 
                         AND t.fecha_fin < '$fecha_actual' AND t.estado != 'completada'";
         $vencidas = $this->select($sql_vencidas);
         
@@ -315,10 +315,10 @@ class DashboardModel extends Mysql
                         WHEN t.estado = 'completada' THEN 'Completada'
                         ELSE 'Otro'
                     END as estado,
-                    COUNT(*) as cantidad
+                    COUNT(DISTINCT t.id_tarea) as cantidad
                 FROM tbl_tareas t 
-                LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
-                WHERE t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario
+                WHERE (t.id_usuario_asignado = $id_usuario 
+                       OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario))
                 GROUP BY t.estado
                 ORDER BY cantidad DESC";
         
@@ -353,10 +353,10 @@ class DashboardModel extends Mysql
             ];
         }
         
-        $sql = "SELECT MONTH(fecha_completada) as mes_num, COUNT(*) as cantidad
+        $sql = "SELECT MONTH(fecha_completada) as mes_num, COUNT(DISTINCT t.id_tarea) as cantidad
                 FROM tbl_tareas t 
-                LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
-                WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario)
+                WHERE (t.id_usuario_asignado = $id_usuario 
+                       OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario))
                 AND t.estado = 'completada' 
                 AND t.fecha_completada IS NOT NULL
                 AND t.fecha_completada >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)

@@ -238,16 +238,33 @@
                 $usuarios_asignados = is_array($usuarios_asignados) ? $usuarios_asignados : [$usuarios_asignados];
 
                 // Crear o actualizar tarea
-                $request_tarea = $this->model->insertTarea(
-                    $id_usuario_creador,
-                    $usuarios_asignados,
-                    $tipo,
-                    $descripcion,
-                    $dependencia_fk,
-                    $fecha_inicio,
-                    $fecha_fin,
-                    $observacion
-                );
+                if ($id_tarea == 0) {
+                    // Crear nueva tarea
+                    $request_tarea = $this->model->insertTarea(
+                        $id_usuario_creador,
+                        $usuarios_asignados,
+                        $tipo,
+                        $descripcion,
+                        $dependencia_fk,
+                        $fecha_inicio,
+                        $fecha_fin,
+                        $observacion
+                    );
+                } else {
+                    // Actualizar tarea existente
+                    $estado = isset($_POST['listEstado']) ? $_POST['listEstado'] : 'sin empezar';
+                    $request_tarea = $this->model->updateTarea(
+                        $id_tarea,
+                        $usuarios_asignados,
+                        $tipo,
+                        $descripcion,
+                        $dependencia_fk,
+                        $estado,
+                        $fecha_inicio,
+                        $fecha_fin,
+                        $observacion
+                    );
+                }
 
                 if ($request_tarea > 0) {
                     // Enviar notificaciones a los usuarios asignados
@@ -262,9 +279,22 @@
                         $mensaje = "Se te ha asignado una nueva tarea: " . $descripcion;
                         $notificacionesModel->insertNotificacion($id_usuario, 'tarea', $mensaje);
                     }
+
+                    if ($id_tarea == 0) {
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
+                    } else {
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
+                    }
                     
-                    // Enviar notificaciones de WhatsApp (solo para nuevas tareas)
+                    // Enviar respuesta inmediatamente
+                    echo json_encode($arrResponse);
+                    
+                    // Enviar WhatsApp en segundo plano solo para nuevas tareas
                     if ($id_tarea == 0 && !empty($usuarios_info)) {
+                        if (function_exists('fastcgi_finish_request')) {
+                            fastcgi_finish_request();
+                        }
+                        
                         $this->enviarNotificacionesWhatsApp($usuarios_info, [
                             'descripcion' => $descripcion,
                             'tipo' => $tipo,
@@ -274,16 +304,10 @@
                             'observacion' => $observacion
                         ]);
                     }
-
-                    if ($id_tarea == 0) {
-                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
-                    } else {
-                        $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
-                    }
                 } else {
                     $arrResponse = array('status' => false, 'msg' => 'Error al procesar la tarea.');
+                    echo json_encode($arrResponse);
                 }
-                echo json_encode($arrResponse);
             }
             die();
         }

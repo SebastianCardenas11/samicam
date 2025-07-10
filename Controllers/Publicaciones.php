@@ -238,9 +238,9 @@ class Publicaciones extends Controllers
             $fechaFin = strClean($_POST['fechaFin']);
             
             if (!empty($fechaInicio) && !empty($fechaFin)) {
-                $arrData = $this->model->getPublicacionesPorFecha($fechaInicio, $fechaFin);
+                $estadisticas = $this->model->getEstadisticasFiltradas($fechaInicio, $fechaFin);
                 header('Content-Type: application/json');
-                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+                echo json_encode($estadisticas, JSON_UNESCAPED_UNICODE);
             } else {
                 header('Content-Type: application/json');
                 echo json_encode(array('error' => 'Fechas requeridas'), JSON_UNESCAPED_UNICODE);
