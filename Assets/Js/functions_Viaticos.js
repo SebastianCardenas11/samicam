@@ -1,7 +1,11 @@
+// Declaraciones globales (solo una vez al inicio)
 let tableHistorico;
 let tableDetalle;
 let chartCapital;
 let chartComparativa;
+let chartTopFuncionarios, chartViaticosMes, chartCapitalMes, chartCiudadesFrecuentes;
+let chartPolarArea = null;
+let listaDepartamentos = [];
 
 // --- Carga dinámica de departamentos y ciudades/municipios de Colombia (nueva API) ---
 function cargarDepartamentosColombia() {
@@ -10,6 +14,7 @@ function cargarDepartamentosColombia() {
     fetch('https://api-colombia.com/api/v1/Department')
         .then(response => response.json())
         .then(data => {
+            listaDepartamentos = data; // Guardar la lista globalmente
             selectDepartamento.innerHTML = '<option value="">Seleccione un departamento</option>';
             data.forEach(dep => {
                 const option = document.createElement('option');
@@ -21,6 +26,14 @@ function cargarDepartamentosColombia() {
         .catch(() => {
             selectDepartamento.innerHTML = '<option value="">Error al cargar departamentos</option>';
         });
+}
+
+function obtenerNombreDepartamento(id) {
+    if (!listaDepartamentos || listaDepartamentos.length === 0) return 'Desconocido';
+    // Convertir ambos a string y quitar ceros a la izquierda para comparar
+    const idStr = String(id).replace(/^0+/, '');
+    const dep = listaDepartamentos.find(d => String(d.id).replace(/^0+/, '') === idStr);
+    return dep ? dep.name : 'Desconocido';
 }
 
 function cargarCiudadesColombia(departamentoId) {
@@ -59,9 +72,14 @@ function openModalViatico() {
     selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
     // Reasignar el evento cada vez que se abre el modal
     const selectDepartamento = document.getElementById('selectDepartamento');
+    const inputDeptoNombre = document.getElementById('lugar_comision_departamento_nombre');
     selectDepartamento.onchange = function() {
         const depId = this.value;
-        console.log('Departamento seleccionado:', depId);
+        // Guardar el nombre del departamento seleccionado
+        if (inputDeptoNombre) {
+            const selectedOption = this.options[this.selectedIndex];
+            inputDeptoNombre.value = selectedOption ? selectedOption.text : '';
+        }
         if (!depId) {
             selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
             return;
@@ -73,7 +91,7 @@ function openModalViatico() {
 
 function openModalPresupuesto() {
     document.getElementById('formPresupuestoViaticos').reset();
-    const anio = document.getElementById('selectAnio').value;
+    const anio = document.getElementById('txtAnio').value;
     cargarPresupuestoActual(anio);
     $('#modalPresupuestoViaticos').modal('show');
 }
@@ -159,6 +177,239 @@ function cargarCapitalDisponible(anio) {
     cargarDetalleViaticos(anio);
 }
 
+// ========== NUEVOS GRÁFICOS ========== //
+function cargarGraficosAvanzados(anio) {
+  // Top funcionarios (por cantidad y valor total)
+  fetch(`${base_url}/FuncionariosViaticos/getHistoricoViaticos/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let top = Array.isArray(data) ? data.sort((a,b)=>b.total_viaticos_asignados-b.total_viaticos_asignados).slice(0,10) : [];
+      let labels = top.map(x=>x.nombre_completo);
+      let valuesCantidad = top.map(x=>parseInt(x.total_viaticos_asignados));
+      let valuesValor = top.map(x=>parseFloat(x.total_valor_viaticos));
+      const ctx = document.getElementById('barTopFuncionarios').getContext('2d');
+      if(chartTopFuncionarios) chartTopFuncionarios.destroy();
+      chartTopFuncionarios = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Cantidad de Viáticos',
+              data: valuesCantidad,
+              backgroundColor: 'rgba(37,99,235,0.3)',
+              borderColor: '#2563eb',
+              borderWidth: 1
+            },
+            {
+              label: 'Valor Total de Viáticos',
+              data: valuesValor,
+              backgroundColor: 'rgba(34,197,94,0.3)',
+              borderColor: '#22c55e',
+              borderWidth: 1,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{position:'top'},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  if(label.includes('Valor Total')) {
+                    return `${label}: $${value.toLocaleString('es-CO')}`;
+                  }
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
+            y:{beginAtZero:true, title:{display:true, text:'Cantidad'}},
+            y1:{
+              beginAtZero:true,
+              position:'right',
+              grid:{drawOnChartArea:false},
+              title:{display:true, text:'Valor Total ($)'}
+            }
+          }
+        }
+      });
+    });
+  // Viáticos por mes
+  fetch(`${base_url}/FuncionariosViaticos/getViaticosPorMes/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      let labels = meses;
+      let values = Array(12).fill(0);
+      if(Array.isArray(data)) data.forEach(x=>{ values[(x.mes-1)] = parseFloat(x.total); });
+      // Llenar la mini tabla de meses destacados
+      let topMeses = values.map((valor, i) => ({ mes: meses[i], valor })).sort((a,b)=>b.valor-a.valor).slice(0,3);
+      const tbody = document.getElementById('tbodyMesesDestacados');
+      if (tbody) {
+        tbody.innerHTML = '';
+        topMeses.forEach(m => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${m.mes}</td><td>$${m.valor.toLocaleString('es-CO')}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+      const ctx = document.getElementById('barViaticosMes').getContext('2d');
+      if(chartViaticosMes) chartViaticosMes.destroy();
+      chartViaticosMes = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Viáticos Entregados',
+              data: values,
+              backgroundColor: 'rgba(22,163,74,0.3)',
+              borderColor: '#16a34a',
+              borderWidth: 1
+            },
+            {
+              label: 'Línea',
+              data: values,
+              type: 'line',
+              borderColor: '#16a34a',
+              backgroundColor: 'rgba(22,163,74,0.1)',
+              fill: false,
+              tension: 0.3,
+              pointRadius: 4,
+              pointBackgroundColor: '#16a34a',
+              order: 0
+            }
+          ]
+        },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{position:'top'},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
+            y:{beginAtZero:true}
+          }
+        }
+      });
+    });
+  // Capital por mes (área apilada)
+  fetch(`${base_url}/FuncionariosViaticos/getCapitalPorMes/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      let total = parseFloat(data.capital_total||0);
+      let disponible = parseFloat(data.capital_disponible||0);
+      let usados = total-disponible;
+      let arrDisponible = Array(12).fill(disponible);
+      let arrUsados = Array(12).fill(usados);
+      const ctx = document.getElementById('lineCapitalMes').getContext('2d');
+      if(chartCapitalMes) chartCapitalMes.destroy();
+      chartCapitalMes = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: meses,
+          datasets: [
+            {
+              label: 'Capital Usado',
+              data: arrUsados,
+              backgroundColor: 'rgba(239,68,68,0.3)',
+              borderColor: '#ef4444',
+              fill: true,
+              stack: 'Stack 0',
+              tension: 0.3
+            },
+            {
+              label: 'Capital Disponible',
+              data: arrDisponible,
+              backgroundColor: 'rgba(34,197,94,0.3)',
+              borderColor: '#22c55e',
+              fill: true,
+              stack: 'Stack 0',
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{position:'top'},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: $${value.toLocaleString('es-CO')}`;
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ticks:{autoSkip:false, maxRotation:45, minRotation:30}},
+            y:{beginAtZero:true, title:{display:true, text:'Valor ($)'}}
+          }
+        }
+      });
+    });
+  // Ciudades más frecuentes
+  fetch(`${base_url}/FuncionariosViaticos/getTopCiudadesComision/${anio}`)
+    .then(res => res.json())
+    .then(data => {
+      let labels = Array.isArray(data) ? data.map(x=>x.lugar_comision_ciudad) : [];
+      let values = Array.isArray(data) ? data.map(x=>parseInt(x.frecuencia)) : [];
+      const ctx = document.getElementById('barCiudadesFrecuentes').getContext('2d');
+      if(chartCiudadesFrecuentes) chartCiudadesFrecuentes.destroy();
+      if(labels.length === 0) {
+        ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+        ctx.font = '18px sans-serif';
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'center';
+        ctx.fillText('No hay datos para mostrar', ctx.canvas.width/2, ctx.canvas.height/2);
+        return;
+      }
+      chartCiudadesFrecuentes = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Frecuencia', data: values, backgroundColor: 'rgba(234,179,8,0.3)', borderColor:'#eab308', borderWidth:1 }] },
+        options: {
+          responsive:true,
+          plugins:{
+            legend:{display:false},
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  let value = context.parsed.y !== undefined ? context.parsed.y : context.parsed;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          },
+          scales:{ y:{beginAtZero:true} }
+        }
+      });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar que jQuery esté disponible
     if (typeof jQuery === 'undefined') {
@@ -203,18 +454,28 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarDetalleViaticos(anioActual);
 
     // Evento para el botón de filtrar
-    document.getElementById('btnFiltrar').addEventListener('click', function() {
-        const anioSeleccionado = document.getElementById('selectAnio').value;
-        inicializarGraficos(anioSeleccionado);
-        cargarHistoricoViaticos(anioSeleccionado);
-        cargarDetalleViaticos(anioSeleccionado);
-    });
+    const btnFiltrar = document.getElementById('btnFiltrar');
+    if (btnFiltrar) {
+        btnFiltrar.addEventListener('click', function() {
+            const anioSeleccionado = document.getElementById('selectAnio').value;
+            inicializarGraficos(anioSeleccionado);
+            cargarHistoricoViaticos(anioSeleccionado);
+            cargarDetalleViaticos(anioSeleccionado);
+        });
+    } else {
+        console.warn('No se encontró el botón btnFiltrar');
+    }
 
     // Evento para el botón de reporte anual
-    document.getElementById('btnReporteAnual').addEventListener('click', function() {
-        const anio = document.getElementById('selectAnio').value;
-        window.location.href = base_url + '/FuncionariosViaticos/generarReporteAnual/' + anio;
-    });
+    const btnReporteAnual = document.getElementById('btnReporteAnual');
+    if (btnReporteAnual) {
+        btnReporteAnual.addEventListener('click', function() {
+            const anio = document.getElementById('selectAnio').value;
+            window.location.href = base_url + '/FuncionariosViaticos/generarReporteAnual/' + anio;
+        });
+    } else {
+        console.warn('No se encontró el botón btnReporteAnual');
+    }
     
     // Evento para el formulario de presupuesto
     const formPresupuesto = document.getElementById('formPresupuestoViaticos');
@@ -267,7 +528,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#modalPresupuestoViaticos').modal('hide');
                     // Recargar datos
                     const anioActual = document.getElementById('selectAnio').value;
-                    cargarCapitalDisponible(anioActual);
+                    inicializarGraficos(anioActual);
+                    cargarHistoricoViaticos(anioActual);
+                    cargarDetalleViaticos(anioActual);
+                    // Actualizar gráfico Polar Area si existe
+                    const anioPolar = document.getElementById('selectAnioPolar');
+                    if (anioPolar) {
+                        cargarPolarAreaCapital(anioPolar.value);
+                    }
                 } else {
                     Swal.fire('Error', data.msg || 'Error desconocido', 'error');
                 }
@@ -278,6 +546,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire('Error', 'Ocurrió un error al procesar la solicitud', 'error');
             });
         });
+    } else {
+        console.warn('No se encontró el formulario formPresupuestoViaticos');
     }
     
     // Evento para el formulario de viáticos
@@ -343,84 +613,58 @@ document.addEventListener('DOMContentLoaded', function() {
                     txtFechaRegreso.min = this.value;
                 }
             });
+        } else {
+            console.warn('No se encontró el input txtFechaSalida');
         }
+    } else {
+        console.warn('No se encontró el formulario formViaticos');
+    }
+
+    // Cargar gráficos avanzados al cargar y al cambiar año
+    const anioPolar = document.getElementById('selectAnioPolar');
+    if(anioPolar) {
+      cargarGraficosAvanzados(anioPolar.value);
+      document.getElementById('btnFiltrarPolar').addEventListener('click', function() {
+        cargarGraficosAvanzados(anioPolar.value);
+      });
     }
 });
 
 function inicializarGraficos(anio) {
-    fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
+    fetch(base_url + '/FuncionariosViaticos/getDetalleViaticos/' + anio)
         .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                return;
+        .then(detalle => {
+            // Sumar solo total_liquidado de todos los viáticos activos
+            let totalUsado = 0;
+            let totalEntregados = 0;
+            if (Array.isArray(detalle)) {
+                totalUsado = detalle.reduce((acc, item) => acc + (parseFloat(item.total_liquidado) || 0), 0);
+                totalEntregados = detalle.length;
             }
-
-            const capitalTotal = parseFloat(data.capitalTotal);
-            const capitalDisponible = parseFloat(data.capitalDisponible);
-            const capitalUsado = capitalTotal - capitalDisponible;
-
-            // Actualizar textos
-            document.getElementById('totalViaticos').textContent = '$ ' + capitalTotal.toLocaleString();
-            document.getElementById('viaticosDescontados').textContent = '$ ' + capitalUsado.toLocaleString();
-
-            // Gráfico de dona para capital disponible
-            const ctxDona = document.getElementById('chartCapitalDisponible');
-            if (ctxDona) {
-                if (chartCapital) chartCapital.destroy();
-                chartCapital = new Chart(ctxDona.getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Disponible', 'Usado'],
-                        datasets: [{
-                            data: [capitalDisponible, capitalUsado],
-                            backgroundColor: ['#2dce89', '#f5365c']
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
+            // Obtener el capital total desde el backend
+            fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error(data.error);
+                        return;
                     }
+                    const capitalTotal = parseFloat(data.capitalTotal) || 0;
+                    // Calcular viáticos disponibles en el frontend
+                    const viaticosDisponibles = capitalTotal - totalUsado;
+                    // Mostrar el total de viáticos
+                    const cardTotal = document.getElementById('cardTotalViaticos');
+                    if (cardTotal) cardTotal.textContent = '$ ' + capitalTotal.toLocaleString();
+                    // Mostrar el capital disponible calculado
+                    const cardDisponibles = document.getElementById('cardViaticosDisponibles');
+                    if (cardDisponibles) cardDisponibles.textContent = '$ ' + viaticosDisponibles.toLocaleString();
+                    // Mostrar viáticos usados
+                    const cardUsados = document.getElementById('cardViaticosUsados');
+                    if (cardUsados) cardUsados.textContent = '$ ' + totalUsado.toLocaleString();
+                    // Mostrar viáticos entregados en el año
+                    const cardEntregados = document.getElementById('cardViaticosEntregados');
+                    if (cardEntregados) cardEntregados.textContent = totalEntregados;
                 });
-            }
-
-            // Gráfico de barras para comparativa
-            const ctxBarra = document.getElementById('chartComparativa');
-            if (ctxBarra) {
-                if (chartComparativa) chartComparativa.destroy();
-                chartComparativa = new Chart(ctxBarra.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['Capital'],
-                        datasets: [
-                            {
-                                label: 'Total',
-                                data: [capitalTotal],
-                                backgroundColor: '#5e72e4'
-                            },
-                            {
-                                label: 'Disponible',
-                                data: [capitalDisponible],
-                                backgroundColor: '#2dce89'
-                            },
-                            {
-                                label: 'Usado',
-                                data: [capitalUsado],
-                                backgroundColor: '#f5365c'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
         })
         .catch(error => console.error('Error:', error));
 }
@@ -434,7 +678,8 @@ function cargarHistoricoViaticos(anio) {
                 data.forEach(item => {
                     tableHistorico.row.add([
                         item.nombre_completo,
-                        '$ ' + parseFloat(item.total_viaticos).toLocaleString()
+                        item.total_viaticos_asignados || 0,
+                        '$ ' + (parseFloat(item.total_valor_viaticos) || 0).toLocaleString()
                     ]);
                 });
             }
@@ -443,7 +688,17 @@ function cargarHistoricoViaticos(anio) {
         .catch(error => console.error('Error:', error));
 }
 
+function formatPrecio(valor) {
+    return '$ ' + (parseFloat(valor) || 0).toLocaleString('es-CO');
+}
+
 function cargarDetalleViaticos(anio) {
+    // Esperar a que la lista de departamentos esté cargada
+    if (!listaDepartamentos || listaDepartamentos.length === 0) {
+        cargarDepartamentosColombia();
+        setTimeout(() => cargarDetalleViaticos(anio), 500);
+        return;
+    }
     fetch(base_url + '/FuncionariosViaticos/getDetalleViaticos/' + anio)
         .then(response => response.json())
         .then(data => {
@@ -466,7 +721,7 @@ function cargarDetalleViaticos(anio) {
                         item.cargo,
                         item.dependencia,
                         item.motivo_gasto,
-                        item.lugar_comision_departamento,
+                        obtenerNombreDepartamento(item.lugar_comision_departamento), // Mostrar nombre
                         item.lugar_comision_ciudad,
                         item.finalidad_comision,
                         item.descripcion,
@@ -474,11 +729,11 @@ function cargarDetalleViaticos(anio) {
                         item.fecha_salida ? item.fecha_salida.split(' ')[0] : '',
                         item.fecha_regreso ? item.fecha_regreso.split(' ')[0] : '',
                         item.n_dias,
-                        item.valor_dia,
-                        item.valor_viatico,
+                        formatPrecio(item.valor_dia),
+                        formatPrecio(item.valor_viatico),
                         item.tipo_transporte,
-                        item.valor_transporte,
-                        item.total_liquidado,
+                        formatPrecio(item.valor_transporte),
+                        formatPrecio(item.total_liquidado),
                         acciones
                     ]);
                 });
@@ -502,13 +757,22 @@ function eliminarViatico(idViatico) {
         if (result.isConfirmed) {
             const formData = new FormData();
             formData.append('idViatico', idViatico);
-            
+            // Mostrar spinner de carga
+            Swal.fire({
+                title: 'Eliminando...',
+                text: 'Actualizando datos',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
             fetch(base_url + '/FuncionariosViaticos/deleteViatico', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
+                Swal.close();
                 if (data.status) {
                     Swal.fire('Eliminado', data.msg, 'success');
                     const anioActual = document.getElementById('selectAnio').value;
@@ -520,6 +784,7 @@ function eliminarViatico(idViatico) {
                 }
             })
             .catch(error => {
+                Swal.close();
                 console.error('Error:', error);
                 Swal.fire('Error', 'Ocurrió un error al eliminar el viático', 'error');
             });
@@ -528,6 +793,7 @@ function eliminarViatico(idViatico) {
 }
 
 function guardarViatico(formElement) {
+    // (Revertido) Ya no se cambia el value del select de departamento
     // Mostrar indicador de carga
     Swal.fire({
         title: 'Guardando...',
@@ -573,4 +839,67 @@ function guardarViatico(formElement) {
     });
     
     return false; // Evitar que el formulario se envíe de forma tradicional
+}
+
+function cargarPolarAreaCapital(anio) {
+    // Obtener datos del backend
+    fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+            const capitalTotal = parseFloat(data.capitalTotal) || 0;
+            const capitalDisponible = parseFloat(data.capitalDisponible) || 0;
+            const capitalUsado = capitalTotal - capitalDisponible;
+            const ctx = document.getElementById('polarAreaCapital');
+            if (!ctx) return;
+            // Fijar tamaño del canvas
+            ctx.width = 320;
+            ctx.height = 320;
+            if (chartPolarArea) chartPolarArea.destroy();
+            chartPolarArea = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: ['Total', 'Usado', 'Disponible'],
+                    datasets: [{
+                        data: [capitalTotal, capitalUsado, capitalDisponible],
+                        backgroundColor: [
+                            'rgba(59,130,246,0.3)', // Total (azul)
+                            'rgba(239,68,68,0.3)',  // Usado (rojo)
+                            'rgba(34,197,94,0.3)'   // Disponible (verde)
+                        ],
+                        borderColor: [
+                            '#3b82f6',
+                            '#ef4444',
+                            '#22c55e'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    let value = context.parsed && typeof context.parsed === 'object' && 'r' in context.parsed
+                                        ? context.parsed.r
+                                        : (typeof context.parsed === 'number' ? context.parsed : 0);
+                                    return `${label}: $${Number(value).toLocaleString('es-CO')}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {}
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar datos para el gráfico Polar Area:', error);
+        });
 }

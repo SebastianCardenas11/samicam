@@ -42,21 +42,34 @@ class FuncionariosViaticosModel extends Mysql
         $arrData = array(
             $funci_fk, $cargo, $dependencia, $motivo_gasto, $lugar_comision_departamento, $lugar_comision_ciudad, $finalidad_comision, $descripcion, $fecha_aprobacion, $fecha_salida, $fecha_regreso, $n_dias, $valor_dia, $valor_viatico, $tipo_transporte, $valor_transporte, $total_liquidado
         );
-        return $this->insert($sql, $arrData);
+        $request = $this->insert($sql, $arrData);
+        // Descontar el total_liquidado del capital disponible
+        if ($request > 0) {
+            $year = date('Y', strtotime($fecha_aprobacion));
+            $sqlCapital = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
+            $requestCapital = $this->select($sqlCapital, [$year]);
+            if ($requestCapital) {
+                $capitalDisponible = $requestCapital['capital_disponible'];
+                $nuevoCapital = $capitalDisponible - $total_liquidado;
+                $sqlUpdate = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
+                $this->update($sqlUpdate, [$nuevoCapital, $year]);
+            }
+        }
+        return $request;
     }
 
     // Eliminar un viático
     public function deleteViatico(int $idViatico)
     {
-        // Primero obtenemos el monto y la fecha del viático para actualizar el capital disponible
-        $sql = "SELECT monto, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
+        // Primero obtenemos el total_liquidado y la fecha del viático para actualizar el capital disponible
+        $sql = "SELECT total_liquidado, fecha_aprobacion FROM tbl_viaticos WHERE idViatico = ? AND estatus = 1";
         $request = $this->select($sql, [$idViatico]);
         
         if (empty($request)) {
             return false;
         }
         
-        $monto = $request['monto'];
+        $total_liquidado = $request['total_liquidado'];
         $year = date('Y', strtotime($request['fecha_aprobacion']));
         
         // Actualizamos el estatus del viático a 0 (eliminado)
@@ -64,14 +77,13 @@ class FuncionariosViaticosModel extends Mysql
         $request = $this->update($sql, [$idViatico]);
         
         if ($request) {
-            // Devolvemos el monto al capital disponible
+            // Devolvemos el total_liquidado al capital disponible
             $sqlCapital = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
             $requestCapital = $this->select($sqlCapital, [$year]);
             
             if ($requestCapital) {
                 $capitalDisponible = $requestCapital['capital_disponible'];
-                $nuevoCapital = $capitalDisponible + $monto;
-                
+                $nuevoCapital = $capitalDisponible + $total_liquidado;
                 $sqlUpdate = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
                 $this->update($sqlUpdate, [$nuevoCapital, $year]);
             }
@@ -82,12 +94,13 @@ class FuncionariosViaticosModel extends Mysql
         return false;
     }
 
-    // Obtener histórico de viáticos otorgados por funcionario para el año
+    // Obtener histórico de viáticos otorgados por funcionario para el año (por cantidad)
     public function getHistoricoViaticos($year)
     {
         $sql = "SELECT v.funci_fk as idefuncionario, 
                 fp.nombre_completo, 
-                SUM(v.total_liquidado) as total_viaticos
+                COUNT(v.idViatico) as total_viaticos_asignados,
+                SUM(v.total_liquidado) as total_valor_viaticos
                 FROM tbl_viaticos v
                 INNER JOIN tbl_funcionarios_planta fp ON v.funci_fk = fp.idefuncionario
                 WHERE YEAR(v.fecha_aprobacion) = ? AND v.estatus = 1
@@ -96,7 +109,7 @@ class FuncionariosViaticosModel extends Mysql
         return $request;
     }
 
-    // Obtener detalle de viáticos otorgados a funcionarios con descripción y uso
+    // Obtener detalle de viáticos otorgados a funcionarios con todos los campos nuevos
     public function getDetalleViaticos($year)
     {
         $sql = "SELECT v.idViatico, 
@@ -241,5 +254,36 @@ class FuncionariosViaticosModel extends Mysql
     $request = $this->select_all($sql);
     return $request;
 }
+
+    // Viáticos entregados por mes (evolución anual)
+    public function getViaticosPorMes($year) {
+        $sql = "SELECT MONTH(fecha_aprobacion) as mes, SUM(total_liquidado) as total
+                FROM tbl_viaticos
+                WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1
+                GROUP BY mes
+                ORDER BY mes";
+        return $this->select_all($sql, [$year]);
+    }
+
+    // Capital total y disponible por mes (evolución mensual)
+    public function getCapitalPorMes($year) {
+        $sql = "SELECT anio, capital_total, capital_disponible
+                FROM tbl_capital_viaticos
+                WHERE anio = ?";
+        return $this->select($sql, [$year]);
+    }
+
+    // Top ciudades de comisión por frecuencia
+    public function getTopCiudadesComision($year, $limit = 10) {
+        $sql = "SELECT lugar_comision_ciudad, COUNT(*) as frecuencia
+                FROM tbl_viaticos
+                WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1
+                  AND lugar_comision_ciudad IS NOT NULL
+                  AND lugar_comision_ciudad != ''
+                GROUP BY lugar_comision_ciudad
+                ORDER BY frecuencia DESC
+                LIMIT ?";
+        return $this->select_all($sql, [$year, $limit]);
+    }
 
 }
