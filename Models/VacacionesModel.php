@@ -213,4 +213,19 @@ class VacacionesModel extends Mysql
             return ["status" => false, "msg" => "Error al cancelar las vacaciones"];
         }
     }
+
+    public function getVacacionById($idVacacion)
+    {
+        $sql = "SELECT * FROM tbl_vacaciones WHERE id_vacaciones = ?";
+        return $this->select($sql, [$idVacacion]);
+    }
+
+    public function getFuncionarioById($idFuncionario)
+    {
+        $sql = "SELECT u.idefuncionario, u.nombre_completo as nombre, u.nm_identificacion as cedula, c.nombre as cargo
+                FROM tbl_funcionarios_planta u
+                LEFT JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
+                WHERE u.idefuncionario = ?";
+        return $this->select($sql, [$idFuncionario]);
+    }
 }

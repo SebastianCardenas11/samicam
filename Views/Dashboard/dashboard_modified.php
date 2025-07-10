@@ -49,6 +49,30 @@
 
 <div class="container-fluid">
   <div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold">Bienvenido</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <?= $_SESSION['userData']['nombres'] ?>
+                                <span class="text-success text-sm font-weight-bolder"><?= $_SESSION['userData']['nombrerol'] ?></span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <i class="fa fa-user text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <div class="row">
     <!-- Tarjetas a la izquierda -->
     <div class="col-lg-12 d-flex flex-wrap align-content-stretch" style="gap: 20px;">
       <?php if (!empty($_SESSION['permisos'][2]['d'])) { ?>

@@ -240,7 +240,10 @@ function fntViewHistorial(idefuncionario) {
                   <td>${item.tipo_vacaciones || ''}</td>
                   <td>${item.valor !== undefined ? Number(item.valor).toLocaleString('es-CO', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : ''}</td>
                   <td><span class="${estadoClass}">${estadoTexto}</span></td>
-                  <td>${btnAcciones}</td>
+                  <td>
+                    ${btnAcciones}
+                    <button class="btn btn-outline-danger btn-sm ms-1" onclick="imprimirVacacionPDF(${item.id_vacaciones})" title="Imprimir PDF"><i class="bi bi-file-pdf"></i></button>
+                  </td>
                 </tr>`;
               });
               document.querySelector("#tableHistorialVacaciones").innerHTML = htmlHistorial;
@@ -431,4 +434,8 @@ function generarPDF() {
   } else {
     Swal.fire("Error", "No se pudo identificar el funcionario para generar el PDF", "error");
   }
+}
+
+function imprimirVacacionPDF(idVacacion) {
+  window.open(base_url + '/vacaciones/imprimirVacaciones/' + idVacacion, '_blank');
 }

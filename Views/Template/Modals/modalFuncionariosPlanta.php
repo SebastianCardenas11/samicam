@@ -74,6 +74,7 @@
                                                     <option value="union libre">Unión libre</option>
                                                 </select>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -186,8 +187,7 @@
                                                     <option value="tecnologo">Tecnólogo</option>
                                                     <option value="ingieneria">Ingeniería</option>
                                                     <option value="licenciatura">Licenciatura</option>
-                                                    <option value="maestria">Maestría</option>
-                                                    <option value="doctorado">Doctorado</option>
+                                                   
                                                 </select>
                                             </div>
 
@@ -350,7 +350,13 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfp" class="form-label">A.F.P</label>
-                                                <input type="text" class="form-control" id="txtAfp" name="txtAfp">
+                                                <select class="form-select" id="txtAfp" name="txtAfp">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Porvenir">Porvenir</option>
+                                                    <option value="Protección">Protección</option>
+                                                    <option value="Colfondos">Colfondos</option>
+                                                    <option value="Skandia">Skandia</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfc" class="form-label">A.F.C</label>
@@ -358,7 +364,14 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtArl" class="form-label">A.R.L</label>
-                                                <input type="text" class="form-control" id="txtArl" name="txtArl">
+                                                <select class="form-select" id="txtArl" name="txtArl">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Sura">Sura</option>
+                                                    <option value="Positiva">Positiva</option>
+                                                    <option value="Colpatria">Colpatria</option>
+                                                    <option value="Colmena">Colmena</option>
+                                                    <option value="Bolívar">Bolívar</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtSindicalizado" class="form-label">Sindicalizado</label>

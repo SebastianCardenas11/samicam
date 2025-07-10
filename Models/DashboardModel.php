@@ -265,4 +265,117 @@ class DashboardModel extends Mysql
         
         return $diagnostico;
     }
+
+    // Métodos para dashboard personalizado por usuario
+    public function getEstadisticasUsuario($id_usuario) {
+        require_once("Models/TareasModel.php");
+        $tareasModel = new TareasModel();
+        
+        // Contar tareas asignadas al usuario
+        $sql_asignadas = "SELECT COUNT(*) as total FROM tbl_tareas t 
+                         LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
+                         WHERE t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario";
+        $asignadas = $this->select($sql_asignadas);
+        
+        // Contar tareas completadas
+        $sql_completadas = "SELECT COUNT(*) as total FROM tbl_tareas t 
+                           LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
+                           WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario) 
+                           AND t.estado = 'completada'";
+        $completadas = $this->select($sql_completadas);
+        
+        // Contar tareas pendientes
+        $sql_pendientes = "SELECT COUNT(*) as total FROM tbl_tareas t 
+                          LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
+                          WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario) 
+                          AND t.estado IN ('sin empezar', 'en curso')";
+        $pendientes = $this->select($sql_pendientes);
+        
+        // Contar tareas vencidas
+        $fecha_actual = date('Y-m-d');
+        $sql_vencidas = "SELECT COUNT(*) as total FROM tbl_tareas t 
+                        LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
+                        WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario) 
+                        AND t.fecha_fin < '$fecha_actual' AND t.estado != 'completada'";
+        $vencidas = $this->select($sql_vencidas);
+        
+        return [
+            'tareas_asignadas' => $asignadas['total'] ?? 0,
+            'tareas_completadas' => $completadas['total'] ?? 0,
+            'tareas_pendientes' => $pendientes['total'] ?? 0,
+            'tareas_vencidas' => $vencidas['total'] ?? 0
+        ];
+    }
+
+    public function getTareasPorEstadoUsuario($id_usuario) {
+        $sql = "SELECT 
+                    CASE 
+                        WHEN t.estado = 'sin empezar' THEN 'Sin Empezar'
+                        WHEN t.estado = 'en curso' THEN 'En Curso'
+                        WHEN t.estado = 'completada' THEN 'Completada'
+                        ELSE 'Otro'
+                    END as estado,
+                    COUNT(*) as cantidad
+                FROM tbl_tareas t 
+                LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
+                WHERE t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario
+                GROUP BY t.estado
+                ORDER BY cantidad DESC";
+        
+        $result = $this->select_all($sql);
+        
+        // Si no hay datos, devolver estructura básica
+        if (empty($result)) {
+            return [
+                ['estado' => 'Sin Empezar', 'cantidad' => 0],
+                ['estado' => 'En Curso', 'cantidad' => 0],
+                ['estado' => 'Completada', 'cantidad' => 0]
+            ];
+        }
+        
+        return $result;
+    }
+
+    public function getTareasCompletadasPorMesUsuario($id_usuario) {
+        // Obtener los últimos 6 meses
+        $meses = [];
+        $nombresMeses = [
+            1 => 'Ene', 2 => 'Feb', 3 => 'Mar', 4 => 'Abr', 5 => 'May', 6 => 'Jun',
+            7 => 'Jul', 8 => 'Ago', 9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dic'
+        ];
+        
+        for ($i = 5; $i >= 0; $i--) {
+            $fecha = date('Y-m', strtotime("-$i months"));
+            $mesNum = (int)date('n', strtotime("-$i months"));
+            $meses[] = [
+                'mes' => $nombresMeses[$mesNum],
+                'cantidad' => 0
+            ];
+        }
+        
+        $sql = "SELECT MONTH(fecha_completada) as mes_num, COUNT(*) as cantidad
+                FROM tbl_tareas t 
+                LEFT JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea 
+                WHERE (t.id_usuario_asignado = $id_usuario OR tu.id_usuario = $id_usuario)
+                AND t.estado = 'completada' 
+                AND t.fecha_completada IS NOT NULL
+                AND t.fecha_completada >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+                GROUP BY MONTH(t.fecha_completada)
+                ORDER BY t.fecha_completada DESC";
+        
+        $resultados = $this->select_all($sql);
+        
+        // Actualizar los datos con los resultados reales
+        foreach ($resultados as $resultado) {
+            $mesNombre = $nombresMeses[(int)$resultado['mes_num']];
+            for ($i = 0; $i < count($meses); $i++) {
+                if ($meses[$i]['mes'] === $mesNombre) {
+                    $meses[$i]['cantidad'] = (int)$resultado['cantidad'];
+                    break;
+                }
+            }
+        }
+        
+        return $meses;
+    }
 }

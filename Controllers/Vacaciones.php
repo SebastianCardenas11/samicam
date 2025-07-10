@@ -413,4 +413,77 @@ class Vacaciones extends Controllers
         }
         die();
     }
+
+    private function toISO($txt) {
+        return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $txt);
+    }
+
+    public function imprimirVacaciones($idVacacion)
+    {
+        error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_WARNING);
+        require_once("vendor/setasign/fpdf/fpdf.php");
+        require_once("vendor/setasign/fpdi/src/autoload.php");
+        $vacacion = $this->model->getVacacionById($idVacacion);
+        if (!$vacacion) exit('No se encontró el registro de vacaciones.');
+        $funcionario = $this->model->getFuncionarioById($vacacion['id_funcionario']);
+        if (!$funcionario) exit('No se encontró el funcionario.');
+        $dias = isset($vacacion['dias']) ? $vacacion['dias'] : ((strtotime($vacacion['fecha_fin']) - strtotime($vacacion['fecha_inicio'])) / 86400 + 1);
+
+        $pdf = new \setasign\Fpdi\Fpdi();
+        $pdf->AddPage();
+        $pdf->setSourceFile("Assets/plantillas/Plantillapdfalcaldia.pdf");
+        $tplIdx = $pdf->importPage(1);
+        $pdf->useTemplate($tplIdx, 0, 0, 210);
+        $pdf->SetFont('Arial', '', 12);
+
+        // Título
+        $pdf->SetXY(30, 40);
+        $pdf->Cell(0, 10, $this->toISO('Comprobante de Vacaciones'), 0, 1, 'C');
+
+        // Tabla de datos
+        $pdf->SetXY(30, 55);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Nombre:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $this->toISO($funcionario['nombre']), 1, 1);
+
+        $pdf->SetX(30);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Cédula:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $this->toISO($funcionario['cedula']), 1, 1);
+
+        $pdf->SetX(30);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Cargo:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $this->toISO($funcionario['cargo']), 1, 1);
+
+        $pdf->SetX(30);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Fecha de salida:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $this->toISO($vacacion['fecha_inicio']), 1, 1);
+
+        $pdf->SetX(30);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Fecha de regreso:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $this->toISO($vacacion['fecha_fin']), 1, 1);
+
+        $pdf->SetX(30);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Total de días:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $dias, 1, 1);
+
+        $pdf->SetX(30);
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(50, 8, $this->toISO('Estado:'), 1);
+        $pdf->SetFont('Arial', '', 11);
+        $pdf->Cell(100, 8, $this->toISO($vacacion['estado']), 1, 1);
+
+        $pdf->Output('I', 'Vacaciones_' . $funcionario['nombre'] . '.pdf');
+        exit;
+    }
 }

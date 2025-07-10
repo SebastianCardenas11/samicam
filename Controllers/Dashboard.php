@@ -37,7 +37,18 @@ class Dashboard extends Controllers
             (!empty($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v']) || $_SESSION['permisos'][MFUNCIONARIOSPLANTA]['v'] == 1)) || 
             (!empty($_SESSION['permisos'][MFUNCIONARIOSOPS]['r']) && (!isset($_SESSION['permisos'][MFUNCIONARIOSOPS]['v']) || $_SESSION['permisos'][MFUNCIONARIOSOPS]['v'] == 1));
         
-        if ($showFuncionariosGraphs) {
+        // Verificar si es un usuario técnico NTIC (dashboard personalizado)
+        $userRole = $_SESSION['userData']['nombrerol'] ?? '';
+        $isTecnicoNTIC = (strpos(strtolower($userRole), 'tecnico') !== false || strpos(strtolower($userRole), 'técnico') !== false || strpos(strtolower($userRole), 'ntic') !== false) && $userRole !== 'Superadministrador';
+        
+        if ($isTecnicoNTIC) {
+            // Dashboard personalizado para técnico NTIC
+            $data['page_functions_js'] = "functions_dashboard_user.js";
+            $data['estadisticas_usuario'] = $this->model->getEstadisticasUsuario($_SESSION['idUser']);
+            $data['tareas_por_estado'] = $this->model->getTareasPorEstadoUsuario($_SESSION['idUser']);
+            $data['tareas_por_mes'] = $this->model->getTareasCompletadasPorMesUsuario($_SESSION['idUser']);
+            $this->views->getView($this, "dashboard_user", $data);
+        } elseif ($showFuncionariosGraphs) {
             // Usuario con permisos - mostrar dashboard con gráficas
             $data['page_functions_js'] = "functions_dashboard.js";
             
@@ -229,5 +240,18 @@ class Dashboard extends Controllers
         header('Content-Type: application/json');
         echo json_encode($data);
         die();
+    }
+
+    // Métodos para dashboard de usuario
+    public function getTareasUsuarioPorEstado() {
+        $data = $this->model->getTareasPorEstadoUsuario($_SESSION['idUser']);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+
+    public function getTareasUsuarioPorMes() {
+        $data = $this->model->getTareasCompletadasPorMesUsuario($_SESSION['idUser']);
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }
