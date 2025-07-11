@@ -124,3 +124,17 @@
 [2025-07-10 16:03:24] [ERROR] Todos los proveedores fallaron
 [2025-07-10 16:03:24] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573163819809
 [2025-07-10 16:03:24] [INFO] Enviado a número general: 573163819809
+[2025-07-11 15:10:29] [INFO] Intentando enviar mensaje de WhatsApp al número 573183687660
+[2025-07-11 15:10:30] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-07-11 15:10:30] [INFO] Intentando proveedor alternativo: wamr
+[2025-07-11 15:10:30] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-07-11 15:10:31] [ERROR] Todos los proveedores fallaron
+[2025-07-11 15:10:31] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573183687660
+[2025-07-11 15:10:31] [INFO] Enviado a número de tarea: 573183687660
+[2025-07-11 15:10:31] [INFO] Intentando enviar mensaje de WhatsApp al número 573163819809
+[2025-07-11 15:10:32] [WARNING] El proveedor principal falló, intentando alternativas
+[2025-07-11 15:10:32] [INFO] Intentando proveedor alternativo: wamr
+[2025-07-11 15:10:32] [INFO] Intentando proveedor alternativo: whatsapp_business
+[2025-07-11 15:10:33] [ERROR] Todos los proveedores fallaron
+[2025-07-11 15:10:33] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573163819809
+[2025-07-11 15:10:33] [INFO] Enviado a número general: 573163819809

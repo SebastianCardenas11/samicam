@@ -162,10 +162,12 @@
                                             <div class="mb-3">
                                                 <label for="txtContrato" class="form-label">Tipo de Contrato <b class="required text-danger">*</b></label>
                                                 <select class="form-select" id="txtContrato" name="txtContrato">
-                                                    <option>Selecciona una opción</option>
-                                                    <?php foreach ($data['contrato'] as $cont): ?>
-                                                        <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?></option>
-                                                    <?php endforeach; ?>
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="supernumerario">Supernumerario</option>
+                                                    <option value="libre_nombramiento">Libre Nombramiento</option>
+                                                    <option value="remocion">Remoción</option>
+                                                    <option value="carrera_administrativa">Carrera Administrativa</option>
+                                                    <option value="provisionalidad">Provisionalidad</option>
                                                 </select>
                                             </div>
 
@@ -225,7 +227,14 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTipoNombramiento" class="form-label">Tipo de Nombramiento</label>
-                                                <input type="text" class="form-control" id="txtTipoNombramiento" name="txtTipoNombramiento">
+                                                <select class="form-select" id="txtTipoNombramiento" name="txtTipoNombramiento">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="supernumerario">Supernumerario</option>
+                                                    <option value="libre_nombramiento">Libre Nombramiento</option>
+                                                    <option value="remocion">Remoción</option>
+                                                    <option value="carrera_administrativa">Carrera Administrativa</option>
+                                                    <option value="provisionalidad">Provisionalidad</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtNivel" class="form-label">Nivel</label>
@@ -235,10 +244,7 @@
                                                 <label for="txtSalarioBasico" class="form-label">Salario Básico</label>
                                                 <input type="number" step="0.01" class="form-control" id="txtSalarioBasico" name="txtSalarioBasico">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="txtEstudiosRealizados" class="form-label">Estudios Realizados</label>
-                                                <input type="text" class="form-control" id="txtEstudiosRealizados" name="txtEstudiosRealizados">
-                                            </div>
+
                                             <div class="mb-3">
                                                 <label for="txtCodigo" class="form-label">Código</label>
                                                 <input type="text" class="form-control" id="txtCodigo" name="txtCodigo">
@@ -255,6 +261,28 @@
                                                 <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
                                                 <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
                                             </div>
+                                            
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    const fechaNacimiento = document.getElementById('txtFechaNacimiento');
+                                                    const edad = document.getElementById('txtEdadFuncionario');
+                                                    
+                                                    fechaNacimiento.addEventListener('change', function() {
+                                                        if (this.value) {
+                                                            const hoy = new Date();
+                                                            const nacimiento = new Date(this.value);
+                                                            let edadCalculada = hoy.getFullYear() - nacimiento.getFullYear();
+                                                            const mes = hoy.getMonth() - nacimiento.getMonth();
+                                                            
+                                                            if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+                                                                edadCalculada--;
+                                                            }
+                                                            
+                                                            edad.value = edadCalculada;
+                                                        }
+                                                    });
+                                                });
+                                            </script>
                                             <div class="mb-3">
                                                 <label for="txtLugarNacimiento" class="form-label">Lugar de Nacimiento</label>
                                                 <input type="text" class="form-control" id="txtLugarNacimiento" name="txtLugarNacimiento">
@@ -331,23 +359,87 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtBanco" class="form-label">Banco</label>
-                                                <input type="text" class="form-control" id="txtBanco" name="txtBanco">
+                                                <select class="form-select" id="txtBanco" name="txtBanco">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="BANCOLOMBIA">BANCOLOMBIA</option>
+                                                    <option value="BANCO DE BOGOTA">BANCO DE BOGOTÁ</option>
+                                                    <option value="DAVIVIENDA">DAVIVIENDA</option>
+                                                    <option value="BBVA COLOMBIA">BBVA COLOMBIA</option>
+                                                    <option value="BANCO POPULAR">BANCO POPULAR</option>
+                                                    <option value="BANCO CAJA SOCIAL">BANCO CAJA SOCIAL</option>
+                                                    <option value="BANCO AV VILLAS">BANCO AV VILLAS</option>
+                                                    <option value="BANCO OCCIDENTE">BANCO OCCIDENTE</option>
+                                                    <option value="BANCO AGRARIO">BANCO AGRARIO</option>
+                                                    <option value="CITIBANK">CITIBANK</option>
+                                                    <option value="BANCO GNB SUDAMERIS">BANCO GNB SUDAMERIS</option>
+                                                    <option value="BANCO FALABELLA">BANCO FALABELLA</option>
+                                                    <option value="BANCO PICHINCHA">BANCO PICHINCHA</option>
+                                                    <option value="BANCO COOPERATIVO COOPCENTRAL">BANCO COOPERATIVO COOPCENTRAL</option>
+                                                    <option value="BANCO SANTANDER">BANCO SANTANDER</option>
+                                                    <option value="BANCO MUNDO MUJER">BANCO MUNDO MUJER</option>
+                                                    <option value="BANCO FINANDINA">BANCO FINANDINA</option>
+                                                    <option value="BANCO SERFINANZA">BANCO SERFINANZA</option>
+                                                    <option value="BANCAMIA">BANCAMÍA</option>
+                                                    <option value="NEQUI">NEQUI</option>
+                                                    <option value="DAVIPLATA">DAVIPLATA</option>
+                                                    <option value="BANCO CREDIFINANCIERA">BANCO CREDIFINANCIERA</option>
+                                                    <option value="BANCO W">BANCO W</option>
+                                                    <option value="LULO BANK">LULO BANK</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtEps" class="form-label">E.P.S</label>
-                                                <input type="text" class="form-control" id="txtEps" name="txtEps">
+                                                <select class="form-select" id="txtEps" name="txtEps">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="NUEVA EPS">NUEVA EPS</option>
+                                                    <option value="SURA">SURA</option>
+                                                    <option value="SANITAS">SANITAS</option>
+                                                    <option value="SALUD TOTAL">SALUD TOTAL</option>
+                                                    <option value="COMPENSAR">COMPENSAR</option>
+                                                    <option value="FAMISANAR">FAMISANAR</option>
+                                                    <option value="COOMEVA">COOMEVA</option>
+                                                    <option value="MEDIMAS">MEDIMAS</option>
+                                                    <option value="ALIANSALUD">ALIANSALUD</option>
+                                                    <option value="COOSALUD">COOSALUD</option>
+                                                    <option value="MUTUAL SER">MUTUAL SER</option>
+                                                    <option value="CAJACOPI">CAJACOPI</option>
+                                                    <option value="CAPRESOCA">CAPRESOCA</option>
+                                                    <option value="COMFENALCO VALLE">COMFENALCO VALLE</option>
+                                                    <option value="ECOOPSOS">ECOOPSOS</option>
+                                                    <option value="EMSSANAR">EMSSANAR</option>
+                                                    <option value="GOLDEN GROUP">GOLDEN GROUP</option>
+                                                    <option value="PIJAOS SALUD">PIJAOS SALUD</option>
+                                                    <option value="SAVIA SALUD">SAVIA SALUD</option>
+                                                    <option value="DUSAKAWI">DUSAKAWI</option>
+                                                    <option value="ANAS WAYUU">ANAS WAYUU</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfp" class="form-label">A.F.P</label>
-                                                <input type="text" class="form-control" id="txtAfp" name="txtAfp">
+                                                <select class="form-select" id="txtAfp" name="txtAfp">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="PORVENIR">PORVENIR</option>
+                                                    <option value="PROTECCION">PROTECCIÓN</option>
+                                                    <option value="COLFONDOS">COLFONDOS</option>
+                                                    <option value="OLD MUTUAL">OLD MUTUAL</option>
+                                                    <option value="COLPENSIONES">COLPENSIONES</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfc" class="form-label">A.F.C</label>
-                                                <input type="text" class="form-control" id="txtAfc" name="txtAfc">
+                                                <select class="form-select" id="txtAfc" name="txtAfc">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="PORVENIR">PORVENIR</option>
+                                                    <option value="PROTECCION">PROTECCIÓN</option>
+                                                    <option value="COLFONDOS">COLFONDOS</option>
+                                                    <option value="SKANDIA">SKANDIA</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtArl" class="form-label">A.R.L</label>
-                                                <input type="text" class="form-control" id="txtArl" name="txtArl">
+                                                <select class="form-select" id="txtArl" name="txtArl">
+                                                    <option value="POSITIVA" selected>POSITIVA</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtSindicalizado" class="form-label">Sindicalizado</label>
