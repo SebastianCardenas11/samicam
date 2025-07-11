@@ -61,7 +61,7 @@ class FuncionariosOps extends Controllers
                 if (!empty($camposFaltantes)) {
                     $arrResponse = array(
                         "status" => false, 
-                        "msg" => 'Por favor complete los siguientes campos obligatorios: ' . implode(', ', $camposFaltantes)
+                        "msg" => 'Por favor complete los siguientes campos obligatorios '
                     );
                     echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                     die();

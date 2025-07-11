@@ -103,7 +103,15 @@
                                     <!-- Gráfica de Publicaciones por Mes -->
                                     <div class="col-md-8">
                                         <div class="tile">
-                                            <h3 class="tile-title">Tendencia de Publicaciones</h3>
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h3 class="tile-title mb-0">Tendencia de Publicaciones</h3>
+                                                <div class="d-flex gap-2">
+                                                    <input type="date" id="fechaInicio" class="form-control form-control-sm" style="width: 150px;">
+                                                    <input type="date" id="fechaFin" class="form-control form-control-sm" style="width: 150px;">
+                                                    <button type="button" id="btnFiltrar" class="btn btn-primary btn-sm">Filtrar</button>
+                                                    <button type="button" id="btnLimpiar" class="btn btn-secondary btn-sm">Limpiar</button>
+                                                </div>
+                                            </div>
                                             <div class="tile-body">
                                                 <canvas id="publicacionesPorMes" style="height: 250px;"></canvas>
                                             </div>
@@ -178,41 +186,86 @@
     background-color: #f8f9fa;
     border-radius: 8px;
 }
+.d-flex.gap-2 > * {
+    margin-right: 8px;
+}
+.d-flex.gap-2 > *:last-child {
+    margin-right: 0;
+}
+#fechaInicio, #fechaFin {
+    font-size: 0.875rem;
+}
+#btnFiltrar, #btnLimpiar {
+    white-space: nowrap;
+}
 </style>
 
 <?php footerAdmin($data); ?>
 
 <script>
+let chartTendencia = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar cuando se hace clic en la pestaña de gráficos
     document.getElementById('graficos-tab').addEventListener('click', function() {
         setTimeout(function() {
             initCharts();
+            setupDateFilters();
         }, 200);
     });
 });
 
-function initCharts() {
-    // Datos para las gráficas
-    const estadisticas = <?= json_encode($data['estadisticas']) ?>;
+function setupDateFilters() {
+    const btnFiltrar = document.getElementById('btnFiltrar');
+    const btnLimpiar = document.getElementById('btnLimpiar');
     
-    // Configuración de colores
-    const colors = {
-        primary: '#007bff',
-        success: '#28a745',
-        warning: '#ffc107',
-        danger: '#dc3545',
-        info: '#17a2b8'
-    };
+    if (btnFiltrar) {
+        btnFiltrar.addEventListener('click', function() {
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+            
+            if (fechaInicio && fechaFin) {
+                if (fechaInicio > fechaFin) {
+                    alert('La fecha de inicio no puede ser mayor que la fecha fin');
+                    return;
+                }
+                cargarGraficoFiltrado(fechaInicio, fechaFin);
+            } else {
+                alert('Por favor seleccione ambas fechas');
+            }
+        });
+    }
+    
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', function() {
+            document.getElementById('fechaInicio').value = '';
+            document.getElementById('fechaFin').value = '';
+            cargarGraficoOriginal();
+        });
+    }
+}
 
-    // Gráfica de Publicaciones por Mes
+function initCharts() {
+    const estadisticas = <?= json_encode($data['estadisticas']) ?>;
+    actualizarTodosLosGraficos(estadisticas);
+}
+
+function crearGraficoTendencia(datos) {
+    const colors = {
+        primary: '#007bff'
+    };
+    
     const mesesLabels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
     const datosPorMes = new Array(12).fill(0);
-    estadisticas.publicaciones_por_mes.forEach(item => {
+    datos.forEach(item => {
         datosPorMes[item.mes - 1] = parseInt(item.total);
     });
 
-    new Chart(document.getElementById('publicacionesPorMes'), {
+    if (chartTendencia) {
+        chartTendencia.destroy();
+    }
+
+    chartTendencia = new Chart(document.getElementById('publicacionesPorMes'), {
         type: 'line',
         data: {
             labels: mesesLabels,
@@ -243,16 +296,60 @@ function initCharts() {
             }
         }
     });
+}
 
-    // Gráfica de Estado de Publicaciones
-    new Chart(document.getElementById('estadoPublicaciones'), {
+function cargarGraficoFiltrado(fechaInicio, fechaFin) {
+    fetch(`${base_url}/publicaciones/getPublicacionesPorFecha`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        actualizarTodosLosGraficos(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al cargar los datos filtrados');
+    });
+}
+
+function cargarGraficoOriginal() {
+    const estadisticas = <?= json_encode($data['estadisticas']) ?>;
+    actualizarTodosLosGraficos(estadisticas);
+}
+
+function actualizarTodosLosGraficos(estadisticas) {
+    // Actualizar gráfico de tendencia
+    crearGraficoTendencia(estadisticas.publicaciones_por_mes);
+    
+    // Actualizar gráfico de estado
+    actualizarGraficoEstado(estadisticas.estado_publicaciones);
+    
+    // Actualizar gráfico de respuestas
+    actualizarGraficoRespuestas(estadisticas.respuestas_envio);
+    
+    // Actualizar gráfico de dependencias
+    actualizarGraficoDependencias(estadisticas.publicaciones_por_dependencia);
+}
+
+let chartEstado, chartRespuestas, chartDependencias;
+
+function actualizarGraficoEstado(datos) {
+    const colors = { success: '#28a745', danger: '#dc3545' };
+    
+    if (chartEstado) chartEstado.destroy();
+    
+    chartEstado = new Chart(document.getElementById('estadoPublicaciones'), {
         type: 'doughnut',
         data: {
             labels: ['Activas', 'Inactivas'],
             datasets: [{
                 data: [
-                    estadisticas.estado_publicaciones.find(e => e.status == 1)?.total || 0,
-                    estadisticas.estado_publicaciones.find(e => e.status == 0)?.total || 0
+                    datos.find(e => e.status == 1)?.total || 0,
+                    datos.find(e => e.status == 0)?.total || 0
                 ],
                 backgroundColor: [colors.success, colors.danger]
             }]
@@ -260,23 +357,24 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
+            plugins: { legend: { position: 'bottom' } }
         }
     });
+}
 
-    // Gráfica de Respuestas de Envío
-    new Chart(document.getElementById('respuestasEnvio'), {
+function actualizarGraficoRespuestas(datos) {
+    const colors = { success: '#28a745', warning: '#ffc107' };
+    
+    if (chartRespuestas) chartRespuestas.destroy();
+    
+    chartRespuestas = new Chart(document.getElementById('respuestasEnvio'), {
         type: 'pie',
         data: {
             labels: ['Respondidas', 'Pendientes'],
             datasets: [{
                 data: [
-                    estadisticas.respuestas_envio.find(e => e.respuesta_envio == 'Si')?.total || 0,
-                    estadisticas.respuestas_envio.find(e => e.respuesta_envio == 'No')?.total || 0
+                    datos.find(e => e.respuesta_envio == 'Si')?.total || 0,
+                    datos.find(e => e.respuesta_envio == 'No')?.total || 0
                 ],
                 backgroundColor: [colors.success, colors.warning]
             }]
@@ -284,40 +382,34 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
+            plugins: { legend: { position: 'bottom' } }
         }
     });
+}
 
-    // Gráfica de Publicaciones por Dependencia
-    const dependenciasData = estadisticas.publicaciones_por_dependencia;
-    new Chart(document.getElementById('publicacionesPorDependencia'), {
+function actualizarGraficoDependencias(datos) {
+    const colors = { info: '#17a2b8' };
+    
+    if (chartDependencias) chartDependencias.destroy();
+    
+    chartDependencias = new Chart(document.getElementById('publicacionesPorDependencia'), {
         type: 'bar',
         data: {
-            labels: dependenciasData.map(item => item.dependencia),
+            labels: datos.map(item => item.dependencia),
             datasets: [{
                 label: 'Publicaciones',
-                data: dependenciasData.map(item => parseInt(item.total)),
+                data: datos.map(item => parseInt(item.total)),
                 backgroundColor: colors.info
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
+                    ticks: { stepSize: 1 }
                 }
             }
         }

@@ -50,10 +50,9 @@
                                 <label for="txtEstado">Estado *</label>
                                 <select class="form-control" id="txtEstado" name="txtEstado" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="En Mantenimiento">En Mantenimiento</option>
-                                    <option value="Fuera de Servicio">Fuera de Servicio</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="De baja">De baja</option>
                                 </select>
                             </div>
                         </div>
@@ -65,8 +64,6 @@
                                 <select class="form-control" id="txtDisponibilidad" name="txtDisponibilidad" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Disponible">Disponible</option>
-                                    <option value="En Uso">En Uso</option>
-                                    <option value="Reservado">Reservado</option>
                                     <option value="No Disponible">No Disponible</option>
                                 </select>
                             </div>
@@ -75,6 +72,7 @@
                             <div class="form-group">
                                 <label for="txtDependencia">Dependencia</label>
                                 <input type="text" class="form-control" id="txtDependencia" name="txtDependencia" readonly>
+                                <input type="hidden" id="listDependencia" name="listDependencia">
                             </div>
                         </div>
                     </div>
@@ -99,12 +97,14 @@
                             <div class="form-group">
                                 <label for="txtCargo">Cargo</label>
                                 <input type="text" class="form-control" id="txtCargo" name="txtCargo" readonly>
+                                <input type="hidden" id="listCargo" name="listCargo">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtContacto">Contacto</label>
                                 <input type="text" class="form-control" id="txtContacto" name="txtContacto" readonly>
+                                <input type="hidden" id="listContacto" name="listContacto">
                             </div>
                         </div>
                     </div>

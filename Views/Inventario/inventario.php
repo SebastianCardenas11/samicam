@@ -124,7 +124,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaImpresoras">
+                                                        <table class="table table-hover table-bordered" id="tablaImpresoras" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número</th>
@@ -172,7 +172,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaEscaneres">
+                                                        <table class="table table-hover table-bordered" id="tablaEscaneres"  style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número</th>
@@ -219,7 +219,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaPapeleria">
+                                                        <table class="table table-hover table-bordered" id="tablaPapeleria" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Item</th>
@@ -257,7 +257,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaTintasToner">
+                                                        <table class="table table-hover table-bordered" id="tablaTintasToner" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Item</th>
@@ -297,7 +297,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaPcTorre">
+                                                        <table class="table table-hover table-bordered" id="tablaPcTorre" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número</th>
@@ -355,7 +355,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaTodoEnUno">
+                                                        <table class="table table-hover table-bordered" id="tablaTodoEnUno" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número</th>
@@ -410,7 +410,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaPortatiles">
+                                                        <table class="table table-hover table-bordered" id="tablaPortatiles" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Número</th>
@@ -465,7 +465,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
-                                                        <table class="table table-hover table-bordered" id="tablaHerramientas">
+                                                        <table class="table table-hover table-bordered" id="tablaHerramientas" style="width:100% !important; margin:0 !important;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Item</th>

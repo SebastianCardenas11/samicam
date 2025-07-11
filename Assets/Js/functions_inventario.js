@@ -44,8 +44,30 @@ function initDataTables() {
                 { "data": "modelo" },
                 { "data": "serial" },
                 { "data": "consumible" },
-                { "data": "estado" },
-                { "data": "disponibilidad" },
+                { 
+                    "data": "estado",
+                    "render": function(data, type, row) {
+                        if (data == 'Bueno') {
+                            return '<span class="badge text-bg-success">Bueno</span>';
+                        } else if (data == 'Regular') {
+                            return '<span class="badge text-bg-warning">Regular</span>';
+                        } else if (data == 'De baja') {
+                            return '<span class="badge text-bg-danger">De baja</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
+                { 
+                    "data": "disponibilidad",
+                    "render": function(data, type, row) {
+                        if (data == 'Disponible') {
+                            return '<span class="badge text-bg-success">Disponible</span>';
+                        } else if (data == 'No Disponible') {
+                            return '<span class="badge text-bg-danger">No Disponible</span>';
+                        }
+                    }
+                },
                 { "data": "nombre_dependencia" },
                 { "data": "oficina" },
                 { "data": "nombre_funcionario" },
@@ -55,12 +77,8 @@ function initDataTables() {
                     "data": "id_impresora",
                     "render": function(data, type, row) {
                         let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
+                        buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
                     }
                 }
@@ -100,12 +118,8 @@ function initDataTables() {
                     "data": "id_escaner",
                     "render": function(data, type, row) {
                         let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
+                        buttons += `<button class="btn btn-primary btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
                     }
                 }
@@ -208,12 +222,8 @@ function initDataTables() {
                     "data": "id_pc_torre",
                     "render": function(data, type, row) {
                         let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editPcTorre(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delPcTorre(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
+                        buttons += `<button class="btn btn-primary btn-sm" onclick="editPcTorre(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delPcTorre(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
                     }
                 }
@@ -261,12 +271,8 @@ function initDataTables() {
                     "data": "id_pc_todo_en_uno",
                     "render": function(data, type, row) {
                         let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editTodoEnUno(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
+                        buttons += `<button class="btn btn-primary btn-sm" onclick="editTodoEnUno(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
                     }
                 }
@@ -314,12 +320,8 @@ function initDataTables() {
                     "data": "id_portatil",
                     "render": function(data, type, row) {
                         let buttons = '';
-                        if (permisosMod.u) {
-                            buttons += `<button class="btn btn-primary btn-sm" onclick="editPortatil(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        }
-                        if (permisosMod.d) {
-                            buttons += `<button class="btn btn-danger btn-sm" onclick="delPortatil(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
-                        }
+                        buttons += `<button class="btn btn-primary btn-sm" onclick="editPortatil(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delPortatil(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
                     }
                 }
@@ -607,8 +609,12 @@ function editImpresora(idImpresora) {
     fetch(base_url + '/Inventario/getImpresora/' + idImpresora)
         .then(response => response.json())
         .then(data => {
+            console.log('Datos recibidos del servidor:', data);
             if (data.status) {
                 const impresora = data.data;
+                console.log('Datos de la impresora:', impresora);
+                console.log('Estado:', impresora.estado);
+                console.log('Disponibilidad:', impresora.disponibilidad);
                 currentForm = 'impresora';
                 showForm('impresora');
                 
@@ -619,13 +625,16 @@ function editImpresora(idImpresora) {
                 document.getElementById('txtModelo').value = impresora.modelo;
                 document.getElementById('txtSerial').value = impresora.serial;
                 document.getElementById('txtConsumible').value = impresora.consumible;
-                document.getElementById('txtEstado').value = impresora.estado;
-                document.getElementById('txtDisponibilidad').value = impresora.disponibilidad;
-                document.getElementById('listDependencia').value = impresora.id_dependencia;
-                document.getElementById('txtOficina').value = impresora.oficina;
-                document.getElementById('listFuncionario').value = impresora.id_funcionario;
-                document.getElementById('listCargo').value = impresora.id_cargo;
-                document.getElementById('listContacto').value = impresora.id_contacto;
+                $('#txtEstado').val(impresora.estado || '');
+                $('#txtDisponibilidad').val(impresora.disponibilidad || '');
+                document.getElementById('txtDependencia').value = impresora.nombre_dependencia || '';
+                document.getElementById('listDependencia').value = impresora.id_dependencia || '';
+                document.getElementById('txtOficina').value = impresora.oficina || '';
+                document.getElementById('listFuncionario').value = impresora.id_funcionario || '';
+                document.getElementById('txtCargo').value = impresora.nombre_cargo || '';
+                document.getElementById('listCargo').value = impresora.id_cargo || '';
+                document.getElementById('txtContacto').value = impresora.nombre_contacto || '';
+                document.getElementById('listContacto').value = impresora.id_contacto || '';
                 
                 $('#modalInventario').modal('show');
             }
@@ -634,27 +643,82 @@ function editImpresora(idImpresora) {
 }
 
 function saveImpresora() {
+    console.log('=== INICIANDO GUARDADO DE IMPRESORA ===');
+    
+    // Validación detallada de campos
+    const campos = {
+        'txtNumeroImpresora': $('#txtNumeroImpresora').val(),
+        'txtMarca': $('#txtMarca').val(),
+        'txtModelo': $('#txtModelo').val(),
+        'txtSerial': $('#txtSerial').val(),
+        'txtConsumible': $('#txtConsumible').val(),
+        'txtEstado': $('#txtEstado').val(),
+        'txtDisponibilidad': $('#txtDisponibilidad').val(),
+        'listDependencia': $('#listDependencia').val(),
+        'txtOficina': $('#txtOficina').val(),
+        'listFuncionario': $('#listFuncionario').val(),
+        'listCargo': $('#listCargo').val(),
+        'listContacto': $('#listContacto').val()
+    };
+    
+    console.log('Valores de campos:', campos);
+    
+    // Verificar campos obligatorios
+    const camposObligatorios = ['txtNumeroImpresora', 'txtMarca', 'txtModelo', 'txtEstado', 'txtDisponibilidad'];
+    const camposVacios = camposObligatorios.filter(campo => !campos[campo] || campos[campo].trim() === '');
+    
+    if (camposVacios.length > 0) {
+        console.error('Campos obligatorios vacíos:', camposVacios);
+        Swal.fire({
+            title: "Campos obligatorios",
+            text: "Los siguientes campos son obligatorios " ,
+            icon: "warning"
+        });
+        return;
+    }
+    
     if ($('#formImpresora')[0].checkValidity()) {
+        const formData = $('#formImpresora').serialize();
+        console.log('Datos del formulario serializado:', formData);
+        
         $.ajax({
             url: base_url + '/Inventario/setImpresora',
             type: 'POST',
-            data: $('#formImpresora').serialize(),
+            data: formData,
             dataType: 'json',
+            beforeSend: function() {
+                console.log('Enviando petición AJAX a:', base_url + '/Inventario/setImpresora');
+            },
             success: function(response) {
+                console.log('Respuesta del servidor:', response);
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formImpresora')[0].reset();
                     tblImpresoras.ajax.reload();
-                    swal("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    console.error('Error en respuesta:', response.msg);
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
-            error: function() {
-                Swal.fire("Error", "Error al guardar los datos", "error");
+            error: function(xhr, status, error) {
+                console.error('=== ERROR EN AJAX ===');
+                console.error('Status:', status);
+                console.error('Error:', error);
+                console.error('Response Text:', xhr.responseText);
+                console.error('Status Code:', xhr.status);
+                console.error('Ready State:', xhr.readyState);
+                console.error('URL:', base_url + '/Inventario/setImpresora');
+                
+                Swal.fire({
+                    title: "Error al guardar",
+                    text: "Revisa la consola para más detalles. Error: " + error,
+                    icon: "error"
+                });
             }
         });
     } else {
+        console.log('Formulario no válido según checkValidity()');
         $('#formImpresora')[0].reportValidity();
     }
 }
@@ -681,7 +745,7 @@ function delImpresora(idImpresora) {
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
-                    loadImpresoras();
+                    tblImpresoras.ajax.reload();
                     Swal.fire(
                         '¡Eliminado!',
                         data.msg,
@@ -743,9 +807,9 @@ function saveEscaner() {
                     $('#modalInventario').modal('hide');
                     $('#formEscaner')[0].reset();
                     loadEscaneres();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -779,7 +843,7 @@ function delEscaner(idEscaner) {
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
-                    loadEscaneres();
+                    tblEscaneres.ajax.reload();
                     Swal.fire(
                         '¡Eliminado!',
                         data.msg,
@@ -832,9 +896,9 @@ function saveArticuloPapeleria() {
                     $('#modalInventario').modal('hide');
                     $('#formPapeleria')[0].reset();
                     tblPapeleria.ajax.reload();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -930,9 +994,9 @@ function saveTintaToner() {
                     $('#modalInventario').modal('hide');
                     $('#formTintaToner')[0].reset();
                     tblTintasToner.ajax.reload();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1044,9 +1108,9 @@ function savePcTorre() {
                     $('#modalInventario').modal('hide');
                     $('#formPcTorre')[0].reset();
                     loadPcTorre();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1134,11 +1198,11 @@ function editTodoEnUno(idTodoEnUno) {
                 
                 $('#modalInventario').modal('show');
             } else {
-                swal("Error", response.msg, "error");
+                swal.fire("Error", response.msg, "error");
             }
         },
         error: function() {
-            swal("Error", "Error al cargar los datos", "error");
+            swal.fire("Error", "Error al cargar los datos", "error");
         }
     });
 }
@@ -1155,9 +1219,9 @@ function saveTodoEnUno() {
                     $('#modalInventario').modal('hide');
                     $('#formTodoEnUno')[0].reset();
                     loadTodoEnUno();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1170,7 +1234,7 @@ function saveTodoEnUno() {
 }
 
 function delTodoEnUno(idTodoEnUno) {
-    swal({
+    swal.fire({
         title: "¿Está seguro?",
         text: "Se eliminará el PC Todo en Uno",
         type: "warning",
@@ -1190,17 +1254,17 @@ function delTodoEnUno(idTodoEnUno) {
                 success: function(response) {
                     if (response.status) {
                         loadTodoEnUno();
-                        swal("¡Eliminado!", response.msg, "success");
+                        swal.fire("¡Eliminado!", response.msg, "success");
                     } else {
-                        swal("Error", response.msg, "error");
+                        swal.fire("Error", response.msg, "error");
                     }
                 },
                 error: function() {
-                    swal("Error", "Error al eliminar", "error");
+                    swal.fire("Error", "Error al eliminar", "error");
                 }
             });
         } else {
-            swal("Cancelado", "No se eliminó el registro", "info");
+            swal.fire("Cancelado", "No se eliminó el registro", "info");
         }
     });
 }
@@ -1241,11 +1305,11 @@ function editPortatil(idPortatil) {
                 
                 $('#modalInventario').modal('show');
             } else {
-                swal("Error", response.msg, "error");
+                swal.fire("Error", response.msg, "error");
             }
         },
         error: function() {
-            swal("Error", "Error al cargar los datos", "error");
+            swal.fire("Error", "Error al cargar los datos", "error");
         }
     });
 }
@@ -1262,9 +1326,9 @@ function savePortatil() {
                     $('#modalInventario').modal('hide');
                     $('#formPortatil')[0].reset();
                     loadPortatiles();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1277,7 +1341,7 @@ function savePortatil() {
 }
 
 function delPortatil(idPortatil) {
-    swal({
+    swal.fire({
         title: "¿Está seguro?",
         text: "Se eliminará el portátil",
         type: "warning",
@@ -1297,17 +1361,17 @@ function delPortatil(idPortatil) {
                 success: function(response) {
                     if (response.status) {
                         loadPortatiles();
-                        swal("¡Eliminado!", response.msg, "success");
+                        swal.fire("¡Eliminado!", response.msg, "success");
                     } else {
-                        swal("Error", response.msg, "error");
+                        swal.fire("Error", response.msg, "error");
                     }
                 },
                 error: function() {
-                    swal("Error", "Error al eliminar", "error");
+                    swal.fire("Error", "Error al eliminar", "error");
                 }
             });
         } else {
-            swal("Cancelado", "No se eliminó el registro", "info");
+            swal.fire("Cancelado", "No se eliminó el registro", "info");
         }
     });
 }
@@ -1360,9 +1424,9 @@ function saveHerramienta() {
                     $('#modalInventario').modal('hide');
                     $('#formHerramienta')[0].reset();
                     tblHerramientas.ajax.reload();
-                    swal("¡Éxito!", response.msg, "success");
+                    swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal("Error", response.msg, "error");
+                    swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1422,17 +1486,23 @@ function delHerramienta(idHerramienta) {
     });
 }
 
-// Evento para autocompletar dependencia, cargo y contacto al seleccionar funcionario en impresoras
+// Autocompletar dependencia, cargo y contacto al seleccionar funcionario
 $(document).on('change', '#listFuncionario', function() {
     const idFuncionario = $(this).val();
     const funcionario = funcionariosPlanta.find(f => f.id_funcionario == idFuncionario);
     if (funcionario) {
         $('#txtDependencia').val(funcionario.nombre_dependencia);
+        $('#listDependencia').val(funcionario.id_dependencia);
         $('#txtCargo').val(funcionario.nombre_cargo);
-        $('#txtContacto').val(funcionario.contacto);
+        $('#listCargo').val(funcionario.id_cargo);
+        $('#txtContacto').val(funcionario.telefono);
+        $('#listContacto').val(funcionario.id_funcionario);
     } else {
         $('#txtDependencia').val('');
+        $('#listDependencia').val('');
         $('#txtCargo').val('');
+        $('#listCargo').val('');
         $('#txtContacto').val('');
+        $('#listContacto').val('');
     }
 }); 

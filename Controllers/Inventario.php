@@ -33,10 +33,14 @@ class Inventario extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             try {
                 $arrData = $this->model->selectImpresoras();
+                error_log('Datos obtenidos: ' . print_r($arrData, true));
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
+                error_log('Error en getImpresoras: ' . $e->getMessage());
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
             }
+        } else {
+            error_log('Sin permisos de lectura');
         }
         die();
     }
@@ -60,52 +64,80 @@ class Inventario extends Controllers
 
     public function setImpresora()
     {
-        if ($_POST) {
-            if (
-                empty($_POST['txtNumeroImpresora']) ||
-                empty($_POST['txtMarca']) ||
-                empty($_POST['txtModelo']) ||
-                empty($_POST['txtEstado']) ||
-                empty($_POST['txtDisponibilidad'])
-            ) {
-                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
-            } else {
-                $intIdImpresora = intval($_POST['idImpresora']);
-                $strNumeroImpresora = strClean($_POST['txtNumeroImpresora']);
-                $strMarca = strClean($_POST['txtMarca']);
-                $strModelo = strClean($_POST['txtModelo']);
-                $strSerial = strClean($_POST['txtSerial']);
-                $strConsumible = strClean($_POST['txtConsumible']);
-                $strEstado = strClean($_POST['txtEstado']);
-                $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
-                $intDependencia = intval($_POST['listDependencia']);
-                $strOficina = strClean($_POST['txtOficina']);
-                $intFuncionario = intval($_POST['listFuncionario']);
-                $intCargo = intval($_POST['listCargo']);
-                $intContacto = intval($_POST['listContacto']);
+        try {
+            error_log('=== INICIO setImpresora ===');
+            error_log('POST data: ' . print_r($_POST, true));
+            
+            if ($_POST) {
+                if (
+                    empty($_POST['txtNumeroImpresora']) ||
+                    empty($_POST['txtMarca']) ||
+                    empty($_POST['txtModelo']) ||
+                    empty($_POST['txtEstado']) ||
+                    empty($_POST['txtDisponibilidad'])
+                ) {
+                    error_log('Datos obligatorios incompletos');
+                    $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
+                } else {
+                    $intIdImpresora = intval($_POST['idImpresora']);
+                    $strNumeroImpresora = strClean($_POST['txtNumeroImpresora']);
+                    $strMarca = strClean($_POST['txtMarca']);
+                    $strModelo = strClean($_POST['txtModelo']);
+                    $strSerial = strClean($_POST['txtSerial']);
+                    $strConsumible = strClean($_POST['txtConsumible']);
+                    $strEstado = strClean($_POST['txtEstado']);
+                    $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
+                    $intDependencia = intval($_POST['listDependencia']);
+                    $strOficina = strClean($_POST['txtOficina']);
+                    $intFuncionario = intval($_POST['listFuncionario']);
+                    $intCargo = intval($_POST['listCargo']);
+                    $intContacto = intval($_POST['listContacto']);
 
-                $request = "";
-                if ($intIdImpresora == 0) {
-                    if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
-                        $option = 1;
+                    error_log('Datos procesados - ID: ' . $intIdImpresora . ', Numero: ' . $strNumeroImpresora);
+
+                    $request = "";
+                    if ($intIdImpresora == 0) {
+                        if ($_SESSION['permisosMod']['w']) {
+                            error_log('Insertando nueva impresora...');
+                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
+                            $option = 1;
+                            error_log('Resultado insert: ' . $request);
+                        } else {
+                            error_log('Sin permisos de escritura');
+                        }
+                    } else {
+                        if ($_SESSION['permisosMod']['u']) {
+                            error_log('Actualizando impresora ID: ' . $intIdImpresora);
+                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
+                            $option = 2;
+                            error_log('Resultado update: ' . $request);
+                        } else {
+                            error_log('Sin permisos de actualización');
+                        }
                     }
-                } else {
-                    if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
-                        $option = 2;
+                    
+                    if ($request > 0) {
+                        $msg = $option == 1 ? "Impresora guardada correctamente." : "Impresora actualizada correctamente.";
+                        $arrResponse = array("status" => true, "msg" => $msg);
+                        error_log('Guardado exitoso: ' . $msg);
+                    } else if ($request == 'exist') {
+                        $arrResponse = array("status" => false, "msg" => '¡Atención! La impresora ya existe.');
+                        error_log('Impresora ya existe');
+                    } else {
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                        error_log('Error al almacenar - Request result: ' . $request);
                     }
                 }
-                if ($request > 0) {
-                    $msg = $option == 1 ? "Impresora guardada correctamente." : "Impresora actualizada correctamente.";
-                    $arrResponse = array("status" => true, "msg" => $msg);
-                } else if ($request == 'exist') {
-                    $arrResponse = array("status" => false, "msg" => '¡Atención! La impresora ya existe.');
-                } else {
-                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-                }
+                error_log('Respuesta final: ' . json_encode($arrResponse));
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                error_log('No hay datos POST');
+                echo json_encode(array("status" => false, "msg" => 'No se recibieron datos'), JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            error_log('EXCEPCIÓN en setImpresora: ' . $e->getMessage());
+            error_log('Stack trace: ' . $e->getTraceAsString());
+            echo json_encode(array("status" => false, "msg" => 'Error interno: ' . $e->getMessage()), JSON_UNESCAPED_UNICODE);
         }
         die();
     }

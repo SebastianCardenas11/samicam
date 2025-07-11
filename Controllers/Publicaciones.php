@@ -230,5 +230,26 @@ class Publicaciones extends Controllers
         }
         die();
     }
+
+    public function getPublicacionesPorFecha()
+    {
+        if ($_POST && $_SESSION['permisosMod']['r']) {
+            $fechaInicio = strClean($_POST['fechaInicio']);
+            $fechaFin = strClean($_POST['fechaFin']);
+            
+            if (!empty($fechaInicio) && !empty($fechaFin)) {
+                $estadisticas = $this->model->getEstadisticasFiltradas($fechaInicio, $fechaFin);
+                header('Content-Type: application/json');
+                echo json_encode($estadisticas, JSON_UNESCAPED_UNICODE);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'Fechas requeridas'), JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => 'Sin permisos'), JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 }
 ?>

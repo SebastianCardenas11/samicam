@@ -59,8 +59,7 @@
         // Obtener tareas por usuario asignado
         public function getTareasByUsuarioAsignado($id_usuario)
         {
-            // Primero obtenemos las tareas donde el usuario es el asignado principal
-            $sql = "SELECT t.*, 
+            $sql = "SELECT DISTINCT t.*, 
                     DATE_FORMAT(t.fecha_inicio, '%Y-%m-%d') as fecha_inicio,
                     DATE_FORMAT(t.fecha_fin, '%Y-%m-%d') as fecha_fin,
                     uc.nombres as creador_nombre, 
@@ -71,25 +70,9 @@
                     INNER JOIN tbl_usuarios uc ON t.id_usuario_creador = uc.ideusuario
                     INNER JOIN tbl_usuarios ua ON t.id_usuario_asignado = ua.ideusuario
                     INNER JOIN tbl_dependencia d ON t.dependencia_fk = d.dependencia_pk
-                    WHERE t.id_usuario_asignado = $id_usuario
-                    
-                    UNION
-                    
-                    SELECT t.*, 
-                    DATE_FORMAT(t.fecha_inicio, '%Y-%m-%d') as fecha_inicio,
-                    DATE_FORMAT(t.fecha_fin, '%Y-%m-%d') as fecha_fin,
-                    uc.nombres as creador_nombre, 
-                    ua.nombres as asignado_nombre,
-                    d.nombre as dependencia_nombre,
-                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones
-                    FROM tbl_tareas t
-                    INNER JOIN tbl_usuarios uc ON t.id_usuario_creador = uc.ideusuario
-                    INNER JOIN tbl_usuarios ua ON t.id_usuario_asignado = ua.ideusuario
-                    INNER JOIN tbl_dependencia d ON t.dependencia_fk = d.dependencia_pk
-                    INNER JOIN tbl_tareas_usuarios tu ON t.id_tarea = tu.id_tarea
-                    WHERE tu.id_usuario = $id_usuario AND t.id_usuario_asignado != $id_usuario
-                    
-                    ORDER BY fecha_creacion DESC";
+                    WHERE (t.id_usuario_asignado = $id_usuario 
+                           OR EXISTS (SELECT 1 FROM tbl_tareas_usuarios tu WHERE tu.id_tarea = t.id_tarea AND tu.id_usuario = $id_usuario))
+                    ORDER BY t.fecha_creacion DESC";
             
             $tareas = $this->select_all($sql);
             
@@ -431,12 +414,21 @@
 
         public function countTareasPorEstado(int $estado)
         {
-            $sql = "SELECT COUNT(*) as total FROM tbl_tareas WHERE estado = CASE 
-                    WHEN {$estado} = 0 THEN 'sin empezar'
-                    WHEN {$estado} = 1 THEN 'en curso'
-                    WHEN {$estado} = 2 THEN 'completada'
-                    END";
-            $request = $this->select($sql);
+            $estadoTexto = '';
+            switch($estado) {
+                case 0:
+                    $estadoTexto = 'sin empezar';
+                    break;
+                case 1:
+                    $estadoTexto = 'en curso';
+                    break;
+                case 2:
+                    $estadoTexto = 'completada';
+                    break;
+            }
+            
+            $sql = "SELECT COUNT(DISTINCT id_tarea) as total FROM tbl_tareas WHERE estado = ?";
+            $request = $this->select($sql, [$estadoTexto]);
             return $request['total'];
         }
 

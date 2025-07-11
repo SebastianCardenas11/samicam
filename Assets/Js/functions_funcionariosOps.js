@@ -181,7 +181,7 @@ document.addEventListener(
         }
 
         if (camposFaltantes.length > 0) {
-          Swal.fire("Error", "Por favor complete los siguientes campos obligatorios: " + camposFaltantes.join(", "), "error");
+          Swal.fire("Error", "Por favor complete los siguientes campos obligatorios","error");
           return false;
         }
 
