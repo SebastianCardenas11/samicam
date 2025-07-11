@@ -27,12 +27,20 @@
           <table class="table table-hover table-bordered" id="tablaPrestamos">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Responsable</th>
-                <th>Elemento</th>
-                <th>Cantidad</th>
+                <th>Dependencia</th>
+                <th>Funcionario Responsable</th>
+                <th>Cargo Funcionario</th>
+                <th>Fecha Préstamo</th>
+                <th>Fecha Devolución</th>
+                <th>Item</th>
+                <th>Dispositivo</th>
+                <th>Marca/Modelo</th>
+                <th>Activo</th>
+                <th>Serial</th>
                 <th>Estado</th>
+                <th>MAC</th>
+                <th>Observaciones</th>
+                <th>Status</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -92,4 +100,5 @@
     </div>
   </div>
 </div>
+<?php require_once "Views/Template/Modals/modalPsi.php"; ?>
 <?php require_once "Views/Template/footer_admin.php"; ?>

@@ -44,11 +44,26 @@ class psi extends Controllers
     }
     public function setPrestamo()
     {
-        // Lógica para crear/editar préstamo
+        if ($_SESSION['permisosMod']['w']) {
+            $data = $_POST;
+            $id = isset($data['id_prestamo']) ? intval($data['id_prestamo']) : 0;
+            if ($id > 0) {
+                $result = $this->model->updatePrestamo($id, $data);
+            } else {
+                $result = $this->model->insertPrestamo($data);
+            }
+            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
     public function delPrestamo()
     {
-        // Lógica para eliminar préstamo
+        if ($_SESSION['permisosMod']['d']) {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $result = $this->model->deletePrestamo($id);
+            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
 
     // ==================== SALIDAS ====================
@@ -101,5 +116,18 @@ class psi extends Controllers
     public function delIngreso()
     {
         // Lógica para eliminar ingreso
+    }
+
+    public function getFuncionariosPlanta()
+    {
+        $arrData = $this->model->getFuncionariosPlanta();
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    public function getFuncionariosOps()
+    {
+        $arrData = $this->model->getFuncionariosOps();
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
     }
 }
