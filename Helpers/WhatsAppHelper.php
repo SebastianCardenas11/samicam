@@ -188,24 +188,38 @@ class WhatsAppHelper
     public function sendTareaNotification($usuarios, $tareaInfo)
     {
         $results = [];
-        $whatsappSuccess = false;
-        // Enviar SOLO a task_number para nueva tarea
         $message = $this->createTareaMessageForSpecificNumber($usuarios, $tareaInfo);
-        $phoneNumber = $this->formatPhoneNumber($this->config['task_number']);
-        $whatsappSuccess = $this->sendWhatsAppMessage($phoneNumber, $message);
+        
+        // Enviar a número de tareas
+        $taskPhoneNumber = $this->formatPhoneNumber($this->config['task_number']);
+        $taskSuccess = $this->sendWhatsAppMessage($taskPhoneNumber, $message);
         $results[] = [
             'usuario_id' => 'task',
             'nombre' => 'Número de Tarea',
-            'telefono' => $phoneNumber,
-            'enviado' => $whatsappSuccess,
-            'mensaje' => $whatsappSuccess ? 'Enviado correctamente' : 'Error al enviar'
+            'telefono' => $taskPhoneNumber,
+            'enviado' => $taskSuccess,
+            'mensaje' => $taskSuccess ? 'Enviado correctamente' : 'Error al enviar'
         ];
-        logWhatsAppMessage("Enviado a número de tarea: {$phoneNumber}", "INFO");
-        // Si WhatsApp falló completamente, intentar email de respaldo
-        if (!$whatsappSuccess && $this->config['email_backup']['enabled']) {
+        logWhatsAppMessage("Enviado a número de tarea: {$taskPhoneNumber}", "INFO");
+        
+        // Enviar también a número general (573163819809)
+        $generalPhoneNumber = $this->formatPhoneNumber($this->config['general_number']);
+        $generalSuccess = $this->sendWhatsAppMessage($generalPhoneNumber, $message);
+        $results[] = [
+            'usuario_id' => 'general',
+            'nombre' => 'Número General',
+            'telefono' => $generalPhoneNumber,
+            'enviado' => $generalSuccess,
+            'mensaje' => $generalSuccess ? 'Enviado correctamente' : 'Error al enviar'
+        ];
+        logWhatsAppMessage("Enviado a número general: {$generalPhoneNumber}", "INFO");
+        
+        // Si ambos WhatsApp fallaron, intentar email de respaldo
+        if (!$taskSuccess && !$generalSuccess && $this->config['email_backup']['enabled']) {
             logWhatsAppMessage("WhatsApp failed, trying email backup", "WARNING");
             $this->sendEmailBackup($usuarios, $tareaInfo);
         }
+        
         return $results;
     }
     

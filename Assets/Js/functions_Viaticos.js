@@ -429,24 +429,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Inicializar tablas
-    tableHistorico = new DataTable('#tableHistoricoViaticos', {
-        language: {
-            url: base_url + '/es.json'
-        },
-        searching: false,
-        ordering: true,
-        pageLength: 5
-    });
+    // Inicializar tablas solo si no existen ya
+    if (!tableHistorico) {
+        tableHistorico = new DataTable('#tableHistoricoViaticos', {
+            language: {
+                url: base_url + '/es.json'
+            },
+            searching: false,
+            ordering: true,
+            pageLength: 5
+        });
+    }
     
-    tableDetalle = new DataTable('#tableDetalleViaticos', {
-        language: {
-            url: base_url + '/es.json'
-        },
-        searching: true,
-        ordering: true,
-        pageLength: 10
-    });
+    if (!tableDetalle) {
+        tableDetalle = new DataTable('#tableDetalleViaticos', {
+            language: {
+                url: base_url + '/es.json'
+            },
+            searching: true,
+            ordering: true,
+            pageLength: 10
+        });
+    }
 
     // Cargar datos iniciales
     inicializarGraficos(anioActual);

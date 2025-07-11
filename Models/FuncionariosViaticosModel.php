@@ -275,6 +275,7 @@ class FuncionariosViaticosModel extends Mysql
 
     // Top ciudades de comisión por frecuencia
     public function getTopCiudadesComision($year, $limit = 10) {
+        $limit = intval($limit);
         $sql = "SELECT lugar_comision_ciudad, COUNT(*) as frecuencia
                 FROM tbl_viaticos
                 WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1
@@ -282,8 +283,8 @@ class FuncionariosViaticosModel extends Mysql
                   AND lugar_comision_ciudad != ''
                 GROUP BY lugar_comision_ciudad
                 ORDER BY frecuencia DESC
-                LIMIT ?";
-        return $this->select_all($sql, [$year, $limit]);
+                LIMIT " . $limit;
+        return $this->select_all($sql, [$year]);
     }
 
 }
