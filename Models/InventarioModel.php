@@ -11,16 +11,14 @@ class InventarioModel extends Mysql
     public function selectImpresoras()
     {
         $sql = "SELECT i.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia,
+                       f.nombre_completo as nombre_funcionario,
+                       c.nombre AS nombre_cargo,
+                       f.celular as nombre_contacto
                 FROM tbl_impresoras i
-                LEFT JOIN tbl_dependencias d ON i.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON i.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON i.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON i.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON i.id_dependencia = d.dependencia_pk
+                LEFT JOIN tbl_funcionarios_planta f ON i.id_funcionario = f.idefuncionario
+                LEFT JOIN tbl_cargos c ON i.id_cargo = c.idecargos
                 WHERE i.status != 0
                 ORDER BY i.numero_impresora ASC";
         $data = $this->select_all($sql);
@@ -30,16 +28,14 @@ class InventarioModel extends Mysql
     public function selectImpresora($idImpresora)
     {
         $sql = "SELECT i.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia,
+                       f.nombre_completo as nombre_funcionario,
+                       c.nombre AS nombre_cargo,
+                       f.celular as nombre_contacto
                 FROM tbl_impresoras i
-                LEFT JOIN tbl_dependencias d ON i.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON i.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON i.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON i.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON i.id_dependencia = d.dependencia_pk
+                LEFT JOIN tbl_funcionarios_planta f ON i.id_funcionario = f.idefuncionario
+                LEFT JOIN tbl_cargos c ON i.id_cargo = c.idecargos
                 WHERE i.id_impresora = $idImpresora AND i.status != 0";
         $data = $this->select($sql);
         return $data;
@@ -202,7 +198,8 @@ class InventarioModel extends Mysql
             d.nombre AS nombre_dependencia, 
             f.cargo_fk AS id_cargo, 
             c.nombre AS nombre_cargo, 
-            f.celular AS contacto
+            f.celular AS contacto,
+            f.celular AS telefono
         FROM tbl_funcionarios_planta f
         LEFT JOIN tbl_dependencia d ON f.dependencia_fk = d.dependencia_pk
         LEFT JOIN tbl_cargos c ON f.cargo_fk = c.idecargos
