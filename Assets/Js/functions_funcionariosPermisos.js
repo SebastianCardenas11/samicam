@@ -27,6 +27,7 @@ document.addEventListener(
             { "data": "cargo_nombre" },
             { "data": "dependencia_nombre" },
             { "data": "permisos" },
+            { "data": "permisos_especiales" },
             { "data": "options" }
         ]
     });

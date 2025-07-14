@@ -40,8 +40,9 @@ class FuncionariosPermisos extends Controllers
                 $btnHistorial = '';
                 $btnPermisoEspecial = '';
 
-                // Formatear el número de permisos como "X/3"
+                // Formatear el número de permisos como "X/3" y agregar permisos especiales
                 $arrData[$i]['permisos'] = $arrData[$i]['permisos_mes_actual'] . "/3";
+                $arrData[$i]['permisos_especiales'] = $arrData[$i]['permisos_especiales_mes'];
 
                 if ($_SESSION['permisosMod']['r']) {
                     $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Ver Funcionario"><i class="far fa-eye"></i></button>';
@@ -563,7 +564,7 @@ class FuncionariosPermisos extends Controllers
         if ($_POST) {
             try {
                 if (empty($_POST['idFuncionarioEspecial']) || empty($_POST['txtFechaInicioEspecial']) || 
-                    empty($_POST['txtFechaFinEspecial']) || empty($_POST['txtJustificacionEspecial'])) {
+                    empty($_POST['txtFechaFinEspecial']) || empty($_POST['listJustificacionEspecial'])) {
                     $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
                     echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                     die();
@@ -572,7 +573,20 @@ class FuncionariosPermisos extends Controllers
                 $idFuncionario = intval($_POST['idFuncionarioEspecial']);
                 $fechaInicio = $_POST['txtFechaInicioEspecial'];
                 $fechaFin = $_POST['txtFechaFinEspecial'];
-                $justificacion = $_POST['txtJustificacionEspecial'];
+                $justificacion = $_POST['listJustificacionEspecial'];
+                $otroJustificacion = isset($_POST['txtOtroJustificacion']) ? $_POST['txtOtroJustificacion'] : '';
+                
+                // Si seleccionó "Otro (especificar)", validar que haya especificado
+                if ($justificacion == 'Otro (especificar)' && empty($otroJustificacion)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Debe especificar el motivo cuando selecciona "Otro".');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+                
+                // Si seleccionó "Otro", usar el texto especificado
+                if ($justificacion == 'Otro (especificar)') {
+                    $justificacion = $otroJustificacion;
+                }
 
                 // Validar que la fecha de fin no sea menor que la fecha de inicio
                 if (strtotime($fechaFin) < strtotime($fechaInicio)) {
@@ -600,14 +614,8 @@ class FuncionariosPermisos extends Controllers
                 while ($fechaActual <= $fechaFinal) {
                     $fechaFormato = $fechaActual->format('Y-m-d');
                     
-                    // Verificar si ya existe un permiso especial en esa fecha
-                    $sql = "SELECT COUNT(*) as total FROM tbl_permisos 
-                            WHERE id_funcionario = ? 
-                            AND fecha_permiso = ?
-                            AND tipo_funcionario = 'planta'
-                            AND es_permiso_especial = 1";
-                    $arrData = array($idFuncionario, $fechaFormato);
-                    $request = $this->model->select($sql, $arrData);
+                    // Verificar si ya existe un permiso en esa fecha
+                    $existePermiso = $this->model->existePermisoEnFecha($idFuncionario, $fechaFormato, true);
                     
                     // Verificar el límite de permisos diarios para esta fecha
                     $permisosPorFecha = $this->model->getPermisosPorFecha($fechaFormato);
@@ -619,7 +627,7 @@ class FuncionariosPermisos extends Controllers
                         die();
                     }
                     
-                    if ($request['total'] == 0) {
+                    if (!$existePermiso) {
                         $request = $this->model->insertPermiso(
                             $idFuncionario,
                             $fechaActual->format('Y-m-d'),
@@ -635,11 +643,8 @@ class FuncionariosPermisos extends Controllers
                             break;
                         }
                     } else {
-                        // Si ya existe un permiso especial en esa fecha, no permitir duplicado
-                        $exito = false;
-                        $arrResponse = array('status' => false, 'msg' => 'Ya existe un permiso especial para la fecha ' . $fechaActual->format('d/m/Y') . '.');
-                        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-                        die();
+                        // Si ya existe un permiso especial en esa fecha, continuar con el siguiente día
+                        // pero no contar como error
                     }
 
                     $fechaActual->modify('+1 day');

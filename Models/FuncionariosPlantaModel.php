@@ -241,6 +241,7 @@ class FuncionariosPlantaModel extends Mysql
                 u.formacion_academica,
                 u.nombre_formacion,
                 u.status,
+                u.tiempo_laborado,
                 c.nombre as cargo,
                 d.nombre as dependencia,
                 t.tipo_cont as contrato,
