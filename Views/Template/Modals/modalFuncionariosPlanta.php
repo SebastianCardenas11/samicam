@@ -196,6 +196,7 @@
                                                     <option value="tecnico">Técnico</option>
                                                     <option value="tecnologo">Tecnólogo</option>
                                                     <option value="ingieneria">Ingeniería</option>
+                                                    <option value="Profesional">Profesional</option>
                                                     <option value="licenciatura">Licenciatura</option>
                                                     <option value="maestria">Maestría</option>
                                                     <option value="doctorado">Doctorado</option>
@@ -505,6 +506,7 @@
                                                     <option value="COLFONDOS">COLFONDOS</option>
                                                     <option value="OLD MUTUAL">OLD MUTUAL</option>
                                                     <option value="COLPENSIONES">COLPENSIONES</option>
+                                                    <option value="FONDO NACIONAL DE AHORRO">FONDO NACIONAL DE AHORRO</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">

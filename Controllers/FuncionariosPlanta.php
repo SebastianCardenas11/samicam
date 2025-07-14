@@ -258,7 +258,7 @@ class FuncionariosPlanta extends Controllers
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="fas fa-pencil-alt"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="far fa-trash-alt"></i></button>';
+                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Funcionario"><i class="far fa-trash-alt"></i></button>';
                 }
 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
