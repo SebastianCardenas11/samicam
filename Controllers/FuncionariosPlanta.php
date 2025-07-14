@@ -95,9 +95,9 @@ class FuncionariosPlanta extends Controllers
                 $strAfp = isset($_POST['txtAfp']) ? strClean($_POST['txtAfp']) : '';
                 $strAfc = isset($_POST['txtAfc']) ? strClean($_POST['txtAfc']) : '';
                 $strArl = isset($_POST['txtArl']) ? strClean($_POST['txtArl']) : '';
-                $strSindicalizado = isset($_POST['txtSindicalizado']) ? strClean($_POST['txtSindicalizado']) : '';
-                $strMadreCabezaHogar = isset($_POST['txtMadreCabezaHogar']) ? strClean($_POST['txtMadreCabezaHogar']) : '';
-                $strPrepensionado = isset($_POST['txtPrepensionado']) ? strClean($_POST['txtPrepensionado']) : '';
+                $strSindicalizado = isset($_POST['txtSindicalizado']) ? (strClean($_POST['txtSindicalizado']) == 'Si' ? '1' : '0') : '0';
+                $strMadreCabezaHogar = isset($_POST['txtMadreCabezaHogar']) ? (strClean($_POST['txtMadreCabezaHogar']) == 'Si' ? '1' : '0') : '0';
+                $strPrepensionado = isset($_POST['txtPrepensionado']) ? (strClean($_POST['txtPrepensionado']) == 'Si' ? '1' : '0') : '0';
                 
 
     
