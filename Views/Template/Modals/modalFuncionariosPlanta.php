@@ -1,3 +1,9 @@
+<style>
+    .disable {
+    background-color: #e3e3e7 !important;
+}
+
+</style>
 <!-- Modal -->
 <div class="modal fade" id="modalFormFuncionario" tabindex="-1" aria-labelledby="modalFormUsuario" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
@@ -47,8 +53,8 @@
                                             <!-- Edad -->
                                             <div class="mb-3">
                                                 <label for="txtEdadFuncionario" class="form-label">Edad <b class="required text-danger">*</b></label>
-                                                <input type="number" class="form-control" id="txtEdadFuncionario"
-                                                    name="txtEdadFuncionario">
+                                                <input type="number" class="form-control disable" id="txtEdadFuncionario"
+                                                    name="txtEdadFuncionario" readonly>
                                             </div>
 
                                             <!-- Sexo -->
@@ -210,9 +216,18 @@
                                             <h5 class="card-title mb-0">Información Adicional</h5>
                                         </div>
                                         <div class="card-body">
+                                            <!-- Lugar de Expedición -->
                                             <div class="mb-3">
-                                                <label for="txtLugarExpedicion" class="form-label">Lugar de Expedición</label>
-                                                <input type="text" class="form-control" id="txtLugarExpedicion" name="txtLugarExpedicion">
+                                                <label for="txtDepartamentoExpedicion" class="form-label">Departamento de Expedición</label>
+                                                <select class="form-select" id="txtDepartamentoExpedicion" name="txtDepartamentoExpedicion">
+                                                    <option value="">Selecciona un departamento</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtCiudadExpedicion" class="form-label">Ciudad de Expedición</label>
+                                                <select class="form-select" id="txtCiudadExpedicion" name="txtCiudadExpedicion" disabled>
+                                                    <option value="">Selecciona una ciudad</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtLibretaMilitar" class="form-label">Libreta Militar</label>
@@ -323,9 +338,18 @@
                                                     });
                                                 });
                                             </script>
+                                            <!-- Lugar de Nacimiento -->
                                             <div class="mb-3">
-                                                <label for="txtLugarNacimiento" class="form-label">Lugar de Nacimiento</label>
-                                                <input type="text" class="form-control" id="txtLugarNacimiento" name="txtLugarNacimiento">
+                                                <label for="txtDepartamentoNacimiento" class="form-label">Departamento de Nacimiento</label>
+                                                <select class="form-select" id="txtDepartamentoNacimiento" name="txtDepartamentoNacimiento">
+                                                    <option value="">Selecciona un departamento</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtCiudadNacimiento" class="form-label">Ciudad de Nacimiento</label>
+                                                <select class="form-select" id="txtCiudadNacimiento" name="txtCiudadNacimiento" disabled>
+                                                    <option value="">Selecciona una ciudad</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtRh" class="form-label">RH</label>
@@ -368,8 +392,8 @@
                                                 <input type="date" class="form-control" id="txtFechaActaPosesion" name="txtFechaActaPosesion">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="txtTiempoLaborado" class="form-label">Tiempo Laborado</label>
-                                                <input type="text" class="form-control" id="txtTiempoLaborado" name="txtTiempoLaborado" readonly>
+                                                <label for="txtTiempoLaborado" class="form-label ">Tiempo Laborado</label>
+                                                <input type="text" class="form-control disable" id="txtTiempoLaborado" name="txtTiempoLaborado" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTitulo" class="form-label">Título</label>
@@ -807,3 +831,7 @@
         </div>
     </div>
 </div>
+
+<!-- Scripts para departamentos y ciudades -->
+<script src="Assets/Js/colombia-api.js"></script>
+<script src="Assets/Js/funcionarios-colombia.js"></script>
