@@ -521,7 +521,9 @@
                                             <div class="mb-3">
                                                 <label for="txtHijosFuncionario" class="form-label">Cantidad de hijos <b class="required text-danger">*</b></label>
                                                 <input type="number" class="form-control" id="txtHijosFuncionario"
-                                                    name="txtHijosFuncionario" min="0">
+       name="txtHijosFuncionario" min="0" max="9" step="1"
+       oninput="if(this.value.length > 1) this.value = this.value.slice(0,1);">
+
                                             </div>
 
                                             <!-- Campo oculto inicialmente -->

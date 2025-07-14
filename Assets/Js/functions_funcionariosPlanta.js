@@ -484,6 +484,15 @@ function fntEditInfo(element, idefuncionario) {
             if (document.querySelector("#txtLugarExpedicion")) {
               document.querySelector("#txtLugarExpedicion").value = objData.data.lugar_expedicion || '';
             }
+            if (document.querySelector("#txtNivel")) {
+              document.querySelector("#txtNivel").value = objData.data.nivel || '';
+            }
+            if (document.querySelector("#txtSalarioBasico")) {
+              document.querySelector("#txtSalarioBasico").value = objData.data.salario_basico || '';
+            }
+            if (document.querySelector("#txtTipoNombramiento")) {
+              document.querySelector("#txtTipoNombramiento").value = objData.data.tipo_nombramiento || '';
+            }
             if (document.querySelector("#txtLibretaMilitar")) {
               document.querySelector("#txtLibretaMilitar").value = objData.data.libreta_militar || '';
             }

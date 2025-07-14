@@ -468,8 +468,9 @@ class FuncionariosPlantaModel extends Mysql
     }
 
     public function selectContratoPlanta() {
-        $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont IN ('Carrera', 'Libre Nombramiento')";
-        $request = $this->select_all($sql);
-        return $request;
-    }
+    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato";
+    $request = $this->select_all($sql);
+    return $request;
+}
+
 }
