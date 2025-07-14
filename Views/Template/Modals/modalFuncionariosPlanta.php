@@ -772,6 +772,7 @@
                                         <div class="col-md-6">
                                             <p><strong>Cantidad de Hijos:</strong> <span id="celHijosFuncionario">-</span></p>
                                             <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">-</span></p>
+                                            <p><strong>Edades de Hijos:</strong> <span id="celEdadesHijosFuncionario">-</span></p>
                                             <p><strong>Libreta Militar:</strong> <span id="celLibretaMilitar">-</span></p>
                                         </div>
                                         <div class="col-md-6">

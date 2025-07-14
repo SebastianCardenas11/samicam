@@ -346,6 +346,18 @@ function fntViewInfo(idefuncionario) {
           objData.data.hijos || '-';
         document.querySelector("#celNombresHijosFuncionario").innerHTML =
           objData.data.nombres_de_hijos || '-';
+        
+        // Mostrar edades de hijos formateadas
+        let edadesHijos = '-';
+        if (objData.data.edades_hijos) {
+          const edadesStr = objData.data.edades_hijos;
+          const edades = [];
+          for (let i = 0; i < edadesStr.length; i += 2) {
+            edades.push(parseInt(edadesStr.substr(i, 2)));
+          }
+          edadesHijos = edades.join(', ') + ' años';
+        }
+        document.querySelector("#celEdadesHijosFuncionario").innerHTML = edadesHijos;
         document.querySelector("#celLibretaMilitar").innerHTML =
           objData.data.libreta_militar || '-';
         document.querySelector("#celMadreCabezaHogar").innerHTML =
