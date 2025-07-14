@@ -152,8 +152,9 @@ class FuncionariosPlantaModel extends Mysql
                         arl,
                         sindicalizado,
                         madre_cabeza_hogar,
-                        prepensionado
-                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        prepensionado,
+                        edades_hijos
+                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     $arrData = array(
                         $nombres,
@@ -201,7 +202,8 @@ class FuncionariosPlantaModel extends Mysql
                         $arl,
                         $sindicalizado,
                         $madreCabezaHogar,
-                        $prepensionado
+                        $prepensionado,
+                        $edadesHijos
                     );
 
                     $request_insert = $this->insert($query_insert, $arrData);
@@ -320,7 +322,8 @@ class FuncionariosPlantaModel extends Mysql
         string $arl = '',
         string $sindicalizado = '',
         string $madreCabezaHogar = '',
-        string $prepensionado = ''
+        string $prepensionado = '',
+        string $edadesHijos = ''
     ) {
         try {
             $sql = "SELECT * FROM tbl_funcionarios_planta 
@@ -379,7 +382,8 @@ class FuncionariosPlantaModel extends Mysql
                                 arl = ?,
                                 sindicalizado = ?,
                                 madre_cabeza_hogar = ?,
-                                prepensionado = ?
+                                prepensionado = ?,
+                                edades_hijos = ?
                             WHERE idefuncionario = $idFuncionario";
 
                     $arrData = array(
@@ -428,7 +432,8 @@ class FuncionariosPlantaModel extends Mysql
                         $arl,
                         $sindicalizado,
                         $madreCabezaHogar,
-                        $prepensionado
+                        $prepensionado,
+                        $edadesHijos
                     );
 
                     $request = $this->update($sql, $arrData);

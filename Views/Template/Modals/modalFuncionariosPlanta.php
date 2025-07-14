@@ -19,6 +19,10 @@
                     <div class="tile-body">
                         <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
+                            <input type="hidden" id="txtNombresHijosFuncionario" name="txtNombresHijosFuncionario" value="">
+                            <input type="hidden" id="txtEdadesHijosFuncionario" name="txtEdadesHijosFuncionario" value="">
+                            <input type="hidden" id="txtLugarExpedicion" name="txtLugarExpedicion" value="">
+                            <input type="hidden" id="txtLugarNacimiento" name="txtLugarNacimiento" value="">
 
                             <div class="row mb-4">
                                 <div class="col-12">
@@ -53,8 +57,9 @@
                                             <!-- Edad -->
                                             <div class="mb-3">
                                                 <label for="txtEdadFuncionario" class="form-label">Edad <b class="required text-danger">*</b></label>
-                                                <input type="number" class="form-control disable" id="txtEdadFuncionario"
-                                                    name="txtEdadFuncionario" readonly>
+                                                <input type="number" class="form-control" id="txtEdadFuncionario"
+                                                    name="txtEdadFuncionario" min="18" max="100">
+                                                <small class="form-text text-muted">Se calcula automáticamente si ingresa fecha de nacimiento</small>
                                             </div>
 
                                             <!-- Sexo -->
@@ -292,6 +297,19 @@
                                                             }
                                                             
                                                             edad.value = edadCalculada;
+                                                            edad.readOnly = true;
+                                                            edad.classList.add('disable');
+                                                        } else {
+                                                            edad.readOnly = false;
+                                                            edad.classList.remove('disable');
+                                                        }
+                                                    });
+                                                    
+                                                    // Permitir edición manual si no hay fecha de nacimiento
+                                                    edad.addEventListener('focus', function() {
+                                                        if (!fechaNacimiento.value) {
+                                                            this.readOnly = false;
+                                                            this.classList.remove('disable');
                                                         }
                                                     });
                                                     
@@ -543,32 +561,97 @@
                                         <div class="card-body">
                                             <!-- Cantidad de hijos -->
                                             <div class="mb-3">
-                                                <label for="txtHijosFuncionario" class="form-label">Cantidad de hijos <b class="required text-danger">*</b></label>
+                                                <label for="txtHijosFuncionario" class="form-label">Cantidad de hijos</label>
                                                 <input type="number" class="form-control" id="txtHijosFuncionario"
-       name="txtHijosFuncionario" min="0" max="9" step="1"
+       name="txtHijosFuncionario" min="0" max="9" step="1" value="0"
        oninput="if(this.value.length > 1) this.value = this.value.slice(0,1);">
-
                                             </div>
 
-                                            <!-- Campo oculto inicialmente -->
-                                            <div class="mb-3" id="nombresHijosContainer" style="display: none;">
-                                                <label for="txtNombresHijosFuncionario" class="form-label">Nombres de los hijos <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control" id="txtNombresHijosFuncionario"
-                                                    name="txtNombresHijosFuncionario">
-                                            </div>
+                                            <!-- Contenedor dinámico para hijos -->
+                                            <div id="hijosContainer" style="display: none;"></div>
 
                                             <script>
                                                 document.addEventListener('DOMContentLoaded', function() {
                                                     const cantidadHijosInput = document.getElementById("txtHijosFuncionario");
-                                                    const nombresHijosContainer = document.getElementById("nombresHijosContainer");
+                                                    const hijosContainer = document.getElementById("hijosContainer");
+                                                    const form = document.getElementById("formFuncionario");
 
-                                                    cantidadHijosInput.addEventListener("input", () => {
-                                                        const cantidad = parseInt(cantidadHijosInput.value);
+                                                    function generarCamposHijos() {
+                                                        const cantidad = parseInt(cantidadHijosInput.value) || 0;
+                                                        hijosContainer.innerHTML = '';
+                                                        
                                                         if (cantidad > 0) {
-                                                            nombresHijosContainer.style.display = "block";
+                                                            hijosContainer.style.display = "block";
+                                                            const inputNombres = document.getElementById('txtNombresHijosFuncionario');
+                                                            const inputEdades = document.getElementById('txtEdadesHijosFuncionario');
+                                                            const nombresExistentes = inputNombres && inputNombres.value ? inputNombres.value.split(', ') : [];
+                                                            // Separar edades concatenadas: 1011 = [10, 11]
+                                                            let edadesExistentes = [];
+                                                            if (inputEdades && inputEdades.value) {
+                                                                const edadesStr = inputEdades.value;
+                                                                for (let i = 0; i < edadesStr.length; i += 2) {
+                                                                    edadesExistentes.push(parseInt(edadesStr.substr(i, 2)));
+                                                                }
+                                                            }
+                                                            
+                                                            for (let i = 1; i <= cantidad; i++) {
+                                                                const hijoDiv = document.createElement('div');
+                                                                hijoDiv.className = 'row mb-2';
+                                                                hijoDiv.innerHTML = `
+                                                                    <div class="col-md-8">
+                                                                        <label class="form-label">Nombre hijo ${i}</label>
+                                                                        <input type="text" class="form-control hijo-nombre" placeholder="Nombre completo" value="${nombresExistentes[i-1] || ''}">
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label">Edad</label>
+                                                                        <input type="number" class="form-control hijo-edad" min="0" max="50" value="${edadesExistentes[i-1] || ''}">
+                                                                    </div>
+                                                                `;
+                                                                hijosContainer.appendChild(hijoDiv);
+                                                            }
                                                         } else {
-                                                            nombresHijosContainer.style.display = "none";
+                                                            hijosContainer.style.display = "none";
                                                         }
+                                                    }
+                                                    
+                                                    // Cargar datos al abrir modal para editar
+                                                    document.getElementById('modalFormFuncionario').addEventListener('shown.bs.modal', function() {
+                                                        setTimeout(() => {
+                                                            const cantidad = parseInt(cantidadHijosInput.value) || 0;
+                                                            if (cantidad > 0) {
+                                                                cantidadHijosInput.dispatchEvent(new Event('input'));
+                                                            }
+                                                        }, 2500);
+                                                    });
+
+                                                    cantidadHijosInput.addEventListener("input", generarCamposHijos);
+                                                    
+
+
+                                                    form.addEventListener('submit', function() {
+                                                        const nombres = Array.from(document.querySelectorAll('.hijo-nombre')).map(input => input.value).filter(v => v);
+                                                        const edades = Array.from(document.querySelectorAll('.hijo-edad')).map(input => input.value).filter(v => v);
+                                                        
+                                                        let inputNombres = document.getElementById('txtNombresHijosFuncionario');
+                                                        if (!inputNombres) {
+                                                            inputNombres = document.createElement('input');
+                                                            inputNombres.type = 'hidden';
+                                                            inputNombres.id = 'txtNombresHijosFuncionario';
+                                                            inputNombres.name = 'txtNombresHijosFuncionario';
+                                                            form.appendChild(inputNombres);
+                                                        }
+                                                        inputNombres.value = nombres.join(', ');
+                                                        
+                                                        let inputEdades = document.getElementById('txtEdadesHijosFuncionario');
+                                                        if (!inputEdades) {
+                                                            inputEdades = document.createElement('input');
+                                                            inputEdades.type = 'hidden';
+                                                            inputEdades.id = 'txtEdadesHijosFuncionario';
+                                                            inputEdades.name = 'txtEdadesHijosFuncionario';
+                                                            form.appendChild(inputEdades);
+                                                        }
+                                                        // Concatenar edades sin comas: 10, 11 = 1011
+                                                        inputEdades.value = edades.map(edad => edad.toString().padStart(2, '0')).join('');
                                                     });
                                                 });
                                             </script>
@@ -835,3 +918,5 @@
 <!-- Scripts para departamentos y ciudades -->
 <script src="Assets/Js/colombia-api.js"></script>
 <script src="Assets/Js/funcionarios-colombia.js"></script>
+<script>
+</script>

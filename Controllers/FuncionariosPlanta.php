@@ -98,6 +98,7 @@ class FuncionariosPlanta extends Controllers
                 $strSindicalizado = isset($_POST['txtSindicalizado']) ? (strClean($_POST['txtSindicalizado']) == 'Si' ? '1' : '0') : '0';
                 $strMadreCabezaHogar = isset($_POST['txtMadreCabezaHogar']) ? (strClean($_POST['txtMadreCabezaHogar']) == 'Si' ? '1' : '0') : '0';
                 $strPrepensionado = isset($_POST['txtPrepensionado']) ? (strClean($_POST['txtPrepensionado']) == 'Si' ? '1' : '0') : '0';
+                $strEdadesHijos = isset($_POST['txtEdadesHijosFuncionario']) ? strClean($_POST['txtEdadesHijosFuncionario']) : '';
                 
 
     
@@ -152,7 +153,8 @@ class FuncionariosPlanta extends Controllers
                                 $strArl,
                                 $strSindicalizado,
                                 $strMadreCabezaHogar,
-                                $strPrepensionado
+                                $strPrepensionado,
+                                $strEdadesHijos
                             );
                         } catch (Exception $e) {
                             $request = 0;
@@ -209,7 +211,8 @@ class FuncionariosPlanta extends Controllers
                                 $strArl,
                                 $strSindicalizado,
                                 $strMadreCabezaHogar,
-                                $strPrepensionado
+                                $strPrepensionado,
+                                $strEdadesHijos
                             );
                         } catch (Exception $e) {
                             $request = 0;

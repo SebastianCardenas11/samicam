@@ -469,7 +469,15 @@ function fntEditInfo(element, idefuncionario) {
             document.querySelector("#txtSexoFuncionario").value = objData.data.sexo;
             document.querySelector("#txtLugarResidenciaFuncionario").value =
               objData.data.lugar_de_residencia;
-            document.querySelector("#txtEdadFuncionario").value = objData.data.edad;
+            // Cargar edad - si no hay fecha de nacimiento, usar la edad directamente
+            if (objData.data.fecha_nacimiento) {
+              document.querySelector("#txtFechaNacimiento").value = objData.data.fecha_nacimiento;
+              // Disparar evento para calcular edad automáticamente
+              document.querySelector("#txtFechaNacimiento").dispatchEvent(new Event('change'));
+            } else {
+              // Si no hay fecha de nacimiento, cargar la edad directamente
+              document.querySelector("#txtEdadFuncionario").value = objData.data.edad || '';
+            }
             document.querySelector("#txtEstadoCivilFuncionario").value =
               objData.data.estado_civil;
             document.querySelector("#txtReligionFuncionario").value =
@@ -562,6 +570,11 @@ function fntEditInfo(element, idefuncionario) {
             }
             if (document.querySelector("#txtPrepensionado")) {
               document.querySelector("#txtPrepensionado").value = objData.data.prepensionado == 1 ? 'Si' : (objData.data.prepensionado == 0 ? 'No' : '');
+            }
+            
+            // Cargar edades de hijos si existen
+            if (document.querySelector("#txtEdadesHijosFuncionario")) {
+              document.querySelector("#txtEdadesHijosFuncionario").value = objData.data.edades_hijos || '';
             }
           } else {
             Swal.fire("Error", objData.msg, "error");
