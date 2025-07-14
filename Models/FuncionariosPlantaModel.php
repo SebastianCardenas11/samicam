@@ -76,6 +76,7 @@ class FuncionariosPlantaModel extends Mysql
         string $afc = '',
         string $arl = '',
         string $sindicalizado = '',
+        string $madreCabezaHogar = '',
         string $prepensionado = ''
     ) {
         try {
@@ -150,6 +151,7 @@ class FuncionariosPlantaModel extends Mysql
                         afc,
                         arl,
                         sindicalizado,
+                        madre_cabeza_hogar,
                         prepensionado
                     ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -185,7 +187,6 @@ class FuncionariosPlantaModel extends Mysql
                         $tiempoLaborado,
                         $codigo,
                         $grado,
-                        $ciudadResidencia,
                         $fechaNacimiento,
                         $lugarNacimiento,
                         $rh,
@@ -199,6 +200,7 @@ class FuncionariosPlantaModel extends Mysql
                         $afc,
                         $arl,
                         $sindicalizado,
+                        $madreCabezaHogar,
                         $prepensionado
                     );
 
@@ -212,6 +214,7 @@ class FuncionariosPlantaModel extends Mysql
             }
             return $return;
         } catch (Exception $e) {
+            error_log("Error en insertFuncionario: " . $e->getMessage());
             return 0;
         }
     }
@@ -316,6 +319,7 @@ class FuncionariosPlantaModel extends Mysql
         string $afc = '',
         string $arl = '',
         string $sindicalizado = '',
+        string $madreCabezaHogar = '',
         string $prepensionado = ''
     ) {
         try {
@@ -374,6 +378,7 @@ class FuncionariosPlantaModel extends Mysql
                                 afc = ?,
                                 arl = ?,
                                 sindicalizado = ?,
+                                madre_cabeza_hogar = ?,
                                 prepensionado = ?
                             WHERE idefuncionario = $idFuncionario";
 
@@ -409,7 +414,6 @@ class FuncionariosPlantaModel extends Mysql
                         $tiempoLaborado,
                         $codigo,
                         $grado,
-                        $ciudadResidencia,
                         $fechaNacimiento,
                         $lugarNacimiento,
                         $rh,
@@ -423,6 +427,7 @@ class FuncionariosPlantaModel extends Mysql
                         $afc,
                         $arl,
                         $sindicalizado,
+                        $madreCabezaHogar,
                         $prepensionado
                     );
 
@@ -436,6 +441,7 @@ class FuncionariosPlantaModel extends Mysql
             }
             return $return;
         } catch (Exception $e) {
+            error_log("Error en updateFuncionario: " . $e->getMessage());
             return 0;
         }
     }

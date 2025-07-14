@@ -12,7 +12,7 @@ document.addEventListener(
         "url": base_url + "/Assets/js/es.json"
       },
       "ajax": {
-        "url": " " + base_url + "/FuncionariosPlanta/getFuncionarios",
+        "url": base_url + "/FuncionariosPlanta/getFuncionarios",
         "dataSrc": ""
       },
       "columns": [
@@ -51,7 +51,7 @@ document.addEventListener(
           }
         }
       ],
-      "resonsieve": "true",
+      "responsive": "true",
       "bDestroy": true,
       "iDisplayLength": 10,
       "order": [[0, "desc"]]
@@ -83,7 +83,7 @@ document.addEventListener(
         
         // Nuevos campos opcionales
         let strLugarExpedicion = document.querySelector("#txtLugarExpedicion") ? document.querySelector("#txtLugarExpedicion").value : '';
-        let strLibreMilitar = document.querySelector("#txtLibreMilitar") ? document.querySelector("#txtLibreMilitar").value : '';
+        let strLibretaMilitar = document.querySelector("#txtLibretaMilitar") ? document.querySelector("#txtLibretaMilitar").value : '';
         let strActoAdministrativo = document.querySelector("#txtActoAdministrativo") ? document.querySelector("#txtActoAdministrativo").value : '';
         let strFechaActoNombramiento = document.querySelector("#txtFechaActoNombramiento") ? document.querySelector("#txtFechaActoNombramiento").value : '';
         let strNoActaPosesion = document.querySelector("#txtNoActaPosesion") ? document.querySelector("#txtNoActaPosesion").value : '';
@@ -484,8 +484,8 @@ function fntEditInfo(element, idefuncionario) {
             if (document.querySelector("#txtLugarExpedicion")) {
               document.querySelector("#txtLugarExpedicion").value = objData.data.lugar_expedicion || '';
             }
-            if (document.querySelector("#txtLibreMilitar")) {
-              document.querySelector("#txtLibreMilitar").value = objData.data.libre_militar || '';
+            if (document.querySelector("#txtLibretaMilitar")) {
+              document.querySelector("#txtLibretaMilitar").value = objData.data.libreta_militar || '';
             }
             if (document.querySelector("#txtActoAdministrativo")) {
               document.querySelector("#txtActoAdministrativo").value = objData.data.acto_administrativo || '';
@@ -546,13 +546,13 @@ function fntEditInfo(element, idefuncionario) {
               document.querySelector("#txtArl").value = objData.data.arl || '';
             }
             if (document.querySelector("#txtSindicalizado")) {
-              document.querySelector("#txtSindicalizado").value = objData.data.sindicalizado || '';
+              document.querySelector("#txtSindicalizado").value = objData.data.sindicalizado == 1 ? 'Si' : (objData.data.sindicalizado == 0 ? 'No' : '');
             }
             if (document.querySelector("#txtMadreCabezaHogar")) {
-              document.querySelector("#txtMadreCabezaHogar").value = objData.data.madre_cabeza_hogar || '';
+              document.querySelector("#txtMadreCabezaHogar").value = objData.data.madre_cabeza_hogar == 1 ? 'Si' : (objData.data.madre_cabeza_hogar == 0 ? 'No' : '');
             }
             if (document.querySelector("#txtPrepensionado")) {
-              document.querySelector("#txtPrepensionado").value = objData.data.prepensionado || '';
+              document.querySelector("#txtPrepensionado").value = objData.data.prepensionado == 1 ? 'Si' : (objData.data.prepensionado == 0 ? 'No' : '');
             }
           } else {
             Swal.fire("Error", objData.msg, "error");

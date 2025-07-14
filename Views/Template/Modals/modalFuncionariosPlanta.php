@@ -163,13 +163,9 @@
                                                 <label for="txtContrato" class="form-label">Tipo de Contrato <b class="required text-danger">*</b></label>
                                                 <select class="form-select" id="txtContrato" name="txtContrato">
                                                     <option value="">Selecciona una opción</option>
-                                                    <option value="supernumerario">Supernumerario</option>
-                                                    <option value="libre_nombramiento">Libre Nombramiento</option>
-                                                    <option value="remocion">Remoción</option>
-                                                    <option value="carrera_administrativa">Carrera Administrativa</option>
-                                                    <option value="provisionalidad">Provisionalidad</option>
-                                                    
-                                                    <option value="periodo_fijo">Periodo Fijo</option>
+                                                    <?php foreach ($data['contrato'] as $cont): ?>
+                                                        <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?></option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </div>
 

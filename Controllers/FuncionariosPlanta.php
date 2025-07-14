@@ -96,6 +96,7 @@ class FuncionariosPlanta extends Controllers
                 $strAfc = isset($_POST['txtAfc']) ? strClean($_POST['txtAfc']) : '';
                 $strArl = isset($_POST['txtArl']) ? strClean($_POST['txtArl']) : '';
                 $strSindicalizado = isset($_POST['txtSindicalizado']) ? strClean($_POST['txtSindicalizado']) : '';
+                $strMadreCabezaHogar = isset($_POST['txtMadreCabezaHogar']) ? strClean($_POST['txtMadreCabezaHogar']) : '';
                 $strPrepensionado = isset($_POST['txtPrepensionado']) ? strClean($_POST['txtPrepensionado']) : '';
                 
 
@@ -150,6 +151,7 @@ class FuncionariosPlanta extends Controllers
                                 $strAfc,
                                 $strArl,
                                 $strSindicalizado,
+                                $strMadreCabezaHogar,
                                 $strPrepensionado
                             );
                         } catch (Exception $e) {
@@ -206,6 +208,7 @@ class FuncionariosPlanta extends Controllers
                                 $strAfc,
                                 $strArl,
                                 $strSindicalizado,
+                                $strMadreCabezaHogar,
                                 $strPrepensionado
                             );
                         } catch (Exception $e) {
