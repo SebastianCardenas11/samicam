@@ -168,6 +168,8 @@
                                                     <option value="remocion">Remoción</option>
                                                     <option value="carrera_administrativa">Carrera Administrativa</option>
                                                     <option value="provisionalidad">Provisionalidad</option>
+                                                    
+                                                    <option value="periodo_fijo">Periodo Fijo</option>
                                                 </select>
                                             </div>
 
@@ -234,6 +236,7 @@
                                                     <option value="remocion">Remoción</option>
                                                     <option value="carrera_administrativa">Carrera Administrativa</option>
                                                     <option value="provisionalidad">Provisionalidad</option>
+                                                    <option value="periodo_fijo">Periodo Fijo</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
@@ -253,10 +256,7 @@
                                                 <label for="txtGrado" class="form-label">Grado</label>
                                                 <input type="text" class="form-control" id="txtGrado" name="txtGrado">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="txtCiudadResidencia" class="form-label">Ciudad de Residencia</label>
-                                                <input type="text" class="form-control" id="txtCiudadResidencia" name="txtCiudadResidencia">
-                                            </div>
+
                                             <div class="mb-3">
                                                 <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
                                                 <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
@@ -266,6 +266,8 @@
                                                 document.addEventListener('DOMContentLoaded', function() {
                                                     const fechaNacimiento = document.getElementById('txtFechaNacimiento');
                                                     const edad = document.getElementById('txtEdadFuncionario');
+                                                    const fechaIngreso = document.getElementById('txtFechaIngresoFuncionario');
+                                                    const tiempoLaborado = document.getElementById('txtTiempoLaborado');
                                                     
                                                     fechaNacimiento.addEventListener('change', function() {
                                                         if (this.value) {
@@ -279,6 +281,48 @@
                                                             }
                                                             
                                                             edad.value = edadCalculada;
+                                                        }
+                                                    });
+                                                    
+                                                    fechaIngreso.addEventListener('change', function() {
+                                                        if (this.value) {
+                                                            const hoy = new Date();
+                                                            const ingreso = new Date(this.value);
+                                                            let anios = hoy.getFullYear() - ingreso.getFullYear();
+                                                            let meses = hoy.getMonth() - ingreso.getMonth();
+                                                            let dias = hoy.getDate() - ingreso.getDate();
+                                                            
+                                                            if (dias < 0) {
+                                                                meses--;
+                                                                const ultimoMes = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+                                                                dias += ultimoMes.getDate();
+                                                            }
+                                                            
+                                                            if (meses < 0) {
+                                                                anios--;
+                                                                meses += 12;
+                                                            }
+                                                            
+                                                            let tiempoCalculado = '';
+                                                            if (anios > 0) {
+                                                                tiempoCalculado += anios + ' año' + (anios > 1 ? 's' : '');
+                                                            }
+                                                            if (meses > 0) {
+                                                                if (tiempoCalculado) tiempoCalculado += ', ';
+                                                                tiempoCalculado += meses + ' mes' + (meses > 1 ? 'es' : '');
+                                                            }
+                                                            if (dias > 0 && anios === 0 && meses === 0) {
+                                                                if (tiempoCalculado) tiempoCalculado += ', ';
+                                                                tiempoCalculado += dias + ' día' + (dias > 1 ? 's' : '');
+                                                            }
+                                                            
+                                                            if (!tiempoCalculado) {
+                                                                tiempoCalculado = 'Menos de 1 día';
+                                                            }
+                                                            
+                                                            tiempoLaborado.value = tiempoCalculado;
+                                                        } else {
+                                                            tiempoLaborado.value = '';
                                                         }
                                                     });
                                                 });
@@ -329,7 +373,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTiempoLaborado" class="form-label">Tiempo Laborado</label>
-                                                <input type="text" class="form-control" id="txtTiempoLaborado" name="txtTiempoLaborado">
+                                                <input type="text" class="form-control" id="txtTiempoLaborado" name="txtTiempoLaborado" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTitulo" class="form-label">Título</label>
@@ -556,87 +600,198 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid py-3">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card mb-3">
-                                <div class="card-header bg-light">
+                    <!-- Información Básica -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #ccc;">
                                     <h5 class="mb-0">Información Básica</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p><strong>ID:</strong> <span id="celIdeFuncionario">0</span></p>
-                                    <p><strong>Nombre:</strong> <span id="celNombresFuncionario">0</span></p>
-                                    <p><strong>Identificación:</strong> <span id="celIdentificacionFuncionario">0</span></p>
-                                    <p><strong>Estado:</strong> <span id="celEstadoFuncionario">0</span></p>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p><strong>ID:</strong> <span id="celIdeFuncionario">-</span></p>
+                                            <p><strong>Estado:</strong> <span id="celEstadoFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>Nombre Completo:</strong> <span id="celNombresFuncionario">-</span></p>
+                                            <p><strong>Identificación:</strong> <span id="celIdentificacionFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>Correo:</strong> <span id="celCorreoFuncionario">-</span></p>
+                                            <p><strong>Celular:</strong> <span id="celCelularFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>Dirección:</strong> <span id="celDireccionFuncionario">-</span></p>
+                                            <p><strong>Lugar de Residencia:</strong> <span id="celLugarResidenciaFuncionario">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información Personal -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Personal</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Edad:</strong> <span id="celEdadFuncionario">-</span></p>
+                                            <p><strong>Sexo:</strong> <span id="celSexoFuncionario">-</span></p>
+                                            <p><strong>Estado Civil:</strong> <span id="celEstadoCivilFuncionario">-</span></p>
+                                            <p><strong>Religión:</strong> <span id="celReligionFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Fecha de Nacimiento:</strong> <span id="celFechaNacimiento">-</span></p>
+                                            <p><strong>Lugar de Nacimiento:</strong> <span id="celLugarNacimiento">-</span></p>
+                                            <p><strong>RH:</strong> <span id="celRh">-</span></p>
+                                            <p><strong>Lugar de Expedición:</strong> <span id="celLugarExpedicion">-</span></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información Personal</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Edad:</strong> <span id="celEdadFuncionario">0</span></p>
-                                                    <p><strong>Sexo:</strong> <span id="celSexoFuncionario">0</span></p>
-                                                    <p><strong>Estado Civil:</strong> <span id="celEstadoCivilFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p><strong>Religión:</strong> <span id="celReligionFuncionario">0</span></p>
-                                                    <p><strong>Hijos:</strong> <span id="celHijosFuncionario">0</span></p>
-                                                    <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">0</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Familiar</h5>
                                 </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información de Contacto</h5>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Cantidad de Hijos:</strong> <span id="celHijosFuncionario">-</span></p>
+                                            <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">-</span></p>
+                                            <p><strong>Libreta Militar:</strong> <span id="celLibretaMilitar">-</span></p>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Correo:</strong> <span id="celCorreoFuncionario">0</span></p>
-                                                    <p><strong>Celular:</strong> <span id="celCelularFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p><strong>Dirección:</strong> <span id="celDireccionFuncionario">0</span></p>
-                                                    <p><strong>Lugar de Residencia:</strong> <span id="celLugarResidenciaFuncionario">0</span></p>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Madre Cabeza de Hogar:</strong> <span id="celMadreCabezaHogar">-</span></p>
+                                            <p><strong>Sindicalizado:</strong> <span id="celSindicalizado">-</span></p>
+                                            <p><strong>Prepensionado:</strong> <span id="celPrepensionado">-</span></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información Laboral y Académica</h5>
+                        </div>
+                    </div>
+
+                    <!-- Información Laboral -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Laboral</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Cargo:</strong> <span id="celCargoFuncionario">-</span></p>
+                                            <p><strong>Dependencia:</strong> <span id="celDependenciaFuncionario">-</span></p>
+                                            <p><strong>Tipo de Contrato:</strong> <span id="celContrato">-</span></p>
+                                            <p><strong>Fecha de Ingreso:</strong> <span id="celFechaIngresoFuncionario">-</span></p>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p><strong>Cargo:</strong> <span id="celCargoFuncionario">0</span></p>
-                                                    <p><strong>Dependencia:</strong> <span id="celDependenciaFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p><strong>Contrato:</strong> <span id="celContrato">0</span></p>
-                                                    <p><strong>Fecha de Ingreso:</strong> <span id="celFechaIngresoFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p><strong>Formación académica:</strong> <span id="celFormacionAcademica">0</span></p>
-                                                    <p><strong>Nombre de la formación:</strong> <span id="celNombreFormacion">0</span></p>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Tiempo Laborado:</strong> <span id="celTiempoLaborado">-</span></p>
+                                            <p><strong>Nivel:</strong> <span id="celNivel">-</span></p>
+                                            <p><strong>Grado:</strong> <span id="celGrado">-</span></p>
+                                            <p><strong>Código:</strong> <span id="celCodigo">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Administrativa</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Tipo de Nombramiento:</strong> <span id="celTipoNombramiento">-</span></p>
+                                            <p><strong>Acto Administrativo:</strong> <span id="celActoAdministrativo">-</span></p>
+                                            <p><strong>Fecha Acto Nombramiento:</strong> <span id="celFechaActoNombramiento">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>No. Acta de Posesión:</strong> <span id="celNoActaPosesion">-</span></p>
+                                            <p><strong>Fecha Acta Posesión:</strong> <span id="celFechaActaPosesion">-</span></p>
+                                            <p><strong>Salario Básico:</strong> <span id="celSalarioBasico">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información Académica -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Académica</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Formación Académica:</strong> <span id="celFormacionAcademica">-</span></p>
+                                            <p><strong>Nombre de la Formación:</strong> <span id="celNombreFormacion">-</span></p>
+                                            <p><strong>Título:</strong> <span id="celTitulo">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Tarjeta Profesional:</strong> <span id="celTarjetaProfesional">-</span></p>
+                                            <p><strong>Otros Estudios:</strong> <span id="celOtrosEstudios">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Financiera</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Cuenta No.:</strong> <span id="celCuentaNo">-</span></p>
+                                            <p><strong>Banco:</strong> <span id="celBanco">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Salario Básico:</strong> <span id="celSalarioBasico2">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información de Seguridad Social -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Seguridad Social</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p><strong>EPS:</strong> <span id="celEps">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>AFP:</strong> <span id="celAfp">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>AFC:</strong> <span id="celAfc">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>ARL:</strong> <span id="celArl">-</span></p>
                                         </div>
                                     </div>
                                 </div>
