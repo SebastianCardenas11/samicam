@@ -23,6 +23,7 @@ document.addEventListener(
         { "data": "dependencia" },
         { "data": "contrato" },
         { "data": "correo_elc" },
+        { "data": "tiempo_laborado" },
         { "data": "status" },
         { "data": "options" }
       ],
