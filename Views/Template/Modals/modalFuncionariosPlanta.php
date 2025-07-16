@@ -54,6 +54,11 @@
                                                     name="txtIdentificacionFuncionario">
                                             </div>
 
+                                            
+                                            <div class="mb-3">
+                                                <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
+                                            </div>
                                             <!-- Edad -->
                                             <div class="mb-3">
                                                 <label for="txtEdadFuncionario" class="form-label">Edad <b class="required text-danger">*</b></label>
@@ -275,10 +280,7 @@
                                                 <input type="text" class="form-control" id="txtGrado" name="txtGrado">
                                             </div>
 
-                                            <div class="mb-3">
-                                                <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                                                <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
-                                            </div>
+                                            
                                             
                                             <script>
                                                 document.addEventListener('DOMContentLoaded', function() {
@@ -421,7 +423,12 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTarjetaProfesional" class="form-label">Tarjeta Profesional</label>
-                                                <input type="text" class="form-control" id="txtTarjetaProfesional" name="txtTarjetaProfesional">
+                                                <select class="form-select" id="txtTarjetaProfesional" name="txtTarjetaProfesional">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Si">Sí</option>
+                                                    <option value="No">No</option>
+                                                    <option value="No Aplica">No Aplica</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtOtrosEstudios" class="form-label">Otros Estudios y/o Especializaciones</label>
