@@ -17,9 +17,9 @@ class Dependencias extends Controllers
         if (empty($_SESSION['permisosMod']['r'])) {
             header("Location:" . base_url() . '/dashboard');
         }
-        $data['page_tag'] = "Dependencias";
-        $data['page_title'] = "Dependencias";
-        $data['page_name'] = "dependencias";
+        $data['page_tag'] = "S.D.O";
+        $data['page_title'] = "Secretarías,Dependencias y Oficinas";
+        $data['page_name'] = "S.D.O";
         $data['page_functions_js'] = "functions_dependencias.js";
         $this->views->getView($this, "dependencias", $data);
     }

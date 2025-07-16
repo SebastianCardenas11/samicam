@@ -31,3 +31,498 @@
 [2025-07-11 00:59:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
 [2025-07-11 01:04:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
 [2025-07-11 01:07:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-11 09:17:39] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 09:17:55] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 09:18:03] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 09:18:03] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 09:19:34] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 09:29:30] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 09:29:31] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 09:34:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:34:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:45:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 09:45:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:45:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:52:45] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-11 09:53:33] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 09:54:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:54:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:56:16] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 09:56:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:56:25] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:56:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 09:57:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:57:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 09:58:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:02:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:02:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:04:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 10:05:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:05:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:05:44] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:06:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:06:31] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:06:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:06:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:13:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:14:05] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:14:19] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-07-11 10:14:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:14:44] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:15:00] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-07-11 10:15:28] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:15:28] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:15:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:16:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:16:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:18:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:21:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:22:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:22:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:23:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:24:55] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:25:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:25:30] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:25:36] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 10:25:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:25:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-11 10:26:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-07-11 10:26:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 10:26:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:26:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:26:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 10:26:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:27:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:27:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:27:24] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 10:27:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:27:45] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 10:27:45] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:27:49] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:27:56] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:28:31] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 10:28:41] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:28:43] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:29:28] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:30:55] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 10:30:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:31:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:31:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:32:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:32:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 10:32:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:32:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 10:34:17] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 10:34:17] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:34:20] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:34:23] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:34:24] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:34:26] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:34:27] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:34:30] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:34:52] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:34:54] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 10:45:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-07-11 10:55:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Publicaciones
+[2025-07-11 11:00:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-07-11 11:00:21] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-11 11:00:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-11 11:01:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-11 11:01:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 11:01:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-07-11 11:01:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Ajustes de Perfil
+[2025-07-11 11:01:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-07-11 11:01:25] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-07-11 11:02:28] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Cierre de sesión
+[2025-07-11 11:03:08] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 11:03:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:03:24] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:03:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:26:34] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Correo: gobiernodigital@lajaguadeibirico-cesar.gov.co | Rol: Gobierno digital | IP: 100.114.115.67 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 11:26:34] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:26:46] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:26:51] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:26:54] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:30:18] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:30:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-11 11:31:29] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:31:41] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:31:45] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:31:46] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 11:32:43] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-11 12:08:00] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.86.68.89 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0 | Acción: Inicio de sesión
+[2025-07-11 12:08:00] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-07-11 12:08:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dependencias
+[2025-07-11 12:10:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-07-11 12:11:02] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Roles
+[2025-07-11 12:11:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Usuarios
+[2025-07-11 15:07:27] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.86.68.89 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0 | Acción: Inicio de sesión
+[2025-07-11 15:07:27] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-07-11 15:07:57] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-07-11 15:13:05] ID: 25 | Usuario: Luilly Navas | Correo: lnavas1981@gmail.com | Rol: Tecnico Ntic | IP: 100.126.97.85 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 15:13:05] ID: 25 | Usuario: Luilly Navas | Rol: Tecnico Ntic | IP: 100.126.97.85 | Acción: Acceso al módulo Dashboard
+[2025-07-11 15:13:16] ID: 25 | Usuario: Luilly Navas | Rol: Tecnico Ntic | IP: 100.126.97.85 | Acción: Acceso al módulo Dashboard
+[2025-07-11 15:15:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-11 15:15:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-07-11 15:23:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-11 15:26:00] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-07-11 15:34:56] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 15:34:56] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-11 15:35:12] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 15:35:27] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 15:40:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 15:40:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Practicantes
+[2025-07-11 15:40:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 15:40:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-11 15:40:27] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Vacaciones
+[2025-07-11 15:40:28] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Vacaciones
+[2025-07-11 15:40:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Viáticos
+[2025-07-11 15:41:01] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.64.9.12 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 15:41:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Dashboard
+[2025-07-11 15:41:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Viáticos
+[2025-07-11 15:41:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Usuarios
+[2025-07-11 15:43:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Usuarios
+[2025-07-11 15:43:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Roles
+[2025-07-11 15:46:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Viáticos
+[2025-07-11 15:46:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Viáticos
+[2025-07-11 15:47:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Roles
+[2025-07-11 15:51:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Cargos
+[2025-07-11 15:51:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Cargos
+[2025-07-11 15:51:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Cargos
+[2025-07-11 15:58:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Cargos
+[2025-07-11 15:58:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Cargos
+[2025-07-11 16:00:12] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 16:00:12] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:01:23] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:03:57] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:04:51] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-11 16:04:58] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:04:59] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:05:07] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:07:44] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:07:53] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:08:49] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:08:50] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:09:06] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:09:13] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Cierre de sesión
+[2025-07-11 16:10:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:12:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:18:18] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-11 16:18:18] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:18:25] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:20:51] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:20:52] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:21:39] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:25:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:26:09] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:26:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:29:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.64.9.12 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:31:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:35:10] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:35:20] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 16:35:25] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-11 16:49:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:00:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-11 17:00:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:00:47] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-07-11 17:00:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-07-11 17:00:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:01:10] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:01:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:02:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:11:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:12:16] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:14:29] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:25:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:35:07] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 17:36:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 18:05:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-11 18:08:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 18:32:08] ID: 1 | Usuario: Luis Carlos Duran | Correo: admin.ntic@gmail.com.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-13 18:32:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-13 18:32:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-07-13 18:32:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Vacaciones
+[2025-07-13 18:32:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-13 18:32:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Roles
+[2025-07-13 18:32:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Usuarios
+[2025-07-13 18:32:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
+[2025-07-13 18:32:27] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
+[2025-07-13 18:32:36] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 18:45:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 18:52:05] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 18:56:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 19:01:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 19:03:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Practicantes
+[2025-07-13 19:03:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-13 19:05:23] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-13 19:05:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-13 19:05:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-13 19:05:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-13 19:06:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 22:28:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 23:45:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 23:51:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 23:54:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 23:55:31] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 23:58:23] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-13 23:59:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 00:01:27] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Publicaciones
+[2025-07-14 00:09:12] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:16:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:16:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:18:07] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:18:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:18:23] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:18:26] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:19:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:30:45] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:34:31] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:36:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:39:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:39:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:39:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:41:24] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:42:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:42:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:43:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:46:13] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:46:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:48:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:54:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:54:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 01:57:09] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:02:16] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:03:06] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:06:32] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:07:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:10:17] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:10:28] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:11:33] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:11:43] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:11:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:13:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:15:27] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:15:28] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:15:34] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:15:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:16:00] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:21:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:21:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:22:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:26:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:26:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:26:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:26:43] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:31:16] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:46:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 02:49:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 09:07:53] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:07:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-07-14 09:08:09] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:08:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:08:17] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:09:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:09:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dependencias
+[2025-07-14 09:09:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Cargos
+[2025-07-14 09:09:35] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Cargos
+[2025-07-14 09:09:35] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Cargos
+[2025-07-14 09:09:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dependencias
+[2025-07-14 09:09:40] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 09:09:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:09:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 09:09:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:11:02] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:11:03] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:11:22] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Cierre de sesión
+[2025-07-14 09:26:02] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.73.180.119 | Navegador: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0 | Acción: Inicio de sesión
+[2025-07-14 09:26:02] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:26:07] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:26:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:28:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Usuarios
+[2025-07-14 09:28:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:28:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Tareas
+[2025-07-14 09:29:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 09:33:39] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 09:33:39] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:33:50] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:33:51] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:33:53] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-07-14 09:33:54] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Errors
+[2025-07-14 09:33:54] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Errors
+[2025-07-14 09:33:54] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Errors
+[2025-07-14 09:33:57] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:34:24] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:34:35] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 09:37:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 09:57:34] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Practicantes
+[2025-07-14 09:57:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-14 09:57:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Vacaciones
+[2025-07-14 09:57:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Vacaciones
+[2025-07-14 09:57:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-14 09:57:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 09:58:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:05:41] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 10:05:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:05:44] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:08:10] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-14 10:08:49] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 10:08:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:08:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.101.121.47 | Acción: Acceso al módulo Usuarios
+[2025-07-14 10:11:24] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-14 10:13:31] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 10:13:31] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:13:55] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:14:49] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:14:51] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:20:05] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:24:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Roles
+[2025-07-14 10:24:43] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Usuarios
+[2025-07-14 10:24:47] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:29:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 10:36:41] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-07-14 10:38:41] ID: 20 | Usuario: Jesus David Usma Días | Correo: jesususma721@gmail.com | Rol: Tecnico Ntic | IP: 100.107.121.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 10:38:41] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:38:56] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:41:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Usuarios
+[2025-07-14 10:42:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Usuarios
+[2025-07-14 10:43:14] ID: 27 | Usuario: Oscar Ivan Rojas | Correo: seguridadinformaticalajagua@gmail.com | Rol: Tecnico Ntic | IP: 100.126.41.101 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 10:43:14] ID: 27 | Usuario: Oscar Ivan Rojas | Rol: Tecnico Ntic | IP: 100.126.41.101 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:43:33] ID: 27 | Usuario: Oscar Ivan Rojas | Rol: Tecnico Ntic | IP: 100.126.41.101 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:43:45] ID: 27 | Usuario: Oscar Ivan Rojas | Rol: Tecnico Ntic | IP: 100.126.41.101 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:43:56] ID: 27 | Usuario: Oscar Ivan Rojas | Rol: Tecnico Ntic | IP: 100.126.41.101 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:45:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:45:27] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Roles
+[2025-07-14 10:45:33] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 10:46:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Roles
+[2025-07-14 10:46:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Practicantes
+[2025-07-14 10:46:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:04:55] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:05:08] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:11:39] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 11:11:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:11:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:24:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:24:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:45:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:47:02] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:55:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:57:33] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:57:38] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:57:56] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-14 12:15:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-14 14:30:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 14:42:39] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Cierre de sesión
+[2025-07-14 14:43:56] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.73.180.119 | Navegador: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0 | Acción: Inicio de sesión
+[2025-07-14 14:43:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:44:03] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 14:44:03] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:44:33] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 14:45:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 14:45:03] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:51:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:55:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:00:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:02:21] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:02:25] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:04:34] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 15:04:34] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:08:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:08:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:14:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:16:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:20:58] ID: 20 | Usuario: Jesus David Usma Días | Correo: jesususma721@gmail.com | Rol: Tecnico Ntic | IP: 100.107.121.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 15:20:58] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:21:13] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.83.108.115 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 15:21:13] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:21:22] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:07] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:08] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:24] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:39] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Inventario
+[2025-07-14 15:30:40] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Errors
+[2025-07-14 15:30:40] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Errors
+[2025-07-14 15:30:40] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Errors
+[2025-07-14 15:42:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:59:56] ID: 27 | Usuario: Oscar Ivan Rojas | Rol: Tecnico Ntic | IP: 100.126.41.101 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:20:00] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:30:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:36:29] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:36:31] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:36:44] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:36:45] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:37:31] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:37:35] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:40:23] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 16:40:23] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:40:25] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:42:24] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:42:25] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:55:51] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:55:59] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:56:00] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:56:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:02:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:14:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:14:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:22:43] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:22:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:25:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:33:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:33:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:49:50] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:50:19] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:50:22] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 11:35:28] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 11:35:29] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 11:35:33] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 11:48:28] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 11:48:35] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 12:01:43] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 12:01:52] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-15 14:21:17] ID: 29 | Usuario: Sebastian Cardenas | Correo: sbt.cardenas.g@gmail.com | Rol: Tecnico Ntic | IP: 100.109.28.87 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 14:21:17] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:21:54] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:21:55] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:15] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:16] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:27] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:27] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:33:32] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:36:21] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:40:58] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 14:40:58] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:41:00] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 14:43:35] ID: 28 | Usuario: Carlos Lopez | Correo: carloslxpxz@gmail.com | Rol: Tecnico Ntic | IP: 100.73.180.119 | Navegador: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0 | Acción: Inicio de sesión
+[2025-07-15 14:43:35] ID: 28 | Usuario: Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:43:44] ID: 28 | Usuario: Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:43:56] ID: 28 | Usuario: Dr. Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:44:18] ID: 28 | Usuario: Ing. Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:54:29] ID: 20 | Usuario: Jesus David Usma Días | Correo: jesususma721@gmail.com | Rol: Tecnico Ntic | IP: 100.107.121.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 14:54:29] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:54:42] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-15 15:28:20] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 15:28:22] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 15:35:27] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 15:35:29] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:16:15] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:16:17] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:16:45] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:16:50] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:17:11] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:17:13] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:26:39] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:26:41] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:16:38] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:16:39] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:29:57] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:29:59] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:38:32] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:38:34] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:47:02] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:47:04] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:55:27] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:55:34] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión

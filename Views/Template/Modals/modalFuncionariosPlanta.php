@@ -1,3 +1,9 @@
+<style>
+    .disable {
+    background-color: #e3e3e7 !important;
+}
+
+</style>
 <!-- Modal -->
 <div class="modal fade" id="modalFormFuncionario" tabindex="-1" aria-labelledby="modalFormUsuario" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
@@ -13,6 +19,10 @@
                     <div class="tile-body">
                         <form id="formFuncionario" name="formFuncionario" enctype="multipart/form-data" method="POST">
                             <input type="hidden" id="ideFuncionario" name="ideFuncionario" value="">
+                            <input type="hidden" id="txtNombresHijosFuncionario" name="txtNombresHijosFuncionario" value="">
+                            <input type="hidden" id="txtEdadesHijosFuncionario" name="txtEdadesHijosFuncionario" value="">
+                            <input type="hidden" id="txtLugarExpedicion" name="txtLugarExpedicion" value="">
+                            <input type="hidden" id="txtLugarNacimiento" name="txtLugarNacimiento" value="">
 
                             <div class="row mb-4">
                                 <div class="col-12">
@@ -44,11 +54,17 @@
                                                     name="txtIdentificacionFuncionario">
                                             </div>
 
+                                            
+                                            <div class="mb-3">
+                                                <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
+                                            </div>
                                             <!-- Edad -->
                                             <div class="mb-3">
                                                 <label for="txtEdadFuncionario" class="form-label">Edad <b class="required text-danger">*</b></label>
                                                 <input type="number" class="form-control" id="txtEdadFuncionario"
-                                                    name="txtEdadFuncionario">
+                                                    name="txtEdadFuncionario" min="18" max="100">
+                                                <small class="form-text text-muted">Se calcula automáticamente si ingresa fecha de nacimiento</small>
                                             </div>
 
                                             <!-- Sexo -->
@@ -162,7 +178,7 @@
                                             <div class="mb-3">
                                                 <label for="txtContrato" class="form-label">Tipo de Contrato <b class="required text-danger">*</b></label>
                                                 <select class="form-select" id="txtContrato" name="txtContrato">
-                                                    <option>Selecciona una opción</option>
+                                                    <option value="">Selecciona una opción</option>
                                                     <?php foreach ($data['contrato'] as $cont): ?>
                                                         <option value="<?= $cont['id_contrato'] ?>"><?= $cont['tipo_cont'] ?></option>
                                                     <?php endforeach; ?>
@@ -185,6 +201,7 @@
                                                     <option value="tecnico">Técnico</option>
                                                     <option value="tecnologo">Tecnólogo</option>
                                                     <option value="ingieneria">Ingeniería</option>
+                                                    <option value="Profesional">Profesional</option>
                                                     <option value="licenciatura">Licenciatura</option>
                                                     <option value="maestria">Maestría</option>
                                                     <option value="doctorado">Doctorado</option>
@@ -210,9 +227,18 @@
                                             <h5 class="card-title mb-0">Información Adicional</h5>
                                         </div>
                                         <div class="card-body">
+                                            <!-- Lugar de Expedición -->
                                             <div class="mb-3">
-                                                <label for="txtLugarExpedicion" class="form-label">Lugar de Expedición</label>
-                                                <input type="text" class="form-control" id="txtLugarExpedicion" name="txtLugarExpedicion">
+                                                <label for="txtDepartamentoExpedicion" class="form-label">Departamento de Expedición</label>
+                                                <select class="form-select" id="txtDepartamentoExpedicion" name="txtDepartamentoExpedicion">
+                                                    <option value="">Selecciona un departamento</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="txtCiudadExpedicion" class="form-label">Ciudad de Expedición</label>
+                                                <select class="form-select" id="txtCiudadExpedicion" name="txtCiudadExpedicion" disabled>
+                                                    <option value="">Selecciona una ciudad</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtLibretaMilitar" class="form-label">Libreta Militar</label>
@@ -225,7 +251,17 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTipoNombramiento" class="form-label">Tipo de Nombramiento</label>
-                                                <input type="text" class="form-control" id="txtTipoNombramiento" name="txtTipoNombramiento">
+                                                <select class="form-select" id="txtTipoNombramiento" name="txtTipoNombramiento">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="supernumerario">Supernumerario</option>
+                                                    <option value="eleccion">Eleccion</option>
+                                                    <option value="libre_nombramiento">Libre Nombramiento</option>
+                                                    <option value="remocion">Remoción</option>
+                                                    <option value="carrera_administrativa">Carrera Administrativa</option>
+                                                    <option value="provisionalidad">Provisionalidad</option>
+                                                    <option value="periodo_fijo">Periodo Fijo</option>
+                                                    <option value="periodo_de_prueba">Periodo de prueba</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtNivel" class="form-label">Nivel</label>
@@ -235,10 +271,7 @@
                                                 <label for="txtSalarioBasico" class="form-label">Salario Básico</label>
                                                 <input type="number" step="0.01" class="form-control" id="txtSalarioBasico" name="txtSalarioBasico">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="txtEstudiosRealizados" class="form-label">Estudios Realizados</label>
-                                                <input type="text" class="form-control" id="txtEstudiosRealizados" name="txtEstudiosRealizados">
-                                            </div>
+
                                             <div class="mb-3">
                                                 <label for="txtCodigo" class="form-label">Código</label>
                                                 <input type="text" class="form-control" id="txtCodigo" name="txtCodigo">
@@ -247,17 +280,99 @@
                                                 <label for="txtGrado" class="form-label">Grado</label>
                                                 <input type="text" class="form-control" id="txtGrado" name="txtGrado">
                                             </div>
+
+                                            
+                                            
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    const fechaNacimiento = document.getElementById('txtFechaNacimiento');
+                                                    const edad = document.getElementById('txtEdadFuncionario');
+                                                    const fechaIngreso = document.getElementById('txtFechaIngresoFuncionario');
+                                                    const tiempoLaborado = document.getElementById('txtTiempoLaborado');
+                                                    
+                                                    fechaNacimiento.addEventListener('change', function() {
+                                                        if (this.value) {
+                                                            const hoy = new Date();
+                                                            const nacimiento = new Date(this.value);
+                                                            let edadCalculada = hoy.getFullYear() - nacimiento.getFullYear();
+                                                            const mes = hoy.getMonth() - nacimiento.getMonth();
+                                                            
+                                                            if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+                                                                edadCalculada--;
+                                                            }
+                                                            
+                                                            edad.value = edadCalculada;
+                                                            edad.readOnly = true;
+                                                            edad.classList.add('disable');
+                                                        } else {
+                                                            edad.readOnly = false;
+                                                            edad.classList.remove('disable');
+                                                        }
+                                                    });
+                                                    
+                                                    // Permitir edición manual si no hay fecha de nacimiento
+                                                    edad.addEventListener('focus', function() {
+                                                        if (!fechaNacimiento.value) {
+                                                            this.readOnly = false;
+                                                            this.classList.remove('disable');
+                                                        }
+                                                    });
+                                                    
+                                                    fechaIngreso.addEventListener('change', function() {
+                                                        if (this.value) {
+                                                            const hoy = new Date();
+                                                            const ingreso = new Date(this.value);
+                                                            let anios = hoy.getFullYear() - ingreso.getFullYear();
+                                                            let meses = hoy.getMonth() - ingreso.getMonth();
+                                                            let dias = hoy.getDate() - ingreso.getDate();
+                                                            
+                                                            if (dias < 0) {
+                                                                meses--;
+                                                                const ultimoMes = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+                                                                dias += ultimoMes.getDate();
+                                                            }
+                                                            
+                                                            if (meses < 0) {
+                                                                anios--;
+                                                                meses += 12;
+                                                            }
+                                                            
+                                                            let tiempoCalculado = '';
+                                                            if (anios > 0) {
+                                                                tiempoCalculado += anios + ' año' + (anios > 1 ? 's' : '');
+                                                            }
+                                                            if (meses > 0) {
+                                                                if (tiempoCalculado) tiempoCalculado += ', ';
+                                                                tiempoCalculado += meses + ' mes' + (meses > 1 ? 'es' : '');
+                                                            }
+                                                            if (dias > 0 && anios === 0 && meses === 0) {
+                                                                if (tiempoCalculado) tiempoCalculado += ', ';
+                                                                tiempoCalculado += dias + ' día' + (dias > 1 ? 's' : '');
+                                                            }
+                                                            
+                                                            if (!tiempoCalculado) {
+                                                                tiempoCalculado = 'Menos de 1 día';
+                                                            }
+                                                            
+                                                            tiempoLaborado.value = tiempoCalculado;
+                                                        } else {
+                                                            tiempoLaborado.value = '';
+                                                        }
+                                                    });
+                                                });
+                                            </script>
+                                            <!-- Lugar de Nacimiento -->
                                             <div class="mb-3">
-                                                <label for="txtCiudadResidencia" class="form-label">Ciudad de Residencia</label>
-                                                <input type="text" class="form-control" id="txtCiudadResidencia" name="txtCiudadResidencia">
+                                                <label for="txtDepartamentoNacimiento" class="form-label">Departamento de Nacimiento</label>
+                                                <select class="form-select" id="txtDepartamentoNacimiento" name="txtDepartamentoNacimiento">
+                                                    <option value="">Selecciona un departamento</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="txtFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                                                <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="txtLugarNacimiento" class="form-label">Lugar de Nacimiento</label>
-                                                <input type="text" class="form-control" id="txtLugarNacimiento" name="txtLugarNacimiento">
+                                                <label for="txtCiudadNacimiento" class="form-label">Ciudad de Nacimiento</label>
+                                                <select class="form-select" id="txtCiudadNacimiento" name="txtCiudadNacimiento" disabled>
+                                                    <option value="">Selecciona una ciudad</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtRh" class="form-label">RH</label>
@@ -300,8 +415,8 @@
                                                 <input type="date" class="form-control" id="txtFechaActaPosesion" name="txtFechaActaPosesion">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="txtTiempoLaborado" class="form-label">Tiempo Laborado</label>
-                                                <input type="text" class="form-control" id="txtTiempoLaborado" name="txtTiempoLaborado">
+                                                <label for="txtTiempoLaborado" class="form-label ">Tiempo Laborado</label>
+                                                <input type="text" class="form-control disable" id="txtTiempoLaborado" name="txtTiempoLaborado" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTitulo" class="form-label">Título</label>
@@ -309,7 +424,12 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtTarjetaProfesional" class="form-label">Tarjeta Profesional</label>
-                                                <input type="text" class="form-control" id="txtTarjetaProfesional" name="txtTarjetaProfesional">
+                                                <select class="form-select" id="txtTarjetaProfesional" name="txtTarjetaProfesional">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Si">Sí</option>
+                                                    <option value="No">No</option>
+                                                    <option value="No Aplica">No Aplica</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtOtrosEstudios" class="form-label">Otros Estudios y/o Especializaciones</label>
@@ -331,23 +451,91 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtBanco" class="form-label">Banco</label>
-                                                <input type="text" class="form-control" id="txtBanco" name="txtBanco">
+                                                <select class="form-select" id="txtBanco" name="txtBanco">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="BANCOLOMBIA">BANCOLOMBIA</option>
+                                                    <option value="BANCO DE BOGOTA">BANCO DE BOGOTÁ</option>
+                                                    <option value="DAVIVIENDA">DAVIVIENDA</option>
+                                                    <option value="BBVA COLOMBIA">BBVA COLOMBIA</option>
+                                                    <option value="BANCO POPULAR">BANCO POPULAR</option>
+                                                    <option value="BANCO CAJA SOCIAL">BANCO CAJA SOCIAL</option>
+                                                    <option value="BANCO AV VILLAS">BANCO AV VILLAS</option>
+                                                    <option value="BANCO OCCIDENTE">BANCO OCCIDENTE</option>
+                                                    <option value="BANCO AGRARIO">BANCO AGRARIO</option>
+                                                    <option value="CITIBANK">CITIBANK</option>
+                                                    <option value="BANCO GNB SUDAMERIS">BANCO GNB SUDAMERIS</option>
+                                                    <option value="BANCO FALABELLA">BANCO FALABELLA</option>
+                                                    <option value="BANCO PICHINCHA">BANCO PICHINCHA</option>
+                                                    <option value="BANCO COOPERATIVO COOPCENTRAL">BANCO COOPERATIVO COOPCENTRAL</option>
+                                                    <option value="BANCO SANTANDER">BANCO SANTANDER</option>
+                                                    <option value="BANCO MUNDO MUJER">BANCO MUNDO MUJER</option>
+                                                    <option value="BANCO FINANDINA">BANCO FINANDINA</option>
+                                                    <option value="BANCO SERFINANZA">BANCO SERFINANZA</option>
+                                                    <option value="BANCAMIA">BANCAMÍA</option>
+                                                    <option value="NEQUI">NEQUI</option>
+                                                    <option value="DAVIPLATA">DAVIPLATA</option>
+                                                    <option value="BANCO CREDIFINANCIERA">BANCO CREDIFINANCIERA</option>
+                                                    <option value="BANCO W">BANCO W</option>
+                                                    <option value="LULO BANK">LULO BANK</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtEps" class="form-label">E.P.S</label>
-                                                <input type="text" class="form-control" id="txtEps" name="txtEps">
+                                                <select class="form-select" id="txtEps" name="txtEps">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="NUEVA EPS">NUEVA EPS</option>
+                                                    <option value="SURA">SURA</option>
+                                                    <option value="SANITAS">SANITAS</option>
+                                                    <option value="SALUD TOTAL">SALUD TOTAL</option>
+                                                    <option value="COMPENSAR">COMPENSAR</option>
+                                                    <option value="FAMISANAR">FAMISANAR</option>
+                                                    <option value="COOMEVA">COOMEVA</option>
+                                                    <option value="MEDIMAS">MEDIMAS</option>
+                                                    <option value="ALIANSALUD">ALIANSALUD</option>
+                                                    <option value="COOSALUD">COOSALUD</option>
+                                                    <option value="ASMETSALUD">ASMETSALUD</option>
+                                                    <option value="MUTUAL SER">MUTUAL SER</option>
+                                                    <option value="CAJACOPI">CAJACOPI</option>
+                                                    <option value="CAPRESOCA">CAPRESOCA</option>
+                                                    <option value="COMFENALCO VALLE">COMFENALCO VALLE</option>
+                                                    <option value="ECOOPSOS">ECOOPSOS</option>
+                                                    <option value="EMSSANAR">EMSSANAR</option>
+                                                    <option value="GOLDEN GROUP">GOLDEN GROUP</option>
+                                                    <option value="PIJAOS SALUD">PIJAOS SALUD</option>
+                                                    <option value="SAVIA SALUD">SAVIA SALUD</option>
+                                                    <option value="DUSAKAWI">DUSAKAWI</option>
+                                                    <option value="ANAS WAYUU">ANAS WAYUU</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfp" class="form-label">A.F.P</label>
-                                                <input type="text" class="form-control" id="txtAfp" name="txtAfp">
+                                                <select class="form-select" id="txtAfp" name="txtAfp">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="PORVENIR">PORVENIR</option>
+                                                    <option value="PROTECCION">PROTECCIÓN</option>
+                                                    <option value="COLFONDOS">COLFONDOS</option>
+                                                    <option value="OLD MUTUAL">OLD MUTUAL</option>
+                                                    <option value="COLPENSIONES">COLPENSIONES</option>
+                                                    <option value="FONDO NACIONAL DE AHORRO">FONDO NACIONAL DE AHORRO</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtAfc" class="form-label">A.F.C</label>
-                                                <input type="text" class="form-control" id="txtAfc" name="txtAfc">
+                                                <select class="form-select" id="txtAfc" name="txtAfc">
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="PORVENIR">PORVENIR</option>
+                                                    <option value="PROTECCION">PROTECCIÓN</option>
+                                                    <option value="COLFONDOS">COLFONDOS</option>
+                                                    <option value="COLPENCIONES">COLPENCIONES</option>
+                                                    <option value="FONDO NACIONAL DE AHORRO">FONDO NACIONAL DE AHORRO</option>
+                                                    <option value="SKANDIA">SKANDIA</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtArl" class="form-label">A.R.L</label>
-                                                <input type="text" class="form-control" id="txtArl" name="txtArl">
+                                                <select class="form-select" id="txtArl" name="txtArl">
+                                                    <option value="POSITIVA" selected>POSITIVA</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="txtSindicalizado" class="form-label">Sindicalizado</label>
@@ -387,30 +575,97 @@
                                         <div class="card-body">
                                             <!-- Cantidad de hijos -->
                                             <div class="mb-3">
-                                                <label for="txtHijosFuncionario" class="form-label">Cantidad de hijos <b class="required text-danger">*</b></label>
+                                                <label for="txtHijosFuncionario" class="form-label">Cantidad de hijos</label>
                                                 <input type="number" class="form-control" id="txtHijosFuncionario"
-                                                    name="txtHijosFuncionario" min="0">
+       name="txtHijosFuncionario" min="0" max="9" step="1" value="0"
+       oninput="if(this.value.length > 1) this.value = this.value.slice(0,1);">
                                             </div>
 
-                                            <!-- Campo oculto inicialmente -->
-                                            <div class="mb-3" id="nombresHijosContainer" style="display: none;">
-                                                <label for="txtNombresHijosFuncionario" class="form-label">Nombres de los hijos <b class="required text-danger">*</b></label>
-                                                <input type="text" class="form-control" id="txtNombresHijosFuncionario"
-                                                    name="txtNombresHijosFuncionario">
-                                            </div>
+                                            <!-- Contenedor dinámico para hijos -->
+                                            <div id="hijosContainer" style="display: none;"></div>
 
                                             <script>
                                                 document.addEventListener('DOMContentLoaded', function() {
                                                     const cantidadHijosInput = document.getElementById("txtHijosFuncionario");
-                                                    const nombresHijosContainer = document.getElementById("nombresHijosContainer");
+                                                    const hijosContainer = document.getElementById("hijosContainer");
+                                                    const form = document.getElementById("formFuncionario");
 
-                                                    cantidadHijosInput.addEventListener("input", () => {
-                                                        const cantidad = parseInt(cantidadHijosInput.value);
+                                                    function generarCamposHijos() {
+                                                        const cantidad = parseInt(cantidadHijosInput.value) || 0;
+                                                        hijosContainer.innerHTML = '';
+                                                        
                                                         if (cantidad > 0) {
-                                                            nombresHijosContainer.style.display = "block";
+                                                            hijosContainer.style.display = "block";
+                                                            const inputNombres = document.getElementById('txtNombresHijosFuncionario');
+                                                            const inputEdades = document.getElementById('txtEdadesHijosFuncionario');
+                                                            const nombresExistentes = inputNombres && inputNombres.value ? inputNombres.value.split(', ') : [];
+                                                            // Separar edades concatenadas: 1011 = [10, 11]
+                                                            let edadesExistentes = [];
+                                                            if (inputEdades && inputEdades.value) {
+                                                                const edadesStr = inputEdades.value;
+                                                                for (let i = 0; i < edadesStr.length; i += 2) {
+                                                                    edadesExistentes.push(parseInt(edadesStr.substr(i, 2)));
+                                                                }
+                                                            }
+                                                            
+                                                            for (let i = 1; i <= cantidad; i++) {
+                                                                const hijoDiv = document.createElement('div');
+                                                                hijoDiv.className = 'row mb-2';
+                                                                hijoDiv.innerHTML = `
+                                                                    <div class="col-md-8">
+                                                                        <label class="form-label">Nombre hijo ${i}</label>
+                                                                        <input type="text" class="form-control hijo-nombre" placeholder="Nombre completo" value="${nombresExistentes[i-1] || ''}">
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label class="form-label">Edad</label>
+                                                                        <input type="number" class="form-control hijo-edad" min="0" max="50" value="${edadesExistentes[i-1] || ''}">
+                                                                    </div>
+                                                                `;
+                                                                hijosContainer.appendChild(hijoDiv);
+                                                            }
                                                         } else {
-                                                            nombresHijosContainer.style.display = "none";
+                                                            hijosContainer.style.display = "none";
                                                         }
+                                                    }
+                                                    
+                                                    // Cargar datos al abrir modal para editar
+                                                    document.getElementById('modalFormFuncionario').addEventListener('shown.bs.modal', function() {
+                                                        setTimeout(() => {
+                                                            const cantidad = parseInt(cantidadHijosInput.value) || 0;
+                                                            if (cantidad > 0) {
+                                                                cantidadHijosInput.dispatchEvent(new Event('input'));
+                                                            }
+                                                        }, 2500);
+                                                    });
+
+                                                    cantidadHijosInput.addEventListener("input", generarCamposHijos);
+                                                    
+
+
+                                                    form.addEventListener('submit', function() {
+                                                        const nombres = Array.from(document.querySelectorAll('.hijo-nombre')).map(input => input.value).filter(v => v);
+                                                        const edades = Array.from(document.querySelectorAll('.hijo-edad')).map(input => input.value).filter(v => v);
+                                                        
+                                                        let inputNombres = document.getElementById('txtNombresHijosFuncionario');
+                                                        if (!inputNombres) {
+                                                            inputNombres = document.createElement('input');
+                                                            inputNombres.type = 'hidden';
+                                                            inputNombres.id = 'txtNombresHijosFuncionario';
+                                                            inputNombres.name = 'txtNombresHijosFuncionario';
+                                                            form.appendChild(inputNombres);
+                                                        }
+                                                        inputNombres.value = nombres.join(', ');
+                                                        
+                                                        let inputEdades = document.getElementById('txtEdadesHijosFuncionario');
+                                                        if (!inputEdades) {
+                                                            inputEdades = document.createElement('input');
+                                                            inputEdades.type = 'hidden';
+                                                            inputEdades.id = 'txtEdadesHijosFuncionario';
+                                                            inputEdades.name = 'txtEdadesHijosFuncionario';
+                                                            form.appendChild(inputEdades);
+                                                        }
+                                                        // Concatenar edades sin comas: 10, 11 = 1011
+                                                        inputEdades.value = edades.map(edad => edad.toString().padStart(2, '0')).join('');
                                                     });
                                                 });
                                             </script>
@@ -464,87 +719,199 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid py-3">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card mb-3">
-                                <div class="card-header bg-light">
+                    <!-- Información Básica -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #ccc;">
                                     <h5 class="mb-0">Información Básica</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p><strong>ID:</strong> <span id="celIdeFuncionario">0</span></p>
-                                    <p><strong>Nombre:</strong> <span id="celNombresFuncionario">0</span></p>
-                                    <p><strong>Identificación:</strong> <span id="celIdentificacionFuncionario">0</span></p>
-                                    <p><strong>Estado:</strong> <span id="celEstadoFuncionario">0</span></p>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p><strong>ID:</strong> <span id="celIdeFuncionario">-</span></p>
+                                            <p><strong>Estado:</strong> <span id="celEstadoFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>Nombre Completo:</strong> <span id="celNombresFuncionario">-</span></p>
+                                            <p><strong>Identificación:</strong> <span id="celIdentificacionFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>Correo:</strong> <span id="celCorreoFuncionario">-</span></p>
+                                            <p><strong>Celular:</strong> <span id="celCelularFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>Dirección:</strong> <span id="celDireccionFuncionario">-</span></p>
+                                            <p><strong>Lugar de Residencia:</strong> <span id="celLugarResidenciaFuncionario">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información Personal -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Personal</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Edad:</strong> <span id="celEdadFuncionario">-</span></p>
+                                            <p><strong>Sexo:</strong> <span id="celSexoFuncionario">-</span></p>
+                                            <p><strong>Estado Civil:</strong> <span id="celEstadoCivilFuncionario">-</span></p>
+                                            <p><strong>Religión:</strong> <span id="celReligionFuncionario">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Fecha de Nacimiento:</strong> <span id="celFechaNacimiento">-</span></p>
+                                            <p><strong>Lugar de Nacimiento:</strong> <span id="celLugarNacimiento">-</span></p>
+                                            <p><strong>RH:</strong> <span id="celRh">-</span></p>
+                                            <p><strong>Lugar de Expedición:</strong> <span id="celLugarExpedicion">-</span></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información Personal</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Edad:</strong> <span id="celEdadFuncionario">0</span></p>
-                                                    <p><strong>Sexo:</strong> <span id="celSexoFuncionario">0</span></p>
-                                                    <p><strong>Estado Civil:</strong> <span id="celEstadoCivilFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p><strong>Religión:</strong> <span id="celReligionFuncionario">0</span></p>
-                                                    <p><strong>Hijos:</strong> <span id="celHijosFuncionario">0</span></p>
-                                                    <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">0</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Familiar</h5>
                                 </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información de Contacto</h5>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Cantidad de Hijos:</strong> <span id="celHijosFuncionario">-</span></p>
+                                            <p><strong>Nombres de Hijos:</strong> <span id="celNombresHijosFuncionario">-</span></p>
+                                            <p><strong>Edades de Hijos:</strong> <span id="celEdadesHijosFuncionario">-</span></p>
+                                            <p><strong>Libreta Militar:</strong> <span id="celLibretaMilitar">-</span></p>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Correo:</strong> <span id="celCorreoFuncionario">0</span></p>
-                                                    <p><strong>Celular:</strong> <span id="celCelularFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p><strong>Dirección:</strong> <span id="celDireccionFuncionario">0</span></p>
-                                                    <p><strong>Lugar de Residencia:</strong> <span id="celLugarResidenciaFuncionario">0</span></p>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Madre Cabeza de Hogar:</strong> <span id="celMadreCabezaHogar">-</span></p>
+                                            <p><strong>Sindicalizado:</strong> <span id="celSindicalizado">-</span></p>
+                                            <p><strong>Prepensionado:</strong> <span id="celPrepensionado">-</span></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header bg-light">
-                                            <h5 class="mb-0">Información Laboral y Académica</h5>
+                        </div>
+                    </div>
+
+                    <!-- Información Laboral -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Laboral</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Cargo:</strong> <span id="celCargoFuncionario">-</span></p>
+                                            <p><strong>Dependencia:</strong> <span id="celDependenciaFuncionario">-</span></p>
+                                            <p><strong>Tipo de Contrato:</strong> <span id="celContrato">-</span></p>
+                                            <p><strong>Fecha de Ingreso:</strong> <span id="celFechaIngresoFuncionario">-</span></p>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <p><strong>Cargo:</strong> <span id="celCargoFuncionario">0</span></p>
-                                                    <p><strong>Dependencia:</strong> <span id="celDependenciaFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p><strong>Contrato:</strong> <span id="celContrato">0</span></p>
-                                                    <p><strong>Fecha de Ingreso:</strong> <span id="celFechaIngresoFuncionario">0</span></p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <p><strong>Formación académica:</strong> <span id="celFormacionAcademica">0</span></p>
-                                                    <p><strong>Nombre de la formación:</strong> <span id="celNombreFormacion">0</span></p>
-                                                </div>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Tiempo Laborado:</strong> <span id="celTiempoLaborado">-</span></p>
+                                            <p><strong>Nivel:</strong> <span id="celNivel">-</span></p>
+                                            <p><strong>Grado:</strong> <span id="celGrado">-</span></p>
+                                            <p><strong>Código:</strong> <span id="celCodigo">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Administrativa</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Tipo de Nombramiento:</strong> <span id="celTipoNombramiento">-</span></p>
+                                            <p><strong>Acto Administrativo:</strong> <span id="celActoAdministrativo">-</span></p>
+                                            <p><strong>Fecha Acto Nombramiento:</strong> <span id="celFechaActoNombramiento">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>No. Acta de Posesión:</strong> <span id="celNoActaPosesion">-</span></p>
+                                            <p><strong>Fecha Acta Posesión:</strong> <span id="celFechaActaPosesion">-</span></p>
+                                            <p><strong>Salario Básico:</strong> <span id="celSalarioBasico">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información Académica -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Académica</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Formación Académica:</strong> <span id="celFormacionAcademica">-</span></p>
+                                            <p><strong>Nombre de la Formación:</strong> <span id="celNombreFormacion">-</span></p>
+                                            <p><strong>Título:</strong> <span id="celTitulo">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Tarjeta Profesional:</strong> <span id="celTarjetaProfesional">-</span></p>
+                                            <p><strong>Otros Estudios:</strong> <span id="celOtrosEstudios">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Información Financiera</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Cuenta No.:</strong> <span id="celCuentaNo">-</span></p>
+                                            <p><strong>Banco:</strong> <span id="celBanco">-</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Salario Básico:</strong> <span id="celSalarioBasico2">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información de Seguridad Social -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" style="background-color: #ccc;">
+                                    <h5 class="mb-0">Seguridad Social</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p><strong>EPS:</strong> <span id="celEps">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>AFP:</strong> <span id="celAfp">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>AFC:</strong> <span id="celAfc">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p><strong>ARL:</strong> <span id="celArl">-</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -562,3 +929,9 @@
         </div>
     </div>
 </div>
+
+<!-- Scripts para departamentos y ciudades -->
+<script src="Assets/Js/colombia-api.js"></script>
+<script src="Assets/Js/funcionarios-colombia.js"></script>
+<script>
+</script>

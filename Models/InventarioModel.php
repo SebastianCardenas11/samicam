@@ -11,14 +11,9 @@ class InventarioModel extends Mysql
     public function selectImpresoras()
     {
         $sql = "SELECT i.*, 
-                       d.nombre AS nombre_dependencia,
-                       f.nombre_completo as nombre_funcionario,
-                       c.nombre AS nombre_cargo,
-                       f.celular as nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_impresoras i
                 LEFT JOIN tbl_dependencia d ON i.id_dependencia = d.dependencia_pk
-                LEFT JOIN tbl_funcionarios_planta f ON i.id_funcionario = f.idefuncionario
-                LEFT JOIN tbl_cargos c ON i.id_cargo = c.idecargos
                 WHERE i.status != 0
                 ORDER BY i.numero_impresora ASC";
         $data = $this->select_all($sql);
@@ -28,31 +23,26 @@ class InventarioModel extends Mysql
     public function selectImpresora($idImpresora)
     {
         $sql = "SELECT i.*, 
-                       d.nombre AS nombre_dependencia,
-                       f.nombre_completo as nombre_funcionario,
-                       c.nombre AS nombre_cargo,
-                       f.celular as nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_impresoras i
                 LEFT JOIN tbl_dependencia d ON i.id_dependencia = d.dependencia_pk
-                LEFT JOIN tbl_funcionarios_planta f ON i.id_funcionario = f.idefuncionario
-                LEFT JOIN tbl_cargos c ON i.id_cargo = c.idecargos
                 WHERE i.id_impresora = $idImpresora AND i.status != 0";
         $data = $this->select($sql);
         return $data;
     }
 
-    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto)
+    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina)
     {
-        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, consumible, estado, disponibilidad, id_dependencia, oficina, id_funcionario, id_cargo, id_contacto, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto, 1);
+        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, consumible, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto)
+    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina)
     {
-        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ?, id_dependencia = ?, oficina = ?, id_funcionario = ?, id_cargo = ?, id_contacto = ? WHERE id_impresora = ?";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto, $idImpresora);
+        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ?, id_dependencia = ?, oficina = ? WHERE id_impresora = ?";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, $idImpresora);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -69,16 +59,9 @@ class InventarioModel extends Mysql
     public function selectEscaneres()
     {
         $sql = "SELECT e.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_escaneres e
-                LEFT JOIN tbl_dependencias d ON e.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON e.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON e.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON e.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON e.id_dependencia = d.dependencia_pk
                 WHERE e.status != 0
                 ORDER BY e.numero_escaner ASC";
         $data = $this->select_all($sql);
@@ -88,33 +71,26 @@ class InventarioModel extends Mysql
     public function selectEscaner($idEscaner)
     {
         $sql = "SELECT e.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_escaneres e
-                LEFT JOIN tbl_dependencias d ON e.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON e.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON e.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON e.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON e.id_dependencia = d.dependencia_pk
                 WHERE e.id_escaner = $idEscaner AND e.status != 0";
         $data = $this->select($sql);
         return $data;
     }
 
-    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto)
+    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina)
     {
-        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, estado, disponibilidad, id_dependencia, oficina, id_funcionario, id_cargo, id_contacto, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto, 1);
+        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto)
+    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina)
     {
-        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ?, id_dependencia = ?, oficina = ?, id_funcionario = ?, id_cargo = ?, id_contacto = ? WHERE id_escaner = ?";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, $funcionario, $cargo, $contacto, $idEscaner);
+        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ?, id_dependencia = ?, oficina = ? WHERE id_escaner = ?";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, $idEscaner);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -188,26 +164,7 @@ class InventarioModel extends Mysql
         return $request;
     }
 
-    // ==================== FUNCIONARIOS ====================
-    public function selectFuncionarios()
-    {
-        $sql = "SELECT 
-            f.idefuncionario AS id_funcionario, 
-            f.nombre_completo, 
-            f.dependencia_fk AS id_dependencia, 
-            d.nombre AS nombre_dependencia, 
-            f.cargo_fk AS id_cargo, 
-            c.nombre AS nombre_cargo, 
-            f.celular AS contacto,
-            f.celular AS telefono
-        FROM tbl_funcionarios_planta f
-        LEFT JOIN tbl_dependencia d ON f.dependencia_fk = d.dependencia_pk
-        LEFT JOIN tbl_cargos c ON f.cargo_fk = c.idecargos
-        WHERE f.status = 1
-        ORDER BY f.nombre_completo ASC";
-        $data = $this->select_all($sql);
-        return $data;
-    }
+
 
     // ==================== DEPENDENCIAS ====================
     public function selectDependencias()
@@ -219,26 +176,7 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    // ==================== CARGOS ====================
-    public function selectCargos()
-    {
-        $sql = "SELECT idecargos AS id_cargo, nombre AS nombre_cargo 
-                FROM tbl_cargos 
-                ORDER BY nombre ASC";
-        $data = $this->select_all($sql);
-        return $data;
-    }
 
-    // ==================== CONTACTOS ====================
-    public function selectContactos()
-    {
-        $sql = "SELECT f.idefuncionario AS id_contacto, f.nombre_completo AS nombre_contacto, f.celular AS telefono_contacto
-                FROM tbl_funcionarios_planta f
-                WHERE f.status = 1
-                ORDER BY f.nombre_completo ASC";
-        $data = $this->select_all($sql);
-        return $data;
-    }
 
     // ==================== TINTAS Y TÓNER ====================
     public function selectTintasToner()
@@ -304,16 +242,9 @@ class InventarioModel extends Mysql
     public function selectPcTorre()
     {
         $sql = "SELECT t.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_pc_torre t
-                LEFT JOIN tbl_dependencias d ON t.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON t.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON t.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON t.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
                 WHERE t.status != 0
                 ORDER BY t.numero_pc ASC";
         $data = $this->select_all($sql);
@@ -323,33 +254,26 @@ class InventarioModel extends Mysql
     public function selectPcTorreById($idPcTorre)
     {
         $sql = "SELECT t.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_pc_torre t
-                LEFT JOIN tbl_dependencias d ON t.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON t.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON t.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON t.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
                 WHERE t.id_pc_torre = ? AND t.status != 0";
         $data = $this->select($sql, array($idPcTorre));
         return $data;
     }
 
-    public function insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto)
+    public function insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina)
     {
-        $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, id_dependencia, oficina, id_funcionario, id_cargo, id_contacto, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+        $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto)
+    public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina)
     {
-        $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=?, id_funcionario=?, id_cargo=?, id_contacto=? WHERE id_pc_torre=?";
-        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto, $id_pc_torre);
+        $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=? WHERE id_pc_torre=?";
+        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_pc_torre);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -366,16 +290,9 @@ class InventarioModel extends Mysql
     public function selectTodoEnUno()
     {
         $sql = "SELECT t.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_todo_en_uno t
-                LEFT JOIN tbl_dependencias d ON t.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON t.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON t.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON t.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
                 WHERE t.status != 0
                 ORDER BY t.numero_pc ASC";
         $data = $this->select_all($sql);
@@ -385,33 +302,26 @@ class InventarioModel extends Mysql
     public function selectTodoEnUnoById($idTodoEnUno)
     {
         $sql = "SELECT t.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_todo_en_uno t
-                LEFT JOIN tbl_dependencias d ON t.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON t.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON t.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON t.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
                 WHERE t.id_todo_en_uno = ? AND t.status != 0";
         $data = $this->select($sql, array($idTodoEnUno));
         return $data;
     }
 
-    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto)
+    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
     {
-        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, id_dependencia, oficina, id_funcionario, id_cargo, id_contacto, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto)
+    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
     {
-        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=?, id_funcionario=?, id_cargo=?, id_contacto=? WHERE id_todo_en_uno=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto, $id_todo_en_uno);
+        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=? WHERE id_todo_en_uno=?";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_todo_en_uno);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -428,16 +338,9 @@ class InventarioModel extends Mysql
     public function selectPortatiles()
     {
         $sql = "SELECT p.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_portatiles p
-                LEFT JOIN tbl_dependencias d ON p.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON p.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON p.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON p.id_dependencia = d.dependencia_pk
                 WHERE p.status != 0
                 ORDER BY p.numero_pc ASC";
         $data = $this->select_all($sql);
@@ -447,33 +350,26 @@ class InventarioModel extends Mysql
     public function selectPortatilById($idPortatil)
     {
         $sql = "SELECT p.*, 
-                       d.nombre_dependencia,
-                       f.nombres as nombre_funcionario,
-                       f.apellidos as apellido_funcionario,
-                       c.nombre_cargo,
-                       co.nombre_contacto
+                       d.nombre AS nombre_dependencia
                 FROM tbl_portatiles p
-                LEFT JOIN tbl_dependencias d ON p.id_dependencia = d.id_dependencia
-                LEFT JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.id_funcionario
-                LEFT JOIN tbl_cargos c ON p.id_cargo = c.id_cargo
-                LEFT JOIN tbl_contactos co ON p.id_contacto = co.id_contacto
+                LEFT JOIN tbl_dependencia d ON p.id_dependencia = d.dependencia_pk
                 WHERE p.id_portatil = ? AND p.status != 0";
         $data = $this->select($sql, array($idPortatil));
         return $data;
     }
 
-    public function insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto)
+    public function insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
     {
-        $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, id_dependencia, oficina, id_funcionario, id_cargo, id_contacto, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+        $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updatePortatil($id_portatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto)
+    public function updatePortatil($id_portatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
     {
-        $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=?, id_funcionario=?, id_cargo=?, id_contacto=? WHERE id_portatil=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto, $id_portatil);
+        $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=? WHERE id_portatil=?";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_portatil);
         $request = $this->update($sql, $arrData);
         return $request;
     }

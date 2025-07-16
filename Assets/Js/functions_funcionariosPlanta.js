@@ -12,7 +12,7 @@ document.addEventListener(
         "url": base_url + "/Assets/js/es.json"
       },
       "ajax": {
-        "url": " " + base_url + "/FuncionariosPlanta/getFuncionarios",
+        "url": base_url + "/FuncionariosPlanta/getFuncionarios",
         "dataSrc": ""
       },
       "columns": [
@@ -23,6 +23,7 @@ document.addEventListener(
         { "data": "dependencia" },
         { "data": "contrato" },
         { "data": "correo_elc" },
+        { "data": "tiempo_laborado" },
         { "data": "status" },
         { "data": "options" }
       ],
@@ -51,7 +52,7 @@ document.addEventListener(
           }
         }
       ],
-      "resonsieve": "true",
+      "responsive": "true",
       "bDestroy": true,
       "iDisplayLength": 10,
       "order": [[0, "desc"]]
@@ -83,7 +84,7 @@ document.addEventListener(
         
         // Nuevos campos opcionales
         let strLugarExpedicion = document.querySelector("#txtLugarExpedicion") ? document.querySelector("#txtLugarExpedicion").value : '';
-        let strLibreMilitar = document.querySelector("#txtLibreMilitar") ? document.querySelector("#txtLibreMilitar").value : '';
+        let strLibretaMilitar = document.querySelector("#txtLibretaMilitar") ? document.querySelector("#txtLibretaMilitar").value : '';
         let strActoAdministrativo = document.querySelector("#txtActoAdministrativo") ? document.querySelector("#txtActoAdministrativo").value : '';
         let strFechaActoNombramiento = document.querySelector("#txtFechaActoNombramiento") ? document.querySelector("#txtFechaActoNombramiento").value : '';
         let strNoActaPosesion = document.querySelector("#txtNoActaPosesion") ? document.querySelector("#txtNoActaPosesion").value : '';
@@ -91,7 +92,7 @@ document.addEventListener(
         let strTiempoLaborado = document.querySelector("#txtTiempoLaborado") ? document.querySelector("#txtTiempoLaborado").value : '';
         let strCodigo = document.querySelector("#txtCodigo") ? document.querySelector("#txtCodigo").value : '';
         let strGrado = document.querySelector("#txtGrado") ? document.querySelector("#txtGrado").value : '';
-        let strCiudadResidencia = document.querySelector("#txtCiudadResidencia") ? document.querySelector("#txtCiudadResidencia").value : '';
+
         let strFechaNacimiento = document.querySelector("#txtFechaNacimiento") ? document.querySelector("#txtFechaNacimiento").value : '';
         let strLugarNacimiento = document.querySelector("#txtLugarNacimiento") ? document.querySelector("#txtLugarNacimiento").value : '';
         let strRh = document.querySelector("#txtRh") ? document.querySelector("#txtRh").value : '';
@@ -152,6 +153,7 @@ document.addEventListener(
         request.send(formData);
         request.onreadystatechange = function () {
           if (request.readyState == 4 && request.status == 200) {
+            console.log(request.responseText);
             let objData = JSON.parse(request.responseText);
             if (objData.status) {
               $("#modalFormFuncionario").modal("hide");
@@ -301,49 +303,133 @@ function fntViewInfo(idefuncionario) {
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
       let objData = JSON.parse(request.responseText);
+      
       if (objData.status) {
+        // Información Básica
         document.querySelector("#celIdeFuncionario").innerHTML =
-          objData.data.idefuncionario;
+          objData.data.idefuncionario || '-';
         document.querySelector("#celCorreoFuncionario").innerHTML =
-          objData.data.correo_elc;
+          objData.data.correo_elc || '-';
         document.querySelector("#celNombresFuncionario").innerHTML =
-          objData.data.nombre_completo;
+          objData.data.nombre_completo || '-';
         document.querySelector("#celIdentificacionFuncionario").innerHTML =
-          objData.data.nm_identificacion;
-        document.querySelector("#celCargoFuncionario").innerHTML =
-          objData.data.cargo_nombre;
-        document.querySelector("#celDependenciaFuncionario").innerHTML =
-          objData.data.dependencia_nombre;
-        document.querySelector("#celContrato").innerHTML =
-          objData.data.contrato_nombre;
+          objData.data.nm_identificacion || '-';
         document.querySelector("#celCelularFuncionario").innerHTML =
-          objData.data.celular;
+          objData.data.celular || '-';
         document.querySelector("#celDireccionFuncionario").innerHTML =
-          objData.data.direccion;
-        document.querySelector("#celFechaIngresoFuncionario").innerHTML =
-          objData.data.fecha_ingreso;
-        document.querySelector("#celHijosFuncionario").innerHTML =
-          objData.data.hijos;
-        document.querySelector("#celNombresHijosFuncionario").innerHTML =
-          objData.data.nombres_de_hijos;
-        document.querySelector("#celSexoFuncionario").innerHTML =
-          objData.data.sexo;
+          objData.data.direccion || '-';
         document.querySelector("#celLugarResidenciaFuncionario").innerHTML =
-          objData.data.lugar_de_residencia;
-        document.querySelector("#celEdadFuncionario").innerHTML =
-          objData.data.edad;
-        document.querySelector("#celEstadoCivilFuncionario").innerHTML =
-          objData.data.estado_civil;
-        document.querySelector("#celReligionFuncionario").innerHTML =
-          objData.data.religion;
-        document.querySelector("#celFormacionAcademica").innerHTML =
-          objData.data.formacion_academica;
-        document.querySelector("#celNombreFormacion").innerHTML =
-          objData.data.nombre_formacion;
+          objData.data.lugar_de_residencia || '-';
         document.querySelector("#celEstadoFuncionario").innerHTML =
           objData.data.status == 1
             ? '<span class="badge text-bg-success">Activo</span>'
             : '<span class="badge text-bg-danger">Inactivo</span>';
+
+        // Información Personal
+        document.querySelector("#celEdadFuncionario").innerHTML =
+          objData.data.edad || '-';
+        document.querySelector("#celSexoFuncionario").innerHTML =
+          objData.data.sexo || '-';
+        document.querySelector("#celEstadoCivilFuncionario").innerHTML =
+          objData.data.estado_civil || '-';
+        document.querySelector("#celReligionFuncionario").innerHTML =
+          objData.data.religion || '-';
+        document.querySelector("#celFechaNacimiento").innerHTML =
+          objData.data.fecha_nacimiento || '-';
+        document.querySelector("#celLugarNacimiento").innerHTML =
+          objData.data.lugar_nacimiento || '-';
+        document.querySelector("#celRh").innerHTML =
+          objData.data.rh || '-';
+        document.querySelector("#celLugarExpedicion").innerHTML =
+          objData.data.lugar_expedicion || '-';
+
+        // Información Familiar
+        document.querySelector("#celHijosFuncionario").innerHTML =
+          objData.data.hijos || '-';
+        document.querySelector("#celNombresHijosFuncionario").innerHTML =
+          objData.data.nombres_de_hijos || '-';
+        
+        // Mostrar edades de hijos formateadas
+        let edadesHijos = '-';
+        if (objData.data.edades_hijos) {
+          const edadesStr = objData.data.edades_hijos;
+          const edades = [];
+          for (let i = 0; i < edadesStr.length; i += 2) {
+            edades.push(parseInt(edadesStr.substr(i, 2)));
+          }
+          edadesHijos = edades.join(', ') + ' años';
+        }
+        document.querySelector("#celEdadesHijosFuncionario").innerHTML = edadesHijos;
+        document.querySelector("#celLibretaMilitar").innerHTML =
+          objData.data.libreta_militar || '-';
+        document.querySelector("#celMadreCabezaHogar").innerHTML =
+          objData.data.madre_cabeza_hogar == 1 ? 'Sí' : (objData.data.madre_cabeza_hogar == 0 ? 'No' : '-');
+        document.querySelector("#celSindicalizado").innerHTML =
+          objData.data.sindicalizado == 1 ? 'Sí' : (objData.data.sindicalizado == 0 ? 'No' : '-');
+        document.querySelector("#celPrepensionado").innerHTML =
+          objData.data.prepensionado == 1 ? 'Sí' : (objData.data.prepensionado == 0 ? 'No' : '-');
+
+        // Información Laboral
+        document.querySelector("#celCargoFuncionario").innerHTML =
+          objData.data.cargo_nombre || '-';
+        document.querySelector("#celDependenciaFuncionario").innerHTML =
+          objData.data.dependencia_nombre || '-';
+        document.querySelector("#celContrato").innerHTML =
+          objData.data.contrato_nombre || '-';
+        document.querySelector("#celFechaIngresoFuncionario").innerHTML =
+          objData.data.fecha_ingreso || '-';
+        document.querySelector("#celTiempoLaborado").innerHTML =
+          objData.data.tiempo_laborado || '-';
+        document.querySelector("#celNivel").innerHTML =
+          objData.data.nivel || '-';
+        document.querySelector("#celGrado").innerHTML =
+          objData.data.grado || '-';
+        document.querySelector("#celCodigo").innerHTML =
+          objData.data.codigo || '-';
+
+        // Información Administrativa
+        document.querySelector("#celTipoNombramiento").innerHTML =
+          objData.data.tipo_nombramiento || '-';
+        document.querySelector("#celActoAdministrativo").innerHTML =
+          objData.data.acto_administrativo || '-';
+        document.querySelector("#celFechaActoNombramiento").innerHTML =
+          objData.data.fecha_acto_nombramiento || '-';
+        document.querySelector("#celNoActaPosesion").innerHTML =
+          objData.data.no_acta_posesion || '-';
+        document.querySelector("#celFechaActaPosesion").innerHTML =
+          objData.data.fecha_acta_posesion || '-';
+        document.querySelector("#celSalarioBasico").innerHTML =
+          objData.data.salario_basico ? '$' + parseFloat(objData.data.salario_basico).toLocaleString() : '-';
+
+        // Información Académica
+        document.querySelector("#celFormacionAcademica").innerHTML =
+          objData.data.formacion_academica || '-';
+        document.querySelector("#celNombreFormacion").innerHTML =
+          objData.data.nombre_formacion || '-';
+        document.querySelector("#celTitulo").innerHTML =
+          objData.data.titulo || '-';
+        document.querySelector("#celTarjetaProfesional").innerHTML =
+          objData.data.tarjeta_profesional || '-';
+        document.querySelector("#celOtrosEstudios").innerHTML =
+          objData.data.otros_estudios || '-';
+
+        // Información Financiera
+        document.querySelector("#celCuentaNo").innerHTML =
+          objData.data.cuenta_no || '-';
+        document.querySelector("#celBanco").innerHTML =
+          objData.data.banco || '-';
+        document.querySelector("#celSalarioBasico2").innerHTML =
+          objData.data.salario_basico ? '$' + parseFloat(objData.data.salario_basico).toLocaleString() : '-';
+
+        // Seguridad Social
+        document.querySelector("#celEps").innerHTML =
+          objData.data.eps || '-';
+        document.querySelector("#celAfp").innerHTML =
+          objData.data.afp || '-';
+        document.querySelector("#celAfc").innerHTML =
+          objData.data.afc || '-';
+        document.querySelector("#celArl").innerHTML =
+          objData.data.arl || '-';
 
         $("#modalViewFuncionario").modal("show");
       } else {
@@ -397,7 +483,15 @@ function fntEditInfo(element, idefuncionario) {
             document.querySelector("#txtSexoFuncionario").value = objData.data.sexo;
             document.querySelector("#txtLugarResidenciaFuncionario").value =
               objData.data.lugar_de_residencia;
-            document.querySelector("#txtEdadFuncionario").value = objData.data.edad;
+            // Cargar edad - si no hay fecha de nacimiento, usar la edad directamente
+            if (objData.data.fecha_nacimiento) {
+              document.querySelector("#txtFechaNacimiento").value = objData.data.fecha_nacimiento;
+              // Disparar evento para calcular edad automáticamente
+              document.querySelector("#txtFechaNacimiento").dispatchEvent(new Event('change'));
+            } else {
+              // Si no hay fecha de nacimiento, cargar la edad directamente
+              document.querySelector("#txtEdadFuncionario").value = objData.data.edad || '';
+            }
             document.querySelector("#txtEstadoCivilFuncionario").value =
               objData.data.estado_civil;
             document.querySelector("#txtReligionFuncionario").value =
@@ -412,8 +506,17 @@ function fntEditInfo(element, idefuncionario) {
             if (document.querySelector("#txtLugarExpedicion")) {
               document.querySelector("#txtLugarExpedicion").value = objData.data.lugar_expedicion || '';
             }
-            if (document.querySelector("#txtLibreMilitar")) {
-              document.querySelector("#txtLibreMilitar").value = objData.data.libre_militar || '';
+            if (document.querySelector("#txtNivel")) {
+              document.querySelector("#txtNivel").value = objData.data.nivel || '';
+            }
+            if (document.querySelector("#txtSalarioBasico")) {
+              document.querySelector("#txtSalarioBasico").value = objData.data.salario_basico || '';
+            }
+            if (document.querySelector("#txtTipoNombramiento")) {
+              document.querySelector("#txtTipoNombramiento").value = objData.data.tipo_nombramiento || '';
+            }
+            if (document.querySelector("#txtLibretaMilitar")) {
+              document.querySelector("#txtLibretaMilitar").value = objData.data.libreta_militar || '';
             }
             if (document.querySelector("#txtActoAdministrativo")) {
               document.querySelector("#txtActoAdministrativo").value = objData.data.acto_administrativo || '';
@@ -436,9 +539,7 @@ function fntEditInfo(element, idefuncionario) {
             if (document.querySelector("#txtGrado")) {
               document.querySelector("#txtGrado").value = objData.data.grado || '';
             }
-            if (document.querySelector("#txtCiudadResidencia")) {
-              document.querySelector("#txtCiudadResidencia").value = objData.data.ciudad_residencia || '';
-            }
+
             if (document.querySelector("#txtFechaNacimiento")) {
               document.querySelector("#txtFechaNacimiento").value = objData.data.fecha_nacimiento || '';
             }
@@ -476,13 +577,18 @@ function fntEditInfo(element, idefuncionario) {
               document.querySelector("#txtArl").value = objData.data.arl || '';
             }
             if (document.querySelector("#txtSindicalizado")) {
-              document.querySelector("#txtSindicalizado").value = objData.data.sindicalizado || '';
+              document.querySelector("#txtSindicalizado").value = objData.data.sindicalizado == 1 ? 'Si' : (objData.data.sindicalizado == 0 ? 'No' : '');
             }
             if (document.querySelector("#txtMadreCabezaHogar")) {
-              document.querySelector("#txtMadreCabezaHogar").value = objData.data.madre_cabeza_hogar || '';
+              document.querySelector("#txtMadreCabezaHogar").value = objData.data.madre_cabeza_hogar == 1 ? 'Si' : (objData.data.madre_cabeza_hogar == 0 ? 'No' : '');
             }
             if (document.querySelector("#txtPrepensionado")) {
-              document.querySelector("#txtPrepensionado").value = objData.data.prepensionado || '';
+              document.querySelector("#txtPrepensionado").value = objData.data.prepensionado == 1 ? 'Si' : (objData.data.prepensionado == 0 ? 'No' : '');
+            }
+            
+            // Cargar edades de hijos si existen
+            if (document.querySelector("#txtEdadesHijosFuncionario")) {
+              document.querySelector("#txtEdadesHijosFuncionario").value = objData.data.edades_hijos || '';
             }
           } else {
             Swal.fire("Error", objData.msg, "error");

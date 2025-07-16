@@ -89,9 +89,6 @@ class Inventario extends Controllers
                     $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
                     $intDependencia = intval($_POST['listDependencia']);
                     $strOficina = strClean($_POST['txtOficina']);
-                    $intFuncionario = intval($_POST['listFuncionario']);
-                    $intCargo = intval($_POST['listCargo']);
-                    $intContacto = intval($_POST['listContacto']);
 
                     error_log('Datos procesados - ID: ' . $intIdImpresora . ', Numero: ' . $strNumeroImpresora);
 
@@ -99,7 +96,7 @@ class Inventario extends Controllers
                     if ($intIdImpresora == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nueva impresora...');
-                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
+                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
                             $option = 1;
                             error_log('Resultado insert: ' . $request);
                         } else {
@@ -108,7 +105,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando impresora ID: ' . $intIdImpresora);
-                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
+                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -211,19 +208,16 @@ class Inventario extends Controllers
                 $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
                 $intDependencia = intval($_POST['listDependencia']);
                 $strOficina = strClean($_POST['txtOficina']);
-                $intFuncionario = intval($_POST['listFuncionario']);
-                $intCargo = intval($_POST['listCargo']);
-                $intContacto = intval($_POST['listContacto']);
 
                 $request = "";
                 if ($intIdEscaner == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
+                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $intDependencia, $strOficina, $intFuncionario, $intCargo, $intContacto);
+                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
                         $option = 2;
                     }
                 }
@@ -430,38 +424,11 @@ class Inventario extends Controllers
         die();
     }
 
-    // ==================== FUNCIONARIOS, DEPENDENCIAS, CARGOS, CONTACTOS ====================
-    public function getFuncionarios()
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectFuncionarios();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-
+    // ==================== DEPENDENCIAS ====================
     public function getDependencias()
     {
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectDependencias();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-
-    public function getCargos()
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectCargos();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-
-    public function getContactos()
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectContactos();
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
         die();
@@ -531,19 +498,16 @@ class Inventario extends Controllers
                 $disponibilidad = strClean($_POST['txtDisponibilidadPcTorre']);
                 $id_dependencia = intval($_POST['listDependenciaPcTorre']);
                 $oficina = strClean($_POST['txtOficinaPcTorre']);
-                $id_funcionario = intval($_POST['listFuncionarioPcTorre']);
-                $id_cargo = intval($_POST['listCargoPcTorre']);
-                $id_contacto = intval($_POST['listContactoPcTorre']);
 
                 $request = "";
                 if ($intIdPcTorre == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+                        $request = $this->model->insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updatePcTorre($intIdPcTorre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+                        $request = $this->model->updatePcTorre($intIdPcTorre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina);
                         $option = 2;
                     }
                 }
@@ -636,19 +600,16 @@ class Inventario extends Controllers
                 $disponibilidad = strClean($_POST['txtDisponibilidadTodoEnUno']);
                 $id_dependencia = intval($_POST['listDependenciaTodoEnUno']);
                 $oficina = strClean($_POST['txtOficinaTodoEnUno']);
-                $id_funcionario = intval($_POST['listFuncionarioTodoEnUno']);
-                $id_cargo = intval($_POST['listCargoTodoEnUno']);
-                $id_contacto = intval($_POST['listContactoTodoEnUno']);
 
                 $request = "";
                 if ($intIdTodoEnUno == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+                        $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+                        $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
                         $option = 2;
                     }
                 }
@@ -741,19 +702,16 @@ class Inventario extends Controllers
                 $disponibilidad = strClean($_POST['txtDisponibilidadPortatil']);
                 $id_dependencia = intval($_POST['listDependenciaPortatil']);
                 $oficina = strClean($_POST['txtOficinaPortatil']);
-                $id_funcionario = intval($_POST['listFuncionarioPortatil']);
-                $id_cargo = intval($_POST['listCargoPortatil']);
-                $id_contacto = intval($_POST['listContactoPortatil']);
 
                 $request = "";
                 if ($intIdPortatil == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+                        $request = $this->model->insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updatePortatil($intIdPortatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_funcionario, $id_cargo, $id_contacto);
+                        $request = $this->model->updatePortatil($intIdPortatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
                         $option = 2;
                     }
                 }

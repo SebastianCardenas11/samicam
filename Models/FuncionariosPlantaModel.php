@@ -50,7 +50,34 @@ class FuncionariosPlantaModel extends Mysql
         string $estadoCivil,
         string $religion,
         string $formacion,
-        string $nombreformacion
+        string $nombreformacion,
+        string $lugarExpedicion = '',
+        string $libretaMilitar = '',
+        string $tipoNombramiento = '',
+        string $nivel = '',
+        float $salarioBasico = 0,
+        string $actoAdministrativo = '',
+        string $fechaActoNombramiento = '',
+        string $noActaPosesion = '',
+        string $fechaActaPosesion = '',
+        string $tiempoLaborado = '',
+        string $codigo = '',
+        string $grado = '',
+        string $fechaNacimiento = '',
+        string $lugarNacimiento = '',
+        string $rh = '',
+        string $titulo = '',
+        string $tarjetaProfesional = '',
+        string $otrosEstudios = '',
+        string $cuentaNo = '',
+        string $banco = '',
+        string $eps = '',
+        string $afp = '',
+        string $afc = '',
+        string $arl = '',
+        string $sindicalizado = '',
+        string $madreCabezaHogar = '',
+        string $prepensionado = ''
     ) {
         try {
             $sqlCargo = "SELECT idecargos FROM tbl_cargos WHERE idecargos = $cargo";
@@ -98,8 +125,36 @@ class FuncionariosPlantaModel extends Mysql
                         religion,
                         formacion_academica,
                         nombre_formacion,
-                        status
-                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        status,
+                        lugar_expedicion,
+                        libreta_militar,
+                        tipo_nombramiento,
+                        nivel,
+                        salario_basico,
+                        acto_administrativo,
+                        fecha_acto_nombramiento,
+                        no_acta_posesion,
+                        fecha_acta_posesion,
+                        tiempo_laborado,
+                        codigo,
+                        grado,
+                        fecha_nacimiento,
+                        lugar_nacimiento,
+                        rh,
+                        titulo,
+                        tarjeta_profesional,
+                        otros_estudios,
+                        cuenta_no,
+                        banco,
+                        eps,
+                        afp,
+                        afc,
+                        arl,
+                        sindicalizado,
+                        madre_cabeza_hogar,
+                        prepensionado,
+                        edades_hijos
+                    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     $arrData = array(
                         $nombres,
@@ -120,7 +175,35 @@ class FuncionariosPlantaModel extends Mysql
                         $religion,
                         $formacion,
                         $nombreformacion,
-                        $status
+                        $status,
+                        $lugarExpedicion,
+                        $libretaMilitar,
+                        $tipoNombramiento,
+                        $nivel,
+                        $salarioBasico,
+                        $actoAdministrativo,
+                        $fechaActoNombramiento,
+                        $noActaPosesion,
+                        $fechaActaPosesion,
+                        $tiempoLaborado,
+                        $codigo,
+                        $grado,
+                        $fechaNacimiento,
+                        $lugarNacimiento,
+                        $rh,
+                        $titulo,
+                        $tarjetaProfesional,
+                        $otrosEstudios,
+                        $cuentaNo,
+                        $banco,
+                        $eps,
+                        $afp,
+                        $afc,
+                        $arl,
+                        $sindicalizado,
+                        $madreCabezaHogar,
+                        $prepensionado,
+                        $edadesHijos
                     );
 
                     $request_insert = $this->insert($query_insert, $arrData);
@@ -133,6 +216,7 @@ class FuncionariosPlantaModel extends Mysql
             }
             return $return;
         } catch (Exception $e) {
+            error_log("Error en insertFuncionario: " . $e->getMessage());
             return 0;
         }
     }
@@ -157,6 +241,7 @@ class FuncionariosPlantaModel extends Mysql
                 u.formacion_academica,
                 u.nombre_formacion,
                 u.status,
+                u.tiempo_laborado,
                 c.nombre as cargo,
                 d.nombre as dependencia,
                 t.tipo_cont as contrato,
@@ -211,7 +296,35 @@ class FuncionariosPlantaModel extends Mysql
         string $estadoCivil,
         string $religion,
         string $formacion,
-        string $nombreformacion
+        string $nombreformacion,
+        string $lugarExpedicion = '',
+        string $libretaMilitar = '',
+        string $tipoNombramiento = '',
+        string $nivel = '',
+        float $salarioBasico = 0,
+        string $actoAdministrativo = '',
+        string $fechaActoNombramiento = '',
+        string $noActaPosesion = '',
+        string $fechaActaPosesion = '',
+        string $tiempoLaborado = '',
+        string $codigo = '',
+        string $grado = '',
+        string $fechaNacimiento = '',
+        string $lugarNacimiento = '',
+        string $rh = '',
+        string $titulo = '',
+        string $tarjetaProfesional = '',
+        string $otrosEstudios = '',
+        string $cuentaNo = '',
+        string $banco = '',
+        string $eps = '',
+        string $afp = '',
+        string $afc = '',
+        string $arl = '',
+        string $sindicalizado = '',
+        string $madreCabezaHogar = '',
+        string $prepensionado = '',
+        string $edadesHijos = ''
     ) {
         try {
             $sql = "SELECT * FROM tbl_funcionarios_planta 
@@ -243,7 +356,35 @@ class FuncionariosPlantaModel extends Mysql
                                 religion = ?,
                                 formacion_academica = ?,
                                 nombre_formacion = ?,
-                                status = ?
+                                status = ?,
+                                lugar_expedicion = ?,
+                                libreta_militar = ?,
+                                tipo_nombramiento = ?,
+                                nivel = ?,
+                                salario_basico = ?,
+                                acto_administrativo = ?,
+                                fecha_acto_nombramiento = ?,
+                                no_acta_posesion = ?,
+                                fecha_acta_posesion = ?,
+                                tiempo_laborado = ?,
+                                codigo = ?,
+                                grado = ?,
+                                fecha_nacimiento = ?,
+                                lugar_nacimiento = ?,
+                                rh = ?,
+                                titulo = ?,
+                                tarjeta_profesional = ?,
+                                otros_estudios = ?,
+                                cuenta_no = ?,
+                                banco = ?,
+                                eps = ?,
+                                afp = ?,
+                                afc = ?,
+                                arl = ?,
+                                sindicalizado = ?,
+                                madre_cabeza_hogar = ?,
+                                prepensionado = ?,
+                                edades_hijos = ?
                             WHERE idefuncionario = $idFuncionario";
 
                     $arrData = array(
@@ -265,7 +406,35 @@ class FuncionariosPlantaModel extends Mysql
                         $religion,
                         $formacion,
                         $nombreformacion,
-                        $status
+                        $status,
+                        $lugarExpedicion,
+                        $libretaMilitar,
+                        $tipoNombramiento,
+                        $nivel,
+                        $salarioBasico,
+                        $actoAdministrativo,
+                        $fechaActoNombramiento,
+                        $noActaPosesion,
+                        $fechaActaPosesion,
+                        $tiempoLaborado,
+                        $codigo,
+                        $grado,
+                        $fechaNacimiento,
+                        $lugarNacimiento,
+                        $rh,
+                        $titulo,
+                        $tarjetaProfesional,
+                        $otrosEstudios,
+                        $cuentaNo,
+                        $banco,
+                        $eps,
+                        $afp,
+                        $afc,
+                        $arl,
+                        $sindicalizado,
+                        $madreCabezaHogar,
+                        $prepensionado,
+                        $edadesHijos
                     );
 
                     $request = $this->update($sql, $arrData);
@@ -278,6 +447,7 @@ class FuncionariosPlantaModel extends Mysql
             }
             return $return;
         } catch (Exception $e) {
+            error_log("Error en updateFuncionario: " . $e->getMessage());
             return 0;
         }
     }
@@ -304,8 +474,9 @@ class FuncionariosPlantaModel extends Mysql
     }
 
     public function selectContratoPlanta() {
-        $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato WHERE tipo_cont IN ('Carrera', 'Libre Nombramiento')";
-        $request = $this->select_all($sql);
-        return $request;
-    }
+    $sql = "SELECT id_contrato, tipo_cont FROM tbl_contrato";
+    $request = $this->select_all($sql);
+    return $request;
+}
+
 }

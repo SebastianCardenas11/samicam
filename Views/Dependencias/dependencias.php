@@ -8,7 +8,7 @@ getModal('modalDependencias', $data);
             <h1 class="mb-0 me-4"><i class="bi bi-diagram-3"></i> <?=$data['page_title']?></h1>
             <?php if ($_SESSION['permisosMod']['w']) { ?>
                 <button class="btn btn-warning btn-sm mb-0 p-3" type="button" data-bs-toggle="modal" onclick="openModal();">
-                    <i class="bi bi-plus-lg"></i> Nueva Dependencia
+                    <i class="bi bi-plus-lg"></i> Nueva S.D.O
                 </button>
             <?php } ?>
         </div>

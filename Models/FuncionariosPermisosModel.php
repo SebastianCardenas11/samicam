@@ -66,7 +66,8 @@ class FuncionariosPermisosModel extends Mysql
             u.religion,
             u.formacion_academica,
             u.nombre_formacion,
-            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE()) AND es_permiso_especial = 0) as permisos_mes_actual
+            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE()) AND es_permiso_especial = 0) as permisos_mes_actual,
+            (SELECT COUNT(*) FROM tbl_permisos WHERE id_funcionario = u.idefuncionario AND tipo_funcionario = 'planta' AND MONTH(fecha_permiso) = MONTH(CURRENT_DATE()) AND YEAR(fecha_permiso) = YEAR(CURRENT_DATE()) AND es_permiso_especial = 1) as permisos_especiales_mes
         FROM tbl_funcionarios_planta u
         INNER JOIN tbl_cargos c ON u.cargo_fk = c.idecargos
         INNER JOIN tbl_dependencia d ON u.dependencia_fk = d.dependencia_pk
@@ -219,25 +220,28 @@ class FuncionariosPermisosModel extends Mysql
                 return -1; // Código especial para indicar permiso duplicado
             }
 
-            // Obtener el texto del motivo
-            $sql_motivo = "SELECT nombre as descripcion FROM tbl_motivos_permisos WHERE id_motivo = ? AND status = 1";
-            $arrMotivo = array($idMotivo);
-            $request_motivo = $this->select($sql_motivo, $arrMotivo);
-            
-            // Si no encuentra en tbl_motivos_permisos, intentar en tbl_motivo_permiso
-            if (empty($request_motivo)) {
-                $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = ? AND status = 1";
-                $request_motivo = $this->select($sql_motivo, $arrMotivo);
-            }
-            
-            if (empty($request_motivo)) {
-                return 0;
-            }
-            
-            $motivo_texto = $request_motivo['descripcion'];
+            $motivo_texto = '';
             
             if ($esPermisoEspecial) {
-                $motivo_texto = "Permiso Especial: " . $motivo_texto;
+                // Para permisos especiales, usar directamente la justificación
+                $motivo_texto = "Permiso Especial: " . $justificacionEspecial;
+            } else {
+                // Para permisos normales, obtener el texto del motivo de la base de datos
+                $sql_motivo = "SELECT nombre as descripcion FROM tbl_motivos_permisos WHERE id_motivo = ? AND status = 1";
+                $arrMotivo = array($idMotivo);
+                $request_motivo = $this->select($sql_motivo, $arrMotivo);
+                
+                // Si no encuentra en tbl_motivos_permisos, intentar en tbl_motivo_permiso
+                if (empty($request_motivo)) {
+                    $sql_motivo = "SELECT descripcion FROM tbl_motivo_permiso WHERE id_motivo = ? AND status = 1";
+                    $request_motivo = $this->select($sql_motivo, $arrMotivo);
+                }
+                
+                if (empty($request_motivo)) {
+                    return 0;
+                }
+                
+                $motivo_texto = $request_motivo['descripcion'];
             }
             
             // Extraer mes y año de la fecha

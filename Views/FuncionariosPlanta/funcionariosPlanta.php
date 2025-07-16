@@ -51,6 +51,7 @@ headerAdmin($data);
                                     <th class="text-center">Dependencia</th> 
                                     <th class="text-center">Contrato</th> 
                                     <th class="text-center">Correo electronico</th> 
+                                    <th class="text-center">Tiempo Laborado</th> 
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Acciones</th> 
                              </tr>

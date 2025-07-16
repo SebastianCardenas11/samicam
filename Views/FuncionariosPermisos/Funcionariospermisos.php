@@ -92,6 +92,7 @@ headerAdmin($data);
                             <th class="text-center">Cargo</th> 
                             <th class="text-center">Dependencia</th> 
                             <th class="text-center">Permisos</th>
+                            <th class="text-center">P. Especiales</th>
                             <th class="text-center">Acciones</th>
                      </tr>
                     </thead>

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.openModal = function () {
         document.querySelector('#idDependencia').value = "";
         document.querySelector('#txtNombreDependencia').value = "";
-        document.querySelector('#titleModal').innerHTML = "Nueva Dependencia";
+        document.querySelector('#titleModal').innerHTML = "Nueva S.D.O";
         document.querySelector('#btnText').innerHTML = "Guardar";
         $('#modalFormDependencias').modal('show');
     };
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (objData.status) {
                     document.querySelector('#idDependencia').value = objData.data.dependencia_pk;
                     document.querySelector('#txtNombreDependencia').value = objData.data.nombre;
-                    document.querySelector('#titleModal').innerHTML = "Editar Dependencia";
+                    document.querySelector('#titleModal').innerHTML = "Editar S.D.O";
                     document.querySelector('#btnText').innerHTML = "Actualizar";
                     $('#modalFormDependencias').modal('show');
                 } else {

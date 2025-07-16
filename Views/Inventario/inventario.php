@@ -136,9 +136,6 @@
                                                                     <th>Disponibilidad</th>
                                                                     <th>Dependencia</th>
                                                                     <th>Oficina</th>
-                                                                    <th>Funcionario</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Contacto</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -183,9 +180,6 @@
                                                                     <th>Disponibilidad</th>
                                                                     <th>Dependencia</th>
                                                                     <th>Oficina</th>
-                                                                    <th>Funcionario</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Contacto</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -319,9 +313,6 @@
                                                                     <th>Disponibilidad</th>
                                                                     <th>Dependencia</th>
                                                                     <th>Oficina</th>
-                                                                    <th>Funcionario</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Contacto</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -374,9 +365,6 @@
                                                                     <th>Disponibilidad</th>
                                                                     <th>Dependencia</th>
                                                                     <th>Oficina</th>
-                                                                    <th>Funcionario</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Contacto</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -429,9 +417,6 @@
                                                                     <th>Disponibilidad</th>
                                                                     <th>Dependencia</th>
                                                                     <th>Oficina</th>
-                                                                    <th>Funcionario</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Contacto</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -487,7 +472,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                                </div>
             </div>
         </div>
     </div>

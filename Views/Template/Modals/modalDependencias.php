@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
-                <h5 class="modal-title" id="titleModal">Nueva Dependencia</h5>
+                <h5 class="modal-title" id="titleModal">Nueva S.D.O</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -13,7 +13,7 @@
                         <div class="modal-body">
                             <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</p>
                             <hr>
-                            <label for="txtNombreDependencia">Nombre de la Dependencia <span class="required">*</span></label>
+                            <label for="txtNombreDependencia">Nombre del S.D.O<span class="required">*</span></label>
                             <input type="text" class="form-control" id="txtNombreDependencia" name="txtNombreDependencia" required maxlength="255">
                         </div>
                         <div class="modal-footer">
@@ -32,7 +32,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-dark">
             <div class="modal-header header-primary">
-                <h5 class="modal-title" id="titleModal">Datos de la Dependencia</h5>
+                <h5 class="modal-title" id="titleModal">Datos del S.D.O</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

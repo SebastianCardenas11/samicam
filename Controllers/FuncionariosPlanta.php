@@ -69,6 +69,37 @@ class FuncionariosPlanta extends Controllers
                 $strNombreFormacion = strClean($_POST['txtNombreFormacion']);
                 $intStatus = intval($_POST['listStatus']);
                 
+                // Campos adicionales
+                $strLugarExpedicion = isset($_POST['txtLugarExpedicion']) ? strClean($_POST['txtLugarExpedicion']) : '';
+                $strLibretaMilitar = isset($_POST['txtLibretaMilitar']) ? strClean($_POST['txtLibretaMilitar']) : '';
+                $strTipoNombramiento = isset($_POST['txtTipoNombramiento']) ? strClean($_POST['txtTipoNombramiento']) : '';
+                $strNivel = isset($_POST['txtNivel']) ? strClean($_POST['txtNivel']) : '';
+                $strSalarioBasico = isset($_POST['txtSalarioBasico']) ? floatval($_POST['txtSalarioBasico']) : 0;
+                $strActoAdministrativo = isset($_POST['txtActoAdministrativo']) ? strClean($_POST['txtActoAdministrativo']) : '';
+                $strFechaActoNombramiento = isset($_POST['txtFechaActoNombramiento']) ? strClean($_POST['txtFechaActoNombramiento']) : '';
+                $strNoActaPosesion = isset($_POST['txtNoActaPosesion']) ? strClean($_POST['txtNoActaPosesion']) : '';
+                $strFechaActaPosesion = isset($_POST['txtFechaActaPosesion']) ? strClean($_POST['txtFechaActaPosesion']) : '';
+                $strTiempoLaborado = isset($_POST['txtTiempoLaborado']) ? strClean($_POST['txtTiempoLaborado']) : '';
+                $strCodigo = isset($_POST['txtCodigo']) ? strClean($_POST['txtCodigo']) : '';
+                $strGrado = isset($_POST['txtGrado']) ? strClean($_POST['txtGrado']) : '';
+
+                $strFechaNacimiento = isset($_POST['txtFechaNacimiento']) ? strClean($_POST['txtFechaNacimiento']) : '';
+                $strLugarNacimiento = isset($_POST['txtLugarNacimiento']) ? strClean($_POST['txtLugarNacimiento']) : '';
+                $strRh = isset($_POST['txtRh']) ? strClean($_POST['txtRh']) : '';
+                $strTitulo = isset($_POST['txtTitulo']) ? strClean($_POST['txtTitulo']) : '';
+                $strTarjetaProfesional = isset($_POST['txtTarjetaProfesional']) ? strClean($_POST['txtTarjetaProfesional']) : '';
+                $strOtrosEstudios = isset($_POST['txtOtrosEstudios']) ? strClean($_POST['txtOtrosEstudios']) : '';
+                $strCuentaNo = isset($_POST['txtCuentaNo']) ? strClean($_POST['txtCuentaNo']) : '';
+                $strBanco = isset($_POST['txtBanco']) ? strClean($_POST['txtBanco']) : '';
+                $strEps = isset($_POST['txtEps']) ? strClean($_POST['txtEps']) : '';
+                $strAfp = isset($_POST['txtAfp']) ? strClean($_POST['txtAfp']) : '';
+                $strAfc = isset($_POST['txtAfc']) ? strClean($_POST['txtAfc']) : '';
+                $strArl = isset($_POST['txtArl']) ? strClean($_POST['txtArl']) : '';
+                $strSindicalizado = isset($_POST['txtSindicalizado']) ? (strClean($_POST['txtSindicalizado']) == 'Si' ? '1' : '0') : '0';
+                $strMadreCabezaHogar = isset($_POST['txtMadreCabezaHogar']) ? (strClean($_POST['txtMadreCabezaHogar']) == 'Si' ? '1' : '0') : '0';
+                $strPrepensionado = isset($_POST['txtPrepensionado']) ? (strClean($_POST['txtPrepensionado']) == 'Si' ? '1' : '0') : '0';
+                $strEdadesHijos = isset($_POST['txtEdadesHijosFuncionario']) ? strClean($_POST['txtEdadesHijosFuncionario']) : '';
+                
 
     
                 $request = "";
@@ -95,7 +126,35 @@ class FuncionariosPlanta extends Controllers
                                 $strEstadoCivil,
                                 $strReligion,
                                 $strFormacionAcademica,
-                                $strNombreFormacion
+                                $strNombreFormacion,
+                                $strLugarExpedicion,
+                                $strLibretaMilitar,
+                                $strTipoNombramiento,
+                                $strNivel,
+                                $strSalarioBasico,
+                                $strActoAdministrativo,
+                                $strFechaActoNombramiento,
+                                $strNoActaPosesion,
+                                $strFechaActaPosesion,
+                                $strTiempoLaborado,
+                                $strCodigo,
+                                $strGrado,
+                                $strFechaNacimiento,
+                                $strLugarNacimiento,
+                                $strRh,
+                                $strTitulo,
+                                $strTarjetaProfesional,
+                                $strOtrosEstudios,
+                                $strCuentaNo,
+                                $strBanco,
+                                $strEps,
+                                $strAfp,
+                                $strAfc,
+                                $strArl,
+                                $strSindicalizado,
+                                $strMadreCabezaHogar,
+                                $strPrepensionado,
+                                $strEdadesHijos
                             );
                         } catch (Exception $e) {
                             $request = 0;
@@ -125,7 +184,35 @@ class FuncionariosPlanta extends Controllers
                                 $strEstadoCivil,
                                 $strReligion,
                                 $strFormacionAcademica,
-                                $strNombreFormacion
+                                $strNombreFormacion,
+                                $strLugarExpedicion,
+                                $strLibretaMilitar,
+                                $strTipoNombramiento,
+                                $strNivel,
+                                $strSalarioBasico,
+                                $strActoAdministrativo,
+                                $strFechaActoNombramiento,
+                                $strNoActaPosesion,
+                                $strFechaActaPosesion,
+                                $strTiempoLaborado,
+                                $strCodigo,
+                                $strGrado,
+                                $strFechaNacimiento,
+                                $strLugarNacimiento,
+                                $strRh,
+                                $strTitulo,
+                                $strTarjetaProfesional,
+                                $strOtrosEstudios,
+                                $strCuentaNo,
+                                $strBanco,
+                                $strEps,
+                                $strAfp,
+                                $strAfc,
+                                $strArl,
+                                $strSindicalizado,
+                                $strMadreCabezaHogar,
+                                $strPrepensionado,
+                                $strEdadesHijos
                             );
                         } catch (Exception $e) {
                             $request = 0;
@@ -171,7 +258,7 @@ class FuncionariosPlanta extends Controllers
                     $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idefuncionario'] . ')" title="Editar Funcionario"><i class="fas fa-pencil-alt"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Usuario"><i class="far fa-trash-alt"></i></button>';
+                    $btnDelete = '<button class="btn btn-danger" onClick="fntDelInfo(' . $arrData[$i]['idefuncionario'] . ')" title="Eliminar Funcionario"><i class="far fa-trash-alt"></i></button>';
                 }
 
                 $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';

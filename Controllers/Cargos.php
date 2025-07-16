@@ -101,13 +101,13 @@ class Cargos extends Controllers
                 }
 
                 if ($_SESSION['permisosMod']['r']) {
-                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idecargos'] . ')" title="Ver Usuario"><i class="far fa-eye"></i></button>';
+                    $btnView = '<button class="btn btn-info" onClick="fntViewInfo(' . $arrData[$i]['idecargos'] . ')" title="Ver Cargo"><i class="far fa-eye"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['u']) {
-                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idecargos'] . ')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+                    $btnEdit = '<button class="btn btn-warning" onClick="fntEditInfo(this,' . $arrData[$i]['idecargos'] . ')" title="Editar Cargo"><i class="fas fa-pencil-alt"></i></button>';
                 }
                 if ($_SESSION['permisosMod']['d']) {
-                    $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idecargos'] . ')" title="Eliminar Usuario"><i class="far fa-trash-alt"></i></button>';
+                    $btnDelete = '<button class="btn btn-danger btnDelRol" onClick="fntDelInfo(' . $arrData[$i]['idecargos'] . ')" title="Eliminar Cargo"><i class="far fa-trash-alt"></i></button>';
        
                 }
 
