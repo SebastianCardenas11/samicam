@@ -11,7 +11,7 @@ $smtpUser = 'ssamicamvpn@gmail.com'; // Cambia esto por tu correo de Gmail
 $smtpPass = 'q v b w v l q o r a k h j r x m'; // Cambia esto por tu contraseña o app password
 
 // Datos del correo
-$para = 'carloslxpxz@gmail.com'; // Cambia esto por el correo real de destino
+$para = 'helias.iguaran@gmail.com'; // Cambia esto por el correo real de destino
 $asunto = 'Nueva Tarea Asignada - SAMICAM';
 $mensaje = '<!DOCTYPE html>
 <html lang="es">
@@ -158,13 +158,14 @@ $mensaje = '<!DOCTYPE html>
 
                 <p>Detalles importantes:</p>
                 <ul>
-                    <li><strong>Fecha de inicio:</strong> 15 de noviembre de 2023</li>
+                    <li><strong>Fecha de inicio:</strong> 15 de noviembre de 2025</li>
+                    <li><strong>Fecha de fin:</strong> 30 de noviembre de 2025</li>
                     <li><strong>Responsable:</strong> Carlos Pérez</li>
                     <li><strong>Descripción:</strong> Revisión de políticas actualizadas</li>
                 </ul>
             </div>
+<a href="https://100.85.55.128:4443/samicam/tareas" class="boton" style="color: white !important; background-color: #007BFF; padding: 10px; text-decoration: none; border-radius: 5px;">📌 Ver Tarea</a>
 
-            <a href="#" class="boton">📌 Ver Tarea</a>
         </div>
 
         <div class="footer">
