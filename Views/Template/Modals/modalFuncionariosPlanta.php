@@ -254,6 +254,7 @@
                                                 <select class="form-select" id="txtTipoNombramiento" name="txtTipoNombramiento">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="supernumerario">Supernumerario</option>
+                                                    <option value="eleccion">Eleccion</option>
                                                     <option value="libre_nombramiento">Libre Nombramiento</option>
                                                     <option value="remocion">Remoción</option>
                                                     <option value="carrera_administrativa">Carrera Administrativa</option>
