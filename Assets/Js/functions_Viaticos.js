@@ -18,7 +18,7 @@ function cargarDepartamentosColombia() {
             selectDepartamento.innerHTML = '<option value="">Seleccione un departamento</option>';
             data.forEach(dep => {
                 const option = document.createElement('option');
-                option.value = dep.id;
+                option.value = dep.id; // Volver a usar el ID como value
                 option.textContent = dep.name;
                 selectDepartamento.appendChild(option);
             });
@@ -28,12 +28,17 @@ function cargarDepartamentosColombia() {
         });
 }
 
-function obtenerNombreDepartamento(id) {
-    if (!listaDepartamentos || listaDepartamentos.length === 0) return 'Desconocido';
-    // Convertir ambos a string y quitar ceros a la izquierda para comparar
-    const idStr = String(id).replace(/^0+/, '');
-    const dep = listaDepartamentos.find(d => String(d.id).replace(/^0+/, '') === idStr);
-    return dep ? dep.name : 'Desconocido';
+function obtenerNombreDepartamento(valor) {
+    if (!valor) return 'Desconocido';
+    // Si es un número, buscar en la lista
+    if (!isNaN(valor)) {
+        if (!listaDepartamentos || listaDepartamentos.length === 0) return 'Desconocido';
+        const idStr = String(valor).replace(/^0+/, '');
+        const dep = listaDepartamentos.find(d => String(d.id).replace(/^0+/, '') === idStr);
+        return dep ? dep.name : 'Desconocido';
+    }
+    // Si es texto, devolverlo tal cual
+    return valor;
 }
 
 function cargarCiudadesColombia(departamentoId) {
@@ -72,14 +77,14 @@ function openModalViatico() {
     selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
     // Reasignar el evento cada vez que se abre el modal
     const selectDepartamento = document.getElementById('selectDepartamento');
-    const inputDeptoNombre = document.getElementById('lugar_comision_departamento_nombre');
     selectDepartamento.onchange = function() {
-        const depId = this.value;
-        // Guardar el nombre del departamento seleccionado
+        const selectedOption = this.options[this.selectedIndex];
+        // Llenar el campo oculto con el nombre
+        const inputDeptoNombre = document.getElementById('lugar_comision_departamento_nombre');
         if (inputDeptoNombre) {
-            const selectedOption = this.options[this.selectedIndex];
             inputDeptoNombre.value = selectedOption ? selectedOption.text : '';
         }
+        const depId = this.value;
         if (!depId) {
             selectCiudad.innerHTML = '<option value="">Seleccione un departamento primero</option>';
             return;
@@ -712,7 +717,7 @@ function cargarDetalleViaticos(anio) {
                     const acciones = `
                         <div class="btn-group" role="group">
                             <a href="${base_url}/FuncionariosViaticos/generarReporteViatico/${item.idViatico}" 
-                               class="btn btn-primary btn-sm" title="Generar Reporte">
+                               class="btn btn-primary btn-sm" title="Generar PDF" target="_blank">
                                 <i class="bi bi-file-pdf"></i>
                             </a>
                             <button class="btn btn-danger btn-sm" onclick="eliminarViatico(${item.idViatico})" 
@@ -797,7 +802,14 @@ function eliminarViatico(idViatico) {
 }
 
 function guardarViatico(formElement) {
-    // (Revertido) Ya no se cambia el value del select de departamento
+    // Cambiar el value del select de departamento por el nombre antes de enviar
+    const selectDepartamento = document.getElementById('selectDepartamento');
+    if (selectDepartamento) {
+        const selectedOption = selectDepartamento.options[selectDepartamento.selectedIndex];
+        if (selectedOption) {
+            selectDepartamento.value = selectedOption.text;
+        }
+    }
     // Mostrar indicador de carga
     Swal.fire({
         title: 'Guardando...',
@@ -809,6 +821,10 @@ function guardarViatico(formElement) {
     });
 
     let formData = new FormData(formElement);
+    // Mostrar todos los datos del formulario en la consola
+    let dataObj = {};
+    formData.forEach((value, key) => { dataObj[key] = value; });
+
     fetch(base_url + '/FuncionariosViaticos/setViatico', {
         method: 'POST',
         body: formData
