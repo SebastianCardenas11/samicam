@@ -62,7 +62,6 @@ class FuncionariosViaticos extends Controllers
         } catch (Exception $e) {
             echo json_encode(['error' => $e->getMessage()]);
         }
-        die();
     }
 
     public function getHistoricoViaticos($year = null)
@@ -85,7 +84,6 @@ class FuncionariosViaticos extends Controllers
         } catch (Exception $e) {
             echo json_encode(['error' => $e->getMessage()]);
         }
-        die();
     }
 
     public function getDetalleViaticos($year = null)
@@ -108,7 +106,6 @@ class FuncionariosViaticos extends Controllers
         } catch (Exception $e) {
             echo json_encode(['error' => $e->getMessage()]);
         }
-        die();
     }
 
     public function getFuncionariosValidos()
@@ -125,7 +122,6 @@ class FuncionariosViaticos extends Controllers
         } catch (Exception $e) {
             echo json_encode(['error' => $e->getMessage()]);
         }
-        die();
     }
 
     public function deleteViatico()
@@ -159,7 +155,6 @@ class FuncionariosViaticos extends Controllers
         } else {
             echo json_encode(['status' => false, 'msg' => 'Datos no válidos']);
         }
-        die();
     }
 
     public function setViatico()
@@ -229,7 +224,6 @@ class FuncionariosViaticos extends Controllers
         } catch (Exception $e) {
             echo json_encode(['status' => false, 'msg' => 'Error: ' . $e->getMessage()]);
         }
-        die();
     }
 
     public function setPresupuestoAnual()
@@ -262,7 +256,6 @@ class FuncionariosViaticos extends Controllers
         } catch (Exception $e) {
             echo json_encode(['status' => false, 'msg' => 'Error: ' . $e->getMessage()]);
         }
-        die();
     }
 
     public function generarReporteViatico($idViatico)
@@ -365,7 +358,6 @@ class FuncionariosViaticos extends Controllers
         </html>';
         
         echo $html;
-        exit;
     }
 
     public function generarReporteAnual($year = null)
@@ -489,6 +481,5 @@ class FuncionariosViaticos extends Controllers
         </html>';
         
         echo $html;
-        exit;
     }
 }
