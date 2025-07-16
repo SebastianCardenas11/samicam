@@ -925,7 +925,7 @@
                         <i class="bi bi-check2"></i> Listo
                     </button>
                 </div>
-            </div>
+           </div>
         </div>
     </div>
 </div>

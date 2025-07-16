@@ -526,3 +526,18 @@
 [2025-07-15 17:47:04] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
 [2025-07-15 17:55:27] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
 [2025-07-15 17:55:34] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-16 11:58:30] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-16 11:58:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-16 11:58:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dependencias
+[2025-07-16 11:58:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Cargos
+[2025-07-16 11:58:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Cargos
+[2025-07-16 11:58:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Cargos
+[2025-07-16 11:58:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-16 11:58:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-16 11:59:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-16 11:59:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-16 14:35:42] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-16 14:37:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-16 14:57:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
+[2025-07-16 15:20:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-16 15:20:28] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Cierre de sesión
