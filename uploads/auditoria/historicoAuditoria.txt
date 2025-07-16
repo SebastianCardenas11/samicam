@@ -406,3 +406,123 @@
 [2025-07-14 11:45:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
 [2025-07-14 11:47:02] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
 [2025-07-14 11:55:08] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:57:33] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 11:57:38] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 11:57:56] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-14 12:15:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Ops
+[2025-07-14 14:30:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 14:42:39] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Cierre de sesión
+[2025-07-14 14:43:56] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.73.180.119 | Navegador: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0 | Acción: Inicio de sesión
+[2025-07-14 14:43:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:44:03] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 14:44:03] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:44:33] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 14:45:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 14:45:03] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:51:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 14:55:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:00:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:02:21] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:02:25] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:04:34] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 15:04:34] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:08:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:08:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:14:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:16:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:20:58] ID: 20 | Usuario: Jesus David Usma Días | Correo: jesususma721@gmail.com | Rol: Tecnico Ntic | IP: 100.107.121.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 15:20:58] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:21:13] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Correo: fsalcedoredondo@gmail.com | Rol: Tecnico Ntic | IP: 100.83.108.115 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 15:21:13] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:21:22] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:07] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:08] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:24] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Dashboard
+[2025-07-14 15:30:39] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Inventario
+[2025-07-14 15:30:40] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Errors
+[2025-07-14 15:30:40] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Errors
+[2025-07-14 15:30:40] ID: 21 | Usuario: Frank Luis Salcedo Redondo | Rol: Tecnico Ntic | IP: 100.83.108.115 | Acción: Acceso al módulo Errors
+[2025-07-14 15:42:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 15:59:56] ID: 27 | Usuario: Oscar Ivan Rojas | Rol: Tecnico Ntic | IP: 100.126.41.101 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:20:00] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:30:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:36:29] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:36:31] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:36:44] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:36:45] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:37:31] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:37:35] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:40:23] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-14 16:40:23] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:40:25] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:42:24] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:42:25] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:55:51] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:55:59] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 16:56:00] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 16:56:59] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:02:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:14:20] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:14:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:22:43] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:22:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.73.180.119 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:25:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:07] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-07-14 17:30:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:33:51] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:33:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:49:50] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-14 17:50:19] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-14 17:50:22] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 11:35:28] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 11:35:29] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 11:35:33] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 11:48:28] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 11:48:35] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 12:01:43] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 12:01:52] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión
+[2025-07-15 14:21:17] ID: 29 | Usuario: Sebastian Cardenas | Correo: sbt.cardenas.g@gmail.com | Rol: Tecnico Ntic | IP: 100.109.28.87 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 14:21:17] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:21:54] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:21:55] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:15] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:16] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:27] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:24:27] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:33:32] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:36:21] ID: 29 | Usuario: Sebastian Cardenas | Rol: Tecnico Ntic | IP: 100.109.28.87 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:40:58] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 14:40:58] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:41:00] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 14:43:35] ID: 28 | Usuario: Carlos Lopez | Correo: carloslxpxz@gmail.com | Rol: Tecnico Ntic | IP: 100.73.180.119 | Navegador: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0 | Acción: Inicio de sesión
+[2025-07-15 14:43:35] ID: 28 | Usuario: Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:43:44] ID: 28 | Usuario: Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:43:56] ID: 28 | Usuario: Dr. Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:44:18] ID: 28 | Usuario: Ing. Carlos Lopez | Rol: Tecnico Ntic | IP: 100.73.180.119 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:54:29] ID: 20 | Usuario: Jesus David Usma Días | Correo: jesususma721@gmail.com | Rol: Tecnico Ntic | IP: 100.107.121.16 | Navegador: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 | Acción: Inicio de sesión
+[2025-07-15 14:54:29] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-15 14:54:42] ID: 20 | Usuario: Jesus David Usma Días | Rol: Tecnico Ntic | IP: 100.107.121.16 | Acción: Acceso al módulo Dashboard
+[2025-07-15 15:28:20] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 15:28:22] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 15:35:27] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 15:35:29] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:16:15] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:16:17] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:16:45] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:16:50] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:17:11] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:17:13] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 16:26:39] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 16:26:41] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:16:38] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:16:39] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:29:57] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:29:59] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:38:32] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:38:34] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:47:02] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:47:04] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-15 17:55:27] ID: 18 | Usuario: Moises Xavier Paternina | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Acceso al módulo Dashboard
+[2025-07-15 17:55:34] ID: 18 | Usuario: Moises Xavier Paternina | Correo: talentohumano@lajaguadeibirico-cesar.gov.co | Rol: Jefe Talento Humano | IP: 100.101.121.47 | Acción: Cierre de sesión

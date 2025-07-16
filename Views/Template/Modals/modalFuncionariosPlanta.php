@@ -254,6 +254,7 @@
                                                     <option value="carrera_administrativa">Carrera Administrativa</option>
                                                     <option value="provisionalidad">Provisionalidad</option>
                                                     <option value="periodo_fijo">Periodo Fijo</option>
+                                                    <option value="periodo_de_prueba">Periodo de prueba</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
@@ -484,6 +485,7 @@
                                                     <option value="MEDIMAS">MEDIMAS</option>
                                                     <option value="ALIANSALUD">ALIANSALUD</option>
                                                     <option value="COOSALUD">COOSALUD</option>
+                                                    <option value="ASMETSALUD">ASMETSALUD</option>
                                                     <option value="MUTUAL SER">MUTUAL SER</option>
                                                     <option value="CAJACOPI">CAJACOPI</option>
                                                     <option value="CAPRESOCA">CAPRESOCA</option>
@@ -516,6 +518,8 @@
                                                     <option value="PORVENIR">PORVENIR</option>
                                                     <option value="PROTECCION">PROTECCIÓN</option>
                                                     <option value="COLFONDOS">COLFONDOS</option>
+                                                    <option value="COLPENCIONES">COLPENCIONES</option>
+                                                    <option value="FONDO NACIONAL DE AHORRO">FONDO NACIONAL DE AHORRO</option>
                                                     <option value="SKANDIA">SKANDIA</option>
                                                 </select>
                                             </div>
