@@ -541,3 +541,5 @@
 [2025-07-16 14:57:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Tareas
 [2025-07-16 15:20:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
 [2025-07-16 15:20:28] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistemas@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Cierre de sesión
+[2025-07-16 22:34:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-16 22:34:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Tareas

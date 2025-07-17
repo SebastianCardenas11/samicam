@@ -1,21 +1,3 @@
-<?php
-require_once __DIR__ . '/../vendor/autoload.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-
-function enviarCorreoTareaAsignada($emailUsuario, $nombreUsuario, $datosTarea) {
-    
-    $smtpHost = 'smtp.gmail.com';
-    $smtpPort = 587;
-    $smtpUser = 'ssamicamvpn@gmail.com';
-    $smtpPass = 'q v b w v l q o r a k h j r x m';
-
-    // Datos del correo
-    $para = $emailUsuario;
-    $asunto = 'Nueva Tarea Asignada - SAMICAM';
-    $mensaje = '
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -89,38 +71,3 @@ function enviarCorreoTareaAsignada($emailUsuario, $nombreUsuario, $datosTarea) {
     </div>
 </body>
 </html>
-
-
-';
-
-    // Crear instancia de PHPMailer
-    $mail = new PHPMailer(true);
-
-    try {
-        // Configuración del servidor
-        $mail->isSMTP();
-        $mail->Host = $smtpHost;
-        $mail->SMTPAuth = true;
-        $mail->Username = $smtpUser;
-        $mail->Password = $smtpPass;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = $smtpPort;
-
-        // Remitente y destinatario
-        $mail->setFrom($smtpUser, 'SAMICAM');
-        $mail->addAddress($para);
-
-        // Contenido
-        $mail->isHTML(true);
-        $mail->Subject = $asunto;
-        $mail->Body    = $mensaje;
-        $mail->AltBody = 'Nueva tarea asignada en SAMICAM: ' . $datosTarea['titulo'] . '. Por favor revisa los detalles en tu perfil.';
-
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        // Registrar el error en el log del sistema
-        error_log('Error al enviar correo a ' . $para . ': ' . $mail->ErrorInfo);
-        return false;
-    }
-}
