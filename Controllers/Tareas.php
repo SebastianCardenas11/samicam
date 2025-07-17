@@ -269,7 +269,7 @@
                 }
 
                 if ($request_tarea > 0) {
-                    // Enviar notificaciones a los usuarios asignados
+                    // Enviar notificaciones a los usuarios asignados (internas)
                     require_once "Models/NotificacionesModel.php";
                     $notificacionesModel = new NotificacionesModel();
                     
@@ -283,47 +283,57 @@
                     }
 
                     if ($id_tarea == 0) {
-                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.');
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea creada correctamente.', 'idTarea' => $request_tarea);
                     } else {
-                        $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.');
+                        $arrResponse = array('status' => true, 'msg' => 'Tarea actualizada correctamente.', 'idTarea' => $id_tarea);
                     }
-                    
-                    // Enviar respuesta inmediatamente
+
+                    // Enviar respuesta inmediatamente al frontend
+                    header('Content-Type: application/json');
                     echo json_encode($arrResponse);
-                    
-                    // Enviar notificaciones en segundo plano
-                    if (function_exists('fastcgi_finish_request')) {
-                        fastcgi_finish_request();
-                    }
-                    
-                    // Enviar correos electrónicos a los usuarios asignados
+                    // IMPORTANTE: No usar fastcgi_finish_request, para evitar bloqueos en local/Windows
+                    //if (function_exists('fastcgi_finish_request')) {
+                    //    fastcgi_finish_request();
+                    //}
+
+                    // Enviar notificaciones externas (correo y WhatsApp) en segundo plano, sin bloquear
+                    // Usar shutdown function para intentar que se ejecute después de la respuesta
                     if ($id_tarea == 0 && !empty($usuarios_info)) {
-                        $this->enviarCorreosNotificacion($usuarios_info, [
-                            'titulo' => $descripcion,
-                            'descripcion' => $observacion,
-                            'tipo' => $tipo,
-                            'prioridad' => $prioridad,
-                            'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
-                            'fecha_inicio' => $fecha_inicio,
-                            'fecha_fin' => $fecha_fin,
-                            'url_tarea' => base_url().'/tareas'
-                        ]);
+                        register_shutdown_function(function() use ($usuarios_info, $descripcion, $observacion, $tipo, $prioridad, $dependencia_fk, $fecha_inicio, $fecha_fin) {
+                            try {
+                                $this->enviarCorreosNotificacion($usuarios_info, [
+                                    'titulo' => $descripcion,
+                                    'descripcion' => $observacion,
+                                    'tipo' => $tipo,
+                                    'prioridad' => $prioridad,
+                                    'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
+                                    'fecha_inicio' => $fecha_inicio,
+                                    'fecha_fin' => $fecha_fin,
+                                    'url_tarea' => base_url().'/tareas'
+                                ]);
+                            } catch (\Throwable $e) {
+                                error_log("Error en envío de correo shutdown: " . $e->getMessage());
+                            }
+                            try {
+                                $this->enviarNotificacionesWhatsApp($usuarios_info, [
+                                    'descripcion' => $descripcion,
+                                    'tipo' => $tipo,
+                                    'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
+                                    'fecha_inicio' => $fecha_inicio,
+                                    'fecha_fin' => $fecha_fin,
+                                    'observacion' => $observacion
+                                ]);
+                            } catch (\Throwable $e) {
+                                error_log("Error en envío de WhatsApp shutdown: " . $e->getMessage());
+                            }
+                        });
                     }
-                    
-                    // Enviar WhatsApp en segundo plano solo para nuevas tareas
-                    if ($id_tarea == 0 && !empty($usuarios_info)) {
-                        $this->enviarNotificacionesWhatsApp($usuarios_info, [
-                            'descripcion' => $descripcion,
-                            'tipo' => $tipo,
-                            'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
-                            'fecha_inicio' => $fecha_inicio,
-                            'fecha_fin' => $fecha_fin,
-                            'observacion' => $observacion
-                        ]);
-                    }
+                    return;
                 } else {
                     $arrResponse = array('status' => false, 'msg' => 'Error al procesar la tarea.');
+                    header('Content-Type: application/json');
                     echo json_encode($arrResponse);
+                    return;
                 }
             }
             die();
@@ -616,5 +626,70 @@
             }
             die();
         }
+
+    /**
+     * Endpoint para enviar notificación de WhatsApp de una tarea
+     * POST: idTarea
+     */
+    public function notificarWhatsApp()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idTarea = isset($_POST['idTarea']) ? intval($_POST['idTarea']) : 0;
+            if ($idTarea <= 0) {
+                echo json_encode(['status' => false, 'msg' => 'ID de tarea inválido']);
+                die();
+            }
+            $arrTarea = $this->model->getTarea($idTarea);
+            $usuarios_asignados = $this->model->getUsuariosAsignados($idTarea);
+            $usuarios_info = $this->model->getUsuariosInfoCompleta($usuarios_asignados);
+            try {
+                $this->enviarNotificacionesWhatsApp($usuarios_info, [
+                    'descripcion' => $arrTarea['descripcion'],
+                    'tipo' => $arrTarea['tipo'],
+                    'dependencia_nombre' => $this->getDependenciaNombre($arrTarea['dependencia_fk']),
+                    'fecha_inicio' => $arrTarea['fecha_inicio'],
+                    'fecha_fin' => $arrTarea['fecha_fin'],
+                    'observacion' => $arrTarea['observacion'] ?? ''
+                ]);
+                echo json_encode(['status' => true, 'msg' => 'Notificación de WhatsApp enviada.']);
+            } catch (Exception $e) {
+                echo json_encode(['status' => false, 'msg' => 'Error enviando WhatsApp: ' . $e->getMessage()]);
+            }
+            die();
+        }
     }
-?>
+
+    /**
+     * Endpoint para enviar notificación de correo de una tarea
+     * POST: idTarea
+     */
+    public function notificarCorreo()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idTarea = isset($_POST['idTarea']) ? intval($_POST['idTarea']) : 0;
+            if ($idTarea <= 0) {
+                echo json_encode(['status' => false, 'msg' => 'ID de tarea inválido']);
+                die();
+            }
+            $arrTarea = $this->model->getTarea($idTarea);
+            $usuarios_asignados = $this->model->getUsuariosAsignados($idTarea);
+            $usuarios_info = $this->model->getUsuariosInfoCompleta($usuarios_asignados);
+            try {
+                $this->enviarCorreosNotificacion($usuarios_info, [
+                    'titulo' => $arrTarea['descripcion'],
+                    'descripcion' => $arrTarea['observacion'] ?? '',
+                    'tipo' => $arrTarea['tipo'],
+                    'prioridad' => $arrTarea['prioridad'] ?? 'Media',
+                    'dependencia_nombre' => $this->getDependenciaNombre($arrTarea['dependencia_fk']),
+                    'fecha_inicio' => $arrTarea['fecha_inicio'],
+                    'fecha_fin' => $arrTarea['fecha_fin'],
+                    'url_tarea' => base_url().'/tareas'
+                ]);
+                echo json_encode(['status' => true, 'msg' => 'Notificación de correo enviada.']);
+            } catch (Exception $e) {
+                echo json_encode(['status' => false, 'msg' => 'Error enviando correo: ' . $e->getMessage()]);
+            }
+            die();
+        }
+    }
+    }

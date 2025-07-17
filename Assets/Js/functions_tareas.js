@@ -87,24 +87,34 @@ document.addEventListener('DOMContentLoaded', function(){
         "order":[[0,"desc"]]  
     });
 
+    // Función utilitaria para mostrar toast arriba a la derecha
+    function showToast(msg, icon = 'success') {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            icon: icon,
+            title: msg
+        });
+    }
+
     // Formulario Nueva Tarea
     let formTarea = document.querySelector("#formTarea");
-    formTarea.onsubmit = function(e) {
+    formTarea.onsubmit = async function(e) {
         e.preventDefault();
-        
         let strUsuariosIds = document.querySelector('#usuariosIds').value;
         let strTipo = document.querySelector('#listTipo').value;
         let strDescripcion = document.querySelector('#txtDescripcion').value;
         let strDependencia = document.querySelector('#listDependencia').value;
         let strFechaInicio = document.querySelector('#txtFechaInicio').value;
         let strFechaFin = document.querySelector('#txtFechaFin').value;
-        
-            if(strUsuariosIds == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
+        if(strUsuariosIds == '' || strTipo == '' || strDescripcion == '' || strDependencia == '' || 
             strFechaInicio == '' || strFechaFin == '') {
-                Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-                return false;
-            }
-
+            Swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+            return false;
+        }
         // Validar que la fecha de fin sea posterior a la fecha de inicio
         let fechaInicio = new Date(strFechaInicio);
         let fechaFin = new Date(strFechaFin);
@@ -112,36 +122,61 @@ document.addEventListener('DOMContentLoaded', function(){
             Swal.fire("Atención", "La fecha de fin debe ser posterior a la fecha de inicio.", "error");
             return false;
         }
-
-        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        let ajaxUrl = base_url+'/Tareas/setTarea';
-        let formData = new FormData(formTarea);
         // Mostrar modal de cargando
         var modalLoading = new bootstrap.Modal(document.getElementById('modalLoadingTarea'));
         modalLoading.show();
-        request.open("POST",ajaxUrl,true);
-        request.send(formData);
-        request.onreadystatechange = function(){
-            if(request.readyState == 4){
-                modalLoading.hide();
-                if(request.status == 200){
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.status) {
-                        var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
-                        modalTarea.hide();
-                        formTarea.reset();
-                        Swal.fire("Tareas", objData.msg, "success");
-                        tableTareas.api().ajax.reload();
-                        if(window.calendar) {
-                            window.calendar.refetchEvents();
-                        }
-                    } else {
-                        Swal.fire("Error", objData.msg, "error");
-                    }
-                } else {
-                    Swal.fire("Error", "Error de conexión o servidor.", "error");
+        let formData = new FormData(formTarea);
+        try {
+            let response = await fetch(base_url+'/Tareas/setTarea', {
+                method: 'POST',
+                body: formData
+            });
+            let objData = await response.json();
+            modalLoading.hide();
+            if(objData.status) {
+                var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
+                modalTarea.hide();
+                formTarea.reset();
+                Swal.fire("Tareas", objData.msg, "success");
+                tableTareas.api().ajax.reload();
+                if(window.calendar && typeof window.calendar.refetchEvents === 'function') {
+                    window.calendar.refetchEvents();
                 }
+                let idTarea = objData.idTarea;
+                if(idTarea) {
+                    // Enviar notificación WhatsApp
+                    fetch(base_url+'/Tareas/notificarWhatsApp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'idTarea='+encodeURIComponent(idTarea)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        showToast(data.msg, data.status ? 'success' : 'error');
+                    })
+                    .catch(() => {
+                        showToast('Error al enviar notificación WhatsApp', 'error');
+                    });
+                    // Enviar notificación Correo
+                    fetch(base_url+'/Tareas/notificarCorreo', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'idTarea='+encodeURIComponent(idTarea)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        showToast(data.msg, data.status ? 'success' : 'error');
+                    })
+                    .catch(() => {
+                        showToast('Error al enviar notificación Correo', 'error');
+                    });
+                }
+            } else {
+                Swal.fire("Error", objData.msg, "error");
             }
+        } catch (err) {
+            modalLoading.hide();
+            Swal.fire("Error", "Error de conexión o servidor.", "error");
         }
     }
 

@@ -1,6 +1,9 @@
 <?php
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+// Desactivar la impresión de errores en pantalla para evitar problemas con respuestas JSON
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 //IP del servidor y local
 const PROTOCOL = "https";

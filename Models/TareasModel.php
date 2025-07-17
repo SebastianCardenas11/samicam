@@ -516,5 +516,12 @@
                     ORDER BY u.nombres ASC";
             return $this->select_all($sql);
         }
+
+        // Obtener todos los IDs de usuarios asignados a una tarea
+        public function getUsuariosAsignados(int $id_tarea)
+        {
+            $usuarios = $this->getUsuariosTarea($id_tarea);
+            return array_map(function($u) { return $u['ideusuario']; }, $usuarios);
+        }
     }
 ?>
