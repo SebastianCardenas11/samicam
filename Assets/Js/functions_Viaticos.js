@@ -650,7 +650,7 @@ function inicializarGraficos(anio) {
                 totalUsado = detalle.reduce((acc, item) => acc + (parseFloat(item.total_liquidado) || 0), 0);
                 totalEntregados = detalle.length;
             }
-            // Obtener el capital total desde el backend
+            // Obtener el capital total y disponible desde el backend
             fetch(base_url + '/FuncionariosViaticos/getCapitalDisponible/' + anio)
                 .then(response => response.json())
                 .then(data => {
@@ -659,15 +659,14 @@ function inicializarGraficos(anio) {
                         return;
                     }
                     const capitalTotal = parseFloat(data.capitalTotal) || 0;
-                    // Calcular viáticos disponibles en el frontend
-                    const viaticosDisponibles = capitalTotal - totalUsado;
+                    const capitalDisponible = parseFloat(data.capitalDisponible) || 0;
                     // Mostrar el total de viáticos
                     const cardTotal = document.getElementById('cardTotalViaticos');
                     if (cardTotal) cardTotal.textContent = '$ ' + capitalTotal.toLocaleString();
-                    // Mostrar el capital disponible calculado
+                    // Mostrar el capital disponible directamente del backend
                     const cardDisponibles = document.getElementById('cardViaticosDisponibles');
-                    if (cardDisponibles) cardDisponibles.textContent = '$ ' + viaticosDisponibles.toLocaleString();
-                    // Mostrar viáticos usados
+                    if (cardDisponibles) cardDisponibles.textContent = '$ ' + capitalDisponible.toLocaleString();
+                    // Mostrar viáticos usados (solo suma de viáticos entregados)
                     const cardUsados = document.getElementById('cardViaticosUsados');
                     if (cardUsados) cardUsados.textContent = '$ ' + totalUsado.toLocaleString();
                     // Mostrar viáticos entregados en el año

@@ -214,12 +214,7 @@ class FuncionariosViaticos extends Controllers
                 $total_liquidado
             );
             if ($request > 0) {
-                // Descontar el valor del viático del capital disponible
-                $anio = intval(date('Y', strtotime($fecha_aprobacion)));
-                $capitalDisponibleActual = $this->model->getCapitalDisponible($anio);
-                $nuevoCapital = $capitalDisponibleActual - $total_liquidado;
-                if ($nuevoCapital < 0) $nuevoCapital = 0;
-                $this->model->actualizarCapitalDisponible($anio, $nuevoCapital);
+                // Ya no se descuenta manualmente el capital disponible
                 echo json_encode(['status' => true, 'msg' => 'Viático asignado correctamente']);
             } else {
                 echo json_encode(['status' => false, 'msg' => 'Error al asignar viático']);
@@ -563,98 +558,58 @@ class FuncionariosViaticos extends Controllers
             $pdf->SetX(14);
             $pdf->Cell(186, 8, $toLatin1('LISTADO DE VIÁTICOS'), 1, 1, 'C');
             $pdf->SetFont('Arial', 'B', 8);
-            $pdf->SetX(14);
-            $pdf->Cell(8, 8, '#', 1, 0, 'C');
-            $pdf->Cell(32, 8, $toLatin1('Funcionario'), 1, 0, 'C');
-            $pdf->Cell(18, 8, $toLatin1('Cargo'), 1, 0, 'C');
-            $pdf->Cell(18, 8, $toLatin1('Dependencia'), 1, 0, 'C');
-            $pdf->Cell(18, 8, $toLatin1('Motivo'), 1, 0, 'C');
-            $pdf->Cell(18, 8, $toLatin1('Lugar (Depto)'), 1, 0, 'C');
-            $pdf->Cell(18, 8, $toLatin1('Ciudad'), 1, 0, 'C');
-            $pdf->Cell(14, 8, $toLatin1('Días'), 1, 0, 'C');
-            $pdf->Cell(18, 8, $toLatin1('Valor Día'), 1, 0, 'C');
-            $pdf->Cell(22, 8, $toLatin1('Total'), 1, 1, 'C');
-            $pdf->SetFont('Arial', '', 8);
             $contador = 1;
             $y = $pdf->GetY();
-            // Definir función para recortar texto a N líneas
-            $recortarLineas = function($pdf, $texto, $w, $h, $maxLineas = 3) {
-                $palabras = explode(' ', $texto);
-                $linea = '';
-                $lineas = [];
-                foreach ($palabras as $palabra) {
-                    $test = trim($linea . ' ' . $palabra);
-                    if ($pdf->GetStringWidth($test) < ($w-2)) {
-                        $linea = $test;
-                    } else {
-                        $lineas[] = $linea;
-                        $linea = $palabra;
-                        if (count($lineas) >= $maxLineas) break;
-                    }
+            // Nueva función para recortar texto y añadir '...'
+            $recortarTexto = function($pdf, $texto, $w) {
+                $maxWidth = $w - 2;
+                $texto = trim($texto);
+                if ($pdf->GetStringWidth($texto) <= $maxWidth) return $texto;
+                while ($pdf->GetStringWidth($texto . '...') > $maxWidth && strlen($texto) > 0) {
+                    $texto = mb_substr($texto, 0, -1, 'UTF-8');
                 }
-                if (count($lineas) < $maxLineas && $linea !== '') $lineas[] = $linea;
-                if (count($lineas) > $maxLineas) $lineas = array_slice($lineas, 0, $maxLineas);
-                if (count($lineas) == $maxLineas) $lineas[$maxLineas-1] .= '...';
-                return implode("\n", $lineas);
+                return $texto . '...';
             };
-            // Anchos ajustados para sumar 186mm
-            $anchos = [8, 28, 18, 28, 18, 18, 18, 10, 20, 20];
-            $hBase = 6;
+            // Definición de anchos de columna para la tabla de viáticos
+            $anchos = [44, 32, 32, 18, 18, 10, 16, 16]; // Suman 166mm aprox
+            $hBase = 7; // Altura base para las filas
+            // Encabezado de la tabla
+            $pdf->SetX(14);
+            $pdf->Cell($anchos[0], 8, $toLatin1('Funcionario'), 1, 0, 'C');
+            $pdf->Cell($anchos[1], 8, $toLatin1('Cargo'), 1, 0, 'C');
+            $pdf->Cell($anchos[2], 8, $toLatin1('Dependencia'), 1, 0, 'C');
+            $pdf->Cell($anchos[3], 8, $toLatin1('Motivo'), 1, 0, 'C');
+            $pdf->Cell($anchos[4], 8, $toLatin1('Ciudad'), 1, 0, 'C');
+            $pdf->Cell($anchos[5], 8, $toLatin1('Días'), 1, 0, 'C');
+            $pdf->Cell($anchos[6], 8, $toLatin1('Valor Día'), 1, 0, 'C');
+            $pdf->Cell($anchos[7], 8, $toLatin1('Total'), 1, 1, 'C');
             foreach ($viaticos as $viatico) {
+                // Si llegamos al final de la página, crear una nueva y repetir encabezados
                 if ($pdf->GetY() > 270) {
                     $pdf->AddPage();
                     $pdf->useTemplate($tplIdx, 0, 0, 210);
+                    // Repetir encabezados en la nueva página
                     $pdf->SetFont('Arial', 'B', 8);
                     $pdf->SetX(14);
-                    $pdf->Cell($anchos[0], $hBase, '#', 1, 0, 'C');
-                    $pdf->Cell($anchos[1], $hBase, $toLatin1('Funcionario'), 1, 0, 'C');
-                    $pdf->Cell($anchos[2], $hBase, $toLatin1('Cargo'), 1, 0, 'C');
-                    $pdf->Cell($anchos[3], $hBase, $toLatin1('Dependencia'), 1, 0, 'C');
-                    $pdf->Cell($anchos[4], $hBase, $toLatin1('Motivo'), 1, 0, 'C');
-                    $pdf->Cell($anchos[5], $hBase, $toLatin1('Lugar (Depto)'), 1, 0, 'C');
-                    $pdf->Cell($anchos[6], $hBase, $toLatin1('Ciudad'), 1, 0, 'C');
-                    $pdf->Cell($anchos[7], $hBase, $toLatin1('Días'), 1, 0, 'C');
-                    $pdf->Cell($anchos[8], $hBase, $toLatin1('Valor Día'), 1, 0, 'C');
-                    $pdf->Cell($anchos[9], $hBase, $toLatin1('Total'), 1, 1, 'C');
+                    $pdf->Cell($anchos[0], 8, $toLatin1('Funcionario'), 1, 0, 'C');
+                    $pdf->Cell($anchos[1], 8, $toLatin1('Cargo'), 1, 0, 'C');
+                    $pdf->Cell($anchos[2], 8, $toLatin1('Dependencia'), 1, 0, 'C');
+                    $pdf->Cell($anchos[3], 8, $toLatin1('Motivo'), 1, 0, 'C');
+                    $pdf->Cell($anchos[4], 8, $toLatin1('Ciudad'), 1, 0, 'C');
+                    $pdf->Cell($anchos[5], 8, $toLatin1('Días'), 1, 0, 'C');
+                    $pdf->Cell($anchos[6], 8, $toLatin1('Valor Día'), 1, 0, 'C');
+                    $pdf->Cell($anchos[7], 8, $toLatin1('Total'), 1, 1, 'C');
                     $pdf->SetFont('Arial', '', 8);
                 }
-                // Preparar datos y recortar texto
-                $cols = [
-                    $contador,
-                    $recortarLineas($pdf, $toLatin1($viatico['nombre_completo'] ?? ''), $anchos[1], $hBase),
-                    $recortarLineas($pdf, $toLatin1($viatico['cargo'] ?? ''), $anchos[2], $hBase),
-                    $recortarLineas($pdf, $toLatin1($viatico['dependencia'] ?? ''), $anchos[3], $hBase),
-                    $recortarLineas($pdf, $toLatin1($viatico['motivo_gasto'] ?? ''), $anchos[4], $hBase),
-                    $recortarLineas($pdf, $toLatin1($viatico['lugar_comision_departamento'] ?? ''), $anchos[5], $hBase),
-                    $recortarLineas($pdf, $toLatin1($viatico['lugar_comision_ciudad'] ?? ''), $anchos[6], $hBase),
-                    $viatico['n_dias'] ?? '',
-                    $formatoPesos($viatico['valor_dia'] ?? 0),
-                    $formatoPesos($viatico['total_liquidado'] ?? $viatico['monto'] ?? 0),
-                ];
-                // Calcular altura máxima de la fila
-                $altos = [];
-                for ($i = 0; $i < 7; $i++) {
-                    $lineas = substr_count($cols[$i], "\n") + 1;
-                    $altos[] = $lineas * $hBase;
-                }
-                // Las celdas numéricas solo una línea
-                $altos[] = $hBase; $altos[] = $hBase; $altos[] = $hBase;
-                $maxH = max($altos);
-                // Imprimir cada celda
-                $x = 14;
-                $y = $pdf->GetY();
-                for ($i = 0; $i < count($cols); $i++) {
-                    $pdf->SetXY($x, $y);
-                    if ($i < 7) {
-                        $pdf->MultiCell($anchos[$i], $hBase, $cols[$i], 1, ($i==0?'C':'L'), false);
-                        $pdf->SetXY($x + $anchos[$i], $y);
-                    } else {
-                        $pdf->Cell($anchos[$i], $maxH, $cols[$i], 1, 0, ($i==9?'R':'C'), false);
-                    }
-                    $x += $anchos[$i];
-                }
-                $pdf->SetY($y + $maxH);
-                $contador++;
+                $pdf->SetX(14);
+                $pdf->Cell($anchos[0], $hBase, $recortarTexto($pdf, $toLatin1($viatico['nombre_completo'] ?? ''), $anchos[0]), 1, 0, 'L');
+                $pdf->Cell($anchos[1], $hBase, $recortarTexto($pdf, $toLatin1($viatico['cargo'] ?? ''), $anchos[1]), 1, 0, 'L');
+                $pdf->Cell($anchos[2], $hBase, $recortarTexto($pdf, $toLatin1($viatico['dependencia'] ?? ''), $anchos[2]), 1, 0, 'L');
+                $pdf->Cell($anchos[3], $hBase, $recortarTexto($pdf, $toLatin1($viatico['motivo_gasto'] ?? ''), $anchos[3]), 1, 0, 'L');
+                $pdf->Cell($anchos[4], $hBase, $recortarTexto($pdf, $toLatin1($viatico['lugar_comision_ciudad'] ?? ''), $anchos[4]), 1, 0, 'L');
+                $pdf->Cell($anchos[5], $hBase, $viatico['n_dias'] ?? '', 1, 0, 'C');
+                $pdf->Cell($anchos[6], $hBase, $formatoPesos($viatico['valor_dia'] ?? 0), 1, 0, 'R');
+                $pdf->Cell($anchos[7], $hBase, $formatoPesos($viatico['total_liquidado'] ?? $viatico['monto'] ?? 0), 1, 1, 'R');
             }
             // Resumen de Viáticos
             $pdf->Ln(5);
