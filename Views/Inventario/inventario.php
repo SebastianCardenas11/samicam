@@ -468,7 +468,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-12">
                                                     <div class="card">
-                                                        <div class="card-header bg-primary text-white">
+                                                        <div class="card-header bg-light text-white">
                                                             <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Estadísticas de Equipos</h5>
                                                         </div>
                                                         <div class="card-body py-2">
@@ -508,7 +508,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="card">
-                                                        <div class="card-header bg-primary text-white">
+                                                        <div class="card-header bg-light text-white">
                                                             <h5 class="mb-0"><i class="fas fa-history"></i> Histórico Global de Movimientos</h5>
                                                         </div>
                                                         <div class="card-body">
