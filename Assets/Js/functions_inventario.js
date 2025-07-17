@@ -1600,3 +1600,160 @@ $(document).on('change', '#listFuncionario', function() {
         $('#listContacto').val('');
     }
 }); 
+
+// Función utilitaria para deshabilitar todos los campos de un formulario
+function setFormReadOnly(formSelector, readOnly = true) {
+    $(formSelector).find('input, select, textarea').prop('disabled', readOnly);
+    if (readOnly) {
+        $('#btnActionForm').hide();
+    } else {
+        $('#btnActionForm').show();
+    }
+}
+
+// IMPRESORA
+function verImpresora(idImpresora) {
+    fetch(base_url + '/Inventario/getImpresora/' + idImpresora)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                const d = data.data;
+                showVerModal('Detalles de Impresora', [
+                    { label: 'Número', value: d.numero_impresora },
+                    { label: 'Marca', value: d.marca },
+                    { label: 'Modelo', value: d.modelo },
+                    { label: 'Serial', value: d.serial },
+                    { label: 'Consumible', value: d.consumible },
+                    { label: 'Estado', value: badgeEstado(d.estado) },
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ]);
+            }
+        });
+}
+// ESCÁNER
+function verEscaner(idEscaner) {
+    fetch(base_url + '/Inventario/getEscaner/' + idEscaner)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                const d = data.data;
+                showVerModal('Detalles de Escáner', [
+                    { label: 'Número', value: d.numero_escaner },
+                    { label: 'Marca', value: d.marca },
+                    { label: 'Modelo', value: d.modelo },
+                    { label: 'Serial', value: d.serial },
+                    { label: 'Estado', value: badgeEstado(d.estado) },
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ]);
+            }
+        });
+}
+// PC TORRE
+function verPcTorre(idPcTorre) {
+    fetch(base_url + '/Inventario/getPcTorreById/' + idPcTorre)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                const d = data.data;
+                showVerModal('Detalles de PC Torre', [
+                    { label: 'Número', value: d.numero_pc },
+                    { label: 'Marca', value: d.marca },
+                    { label: 'Modelo', value: d.modelo },
+                    { label: 'RAM', value: d.ram },
+                    { label: 'Procesador', value: d.procesador },
+                    { label: 'Disco Duro', value: d.disco_duro },
+                    { label: 'Capacidad', value: d.capacidad },
+                    { label: 'Estado', value: badgeEstado(d.estado) },
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ]);
+            }
+        });
+}
+// TODO EN UNO
+function verTodoEnUno(idTodoEnUno) {
+    $.ajax({
+        url: base_url + '/Inventario/getTodoEnUnoById/' + idTodoEnUno,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response.status) {
+                const d = response.data;
+                showVerModal('Detalles de PC Todo en Uno', [
+                    { label: 'Número', value: d.numero_pc },
+                    { label: 'Marca', value: d.marca },
+                    { label: 'Modelo', value: d.modelo },
+                    { label: 'RAM', value: d.ram },
+                    { label: 'Procesador', value: d.procesador },
+                    { label: 'Disco Duro', value: d.disco_duro },
+                    { label: 'Capacidad', value: d.capacidad },
+                    { label: 'Estado', value: badgeEstado(d.estado) },
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ]);
+            }
+        },
+        error: function() {
+            swal.fire("Error", "Error al cargar los datos", "error");
+        }
+    });
+}
+// PORTÁTIL
+function verPortatil(idPortatil) {
+    $.ajax({
+        url: base_url + '/Inventario/getPortatilById/' + idPortatil,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response.status) {
+                const d = response.data;
+                showVerModal('Detalles de Portátil', [
+                    { label: 'Número', value: d.numero_pc },
+                    { label: 'Marca', value: d.marca },
+                    { label: 'Modelo', value: d.modelo },
+                    { label: 'RAM', value: d.ram },
+                    { label: 'Procesador', value: d.procesador },
+                    { label: 'Disco Duro', value: d.disco_duro },
+                    { label: 'Capacidad', value: d.capacidad },
+                    { label: 'Estado', value: badgeEstado(d.estado) },
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ]);
+            }
+        },
+        error: function() {
+            swal.fire("Error", "Error al cargar los datos", "error");
+        }
+    });
+}
+// Al cerrar el modal, volver a habilitar los campos y mostrar el botón guardar
+$('#modalInventario').on('hidden.bs.modal', function () {
+    setFormReadOnly('#formImpresora', false);
+    setFormReadOnly('#formEscaner', false);
+    setFormReadOnly('#formPcTorre', false);
+    setFormReadOnly('#formTodoEnUno', false);
+    setFormReadOnly('#formPortatil', false);
+}); 
+
+// Utilidad para badge de estado/disponibilidad
+function badgeEstado(estado) {
+    if (!estado) return '';
+    if (['Bueno', 'BUENO'].includes(estado)) return '<span class="badge bg-success">' + estado.toUpperCase() + '</span>';
+    if (['Regular', 'REGULAR'].includes(estado)) return '<span class="badge bg-warning">' + estado.toUpperCase() + '</span>';
+    if (['Malo', 'MALO'].includes(estado)) return '<span class="badge bg-danger">' + estado.toUpperCase() + '</span>';
+    if (['De Baja', 'DE BAJA'].includes(estado)) return '<span class="badge bg-dark">' + estado.toUpperCase() + '</span>';
+    return '<span class="badge bg-secondary">' + estado + '</span>';
+}
+function badgeDisponibilidad(disp) {
+    if (!disp) return '';
+    if (disp === 'Disponible') return '<span class="badge bg-success">Disponible</span>';
+    if (disp === 'No Disponible') return '<span class="badge bg-danger">No Disponible</span>';
+    return '<span class="badge bg-secondary">' + disp + '</span>';
+}
+
+function showVerModal(titulo, filas) {
+    $('#modalVerInventarioLabel').text(titulo);
+    let html = '';
+    filas.forEach(f => {
+        html += `<tr><td class='fw-bold' style='width: 40%'>${f.label}</td><td>${f.value}</td></tr>`;
+    });
+    $('#tablaVerInventario').html(html);
+    $('#modalVerInventario').modal('show');
+} 
