@@ -407,4 +407,50 @@ class InventarioModel extends Mysql
         $request = $this->update($sql, $arrData);
         return $request;
     }
+
+    // ==================== MOVIMIENTOS DE EQUIPOS ====================
+    public function insertMovimientoEquipo($idEquipo, $tipoEquipo, $tipoMovimiento, $observacion, $usuario) {
+        $sql = "INSERT INTO tbl_equipos_movimientos (id_equipo, tipo_equipo, tipo_movimiento, observacion, fecha_hora, usuario) VALUES (?, ?, ?, ?, NOW(), ?)";
+        $arrData = array($idEquipo, $tipoEquipo, $tipoMovimiento, $observacion, $usuario);
+        return $this->insert($sql, $arrData);
+    }
+
+    public function getMovimientosEquipo($idEquipo, $tipoEquipo) {
+        $sql = "SELECT * FROM tbl_equipos_movimientos WHERE id_equipo = ? AND tipo_equipo = ? ORDER BY fecha_hora DESC";
+        $arrData = array($idEquipo, $tipoEquipo);
+        return $this->select_all($sql, $arrData);
+    }
+    
+    public function getUltimoMovimientoEquipo($idEquipo, $tipoEquipo) {
+        $sql = "SELECT * FROM tbl_equipos_movimientos WHERE id_equipo = ? AND tipo_equipo = ? ORDER BY fecha_hora DESC LIMIT 1";
+        $arrData = array($idEquipo, $tipoEquipo);
+        return $this->select($sql, $arrData);
+    }
+    
+    public function actualizarDisponibilidadEquipo($idEquipo, $tipoEquipo, $disponibilidad) {
+        $sql = "";
+        switch($tipoEquipo) {
+            case 'impresora':
+                $sql = "UPDATE tbl_impresoras SET disponibilidad = ? WHERE id_impresora = ?";
+                break;
+            case 'escaner':
+                $sql = "UPDATE tbl_escaneres SET disponibilidad = ? WHERE id_escaner = ?";
+                break;
+            case 'pc_torre':
+                $sql = "UPDATE tbl_pc_torre SET disponibilidad = ? WHERE id_pc_torre = ?";
+                break;
+            case 'todo_en_uno':
+                $sql = "UPDATE tbl_todo_en_uno SET disponibilidad = ? WHERE id_todo_en_uno = ?";
+                break;
+            case 'portatil':
+                $sql = "UPDATE tbl_portatiles SET disponibilidad = ? WHERE id_portatil = ?";
+                break;
+        }
+        
+        if (!empty($sql)) {
+            $arrData = array($disponibilidad, $idEquipo);
+            return $this->update($sql, $arrData);
+        }
+        return false;
+    }
 }

@@ -902,4 +902,94 @@ class Inventario extends Controllers
         }
         die();
     }
+
+    // ==================== MOVIMIENTOS DE EQUIPOS ====================
+    public function setMovimientoEquipo()
+    {
+        if ($_POST && $_SESSION['permisosMod']['w']) {
+            $idEquipo = intval($_POST['idEquipo']);
+            $tipoEquipo = strClean($_POST['tipoEquipo']);
+            $tipoMovimiento = strClean($_POST['tipoMovimiento']);
+            $observacion = strClean($_POST['observacion']);
+            $usuario = isset($_SESSION['userData']['nombres']) ? $_SESSION['userData']['nombres'] : 'sistema';
+            
+            // Validar que no se pueda dar más de una entrada si ya está en mantenimiento
+            if ($tipoMovimiento == 'entrada') {
+                $ultimoMovimiento = $this->model->getUltimoMovimientoEquipo($idEquipo, $tipoEquipo);
+                if ($ultimoMovimiento && $ultimoMovimiento['tipo_movimiento'] == 'entrada') {
+                    $arrResponse = array('status' => false, 'msg' => 'El equipo ya se encuentra en mantenimiento. No se puede registrar otra entrada.');
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+            }
+            
+            // Actualizar disponibilidad del equipo según el tipo de movimiento
+            $disponibilidad = ($tipoMovimiento == 'entrada') ? 'No Disponible' : 'Disponible';
+            $this->model->actualizarDisponibilidadEquipo($idEquipo, $tipoEquipo, $disponibilidad);
+            
+            $request = $this->model->insertMovimientoEquipo($idEquipo, $tipoEquipo, $tipoMovimiento, $observacion, $usuario);
+            if ($request > 0) {
+                $arrResponse = array('status' => true, 'msg' => 'Movimiento registrado correctamente.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'No se pudo registrar el movimiento.');
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getMovimientosEquipo($idEquipo, $tipoEquipo)
+    {
+        // Asegurar que se envíe como JSON
+        header('Content-Type: application/json');
+        
+        try {
+            // Validar permisos
+            if (!isset($_SESSION['permisosMod']['r'])) {
+                echo json_encode([
+                    'status' => false,
+                    'msg' => 'No tiene permisos para esta acción',
+                    'data' => []
+                ]);
+                die();
+            }
+            
+            // Limpiar y validar parámetros
+            $idEquipo = intval(strClean($idEquipo));
+            $tipoEquipo = strClean($tipoEquipo);
+            
+            if ($idEquipo <= 0) {
+                echo json_encode([
+                    'status' => false,
+                    'msg' => 'ID de equipo inválido',
+                    'data' => []
+                ]);
+                die();
+            }
+            
+            // Obtener datos
+            $arrData = $this->model->getMovimientosEquipo($idEquipo, $tipoEquipo);
+            
+            // Asegurar que sea un array
+            if (!is_array($arrData)) {
+                $arrData = [];
+            }
+            
+            echo json_encode([
+                'status' => true,
+                'msg' => '',
+                'data' => $arrData
+            ], JSON_UNESCAPED_UNICODE);
+            
+        } catch (Exception $e) {
+            error_log('Error en getMovimientosEquipo: ' . $e->getMessage());
+            echo json_encode([
+                'status' => false,
+                'msg' => 'Error al obtener los movimientos',
+                'error' => $e->getMessage(),
+                'data' => []
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 }

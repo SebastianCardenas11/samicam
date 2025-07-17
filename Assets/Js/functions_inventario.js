@@ -75,9 +75,19 @@ function initDataTables() {
                     "data": "id_impresora",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i></button> `;
+                        buttons += `</div>`;
+                        
+                        // Botón Entrada/Salida según disponibilidad
+                        if(row.disponibilidad === 'Disponible') {
+                            buttons += `<button class='btn btn-warning btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-success btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        }
                         return buttons;
                     }
                 }
@@ -140,9 +150,19 @@ function initDataTables() {
                     "data": "id_escaner",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verEscaner(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'escaner')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
+                        buttons += `</div> `;
+                        
+                        // Botón Entrada/Salida según disponibilidad
+                        if(row.disponibilidad.toLowerCase() === 'disponible') {
+                            buttons += `<button class='btn btn-warning btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-success btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        }
                         return buttons;
                     }
                 }
@@ -266,9 +286,20 @@ function initDataTables() {
                     "data": "id_pc_torre",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verPcTorre(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editPcTorre(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delPcTorre(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delPcTorre(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'pc_torre')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
+                        buttons += `</div><br>`;
+                        
+                        // Botón Entrada/Salida según disponibilidad
+                        let disp = (row.disponibilidad || '').toString().trim();
+                        if (disp === 'Disponible') {
+                            buttons += `<button class='btn btn-warning btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "pc_torre", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-success btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "pc_torre", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        }
                         return buttons;
                     }
                 }
@@ -339,9 +370,20 @@ function initDataTables() {
                     "data": "id_todo_en_uno",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verTodoEnUno(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editTodoEnUno(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'todo_en_uno')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
+                        buttons += `</div><br>`;
+                        
+                        // Botón Entrada/Salida según disponibilidad
+                        let disp = (row.disponibilidad || '').toString().trim().toLowerCase();
+                        if (disp === 'disponible') {
+                            buttons += `<button class='btn btn-warning btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "todo_en_uno", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-success btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "todo_en_uno", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        }
                         return buttons;
                     }
                 }
@@ -412,9 +454,20 @@ function initDataTables() {
                     "data": "id_portatil",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verPortatil(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editPortatil(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delPortatil(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delPortatil(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'portatil')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
+                        buttons += `</div><br>`;
+                        
+                        // Botón Entrada/Salida según disponibilidad
+                        let disp = (row.disponibilidad || '').toString().trim().toLowerCase();
+                        if (disp === 'disponible') {
+                            buttons += `<button class='btn btn-warning btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "portatil", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-success btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "portatil", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        }
                         return buttons;
                     }
                 }
@@ -1380,22 +1433,22 @@ function editPortatil(idPortatil) {
         dataType: 'json',
         success: function(response) {
             if (response.status) {
-                const data = response.data;
-                $('#idPortatil').val(data.id_portatil);
-                $('#txtNumeroPortatil').val(data.numero_pc);
-                $('#txtMarcaPortatil').val(data.marca);
-                $('#txtModeloPortatil').val(data.modelo);
-                $('#txtRamPortatil').val(data.ram);
-                $('#txtVelocidadRamPortatil').val(data.velocidad_ram);
-                $('#txtProcesadorPortatil').val(data.procesador);
-                $('#txtVelocidadProcesadorPortatil').val(data.velocidad_procesador);
-                $('#txtDiscoDuroPortatil').val(data.disco_duro);
-                $('#txtCapacidadPortatil').val(data.capacidad);
-                $('#txtSerialPortatil').val(data.serial);
-                $('#txtSistemaOperativoPortatil').val(data.sistema_operativo);
-                $('#txtNumeroActivoPortatil').val(data.numero_activo);
-                $('#txtEstadoPortatil').val(data.estado);
-                $('#txtDisponibilidadPortatil').val(data.disponibilidad);
+                const d = response.data;
+                $('#idPortatil').val(d.id_portatil);
+                $('#txtNumeroPortatil').val(d.numero_pc);
+                $('#txtMarcaPortatil').val(d.marca);
+                $('#txtModeloPortatil').val(d.modelo);
+                $('#txtRamPortatil').val(d.ram);
+                $('#txtVelocidadRamPortatil').val(d.velocidad_ram);
+                $('#txtProcesadorPortatil').val(d.procesador);
+                $('#txtVelocidadProcesadorPortatil').val(d.velocidad_procesador);
+                $('#txtDiscoDuroPortatil').val(d.disco_duro);
+                $('#txtCapacidadPortatil').val(d.capacidad);
+                $('#txtSerialPortatil').val(d.serial);
+                $('#txtSistemaOperativoPortatil').val(d.sistema_operativo);
+                $('#txtNumeroActivoPortatil').val(d.numero_activo);
+                $('#txtEstadoPortatil').val(d.estado);
+                $('#txtDisponibilidadPortatil').val(d.disponibilidad);
                 
                 $('#modalInventario').modal('show');
             } else {
@@ -1625,7 +1678,8 @@ function verImpresora(idImpresora) {
                     { label: 'Serial', value: d.serial },
                     { label: 'Consumible', value: d.consumible },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
+                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idImpresora}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
                 ]);
             }
         });
@@ -1643,7 +1697,8 @@ function verEscaner(idEscaner) {
                     { label: 'Modelo', value: d.modelo },
                     { label: 'Serial', value: d.serial },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
+                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idEscaner}, 'escaner')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
                 ]);
             }
         });
@@ -1664,7 +1719,8 @@ function verPcTorre(idPcTorre) {
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
+                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idPcTorre}, 'pc_torre')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
                 ]);
             }
         });
@@ -1687,7 +1743,8 @@ function verTodoEnUno(idTodoEnUno) {
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
+                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idTodoEnUno}, 'todo_en_uno')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
                 ]);
             }
         },
@@ -1714,7 +1771,8 @@ function verPortatil(idPortatil) {
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
+                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idPortatil}, 'portatil')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
                 ]);
             }
         },
@@ -1757,3 +1815,97 @@ function showVerModal(titulo, filas) {
     $('#tablaVerInventario').html(html);
     $('#modalVerInventario').modal('show');
 } 
+
+// --- MOVIMIENTOS DE EQUIPO ---
+function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
+    // Limpiar el formulario por completo
+    document.getElementById('formMovimientoEquipo').reset();
+    
+    // Establecer los valores
+    document.getElementById('mov_idEquipo').value = idEquipo;
+    document.getElementById('mov_tipoEquipo').value = tipoEquipo;
+    document.getElementById('mov_tipoMovimiento').value = tipoMovimiento;
+    
+    // Personalizar el título según el tipo de movimiento
+    let tipoEquipoTexto = '';
+    switch(tipoEquipo) {
+        case 'impresora': tipoEquipoTexto = 'Impresora'; break;
+        case 'escaner': tipoEquipoTexto = 'Escáner'; break;
+        case 'pc_torre': tipoEquipoTexto = 'PC Torre'; break;
+        case 'todo_en_uno': tipoEquipoTexto = 'PC Todo en Uno'; break;
+        case 'portatil': tipoEquipoTexto = 'Portátil'; break;
+        default: tipoEquipoTexto = 'Equipo';
+    }
+    
+    let label = tipoMovimiento === 'entrada' ? 
+        `Registrar Entrada a Mantenimiento - ${tipoEquipoTexto} #${idEquipo}` : 
+        `Registrar Salida de Mantenimiento - ${tipoEquipoTexto} #${idEquipo}`;
+    
+    document.getElementById('modalMovimientoEquipoLabel').textContent = label;
+    
+    // Mostrar el modal
+    let modal = new bootstrap.Modal(document.getElementById('modalMovimientoEquipo'));
+    modal.show();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const formMovimiento = document.getElementById('formMovimientoEquipo');
+    if(formMovimiento) {
+        formMovimiento.onsubmit = function(e) {
+            e.preventDefault();
+            const formData = new FormData(formMovimiento);
+            const tipoEquipo = document.getElementById('mov_tipoEquipo').value;
+            
+            // Deshabilitar el botón de envío para evitar múltiples envíos
+            const submitBtn = formMovimiento.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...';
+            
+            fetch(base_url + '/Inventario/setMovimientoEquipo', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(function(resp) {
+                if(resp.status) {
+                    $('#modalMovimientoEquipo').modal('hide');
+                    
+                    // Recargar la tabla correspondiente según el tipo de equipo
+                    switch(tipoEquipo) {
+                        case 'impresora':
+                            if(typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload();
+                            break;
+                        case 'escaner':
+                            if(typeof tblEscaneres !== 'undefined') tblEscaneres.ajax.reload();
+                            break;
+                        case 'pc_torre':
+                            if(typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload();
+                            break;
+                        case 'todo_en_uno':
+                            if(typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload();
+                            break;
+                        case 'portatil':
+                            if(typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload();
+                            break;
+                    }
+                    
+                    Swal.fire('Éxito', resp.msg, 'success');
+                } else {
+                    Swal.fire('Error', resp.msg, 'error');
+                }
+                
+                // Restaurar el botón
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Guardar';
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Ocurrió un error al procesar la solicitud', 'error');
+                
+                // Restaurar el botón
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Guardar';
+            });
+        }
+    }
+}); 

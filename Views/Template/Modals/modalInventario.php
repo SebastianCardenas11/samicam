@@ -603,3 +603,30 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Movimiento Equipo (Entrada/Salida) -->
+<div class="modal fade" id="modalMovimientoEquipo" tabindex="-1" aria-labelledby="modalMovimientoEquipoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalMovimientoEquipoLabel">Registrar Movimiento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formMovimientoEquipo">
+          <input type="hidden" id="mov_idEquipo" name="idEquipo">
+          <input type="hidden" id="mov_tipoEquipo" name="tipoEquipo">
+          <input type="hidden" id="mov_tipoMovimiento" name="tipoMovimiento">
+          <div class="mb-3">
+            <label for="mov_observacion" class="form-label">Observación</label>
+            <textarea class="form-control" id="mov_observacion" name="observacion" rows="3" required placeholder="Motivo o detalle del movimiento..."></textarea>
+          </div>
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

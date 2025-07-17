@@ -267,4 +267,19 @@ INSERT INTO `tbl_herramientas` (`item`, `marca`, `disponibilidad`) VALUES
 ('Aire Comprimido', 'Dust-Off', 10),
 ('Pasta Térmica', 'Arctic Silver', 5);
 
+-- ========================================
+-- TABLA: tbl_equipos_movimientos (Histórico global de movimientos de equipos)
+-- ========================================
+CREATE TABLE `tbl_equipos_movimientos` (
+  `id_movimiento` INT NOT NULL AUTO_INCREMENT,
+  `id_equipo` INT NOT NULL,
+  `tipo_equipo` ENUM('impresora','pc_torre','todo_en_uno','portatil','escaner','herramienta','otro') NOT NULL,
+  `tipo_movimiento` ENUM('entrada','salida') NOT NULL,
+  `observacion` TEXT,
+  `fecha_hora` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usuario` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_movimiento`),
+  KEY `idx_equipo` (`id_equipo`, `tipo_equipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 COMMIT;
