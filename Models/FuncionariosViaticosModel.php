@@ -178,18 +178,24 @@ class FuncionariosViaticosModel extends Mysql
     // Obtener capital disponible para el año actual
     public function getCapitalDisponible($year)
     {
-        $sql = "SELECT capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
-        $request = $this->select($sql, [$year]);
-        if ($request) {
-            return $request['capital_disponible'];
-        }
-        return 0;
+        // Obtener el capital total
+        $sqlTotal = "SELECT capital_total FROM tbl_capital_viaticos WHERE anio = ?";
+        $requestTotal = $this->select($sqlTotal, [$year]);
+        $capitalTotal = $requestTotal ? floatval($requestTotal['capital_total']) : 0;
+        // Sumar todos los viáticos entregados (activos) en el año
+        $sqlUsado = "SELECT SUM(total_liquidado) as usado FROM tbl_viaticos WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1";
+        $requestUsado = $this->select($sqlUsado, [$year]);
+        $usado = $requestUsado && $requestUsado['usado'] ? floatval($requestUsado['usado']) : 0;
+        // Calcular disponible
+        $capitalDisponible = $capitalTotal - $usado;
+        if ($capitalDisponible < 0) $capitalDisponible = 0;
+        return $capitalDisponible;
     }
 
     // Obtener información completa del presupuesto
     public function getPresupuestoInfo($year)
     {
-        $sql = "SELECT anio, capital_total, capital_disponible FROM tbl_capital_viaticos WHERE anio = ?";
+        $sql = "SELECT anio, capital_total FROM tbl_capital_viaticos WHERE anio = ?";
         $request = $this->select($sql, [$year]);
         if (!$request) {
             // Si no hay presupuesto para ese año, devolvemos valores por defecto
@@ -199,16 +205,25 @@ class FuncionariosViaticosModel extends Mysql
                 'capital_disponible' => 0
             ];
         }
-        return $request;
+        // Calcular capital_disponible en tiempo real
+        $capitalTotal = floatval($request['capital_total']);
+        $sqlUsado = "SELECT SUM(total_liquidado) as usado FROM tbl_viaticos WHERE YEAR(fecha_aprobacion) = ? AND estatus = 1";
+        $requestUsado = $this->select($sqlUsado, [$year]);
+        $usado = $requestUsado && $requestUsado['usado'] ? floatval($requestUsado['usado']) : 0;
+        $capitalDisponible = $capitalTotal - $usado;
+        if ($capitalDisponible < 0) $capitalDisponible = 0;
+        return [
+            'anio' => $year,
+            'capital_total' => $capitalTotal,
+            'capital_disponible' => $capitalDisponible
+        ];
     }
 
-    // Actualizar capital disponible después de asignar un viático
+    // Actualizar capital disponible después de asignar un viático (ya no es necesario, ahora es dummy)
     public function actualizarCapitalDisponible($year, $nuevoCapital)
     {
-        $sql = "UPDATE tbl_capital_viaticos SET capital_disponible = ? WHERE anio = ?";
-        $arrData = [$nuevoCapital, $year];
-        $request = $this->update($sql, $arrData);
-        return $request;
+        // Ya no se actualiza manualmente, el capital disponible se calcula en tiempo real
+        return true;
     }
 
     // Insertar o actualizar presupuesto anual
