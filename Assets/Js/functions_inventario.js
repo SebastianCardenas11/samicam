@@ -77,17 +77,17 @@ function initDataTables() {
                     "render": function(data, type, row) {
                         let buttons = '';
                         buttons += `<div class="btn-group" role="group">`;
-                        buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
-                        buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
-                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i></button> `;
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> &nbsp;`;
+                        buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> &nbsp;`;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> &nbsp;`;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i></button> &nbsp;`;
                         buttons += `</div>`;
                         
                         // Botón Entrada/Salida según disponibilidad
                         if(row.disponibilidad === 'Disponible') {
-                            buttons += `<button class='btn btn-warning btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                            buttons += `<button class='btn btn-success btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         } else {
-                            buttons += `<button class='btn btn-success btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-danger btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         }
                         return buttons;
                     }
