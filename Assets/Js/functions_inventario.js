@@ -8,6 +8,7 @@ let tblPcTorre;
 let tblTodoEnUno;
 let tblPortatiles;
 let tblHerramientas;
+let tblHistoricoGlobal;
 let currentForm = 'impresora';
 let funcionariosPlanta = [];
 
@@ -582,6 +583,11 @@ function setupEventListeners() {
     document.getElementById('herramientas-tab').addEventListener('click', function() {
         currentForm = 'herramienta';
         showForm('herramienta');
+    });
+
+    document.getElementById('historico-tab').addEventListener('click', function() {
+        initHistoricoGlobal();
+        loadEstadisticas();
     });
 }
 
@@ -1909,3 +1915,429 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 }); 
+// ==================== HISTÓRICO GLOBAL Y ESTADÍSTICAS ====================
+
+// Variables para los gráficos
+let graficoEstadoEquipos;
+let graficoDisponibilidadEquipos;
+let graficoMovimientosMes;
+let graficoEquiposMantenimientos;
+
+// Inicializar el histórico global cuando se hace clic en la pestaña
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar evento para la pestaña de histórico
+    if (document.getElementById('historico-tab')) {
+        document.getElementById('historico-tab').addEventListener('click', function() {
+            initHistoricoGlobal();
+            loadEstadisticas();
+        });
+    }
+});
+
+function initHistoricoGlobal() {
+    if ($.fn.DataTable.isDataTable('#tablaHistoricoGlobal')) {
+        $('#tablaHistoricoGlobal').DataTable().destroy();
+    }
+    
+    tblHistoricoGlobal = $('#tablaHistoricoGlobal').DataTable({
+        "processing": true,
+        "serverSide": false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        },
+        "ajax": {
+            "url": base_url + "/Inventario/getHistoricoGlobal",
+            "dataSrc": function(json) {
+                return json.data || [];
+            }
+        },
+        "columns": [
+            { "data": "fecha_hora" },
+            { 
+                "data": "tipo_equipo",
+                "render": function(data) {
+                    switch(data) {
+                        case 'impresora': return 'Impresora';
+                        case 'escaner': return 'Escáner';
+                        case 'pc_torre': return 'PC Torre';
+                        case 'todo_en_uno': return 'Todo en Uno';
+                        case 'portatil': return 'Portátil';
+                        default: return data;
+                    }
+                }
+            },
+            { 
+                "data": null,
+                "render": function(data) {
+                    return data.nombre_equipo || `#${data.id_equipo}`;
+                }
+            },
+            { 
+                "data": "tipo_movimiento",
+                "render": function(data) {
+                    if (data === 'entrada') {
+                        return '<span class="badge bg-warning">Entrada a Mantenimiento</span>';
+                    } else {
+                        return '<span class="badge bg-success">Salida de Mantenimiento</span>';
+                    }
+                }
+            },
+            { "data": "observacion" },
+            { "data": "usuario" }
+        ],
+        "responsive": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "order": [[0, "desc"]]
+    });
+}
+
+function loadEstadisticas() {
+    fetch(base_url + '/Inventario/getEstadisticasInventario')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                renderGraficoEstadoEquipos(data.estadoEquipos);
+                renderGraficoDisponibilidadEquipos(data.disponibilidadEquipos);
+                renderGraficoMovimientosPorMes(data.movimientosPorMes);
+                renderGraficoEquiposConMasMantenimientos(data.equiposConMasMantenimientos);
+            } else {
+                console.error('Error al cargar estadísticas:', data.msg);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function renderGraficoEstadoEquipos(datos) {
+    const ctx = document.getElementById('graficoEstadoEquipos').getContext('2d');
+    
+    // Procesar datos para el gráfico
+    const estados = ['Bueno', 'Regular', 'Malo', 'De Baja'];
+    const tiposEquipo = [...new Set(datos.map(item => item.tipo))];
+    
+    // Crear datasets
+    const datasets = estados.map(estado => {
+        const data = tiposEquipo.map(tipo => {
+            const item = datos.find(d => d.tipo === tipo && d.estado.toLowerCase() === estado.toLowerCase());
+            return item ? parseInt(item.cantidad) : 0;
+        });
+        
+        let color;
+        switch(estado.toLowerCase()) {
+            case 'bueno': color = 'rgba(40, 167, 69, 0.7)'; break;
+            case 'regular': color = 'rgba(255, 193, 7, 0.7)'; break;
+            case 'malo': color = 'rgba(220, 53, 69, 0.7)'; break;
+            case 'de baja': color = 'rgba(52, 58, 64, 0.7)'; break;
+            default: color = 'rgba(108, 117, 125, 0.7)';
+        }
+        
+        return {
+            label: estado,
+            data: data,
+            backgroundColor: color,
+            borderColor: color.replace('0.7', '1'),
+            borderWidth: 1
+        };
+    });
+    
+    // Destruir gráfico existente si hay uno
+    if (graficoEstadoEquipos) {
+        graficoEstadoEquipos.destroy();
+    }
+    
+    // Crear nuevo gráfico
+    graficoEstadoEquipos = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: tiposEquipo,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Tipo de Equipo'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Equipos por Estado'
+                }
+            }
+        }
+    });
+}
+
+function renderGraficoDisponibilidadEquipos(datos) {
+    const ctx = document.getElementById('graficoDisponibilidadEquipos').getContext('2d');
+    
+    // Procesar datos para el gráfico
+    const tiposEquipo = [...new Set(datos.map(item => item.tipo))];
+    
+    // Datos para disponibles y no disponibles
+    const disponibles = tiposEquipo.map(tipo => {
+        const item = datos.find(d => d.tipo === tipo && d.disponibilidad.toLowerCase() === 'disponible');
+        return item ? parseInt(item.cantidad) : 0;
+    });
+    
+    const noDisponibles = tiposEquipo.map(tipo => {
+        const item = datos.find(d => d.tipo === tipo && d.disponibilidad.toLowerCase() === 'no disponible');
+        return item ? parseInt(item.cantidad) : 0;
+    });
+    
+    // Destruir gráfico existente si hay uno
+    if (graficoDisponibilidadEquipos) {
+        graficoDisponibilidadEquipos.destroy();
+    }
+    
+    // Crear nuevo gráfico
+    graficoDisponibilidadEquipos = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: tiposEquipo,
+            datasets: [
+                {
+                    label: 'Disponibles',
+                    data: disponibles,
+                    backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'No Disponibles',
+                    data: noDisponibles,
+                    backgroundColor: 'rgba(220, 53, 69, 0.7)',
+                    borderColor: 'rgba(220, 53, 69, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Tipo de Equipo'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Equipos por Disponibilidad'
+                }
+            }
+        }
+    });
+}
+
+function renderGraficoMovimientosPorMes(datos) {
+    const ctx = document.getElementById('graficoMovimientosMes').getContext('2d');
+    
+    // Procesar datos para el gráfico
+    const meses = datos.map(item => {
+        const fecha = new Date(item.mes + '-01');
+        return fecha.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+    });
+    
+    const entradas = datos.map(item => parseInt(item.entradas));
+    const salidas = datos.map(item => parseInt(item.salidas));
+    
+    // Destruir gráfico existente si hay uno
+    if (graficoMovimientosMes) {
+        graficoMovimientosMes.destroy();
+    }
+    
+    // Crear nuevo gráfico
+    graficoMovimientosMes = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: meses,
+            datasets: [
+                {
+                    label: 'Entradas a Mantenimiento',
+                    data: entradas,
+                    backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                    borderColor: 'rgba(255, 193, 7, 1)',
+                    borderWidth: 2,
+                    tension: 0.1
+                },
+                {
+                    label: 'Salidas de Mantenimiento',
+                    data: salidas,
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mes'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Movimientos de Mantenimiento por Mes'
+                }
+            }
+        }
+    });
+}
+
+function renderGraficoEquiposConMasMantenimientos(datos) {
+    // Crear una tabla con los equipos que más mantenimientos han tenido
+    const container = document.getElementById('graficoMovimientosMes').parentNode;
+    
+    // Crear un div para la tabla
+    let tableDiv = document.getElementById('equiposConMasMantenimientos');
+    if (!tableDiv) {
+        tableDiv = document.createElement('div');
+        tableDiv.id = 'equiposConMasMantenimientos';
+        tableDiv.className = 'mt-4';
+        container.appendChild(tableDiv);
+    }
+    
+    // Crear la tabla
+    let html = `
+        <h5 class="mb-3">Equipos con más mantenimientos</h5>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Equipo</th>
+                        <th>Total Mantenimientos</th>
+                        <th>Entradas</th>
+                        <th>Salidas</th>
+                        <th>Último Movimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    datos.forEach(item => {
+        html += `
+            <tr>
+                <td>${item.nombre_equipo}</td>
+                <td><span class="badge bg-primary">${item.total_mantenimientos}</span></td>
+                <td><span class="badge bg-warning">${item.entradas}</span></td>
+                <td><span class="badge bg-success">${item.salidas}</span></td>
+                <td>${item.ultimo_movimiento}</td>
+            </tr>
+        `;
+    });
+    
+    html += `
+                </tbody>
+            </table>
+        </div>
+    `;
+    
+    tableDiv.innerHTML = html;
+}
+
+function cargarHistoricoMovimientos(idEquipo, tipoEquipo) {
+  // Actualizar el título del modal según el tipo de equipo
+  let tipoEquipoTexto = '';
+  switch(tipoEquipo) {
+    case 'impresora': tipoEquipoTexto = 'Impresora'; break;
+    case 'escaner': tipoEquipoTexto = 'Escáner'; break;
+    case 'pc_torre': tipoEquipoTexto = 'PC Torre'; break;
+    case 'todo_en_uno': tipoEquipoTexto = 'PC Todo en Uno'; break;
+    case 'portatil': tipoEquipoTexto = 'Portátil'; break;
+    default: tipoEquipoTexto = 'Equipo';
+  }
+  
+  document.getElementById('modalHistoricoMovimientosLabel').innerHTML = 
+    `<i class="fas fa-history"></i> Histórico de Movimientos - ${tipoEquipoTexto} #${idEquipo}`;
+  
+  // Mostrar el modal primero con mensaje de carga
+  let tbody = document.querySelector('#tablaHistoricoMovimientos tbody');
+  tbody.innerHTML = '<tr><td colspan="4" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></td></tr>';
+  
+  let historicoModal = new bootstrap.Modal(document.getElementById('modalHistoricoMovimientos'));
+  historicoModal.show();
+  
+  // Cargar los datos del histórico
+  fetch(base_url + '/Inventario/getMovimientosEquipo/' + idEquipo + '/' + tipoEquipo)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error en la respuesta del servidor');
+      }
+      return res.json();
+    })
+    .then(function(response) {
+      tbody.innerHTML = '';
+      
+      // Verificar si la respuesta tiene la estructura esperada
+      if(response && response.status === true && Array.isArray(response.data)) {
+        const data = response.data;
+        
+        if(data.length > 0) {
+          data.forEach(function(mov) {
+            tbody.innerHTML += `<tr>
+              <td>${mov.fecha_hora}</td>
+              <td>${mov.tipo_movimiento === 'entrada' ? '<span class="badge bg-warning">Entrada a Mantenimiento</span>' : '<span class="badge bg-success">Salida de Mantenimiento</span>'}</td>
+              <td>${mov.observacion || ''}</td>
+              <td>${mov.usuario || ''}</td>
+            </tr>`;
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Sin movimientos registrados</td></tr>';
+        }
+      } else {
+        // Si la respuesta no tiene la estructura esperada
+        let errorMsg = 'No hay datos disponibles';
+        if (response && response.msg) {
+          errorMsg = response.msg;
+        }
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-warning">${errorMsg}</td></tr>`;
+      }
+    })
+    .catch(function(error) {
+      console.error('Error al cargar histórico:', error);
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error al cargar el histórico. Intente nuevamente.</td></tr>';
+    });
+}

@@ -453,4 +453,81 @@ class InventarioModel extends Mysql
         }
         return false;
     }
+    
+    public function getHistoricoGlobal() {
+        $sql = "SELECT m.*, 
+                CASE 
+                    WHEN m.tipo_equipo = 'impresora' THEN (SELECT numero_impresora FROM tbl_impresoras WHERE id_impresora = m.id_equipo)
+                    WHEN m.tipo_equipo = 'escaner' THEN (SELECT numero_escaner FROM tbl_escaneres WHERE id_escaner = m.id_equipo)
+                    WHEN m.tipo_equipo = 'pc_torre' THEN (SELECT numero_pc FROM tbl_pc_torre WHERE id_pc_torre = m.id_equipo)
+                    WHEN m.tipo_equipo = 'todo_en_uno' THEN (SELECT numero_pc FROM tbl_todo_en_uno WHERE id_todo_en_uno = m.id_equipo)
+                    WHEN m.tipo_equipo = 'portatil' THEN (SELECT numero_pc FROM tbl_portatiles WHERE id_portatil = m.id_equipo)
+                    ELSE 'Desconocido'
+                END AS nombre_equipo
+                FROM tbl_equipos_movimientos m 
+                ORDER BY m.fecha_hora DESC";
+        return $this->select_all($sql);
+    }
+    
+    public function getEstadisticasEstadoEquipos() {
+        $sql = "SELECT 'Impresoras' as tipo, estado, COUNT(*) as cantidad FROM tbl_impresoras WHERE status != 0 GROUP BY estado
+                UNION ALL
+                SELECT 'Escáneres' as tipo, estado, COUNT(*) as cantidad FROM tbl_escaneres WHERE status != 0 GROUP BY estado
+                UNION ALL
+                SELECT 'PC Torre' as tipo, estado, COUNT(*) as cantidad FROM tbl_pc_torre WHERE status != 0 GROUP BY estado
+                UNION ALL
+                SELECT 'Todo en Uno' as tipo, estado, COUNT(*) as cantidad FROM tbl_todo_en_uno WHERE status != 0 GROUP BY estado
+                UNION ALL
+                SELECT 'Portátiles' as tipo, estado, COUNT(*) as cantidad FROM tbl_portatiles WHERE status != 0 GROUP BY estado";
+        return $this->select_all($sql);
+    }
+    
+    public function getEstadisticasDisponibilidadEquipos() {
+        $sql = "SELECT 'Impresoras' as tipo, disponibilidad, COUNT(*) as cantidad FROM tbl_impresoras WHERE status != 0 GROUP BY disponibilidad
+                UNION ALL
+                SELECT 'Escáneres' as tipo, disponibilidad, COUNT(*) as cantidad FROM tbl_escaneres WHERE status != 0 GROUP BY disponibilidad
+                UNION ALL
+                SELECT 'PC Torre' as tipo, disponibilidad, COUNT(*) as cantidad FROM tbl_pc_torre WHERE status != 0 GROUP BY disponibilidad
+                UNION ALL
+                SELECT 'Todo en Uno' as tipo, disponibilidad, COUNT(*) as cantidad FROM tbl_todo_en_uno WHERE status != 0 GROUP BY disponibilidad
+                UNION ALL
+                SELECT 'Portátiles' as tipo, disponibilidad, COUNT(*) as cantidad FROM tbl_portatiles WHERE status != 0 GROUP BY disponibilidad";
+        return $this->select_all($sql);
+    }
+    
+    public function getEstadisticasMovimientosPorMes() {
+        $sql = "SELECT 
+                DATE_FORMAT(fecha_hora, '%Y-%m') as mes,
+                COUNT(*) as total_movimientos,
+                SUM(CASE WHEN tipo_movimiento = 'entrada' THEN 1 ELSE 0 END) as entradas,
+                SUM(CASE WHEN tipo_movimiento = 'salida' THEN 1 ELSE 0 END) as salidas
+                FROM tbl_equipos_movimientos
+                WHERE fecha_hora >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                GROUP BY DATE_FORMAT(fecha_hora, '%Y-%m')
+                ORDER BY mes ASC";
+        return $this->select_all($sql);
+    }
+    
+    public function getEquiposConMasMantenimientos() {
+        $sql = "SELECT 
+                m.tipo_equipo,
+                m.id_equipo,
+                CASE 
+                    WHEN m.tipo_equipo = 'impresora' THEN (SELECT CONCAT('Impresora #', numero_impresora) FROM tbl_impresoras WHERE id_impresora = m.id_equipo)
+                    WHEN m.tipo_equipo = 'escaner' THEN (SELECT CONCAT('Escáner #', numero_escaner) FROM tbl_escaneres WHERE id_escaner = m.id_equipo)
+                    WHEN m.tipo_equipo = 'pc_torre' THEN (SELECT CONCAT('PC Torre #', numero_pc) FROM tbl_pc_torre WHERE id_pc_torre = m.id_equipo)
+                    WHEN m.tipo_equipo = 'todo_en_uno' THEN (SELECT CONCAT('Todo en Uno #', numero_pc) FROM tbl_todo_en_uno WHERE id_todo_en_uno = m.id_equipo)
+                    WHEN m.tipo_equipo = 'portatil' THEN (SELECT CONCAT('Portátil #', numero_pc) FROM tbl_portatiles WHERE id_portatil = m.id_equipo)
+                    ELSE CONCAT(m.tipo_equipo, ' #', m.id_equipo)
+                END AS nombre_equipo,
+                COUNT(*) as total_mantenimientos,
+                SUM(CASE WHEN m.tipo_movimiento = 'entrada' THEN 1 ELSE 0 END) as entradas,
+                SUM(CASE WHEN m.tipo_movimiento = 'salida' THEN 1 ELSE 0 END) as salidas,
+                MAX(m.fecha_hora) as ultimo_movimiento
+                FROM tbl_equipos_movimientos m
+                GROUP BY m.tipo_equipo, m.id_equipo
+                ORDER BY total_mantenimientos DESC
+                LIMIT 10";
+        return $this->select_all($sql);
+    }
 }

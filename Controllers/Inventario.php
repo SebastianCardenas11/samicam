@@ -992,4 +992,81 @@ class Inventario extends Controllers
         }
         die();
     }
+    
+    public function getHistoricoGlobal()
+    {
+        header('Content-Type: application/json');
+        
+        try {
+            if (!isset($_SESSION['permisosMod']['r'])) {
+                echo json_encode([
+                    'status' => false,
+                    'msg' => 'No tiene permisos para esta acción',
+                    'data' => []
+                ]);
+                die();
+            }
+            
+            $arrData = $this->model->getHistoricoGlobal();
+            
+            if (!is_array($arrData)) {
+                $arrData = [];
+            }
+            
+            echo json_encode([
+                'status' => true,
+                'msg' => '',
+                'data' => $arrData
+            ], JSON_UNESCAPED_UNICODE);
+            
+        } catch (Exception $e) {
+            error_log('Error en getHistoricoGlobal: ' . $e->getMessage());
+            echo json_encode([
+                'status' => false,
+                'msg' => 'Error al obtener el histórico global',
+                'error' => $e->getMessage(),
+                'data' => []
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
+    public function getEstadisticasInventario()
+    {
+        header('Content-Type: application/json');
+        
+        try {
+            if (!isset($_SESSION['permisosMod']['r'])) {
+                echo json_encode([
+                    'status' => false,
+                    'msg' => 'No tiene permisos para esta acción'
+                ]);
+                die();
+            }
+            
+            // Obtener datos para los gráficos
+            $estadoEquipos = $this->model->getEstadisticasEstadoEquipos();
+            $disponibilidadEquipos = $this->model->getEstadisticasDisponibilidadEquipos();
+            $movimientosPorMes = $this->model->getEstadisticasMovimientosPorMes();
+            $equiposConMasMantenimientos = $this->model->getEquiposConMasMantenimientos();
+            
+            echo json_encode([
+                'status' => true,
+                'msg' => '',
+                'estadoEquipos' => $estadoEquipos,
+                'disponibilidadEquipos' => $disponibilidadEquipos,
+                'movimientosPorMes' => $movimientosPorMes,
+                'equiposConMasMantenimientos' => $equiposConMasMantenimientos
+            ], JSON_UNESCAPED_UNICODE);
+            
+        } catch (Exception $e) {
+            error_log('Error en getEstadisticasInventario: ' . $e->getMessage());
+            echo json_encode([
+                'status' => false,
+                'msg' => 'Error al obtener las estadísticas',
+                'error' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
 }

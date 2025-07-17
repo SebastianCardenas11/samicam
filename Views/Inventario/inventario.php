@@ -99,6 +99,11 @@
                                                 <i class="fas fa-tools"></i> Herramientas
                                             </button>
                                         </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="historico-tab" data-bs-toggle="tab" data-bs-target="#historico" type="button" role="tab" aria-controls="historico" aria-selected="false">
+                                                <i class="fas fa-chart-line"></i> Histórico y Estadísticas
+                                            </button>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="card-body">
@@ -453,6 +458,78 @@
                                                                 <!-- Los datos se cargan dinámicamente -->
                                                             </tbody>
                                                         </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Pestaña Histórico y Estadísticas -->
+                                        <div class="tab-pane fade" id="historico" role="tabpanel" aria-labelledby="historico-tab">
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-header bg-primary text-white">
+                                                            <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Estadísticas de Equipos</h5>
+                                                        </div>
+                                                        <div class="card-body py-2">
+                                                            <div class="row g-2">
+                                                                <div class="col-md-6">
+                                                                    <div class="card mb-2">
+                                                                        <div class="card-header py-1 bg-light"><small>Equipos por Estado</small></div>
+                                                                        <div class="card-body p-1">
+                                                                            <canvas id="graficoEstadoEquipos" height="180"></canvas>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="card mb-2">
+                                                                        <div class="card-header py-1 bg-light"><small>Equipos por Disponibilidad</small></div>
+                                                                        <div class="card-body p-1">
+                                                                            <canvas id="graficoDisponibilidadEquipos" height="180"></canvas>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="card">
+                                                                        <div class="card-header py-1 bg-light"><small>Movimientos de Mantenimiento por Mes</small></div>
+                                                                        <div class="card-body p-1">
+                                                                            <canvas id="graficoMovimientosMes" height="180"></canvas>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-header bg-primary text-white">
+                                                            <h5 class="mb-0"><i class="fas fa-history"></i> Histórico Global de Movimientos</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-hover table-bordered" id="tablaHistoricoGlobal" style="width:100% !important; margin:0 !important;">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Fecha y Hora</th>
+                                                                            <th>Tipo de Equipo</th>
+                                                                            <th>ID Equipo</th>
+                                                                            <th>Tipo Movimiento</th>
+                                                                            <th>Observación</th>
+                                                                            <th>Usuario</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- Los datos se cargan dinámicamente -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
