@@ -44,39 +44,38 @@ function initDataTables() {
                 { "data": "modelo" },
                 { "data": "serial" },
                 { "data": "consumible" },
-                { 
+                {
                     "data": "estado",
                     "render": function(data, type, row) {
-                        if (data == 'Bueno') {
-                            return '<span class="badge text-bg-success">Bueno</span>';
-                        } else if (data == 'Regular') {
-                            return '<span class="badge text-bg-warning">Regular</span>';
-                        } else if (data == 'De baja') {
-                            return '<span class="badge text-bg-danger">De baja</span>';
+                        let estado = (data || '').toString().trim().toLowerCase();
+                        if (estado === 'bueno') {
+                            return '<span class="badge text-bg-success">BUENO</span>';
+                        } else if (estado === 'regular') {
+                            return '<span class="badge text-bg-warning">REGULAR</span>';
+                        } else if (estado === 'malo') {
+                            return '<span class="badge text-bg-danger">MALO</span>';
+                        } else if (estado === 'de baja') {
+                            return '<span class="badge text-bg-dark">DE BAJA</span>';
                         } else {
                             return '<span class="badge text-bg-secondary">' + data + '</span>';
                         }
                     }
                 },
-                { 
+                {
                     "data": "disponibilidad",
                     "render": function(data, type, row) {
                         if (data == 'Disponible') {
                             return '<span class="badge text-bg-success">Disponible</span>';
-                        } else if (data == 'No Disponible') {
+                        } else {
                             return '<span class="badge text-bg-danger">No Disponible</span>';
                         }
                     }
                 },
-                { "data": "nombre_dependencia" },
-                { "data": "oficina" },
-                { "data": "nombre_funcionario" },
-                { "data": "nombre_cargo" },
-                { "data": "nombre_contacto" },
-                { 
+                {
                     "data": "id_impresora",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
@@ -107,17 +106,41 @@ function initDataTables() {
                 { "data": "marca" },
                 { "data": "modelo" },
                 { "data": "serial" },
-                { "data": "estado" },
-                { "data": "disponibilidad" },
-                { "data": "nombre_dependencia" },
-                { "data": "oficina" },
-                { "data": "nombre_funcionario" },
-                { "data": "nombre_cargo" },
-                { "data": "nombre_contacto" },
+                { 
+                    "data": "estado",
+                    "render": function(data, type, row) {
+                        let estado = (data || '').toString().trim().toLowerCase();
+                        if (estado === 'bueno') {
+                            return '<span class="badge text-bg-success">BUENO</span>';
+                        } else if (estado === 'regular') {
+                            return '<span class="badge text-bg-warning">REGULAR</span>';
+                        } else if (estado === 'malo') {
+                            return '<span class="badge text-bg-danger">MALO</span>';
+                        } else if (estado === 'de baja') {
+                            return '<span class="badge text-bg-dark">DE BAJA</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
+                { 
+                    "data": "disponibilidad",
+                    "render": function(data, type, row) {
+                        let disp = (data || '').toString().trim().toLowerCase();
+                        if (disp === 'disponible') {
+                            return '<span class="badge text-bg-success">Disponible</span>';
+                        } else if (disp === 'no disponible') {
+                            return '<span class="badge text-bg-danger">No Disponible</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
                 { 
                     "data": "id_escaner",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verEscaner(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
@@ -173,7 +196,7 @@ function initDataTables() {
         "columns": [
             { "data": "item" },
             { "data": "disponibles" },
-            { "data": "impresora" },
+            { "data": "numero_impresora" },
             { "data": "modelos_compatibles" },
             { "data": "options", "orderable": false, "searchable": false }
         ],
@@ -211,17 +234,39 @@ function initDataTables() {
                 { "data": "monitor" },
                 { "data": "numero_activo_monitor" },
                 { "data": "serial_monitor" },
-                { "data": "estado" },
-                { "data": "disponibilidad" },
-                { "data": "nombre_dependencia" },
-                { "data": "oficina" },
-                { "data": "nombre_funcionario" },
-                { "data": "nombre_cargo" },
-                { "data": "nombre_contacto" },
+                { "data": "estado",
+                    "render": function(data, type, row) {
+                        let estado = (data || '').toString().trim();
+                        if (estado === 'Bueno') {
+                            return '<span class="badge text-bg-success">BUENO</span>';
+                        } else if (estado === 'Regular') {
+                            return '<span class="badge text-bg-warning">REGULAR</span>';
+                        } else if (estado === 'Malo') {
+                            return '<span class="badge text-bg-danger">MALO</span>';
+                        } else if (estado === 'De Baja') {
+                            return '<span class="badge text-bg-dark">DE BAJA</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
+                { "data": "disponibilidad",
+                    "render": function(data, type, row) {
+                        let disp = (data || '').toString().trim();
+                        if (disp === 'Disponible') {
+                            return '<span class="badge text-bg-success">Disponible</span>';
+                        } else if (disp === 'No Disponible') {
+                            return '<span class="badge text-bg-danger">No Disponible</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
                 { 
                     "data": "id_pc_torre",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verPcTorre(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editPcTorre(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delPcTorre(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
@@ -260,17 +305,41 @@ function initDataTables() {
                 { "data": "serial" },
                 { "data": "sistema_operativo" },
                 { "data": "numero_activo" },
-                { "data": "estado" },
-                { "data": "disponibilidad" },
-                { "data": "nombre_dependencia" },
-                { "data": "oficina" },
-                { "data": "nombre_funcionario" },
-                { "data": "nombre_cargo" },
-                { "data": "nombre_contacto" },
                 { 
-                    "data": "id_pc_todo_en_uno",
+                    "data": "estado",
+                    "render": function(data, type, row) {
+                        let estado = (data || '').toString().trim().toLowerCase();
+                        if (estado === 'bueno') {
+                            return '<span class="badge text-bg-success">BUENO</span>';
+                        } else if (estado === 'regular') {
+                            return '<span class="badge text-bg-warning">REGULAR</span>';
+                        } else if (estado === 'malo') {
+                            return '<span class="badge text-bg-danger">MALO</span>';
+                        } else if (estado === 'de baja') {
+                            return '<span class="badge text-bg-dark">DE BAJA</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
+                { 
+                    "data": "disponibilidad",
+                    "render": function(data, type, row) {
+                        let disp = (data || '').toString().trim().toLowerCase();
+                        if (disp === 'disponible') {
+                            return '<span class="badge text-bg-success">Disponible</span>';
+                        } else if (disp === 'no disponible') {
+                            return '<span class="badge text-bg-danger">No Disponible</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
+                { 
+                    "data": "id_todo_en_uno",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verTodoEnUno(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editTodoEnUno(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
@@ -309,17 +378,41 @@ function initDataTables() {
                 { "data": "serial" },
                 { "data": "sistema_operativo" },
                 { "data": "numero_activo" },
-                { "data": "estado" },
-                { "data": "disponibilidad" },
-                { "data": "nombre_dependencia" },
-                { "data": "oficina" },
-                { "data": "nombre_funcionario" },
-                { "data": "nombre_cargo" },
-                { "data": "nombre_contacto" },
+                { 
+                    "data": "estado",
+                    "render": function(data, type, row) {
+                        let estado = (data || '').toString().trim().toLowerCase();
+                        if (estado === 'bueno') {
+                            return '<span class="badge text-bg-success">BUENO</span>';
+                        } else if (estado === 'regular') {
+                            return '<span class="badge text-bg-warning">REGULAR</span>';
+                        } else if (estado === 'malo') {
+                            return '<span class="badge text-bg-danger">MALO</span>';
+                        } else if (estado === 'de baja') {
+                            return '<span class="badge text-bg-dark">DE BAJA</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
+                { 
+                    "data": "disponibilidad",
+                    "render": function(data, type, row) {
+                        let disp = (data || '').toString().trim().toLowerCase();
+                        if (disp === 'disponible') {
+                            return '<span class="badge text-bg-success">Disponible</span>';
+                        } else if (disp === 'no disponible') {
+                            return '<span class="badge text-bg-danger">No Disponible</span>';
+                        } else {
+                            return '<span class="badge text-bg-secondary">' + data + '</span>';
+                        }
+                    }
+                },
                 { 
                     "data": "id_portatil",
                     "render": function(data, type, row) {
                         let buttons = '';
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verPortatil(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editPortatil(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delPortatil(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
                         return buttons;
@@ -353,7 +446,19 @@ function initDataTables() {
         "columns": [
             { "data": "item" },
             { "data": "marca" },
-            { "data": "disponibilidad" },
+            { 
+                "data": "disponibilidad",
+                "render": function(data, type, row) {
+                    let disp = (data || '').toString().trim();
+                    if (disp === 'Disponible') {
+                        return '<span class="badge text-bg-success">Disponible</span>';
+                    } else if (disp === 'No Disponible') {
+                        return '<span class="badge text-bg-danger">No Disponible</span>';
+                    } else {
+                        return '<span class="badge text-bg-secondary">' + data + '</span>';
+                    }
+                }
+            },
             { "data": "options", "orderable": false, "searchable": false }
         ],
         "responsive": true,
@@ -570,6 +675,16 @@ function openModalTintaToner() {
     document.getElementById('modalInventarioLabel').textContent = 'Nuevo Tinta/Tóner';
     document.getElementById('formTintaToner').reset();
     document.getElementById('idTintaToner').value = '';
+    // Cargar impresoras activas en el select
+    fetch(base_url + '/Inventario/getImpresorasActivas')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('selectImpresoraTintaToner');
+            select.innerHTML = '<option value="">Seleccione...</option>';
+            data.forEach(item => {
+                select.innerHTML += `<option value="${item.id_impresora}">${item.numero_impresora}</option>`;
+            });
+        });
     $('#modalInventario').modal('show');
 }
 
@@ -627,14 +742,6 @@ function editImpresora(idImpresora) {
                 document.getElementById('txtConsumible').value = impresora.consumible;
                 $('#txtEstado').val(impresora.estado || '');
                 $('#txtDisponibilidad').val(impresora.disponibilidad || '');
-                document.getElementById('txtDependencia').value = impresora.nombre_dependencia || '';
-                document.getElementById('listDependencia').value = impresora.id_dependencia || '';
-                document.getElementById('txtOficina').value = impresora.oficina || '';
-                document.getElementById('listFuncionario').value = impresora.id_funcionario || '';
-                document.getElementById('txtCargo').value = impresora.nombre_cargo || '';
-                document.getElementById('listCargo').value = impresora.id_cargo || '';
-                document.getElementById('txtContacto').value = impresora.nombre_contacto || '';
-                document.getElementById('listContacto').value = impresora.id_contacto || '';
                 
                 $('#modalInventario').modal('show');
             }
@@ -653,12 +760,7 @@ function saveImpresora() {
         'txtSerial': $('#txtSerial').val(),
         'txtConsumible': $('#txtConsumible').val(),
         'txtEstado': $('#txtEstado').val(),
-        'txtDisponibilidad': $('#txtDisponibilidad').val(),
-        'listDependencia': $('#listDependencia').val(),
-        'txtOficina': $('#txtOficina').val(),
-        'listFuncionario': $('#listFuncionario').val(),
-        'listCargo': $('#listCargo').val(),
-        'listContacto': $('#listContacto').val()
+        'txtDisponibilidad': $('#txtDisponibilidad').val()
     };
     
     console.log('Valores de campos:', campos);
@@ -783,11 +885,6 @@ function editEscaner(idEscaner) {
                 document.getElementById('txtSerialEscaner').value = escaner.serial;
                 document.getElementById('txtEstadoEscaner').value = escaner.estado;
                 document.getElementById('txtDisponibilidadEscaner').value = escaner.disponibilidad;
-                document.getElementById('listDependenciaEscaner').value = escaner.id_dependencia;
-                document.getElementById('txtOficinaEscaner').value = escaner.oficina;
-                document.getElementById('listFuncionarioEscaner').value = escaner.id_funcionario;
-                document.getElementById('listCargoEscaner').value = escaner.id_cargo;
-                document.getElementById('listContactoEscaner').value = escaner.id_contacto;
                 
                 $('#modalInventario').modal('show');
             }
@@ -806,7 +903,7 @@ function saveEscaner() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formEscaner')[0].reset();
-                    loadEscaneres();
+                    tblEscaneres.ajax.reload();
                     swal.fire("¡Éxito!", response.msg, "success");
                 } else {
                     swal.fire("Error", response.msg, "error");
@@ -968,14 +1065,22 @@ function editTintaToner(idTintaToner) {
                 const tintaToner = data.data;
                 currentForm = 'tinta_toner';
                 showForm('tinta_toner');
-                
                 document.getElementById('modalInventarioLabel').textContent = 'Editar Tinta/Tóner';
                 document.getElementById('idTintaToner').value = tintaToner.id_tinta_toner;
                 document.getElementById('txtItem').value = tintaToner.item;
                 document.getElementById('txtDisponibles').value = tintaToner.disponibles;
-                document.getElementById('txtImpresora').value = tintaToner.impresora;
                 document.getElementById('txtModelosCompatibles').value = tintaToner.modelos_compatibles;
-                
+                // Cargar impresoras activas y seleccionar la correspondiente
+                fetch(base_url + '/Inventario/getImpresorasActivas')
+                    .then(response => response.json())
+                    .then(impresoras => {
+                        const select = document.getElementById('selectImpresoraTintaToner');
+                        select.innerHTML = '<option value="">Seleccione...</option>';
+                        impresoras.forEach(item => {
+                            select.innerHTML += `<option value="${item.id_impresora}">${item.numero_impresora}</option>`;
+                        });
+                        select.value = tintaToner.impresora; // Selecciona la impresora correspondiente
+                    });
                 $('#modalInventario').modal('show');
             }
         })
@@ -1085,11 +1190,6 @@ function editPcTorre(idPcTorre) {
                 document.getElementById('txtSerialMonitorPcTorre').value = pc.serial_monitor;
                 document.getElementById('txtEstadoPcTorre').value = pc.estado;
                 document.getElementById('txtDisponibilidadPcTorre').value = pc.disponibilidad;
-                document.getElementById('listDependenciaPcTorre').value = pc.id_dependencia;
-                document.getElementById('txtOficinaPcTorre').value = pc.oficina;
-                document.getElementById('listFuncionarioPcTorre').value = pc.id_funcionario;
-                document.getElementById('listCargoPcTorre').value = pc.id_cargo;
-                document.getElementById('listContactoPcTorre').value = pc.id_contacto;
                 $('#modalInventario').modal('show');
             }
         })
@@ -1098,19 +1198,27 @@ function editPcTorre(idPcTorre) {
 
 function savePcTorre() {
     if ($('#formPcTorre')[0].checkValidity()) {
+        var formData = $('#formPcTorre').serialize();
+        console.log('Datos serializados PC Torre:', formData);
         $.ajax({
             url: base_url + '/Inventario/setPcTorre',
             type: 'POST',
-            data: $('#formPcTorre').serialize(),
+            data: formData,
             dataType: 'json',
             success: function(response) {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formPcTorre')[0].reset();
-                    loadPcTorre();
+                    if (typeof tblPcTorre !== 'undefined') {
+                        tblPcTorre.ajax.reload(null, false);
+                    }
                     swal.fire("¡Éxito!", response.msg, "success");
                 } else {
                     swal.fire("Error", response.msg, "error");
+                    if (response.debug) {
+                        console.log('DEBUG SQL QUERY:', response.debug.query);
+                        console.log('DEBUG SQL DATA:', response.debug.data);
+                    }
                 }
             },
             error: function() {
@@ -1143,18 +1251,12 @@ function delPcTorre(idPcTorre) {
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
-                    loadPcTorre();
-                    Swal.fire(
-                        '¡Eliminado!',
-                        data.msg,
-                        'success'
-                    );
+                    if (typeof tblPcTorre !== 'undefined') {
+                        tblPcTorre.ajax.reload(null, false);
+                    }
+                    Swal.fire('¡Eliminado!', data.msg, 'success');
                 } else {
-                    Swal.fire(
-                        'Error',
-                        data.msg,
-                        'error'
-                    );
+                    Swal.fire('Error', data.msg, 'error');
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -1167,7 +1269,8 @@ function delPcTorre(idPcTorre) {
 function editTodoEnUno(idTodoEnUno) {
     currentForm = 'todoEnUno';
     showForm('todoEnUno');
-    
+    // Refuerzo: asegúrate de limpiar el campo antes de llenarlo
+    $('#idTodoEnUno').val('');
     $.ajax({
         url: base_url + '/Inventario/getTodoEnUnoById/' + idTodoEnUno,
         type: 'GET',
@@ -1175,6 +1278,7 @@ function editTodoEnUno(idTodoEnUno) {
         success: function(response) {
             if (response.status) {
                 const data = response.data;
+                // Refuerzo: llena el campo oculto correctamente
                 $('#idTodoEnUno').val(data.id_pc_todo_en_uno);
                 $('#txtNumeroTodoEnUno').val(data.numero_pc);
                 $('#txtMarcaTodoEnUno').val(data.marca);
@@ -1190,12 +1294,6 @@ function editTodoEnUno(idTodoEnUno) {
                 $('#txtNumeroActivoTodoEnUno').val(data.numero_activo);
                 $('#txtEstadoTodoEnUno').val(data.estado);
                 $('#txtDisponibilidadTodoEnUno').val(data.disponibilidad);
-                $('#listDependenciaTodoEnUno').val(data.id_dependencia);
-                $('#txtOficinaTodoEnUno').val(data.oficina);
-                $('#listFuncionarioTodoEnUno').val(data.id_funcionario);
-                $('#listCargoTodoEnUno').val(data.id_cargo);
-                $('#listContactoTodoEnUno').val(data.id_contacto);
-                
                 $('#modalInventario').modal('show');
             } else {
                 swal.fire("Error", response.msg, "error");
@@ -1209,6 +1307,7 @@ function editTodoEnUno(idTodoEnUno) {
 
 function saveTodoEnUno() {
     if ($('#formTodoEnUno')[0].checkValidity()) {
+        // No resetear antes de guardar
         $.ajax({
             url: base_url + '/Inventario/setTodoEnUno',
             type: 'POST',
@@ -1218,7 +1317,9 @@ function saveTodoEnUno() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formTodoEnUno')[0].reset();
-                    loadTodoEnUno();
+                    if (typeof tblTodoEnUno !== 'undefined') {
+                        tblTodoEnUno.ajax.reload(null, false);
+                    }
                     swal.fire("¡Éxito!", response.msg, "success");
                 } else {
                     swal.fire("Error", response.msg, "error");
@@ -1234,37 +1335,35 @@ function saveTodoEnUno() {
 }
 
 function delTodoEnUno(idTodoEnUno) {
-    swal.fire({
-        title: "¿Está seguro?",
-        text: "Se eliminará el PC Todo en Uno",
-        type: "warning",
+    Swal.fire({
+        title: '¿Está seguro de eliminar?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "No, cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    }, function(isConfirm) {
-        if (isConfirm) {
-            $.ajax({
-                url: base_url + '/Inventario/delTodoEnUno',
-                type: 'POST',
-                data: { idTodoEnUno: idTodoEnUno },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status) {
-                        loadTodoEnUno();
-                        swal.fire("¡Eliminado!", response.msg, "success");
-                    } else {
-                        swal.fire("Error", response.msg, "error");
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append('idTodoEnUno', idTodoEnUno);
+            fetch(base_url + '/Inventario/delTodoEnUno', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    if (typeof tblTodoEnUno !== 'undefined') {
+                        tblTodoEnUno.ajax.reload(null, false);
                     }
-                },
-                error: function() {
-                    swal.fire("Error", "Error al eliminar", "error");
+                    Swal.fire('¡Eliminado!', data.msg, 'success');
+                } else {
+                    Swal.fire('Error', data.msg, 'error');
                 }
-            });
-        } else {
-            swal.fire("Cancelado", "No se eliminó el registro", "info");
+            })
+            .catch(error => console.error('Error:', error));
         }
     });
 }
@@ -1297,11 +1396,6 @@ function editPortatil(idPortatil) {
                 $('#txtNumeroActivoPortatil').val(data.numero_activo);
                 $('#txtEstadoPortatil').val(data.estado);
                 $('#txtDisponibilidadPortatil').val(data.disponibilidad);
-                $('#listDependenciaPortatil').val(data.id_dependencia);
-                $('#txtOficinaPortatil').val(data.oficina);
-                $('#listFuncionarioPortatil').val(data.id_funcionario);
-                $('#listCargoPortatil').val(data.id_cargo);
-                $('#listContactoPortatil').val(data.id_contacto);
                 
                 $('#modalInventario').modal('show');
             } else {
@@ -1325,7 +1419,9 @@ function savePortatil() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formPortatil')[0].reset();
-                    loadPortatiles();
+                    if (typeof tblPortatiles !== 'undefined') {
+                        tblPortatiles.ajax.reload(null, false);
+                    }
                     swal.fire("¡Éxito!", response.msg, "success");
                 } else {
                     swal.fire("Error", response.msg, "error");
@@ -1341,37 +1437,35 @@ function savePortatil() {
 }
 
 function delPortatil(idPortatil) {
-    swal.fire({
-        title: "¿Está seguro?",
-        text: "Se eliminará el portátil",
-        type: "warning",
+    Swal.fire({
+        title: '¿Está seguro de eliminar?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "No, cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    }, function(isConfirm) {
-        if (isConfirm) {
-            $.ajax({
-                url: base_url + '/Inventario/delPortatil',
-                type: 'POST',
-                data: { idPortatil: idPortatil },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status) {
-                        loadPortatiles();
-                        swal.fire("¡Eliminado!", response.msg, "success");
-                    } else {
-                        swal.fire("Error", response.msg, "error");
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append('idPortatil', idPortatil);
+            fetch(base_url + '/Inventario/delPortatil', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    if (typeof tblPortatiles !== 'undefined') {
+                        tblPortatiles.ajax.reload(null, false);
                     }
-                },
-                error: function() {
-                    swal.fire("Error", "Error al eliminar", "error");
+                    Swal.fire('¡Eliminado!', data.msg, 'success');
+                } else {
+                    Swal.fire('Error', data.msg, 'error');
                 }
-            });
-        } else {
-            swal.fire("Cancelado", "No se eliminó el registro", "info");
+            })
+            .catch(error => console.error('Error:', error));
         }
     });
 }

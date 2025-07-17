@@ -52,6 +52,7 @@
                                     <option value="">Seleccione...</option>
                                     <option value="Bueno">Bueno</option>
                                     <option value="Regular">Regular</option>
+                                    <option value="Malo">Malo</option>
                                     <option value="De baja">De baja</option>
                                 </select>
                             </div>
@@ -66,45 +67,6 @@
                                     <option value="Disponible">Disponible</option>
                                     <option value="No Disponible">No Disponible</option>
                                 </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtDependencia">Dependencia</label>
-                                <input type="text" class="form-control" id="txtDependencia" name="txtDependencia" readonly>
-                                <input type="hidden" id="listDependencia" name="listDependencia">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtOficina">Oficina</label>
-                                <input type="text" class="form-control" id="txtOficina" name="txtOficina">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="listFuncionario">Funcionario</label>
-                                <select class="form-control" id="listFuncionario" name="listFuncionario">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtCargo">Cargo</label>
-                                <input type="text" class="form-control" id="txtCargo" name="txtCargo" readonly>
-                                <input type="hidden" id="listCargo" name="listCargo">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtContacto">Contacto</label>
-                                <input type="text" class="form-control" id="txtContacto" name="txtContacto" readonly>
-                                <input type="hidden" id="listContacto" name="listContacto">
                             </div>
                         </div>
                     </div>
@@ -147,10 +109,10 @@
                                 <label for="txtEstadoEscaner">Estado *</label>
                                 <select class="form-control" id="txtEstadoEscaner" name="txtEstado" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="En Mantenimiento">En Mantenimiento</option>
-                                    <option value="Fuera de Servicio">Fuera de Servicio</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Malo">Malo</option>
+                                    <option value="De baja">De baja</option>
                                 </select>
                             </div>
                         </div>
@@ -160,53 +122,7 @@
                                 <select class="form-control" id="txtDisponibilidadEscaner" name="txtDisponibilidad" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Disponible">Disponible</option>
-                                    <option value="En Uso">En Uso</option>
-                                    <option value="Reservado">Reservado</option>
                                     <option value="No Disponible">No Disponible</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtDependenciaEscaner">Dependencia</label>
-                                <select class="form-control" id="listDependenciaEscaner" name="listDependencia">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtOficinaEscaner">Oficina</label>
-                                <input type="text" class="form-control" id="txtOficinaEscaner" name="txtOficina">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="listFuncionarioEscaner">Funcionario</label>
-                                <select class="form-control" id="listFuncionarioEscaner" name="listFuncionario">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="listCargoEscaner">Cargo</label>
-                                <select class="form-control" id="listCargoEscaner" name="listCargo">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="listContactoEscaner">Contacto</label>
-                                <select class="form-control" id="listContactoEscaner" name="listContacto">
-                                    <option value="">Seleccione...</option>
                                 </select>
                             </div>
                         </div>
@@ -252,8 +168,10 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="txtImpresora">Impresora</label>
-                                <input type="text" class="form-control" id="txtImpresora" name="txtImpresora">
+                                <label for="selectImpresoraTintaToner">Impresora</label>
+                                <select class="form-control" id="selectImpresoraTintaToner" name="txtImpresora">
+                                    <option value="">Seleccione...</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -323,8 +241,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="txtDiscoDuroPcTorre">Disco Duro</label>
-                                <input type="text" class="form-control" id="txtDiscoDuroPcTorre" name="txtDiscoDuroPcTorre">
+                                <label for="txtDiscoDuroPcTorre">Disco Duro *</label>
+                                <select class="form-control" id="txtDiscoDuroPcTorre" name="txtDiscoDuroPcTorre" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="HDD">HDD</option>
+                                    <option value="SSD">SSD</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -374,10 +297,10 @@
                                 <label for="txtEstadoPcTorre">Estado *</label>
                                 <select class="form-control" id="txtEstadoPcTorre" name="txtEstadoPcTorre" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="En Mantenimiento">En Mantenimiento</option>
-                                    <option value="Fuera de Servicio">Fuera de Servicio</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Malo">Malo</option>
+                                    <option value="De Baja">De Baja</option>
                                 </select>
                             </div>
                         </div>
@@ -387,51 +310,7 @@
                                 <select class="form-control" id="txtDisponibilidadPcTorre" name="txtDisponibilidadPcTorre" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Disponible">Disponible</option>
-                                    <option value="En Uso">En Uso</option>
-                                    <option value="Reservado">Reservado</option>
                                     <option value="No Disponible">No Disponible</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listDependenciaPcTorre">Dependencia</label>
-                                <select class="form-control" id="listDependenciaPcTorre" name="listDependenciaPcTorre">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="txtOficinaPcTorre">Oficina</label>
-                                <input type="text" class="form-control" id="txtOficinaPcTorre" name="txtOficinaPcTorre">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listFuncionarioPcTorre">Funcionario</label>
-                                <select class="form-control" id="listFuncionarioPcTorre" name="listFuncionarioPcTorre">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listCargoPcTorre">Cargo</label>
-                                <select class="form-control" id="listCargoPcTorre" name="listCargoPcTorre">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listContactoPcTorre">Contacto</label>
-                                <select class="form-control" id="listContactoPcTorre" name="listContactoPcTorre">
-                                    <option value="">Seleccione...</option>
                                 </select>
                             </div>
                         </div>
@@ -490,8 +369,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="txtDiscoDuroTodoEnUno">Disco Duro</label>
-                                <input type="text" class="form-control" id="txtDiscoDuroTodoEnUno" name="txtDiscoDuroTodoEnUno">
+                                <label for="txtDiscoDuroTodoEnUno">Disco Duro *</label>
+                                <select class="form-control" id="txtDiscoDuroTodoEnUno" name="txtDiscoDuroTodoEnUno" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="HDD">HDD</option>
+                                    <option value="SSD">SSD</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -527,10 +411,10 @@
                                 <label for="txtEstadoTodoEnUno">Estado *</label>
                                 <select class="form-control" id="txtEstadoTodoEnUno" name="txtEstadoTodoEnUno" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="En Mantenimiento">En Mantenimiento</option>
-                                    <option value="Fuera de Servicio">Fuera de Servicio</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Malo">Malo</option>
+                                    <option value="De baja">De baja</option>
                                 </select>
                             </div>
                         </div>
@@ -540,51 +424,7 @@
                                 <select class="form-control" id="txtDisponibilidadTodoEnUno" name="txtDisponibilidadTodoEnUno" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Disponible">Disponible</option>
-                                    <option value="En Uso">En Uso</option>
-                                    <option value="Reservado">Reservado</option>
                                     <option value="No Disponible">No Disponible</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listDependenciaTodoEnUno">Dependencia</label>
-                                <select class="form-control" id="listDependenciaTodoEnUno" name="listDependenciaTodoEnUno">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="txtOficinaTodoEnUno">Oficina</label>
-                                <input type="text" class="form-control" id="txtOficinaTodoEnUno" name="txtOficinaTodoEnUno">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listFuncionarioTodoEnUno">Funcionario</label>
-                                <select class="form-control" id="listFuncionarioTodoEnUno" name="listFuncionarioTodoEnUno">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listCargoTodoEnUno">Cargo</label>
-                                <select class="form-control" id="listCargoTodoEnUno" name="listCargoTodoEnUno">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listContactoTodoEnUno">Contacto</label>
-                                <select class="form-control" id="listContactoTodoEnUno" name="listContactoTodoEnUno">
-                                    <option value="">Seleccione...</option>
                                 </select>
                             </div>
                         </div>
@@ -643,8 +483,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="txtDiscoDuroPortatil">Disco Duro</label>
-                                <input type="text" class="form-control" id="txtDiscoDuroPortatil" name="txtDiscoDuroPortatil">
+                                <label for="txtDiscoDuroPortatil">Disco Duro *</label>
+                                <select class="form-control" id="txtDiscoDuroPortatil" name="txtDiscoDuroPortatil" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="HDD">HDD</option>
+                                    <option value="SSD">SSD</option>
+                                    <option value="Híbrido">Híbrido</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -680,10 +525,10 @@
                                 <label for="txtEstadoPortatil">Estado *</label>
                                 <select class="form-control" id="txtEstadoPortatil" name="txtEstadoPortatil" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="En Mantenimiento">En Mantenimiento</option>
-                                    <option value="Fuera de Servicio">Fuera de Servicio</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Malo">Malo</option>
+                                    <option value="De baja">De baja</option>
                                 </select>
                             </div>
                         </div>
@@ -693,51 +538,7 @@
                                 <select class="form-control" id="txtDisponibilidadPortatil" name="txtDisponibilidadPortatil" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Disponible">Disponible</option>
-                                    <option value="En Uso">En Uso</option>
-                                    <option value="Reservado">Reservado</option>
                                     <option value="No Disponible">No Disponible</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listDependenciaPortatil">Dependencia</label>
-                                <select class="form-control" id="listDependenciaPortatil" name="listDependenciaPortatil">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="txtOficinaPortatil">Oficina</label>
-                                <input type="text" class="form-control" id="txtOficinaPortatil" name="txtOficinaPortatil">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listFuncionarioPortatil">Funcionario</label>
-                                <select class="form-control" id="listFuncionarioPortatil" name="listFuncionarioPortatil">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listCargoPortatil">Cargo</label>
-                                <select class="form-control" id="listCargoPortatil" name="listCargoPortatil">
-                                    <option value="">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="listContactoPortatil">Contacto</label>
-                                <select class="form-control" id="listContactoPortatil" name="listContactoPortatil">
-                                    <option value="">Seleccione...</option>
                                 </select>
                             </div>
                         </div>

@@ -66,7 +66,7 @@
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="escaneres-tab" data-bs-toggle="tab" data-bs-target="#escaneres" type="button" role="tab" aria-controls="escaneres" aria-selected="false">
-                                                <i class="fas fa-scanner"></i> Escáneres
+                                                <i class="fas fa-barcode"></i> Escáneres
                                             </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
@@ -134,8 +134,6 @@
                                                                     <th>Consumible</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
-                                                                    <th>Dependencia</th>
-                                                                    <th>Oficina</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -178,8 +176,6 @@
                                                                     <th>Serial</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
-                                                                    <th>Dependencia</th>
-                                                                    <th>Oficina</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -311,8 +307,6 @@
                                                                     <th>Serial Monitor</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
-                                                                    <th>Dependencia</th>
-                                                                    <th>Oficina</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -363,8 +357,6 @@
                                                                     <th>N° Activo</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
-                                                                    <th>Dependencia</th>
-                                                                    <th>Oficina</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>
@@ -415,8 +407,6 @@
                                                                     <th>N° Activo</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
-                                                                    <th>Dependencia</th>
-                                                                    <th>Oficina</th>
                                                                     <th>Acciones</th>
                                                                 </tr>
                                                             </thead>

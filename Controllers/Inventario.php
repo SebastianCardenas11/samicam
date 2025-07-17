@@ -87,8 +87,6 @@ class Inventario extends Controllers
                     $strConsumible = strClean($_POST['txtConsumible']);
                     $strEstado = strClean($_POST['txtEstado']);
                     $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
-                    $intDependencia = intval($_POST['listDependencia']);
-                    $strOficina = strClean($_POST['txtOficina']);
 
                     error_log('Datos procesados - ID: ' . $intIdImpresora . ', Numero: ' . $strNumeroImpresora);
 
@@ -96,7 +94,7 @@ class Inventario extends Controllers
                     if ($intIdImpresora == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nueva impresora...');
-                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
+                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad);
                             $option = 1;
                             error_log('Resultado insert: ' . $request);
                         } else {
@@ -105,7 +103,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando impresora ID: ' . $intIdImpresora);
-                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
+                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -152,6 +150,16 @@ class Inventario extends Controllers
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
+        }
+        die();
+    }
+
+    // ==================== IMPRESORAS ACTIVAS PARA SELECT EN TINTAS Y TONER ====================
+    public function getImpresorasActivas()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->getImpresorasActivas();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -206,18 +214,16 @@ class Inventario extends Controllers
                 $strSerial = strClean($_POST['txtSerial']);
                 $strEstado = strClean($_POST['txtEstado']);
                 $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
-                $intDependencia = intval($_POST['listDependencia']);
-                $strOficina = strClean($_POST['txtOficina']);
 
                 $request = "";
                 if ($intIdEscaner == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
+                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $intDependencia, $strOficina);
+                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad);
                         $option = 2;
                     }
                 }
@@ -467,58 +473,80 @@ class Inventario extends Controllers
 
     public function setPcTorre()
     {
-        if ($_POST) {
-            // Validación básica de campos obligatorios
-            if (
-                empty($_POST['txtNumeroPcTorre']) ||
-                empty($_POST['txtMarcaPcTorre']) ||
-                empty($_POST['txtModeloPcTorre']) ||
-                empty($_POST['txtEstadoPcTorre']) ||
-                empty($_POST['txtDisponibilidadPcTorre'])
-            ) {
-                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
-            } else {
-                $intIdPcTorre = intval($_POST['idPcTorre']);
-                $numero_pc = strClean($_POST['txtNumeroPcTorre']);
-                $marca = strClean($_POST['txtMarcaPcTorre']);
-                $serial = strClean($_POST['txtSerialPcTorre']);
-                $modelo = strClean($_POST['txtModeloPcTorre']);
-                $ram = strClean($_POST['txtRamPcTorre']);
-                $velocidad_ram = strClean($_POST['txtVelocidadRamPcTorre']);
-                $procesador = strClean($_POST['txtProcesadorPcTorre']);
-                $velocidad_procesador = strClean($_POST['txtVelocidadProcesadorPcTorre']);
-                $disco_duro = strClean($_POST['txtDiscoDuroPcTorre']);
-                $capacidad = strClean($_POST['txtCapacidadPcTorre']);
-                $sistema_operativo = strClean($_POST['txtSistemaOperativoPcTorre']);
-                $numero_activo = strClean($_POST['txtNumeroActivoPcTorre']);
-                $monitor = strClean($_POST['txtMonitorPcTorre']);
-                $numero_activo_monitor = strClean($_POST['txtNumeroActivoMonitorPcTorre']);
-                $serial_monitor = strClean($_POST['txtSerialMonitorPcTorre']);
-                $estado = strClean($_POST['txtEstadoPcTorre']);
-                $disponibilidad = strClean($_POST['txtDisponibilidadPcTorre']);
-                $id_dependencia = intval($_POST['listDependenciaPcTorre']);
-                $oficina = strClean($_POST['txtOficinaPcTorre']);
+        try {
+            if ($_POST) {
+                error_log('POST PC TORRE: ' . print_r($_POST, true));
+                // Validación básica de campos obligatorios
+                if (
+                    empty($_POST['txtNumeroPcTorre']) ||
+                    empty($_POST['txtMarcaPcTorre']) ||
+                    empty($_POST['txtModeloPcTorre']) ||
+                    empty($_POST['txtEstadoPcTorre']) ||
+                    empty($_POST['txtDisponibilidadPcTorre'])
+                ) {
+                    $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
+                } else {
+                    $intIdPcTorre = intval($_POST['idPcTorre']);
+                    $numero_pc = strClean($_POST['txtNumeroPcTorre']);
+                    $marca = strClean($_POST['txtMarcaPcTorre']);
+                    $serial = strClean($_POST['txtSerialPcTorre']);
+                    $modelo = strClean($_POST['txtModeloPcTorre']);
+                    $ram = strClean($_POST['txtRamPcTorre']);
+                    $velocidad_ram = strClean($_POST['txtVelocidadRamPcTorre']);
+                    $procesador = strClean($_POST['txtProcesadorPcTorre']);
+                    $velocidad_procesador = strClean($_POST['txtVelocidadProcesadorPcTorre']);
+                    $disco_duro = strClean($_POST['txtDiscoDuroPcTorre']);
+                    $capacidad = strClean($_POST['txtCapacidadPcTorre']);
+                    $sistema_operativo = strClean($_POST['txtSistemaOperativoPcTorre']);
+                    $numero_activo = strClean($_POST['txtNumeroActivoPcTorre']);
+                    $monitor = strClean($_POST['txtMonitorPcTorre']);
+                    $numero_activo_monitor = strClean($_POST['txtNumeroActivoMonitorPcTorre']);
+                    $serial_monitor = strClean($_POST['txtSerialMonitorPcTorre']);
+                    $estado = strClean($_POST['txtEstadoPcTorre']);
+                    $disponibilidad = strClean($_POST['txtDisponibilidadPcTorre']);
 
-                $request = "";
-                if ($intIdPcTorre == 0) {
-                    if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina);
-                        $option = 1;
+                    $request = "";
+                    if ($intIdPcTorre == 0) {
+                        if ($_SESSION['permisosMod']['w']) {
+                            error_log('Insertando nueva PC Torre...');
+                            $request = $this->model->insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad);
+                            $option = 1;
+                            error_log('Resultado insert: ' . print_r($request, true));
+                        } else {
+                            error_log('Sin permisos de escritura');
+                        }
+                    } else {
+                        if ($_SESSION['permisosMod']['u']) {
+                            error_log('Actualizando PC Torre ID: ' . $intIdPcTorre);
+                            $request = $this->model->updatePcTorre($intIdPcTorre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad);
+                            $option = 2;
+                            error_log('Resultado update: ' . $request);
+                        } else {
+                            error_log('Sin permisos de actualización');
+                        }
                     }
-                } else {
-                    if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updatePcTorre($intIdPcTorre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina);
-                        $option = 2;
+                    
+                    if (is_array($request) && isset($request['error'])) {
+                        error_log('Error SQL: ' . $request['error']);
+                        $arrResponse = array("status" => false, "msg" => 'Error SQL: ' . $request['error'], "debug" => $request);
+                    } else if ($request > 0) {
+                        $msg = $option == 1 ? "PC Torre guardada correctamente." : "PC Torre actualizada correctamente.";
+                        $arrResponse = array("status" => true, "msg" => $msg);
+                        error_log('Guardado exitoso: ' . $msg);
+                    } else {
+                        error_log('Error al almacenar - Request result: ' . print_r($request, true));
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                     }
                 }
-                if ($request > 0) {
-                    $msg = $option == 1 ? "PC Torre guardada correctamente." : "PC Torre actualizada correctamente.";
-                    $arrResponse = array("status" => true, "msg" => $msg);
-                } else {
-                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                error_log('No hay datos POST');
+                echo json_encode(array("status" => false, "msg" => 'No se recibieron datos'), JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            error_log('EXCEPCIÓN en setPcTorre: ' . $e->getMessage());
+            error_log('Stack trace: ' . $e->getTraceAsString());
+            echo json_encode(array("status" => false, "msg" => 'Error interno: ' . $e->getMessage()), JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -573,54 +601,76 @@ class Inventario extends Controllers
 
     public function setTodoEnUno()
     {
-        if ($_POST) {
-            if (
-                empty($_POST['txtNumeroTodoEnUno']) ||
-                empty($_POST['txtMarcaTodoEnUno']) ||
-                empty($_POST['txtModeloTodoEnUno']) ||
-                empty($_POST['txtEstadoTodoEnUno']) ||
-                empty($_POST['txtDisponibilidadTodoEnUno'])
-            ) {
-                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
-            } else {
-                $intIdTodoEnUno = intval($_POST['idTodoEnUno']);
-                $numero_pc = strClean($_POST['txtNumeroTodoEnUno']);
-                $marca = strClean($_POST['txtMarcaTodoEnUno']);
-                $modelo = strClean($_POST['txtModeloTodoEnUno']);
-                $ram = strClean($_POST['txtRamTodoEnUno']);
-                $velocidad_ram = strClean($_POST['txtVelocidadRamTodoEnUno']);
-                $procesador = strClean($_POST['txtProcesadorTodoEnUno']);
-                $velocidad_procesador = strClean($_POST['txtVelocidadProcesadorTodoEnUno']);
-                $disco_duro = strClean($_POST['txtDiscoDuroTodoEnUno']);
-                $capacidad = strClean($_POST['txtCapacidadTodoEnUno']);
-                $serial = strClean($_POST['txtSerialTodoEnUno']);
-                $sistema_operativo = strClean($_POST['txtSistemaOperativoTodoEnUno']);
-                $numero_activo = strClean($_POST['txtNumeroActivoTodoEnUno']);
-                $estado = strClean($_POST['txtEstadoTodoEnUno']);
-                $disponibilidad = strClean($_POST['txtDisponibilidadTodoEnUno']);
-                $id_dependencia = intval($_POST['listDependenciaTodoEnUno']);
-                $oficina = strClean($_POST['txtOficinaTodoEnUno']);
+        try {
+            if ($_POST) {
+                error_log('POST TODO EN UNO: ' . print_r($_POST, true));
+                if (
+                    empty($_POST['txtNumeroTodoEnUno']) ||
+                    empty($_POST['txtMarcaTodoEnUno']) ||
+                    empty($_POST['txtModeloTodoEnUno']) ||
+                    empty($_POST['txtEstadoTodoEnUno']) ||
+                    empty($_POST['txtDisponibilidadTodoEnUno'])
+                ) {
+                    $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
+                } else {
+                    $intIdTodoEnUno = intval($_POST['idTodoEnUno']);
+                    $numero_pc = strClean($_POST['txtNumeroTodoEnUno']);
+                    $marca = strClean($_POST['txtMarcaTodoEnUno']);
+                    $modelo = strClean($_POST['txtModeloTodoEnUno']);
+                    $ram = strClean($_POST['txtRamTodoEnUno']);
+                    $velocidad_ram = strClean($_POST['txtVelocidadRamTodoEnUno']);
+                    $procesador = strClean($_POST['txtProcesadorTodoEnUno']);
+                    $velocidad_procesador = strClean($_POST['txtVelocidadProcesadorTodoEnUno']);
+                    $disco_duro = strClean($_POST['txtDiscoDuroTodoEnUno']);
+                    $capacidad = strClean($_POST['txtCapacidadTodoEnUno']);
+                    $serial = strClean($_POST['txtSerialTodoEnUno']);
+                    $sistema_operativo = strClean($_POST['txtSistemaOperativoTodoEnUno']);
+                    $numero_activo = strClean($_POST['txtNumeroActivoTodoEnUno']);
+                    $estado = strClean($_POST['txtEstadoTodoEnUno']);
+                    $disponibilidad = strClean($_POST['txtDisponibilidadTodoEnUno']);
 
-                $request = "";
-                if ($intIdTodoEnUno == 0) {
-                    if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
-                        $option = 1;
+                    $request = "";
+                    if ($intIdTodoEnUno == 0) {
+                        if ($_SESSION['permisosMod']['w']) {
+                            error_log('Insertando nuevo PC Todo en Uno...');
+                            $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $option = 1;
+                            error_log('Resultado insert: ' . print_r($request, true));
+                        } else {
+                            error_log('Sin permisos de escritura');
+                        }
+                    } else {
+                        if ($_SESSION['permisosMod']['u']) {
+                            error_log('Actualizando PC Todo en Uno ID: ' . $intIdTodoEnUno);
+                            $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $option = 2;
+                            error_log('Resultado update: ' . $request);
+                        } else {
+                            error_log('Sin permisos de actualización');
+                        }
                     }
-                } else {
-                    if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
-                        $option = 2;
+                    
+                    if (is_array($request) && isset($request['error'])) {
+                        error_log('Error SQL: ' . $request['error']);
+                        $arrResponse = array("status" => false, "msg" => 'Error SQL: ' . $request['error'], "debug" => $request);
+                    } else if ($request > 0) {
+                        $msg = $option == 1 ? "PC Todo en Uno guardado correctamente." : "PC Todo en Uno actualizado correctamente.";
+                        $arrResponse = array("status" => true, "msg" => $msg);
+                        error_log('Guardado exitoso: ' . $msg);
+                    } else {
+                        error_log('Error al almacenar - Request result: ' . print_r($request, true));
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                     }
                 }
-                if ($request > 0) {
-                    $msg = $option == 1 ? "PC Todo en Uno guardado correctamente." : "PC Todo en Uno actualizado correctamente.";
-                    $arrResponse = array("status" => true, "msg" => $msg);
-                } else {
-                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                error_log('No hay datos POST');
+                echo json_encode(array("status" => false, "msg" => 'No se recibieron datos'), JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            error_log('EXCEPCIÓN en setTodoEnUno: ' . $e->getMessage());
+            error_log('Stack trace: ' . $e->getTraceAsString());
+            echo json_encode(array("status" => false, "msg" => 'Error interno: ' . $e->getMessage()), JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -675,54 +725,76 @@ class Inventario extends Controllers
 
     public function setPortatil()
     {
-        if ($_POST) {
-            if (
-                empty($_POST['txtNumeroPortatil']) ||
-                empty($_POST['txtMarcaPortatil']) ||
-                empty($_POST['txtModeloPortatil']) ||
-                empty($_POST['txtEstadoPortatil']) ||
-                empty($_POST['txtDisponibilidadPortatil'])
-            ) {
-                $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
-            } else {
-                $intIdPortatil = intval($_POST['idPortatil']);
-                $numero_pc = strClean($_POST['txtNumeroPortatil']);
-                $marca = strClean($_POST['txtMarcaPortatil']);
-                $modelo = strClean($_POST['txtModeloPortatil']);
-                $ram = strClean($_POST['txtRamPortatil']);
-                $velocidad_ram = strClean($_POST['txtVelocidadRamPortatil']);
-                $procesador = strClean($_POST['txtProcesadorPortatil']);
-                $velocidad_procesador = strClean($_POST['txtVelocidadProcesadorPortatil']);
-                $disco_duro = strClean($_POST['txtDiscoDuroPortatil']);
-                $capacidad = strClean($_POST['txtCapacidadPortatil']);
-                $serial = strClean($_POST['txtSerialPortatil']);
-                $sistema_operativo = strClean($_POST['txtSistemaOperativoPortatil']);
-                $numero_activo = strClean($_POST['txtNumeroActivoPortatil']);
-                $estado = strClean($_POST['txtEstadoPortatil']);
-                $disponibilidad = strClean($_POST['txtDisponibilidadPortatil']);
-                $id_dependencia = intval($_POST['listDependenciaPortatil']);
-                $oficina = strClean($_POST['txtOficinaPortatil']);
+        try {
+            if ($_POST) {
+                error_log('POST PORTATIL: ' . print_r($_POST, true));
+                if (
+                    empty($_POST['txtNumeroPortatil']) ||
+                    empty($_POST['txtMarcaPortatil']) ||
+                    empty($_POST['txtModeloPortatil']) ||
+                    empty($_POST['txtEstadoPortatil']) ||
+                    empty($_POST['txtDisponibilidadPortatil'])
+                ) {
+                    $arrResponse = array("status" => false, "msg" => 'Datos obligatorios incompletos.');
+                } else {
+                    $intIdPortatil = intval($_POST['idPortatil']);
+                    $numero_pc = strClean($_POST['txtNumeroPortatil']);
+                    $marca = strClean($_POST['txtMarcaPortatil']);
+                    $modelo = strClean($_POST['txtModeloPortatil']);
+                    $ram = strClean($_POST['txtRamPortatil']);
+                    $velocidad_ram = strClean($_POST['txtVelocidadRamPortatil']);
+                    $procesador = strClean($_POST['txtProcesadorPortatil']);
+                    $velocidad_procesador = strClean($_POST['txtVelocidadProcesadorPortatil']);
+                    $disco_duro = strClean($_POST['txtDiscoDuroPortatil']);
+                    $capacidad = strClean($_POST['txtCapacidadPortatil']);
+                    $serial = strClean($_POST['txtSerialPortatil']);
+                    $sistema_operativo = strClean($_POST['txtSistemaOperativoPortatil']);
+                    $numero_activo = strClean($_POST['txtNumeroActivoPortatil']);
+                    $estado = strClean($_POST['txtEstadoPortatil']);
+                    $disponibilidad = strClean($_POST['txtDisponibilidadPortatil']);
 
-                $request = "";
-                if ($intIdPortatil == 0) {
-                    if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
-                        $option = 1;
+                    $request = "";
+                    if ($intIdPortatil == 0) {
+                        if ($_SESSION['permisosMod']['w']) {
+                            error_log('Insertando nuevo Portátil...');
+                            $request = $this->model->insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $option = 1;
+                            error_log('Resultado insert: ' . print_r($request, true));
+                        } else {
+                            error_log('Sin permisos de escritura');
+                        }
+                    } else {
+                        if ($_SESSION['permisosMod']['u']) {
+                            error_log('Actualizando Portátil ID: ' . $intIdPortatil);
+                            $request = $this->model->updatePortatil($intIdPortatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $option = 2;
+                            error_log('Resultado update: ' . $request);
+                        } else {
+                            error_log('Sin permisos de actualización');
+                        }
                     }
-                } else {
-                    if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updatePortatil($intIdPortatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina);
-                        $option = 2;
+                    
+                    if (is_array($request) && isset($request['error'])) {
+                        error_log('Error SQL: ' . $request['error']);
+                        $arrResponse = array("status" => false, "msg" => 'Error SQL: ' . $request['error'], "debug" => $request);
+                    } else if ($request > 0) {
+                        $msg = $option == 1 ? "Portátil guardado correctamente." : "Portátil actualizado correctamente.";
+                        $arrResponse = array("status" => true, "msg" => $msg);
+                        error_log('Guardado exitoso: ' . $msg);
+                    } else {
+                        error_log('Error al almacenar - Request result: ' . print_r($request, true));
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
                     }
                 }
-                if ($request > 0) {
-                    $msg = $option == 1 ? "Portátil guardado correctamente." : "Portátil actualizado correctamente.";
-                    $arrResponse = array("status" => true, "msg" => $msg);
-                } else {
-                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
-                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                error_log('No hay datos POST');
+                echo json_encode(array("status" => false, "msg" => 'No se recibieron datos'), JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            error_log('EXCEPCIÓN en setPortatil: ' . $e->getMessage());
+            error_log('Stack trace: ' . $e->getTraceAsString());
+            echo json_encode(array("status" => false, "msg" => 'Error interno: ' . $e->getMessage()), JSON_UNESCAPED_UNICODE);
         }
         die();
     }

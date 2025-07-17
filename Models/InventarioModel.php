@@ -10,39 +10,30 @@ class InventarioModel extends Mysql
     // ==================== IMPRESORAS ====================
     public function selectImpresoras()
     {
-        $sql = "SELECT i.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_impresoras i
-                LEFT JOIN tbl_dependencia d ON i.id_dependencia = d.dependencia_pk
-                WHERE i.status != 0
-                ORDER BY i.numero_impresora ASC";
+        $sql = "SELECT i.* FROM tbl_impresoras i WHERE i.status != 0 ORDER BY i.numero_impresora ASC";
         $data = $this->select_all($sql);
         return $data;
     }
 
     public function selectImpresora($idImpresora)
     {
-        $sql = "SELECT i.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_impresoras i
-                LEFT JOIN tbl_dependencia d ON i.id_dependencia = d.dependencia_pk
-                WHERE i.id_impresora = $idImpresora AND i.status != 0";
+        $sql = "SELECT i.* FROM tbl_impresoras i WHERE i.id_impresora = $idImpresora AND i.status != 0";
         $data = $this->select($sql);
         return $data;
     }
 
-    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina)
+    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, consumible, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, 1);
+        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, consumible, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina)
+    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ?, id_dependencia = ?, oficina = ? WHERE id_impresora = ?";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $dependencia, $oficina, $idImpresora);
+        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ? WHERE id_impresora = ?";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $idImpresora);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -58,39 +49,30 @@ class InventarioModel extends Mysql
     // ==================== ESCÁNERES ====================
     public function selectEscaneres()
     {
-        $sql = "SELECT e.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_escaneres e
-                LEFT JOIN tbl_dependencia d ON e.id_dependencia = d.dependencia_pk
-                WHERE e.status != 0
-                ORDER BY e.numero_escaner ASC";
+        $sql = "SELECT * FROM tbl_escaneres WHERE status != 0 ORDER BY numero_escaner ASC";
         $data = $this->select_all($sql);
         return $data;
     }
 
     public function selectEscaner($idEscaner)
     {
-        $sql = "SELECT e.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_escaneres e
-                LEFT JOIN tbl_dependencia d ON e.id_dependencia = d.dependencia_pk
-                WHERE e.id_escaner = $idEscaner AND e.status != 0";
+        $sql = "SELECT * FROM tbl_escaneres WHERE id_escaner = $idEscaner AND status != 0";
         $data = $this->select($sql);
         return $data;
     }
 
-    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina)
+    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, 1);
+        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?)";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina)
+    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ?, id_dependencia = ?, oficina = ? WHERE id_escaner = ?";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $dependencia, $oficina, $idEscaner);
+        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ? WHERE id_escaner = ?";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $idEscaner);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -181,28 +163,29 @@ class InventarioModel extends Mysql
     // ==================== TINTAS Y TÓNER ====================
     public function selectTintasToner()
     {
-        $sql = "SELECT * FROM tbl_tintas_toner WHERE status != 0 ORDER BY item ASC";
+        $sql = "SELECT t.*, i.numero_impresora FROM tbl_tintas_toner t LEFT JOIN tbl_impresoras i ON t.impresora = i.id_impresora WHERE t.status != 0 ORDER BY t.item ASC";
         $data = $this->select_all($sql);
-
         // Agregar columna de opciones para cada registro
         if (!empty($data)) {
             for ($i = 0; $i < count($data); $i++) {
                 $btnEdit = '';
                 $btnDelete = '';
-
                 if ($_SESSION['permisosMod']['u']) {
                     $btnEdit = '<button class="btn btn-primary btn-sm" onClick="editTintaToner(' . $data[$i]['id_tinta_toner'] . ')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
                 }
-
                 if ($_SESSION['permisosMod']['d']) {
                     $btnDelete = '<button class="btn btn-danger btn-sm" onClick="delTintaToner(' . $data[$i]['id_tinta_toner'] . ')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>';
                 }
-
                 $data[$i]['options'] = '<div class="text-center">' . $btnEdit . ' ' . $btnDelete . '</div>';
             }
         }
-
         return $data;
+    }
+
+    public function getImpresorasActivas()
+    {
+        $sql = "SELECT id_impresora, numero_impresora FROM tbl_impresoras WHERE status != 0 ORDER BY numero_impresora ASC";
+        return $this->select_all($sql);
     }
 
     public function selectTintaToner($idTintaToner)
@@ -241,39 +224,34 @@ class InventarioModel extends Mysql
     // ==================== PC TORRE ====================
     public function selectPcTorre()
     {
-        $sql = "SELECT t.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_pc_torre t
-                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
-                WHERE t.status != 0
-                ORDER BY t.numero_pc ASC";
+        $sql = "SELECT * FROM tbl_pc_torre WHERE status != 0 ORDER BY numero_pc ASC";
         $data = $this->select_all($sql);
         return $data;
     }
 
     public function selectPcTorreById($idPcTorre)
     {
-        $sql = "SELECT t.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_pc_torre t
-                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
-                WHERE t.id_pc_torre = ? AND t.status != 0";
+        $sql = "SELECT * FROM tbl_pc_torre WHERE id_pc_torre = ? AND status != 0";
         $data = $this->select($sql, array($idPcTorre));
         return $data;
     }
 
-    public function insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina)
+    public function insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, 1);
-        $request_insert = $this->insert($query_insert, $arrData);
-        return $request_insert;
+        $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad);
+        try {
+            $request_insert = $this->insert($query_insert, $arrData);
+            return $request_insert;
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage(), 'query' => $query_insert, 'data' => $arrData];
+        }
     }
 
-    public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina)
+    public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=? WHERE id_pc_torre=?";
-        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_dependencia, $oficina, $id_pc_torre);
+        $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=? WHERE id_pc_torre=?";
+        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $id_pc_torre);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -289,39 +267,34 @@ class InventarioModel extends Mysql
     // ==================== PC TODO EN UNO ====================
     public function selectTodoEnUno()
     {
-        $sql = "SELECT t.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_todo_en_uno t
-                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
-                WHERE t.status != 0
-                ORDER BY t.numero_pc ASC";
+        $sql = "SELECT * FROM tbl_todo_en_uno WHERE status != 0 ORDER BY numero_pc ASC";
         $data = $this->select_all($sql);
         return $data;
     }
 
     public function selectTodoEnUnoById($idTodoEnUno)
     {
-        $sql = "SELECT t.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_todo_en_uno t
-                LEFT JOIN tbl_dependencia d ON t.id_dependencia = d.dependencia_pk
-                WHERE t.id_todo_en_uno = ? AND t.status != 0";
+        $sql = "SELECT * FROM tbl_todo_en_uno WHERE id_todo_en_uno = ? AND status != 0";
         $data = $this->select($sql, array($idTodoEnUno));
         return $data;
     }
 
-    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
+    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, 1);
-        $request_insert = $this->insert($query_insert, $arrData);
-        return $request_insert;
+        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+        try {
+            $request_insert = $this->insert($query_insert, $arrData);
+            return $request_insert;
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage(), 'query' => $query_insert, 'data' => $arrData];
+        }
     }
 
-    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
+    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=? WHERE id_todo_en_uno=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_todo_en_uno);
+        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=? WHERE id_todo_en_uno=?";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_todo_en_uno);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -337,39 +310,34 @@ class InventarioModel extends Mysql
     // ==================== PORTÁTILES ====================
     public function selectPortatiles()
     {
-        $sql = "SELECT p.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_portatiles p
-                LEFT JOIN tbl_dependencia d ON p.id_dependencia = d.dependencia_pk
-                WHERE p.status != 0
-                ORDER BY p.numero_pc ASC";
+        $sql = "SELECT * FROM tbl_portatiles WHERE status != 0 ORDER BY numero_pc ASC";
         $data = $this->select_all($sql);
         return $data;
     }
 
     public function selectPortatilById($idPortatil)
     {
-        $sql = "SELECT p.*, 
-                       d.nombre AS nombre_dependencia
-                FROM tbl_portatiles p
-                LEFT JOIN tbl_dependencia d ON p.id_dependencia = d.dependencia_pk
-                WHERE p.id_portatil = ? AND p.status != 0";
+        $sql = "SELECT * FROM tbl_portatiles WHERE id_portatil = ? AND status != 0";
         $data = $this->select($sql, array($idPortatil));
         return $data;
     }
 
-    public function insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
+    public function insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, id_dependencia, oficina, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, 1);
-        $request_insert = $this->insert($query_insert, $arrData);
-        return $request_insert;
+        $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+        try {
+            $request_insert = $this->insert($query_insert, $arrData);
+            return $request_insert;
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage(), 'query' => $query_insert, 'data' => $arrData];
+        }
     }
 
-    public function updatePortatil($id_portatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina)
+    public function updatePortatil($id_portatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, id_dependencia=?, oficina=? WHERE id_portatil=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_dependencia, $oficina, $id_portatil);
+        $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=? WHERE id_portatil=?";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $id_portatil);
         $request = $this->update($sql, $arrData);
         return $request;
     }

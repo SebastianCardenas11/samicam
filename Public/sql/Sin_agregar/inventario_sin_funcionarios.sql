@@ -19,14 +19,10 @@ CREATE TABLE `tbl_impresoras` (
   `consumible` varchar(200) DEFAULT NULL,
   `estado` enum('Excelente','Bueno','Regular','Malo','Dañado') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','En uso','En reparación','Fuera de servicio') NOT NULL DEFAULT 'Disponible',
-  `id_dependencia` int(11) DEFAULT NULL,
-  `oficina` varchar(100) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_impresora`),
-  KEY `idx_dependencia` (`id_dependencia`),
-  CONSTRAINT `fk_impresoras_dependencia` FOREIGN KEY (`id_dependencia`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE SET NULL
+  PRIMARY KEY (`id_impresora`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ========================================
@@ -40,14 +36,10 @@ CREATE TABLE `tbl_escaneres` (
   `serial` varchar(100) DEFAULT NULL,
   `estado` enum('Excelente','Bueno','Regular','Malo','Dañado') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','En uso','En reparación','Fuera de servicio') NOT NULL DEFAULT 'Disponible',
-  `id_dependencia` int(11) DEFAULT NULL,
-  `oficina` varchar(100) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_escaner`),
-  KEY `idx_dependencia` (`id_dependencia`),
-  CONSTRAINT `fk_escaneres_dependencia` FOREIGN KEY (`id_dependencia`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE SET NULL
+  PRIMARY KEY (`id_escaner`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ========================================
@@ -72,14 +64,10 @@ CREATE TABLE `tbl_pc_torre` (
   `serial_monitor` varchar(100) DEFAULT NULL,
   `estado` enum('Excelente','Bueno','Regular','Malo','Dañado') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','En uso','En reparación','Fuera de servicio') NOT NULL DEFAULT 'Disponible',
-  `id_dependencia` int(11) DEFAULT NULL,
-  `oficina` varchar(100) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_pc_torre`),
-  KEY `idx_dependencia` (`id_dependencia`),
-  CONSTRAINT `fk_pc_torre_dependencia` FOREIGN KEY (`id_dependencia`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE SET NULL
+  PRIMARY KEY (`id_pc_torre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ========================================
@@ -101,14 +89,10 @@ CREATE TABLE `tbl_todo_en_uno` (
   `numero_activo` varchar(100) DEFAULT NULL,
   `estado` enum('Excelente','Bueno','Regular','Malo','Dañado') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','En uso','En reparación','Fuera de servicio') NOT NULL DEFAULT 'Disponible',
-  `id_dependencia` int(11) DEFAULT NULL,
-  `oficina` varchar(100) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_todo_en_uno`),
-  KEY `idx_dependencia` (`id_dependencia`),
-  CONSTRAINT `fk_todo_en_uno_dependencia` FOREIGN KEY (`id_dependencia`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE SET NULL
+  PRIMARY KEY (`id_todo_en_uno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ========================================
@@ -130,14 +114,10 @@ CREATE TABLE `tbl_portatiles` (
   `numero_activo` varchar(100) DEFAULT NULL,
   `estado` enum('Excelente','Bueno','Regular','Malo','Dañado') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','En uso','En reparación','Fuera de servicio') NOT NULL DEFAULT 'Disponible',
-  `id_dependencia` int(11) DEFAULT NULL,
-  `oficina` varchar(100) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_portatil`),
-  KEY `idx_dependencia` (`id_dependencia`),
-  CONSTRAINT `fk_portatiles_dependencia` FOREIGN KEY (`id_dependencia`) REFERENCES `tbl_dependencia` (`dependencia_pk`) ON DELETE SET NULL
+  PRIMARY KEY (`id_portatil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ========================================
