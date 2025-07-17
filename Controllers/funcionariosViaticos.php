@@ -560,56 +560,67 @@ class FuncionariosViaticos extends Controllers
             $pdf->SetFont('Arial', 'B', 8);
             $contador = 1;
             $y = $pdf->GetY();
-            // Nueva función para recortar texto y añadir '...'
+            // Función mejorada para recortar texto y añadir '...'
             $recortarTexto = function($pdf, $texto, $w) {
-                $maxWidth = $w - 2;
+                $maxWidth = $w - 1; // Reducimos el margen para aprovechar más espacio
                 $texto = trim($texto);
                 if ($pdf->GetStringWidth($texto) <= $maxWidth) return $texto;
+                
+                // Si el texto es muy largo, intentamos abreviarlo primero
+                if (strlen($texto) > 30) {
+                    // Abreviar palabras comunes
+                    $texto = str_replace(
+                        ['Departamento', 'Secretaría', 'Municipio', 'Administración', 'Desarrollo', 'Coordinación'],
+                        ['Dpto', 'Sec', 'Mpio', 'Admin', 'Des', 'Coord'],
+                        $texto
+                    );
+                }
+                
+                // Si sigue siendo muy largo, recortamos
                 while ($pdf->GetStringWidth($texto . '...') > $maxWidth && strlen($texto) > 0) {
                     $texto = mb_substr($texto, 0, -1, 'UTF-8');
                 }
                 return $texto . '...';
             };
-            // Definición de anchos de columna para la tabla de viáticos
-            $anchos = [44, 32, 32, 18, 18, 10, 16, 16]; // Suman 166mm aprox
-            $hBase = 7; // Altura base para las filas
-            // Encabezado de la tabla
+            // Definición de anchos de columna para la tabla de viáticos (sin dependencia)
+            $anchos = [50, 35, 25, 20, 10, 18, 18]; // Suman 176mm aprox
+            $hBase = 6; // Altura base para las filas reducida
+            // Encabezado de la tabla (sin dependencia y con letra más pequeña)
+            $pdf->SetFont('Arial', 'B', 7);
             $pdf->SetX(14);
-            $pdf->Cell($anchos[0], 8, $toLatin1('Funcionario'), 1, 0, 'C');
-            $pdf->Cell($anchos[1], 8, $toLatin1('Cargo'), 1, 0, 'C');
-            $pdf->Cell($anchos[2], 8, $toLatin1('Dependencia'), 1, 0, 'C');
-            $pdf->Cell($anchos[3], 8, $toLatin1('Motivo'), 1, 0, 'C');
-            $pdf->Cell($anchos[4], 8, $toLatin1('Ciudad'), 1, 0, 'C');
-            $pdf->Cell($anchos[5], 8, $toLatin1('Días'), 1, 0, 'C');
-            $pdf->Cell($anchos[6], 8, $toLatin1('Valor Día'), 1, 0, 'C');
-            $pdf->Cell($anchos[7], 8, $toLatin1('Total'), 1, 1, 'C');
+            $pdf->Cell($anchos[0], 7, $toLatin1('Funcionario'), 1, 0, 'C');
+            $pdf->Cell($anchos[1], 7, $toLatin1('Cargo'), 1, 0, 'C');
+            $pdf->Cell($anchos[2], 7, $toLatin1('Motivo'), 1, 0, 'C');
+            $pdf->Cell($anchos[3], 7, $toLatin1('Ciudad'), 1, 0, 'C');
+            $pdf->Cell($anchos[4], 7, $toLatin1('Días'), 1, 0, 'C');
+            $pdf->Cell($anchos[5], 7, $toLatin1('Valor Día'), 1, 0, 'C');
+            $pdf->Cell($anchos[8], 7, $toLatin1('Total'), 1, 1, 'C');
             foreach ($viaticos as $viatico) {
                 // Si llegamos al final de la página, crear una nueva y repetir encabezados
                 if ($pdf->GetY() > 270) {
                     $pdf->AddPage();
                     $pdf->useTemplate($tplIdx, 0, 0, 210);
                     // Repetir encabezados en la nueva página
-                    $pdf->SetFont('Arial', 'B', 8);
+                    $pdf->SetFont('Arial', 'B', 7);
                     $pdf->SetX(14);
-                    $pdf->Cell($anchos[0], 8, $toLatin1('Funcionario'), 1, 0, 'C');
-                    $pdf->Cell($anchos[1], 8, $toLatin1('Cargo'), 1, 0, 'C');
-                    $pdf->Cell($anchos[2], 8, $toLatin1('Dependencia'), 1, 0, 'C');
-                    $pdf->Cell($anchos[3], 8, $toLatin1('Motivo'), 1, 0, 'C');
-                    $pdf->Cell($anchos[4], 8, $toLatin1('Ciudad'), 1, 0, 'C');
-                    $pdf->Cell($anchos[5], 8, $toLatin1('Días'), 1, 0, 'C');
-                    $pdf->Cell($anchos[6], 8, $toLatin1('Valor Día'), 1, 0, 'C');
-                    $pdf->Cell($anchos[7], 8, $toLatin1('Total'), 1, 1, 'C');
-                    $pdf->SetFont('Arial', '', 8);
+                    $pdf->Cell($anchos[0], 7, $toLatin1('Funcionario'), 1, 0, 'C');
+                    $pdf->Cell($anchos[1], 7, $toLatin1('Cargo'), 1, 0, 'C');
+                    $pdf->Cell($anchos[2], 7, $toLatin1('Motivo'), 1, 0, 'C');
+                    $pdf->Cell($anchos[3], 7, $toLatin1('Ciudad'), 1, 0, 'C');
+                    $pdf->Cell($anchos[4], 7, $toLatin1('Días'), 1, 0, 'C');
+                    $pdf->Cell($anchos[5], 7, $toLatin1('Valor Día'), 1, 0, 'C');
+                    $pdf->Cell($anchos[8], 7, $toLatin1('Total'), 1, 1, 'C');
+                    $pdf->SetFont('Arial', '', 7);
                 }
                 $pdf->SetX(14);
+                $pdf->SetFont('Arial', '', 7);
                 $pdf->Cell($anchos[0], $hBase, $recortarTexto($pdf, $toLatin1($viatico['nombre_completo'] ?? ''), $anchos[0]), 1, 0, 'L');
                 $pdf->Cell($anchos[1], $hBase, $recortarTexto($pdf, $toLatin1($viatico['cargo'] ?? ''), $anchos[1]), 1, 0, 'L');
-                $pdf->Cell($anchos[2], $hBase, $recortarTexto($pdf, $toLatin1($viatico['dependencia'] ?? ''), $anchos[2]), 1, 0, 'L');
-                $pdf->Cell($anchos[3], $hBase, $recortarTexto($pdf, $toLatin1($viatico['motivo_gasto'] ?? ''), $anchos[3]), 1, 0, 'L');
-                $pdf->Cell($anchos[4], $hBase, $recortarTexto($pdf, $toLatin1($viatico['lugar_comision_ciudad'] ?? ''), $anchos[4]), 1, 0, 'L');
-                $pdf->Cell($anchos[5], $hBase, $viatico['n_dias'] ?? '', 1, 0, 'C');
-                $pdf->Cell($anchos[6], $hBase, $formatoPesos($viatico['valor_dia'] ?? 0), 1, 0, 'R');
-                $pdf->Cell($anchos[7], $hBase, $formatoPesos($viatico['total_liquidado'] ?? $viatico['monto'] ?? 0), 1, 1, 'R');
+                $pdf->Cell($anchos[2], $hBase, $recortarTexto($pdf, $toLatin1($viatico['motivo_gasto'] ?? ''), $anchos[2]), 1, 0, 'L');
+                $pdf->Cell($anchos[3], $hBase, $recortarTexto($pdf, $toLatin1($viatico['lugar_comision_ciudad'] ?? ''), $anchos[3]), 1, 0, 'L');
+                $pdf->Cell($anchos[4], $hBase, $viatico['n_dias'] ?? '', 1, 0, 'C');
+                $pdf->Cell($anchos[5], $hBase, $formatoPesos($viatico['valor_dia'] ?? 0), 1, 0, 'R');
+                $pdf->Cell($anchos[8], $hBase, $formatoPesos($viatico['total_liquidado'] ?? $viatico['monto'] ?? 0), 1, 1, 'R');
             }
             // Resumen de Viáticos
             $pdf->Ln(5);
