@@ -45,7 +45,7 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="text-dark">Nombre:</th>
-                                <td id="celNombre" class="text-dark"></td>
+                                <td id="celNombre" class="text-dark text-break"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -58,4 +58,11 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
+<!-- Agrego estilos en línea para asegurar el ajuste de texto largo en la celda del nombre -->
+<style>
+    #modalViewDependencias .text-break {
+        word-break: break-word !important;
+        white-space: normal !important;
+    }
+</style> 
