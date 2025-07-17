@@ -1,19 +1,28 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Configuración SMTP (Gmail)
-$smtpHost = 'smtp.gmail.com';
-$smtpPort = 587;
-$smtpUser = 'ssamicamvpn@gmail.com'; // Cambia esto por tu correo de Gmail
-$smtpPass = 'q v b w v l q o r a k h j r x m'; // Cambia esto por tu contraseña o app password
+/**
+ * Función para enviar correo de notificación cuando se asigna una tarea
+ * 
+ * @param string $emailUsuario Correo electrónico del usuario
+ * @param string $nombreUsuario Nombre del usuario
+ * @param array $datosTarea Arreglo con los datos de la tarea (título, descripción, fechas, etc)
+ * @return bool True si se envió correctamente, False en caso contrario
+ */
+function enviarCorreoTareaAsignada($emailUsuario, $nombreUsuario, $datosTarea) {
+    // Configuración SMTP (Gmail)
+    $smtpHost = 'smtp.gmail.com';
+    $smtpPort = 587;
+    $smtpUser = 'ssamicamvpn@gmail.com'; // Cambia esto por tu correo de Gmail
+    $smtpPass = 'q v b w v l q o r a k h j r x m'; // Cambia esto por tu contraseña o app password
 
-// Datos del correo
-$para = 'helias.iguaran@gmail.com'; // Cambia esto por el correo real de destino
-$asunto = 'Nueva Tarea Asignada - SAMICAM';
-$mensaje = '<!DOCTYPE html>
+    // Datos del correo
+    $para = $emailUsuario;
+    $asunto = 'Nueva Tarea Asignada - SAMICAM';
+    $mensaje = '<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -145,11 +154,11 @@ $mensaje = '<!DOCTYPE html>
         <div class="contenido">
             <img src="https://i.ibb.co/G3nJnfz3/icono.png" alt="Logo Samicam" width="400px">
 
-            <p class="saludo">📢 ¡Hola Carlos!</p>
+            <p class="saludo">📢 ¡Hola ' . $nombreUsuario . '!</p>
 
             <div class="mensaje">
                 <p>
-                    Te informamos que se ha <strong>asignado una nueva tarea</strong> en tu perfil a partir del <strong>15 de noviembre de 2023</strong>.
+                    Te informamos que se ha <strong>asignado una nueva tarea</strong> en tu perfil a partir del <strong>' . $datosTarea['fecha_inicio'] . '</strong>.
                 </p>
 
                 <div class="destacado">
@@ -158,13 +167,14 @@ $mensaje = '<!DOCTYPE html>
 
                 <p>Detalles importantes:</p>
                 <ul>
-                    <li><strong>Fecha de inicio:</strong> 15 de noviembre de 2025</li>
-                    <li><strong>Fecha de fin:</strong> 30 de noviembre de 2025</li>
-                    <li><strong>Responsable:</strong> Carlos Pérez</li>
-                    <li><strong>Descripción:</strong> Revisión de políticas actualizadas</li>
+                    <li><strong>Título:</strong> ' . $datosTarea['titulo'] . '</li>
+                    <li><strong>Fecha de inicio:</strong> ' . $datosTarea['fecha_inicio'] . '</li>
+                    <li><strong>Fecha de fin:</strong> ' . $datosTarea['fecha_fin'] . '</li>
+                    <li><strong>Prioridad:</strong> ' . $datosTarea['prioridad'] . '</li>
+                    <li><strong>Descripción:</strong> ' . $datosTarea['descripcion'] . '</li>
                 </ul>
             </div>
-<a href="https://100.85.55.128:4443/samicam/tareas" class="boton" style="color: white !important; background-color: #007BFF; padding: 10px; text-decoration: none; border-radius: 5px;">📌 Ver Tarea</a>
+<a href="' . $datosTarea['url_tarea'] . '" class="boton" style="color: white !important; background-color: #007BFF; padding: 10px; text-decoration: none; border-radius: 5px;">📌 Ver Tarea</a>
 
         </div>
 
@@ -180,31 +190,34 @@ $mensaje = '<!DOCTYPE html>
 
 ';
 
-// Crear instancia de PHPMailer
-$mail = new PHPMailer(true);
+    // Crear instancia de PHPMailer
+    $mail = new PHPMailer(true);
 
-try {
-    // Configuración del servidor
-    $mail->isSMTP();
-    $mail->Host = $smtpHost;
-    $mail->SMTPAuth = true;
-    $mail->Username = $smtpUser;
-    $mail->Password = $smtpPass;
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = $smtpPort;
+    try {
+        // Configuración del servidor
+        $mail->isSMTP();
+        $mail->Host = $smtpHost;
+        $mail->SMTPAuth = true;
+        $mail->Username = $smtpUser;
+        $mail->Password = $smtpPass;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = $smtpPort;
 
-    // Remitente y destinatario
-    $mail->setFrom($smtpUser, 'SAMICAM');
-    $mail->addAddress($para);
+        // Remitente y destinatario
+        $mail->setFrom($smtpUser, 'SAMICAM');
+        $mail->addAddress($para);
 
-    // Contenido
-    $mail->isHTML(true);
-    $mail->Subject = $asunto;
-    $mail->Body    = $mensaje;
-    $mail->AltBody = 'Nueva tarea asignada en SAMICAM. Por favor revisa los detalles en tu perfil.';
+        // Contenido
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body    = $mensaje;
+        $mail->AltBody = 'Nueva tarea asignada en SAMICAM: ' . $datosTarea['titulo'] . '. Por favor revisa los detalles en tu perfil.';
 
-    $mail->send();
-    echo 'Correo enviado correctamente a ' . $para;
-} catch (Exception $e) {
-    echo 'Error al enviar el correo. Mailer Error: ', $mail->ErrorInfo;
-} 
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        // Registrar el error en el log del sistema
+        error_log('Error al enviar correo a ' . $para . ': ' . $mail->ErrorInfo);
+        return false;
+    }
+}

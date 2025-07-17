@@ -195,6 +195,7 @@
                 $fecha_inicio = isset($_POST['txtFechaInicio']) ? $_POST['txtFechaInicio'] : '';
                 $fecha_fin = isset($_POST['txtFechaFin']) ? $_POST['txtFechaFin'] : '';
                 $observacion = isset($_POST['txtObservacion']) ? $_POST['txtObservacion'] : '';
+                $prioridad = isset($_POST['listPrioridad']) ? $_POST['listPrioridad'] : 'Media';
 
                 // Debug: Log las variables procesadas
                 error_log("Variables procesadas:");
@@ -206,6 +207,7 @@
                 error_log("fecha_inicio: " . $fecha_inicio);
                 error_log("fecha_fin: " . $fecha_fin);
                 error_log("observacion: " . $observacion);
+                error_log("prioridad: " . $prioridad);
 
                 // Verificar permisos
                 if ($id_tarea == 0) {
@@ -289,12 +291,27 @@
                     // Enviar respuesta inmediatamente
                     echo json_encode($arrResponse);
                     
+                    // Enviar notificaciones en segundo plano
+                    if (function_exists('fastcgi_finish_request')) {
+                        fastcgi_finish_request();
+                    }
+                    
+                    // Enviar correos electrónicos a los usuarios asignados
+                    if ($id_tarea == 0 && !empty($usuarios_info)) {
+                        $this->enviarCorreosNotificacion($usuarios_info, [
+                            'titulo' => $descripcion,
+                            'descripcion' => $observacion,
+                            'tipo' => $tipo,
+                            'prioridad' => $prioridad,
+                            'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
+                            'fecha_inicio' => $fecha_inicio,
+                            'fecha_fin' => $fecha_fin,
+                            'url_tarea' => base_url().'/tareas'
+                        ]);
+                    }
+                    
                     // Enviar WhatsApp en segundo plano solo para nuevas tareas
                     if ($id_tarea == 0 && !empty($usuarios_info)) {
-                        if (function_exists('fastcgi_finish_request')) {
-                            fastcgi_finish_request();
-                        }
-                        
                         $this->enviarNotificacionesWhatsApp($usuarios_info, [
                             'descripcion' => $descripcion,
                             'tipo' => $tipo,
@@ -496,6 +513,36 @@
             }
             echo $htmlOptions;
             die();
+        }
+
+        /**
+         * Envía correos electrónicos a los usuarios asignados a una tarea
+         * @param array $usuarios_info Información de los usuarios
+         * @param array $tarea_info Información de la tarea
+         */
+        private function enviarCorreosNotificacion($usuarios_info, $tarea_info)
+        {
+            try {
+                // Incluir el helper de correo
+                require_once "Helpers/enviar_correo.php";
+                
+                // Enviar correos a cada usuario
+                foreach ($usuarios_info as $usuario) {
+                    // Usar el correo del usuario de la tabla tbl_usuarios
+                    if (!empty($usuario['correo'])) {
+                        enviarCorreoTareaAsignada(
+                            $usuario['correo'],
+                            $usuario['nombres'],
+                            $tarea_info
+                        );
+                        
+                        // Log de envío
+                        error_log("Correo enviado a {$usuario['nombres']} ({$usuario['correo']})");
+                    }
+                }
+            } catch (Exception $e) {
+                error_log("Error en envío de correos: " . $e->getMessage());
+            }
         }
 
         /**
