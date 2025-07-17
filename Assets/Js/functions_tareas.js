@@ -435,6 +435,13 @@ function fntDelTarea(idtarea) {
         closeOnCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Eliminando...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Tareas/delTarea';
             let strData = "idTarea="+idtarea;
@@ -443,6 +450,7 @@ function fntDelTarea(idtarea) {
             request.send(strData);
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
+                    Swal.close();
                     let objData = JSON.parse(request.responseText);
                     if(objData.status) {
                         Swal.fire("Eliminar!", objData.msg, "success");
