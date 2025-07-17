@@ -37,7 +37,7 @@ function enviarCorreoTareaAsignada($emailUsuario, $nombreUsuario, $datosTarea) {
                     <path d="M12 8V12" stroke="#4A5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12 16H12.01" stroke="#4A5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Hola ' . $nombreUsuario . ' ?>
+                Hola ' . $nombreUsuario . ' !
             </p>
 
             <div style="margin-bottom: 20px; color: #2d3748; font-size: 14px;">
@@ -63,7 +63,7 @@ function enviarCorreoTareaAsignada($emailUsuario, $nombreUsuario, $datosTarea) {
                 </div>
                 <div style="display: flex; margin-bottom: 12px; font-size: 14px;">
                     <span style="font-weight: 600; min-width: 100px; color: #1a365d;">Descripción:</span>
-                    <span style="flex: 1;">' . $datosTarea['fecha_titulo'] . '</span>
+                    <span style="flex: 1;">' . $datosTarea['titulo'] . '</span>
                 </div>
             </div>
 
