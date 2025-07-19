@@ -163,8 +163,3 @@ function initUserTasksLineChart() {
     });
 }
 
-// Función para actualizar las gráficas (si se necesita en el futuro)
-function updateUserDashboardCharts() {
-    // Aquí se pueden agregar llamadas AJAX para actualizar los datos
-    console.log('Actualizando gráficas del dashboard de usuario...');
-}

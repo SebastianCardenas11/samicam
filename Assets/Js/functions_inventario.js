@@ -83,11 +83,11 @@ function initDataTables() {
                         buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i></button> &nbsp;`;
                         buttons += `</div>`;
                         
-                        // Botón Entrada/Salida según disponibilidad
-                        if(row.disponibilidad === 'Disponible') {
-                            buttons += `<button class='btn btn-success btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
-                        } else {
+                        // Lógica basada en el último movimiento
+                        if(row.ultimo_movimiento === 'entrada') {
                             buttons += `<button class='btn btn-danger btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-success btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -783,12 +783,8 @@ function editImpresora(idImpresora) {
     fetch(base_url + '/Inventario/getImpresora/' + idImpresora)
         .then(response => response.json())
         .then(data => {
-            console.log('Datos recibidos del servidor:', data);
             if (data.status) {
                 const impresora = data.data;
-                console.log('Datos de la impresora:', impresora);
-                console.log('Estado:', impresora.estado);
-                console.log('Disponibilidad:', impresora.disponibilidad);
                 currentForm = 'impresora';
                 showForm('impresora');
                 
@@ -809,7 +805,6 @@ function editImpresora(idImpresora) {
 }
 
 function saveImpresora() {
-    console.log('=== INICIANDO GUARDADO DE IMPRESORA ===');
     
     // Validación detallada de campos
     const campos = {
@@ -822,7 +817,6 @@ function saveImpresora() {
         'txtDisponibilidad': $('#txtDisponibilidad').val()
     };
     
-    console.log('Valores de campos:', campos);
     
     // Verificar campos obligatorios
     const camposObligatorios = ['txtNumeroImpresora', 'txtMarca', 'txtModelo', 'txtEstado', 'txtDisponibilidad'];
@@ -840,7 +834,6 @@ function saveImpresora() {
     
     if ($('#formImpresora')[0].checkValidity()) {
         const formData = $('#formImpresora').serialize();
-        console.log('Datos del formulario serializado:', formData);
         
         $.ajax({
             url: base_url + '/Inventario/setImpresora',
@@ -848,10 +841,9 @@ function saveImpresora() {
             data: formData,
             dataType: 'json',
             beforeSend: function() {
-                console.log('Enviando petición AJAX a:', base_url + '/Inventario/setImpresora');
+                console.log('');
             },
             success: function(response) {
-                console.log('Respuesta del servidor:', response);
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formImpresora')[0].reset();
@@ -879,7 +871,6 @@ function saveImpresora() {
             }
         });
     } else {
-        console.log('Formulario no válido según checkValidity()');
         $('#formImpresora')[0].reportValidity();
     }
 }
@@ -1258,7 +1249,6 @@ function editPcTorre(idPcTorre) {
 function savePcTorre() {
     if ($('#formPcTorre')[0].checkValidity()) {
         var formData = $('#formPcTorre').serialize();
-        console.log('Datos serializados PC Torre:', formData);
         $.ajax({
             url: base_url + '/Inventario/setPcTorre',
             type: 'POST',
@@ -1274,10 +1264,7 @@ function savePcTorre() {
                     swal.fire("¡Éxito!", response.msg, "success");
                 } else {
                     swal.fire("Error", response.msg, "error");
-                    if (response.debug) {
-                        console.log('DEBUG SQL QUERY:', response.debug.query);
-                        console.log('DEBUG SQL DATA:', response.debug.data);
-                    }
+                   
                 }
             },
             error: function() {
@@ -1824,33 +1811,66 @@ function showVerModal(titulo, filas) {
 
 // --- MOVIMIENTOS DE EQUIPO ---
 function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
-    // Limpiar el formulario por completo
-    document.getElementById('formMovimientoEquipo').reset();
-    
-    // Establecer los valores
+    // Verifica que el modal y el formulario existen
+    const modalEl = document.getElementById('modalMovimientoEquipo');
+    const formMovimiento = document.getElementById('formMovimientoEquipo');
+    if (!modalEl || !formMovimiento) {
+        Swal.fire('Error', 'No se encontró el formulario de movimiento.', 'error');
+        return;
+    }
+
+    formMovimiento.reset();
     document.getElementById('mov_idEquipo').value = idEquipo;
     document.getElementById('mov_tipoEquipo').value = tipoEquipo;
     document.getElementById('mov_tipoMovimiento').value = tipoMovimiento;
-    
-    // Personalizar el título según el tipo de movimiento
-    let tipoEquipoTexto = '';
-    switch(tipoEquipo) {
-        case 'impresora': tipoEquipoTexto = 'Impresora'; break;
-        case 'escaner': tipoEquipoTexto = 'Escáner'; break;
-        case 'pc_torre': tipoEquipoTexto = 'PC Torre'; break;
-        case 'todo_en_uno': tipoEquipoTexto = 'PC Todo en Uno'; break;
-        case 'portatil': tipoEquipoTexto = 'Portátil'; break;
-        default: tipoEquipoTexto = 'Equipo';
-    }
-    
-    let label = tipoMovimiento === 'entrada' ? 
-        `Registrar Entrada a Mantenimiento - ${tipoEquipoTexto} #${idEquipo}` : 
-        `Registrar Salida de Mantenimiento - ${tipoEquipoTexto} #${idEquipo}`;
-    
+
+    let label = tipoMovimiento === 'entrada'
+        ? 'Registrar Entrada a Mantenimiento - ' + tipoEquipo.charAt(0).toUpperCase() + tipoEquipo.slice(1) + ' #' + idEquipo
+        : 'Registrar Salida de Mantenimiento - ' + tipoEquipo.charAt(0).toUpperCase() + tipoEquipo.slice(1) + ' #' + idEquipo;
     document.getElementById('modalMovimientoEquipoLabel').textContent = label;
-    
-    // Mostrar el modal
-    let modal = new bootstrap.Modal(document.getElementById('modalMovimientoEquipo'));
+
+    // Eliminar cualquier listener anterior
+    formMovimiento.onsubmit = null;
+
+    // Asignar el nuevo listener
+    formMovimiento.onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(formMovimiento);
+        const submitBtn = formMovimiento.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        fetch(base_url + '/Inventario/setMovimientoEquipo', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(function(response) {
+            submitBtn.disabled = false;
+            // Cerrar el modal solo si la respuesta es exitosa
+            if(response && response.status) {
+                Swal.fire('¡Éxito!', 'Movimiento registrado correctamente', 'success');
+                // Recargar la tabla correspondiente
+                if (typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload(null, false);
+                if (typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload(null, false);
+                if (typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload(null, false);
+                if (typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload(null, false);
+                if (typeof tblEscaneres !== 'undefined') tblEscaneres.ajax.reload(null, false);
+                // Cerrar el modal después de un pequeño delay para que se vea la alerta
+                setTimeout(() => {
+                    let modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+                }, 500);
+            } else {
+                Swal.fire('Error', response && response.msg ? response.msg : 'Error al registrar el movimiento', 'error');
+            }
+        })
+        .catch(function(error) {
+            submitBtn.disabled = false;
+            Swal.fire('Error', 'Error al registrar el movimiento', 'error');
+        });
+    };
+
+    // Siempre crea una nueva instancia del modal para evitar conflictos
+    let modal = new bootstrap.Modal(modalEl);
     modal.show();
 }
 

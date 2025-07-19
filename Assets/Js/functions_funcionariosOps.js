@@ -211,10 +211,7 @@ document.addEventListener(
 
         let formData = new FormData(formFuncionariosOps);
         
-        // Depuración - mostrar datos que se están enviando
-        for (let pair of formData.entries()) {
-          console.log(pair[0] + ': ' + pair[1]);
-        }
+        
 
         let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         let ajaxUrl = base_url + '/funcionariosOps/setFuncionario';

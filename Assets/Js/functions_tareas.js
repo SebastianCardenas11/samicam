@@ -332,7 +332,6 @@ function fntViewTarea(idtarea) {
             }
         } catch (e) {
             console.error("Error al parsear JSON:", e);
-            console.log("Respuesta recibida:", request.responseText);
             Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
         }
         }
@@ -408,7 +407,6 @@ function fntEditTarea(idtarea) {
             }
         } catch (e) {
             console.error("Error al parsear JSON:", e);
-            console.log("Respuesta recibida:", request.responseText);
             Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
         }
         }

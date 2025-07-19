@@ -140,7 +140,6 @@ function obtenerPermisosUsuario() {
         request.onreadystatechange = function() {
             if(request.readyState == 4 && request.status == 200) {
                 permisosUsuario = JSON.parse(request.responseText);
-                console.log('Permisos cargados:', permisosUsuario);
                 resolve(permisosUsuario);
             } else if(request.readyState == 4 && request.status !== 200) {
                 console.error('Error al obtener permisos:', request.status, request.statusText);
@@ -699,7 +698,3 @@ function actualizarPermisosYRecargar() {
     });
 }
 
-function debugPermisos() {
-    console.log('Permisos actuales:', permisosUsuario);
-    console.log('¿Puede eliminar?', permisosUsuario.d);
-}

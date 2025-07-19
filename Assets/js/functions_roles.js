@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function(){
                     }
                 } catch (e) {
                     console.error("Error al procesar la respuesta:", e);
-                    console.log("Respuesta recibida:", request.responseText);
                     Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
                 }              
             } 
@@ -149,7 +148,6 @@ function fntEditRol(idrol){
                 }
             } catch (e) {
                 console.error("Error al procesar la respuesta:", e);
-                console.log("Respuesta recibida:", request.responseText);
                 Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
             }
         }
@@ -198,7 +196,6 @@ function fntDelRol(idrol){
                         }
                     } catch (e) {
                         console.error("Error al procesar la respuesta:", e);
-                        console.log("Respuesta recibida:", request.responseText);
                         Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
                     }
                 }
@@ -261,7 +258,6 @@ function fntSavePermisos(evnet){
                 }
             } catch (e) {
                 console.error("Error al procesar la respuesta:", e);
-                console.log("Respuesta recibida:", request.responseText);
                 Swal.fire("Error", "Error al procesar la respuesta del servidor", "error");
             }
         }

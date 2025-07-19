@@ -5,7 +5,6 @@ let chartIngresos = null;
 let chartBubble = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM cargado, verificando elementos de gráficos...');
     
     // Solo inicializar si estamos en la página del dashboard
     const chartElements = [
@@ -17,18 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const hasChartElements = chartElements.some(element => element !== null);
     
     if (hasChartElements) {
-        console.log('Elementos de gráficos encontrados, inicializando...');
         // Pequeño retraso para asegurar que todo esté listo
         setTimeout(() => {
             inicializarGraficos();
         }, 100);
-    } else {
-        console.log('No se encontraron elementos de gráficos en esta página');
-    }
+    } 
 });
 
 function inicializarGraficos() {
-    console.log('Inicializando gráficos del dashboard...');
     
     // Verificar que Chart.js esté disponible
     if (typeof Chart === 'undefined') {
@@ -36,7 +31,6 @@ function inicializarGraficos() {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
         script.onload = function() {
-            console.log('Chart.js cargado dinámicamente');
             setTimeout(inicializarGraficos, 100);
         };
         document.head.appendChild(script);
@@ -45,17 +39,13 @@ function inicializarGraficos() {
     
     // Inicializar gráfico de funcionarios por cargo
     if (document.getElementById('chart-bars')) {
-        console.log('Inicializando gráfico de funcionarios por cargo...');
         setTimeout(() => {
             cargarFuncionariosPorCargo();
         }, 200);
-    } else {
-        console.warn('Elemento chart-bars no encontrado');
     }
     
     // Inicializar gráfico de ingresos por mes
     if (document.getElementById('chart-ingresos')) {
-        console.log('Inicializando gráfico de ingresos...');
         setTimeout(() => {
             cargarGraficaIngresos();
         }, 300);
@@ -65,7 +55,6 @@ function inicializarGraficos() {
     
     // Inicializar bubble chart
     if (document.getElementById('chart-bubble')) {
-        console.log('Inicializando bubble chart...');
         setTimeout(() => {
             cargarBubbleChart();
         }, 400);
@@ -75,18 +64,15 @@ function inicializarGraficos() {
 }
 
 function cargarFuncionariosPorCargo() {
-    console.log('Iniciando carga de funcionarios por cargo...');
     
     fetch(base_url + '/Dashboard/getFuncionariosPorCargo')
         .then(response => {
-            console.log('Respuesta del servidor:', response.status);
             if (!response.ok) {
                 throw new Error('Error en la respuesta del servidor: ' + response.status);
             }
             return response.json();
         })
         .then(data => {
-            console.log('Datos recibidos de funcionarios por cargo:', data);
             
             if (data && data.length > 0) {
                 const ctx = document.getElementById('chart-bars');
@@ -198,9 +184,7 @@ function cargarFuncionariosPorCargo() {
                     },
                 });
                 
-                console.log('Gráfico de funcionarios por cargo cargado exitosamente');
             } else {
-                console.warn('No hay datos de funcionarios por cargo disponibles');
                 // Mostrar mensaje en el canvas
                 const ctx = document.getElementById('chart-bars');
                 if (ctx) {
@@ -347,7 +331,6 @@ function cargarBubbleChart() {
             return response.json();
         })
         .then(data => {
-            console.log('Datos recibidos para bubble chart:', data); // DEPURACIÓN
             const ctx = document.getElementById('chart-bubble');
             if (!ctx) {
                 console.error('No se encontró el elemento canvas #chart-bubble');

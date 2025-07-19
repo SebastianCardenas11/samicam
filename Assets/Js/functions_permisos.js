@@ -270,8 +270,6 @@ function mostrarEstadisticas() {
         data: { anio: new Date().getFullYear() },
         success: function(response) {
             const estadisticas = JSON.parse(response);
-            // Implementar gráficas con Chart.js
-            console.log('Estadísticas:', estadisticas);
         },
         error: function() {
             Swal.fire('Error', 'No se pudieron cargar las estadísticas', 'error');

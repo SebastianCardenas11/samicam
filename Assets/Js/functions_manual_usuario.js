@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function inicializarManual() {
-    console.log('Manual de Usuario SAMICAM inicializado');
     
     // Resaltar sección activa en el menú
     resaltarSeccionActiva();

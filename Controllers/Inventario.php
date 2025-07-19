@@ -33,6 +33,12 @@ class Inventario extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             try {
                 $arrData = $this->model->selectImpresoras();
+                // Agregar el último movimiento a cada impresora
+                foreach ($arrData as &$impresora) {
+                    $ultimo = $this->model->getUltimoMovimientoEquipo($impresora['id_impresora'], 'impresora');
+                    $impresora['ultimo_movimiento'] = $ultimo ? $ultimo['tipo_movimiento'] : null;
+                }
+                unset($impresora);
                 error_log('Datos obtenidos: ' . print_r($arrData, true));
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
@@ -923,9 +929,11 @@ class Inventario extends Controllers
                 }
             }
             
-            // Actualizar disponibilidad del equipo según el tipo de movimiento
-            $disponibilidad = ($tipoMovimiento == 'entrada') ? 'No Disponible' : 'Disponible';
-            $this->model->actualizarDisponibilidadEquipo($idEquipo, $tipoEquipo, $disponibilidad);
+            // Solo cambiar disponibilidad en salidas
+            if ($tipoMovimiento == 'salida') {
+                $this->model->actualizarDisponibilidadEquipo($idEquipo, $tipoEquipo, 'Disponible');
+            }
+            // Si es entrada, NO cambiar la disponibilidad
             
             $request = $this->model->insertMovimientoEquipo($idEquipo, $tipoEquipo, $tipoMovimiento, $observacion, $usuario);
             if ($request > 0) {
