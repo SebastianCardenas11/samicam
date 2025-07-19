@@ -10,17 +10,83 @@ let tblPortatiles;
 let tblHerramientas;
 let tblHistoricoGlobal;
 let currentForm = 'impresora';
-let funcionariosPlanta = [];
+
+// ==================== FUNCIONES HELPER ====================
+
+// Función helper para manejar respuestas de fetch de forma robusta
+async function fetchJSON(url, options = {}) {
+    try {
+        const response = await fetch(url, options);
+        
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // Intentar parsear JSON directamente
+        try {
+            const jsonData = await response.json();
+            return jsonData;
+        } catch (jsonError) {
+            // Si falla el parseo JSON, verificar el tipo de contenido
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                // Si el header dice que es JSON pero falló el parseo, mostrar el error
+                const text = await response.text();
+                console.error('Respuesta JSON inválida:', text.substring(0, 200));
+                throw new Error('El servidor devolvió JSON inválido');
+            } else {
+                // Si no es JSON según el header, intentar parsear de todas formas
+                const text = await response.text();
+                try {
+                    const jsonData = JSON.parse(text);
+                    return jsonData;
+                } catch (parseError) {
+                    console.error('Respuesta no JSON recibida:', text.substring(0, 200));
+                    throw new Error('El servidor no devolvió JSON válido');
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error en fetchJSON:', error);
+        throw error;
+    }
+}
+
+// Configuración de idioma para DataTables
+const dataTableLanguage = {
+    "sProcessing":     "Procesando...",
+    "sLengthMenu":     "Mostrar _MENU_ registros",
+    "sZeroRecords":    "No se encontraron resultados",
+    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+    "sInfoPostFix":    "",
+    "sSearch":         "Buscar:",
+    "sUrl":            "",
+    "sInfoThousands":  ",",
+    "sLoadingRecords": "Cargando...",
+    "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+    },
+    "oAria": {
+        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+    }
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar DataTables
     initDataTables();
     
-    // Cargar listas de selección
-    loadDependencias();
-    loadFuncionarios();
-    loadCargos();
-    loadContactos();
+    // Cargar datos iniciales
+    // loadDependencias(); // Eliminado - no se usa en inventario
+    // loadFuncionarios(); // Eliminado - no se usa en inventario
+    // loadCargos(); // Eliminado - no se usa en inventario
     
     // Event listeners
     setupEventListeners();
@@ -32,9 +98,7 @@ function initDataTables() {
         tblImpresoras = $('#tablaImpresoras').DataTable({
             "processing": true,
             "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
+            "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getImpresoras",
                 "dataSrc": ""
@@ -105,9 +169,7 @@ function initDataTables() {
         tblEscaneres = $('#tablaEscaneres').DataTable({
             "processing": true,
             "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
+            "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getEscaneres",
                 "dataSrc": ""
@@ -182,9 +244,7 @@ function initDataTables() {
     tblPapeleria = $('#tablaPapeleria').DataTable({
         "processing": true,
         "serverSide": false,
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-        },
+        "language": dataTableLanguage,
         "ajax": {
             "url": base_url + "/Inventario/getPapeleria",
             "dataSrc": ""
@@ -207,9 +267,7 @@ function initDataTables() {
     tblTintasToner = $('#tablaTintasToner').DataTable({
         "processing": true,
         "serverSide": false,
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-        },
+        "language": dataTableLanguage,
         "ajax": {
             "url": base_url + "/Inventario/getTintasToner",
             "dataSrc": ""
@@ -232,9 +290,7 @@ function initDataTables() {
         tblPcTorre = $('#tablaPcTorre').DataTable({
             "processing": true,
             "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
+            "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getPcTorre",
                 "dataSrc": ""
@@ -317,9 +373,7 @@ function initDataTables() {
         tblTodoEnUno = $('#tablaTodoEnUno').DataTable({
             "processing": true,
             "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
+            "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getTodoEnUno",
                 "dataSrc": ""
@@ -401,9 +455,7 @@ function initDataTables() {
         tblPortatiles = $('#tablaPortatiles').DataTable({
             "processing": true,
             "serverSide": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-            },
+            "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getPortatiles",
                 "dataSrc": ""
@@ -487,14 +539,12 @@ function initDataTables() {
     tblHerramientas = $('#tablaHerramientas').DataTable({
         "processing": true,
         "serverSide": false,
-        "language": {
-            "url": "./es.json"
-        },
+        "language": dataTableLanguage,
         "ajax": {
             "url": base_url + "/Inventario/getHerramientas",
             "dataSrc": "",
             "error": function(xhr, error, code) {
-                console.log('Error en AJAX:', xhr.responseText);
+                // Error en AJAX
             }
         },
         "columns": [
@@ -593,78 +643,11 @@ function setupEventListeners() {
 
 // ==================== FUNCIONES DE CARGA ====================
 
-function loadDependencias() {
-    fetch(base_url + '/Inventario/getDependencias')
-        .then(response => response.json())
-        .then(data => {
-            const selects = ['listDependencia', 'listDependenciaEscaner', 'listDependenciaPapeleria'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                if (select) {
-                    select.innerHTML = '<option value="">Seleccione...</option>';
-                    data.forEach(item => {
-                        select.innerHTML += `<option value="${item.id_dependencia}">${item.nombre_dependencia}</option>`;
-                    });
-                }
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
 
-function loadFuncionarios() {
-    fetch(base_url + '/Inventario/getFuncionarios')
-        .then(response => response.json())
-        .then(data => {
-            funcionariosPlanta = data; // Guardar el array completo para uso posterior
-            const selects = ['listFuncionario', 'listFuncionarioEscaner', 'listFuncionarioPapeleria'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                if (select) {
-                    select.innerHTML = '<option value="">Seleccione...</option>';
-                    data.forEach(item => {
-                        select.innerHTML += `<option value="${item.id_funcionario}">${item.nombre_completo}</option>`;
-                    });
-                }
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
 
-function loadCargos() {
-    fetch(base_url + '/Inventario/getCargos')
-        .then(response => response.json())
-        .then(data => {
-            const selects = ['listCargo', 'listCargoEscaner', 'listCargoPapeleria'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                if (select) {
-                    select.innerHTML = '<option value="">Seleccione...</option>';
-                    data.forEach(item => {
-                        select.innerHTML += `<option value="${item.id_cargo}">${item.nombre_cargo}</option>`;
-                    });
-                }
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
 
-function loadContactos() {
-    fetch(base_url + '/Inventario/getContactos')
-        .then(response => response.json())
-        .then(data => {
-            const selects = ['listContacto', 'listContactoEscaner', 'listContactoPapeleria'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                if (select) {
-                    select.innerHTML = '<option value="">Seleccione...</option>';
-                    data.forEach(item => {
-                        select.innerHTML += `<option value="${item.id_contacto}">${item.nombre_contacto}</option>`;
-                    });
-                }
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
+
+
 
 // ==================== FUNCIONES DE MODAL ====================
 
@@ -841,7 +824,7 @@ function saveImpresora() {
             data: formData,
             dataType: 'json',
             beforeSend: function() {
-                console.log('');
+                // Enviando datos
             },
             success: function(response) {
                 if (response.status) {
@@ -1626,26 +1609,7 @@ function delHerramienta(idHerramienta) {
     });
 }
 
-// Autocompletar dependencia, cargo y contacto al seleccionar funcionario
-$(document).on('change', '#listFuncionario', function() {
-    const idFuncionario = $(this).val();
-    const funcionario = funcionariosPlanta.find(f => f.id_funcionario == idFuncionario);
-    if (funcionario) {
-        $('#txtDependencia').val(funcionario.nombre_dependencia);
-        $('#listDependencia').val(funcionario.id_dependencia);
-        $('#txtCargo').val(funcionario.nombre_cargo);
-        $('#listCargo').val(funcionario.id_cargo);
-        $('#txtContacto').val(funcionario.telefono);
-        $('#listContacto').val(funcionario.id_funcionario);
-    } else {
-        $('#txtDependencia').val('');
-        $('#listDependencia').val('');
-        $('#txtCargo').val('');
-        $('#listCargo').val('');
-        $('#txtContacto').val('');
-        $('#listContacto').val('');
-    }
-}); 
+
 
 // Función utilitaria para deshabilitar todos los campos de un formulario
 function setFormReadOnly(formSelector, readOnly = true) {
@@ -1811,130 +1775,106 @@ function showVerModal(titulo, filas) {
 
 // --- MOVIMIENTOS DE EQUIPO ---
 function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
-    // Verifica que el modal y el formulario existen
-    const modalEl = document.getElementById('modalMovimientoEquipo');
-    const formMovimiento = document.getElementById('formMovimientoEquipo');
-    if (!modalEl || !formMovimiento) {
-        Swal.fire('Error', 'No se encontró el formulario de movimiento.', 'error');
-        return;
+    // Eliminar cualquier modal existente
+    const existingModal = document.getElementById('modalMovimientoDinamico');
+    if (existingModal) {
+        existingModal.remove();
     }
-
-    formMovimiento.reset();
-    document.getElementById('mov_idEquipo').value = idEquipo;
-    document.getElementById('mov_tipoEquipo').value = tipoEquipo;
-    document.getElementById('mov_tipoMovimiento').value = tipoMovimiento;
-
-    let label = tipoMovimiento === 'entrada'
-        ? 'Registrar Entrada a Mantenimiento - ' + tipoEquipo.charAt(0).toUpperCase() + tipoEquipo.slice(1) + ' #' + idEquipo
-        : 'Registrar Salida de Mantenimiento - ' + tipoEquipo.charAt(0).toUpperCase() + tipoEquipo.slice(1) + ' #' + idEquipo;
-    document.getElementById('modalMovimientoEquipoLabel').textContent = label;
-
-    // Eliminar cualquier listener anterior
-    formMovimiento.onsubmit = null;
-
-    // Asignar el nuevo listener
+    
+    // Crear el modal dinámicamente
+    const modalHTML = `
+        <div class="modal fade" id="modalMovimientoDinamico" tabindex="-1" aria-labelledby="modalMovimientoDinamicoLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalMovimientoDinamicoLabel">
+                            ${tipoMovimiento === 'entrada' 
+                                ? `Registrar Entrada a Mantenimiento - ${tipoEquipo.charAt(0).toUpperCase() + tipoEquipo.slice(1)} #${idEquipo}`
+                                : `Registrar Salida de Mantenimiento - ${tipoEquipo.charAt(0).toUpperCase() + tipoEquipo.slice(1)} #${idEquipo}`
+                            }
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formMovimientoDinamico">
+                            <input type="hidden" id="mov_idEquipo_dinamico" name="idEquipo" value="${idEquipo}">
+                            <input type="hidden" id="mov_tipoEquipo_dinamico" name="tipoEquipo" value="${tipoEquipo}">
+                            <input type="hidden" id="mov_tipoMovimiento_dinamico" name="tipoMovimiento" value="${tipoMovimiento}">
+                            <div class="mb-3">
+                                <label for="mov_observacion_dinamico" class="form-label">Observación</label>
+                                <textarea class="form-control" id="mov_observacion_dinamico" name="observacion" rows="3" required placeholder="Motivo o detalle del movimiento..."></textarea>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Agregar el modal al body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Obtener referencias del nuevo modal
+    const modalEl = document.getElementById('modalMovimientoDinamico');
+    const formMovimiento = document.getElementById('formMovimientoDinamico');
+    
+    // Configurar el submit del formulario
     formMovimiento.onsubmit = function(e) {
         e.preventDefault();
+        
         const formData = new FormData(formMovimiento);
         const submitBtn = formMovimiento.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
+        if (submitBtn) submitBtn.disabled = true;
+        
         fetch(base_url + '/Inventario/setMovimientoEquipo', {
             method: 'POST',
             body: formData
         })
-        .then(res => res.json())
+        .then(response => response.json())
         .then(function(response) {
-            submitBtn.disabled = false;
-            // Cerrar el modal solo si la respuesta es exitosa
-            if(response && response.status) {
+            if (submitBtn) submitBtn.disabled = false;
+            
+            if (response && response.status) {
                 Swal.fire('¡Éxito!', 'Movimiento registrado correctamente', 'success');
-                // Recargar la tabla correspondiente
-                if (typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload(null, false);
-                if (typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload(null, false);
-                if (typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload(null, false);
-                if (typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload(null, false);
-                if (typeof tblEscaneres !== 'undefined') tblEscaneres.ajax.reload(null, false);
-                // Cerrar el modal después de un pequeño delay para que se vea la alerta
+                $('#modalMovimientoDinamico').modal('hide');
+                
+                // Recargar tablas
                 setTimeout(() => {
-                    let modal = bootstrap.Modal.getInstance(modalEl);
-                    if (modal) modal.hide();
+                    if (typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload();
+                    if (typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload();
+                    if (typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload();
+                    if (typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload();
+                    if (typeof tblEscanners !== 'undefined') tblEscanners.ajax.reload();
                 }, 500);
             } else {
                 Swal.fire('Error', response && response.msg ? response.msg : 'Error al registrar el movimiento', 'error');
             }
         })
         .catch(function(error) {
-            submitBtn.disabled = false;
-            Swal.fire('Error', 'Error al registrar el movimiento', 'error');
+            if (submitBtn) submitBtn.disabled = false;
+            console.error('Error:', error);
+            Swal.fire('Error', 'Error de conexión al registrar el movimiento', 'error');
         });
     };
-
-    // Siempre crea una nueva instancia del modal para evitar conflictos
-    let modal = new bootstrap.Modal(modalEl);
+    
+    // Event listener para limpiar el modal cuando se cierre
+    modalEl.addEventListener('hidden.bs.modal', function () {
+        setTimeout(() => {
+            if (modalEl && modalEl.parentNode) {
+                modalEl.remove();
+            }
+        }, 300);
+    });
+    
+    // Abrir el modal
+    const modal = new bootstrap.Modal(modalEl);
     modal.show();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const formMovimiento = document.getElementById('formMovimientoEquipo');
-    if(formMovimiento) {
-        formMovimiento.onsubmit = function(e) {
-            e.preventDefault();
-            const formData = new FormData(formMovimiento);
-            const tipoEquipo = document.getElementById('mov_tipoEquipo').value;
-            
-            // Deshabilitar el botón de envío para evitar múltiples envíos
-            const submitBtn = formMovimiento.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...';
-            
-            fetch(base_url + '/Inventario/setMovimientoEquipo', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(function(resp) {
-                if(resp.status) {
-                    $('#modalMovimientoEquipo').modal('hide');
-                    
-                    // Recargar la tabla correspondiente según el tipo de equipo
-                    switch(tipoEquipo) {
-                        case 'impresora':
-                            if(typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload();
-                            break;
-                        case 'escaner':
-                            if(typeof tblEscaneres !== 'undefined') tblEscaneres.ajax.reload();
-                            break;
-                        case 'pc_torre':
-                            if(typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload();
-                            break;
-                        case 'todo_en_uno':
-                            if(typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload();
-                            break;
-                        case 'portatil':
-                            if(typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload();
-                            break;
-                    }
-                    
-                    Swal.fire('Éxito', resp.msg, 'success');
-                } else {
-                    Swal.fire('Error', resp.msg, 'error');
-                }
-                
-                // Restaurar el botón
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Guardar';
-            })
-            .catch(function(error) {
-                console.error('Error:', error);
-                Swal.fire('Error', 'Ocurrió un error al procesar la solicitud', 'error');
-                
-                // Restaurar el botón
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Guardar';
-            });
-        }
-    }
-}); 
 // ==================== HISTÓRICO GLOBAL Y ESTADÍSTICAS ====================
 
 // Variables para los gráficos
@@ -1955,66 +1895,82 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initHistoricoGlobal() {
-    if ($.fn.DataTable.isDataTable('#tablaHistoricoGlobal')) {
-        $('#tablaHistoricoGlobal').DataTable().destroy();
-    }
-    
-    tblHistoricoGlobal = $('#tablaHistoricoGlobal').DataTable({
-        "processing": true,
-        "serverSide": false,
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-        },
-        "ajax": {
-            "url": base_url + "/Inventario/getHistoricoGlobal",
-            "dataSrc": function(json) {
-                return json.data || [];
+    try {
+        // Verificar si la tabla existe en el DOM
+        const tabla = document.getElementById('tablaHistoricoGlobal');
+        if (!tabla) {
+            console.warn('La tabla tablaHistoricoGlobal no existe en el DOM');
+            return;
+        }
+        
+        // Destruir la tabla existente de forma segura
+        if ($.fn.DataTable.isDataTable('#tablaHistoricoGlobal')) {
+            try {
+                $('#tablaHistoricoGlobal').DataTable().destroy();
+            } catch (error) {
+                console.warn('Error al destruir tabla existente:', error);
+                // Limpiar manualmente si es necesario
+                $('#tablaHistoricoGlobal').empty();
             }
-        },
-        "columns": [
-            { "data": "fecha_hora" },
-            { 
-                "data": "tipo_equipo",
-                "render": function(data) {
-                    switch(data) {
-                        case 'impresora': return 'Impresora';
-                        case 'escaner': return 'Escáner';
-                        case 'pc_torre': return 'PC Torre';
-                        case 'todo_en_uno': return 'Todo en Uno';
-                        case 'portatil': return 'Portátil';
-                        default: return data;
+        }
+        
+        // Crear nueva tabla
+        tblHistoricoGlobal = $('#tablaHistoricoGlobal').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "language": dataTableLanguage,
+            "ajax": {
+                "url": base_url + "/Inventario/getHistoricoGlobal",
+                "dataSrc": function(json) {
+                    return json.data || [];
+                }
+            },
+            "columns": [
+                { "data": "fecha_hora" },
+                { 
+                    "data": "tipo_equipo",
+                    "render": function(data) {
+                        switch(data) {
+                            case 'impresora': return 'Impresora';
+                            case 'escaner': return 'Escáner';
+                            case 'pc_torre': return 'PC Torre';
+                            case 'todo_en_uno': return 'Todo en Uno';
+                            case 'portatil': return 'Portátil';
+                            default: return data;
+                        }
                     }
-                }
-            },
-            { 
-                "data": null,
-                "render": function(data) {
-                    return data.nombre_equipo || `#${data.id_equipo}`;
-                }
-            },
-            { 
-                "data": "tipo_movimiento",
-                "render": function(data) {
-                    if (data === 'entrada') {
-                        return '<span class="badge bg-warning">Entrada a Mantenimiento</span>';
-                    } else {
-                        return '<span class="badge bg-success">Salida de Mantenimiento</span>';
+                },
+                { 
+                    "data": null,
+                    "render": function(data) {
+                        return data.nombre_equipo || `#${data.id_equipo}`;
                     }
-                }
-            },
-            { "data": "observacion" },
-            { "data": "usuario" }
-        ],
-        "responsive": true,
-        "bDestroy": true,
-        "iDisplayLength": 10,
-        "order": [[0, "desc"]]
-    });
+                },
+                { 
+                    "data": "tipo_movimiento",
+                    "render": function(data) {
+                        if (data === 'entrada') {
+                            return '<span class="badge bg-warning">Entrada a Mantenimiento</span>';
+                        } else {
+                            return '<span class="badge bg-success">Salida de Mantenimiento</span>';
+                        }
+                    }
+                },
+                { "data": "observacion" },
+                { "data": "usuario" }
+            ],
+            "responsive": true,
+            "bDestroy": true,
+            "iDisplayLength": 10,
+            "order": [[0, "desc"]]
+        });
+    } catch (error) {
+        console.error('Error al inicializar tabla histórico global:', error);
+    }
 }
 
 function loadEstadisticas() {
-    fetch(base_url + '/Inventario/getEstadisticasInventario')
-        .then(response => response.json())
+    fetchJSON(base_url + '/Inventario/getEstadisticasInventario')
         .then(data => {
             if (data.status) {
                 renderGraficoEstadoEquipos(data.estadoEquipos);
@@ -2023,9 +1979,13 @@ function loadEstadisticas() {
                 renderGraficoEquiposConMasMantenimientos(data.equiposConMasMantenimientos);
             } else {
                 console.error('Error al cargar estadísticas:', data.msg);
+                Swal.fire('Error', 'No se pudieron cargar las estadísticas', 'error');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error cargando estadísticas:', error);
+            Swal.fire('Error', 'Error al cargar las estadísticas', 'error');
+        });
 }
 
 function renderGraficoEstadoEquipos(datos) {
@@ -2361,3 +2321,18 @@ function cargarHistoricoMovimientos(idEquipo, tipoEquipo) {
       tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error al cargar el histórico. Intente nuevamente.</td></tr>';
     });
 }
+
+// ==================== EVENT LISTENERS GLOBALES ====================
+
+// Función de prueba para el modal
+function testModal() {
+    abrirModalMovimientoEquipo(1, 'impresora', 'entrada');
+}
+
+// Asegurar que todo esté listo
+$(document).ready(function() {
+    // Event listener para cuando se cambie de tab
+    $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // Tab cambiado
+    });
+});
