@@ -963,13 +963,24 @@ class Inventario extends Controllers
             }
             
             // Limpiar y validar parámetros
-            $idEquipo = intval(strClean($idEquipo));
-            $tipoEquipo = strClean($tipoEquipo);
+            $idEquipo = intval($idEquipo);
+            $tipoEquipo = trim($tipoEquipo);
             
             if ($idEquipo <= 0) {
                 echo json_encode([
                     'status' => false,
                     'msg' => 'ID de equipo inválido',
+                    'data' => []
+                ]);
+                die();
+            }
+            
+            // Validar tipo de equipo
+            $tiposValidos = ['impresora', 'escaner', 'pc_torre', 'todo_en_uno', 'portatil', 'herramienta', 'otro'];
+            if (!in_array($tipoEquipo, $tiposValidos)) {
+                echo json_encode([
+                    'status' => false,
+                    'msg' => 'Tipo de equipo inválido: ' . $tipoEquipo,
                     'data' => []
                 ]);
                 die();
@@ -993,7 +1004,7 @@ class Inventario extends Controllers
             error_log('Error en getMovimientosEquipo: ' . $e->getMessage());
             echo json_encode([
                 'status' => false,
-                'msg' => 'Error al obtener los movimientos',
+                'msg' => 'Error al obtener los movimientos: ' . $e->getMessage(),
                 'error' => $e->getMessage(),
                 'data' => []
             ], JSON_UNESCAPED_UNICODE);

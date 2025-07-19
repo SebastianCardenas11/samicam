@@ -144,7 +144,6 @@ function initDataTables() {
                         buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> &nbsp;`;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> &nbsp;`;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> &nbsp;`;
-                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i></button> &nbsp;`;
                         buttons += `</div>`;
                         
                         // Lógica basada en el último movimiento
@@ -1635,8 +1634,7 @@ function verImpresora(idImpresora) {
                     { label: 'Serial', value: d.serial },
                     { label: 'Consumible', value: d.consumible },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
-                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idImpresora}, 'impresora')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
                 ]);
             }
         });
@@ -1783,8 +1781,8 @@ function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
     
     // Crear el modal dinámicamente
     const modalHTML = `
-        <div class="modal fade" id="modalMovimientoDinamico" tabindex="-1" aria-labelledby="modalMovimientoDinamicoLabel" aria-hidden="true">
-            <div class="modal-dialog">
+        <div class="modal fade" id="modalMovimientoDinamico" tabindex="-1" aria-labelledby="modalMovimientoDinamicoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalMovimientoDinamicoLabel">
@@ -1805,8 +1803,8 @@ function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
                                 <textarea class="form-control" id="mov_observacion_dinamico" name="observacion" rows="3" required placeholder="Motivo o detalle del movimiento..."></textarea>
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -2284,7 +2282,7 @@ function cargarHistoricoMovimientos(idEquipo, tipoEquipo) {
   fetch(base_url + '/Inventario/getMovimientosEquipo/' + idEquipo + '/' + tipoEquipo)
     .then(res => {
       if (!res.ok) {
-        throw new Error('Error en la respuesta del servidor');
+        throw new Error(`Error HTTP: ${res.status} - ${res.statusText}`);
       }
       return res.json();
     })
@@ -2298,14 +2296,14 @@ function cargarHistoricoMovimientos(idEquipo, tipoEquipo) {
         if(data.length > 0) {
           data.forEach(function(mov) {
             tbody.innerHTML += `<tr>
-              <td>${mov.fecha_hora}</td>
+              <td>${mov.fecha_hora || 'N/A'}</td>
               <td>${mov.tipo_movimiento === 'entrada' ? '<span class="badge bg-warning">Entrada a Mantenimiento</span>' : '<span class="badge bg-success">Salida de Mantenimiento</span>'}</td>
-              <td>${mov.observacion || ''}</td>
-              <td>${mov.usuario || ''}</td>
+              <td>${mov.observacion || 'Sin observación'}</td>
+              <td>${mov.usuario || 'Sistema'}</td>
             </tr>`;
           });
         } else {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Sin movimientos registrados</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Sin movimientos registrados para este equipo</td></tr>';
         }
       } else {
         // Si la respuesta no tiene la estructura esperada
@@ -2313,12 +2311,19 @@ function cargarHistoricoMovimientos(idEquipo, tipoEquipo) {
         if (response && response.msg) {
           errorMsg = response.msg;
         }
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-warning">${errorMsg}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-warning">
+          <i class="fas fa-exclamation-triangle"></i> ${errorMsg}
+          <br><small class="text-muted">Respuesta del servidor: ${JSON.stringify(response)}</small>
+        </td></tr>`;
       }
     })
     .catch(function(error) {
       console.error('Error al cargar histórico:', error);
-      tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error al cargar el histórico. Intente nuevamente.</td></tr>';
+      tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">
+        <i class="fas fa-times-circle"></i> Error al cargar el histórico
+        <br><small class="text-muted">Detalles: ${error.message}</small>
+        <br><small class="text-muted">URL: ${base_url}/Inventario/getMovimientosEquipo/${idEquipo}/${tipoEquipo}</small>
+      </td></tr>`;
     });
 }
 

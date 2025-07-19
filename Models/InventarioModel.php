@@ -416,9 +416,18 @@ class InventarioModel extends Mysql
     }
 
     public function getMovimientosEquipo($idEquipo, $tipoEquipo) {
-        $sql = "SELECT * FROM tbl_equipos_movimientos WHERE id_equipo = ? AND tipo_equipo = ? ORDER BY fecha_hora DESC";
-        $arrData = array($idEquipo, $tipoEquipo);
-        return $this->select_all($sql, $arrData);
+        try {
+            $sql = "SELECT * FROM tbl_equipos_movimientos WHERE id_equipo = ? AND tipo_equipo = ? ORDER BY fecha_hora DESC";
+            $arrData = array($idEquipo, $tipoEquipo);
+            
+            $result = $this->select_all($sql, $arrData);
+            
+            return $result ? $result : [];
+            
+        } catch (Exception $e) {
+            error_log("Error en modelo getMovimientosEquipo: " . $e->getMessage());
+            return [];
+        }
     }
     
     public function getUltimoMovimientoEquipo($idEquipo, $tipoEquipo) {
