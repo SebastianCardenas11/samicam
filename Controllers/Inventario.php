@@ -722,6 +722,12 @@ class Inventario extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             try {
                 $arrData = $this->model->selectPortatiles();
+                // Agregar el último movimiento a cada portátil
+                foreach ($arrData as &$portatil) {
+                    $ultimo = $this->model->getUltimoMovimientoEquipo($portatil['id_portatil'], 'portatil');
+                    $portatil['ultimo_movimiento'] = $ultimo ? $ultimo['tipo_movimiento'] : null;
+                }
+                unset($portatil);
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
