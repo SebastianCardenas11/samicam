@@ -216,14 +216,14 @@ function initDataTables() {
                         buttons += `<button class="btn btn-info btn-sm" onclick="verEscaner(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
                         buttons += `<button class="btn btn-primary btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
-                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'escaner')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
                         buttons += `</div> `;
                         
-                        // Botón Entrada/Salida según disponibilidad
-                        if(row.disponibilidad.toLowerCase() === 'disponible') {
-                            buttons += `<button class='btn btn-warning btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
-                        } else {
+                        // Botón Entrada/Salida según el último movimiento
+                        console.log('Escáner ID:', data, 'Último movimiento:', row.ultimo_movimiento, 'Row completo:', row);
+                        if(row.ultimo_movimiento === 'entrada') {
                             buttons += `<button class='btn btn-success btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                        } else {
+                            buttons += `<button class='btn btn-warning btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -1843,10 +1843,10 @@ function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
                 // Recargar tablas
                 setTimeout(() => {
                     if (typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload();
+                    if (typeof tblEscaneres !== 'undefined') tblEscaneres.ajax.reload();
                     if (typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload();
                     if (typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload();
                     if (typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload();
-                    if (typeof tblEscanners !== 'undefined') tblEscanners.ajax.reload();
                 }, 500);
             } else {
                 Swal.fire('Error', response && response.msg ? response.msg : 'Error al registrar el movimiento', 'error');

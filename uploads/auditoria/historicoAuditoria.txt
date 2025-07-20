@@ -789,3 +789,13 @@
 [2025-07-19 17:57:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
 [2025-07-19 17:57:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
 [2025-07-19 18:18:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 19:53:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 19:54:49] ID: 28 | Usuario: Ing. Carlos Lopez | Correo: carloslxpxz@gmail.com | Rol: Tecnico Ntic | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-19 19:54:49] ID: 28 | Usuario: Ing. Carlos Lopez | Rol: Tecnico Ntic | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-07-19 19:59:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 20:01:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 20:03:46] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 20:09:49] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 20:12:03] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 20:12:33] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-07-19 20:22:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
