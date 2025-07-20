@@ -219,11 +219,10 @@ function initDataTables() {
                         buttons += `</div> `;
                         
                         // Botón Entrada/Salida según el último movimiento
-                        console.log('Escáner ID:', data, 'Último movimiento:', row.ultimo_movimiento, 'Row completo:', row);
                         if(row.ultimo_movimiento === 'entrada') {
-                            buttons += `<button class='btn btn-success btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-danger btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         } else {
-                            buttons += `<button class='btn btn-warning btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                            buttons += `<button class='btn btn-success btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -1948,9 +1947,9 @@ function initHistoricoGlobal() {
                     "data": "tipo_movimiento",
                     "render": function(data) {
                         if (data === 'entrada') {
-                            return '<span class="badge bg-warning">Entrada a Mantenimiento</span>';
+                            return '<span class="badge bg-success">Entrada a Mantenimiento</span>';
                         } else {
-                            return '<span class="badge bg-success">Salida de Mantenimiento</span>';
+                            return '<span class="badge bg-danger">Salida de Mantenimiento</span>';
                         }
                     }
                 },
@@ -2240,8 +2239,8 @@ function renderGraficoEquiposConMasMantenimientos(datos) {
             <tr>
                 <td>${item.nombre_equipo}</td>
                 <td><span class="badge bg-primary">${item.total_mantenimientos}</span></td>
-                <td><span class="badge bg-warning">${item.entradas}</span></td>
-                <td><span class="badge bg-success">${item.salidas}</span></td>
+                <td><span class="badge bg-success">${item.entradas}</span></td>
+                <td><span class="badge bg-danger">${item.salidas}</span></td>
                 <td>${item.ultimo_movimiento}</td>
             </tr>
         `;
@@ -2297,7 +2296,7 @@ function cargarHistoricoMovimientos(idEquipo, tipoEquipo) {
           data.forEach(function(mov) {
             tbody.innerHTML += `<tr>
               <td>${mov.fecha_hora || 'N/A'}</td>
-              <td>${mov.tipo_movimiento === 'entrada' ? '<span class="badge bg-warning">Entrada a Mantenimiento</span>' : '<span class="badge bg-success">Salida de Mantenimiento</span>'}</td>
+              <td>${mov.tipo_movimiento === 'entrada' ? '<span class="badge bg-success">Entrada a Mantenimiento</span>' : '<span class="badge bg-danger">Salida de Mantenimiento</span>'}</td>
               <td>${mov.observacion || 'Sin observación'}</td>
               <td>${mov.usuario || 'Sistema'}</td>
             </tr>`;

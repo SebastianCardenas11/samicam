@@ -180,13 +180,10 @@ class Inventario extends Controllers
                 foreach ($arrData as &$escaner) {
                     $ultimo = $this->model->getUltimoMovimientoEquipo($escaner['id_escaner'], 'escaner');
                     $escaner['ultimo_movimiento'] = $ultimo ? $ultimo['tipo_movimiento'] : null;
-                    // Debug: agregar log para verificar los datos
-                    error_log("Escáner ID: " . $escaner['id_escaner'] . " - Último movimiento: " . ($escaner['ultimo_movimiento'] ?? 'null'));
                 }
                 unset($escaner);
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
-                error_log('Error en getEscaneres: ' . $e->getMessage());
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
             }
         }
