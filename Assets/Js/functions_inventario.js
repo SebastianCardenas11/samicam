@@ -142,15 +142,15 @@ function initDataTables() {
                         let buttons = '';
                         buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> &nbsp;`;
-                        buttons += `<button class="btn btn-primary btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> &nbsp;`;
+                        buttons += `<button class="btn btn-warning btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> &nbsp;`;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> &nbsp;`;
                         buttons += `</div>`;
                         
                         // Lógica basada en el último movimiento
                         if(row.ultimo_movimiento === 'entrada') {
-                            buttons += `<button class='btn btn-danger btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-danger ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         } else {
-                            buttons += `<button class='btn btn-success btn-sm ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                            buttons += `<button class='btn btn-success ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -214,15 +214,15 @@ function initDataTables() {
                         let buttons = '';
                         buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verEscaner(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
-                        buttons += `<button class="btn btn-primary btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-warning btn-sm" onclick="editEscaner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delEscaner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
                         buttons += `</div> `;
                         
                         // Botón Entrada/Salida según el último movimiento
                         if(row.ultimo_movimiento === 'entrada') {
-                            buttons += `<button class='btn btn-danger btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-danger ' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         } else {
-                            buttons += `<button class='btn btn-success btn-sm mt-1' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                            buttons += `<button class='btn btn-success ' onclick='abrirModalMovimientoEquipo(${data}, "escaner", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -343,17 +343,14 @@ function initDataTables() {
                         let buttons = '';
                         buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verPcTorre(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
-                        buttons += `<button class="btn btn-primary btn-sm" onclick="editPcTorre(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-warning btn-sm" onclick="editPcTorre(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delPcTorre(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
-                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'pc_torre')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
-                        buttons += `</div><br>`;
-                        
-                        // Botón Entrada/Salida según disponibilidad
-                        let disp = (row.disponibilidad || '').toString().trim();
-                        if (disp === 'Disponible') {
-                            buttons += `<button class='btn btn-warning btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "pc_torre", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        buttons += `</div>`;
+                        // Botón Entrada/Salida según el último movimiento
+                        if(row.ultimo_movimiento === 'entrada') {
+                            buttons += `<button class='btn btn-danger ' onclick='abrirModalMovimientoEquipo(${data}, "pc_torre", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         } else {
-                            buttons += `<button class='btn btn-success btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "pc_torre", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-success ' onclick='abrirModalMovimientoEquipo(${data}, "pc_torre", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -367,86 +364,84 @@ function initDataTables() {
     }
 
     // DataTable para PC Todo en Uno
-    if (tblTodoEnUno === undefined) {
-        tblTodoEnUno = $('#tablaTodoEnUno').DataTable({
-            "processing": true,
-            "serverSide": false,
-            "language": dataTableLanguage,
-            "ajax": {
-                "url": base_url + "/Inventario/getTodoEnUno",
-                "dataSrc": ""
-            },
-            "columns": [
-                { "data": "numero_pc" },
-                { "data": "marca" },
-                { "data": "modelo" },
-                { "data": "ram" },
-                { "data": "velocidad_ram" },
-                { "data": "procesador" },
-                { "data": "velocidad_procesador" },
-                { "data": "disco_duro" },
-                { "data": "capacidad" },
-                { "data": "serial" },
-                { "data": "sistema_operativo" },
-                { "data": "numero_activo" },
-                { 
-                    "data": "estado",
-                    "render": function(data, type, row) {
-                        let estado = (data || '').toString().trim().toLowerCase();
-                        if (estado === 'bueno') {
-                            return '<span class="badge text-bg-success">BUENO</span>';
-                        } else if (estado === 'regular') {
-                            return '<span class="badge text-bg-warning">REGULAR</span>';
-                        } else if (estado === 'malo') {
-                            return '<span class="badge text-bg-danger">MALO</span>';
-                        } else if (estado === 'de baja') {
-                            return '<span class="badge text-bg-dark">DE BAJA</span>';
-                        } else {
-                            return '<span class="badge text-bg-secondary">' + data + '</span>';
-                        }
-                    }
-                },
-                { 
-                    "data": "disponibilidad",
-                    "render": function(data, type, row) {
-                        let disp = (data || '').toString().trim().toLowerCase();
-                        if (disp === 'disponible') {
-                            return '<span class="badge text-bg-success">Disponible</span>';
-                        } else if (disp === 'no disponible') {
-                            return '<span class="badge text-bg-danger">No Disponible</span>';
-                        } else {
-                            return '<span class="badge text-bg-secondary">' + data + '</span>';
-                        }
-                    }
-                },
-                { 
-                    "data": "id_todo_en_uno",
-                    "render": function(data, type, row) {
-                        let buttons = '';
-                        buttons += `<div class="btn-group" role="group">`;
-                        buttons += `<button class="btn btn-info btn-sm" onclick="verTodoEnUno(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
-                        buttons += `<button class="btn btn-primary btn-sm" onclick="editTodoEnUno(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
-                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'todo_en_uno')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
-                        buttons += `</div><br>`;
-                        
-                        // Botón Entrada/Salida según disponibilidad
-                        let disp = (row.disponibilidad || '').toString().trim().toLowerCase();
-                        if (disp === 'disponible') {
-                            buttons += `<button class='btn btn-warning btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "todo_en_uno", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
-                        } else {
-                            buttons += `<button class='btn btn-success btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "todo_en_uno", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
-                        }
-                        return buttons;
+    if ($.fn.DataTable.isDataTable('#tablaTodoEnUno')) {
+        $('#tablaTodoEnUno').DataTable().destroy();
+    }
+    tblTodoEnUno = $('#tablaTodoEnUno').DataTable({
+        "processing": true,
+        "serverSide": false,
+        "language": dataTableLanguage,
+        "ajax": {
+            "url": base_url + "/Inventario/getTodoEnUno",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "numero_pc" },
+            { "data": "marca" },
+            { "data": "modelo" },
+            { "data": "ram" },
+            { "data": "velocidad_ram" },
+            { "data": "procesador" },
+            { "data": "velocidad_procesador" },
+            { "data": "disco_duro" },
+            { "data": "capacidad" },
+            { "data": "serial" },
+            { "data": "sistema_operativo" },
+            { "data": "numero_activo" },
+            { 
+                "data": "estado",
+                "render": function(data, type, row) {
+                    let estado = (data || '').toString().trim().toLowerCase();
+                    if (estado === 'bueno') {
+                        return '<span class="badge text-bg-success">BUENO</span>';
+                    } else if (estado === 'regular') {
+                        return '<span class="badge text-bg-warning">REGULAR</span>';
+                    } else if (estado === 'malo') {
+                        return '<span class="badge text-bg-danger">MALO</span>';
+                    } else if (estado === 'de baja') {
+                        return '<span class="badge text-bg-dark">DE BAJA</span>';
+                    } else {
+                        return '<span class="badge text-bg-secondary">' + data + '</span>';
                     }
                 }
-            ],
-            "responsive": true,
-            "bDestroy": true,
-            "iDisplayLength": 10,
-            "order": [[0, "asc"]]
-        });
-    }
+            },
+            { 
+                "data": "disponibilidad",
+                "render": function(data, type, row) {
+                    let disp = (data || '').toString().trim().toLowerCase();
+                    if (disp === 'disponible') {
+                        return '<span class="badge text-bg-success">Disponible</span>';
+                    } else if (disp === 'no disponible') {
+                        return '<span class="badge text-bg-danger">No Disponible</span>';
+                    } else {
+                        return '<span class="badge text-bg-secondary">' + data + '</span>';
+                    }
+                }
+            },
+            { 
+                "data": "id_todo_en_uno",
+                "render": function(data, type, row) {
+                    let buttons = '';
+                    buttons += `<div class="btn-group" role="group">`;
+                    buttons += `<button class="btn btn-info btn-sm" onclick="verTodoEnUno(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
+                    buttons += `<button class="btn btn-warning btn-sm" onclick="editTodoEnUno(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                    buttons += `<button class="btn btn-danger btn-sm" onclick="delTodoEnUno(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                    buttons += `</div>`;
+                    // Botón Entrada/Salida según el último movimiento
+                    if(row.ultimo_movimiento === 'entrada') {
+                        buttons += `<button class='btn btn-danger ' onclick='abrirModalMovimientoEquipo(${data}, "todo_en_uno", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                    } else {
+                        buttons += `<button class='btn btn-success ' onclick='abrirModalMovimientoEquipo(${data}, "todo_en_uno", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                    }
+                    return buttons;
+                }
+            }
+        ],
+        "responsive": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "order": [[0, "asc"]]
+    });
 
     // DataTable para Portátiles
     if (tblPortatiles === undefined) {
@@ -507,17 +502,14 @@ function initDataTables() {
                         let buttons = '';
                         buttons += `<div class="btn-group" role="group">`;
                         buttons += `<button class="btn btn-info btn-sm" onclick="verPortatil(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
-                        buttons += `<button class="btn btn-primary btn-sm" onclick="editPortatil(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-warning btn-sm" onclick="editPortatil(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
                         buttons += `<button class="btn btn-danger btn-sm" onclick="delPortatil(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
-                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'portatil')" title="Ver histórico"><i class="fas fa-history"></i></button>`;
-                        buttons += `</div><br>`;
-                        
-                        // Botón Entrada/Salida según disponibilidad
-                        let disp = (row.disponibilidad || '').toString().trim().toLowerCase();
-                        if (disp === 'disponible') {
-                            buttons += `<button class='btn btn-warning btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "portatil", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                        buttons += `</div>`;
+                        // Botón Entrada/Salida según el último movimiento
+                        if(row.ultimo_movimiento === 'entrada') {
+                            buttons += `<button class='btn btn-danger ' onclick='abrirModalMovimientoEquipo(${data}, "portatil", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         } else {
-                            buttons += `<button class='btn btn-success btn-sm w-100 mt-1' onclick='abrirModalMovimientoEquipo(${data}, "portatil", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-success ' onclick='abrirModalMovimientoEquipo(${data}, "portatil", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -1297,7 +1289,7 @@ function editTodoEnUno(idTodoEnUno) {
     currentForm = 'todoEnUno';
     showForm('todoEnUno');
     // Refuerzo: asegúrate de limpiar el campo antes de llenarlo
-    $('#idTodoEnUno').val('');
+    $('#idTodoEnUno').val(idTodoEnUno); // Siempre setear el id recibido
     $.ajax({
         url: base_url + '/Inventario/getTodoEnUnoById/' + idTodoEnUno,
         type: 'GET',
@@ -1306,7 +1298,7 @@ function editTodoEnUno(idTodoEnUno) {
             if (response.status) {
                 const data = response.data;
                 // Refuerzo: llena el campo oculto correctamente
-                $('#idTodoEnUno').val(data.id_pc_todo_en_uno);
+                $('#idTodoEnUno').val(data.id_todo_en_uno || data.id_pc_todo_en_uno || idTodoEnUno);
                 $('#txtNumeroTodoEnUno').val(data.numero_pc);
                 $('#txtMarcaTodoEnUno').val(data.marca);
                 $('#txtModeloTodoEnUno').val(data.modelo);
@@ -1864,6 +1856,12 @@ function abrirModalMovimientoEquipo(idEquipo, tipoEquipo, tipoMovimiento) {
             if (modalEl && modalEl.parentNode) {
                 modalEl.remove();
             }
+            // Recargar tablas después de cerrar el modal
+            if (typeof tblImpresoras !== 'undefined') tblImpresoras.ajax.reload();
+            if (typeof tblEscaneres !== 'undefined') tblEscaneres.ajax.reload();
+            if (typeof tblPcTorre !== 'undefined') tblPcTorre.ajax.reload();
+            if (typeof tblPortatiles !== 'undefined') tblPortatiles.ajax.reload();
+            if (typeof tblTodoEnUno !== 'undefined') tblTodoEnUno.ajax.reload();
         }, 300);
     });
     

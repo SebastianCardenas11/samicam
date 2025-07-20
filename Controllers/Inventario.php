@@ -458,6 +458,12 @@ class Inventario extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             try {
                 $arrData = $this->model->selectPcTorre();
+                // Agregar el último movimiento a cada PC Torre
+                foreach ($arrData as &$pc) {
+                    $ultimo = $this->model->getUltimoMovimientoEquipo($pc['id_pc_torre'], 'pc_torre');
+                    $pc['ultimo_movimiento'] = $ultimo ? $ultimo['tipo_movimiento'] : null;
+                }
+                unset($pc);
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
@@ -586,6 +592,12 @@ class Inventario extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             try {
                 $arrData = $this->model->selectTodoEnUno();
+                // Agregar el último movimiento a cada equipo Todo en Uno
+                foreach ($arrData as &$pc) {
+                    $ultimo = $this->model->getUltimoMovimientoEquipo($pc['id_todo_en_uno'], 'todo_en_uno');
+                    $pc['ultimo_movimiento'] = $ultimo ? $ultimo['tipo_movimiento'] : null;
+                }
+                unset($pc);
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
