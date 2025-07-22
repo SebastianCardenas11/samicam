@@ -50,7 +50,9 @@
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="Sura">Sura</option>
                                                     <option value="Positiva">Positiva</option>
+                                                    <option value="Aseguradora_solidaria">Aseguradora solidaria</option>
                                                     <option value="Colpatria">Colpatria</option>
+                                                    <option value="Sura">Sura</option>
                                                     <option value="Colmena">Colmena</option>
                                                     <option value="Bolívar">Bolívar</option>
                                                 </select>
@@ -62,8 +64,12 @@
                                                 <select class="form-select" id="txtEpsPracticante" name="txtEpsPracticante">
                                                     <option value="">Selecciona una opción</option>
                                                     <option value="Nueva EPS">Nueva EPS</option>
+                                                    <option value="Asmet salud">Asmet salud</option>
+                                                    <option value="Fomag">Fomag</option>
                                                     <option value="Cajacopi EPS">Cajacopi EPS</option>
+                                                    <option value="eps_suramericana">Eps suramericana S.A</option>
                                                     <option value="Salud Total EPS">Salud Total EPS</option>
+                                                    <option value="Coomeva Eps">Coomeva Eps</option>
                                                     <option value="Sanitas EPS">Sanitas EPS</option>
                                                     <option value="Coosalud EPS">Coosalud EPS</option>
                                                     <option value="Sura EPS">Sura EPS</option>
