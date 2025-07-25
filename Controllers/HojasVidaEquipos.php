@@ -19,23 +19,27 @@ class HojasVidaEquipos extends Controllers
 
     public function getEquiposConMovimientos()
     {
-        echo json_encode([
-            ['id_equipo' => 1, 'tipo_equipo' => 'impresora', 'numero' => '001', 'marca' => 'HP', 'modelo' => 'LaserJet', 'estado' => 'Bueno', 'disponibilidad' => 'Disponible', 'total_movimientos' => 2, 'ultimo_movimiento' => '2024-01-15 11:30:00'],
-            ['id_equipo' => 2, 'tipo_equipo' => 'pc_torre', 'numero' => '002', 'marca' => 'Dell', 'modelo' => 'OptiPlex', 'estado' => 'Bueno', 'disponibilidad' => 'Disponible', 'total_movimientos' => 2, 'ultimo_movimiento' => '2024-01-20 16:45:00']
-        ]);
+        header('Content-Type: application/json');
+        
+        $arrData = $this->model->getEquiposConMovimientos();
+        echo json_encode($arrData ?: []);
         die();
     }
 
     public function getHojaVidaEquipo($idEquipo, $tipoEquipo)
     {
-        echo json_encode([
-            'status' => true,
-            'data' => [
-                'tipo_equipo' => $tipoEquipo,
-                'equipo' => ['numero_pc' => $idEquipo, 'marca' => 'Test', 'modelo' => 'Test', 'estado' => 'Bueno', 'disponibilidad' => 'Disponible'],
-                'movimientos' => []
-            ]
-        ]);
+        header('Content-Type: application/json');
+        
+        $intIdEquipo = intval($idEquipo);
+        $strTipoEquipo = trim($tipoEquipo);
+        
+        $arrData = $this->model->getHojaVidaEquipo($intIdEquipo, $strTipoEquipo);
+        
+        if (empty($arrData['equipo'])) {
+            echo json_encode(['status' => false, 'msg' => 'Equipo no encontrado']);
+        } else {
+            echo json_encode(['status' => true, 'data' => $arrData]);
+        }
         die();
     }
 
