@@ -109,8 +109,6 @@ document.addEventListener(
           strCorreo == "" ||
           strNombre == "" ||
           strIdentificacion == "" ||
-          strArl == "" ||
-          strEps == "" ||
           intEdad == "" ||
           strSexo == "" ||
           strTelefono == "" ||
