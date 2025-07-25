@@ -162,14 +162,6 @@
               <span class="nav-link-text ms-1">Inventario</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/HojasVidaEquipos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/HojasVidaEquipos">
-              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fas fa-file-medical text-dark"></i>
-              </div>
-              <span class="nav-link-text ms-1">Hojas de Vida</span>
-            </a>
-          </li>
         <?php } ?>
         <?php if (!empty($_SESSION['permisos'][MPSI]['r'])) { ?>
           <li class="nav-item">

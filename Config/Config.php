@@ -60,7 +60,6 @@ const MSEGUIMIENTOCONTRATO = 14;
 const MINVENTARIO = 15;
 const MWHATSAPP = 16;
 const MPSI = 17;
-const MHOJAS_VIDA_EQUIPOS = 18;
 
 //Páginas           
 const PINICIO = 1;

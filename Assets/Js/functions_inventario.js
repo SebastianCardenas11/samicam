@@ -514,11 +514,7 @@ function initDataTables() {
                         return buttons;
                     }
                 }
-
             ],
-            
-
-
             "responsive": true,
             "bDestroy": true,
             "iDisplayLength": 10,
