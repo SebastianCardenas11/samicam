@@ -512,14 +512,22 @@
                                                             <h5 class="mb-0"><i class="fas fa-history"></i> Histórico Global de Movimientos</h5>
                                                         </div>
                                                         <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <h5><i class="fas fa-chart-line"></i> Histórico Global de Movimientos</h5>
+                                                                <div class="d-flex gap-2">
+                                                                    <a class="btn btn-outline-success" href="<?= base_url() ?>/Inventario/exportarHistoricoMovimientosExcel" target="_blank">
+                                                                        <i class="fas fa-file-excel"></i> Descargar Excel
+                                                                    </a>
+                                                                </div>
+                                                            </div>
                                                             <div class="table-responsive">
                                                                 <table class="table table-hover table-bordered" id="tablaHistoricoGlobal" style="width:100% !important; margin:0 !important;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Fecha y Hora</th>
+                                                                            <th>Fecha/Hora</th>
                                                                             <th>Tipo de Equipo</th>
-                                                                            <th>ID Equipo</th>
-                                                                            <th>Tipo Movimiento</th>
+                                                                            <th>Equipo</th>
+                                                                            <th>Tipo de Movimiento</th>
                                                                             <th>Observación</th>
                                                                             <th>Usuario</th>
                                                                         </tr>

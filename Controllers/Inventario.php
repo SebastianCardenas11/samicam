@@ -1112,4 +1112,47 @@ class Inventario extends Controllers
         }
         die();
     }
+
+    public function exportarHistoricoMovimientosExcel()
+    {
+        if (!isset($_SESSION['permisosMod']['r']) || !$_SESSION['permisosMod']['r']) {
+            // No hay permisos, no hacer nada o mostrar error
+            return;
+        }
+
+        // 1. Obtener los datos del histórico global
+        $arrData = $this->model->getHistoricoGlobal();
+
+        // 2. Crear una nueva instancia de Spreadsheet
+        require_once 'vendor/autoload.php';
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // 3. Encabezados
+        $headers = [
+            'Fecha/Hora', 'Tipo de Equipo', 'Equipo', 'Tipo de Movimiento', 'Observación', 'Usuario'
+        ];
+        $sheet->fromArray($headers, NULL, 'A1');
+
+        // 4. Datos
+        $rowNum = 2;
+        foreach ($arrData as $row) {
+            $sheet->setCellValue('A' . $rowNum, $row['fecha_hora']);
+            $sheet->setCellValue('B' . $rowNum, $row['tipo_equipo']);
+            $sheet->setCellValue('C' . $rowNum, isset($row['nombre_equipo']) ? $row['nombre_equipo'] : (isset($row['id_equipo']) ? $row['id_equipo'] : ''));
+            $sheet->setCellValue('D' . $rowNum, $row['tipo_movimiento'] === 'entrada' ? 'Entrada a Mantenimiento' : 'Salida de Mantenimiento');
+            $sheet->setCellValue('E' . $rowNum, $row['observacion']);
+            $sheet->setCellValue('F' . $rowNum, $row['usuario']);
+            $rowNum++;
+        }
+
+        // 5. Preparar la descarga
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="historico_movimientos.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
+    }
 }
