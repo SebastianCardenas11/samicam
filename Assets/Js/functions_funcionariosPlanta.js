@@ -5,11 +5,11 @@ document.addEventListener(
   "DOMContentLoaded",
   function () {
     divLoading = document.querySelector("#divLoading");
-    tableFuncionarios = $('#tableFuncionarios').dataTable({
-      "aProcessing": true,
-      "aServerSide": true,
+    tableFuncionarios = $('#tableFuncionarios').DataTable({
+      "processing": true,
+      "serverSide": false,
       "language": {
-        "url": base_url + "/Assets/js/es.json"
+        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
       },
       "ajax": {
         "url": base_url + "/FuncionariosPlanta/getFuncionarios",
@@ -52,9 +52,9 @@ document.addEventListener(
           }
         }
       ],
-      "responsive": "true",
-      "bDestroy": true,
-      "iDisplayLength": 10,
+      "responsive": true,
+      "destroy": true,
+      "pageLength": 10,
       "order": [[0, "desc"]]
     });
 
