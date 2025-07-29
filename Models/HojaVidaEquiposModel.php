@@ -21,7 +21,6 @@ class HojaVidaEquiposModel extends MySql
                     COALESCE(serial, 'N/A') as serial,
                     estado,
                     disponibilidad,
-                    'N/A' as dependencia,
                     fecha_registro
                 FROM tbl_pc_torre
                 WHERE status = 1";
@@ -40,7 +39,6 @@ class HojaVidaEquiposModel extends MySql
                     COALESCE(serial, 'N/A') as serial,
                     estado,
                     disponibilidad,
-                    'N/A' as dependencia,
                     fecha_registro
                 FROM tbl_portatiles
                 WHERE status = 1";
@@ -59,7 +57,6 @@ class HojaVidaEquiposModel extends MySql
                     COALESCE(serial, 'N/A') as serial,
                     estado,
                     disponibilidad,
-                    'N/A' as dependencia,
                     fecha_registro
                 FROM tbl_todo_en_uno
                 WHERE status = 1";
@@ -78,7 +75,6 @@ class HojaVidaEquiposModel extends MySql
                     COALESCE(serial, 'N/A') as serial,
                     estado,
                     disponibilidad,
-                    'N/A' as dependencia,
                     fecha_registro
                 FROM tbl_impresoras
                 WHERE status = 1";
@@ -97,7 +93,6 @@ class HojaVidaEquiposModel extends MySql
                     COALESCE(serial, 'N/A') as serial,
                     estado,
                     disponibilidad,
-                    'N/A' as dependencia,
                     fecha_registro
                 FROM tbl_escaneres
                 WHERE status = 1";
@@ -135,7 +130,6 @@ class HojaVidaEquiposModel extends MySql
                             COALESCE(serial_monitor, 'N/A') as serial_monitor,
                             estado,
                             disponibilidad,
-                            'N/A' as dependencia,
                             fecha_registro
                         FROM tbl_pc_torre
                         WHERE id_pc_torre = $idequipo AND status = 1";
@@ -158,7 +152,6 @@ class HojaVidaEquiposModel extends MySql
                             COALESCE(numero_activo, 'N/A') as numero_activo,
                             estado,
                             disponibilidad,
-                            'N/A' as dependencia,
                             fecha_registro
                         FROM tbl_portatiles
                         WHERE id_portatil = $idequipo AND status = 1";
@@ -181,7 +174,6 @@ class HojaVidaEquiposModel extends MySql
                             COALESCE(numero_activo, 'N/A') as numero_activo,
                             estado,
                             disponibilidad,
-                            'N/A' as dependencia,
                             fecha_registro
                         FROM tbl_todo_en_uno
                         WHERE id_todo_en_uno = $idequipo AND status = 1";
@@ -197,7 +189,6 @@ class HojaVidaEquiposModel extends MySql
                             COALESCE(consumible, 'N/A') as consumible,
                             estado,
                             disponibilidad,
-                            'N/A' as dependencia,
                             fecha_registro
                         FROM tbl_impresoras
                         WHERE id_impresora = $idequipo AND status = 1";
@@ -212,7 +203,6 @@ class HojaVidaEquiposModel extends MySql
                             COALESCE(serial, 'N/A') as serial,
                             estado,
                             disponibilidad,
-                            'N/A' as dependencia,
                             fecha_registro
                         FROM tbl_escaneres
                         WHERE id_escaner = $idequipo AND status = 1";
@@ -225,5 +215,26 @@ class HojaVidaEquiposModel extends MySql
         }
         
         return array();
+    }
+    
+    public function getMovimientosEquipo($idequipo, $tipo)
+    {
+        // Simulación de movimientos - ajusta según tu estructura de BD
+        $movimientos = [
+            [
+                'fecha' => date('Y-m-d'),
+                'tipo' => 'Registro',
+                'descripcion' => 'Equipo registrado en el sistema',
+                'usuario' => 'Administrador'
+            ],
+            [
+                'fecha' => date('Y-m-d', strtotime('-30 days')),
+                'tipo' => 'Mantenimiento',
+                'descripcion' => 'Mantenimiento preventivo realizado',
+                'usuario' => 'Técnico'
+            ]
+        ];
+        
+        return $movimientos;
     }
 }

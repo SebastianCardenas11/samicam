@@ -65,20 +65,208 @@ class HojaVidaEquipos extends Controllers
 
     public function generarPdf()
     {
+        if (!$_SESSION['permisosMod']['r']) {
+            header("Location:" . base_url() . '/dashboard');
+            exit;
+        }
+        
         $idequipo = $_GET['id'] ?? 0;
         $tipo = $_GET['tipo'] ?? '';
         
+        if (empty($idequipo) || empty($tipo)) {
+            echo 'Parámetros inválidos';
+            exit;
+        }
+        
         $arrData = $this->model->selectEquipo($idequipo, $tipo);
         
-        require_once 'vendor/autoload.php';
-        $mpdf = new \Mpdf\Mpdf();
+        if (empty($arrData)) {
+            echo 'Equipo no encontrado';
+            exit;
+        }
         
-        $html = '<h1>Hoja de Vida - ' . $tipo . '</h1>
-        <p>Equipo: ' . $arrData['numero_equipo'] . '</p>
-        <p>Marca: ' . $arrData['marca'] . '</p>';
+        $this->generarPdfConPlantilla($arrData, $tipo);
+    }
+    
+    private function generarPdfConPlantilla($data, $tipo)
+    {
+        try {
+            require_once 'vendor/autoload.php';
+            
+            // Verificar si existe la plantilla
+            $plantillaPath = 'Assets/plantillas/plantilla_viaticos.pdf';
+            if (!file_exists($plantillaPath)) {
+                // Si no existe la plantilla, usar mPDF normal
+                $this->generarPdfSinPlantilla($data, $tipo);
+                return;
+            }
+            
+            // Usar FPDI para trabajar con la plantilla
+            $pdf = new \setasign\Fpdi\Fpdi();
+            $pdf->setSourceFile($plantillaPath);
+            $tplId = $pdf->importPage(1);
+            
+            $pdf->AddPage();
+            $pdf->useTemplate($tplId, 0, 0);
+            
+            // Configurar fuente
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->SetTextColor(0, 0, 0);
+            
+            // Agregar contenido sobre la plantilla
+            $this->agregarContenidoSobrePlantilla($pdf, $data, $tipo);
+            
+            $filename = 'Hoja_Vida_' . str_replace([' ', 'á', 'é', 'í', 'ó', 'ú', 'ñ'], ['_', 'a', 'e', 'i', 'o', 'u', 'n'], $tipo) . '_' . $data['numero_equipo'] . '.pdf';
+            
+            // Headers para forzar descarga
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Cache-Control: private, max-age=0, must-revalidate');
+            header('Pragma: public');
+            
+            $pdf->Output('D', $filename);
+            exit;
+        } catch (Exception $e) {
+            echo 'Error al generar PDF: ' . $e->getMessage();
+            exit;
+        }
+    }
+    
+    private function generarPdfSinPlantilla($data, $tipo)
+    {
+        try {
+            $mpdf = new \Mpdf\Mpdf([
+                'format' => 'A4',
+                'margin_left' => 15,
+                'margin_right' => 15,
+                'margin_top' => 20,
+                'margin_bottom' => 20
+            ]);
+            
+            $html = $this->getHtmlPdf($data, $tipo);
+            $mpdf->WriteHTML($html);
+            
+            $filename = 'Hoja_Vida_' . str_replace([' ', 'á', 'é', 'í', 'ó', 'ú', 'ñ'], ['_', 'a', 'e', 'i', 'o', 'u', 'n'], $tipo) . '_' . $data['numero_equipo'] . '.pdf';
+            
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Cache-Control: private, max-age=0, must-revalidate');
+            header('Pragma: public');
+            
+            $mpdf->Output($filename, 'D');
+            exit;
+        } catch (Exception $e) {
+            echo 'Error al generar PDF: ' . $e->getMessage();
+            exit;
+        }
+    }
+    
+    private function agregarContenidoSobrePlantilla($pdf, $data, $tipo)
+    {
+        // Título del documento
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetXY(50, 60);
+        $pdf->Cell(0, 10, utf8_decode('HOJA DE VIDA DE EQUIPO - ' . strtoupper($tipo)), 0, 1, 'C');
         
-        $mpdf->WriteHTML($html);
-        $mpdf->Output('hoja_vida.pdf', 'D');
+        // Tabla de información básica
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetXY(30, 80);
+        $pdf->Cell(0, 8, utf8_decode('INFORMACIÓN BÁSICA'), 0, 1, 'L');
+        
+        $y = 90;
+        $this->crearTablaInformacion($pdf, $data, $tipo, $y);
+        
+        // Obtener movimientos del equipo
+        $movimientos = $this->model->getMovimientosEquipo($data['id'], $tipo);
+        
+        // Tabla de movimientos
+        $yMovimientos = $y + 20;
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetXY(30, $yMovimientos);
+        $pdf->Cell(0, 8, 'MOVIMIENTOS', 0, 1, 'L');
+        
+        $this->crearTablaMovimientos($pdf, $movimientos, $yMovimientos + 10);
+        
+        // Pie de página
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetXY(30, 250);
+        $pdf->Cell(0, 6, utf8_decode('Documento generado el ' . date('d/m/Y H:i:s')), 0, 1, 'C');
+        $pdf->SetXY(30, 260);
+        $pdf->Cell(0, 6, utf8_decode('Alcaldía de La Jagua de Ibirico - Cesar, Colombia'), 0, 1, 'C');
+    }
+    
+    private function crearTablaInformacion($pdf, $data, $tipo, &$y)
+    {
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->SetFillColor(240, 240, 240);
+        
+        // Encabezados de tabla
+        $pdf->SetXY(30, $y);
+        $pdf->Cell(60, 8, utf8_decode('Campo'), 1, 0, 'C', true);
+        $pdf->Cell(100, 8, utf8_decode('Información'), 1, 1, 'C', true);
+        
+        $y += 8;
+        $pdf->SetFillColor(255, 255, 255);
+        
+        // Datos básicos
+        $campos = [
+            ['Número de Equipo', $data['numero_equipo']],
+            ['Marca', $data['marca']],
+            ['Modelo', $data['modelo']],
+            ['Serial', $data['serial']],
+            ['Estado', $data['estado']],
+            ['Disponibilidad', $data['disponibilidad']],
+            ['Fecha de Registro', date('d/m/Y', strtotime($data['fecha_registro']))]
+        ];
+        
+        // Agregar campos específicos según el tipo
+        if (in_array($tipo, ['PC Torre', 'Portátil', 'Todo en Uno'])) {
+            $campos[] = ['RAM', $data['ram'] . ($data['velocidad_ram'] != 'N/A' ? ' - ' . $data['velocidad_ram'] : '')];
+            $campos[] = ['Procesador', $data['procesador'] . ($data['velocidad_procesador'] != 'N/A' ? ' - ' . $data['velocidad_procesador'] : '')];
+            $campos[] = ['Disco Duro', $data['disco_duro'] . ($data['capacidad'] != 'N/A' ? ' - ' . $data['capacidad'] : '')];
+            $campos[] = ['Sistema Operativo', $data['sistema_operativo']];
+        } elseif ($tipo === 'Impresora') {
+            $campos[] = ['Consumible', $data['consumible']];
+        }
+        
+        foreach ($campos as $campo) {
+            $pdf->SetXY(30, $y);
+            $pdf->Cell(60, 6, utf8_decode($campo[0]), 1, 0, 'L');
+            $pdf->Cell(100, 6, utf8_decode($campo[1]), 1, 1, 'L');
+            $y += 6;
+        }
+    }
+    
+    private function crearTablaMovimientos($pdf, $movimientos, $y)
+    {
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetFillColor(240, 240, 240);
+        
+        // Encabezados de tabla de movimientos
+        $pdf->SetXY(30, $y);
+        $pdf->Cell(25, 8, 'Fecha', 1, 0, 'C', true);
+        $pdf->Cell(40, 8, 'Tipo', 1, 0, 'C', true);
+        $pdf->Cell(50, 8, utf8_decode('Descripción'), 1, 0, 'C', true);
+        $pdf->Cell(45, 8, 'Usuario', 1, 1, 'C', true);
+        
+        $y += 8;
+        $pdf->SetFillColor(255, 255, 255);
+        
+        if (empty($movimientos)) {
+            $pdf->SetXY(30, $y);
+            $pdf->Cell(160, 6, utf8_decode('No hay movimientos registrados'), 1, 1, 'C');
+        } else {
+            foreach ($movimientos as $mov) {
+                $pdf->SetXY(30, $y);
+                $pdf->Cell(25, 6, date('d/m/Y', strtotime($mov['fecha'])), 1, 0, 'C');
+                $pdf->Cell(40, 6, utf8_decode($mov['tipo']), 1, 0, 'L');
+                $pdf->Cell(50, 6, utf8_decode($mov['descripcion']), 1, 0, 'L');
+                $pdf->Cell(45, 6, utf8_decode($mov['usuario']), 1, 1, 'L');
+                $y += 6;
+                
+                if ($y > 230) break; // Evitar que se salga de la página
+            }
+        }
     }
 
     public function generarPdfTodos()
