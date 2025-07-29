@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data": "marca"},
             {"data": "modelo"},
             {"data": "estado"},
-
+            {"data": "dependencia"},
             {"data": "options"}
         ],
         "responsive": true,
@@ -43,7 +43,7 @@ function fntViewEquipo(idequipo, tipo) {
                 document.querySelector("#celSerial").innerHTML = data.serial || 'N/A';
                 document.querySelector("#celEstado").innerHTML = data.estado;
                 document.querySelector("#celDisponibilidad").innerHTML = data.disponibilidad;
-
+                document.querySelector("#celDependencia").innerHTML = data.dependencia || 'N/A';
                 // Campo oficina removido - no existe en la BD
                 document.querySelector("#celFechaRegistro").innerHTML = formatDate(data.fecha_registro);
                 

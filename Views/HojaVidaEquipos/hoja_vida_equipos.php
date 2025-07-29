@@ -40,6 +40,7 @@ getModal('modalViewEquipo', $data);
                                     <th>Marca</th>
                                     <th>Modelo</th>
                                     <th>Estado</th>
+                                    <th>Dependencia</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
