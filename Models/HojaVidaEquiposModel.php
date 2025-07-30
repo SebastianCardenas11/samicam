@@ -219,22 +219,38 @@ class HojaVidaEquiposModel extends MySql
     
     public function getMovimientosEquipo($idequipo, $tipo)
     {
-        // Simulación de movimientos - ajusta según tu estructura de BD
-        $movimientos = [
-            [
-                'fecha' => date('Y-m-d'),
-                'tipo' => 'Registro',
-                'descripcion' => 'Equipo registrado en el sistema',
-                'usuario' => 'Administrador'
-            ],
-            [
-                'fecha' => date('Y-m-d', strtotime('-30 days')),
-                'tipo' => 'Mantenimiento',
-                'descripcion' => 'Mantenimiento preventivo realizado',
-                'usuario' => 'Técnico'
-            ]
+        // Mapear tipos de equipo a los valores de la tabla
+        $tipoEquipoMap = [
+            'PC Torre' => 'pc_torre',
+            'Portátil' => 'portatil', 
+            'Todo en Uno' => 'todo_en_uno',
+            'Impresora' => 'impresora',
+            'Escáner' => 'escaner'
         ];
         
-        return $movimientos;
+        $tipoEquipo = isset($tipoEquipoMap[$tipo]) ? $tipoEquipoMap[$tipo] : strtolower($tipo);
+        
+        $sql = "SELECT 
+                    DATE_FORMAT(fecha_hora, '%Y-%m-%d') as fecha,
+                    CASE 
+                        WHEN tipo_movimiento = 'entrada' THEN 'Entrada'
+                        WHEN tipo_movimiento = 'salida' THEN 'Salida'
+                        ELSE 'Movimiento'
+                    END as tipo,
+                    COALESCE(observacion, 'Sin observaciones') as descripcion,
+                    usuario
+                FROM tbl_equipos_movimientos 
+                WHERE id_equipo = $idequipo 
+                AND tipo_equipo = '$tipoEquipo'
+                ORDER BY fecha_hora DESC";
+        
+        $request = $this->select_all($sql);
+        
+        // Si no hay movimientos, devolver array vacío
+        if (empty($request)) {
+            return [];
+        }
+        
+        return $request;
     }
 }

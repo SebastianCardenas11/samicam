@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data": "marca"},
             {"data": "modelo"},
             {"data": "estado"},
-
             {"data": "options"}
         ],
         "responsive": true,
