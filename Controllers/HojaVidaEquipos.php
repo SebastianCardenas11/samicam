@@ -223,6 +223,15 @@ class HojaVidaEquipos extends Controllers
             $this->crearTablaEspecificaciones($pdf, $data, $tipo, $y, $toLatin1, $startX, $h);
         }
         
+        // Mantenimientos del equipo
+        $mantenimientos = $this->model->selectMantenimientos($data['id'], $tipo);
+        $y += 15;
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->SetXY($startX, $y);
+        $pdf->Cell(186, $h, $toLatin1('HISTORIAL DE MANTENIMIENTOS'), 1, 1, 'C');
+        $y += $h;
+        $this->crearTablaMantenimientos($pdf, $mantenimientos, $y, $toLatin1, $startX, $h);
+        
         // Movimientos del equipo
         $movimientos = $this->model->getMovimientosEquipo($data['id'], $tipo);
         $y += 15;
@@ -456,6 +465,29 @@ class HojaVidaEquipos extends Controllers
             </div>';
         }
         
+        // Agregar mantenimientos
+        $mantenimientos = $this->model->selectMantenimientos($data['id'], $tipo);
+        $html .= '<div class="section">
+            <div class="section-title">HISTORIAL DE MANTENIMIENTOS</div>';
+        if (empty($mantenimientos)) {
+            $html .= '<p>No hay mantenimientos registrados</p>';
+        } else {
+            $html .= '<table class="table">
+                <tr><th>Fecha</th><th>Estación</th><th>Usuario</th><th>Tipo</th><th>Error</th><th>Técnico</th></tr>';
+            foreach ($mantenimientos as $mant) {
+                $html .= '<tr>
+                    <td>' . date('d/m/Y', strtotime($mant['fecha_mantenimiento'])) . '</td>
+                    <td>' . $mant['estacion_trabajo'] . '</td>
+                    <td>' . $mant['nombre_usuario'] . '</td>
+                    <td>' . $mant['tipo_dispositivo'] . '</td>
+                    <td>' . substr($mant['error_reportado'], 0, 50) . '...</td>
+                    <td>' . $mant['tecnico_servicio'] . '</td>
+                </tr>';
+            }
+            $html .= '</table>';
+        }
+        $html .= '</div>';
+        
         $html .= '<div style="margin-top: 40px; text-align: center; font-size: 10px; color: #666;">
             <p>Documento generado el ' . date('d/m/Y H:i:s') . '</p>
             <p>Alcaldía de La Jagua de Ibirico - Cesar, Colombia</p>
@@ -633,5 +665,170 @@ class HojaVidaEquipos extends Controllers
         </div>';
         
         return $html;
+    }
+    
+    public function getMantenimientos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idequipo = $_GET['id'] ?? 0;
+            $tipo = $_GET['tipo'] ?? '';
+            
+            $arrData = $this->model->selectMantenimientos($idequipo, $tipo);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([]);
+        }
+        die();
+    }
+    
+    public function setMantenimiento()
+    {
+        if ($_SESSION['permisosMod']['w']) {
+            $idEquipo = intval($_POST['idEquipoMantenimiento']);
+            $tipoEquipo = strClean($_POST['tipoEquipoMantenimiento']);
+            $fechaMantenimiento = strClean($_POST['fechaMantenimiento']);
+            $estacionTrabajo = strClean($_POST['estacionTrabajo']);
+            $nombreUsuario = strClean($_POST['nombreUsuario']);
+            $cedulaUsuario = strClean($_POST['cedulaUsuario']);
+            $tipoDispositivo = strClean($_POST['tipoDispositivo']);
+            $errorReportado = strClean($_POST['errorReportado']);
+            $accionesRealizadas = strClean($_POST['accionesRealizadas']);
+            $tecnicoServicio = strClean($_POST['tecnicoServicio']);
+            
+            if (empty($idEquipo) || empty($tipoEquipo) || empty($fechaMantenimiento) || 
+                empty($estacionTrabajo) || empty($nombreUsuario) || empty($cedulaUsuario) ||
+                empty($tipoDispositivo) || empty($errorReportado) || empty($accionesRealizadas)) {
+                $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
+            } else {
+                $request_mantenimiento = $this->model->insertMantenimiento(
+                    $idEquipo, $tipoEquipo, $fechaMantenimiento, $estacionTrabajo,
+                    $nombreUsuario, $cedulaUsuario, $tipoDispositivo, $errorReportado,
+                    $accionesRealizadas, $tecnicoServicio
+                );
+                
+                if ($request_mantenimiento > 0) {
+                    $arrResponse = array('status' => true, 'msg' => 'Mantenimiento registrado correctamente.');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'No es posible registrar el mantenimiento.');
+                }
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
+    public function getCurrentUser()
+    {
+        $arrResponse = array(
+            'status' => true, 
+            'user' => $_SESSION['userData']['nombres'] ?? 'Usuario Actual'
+        );
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    
+    private function crearTablaMantenimientos($pdf, $mantenimientos, &$y, $toLatin1, $startX, $h)
+    {
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetX($startX);
+        $pdf->Cell(25, $h, $toLatin1('Fecha'), 1, 0, 'C');
+        $pdf->Cell(30, $h, $toLatin1('Estación'), 1, 0, 'C');
+        $pdf->Cell(35, $h, 'Usuario', 1, 0, 'C');
+        $pdf->Cell(25, $h, 'Tipo', 1, 0, 'C');
+        $pdf->Cell(35, $h, 'Error', 1, 0, 'C');
+        $pdf->Cell(36, $h, $toLatin1('Técnico'), 1, 1, 'C');
+        $y += $h;
+        
+        $pdf->SetFont('Arial', '', 7);
+        if (empty($mantenimientos)) {
+            $pdf->SetX($startX);
+            $pdf->Cell(186, $h, $toLatin1('No hay mantenimientos registrados'), 1, 1, 'C');
+            $y += $h;
+        } else {
+            foreach ($mantenimientos as $mant) {
+                $pdf->SetX($startX);
+                $pdf->Cell(25, $h, date('d/m/Y', strtotime($mant['fecha_mantenimiento'])), 1, 0, 'C');
+                $pdf->Cell(30, $h, $toLatin1(substr($mant['estacion_trabajo'], 0, 15)), 1, 0, 'L');
+                $pdf->Cell(35, $h, $toLatin1(substr($mant['nombre_usuario'], 0, 18)), 1, 0, 'L');
+                $pdf->Cell(25, $h, $toLatin1(substr($mant['tipo_dispositivo'], 0, 12)), 1, 0, 'L');
+                $pdf->Cell(35, $h, $toLatin1(substr($mant['error_reportado'], 0, 20)), 1, 0, 'L');
+                $pdf->Cell(36, $h, $toLatin1(substr($mant['tecnico_servicio'], 0, 18)), 1, 1, 'L');
+                $y += $h;
+                
+                if ($y > 230) break;
+            }
+        }
+    }
+    
+    public function generarPdfMantenimientos()
+    {
+        if (!$_SESSION['permisosMod']['r']) {
+            header("Location:" . base_url() . '/dashboard');
+            exit;
+        }
+        
+        $arrData = $this->model->selectTodosMantenimientos();
+        
+        require_once dirname(__DIR__) . '/vendor/autoload.php';
+        
+        $plantillaPath = dirname(__DIR__) . '/Assets/plantillas/plantilla_viaticos.pdf';
+        
+        $pdf = new \setasign\Fpdi\Fpdi();
+        $pdf->setSourceFile($plantillaPath);
+        $tplId = $pdf->importPage(1);
+        
+        $pdf->AddPage();
+        $pdf->useTemplate($tplId, 0, 0, 210);
+        
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetXY(0, 40);
+        $pdf->Cell(210, 8, iconv('UTF-8', 'ISO-8859-1', 'REPORTE GENERAL DE MANTENIMIENTOS'), 0, 1, 'C');
+        
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetXY(10, 60);
+        $pdf->Cell(20, 6, 'Fecha', 1, 0, 'C');
+        $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', 'Equipo'), 1, 0, 'C');
+        $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Estación'), 1, 0, 'C');
+        $pdf->Cell(25, 6, 'Usuario', 1, 0, 'C');
+        $pdf->Cell(20, 6, 'Tipo', 1, 0, 'C');
+        $pdf->Cell(40, 6, 'Error', 1, 0, 'C');
+        $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Técnico'), 1, 1, 'C');
+        
+        $pdf->SetFont('Arial', '', 7);
+        $y = 66;
+        foreach ($arrData as $mantenimiento) {
+            if ($y > 250) {
+                $pdf->AddPage();
+                $pdf->useTemplate($tplId, 0, 0, 210);
+                $y = 60;
+                $pdf->SetFont('Arial', 'B', 8);
+                $pdf->SetXY(10, $y);
+                $pdf->Cell(20, 6, 'Fecha', 1, 0, 'C');
+                $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', 'Equipo'), 1, 0, 'C');
+                $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Estación'), 1, 0, 'C');
+                $pdf->Cell(25, 6, 'Usuario', 1, 0, 'C');
+                $pdf->Cell(20, 6, 'Tipo', 1, 0, 'C');
+                $pdf->Cell(40, 6, 'Error', 1, 0, 'C');
+                $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Técnico'), 1, 1, 'C');
+                $pdf->SetFont('Arial', '', 7);
+                $y += 6;
+            }
+            
+            $pdf->SetXY(10, $y);
+            $pdf->Cell(20, 6, date('d/m/Y', strtotime($mantenimiento['fecha_mantenimiento'])), 1, 0, 'C');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', $mantenimiento['numero_equipo']), 1, 0, 'C');
+            $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['estacion_trabajo'], 0, 15)), 1, 0, 'L');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['nombre_usuario'], 0, 12)), 1, 0, 'L');
+            $pdf->Cell(20, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['tipo_dispositivo'], 0, 10)), 1, 0, 'L');
+            $pdf->Cell(40, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['error_reportado'], 0, 25)), 1, 0, 'L');
+            $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['tecnico_servicio'], 0, 15)), 1, 1, 'L');
+            $y += 6;
+        }
+        
+        $filename = 'Mantenimientos_' . date('Y-m-d') . '.pdf';
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        $pdf->Output('D', $filename);
+        exit;
     }
 }

@@ -874,3 +874,17 @@
 [2025-07-29 10:45:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
 [2025-07-30 09:51:22] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
 [2025-07-30 09:51:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-30 16:03:15] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-30 16:06:07] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-07-30 16:41:18] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-07-30 16:41:19] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-07-30 17:23:34] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-07-30 17:25:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Usuarios
+[2025-07-30 17:25:03] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Roles
+[2025-07-30 17:25:08] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-07-30 17:25:08] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-30 17:25:17] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-30 17:26:07] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-07-30 17:28:59] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-30 17:29:14] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-07-30 17:29:15] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard

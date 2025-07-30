@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="modalViewEquipo" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header headerRegister">
         <h5 class="modal-title" id="titleModal">Información del Equipo</h5>
@@ -9,6 +9,19 @@
         </button>
       </div>
       <div class="modal-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="equipoTabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab">Información</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="mantenimiento-tab" data-toggle="tab" href="#mantenimiento" role="tab">Mantenimiento</a>
+          </li>
+        </ul>
+        
+        <!-- Tab panes -->
+        <div class="tab-content mt-3" id="equipoTabContent">
+          <div class="tab-pane fade show active" id="info" role="tabpanel">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -127,6 +140,38 @@
               <div class="form-group">
                 <label><strong>Consumible:</strong></label>
                 <p id="celConsumible"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+          
+          <div class="tab-pane fade" id="mantenimiento" role="tabpanel">
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6>Historial de Mantenimientos</h6>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="fntNuevoMantenimiento()">
+                    <i class="fas fa-plus"></i> Nuevo Mantenimiento
+                  </button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover" id="tableMantenimientos">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Estación</th>
+                        <th>Usuario</th>
+                        <th>Tipo Dispositivo</th>
+                        <th>Error</th>
+                        <th>Acciones</th>
+                        <th>Técnico</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbodyMantenimientos">
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

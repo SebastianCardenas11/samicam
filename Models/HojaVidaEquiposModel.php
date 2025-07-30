@@ -253,4 +253,73 @@ class HojaVidaEquiposModel extends MySql
         
         return $request;
     }
+    
+    public function selectMantenimientos($idequipo, $tipo)
+    {
+        $sql = "SELECT 
+                    fecha_mantenimiento,
+                    estacion_trabajo,
+                    nombre_usuario,
+                    cedula_usuario,
+                    tipo_dispositivo,
+                    error_reportado,
+                    acciones_realizadas,
+                    tecnico_servicio,
+                    fecha_registro
+                FROM tbl_mantenimientos_equipos 
+                WHERE id_equipo = $idequipo 
+                AND tipo_equipo = '$tipo'
+                AND status = 1
+                ORDER BY fecha_mantenimiento DESC";
+        
+        $request = $this->select_all($sql);
+        return $request ?? [];
+    }
+    
+    public function insertMantenimiento($idEquipo, $tipoEquipo, $fechaMantenimiento, $estacionTrabajo,
+                                      $nombreUsuario, $cedulaUsuario, $tipoDispositivo, $errorReportado,
+                                      $accionesRealizadas, $tecnicoServicio)
+    {
+        $sql = "INSERT INTO tbl_mantenimientos_equipos (
+                    id_equipo, tipo_equipo, fecha_mantenimiento, estacion_trabajo,
+                    nombre_usuario, cedula_usuario, tipo_dispositivo, error_reportado,
+                    acciones_realizadas, tecnico_servicio
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $arrData = array(
+            $idEquipo, $tipoEquipo, $fechaMantenimiento, $estacionTrabajo,
+            $nombreUsuario, $cedulaUsuario, $tipoDispositivo, $errorReportado,
+            $accionesRealizadas, $tecnicoServicio
+        );
+        
+        $request = $this->insert($sql, $arrData);
+        return $request;
+    }
+    
+    public function selectTodosMantenimientos()
+    {
+        $sql = "SELECT 
+                    m.fecha_mantenimiento,
+                    m.estacion_trabajo,
+                    m.nombre_usuario,
+                    m.cedula_usuario,
+                    m.tipo_dispositivo,
+                    m.error_reportado,
+                    m.acciones_realizadas,
+                    m.tecnico_servicio,
+                    CASE 
+                        WHEN m.tipo_equipo = 'PC Torre' THEN (SELECT numero_pc FROM tbl_pc_torre WHERE id_pc_torre = m.id_equipo)
+                        WHEN m.tipo_equipo = 'Portátil' THEN (SELECT numero_pc FROM tbl_portatiles WHERE id_portatil = m.id_equipo)
+                        WHEN m.tipo_equipo = 'Todo en Uno' THEN (SELECT numero_pc FROM tbl_todo_en_uno WHERE id_todo_en_uno = m.id_equipo)
+                        WHEN m.tipo_equipo = 'Impresora' THEN (SELECT numero_impresora FROM tbl_impresoras WHERE id_impresora = m.id_equipo)
+                        WHEN m.tipo_equipo = 'Escáner' THEN (SELECT numero_escaner FROM tbl_escaneres WHERE id_escaner = m.id_equipo)
+                        ELSE 'N/A'
+                    END as numero_equipo
+                FROM tbl_mantenimientos_equipos m
+                WHERE m.status = 1
+                ORDER BY m.fecha_mantenimiento DESC";
+        
+        $request = $this->select_all($sql);
+        return $request ?? [];
+    }
 }

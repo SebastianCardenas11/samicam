@@ -1,4 +1,7 @@
 let tableEquipos;
+let tableSeleccionEquipos;
+let currentEquipoId = null;
+let currentEquipoTipo = null;
 
 document.addEventListener('DOMContentLoaded', function(){
     tableEquipos = $('#tableEquipos').DataTable({
@@ -24,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 function fntViewEquipo(idequipo, tipo) {
+    currentEquipoId = idequipo;
+    currentEquipoTipo = tipo;
+    
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url + '/HojaVidaEquipos/getEquipo?id=' + idequipo + '&tipo=' + encodeURIComponent(tipo);
     request.open("GET", ajaxUrl, true);
@@ -42,11 +48,8 @@ function fntViewEquipo(idequipo, tipo) {
                 document.querySelector("#celSerial").innerHTML = data.serial || 'N/A';
                 document.querySelector("#celEstado").innerHTML = data.estado;
                 document.querySelector("#celDisponibilidad").innerHTML = data.disponibilidad;
-
-                // Campo oficina removido - no existe en la BD
                 document.querySelector("#celFechaRegistro").innerHTML = formatDate(data.fecha_registro);
                 
-                // Mostrar campos específicos según el tipo
                 if (data.tipo === 'PC Torre' || data.tipo === 'Portátil' || data.tipo === 'Todo en Uno') {
                     document.querySelector("#especsComputadora").style.display = 'block';
                     document.querySelector("#especsImpresora").style.display = 'none';
@@ -58,16 +61,16 @@ function fntViewEquipo(idequipo, tipo) {
                 } else if (data.tipo === 'Impresora') {
                     document.querySelector("#especsComputadora").style.display = 'none';
                     document.querySelector("#especsImpresora").style.display = 'block';
-                    
                     document.querySelector("#celConsumible").innerHTML = data.consumible || 'N/A';
                 } else {
                     document.querySelector("#especsComputadora").style.display = 'none';
                     document.querySelector("#especsImpresora").style.display = 'none';
                 }
                 
+                fntCargarMantenimientos(idequipo, tipo);
                 $('#modalViewEquipo').modal('show');
             } else {
-                swal("Error", objData.msg, "error");
+                Swal.fire("Error", objData.msg, "error");
             }
         }
     }
@@ -89,4 +92,129 @@ function formatDate(dateString) {
     let month = String(date.getMonth() + 1).padStart(2, '0');
     let year = date.getFullYear();
     return day + '/' + month + '/' + year;
+}
+
+function fntNuevoMantenimiento() {
+    if (document.querySelector('#modalSeleccionEquipo')) {
+        $('#modalViewEquipo').modal('hide');
+        fntCargarEquiposSeleccion();
+        $('#modalSeleccionEquipo').modal('show');
+    }
+}
+
+function fntCargarEquiposSeleccion() {
+    let tbody = document.querySelector('#tableSeleccionEquipos tbody');
+    if (!tbody) return;
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/HojaVidaEquipos/getEquipos';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            tbody.innerHTML = '';
+            
+            objData.forEach(function(equipo) {
+                let row = '<tr><td>' + equipo.tipo + '</td><td>' + equipo.numero_equipo + '</td><td>' + equipo.marca + '</td><td>' + equipo.modelo + '</td><td>' + equipo.estado + '</td><td><button class="btn btn-primary btn-sm" onclick="fntSeleccionarEquipo(' + equipo.id + ', \'' + equipo.tipo + '\')">Seleccionar</button></td></tr>';
+                tbody.innerHTML += row;
+            });
+        }
+    }
+}
+
+function fntSeleccionarEquipo(idEquipo, tipoEquipo) {
+    if (!document.querySelector('#modalMantenimiento')) return;
+    
+    $('#modalSeleccionEquipo').modal('hide');
+    
+    let idEquipoInput = document.getElementById('idEquipoMantenimiento');
+    let tipoEquipoInput = document.getElementById('tipoEquipoMantenimiento');
+    let fechaInput = document.getElementById('fechaMantenimiento');
+    
+    if (idEquipoInput) idEquipoInput.value = idEquipo;
+    if (tipoEquipoInput) tipoEquipoInput.value = tipoEquipo;
+    if (fechaInput) fechaInput.value = new Date().toISOString().split('T')[0];
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/HojaVidaEquipos/getCurrentUser';
+    request.open("GET", ajaxUrl, true);
+    request.send();
+    
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            if (objData.status) {
+                let tecnicoInput = document.getElementById('tecnicoServicio');
+                if (tecnicoInput) tecnicoInput.value = objData.user;
+            }
+        }
+    }
+    
+    $('#modalMantenimiento').modal('show');
+}
+
+function fntCargarMantenimientos(idEquipo, tipoEquipo) {
+    let tbody = document.querySelector('#tbodyMantenimientos');
+    if (!tbody) return;
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/HojaVidaEquipos/getMantenimientos?id=' + idEquipo + '&tipo=' + encodeURIComponent(tipoEquipo);
+    request.open("GET", ajaxUrl, true);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            tbody.innerHTML = '';
+            
+            if (objData && objData.length > 0) {
+                objData.forEach(function(mantenimiento) {
+                    let row = '<tr><td>' + formatDate(mantenimiento.fecha_mantenimiento) + '</td><td>' + mantenimiento.estacion_trabajo + '</td><td>' + mantenimiento.nombre_usuario + '<br><small class="text-muted">' + mantenimiento.cedula_usuario + '</small></td><td>' + mantenimiento.tipo_dispositivo + '</td><td><small>' + mantenimiento.error_reportado + '</small></td><td><small>' + mantenimiento.acciones_realizadas + '</small></td><td>' + mantenimiento.tecnico_servicio + '</td></tr>';
+                    tbody.innerHTML += row;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">No hay mantenimientos registrados</td></tr>';
+            }
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let formMantenimiento = document.getElementById('formMantenimiento');
+    if (formMantenimiento) {
+        formMantenimiento.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let formData = new FormData(this);
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url + '/HojaVidaEquipos/setMantenimiento';
+            
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    let objData = JSON.parse(request.responseText);
+                    if (objData.status) {
+                        Swal.fire("Mantenimiento", objData.msg, "success");
+                        $('#modalMantenimiento').modal('hide');
+                        formMantenimiento.reset();
+                        
+                        if (currentEquipoId && currentEquipoTipo) {
+                            fntCargarMantenimientos(currentEquipoId, currentEquipoTipo);
+                        }
+                    } else {
+                        Swal.fire("Error", objData.msg, "error");
+                    }
+                }
+            }
+        });
+    }
+});
+
+function fntPdfMantenimientos() {
+    let url = base_url + '/HojaVidaEquipos/generarPdfMantenimientos';
+    window.open(url, '_blank');
 }

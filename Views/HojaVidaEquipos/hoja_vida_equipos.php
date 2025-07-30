@@ -1,6 +1,8 @@
 <?php 
 headerAdmin($data); 
 getModal('modalViewEquipo', $data);
+getModal('modalSeleccionEquipo', $data);
+getModal('modalMantenimiento', $data);
 ?>
 
 <div id="contentAjax"></div>
@@ -25,8 +27,14 @@ getModal('modalViewEquipo', $data);
                             <h4>Inventario de Equipos</h4>
                         </div>
                         <div class="col-md-6 text-right">
+                            <button class="btn btn-primary" type="button" onclick="fntNuevoMantenimiento()">
+                                <i class="fas fa-tools"></i> Nuevo Mantenimiento
+                            </button>
+                            <button class="btn btn-warning" type="button" onclick="fntPdfMantenimientos()">
+                                <i class="fas fa-wrench"></i> PDF Mantenimientos
+                            </button>
                             <button class="btn btn-success" type="button" onclick="fntPdfTodos()">
-                                <i class="fas fa-file-pdf"></i> Descargar Todo
+                                <i class="fas fa-file-pdf"></i> PDF Equipos
                             </button>
                         </div>
                     </div>
