@@ -146,8 +146,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 body: formData
             });
             let objData = await response.json();
-            modalLoading.hide();
             if(objData.status) {
+                modalLoading.hide();
                 var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
                 modalTarea.hide();
                 formTarea.reset();
@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     });
                 }
             } else {
+                modalLoading.hide();
                 Swal.fire("Error", objData.msg, "error");
             }
         } catch (err) {
