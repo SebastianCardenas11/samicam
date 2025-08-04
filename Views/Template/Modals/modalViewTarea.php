@@ -60,6 +60,19 @@ getModal('modalObservaciones',$data);
               <td class="fw-bold">Fecha completada:</td>
               <td id="celFechaCompletada"></td>
             </tr>
+            <tr id="filaArchivoAdjunto" style="display: none;">
+              <td class="fw-bold">Archivo adjunto:</td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <a href="#" id="linkArchivoAdjunto" target="_blank" class="btn btn-outline-primary btn-xs" style="font-size: 11px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <i class="fas fa-download"></i> <span id="nombreArchivoAdjunto"></span>
+                  </a>
+                  <button type="button" id="btnPrevisualizarArchivo" class="btn btn-outline-info btn-xs" onclick="previsualizarArchivo()" style="font-size: 11px;">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
         <div class="text-center mt-3" id="divAgregarObservacion">
@@ -86,6 +99,29 @@ getModal('modalObservaciones',$data);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para previsualizar archivos -->
+<div class="modal fade" id="modalPrevisualizarArchivo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Previsualización de Archivo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="contenidoPreview" class="text-center">
+          <!-- Aquí se cargará el contenido del archivo -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <a href="#" id="btnDescargarArchivo" target="_blank" class="btn btn-primary">
+          <i class="fas fa-download"></i> Descargar
+        </a>
       </div>
     </div>
   </div>
@@ -138,6 +174,38 @@ getModal('modalObservaciones',$data);
 #listaCompletaUsuarios .usuario-badge {
   margin: 0;
 }
+
+/* Estilos para el modal de previsualización */
+#contenidoPreview {
+  min-height: 300px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+#contenidoPreview iframe {
+  width: 100%;
+  height: 350px;
+  border: none;
+}
+
+#contenidoPreview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.archivo-no-compatible {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.archivo-no-compatible i {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: #dee2e6;
+}
 </style>
 
 <script>
@@ -176,5 +244,86 @@ function mostrarTodosLosUsuarios(usuarios) {
   
   const modalVerUsuarios = new bootstrap.Modal(document.getElementById('modalVerUsuarios'));
   modalVerUsuarios.show();
+}
+
+function previsualizarArchivo() {
+  if (typeof window.archivoActual === 'undefined' || !window.archivoActual.ruta) {
+    Swal.fire('Error', 'No hay archivo para previsualizar', 'error');
+    return;
+  }
+
+  const contenidoPreview = document.getElementById('contenidoPreview');
+  const btnDescargar = document.getElementById('btnDescargarArchivo');
+  
+  // Configurar botón de descarga
+  btnDescargar.href = window.archivoActual.ruta;
+  
+  // Limpiar contenido anterior
+  contenidoPreview.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i><br>Cargando...</div>';
+  
+  // Mostrar modal
+  const modalPreview = new bootstrap.Modal(document.getElementById('modalPrevisualizarArchivo'));
+  modalPreview.show();
+  
+  // Generar preview según el tipo de archivo
+  setTimeout(() => {
+    generarPreview(window.archivoActual.extension, window.archivoActual.ruta, window.archivoActual.nombre);
+  }, 300);
+}
+
+function generarPreview(extension, ruta, nombre) {
+  const contenidoPreview = document.getElementById('contenidoPreview');
+  
+  switch(extension.toLowerCase()) {
+    case 'pdf':
+      contenidoPreview.innerHTML = `<iframe src="${ruta}" type="application/pdf"></iframe>`;
+      break;
+      
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'gif':
+      contenidoPreview.innerHTML = `<img src="${ruta}" alt="${nombre}" class="img-fluid">`;
+      break;
+      
+    case 'txt':
+      // Para archivos de texto, hacer una petición para obtener el contenido
+      fetch(ruta)
+        .then(response => response.text())
+        .then(text => {
+          contenidoPreview.innerHTML = `<pre style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 8px; max-height: 500px; overflow-y: auto;">${text}</pre>`;
+        })
+        .catch(() => {
+          contenidoPreview.innerHTML = mostrarArchivoNoCompatible('txt');
+        });
+      break;
+      
+    case 'doc':
+    case 'docx':
+      // Para documentos de Word, mostrar mensaje informativo
+      contenidoPreview.innerHTML = `
+        <div class="archivo-no-compatible">
+          <i class="fas fa-file-word"></i>
+          <h5>Documento de Word</h5>
+          <p>Los archivos de Word no se pueden previsualizar en el navegador.</p>
+          <p><strong>Archivo:</strong> ${nombre}</p>
+          <p>Haz clic en "Descargar" para abrir el archivo.</p>
+        </div>`;
+      break;
+      
+    default:
+      contenidoPreview.innerHTML = mostrarArchivoNoCompatible(extension);
+      break;
+  }
+}
+
+function mostrarArchivoNoCompatible(extension) {
+  return `
+    <div class="archivo-no-compatible">
+      <i class="fas fa-file"></i>
+      <h5>Archivo no compatible para previsualización</h5>
+      <p>Los archivos .${extension} no se pueden previsualizar en el navegador.</p>
+      <p>Haz clic en "Descargar" para abrir el archivo.</p>
+    </div>`;
 }
 </script>

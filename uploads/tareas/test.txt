@@ -1,0 +1,8 @@
+Este es un archivo de prueba para verificar la funcionalidad de previsualización de archivos en el módulo de tareas.
+
+Contenido de ejemplo:
+- Línea 1
+- Línea 2
+- Línea 3
+
+¡La previsualización funciona correctamente!

@@ -196,6 +196,44 @@
                 $fecha_fin = isset($_POST['txtFechaFin']) ? $_POST['txtFechaFin'] : '';
                 $observacion = isset($_POST['txtObservacion']) ? $_POST['txtObservacion'] : '';
                 $prioridad = isset($_POST['listPrioridad']) ? $_POST['listPrioridad'] : 'Media';
+                
+                // Manejar archivo adjunto
+                $archivo_adjunto = null;
+                $nombre_archivo_original = null;
+                
+                if (isset($_FILES['fileArchivo']) && $_FILES['fileArchivo']['error'] == UPLOAD_ERR_OK) {
+                    $archivo_temp = $_FILES['fileArchivo']['tmp_name'];
+                    $nombre_original = $_FILES['fileArchivo']['name'];
+                    $extension = strtolower(pathinfo($nombre_original, PATHINFO_EXTENSION));
+                    
+                    // Validar extensión
+                    $extensiones_permitidas = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'txt'];
+                    if (!in_array($extension, $extensiones_permitidas)) {
+                        $arrResponse = array('status' => false, 'msg' => 'Tipo de archivo no permitido.');
+                        echo json_encode($arrResponse);
+                        return;
+                    }
+                    
+                    // Validar tamaño (10MB máximo)
+                    if ($_FILES['fileArchivo']['size'] > 10 * 1024 * 1024) {
+                        $arrResponse = array('status' => false, 'msg' => 'El archivo es demasiado grande. Máximo 10MB.');
+                        echo json_encode($arrResponse);
+                        return;
+                    }
+                    
+                    // Generar nombre único para el archivo
+                    $archivo_adjunto = md5(uniqid() . $nombre_original) . '.' . $extension;
+                    $ruta_destino = 'uploads/tareas/' . $archivo_adjunto;
+                    
+                    // Mover archivo
+                    if (move_uploaded_file($archivo_temp, $ruta_destino)) {
+                        $nombre_archivo_original = $nombre_original;
+                    } else {
+                        $arrResponse = array('status' => false, 'msg' => 'Error al subir el archivo.');
+                        echo json_encode($arrResponse);
+                        return;
+                    }
+                }
 
                 // Debug: Log las variables procesadas
                 error_log("Variables procesadas:");
@@ -250,7 +288,9 @@
                         $dependencia_fk,
                         $fecha_inicio,
                         $fecha_fin,
-                        $observacion
+                        $observacion,
+                        $archivo_adjunto,
+                        $nombre_archivo_original
                     );
                 } else {
                     // Actualizar tarea existente
@@ -264,7 +304,9 @@
                         $estado,
                         $fecha_inicio,
                         $fecha_fin,
-                        $observacion
+                        $observacion,
+                        $archivo_adjunto,
+                        $nombre_archivo_original
                     );
                 }
 

@@ -404,6 +404,24 @@
             </div>
           </div>
         </div>
+
+        <div class="row mt-3" id="archivoAdjuntoContainer" style="display: none;">
+          <div class="col-12">
+            <div class="tarea-info">
+              <div class="label">Archivo Adjunto:</div>
+              <div class="value">
+                <div class="d-flex align-items-center gap-2">
+                  <a href="#" id="linkArchivoAdjunto" target="_blank" class="btn btn-outline-primary btn-xs" style="font-size: 11px;  max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <i class="fas fa-download"></i> <span id="nombreArchivoAdjunto"></span>
+                  </a>
+                  <button type="button" id="btnPrevisualizarArchivo" class="btn btn-outline-info btn-xs" onclick="previsualizarArchivo()" style="font-size: 11px; ">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row mt-3">
           <div class="col-12">
             <div class="tarea-info">
@@ -440,7 +458,73 @@
   </div>
 </div>
 
+<!-- Modal para previsualizar archivos -->
+<div class="modal fade" id="modalPrevisualizarArchivo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Previsualización de Archivo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="contenidoPreview" class="text-center">
+          <!-- Aquí se cargará el contenido del archivo -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <a href="#" id="btnDescargarArchivo" target="_blank" class="btn btn-primary">
+          <i class="fas fa-download"></i> Descargar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Estilos para el modal de previsualización */
+#contenidoPreview {
+  min-height: 300px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+#contenidoPreview iframe {
+  width: 100%;
+  height: 350px;
+  border: none;
+}
+
+#contenidoPreview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.archivo-no-compatible {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.archivo-no-compatible i {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: #dee2e6;
+}
+</style>
+
 <script>
+// Variables globales para el archivo actual
+var archivoActual = {
+    nombre: '',
+    ruta: '',
+    extension: ''
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   // Variable global para el calendario
   window.calendarInstance = null;
@@ -718,6 +802,23 @@ function fntViewTarea(idtarea) {
                 // Mostrar usuarios asignados usando la nueva función
                 mostrarUsuariosAsignados(objData.data.usuarios_asignados);
 
+                // Mostrar archivo adjunto si existe
+                if(objData.data.archivo_adjunto && objData.data.nombre_archivo_original) {
+                    document.getElementById("archivoAdjuntoContainer").style.display = "block";
+                    document.getElementById("linkArchivoAdjunto").href = base_url + "/uploads/tareas/" + objData.data.archivo_adjunto;
+                    document.getElementById("nombreArchivoAdjunto").textContent = objData.data.nombre_archivo_original;
+                    
+                    // Configurar variables globales para previsualización
+                    archivoActual = {
+                        nombre: objData.data.nombre_archivo_original,
+                        ruta: base_url + "/uploads/tareas/" + objData.data.archivo_adjunto,
+                        extension: objData.data.nombre_archivo_original.split('.').pop()
+                    };
+                } else {
+                    document.getElementById("archivoAdjuntoContainer").style.display = "none";
+                    archivoActual = { nombre: '', ruta: '', extension: '' };
+                }
+
                 // Cargar observaciones
                 let observacionesContainer = document.getElementById("celObservaciones");
                 observacionesContainer.innerHTML = '';
@@ -754,6 +855,33 @@ function fntViewTarea(idtarea) {
     }
 }
 
+function mostrarUsuariosAsignados(usuarios) {
+    const contenedor = document.getElementById('celUsuariosAsignados');
+    contenedor.innerHTML = '';
+
+    if (!usuarios || usuarios.length === 0) {
+        contenedor.innerHTML = '<span class="text-muted">No hay usuarios asignados</span>';
+        return;
+    }
+
+    // Mostrar solo los primeros 2 usuarios
+    usuarios.slice(0, 2).forEach(usuario => {
+        const badge = document.createElement('div');
+        badge.className = 'usuario-badge';
+        badge.innerHTML = `<i class="fas fa-user me-1"></i> ${usuario.nombres}`;
+        contenedor.appendChild(badge);
+    });
+
+    // Si hay más de 2 usuarios, mostrar botón "Ver más"
+    if (usuarios.length > 2) {
+        const verMasBtn = document.createElement('button');
+        verMasBtn.className = 'ver-mas-usuarios';
+        verMasBtn.innerHTML = `<i class="fas fa-users me-1"></i> Ver más <span class="contador-usuarios">+${usuarios.length - 2}</span>`;
+        verMasBtn.onclick = () => mostrarTodosLosUsuarios(usuarios);
+        contenedor.appendChild(verMasBtn);
+    }
+}
+
 function mostrarTodosLosUsuarios(usuarios) {
     let listaUsuarios = document.getElementById("listaCompletaUsuarios");
     listaUsuarios.innerHTML = '';
@@ -766,6 +894,86 @@ function mostrarTodosLosUsuarios(usuarios) {
     });
     
     $('#modalVerUsuarios').modal('show');
+}
+
+function previsualizarArchivo() {
+    if (!archivoActual.ruta) {
+        Swal.fire('Error', 'No hay archivo para previsualizar', 'error');
+        return;
+    }
+
+    const contenidoPreview = document.getElementById('contenidoPreview');
+    const btnDescargar = document.getElementById('btnDescargarArchivo');
+    
+    // Configurar botón de descarga
+    btnDescargar.href = archivoActual.ruta;
+    
+    // Limpiar contenido anterior
+    contenidoPreview.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i><br>Cargando...</div>';
+    
+    // Mostrar modal
+    $('#modalPrevisualizarArchivo').modal('show');
+    
+    // Generar preview según el tipo de archivo
+    setTimeout(() => {
+        generarPreview(archivoActual.extension, archivoActual.ruta, archivoActual.nombre);
+    }, 300);
+}
+
+function generarPreview(extension, ruta, nombre) {
+    const contenidoPreview = document.getElementById('contenidoPreview');
+    
+    switch(extension.toLowerCase()) {
+        case 'pdf':
+            contenidoPreview.innerHTML = `<iframe src="${ruta}" type="application/pdf"></iframe>`;
+            break;
+            
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+            contenidoPreview.innerHTML = `<img src="${ruta}" alt="${nombre}" class="img-fluid">`;
+            break;
+            
+        case 'txt':
+            // Para archivos de texto, hacer una petición para obtener el contenido
+            fetch(ruta)
+                .then(response => response.text())
+                .then(text => {
+                    contenidoPreview.innerHTML = `<pre style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 8px; max-height: 500px; overflow-y: auto;">${text}</pre>`;
+                })
+                .catch(() => {
+                    contenidoPreview.innerHTML = mostrarArchivoNoCompatible('txt');
+                });
+            break;
+            
+        case 'doc':
+        case 'docx':
+            // Para documentos de Word, mostrar mensaje informativo
+            contenidoPreview.innerHTML = `
+                <div class="archivo-no-compatible">
+                    <i class="fas fa-file-word"></i>
+                    <h5>Documento de Word</h5>
+                    <p>Los archivos de Word no se pueden previsualizar en el navegador.</p>
+                    <p><strong>Archivo:</strong> ${nombre}</p>
+                    <p>Haz clic en "Descargar" para abrir el archivo.</p>
+                </div>`;
+            break;
+            
+        default:
+            contenidoPreview.innerHTML = mostrarArchivoNoCompatible(extension);
+            break;
+    }
+}
+
+function mostrarArchivoNoCompatible(extension) {
+    return `
+        <div class="archivo-no-compatible">
+            <i class="fas fa-file"></i>
+            <h5>Archivo no compatible para previsualización</h5>
+            <p>Los archivos .${extension} no se pueden previsualizar en el navegador.</p>
+            <p>Haz clic en "Descargar" para abrir el archivo.</p>
+        </div>`;
 }
 </script>
 

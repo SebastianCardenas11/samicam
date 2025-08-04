@@ -63,7 +63,14 @@
               <input type="date" class="form-control" id="txtFechaFin" name="txtFechaFin" required>
             </div>
           </div>
-          <div class="row mb-3 ">
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="fileArchivo" class="form-label">Archivo adjunto (opcional)</label>
+              <input type="file" class="form-control" id="fileArchivo" name="fileArchivo" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt">
+              <small class="form-text text-muted">Formatos permitidos: PDF, DOC, DOCX, JPG, PNG, TXT. Tamaño máximo: 10MB</small>
+            </div>
+          </div>
+          <div class="row mb-3">
             <div class="col-md-12">
               <label for="txtObservacion" class="form-label">Observación inicial (opcional)</label>
               <textarea class="form-control" id="txtObservacion" name="txtObservacion" rows="3"></textarea>
@@ -86,7 +93,7 @@
         <div class="spinner-border text-success" style="width: 4rem; height: 4rem;" role="status">
           <span class="visually-hidden">Cargando...</span>
         </div>
-        <div class="mt-3 text-white fw-bold">Enviando tarea y notificación WhatsApp...</div>
+        <div class="mt-3 text-white fw-bold">Guardando tarea...</div>
       </div>
     </div>
   </div>
