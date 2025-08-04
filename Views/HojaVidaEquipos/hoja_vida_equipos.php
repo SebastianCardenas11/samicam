@@ -10,10 +10,9 @@ getModal('modalMantenimiento', $data);
     <div class="app-title">
         <div>
             <h1><i class="fas fa-desktop"></i> <?= $data['page_title'] ?></h1>
-            <p>Gestión de hojas de vida de equipos tecnológicos</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><i class="bi bi-house"></i></li>
             <li class="breadcrumb-item"><a href="<?= base_url(); ?>/hoja_vida_equipos"><?= $data['page_title'] ?></a></li>
         </ul>
     </div>

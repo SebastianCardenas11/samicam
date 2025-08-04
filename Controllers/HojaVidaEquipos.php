@@ -20,7 +20,7 @@ class HojaVidaEquipos extends Controllers
             header("Location:" . base_url() . '/dashboard');
         }
         $data['page_tag'] = "Hoja de Vida Equipos";
-        $data['page_title'] = "HOJA DE VIDA EQUIPOS";
+        $data['page_title'] = "Hoja de Vida Equipos";
         $data['page_name'] = "hoja_vida_equipos";
         $data['page_functions_js'] = "functions_hoja_vida_equipos.js";
         $this->views->getView($this, "hoja_vida_equipos", $data);
