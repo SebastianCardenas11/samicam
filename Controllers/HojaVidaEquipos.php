@@ -246,8 +246,6 @@ class HojaVidaEquipos extends Controllers
         $pdf->SetFont('Arial', '', 8);
         $pdf->SetXY($startX, $footerY);
         $pdf->Cell(186, 6, $toLatin1('Documento generado el ' . date('d/m/Y H:i:s')), 0, 1, 'C');
-        $pdf->SetXY($startX, $footerY + 10);
-        $pdf->Cell(186, 6, $toLatin1('Alcaldía de La Jagua de Ibirico - Cesar, Colombia'), 0, 1, 'C');
     }
     
     private function crearTablaInformacion($pdf, $data, $tipo, &$y, $toLatin1, $startX, $h)

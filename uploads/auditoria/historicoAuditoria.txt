@@ -985,3 +985,9 @@
 [2025-08-03 23:57:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Tareas
 [2025-08-03 23:57:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Tareas
 [2025-08-03 23:57:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Tareas
+[2025-08-04 00:18:40] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-08-04 00:18:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-08-04 00:19:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo WhatsApp
+[2025-08-04 00:20:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo WhatsApp
+[2025-08-04 00:21:14] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-08-04 00:24:05] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario

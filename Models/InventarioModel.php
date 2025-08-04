@@ -32,9 +32,20 @@ class InventarioModel extends Mysql
 
     public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
+        // Obtener estado anterior
+        $estadoAnterior = $this->select("SELECT estado FROM tbl_impresoras WHERE id_impresora = ?", [$idImpresora]);
+        
         $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_impresora = ?";
         $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idImpresora);
         $request = $this->update($sql, $arrData);
+        
+        // Registrar en hoja de vida si cambió a malo o de baja
+        if ($request && $estadoAnterior && $estadoAnterior['estado'] != $estado && ($estado == 'Malo' || $estado == 'De baja')) {
+            $fecha = ($estado == 'Malo' && $fechaDano) ? $fechaDano : (($estado == 'De baja' && $fechaBaja) ? $fechaBaja : date('Y-m-d'));
+            $observacion = "Equipo marcado como {$estado}";
+            $this->insertMovimientoEquipo($idImpresora, 'impresora', 'cambio_estado', $observacion, $_SESSION['userData']['nombres'] ?? 'Sistema');
+        }
+        
         return $request;
     }
 
@@ -71,9 +82,20 @@ class InventarioModel extends Mysql
 
     public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
+        // Obtener estado anterior
+        $estadoAnterior = $this->select("SELECT estado FROM tbl_escaneres WHERE id_escaner = ?", [$idEscaner]);
+        
         $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_escaner = ?";
         $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idEscaner);
         $request = $this->update($sql, $arrData);
+        
+        // Registrar en hoja de vida si cambió a malo o de baja
+        if ($request && $estadoAnterior && $estadoAnterior['estado'] != $estado && ($estado == 'Malo' || $estado == 'De baja')) {
+            $fecha = ($estado == 'Malo' && $fechaDano) ? $fechaDano : (($estado == 'De baja' && $fechaBaja) ? $fechaBaja : date('Y-m-d'));
+            $observacion = "Equipo marcado como {$estado}";
+            $this->insertMovimientoEquipo($idEscaner, 'escaner', 'cambio_estado', $observacion, $_SESSION['userData']['nombres'] ?? 'Sistema');
+        }
+        
         return $request;
     }
 
@@ -250,9 +272,20 @@ class InventarioModel extends Mysql
 
     public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
+        // Obtener estado anterior
+        $estadoAnterior = $this->select("SELECT estado FROM tbl_pc_torre WHERE id_pc_torre = ?", [$id_pc_torre]);
+        
         $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_pc_torre=?";
         $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_pc_torre);
         $request = $this->update($sql, $arrData);
+        
+        // Registrar en hoja de vida si cambió a malo o de baja
+        if ($request && $estadoAnterior && $estadoAnterior['estado'] != $estado && ($estado == 'Malo' || $estado == 'De baja')) {
+            $fecha = ($estado == 'Malo' && $fechaDano) ? $fechaDano : (($estado == 'De baja' && $fechaBaja) ? $fechaBaja : date('Y-m-d'));
+            $observacion = "Equipo marcado como {$estado}";
+            $this->insertMovimientoEquipo($id_pc_torre, 'pc_torre', 'cambio_estado', $observacion, $_SESSION['userData']['nombres'] ?? 'Sistema');
+        }
+        
         return $request;
     }
 
@@ -538,5 +571,15 @@ class InventarioModel extends Mysql
                 ORDER BY total_mantenimientos DESC
                 LIMIT 10";
         return $this->select_all($sql);
+    }
+    
+    // Método para obtener historial de estados de un equipo
+    public function getHistorialEstadosEquipo($idEquipo, $tipoEquipo) {
+        $sql = "SELECT DATE_FORMAT(fecha_hora, '%d/%m/%Y') as fecha, observacion, usuario 
+                FROM tbl_equipos_movimientos 
+                WHERE id_equipo = ? AND tipo_equipo = ? AND tipo_movimiento = 'cambio_estado'
+                ORDER BY fecha_hora ASC";
+        $arrData = array($idEquipo, $tipoEquipo);
+        return $this->select_all($sql, $arrData);
     }
 }
