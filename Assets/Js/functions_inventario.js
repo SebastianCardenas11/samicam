@@ -653,10 +653,10 @@ function setupFechaEventListeners() {
     const disponibilidadEscaner = document.getElementById('txtDisponibilidadEscaner');
     if (estadoEscaner && disponibilidadEscaner) {
         estadoEscaner.addEventListener('change', function() {
-            toggleFechaFields('fechasEscaner', this.value, disponibilidadEscaner.value);
+            toggleFechaFieldsEscaner('fechasEscaner', this.value, disponibilidadEscaner.value);
         });
         disponibilidadEscaner.addEventListener('change', function() {
-            toggleFechaFields('fechasEscaner', estadoEscaner.value, this.value);
+            toggleFechaFieldsEscaner('fechasEscaner', estadoEscaner.value, this.value);
         });
     }
 
@@ -725,6 +725,38 @@ function toggleFechaFields(containerId, estado, disponibilidad) {
         if (label) label.textContent = 'Fecha de Baja';
         if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
         // Solo auto-llenar si está vacío
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para escáner
+function toggleFechaFieldsEscaner(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoEscaner');
+    const help = container.querySelector('#helpFechaEstadoEscaner');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
         if (fechaInput && !fechaInput.value) {
             fechaInput.value = today;
         }
@@ -1025,6 +1057,19 @@ function editEscaner(idEscaner) {
                 document.getElementById('txtSerialEscaner').value = escaner.serial;
                 document.getElementById('txtEstadoEscaner').value = escaner.estado;
                 document.getElementById('txtDisponibilidadEscaner').value = escaner.disponibilidad;
+                
+                // Mostrar campo de fecha si es necesario PRIMERO
+                toggleFechaFieldsEscaner('fechasEscaner', escaner.estado, escaner.disponibilidad);
+                
+                // DESPUÉS llenar campo de fecha según el estado
+                const fechaInput = document.getElementById('txtFechaEstadoEscaner');
+                if (fechaInput) {
+                    if (escaner.estado === 'Malo' && escaner.fecha_dano) {
+                        fechaInput.value = escaner.fecha_dano;
+                    } else if ((escaner.estado === 'De baja' || escaner.estado === 'De Baja') && escaner.fecha_baja) {
+                        fechaInput.value = escaner.fecha_baja;
+                    }
+                }
                 
                 $('#modalInventario').modal('show');
             }
@@ -1767,7 +1812,7 @@ function verEscaner(idEscaner) {
                 ];
                 if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
                 if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
-                filas.push({ label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idEscaner}, 'escaner')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` });
+
                 showVerModal('Detalles de Escáner', filas);
             }
         });
@@ -1792,7 +1837,7 @@ function verPcTorre(idPcTorre) {
                 ];
                 if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
                 if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
-                filas.push({ label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idPcTorre}, 'pc_torre')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` });
+
                 showVerModal('Detalles de PC Torre', filas);
             }
         });
@@ -1819,7 +1864,7 @@ function verTodoEnUno(idTodoEnUno) {
                 ];
                 if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
                 if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
-                filas.push({ label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idTodoEnUno}, 'todo_en_uno')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` });
+
                 showVerModal('Detalles de PC Todo en Uno', filas);
             }
         },
@@ -1850,7 +1895,7 @@ function verPortatil(idPortatil) {
                 ];
                 if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
                 if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
-                filas.push({ label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idPortatil}, 'portatil')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` });
+
                 showVerModal('Detalles de Portátil', filas);
             }
         },

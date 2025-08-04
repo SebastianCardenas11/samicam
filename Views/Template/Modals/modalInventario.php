@@ -119,7 +119,7 @@
                                     <option value="Bueno">Bueno</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Malo">Malo</option>
-                                    <option value="De baja">De baja</option>
+                                    <option value="De Baja">De Baja</option>
                                 </select>
                             </div>
                         </div>
@@ -131,6 +131,15 @@
                                     <option value="Disponible">Disponible</option>
                                     <option value="No Disponible">No Disponible</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="fechasEscaner" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaEstadoEscaner" id="labelFechaEstadoEscaner">Fecha</label>
+                                <input type="date" class="form-control" id="txtFechaEstadoEscaner" name="txtFechaEstado">
+                                <small class="text-muted" id="helpFechaEstadoEscaner">Fecha del cambio de estado</small>
                             </div>
                         </div>
                     </div>

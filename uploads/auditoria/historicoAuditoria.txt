@@ -915,3 +915,11 @@
 [2025-08-03 21:45:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
 [2025-08-03 21:50:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
 [2025-08-03 21:51:13] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:59:30] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:00:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:05:41] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:07:10] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:08:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:08:34] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:08:54] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 22:11:19] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario

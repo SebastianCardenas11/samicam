@@ -238,8 +238,18 @@ class Inventario extends Controllers
                 $strSerial = strClean($_POST['txtSerial']);
                 $strEstado = strClean($_POST['txtEstado']);
                 $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
-                $fechaDano = !empty($_POST['txtFechaDano']) ? strClean($_POST['txtFechaDano']) : null;
-                $fechaBaja = !empty($_POST['txtFechaBaja']) ? strClean($_POST['txtFechaBaja']) : null;
+                $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                
+                // Determinar en qué campo guardar la fecha según el estado
+                $fechaDano = null;
+                $fechaBaja = null;
+                if ($fechaEstado) {
+                    if ($strEstado === 'Malo') {
+                        $fechaDano = $fechaEstado;
+                    } else if ($strEstado === 'De baja' || $strEstado === 'De Baja') {
+                        $fechaBaja = $fechaEstado;
+                    }
+                }
 
                 $request = "";
                 if ($intIdEscaner == 0) {
