@@ -688,19 +688,18 @@ class HojaVidaEquipos extends Controllers
             $estacionTrabajo = strClean($_POST['estacionTrabajo']);
             $nombreUsuario = strClean($_POST['nombreUsuario']);
             $cedulaUsuario = strClean($_POST['cedulaUsuario']);
-            $tipoDispositivo = strClean($_POST['tipoDispositivo']);
             $errorReportado = strClean($_POST['errorReportado']);
             $accionesRealizadas = strClean($_POST['accionesRealizadas']);
             $tecnicoServicio = strClean($_POST['tecnicoServicio']);
             
             if (empty($idEquipo) || empty($tipoEquipo) || empty($fechaMantenimiento) || 
                 empty($estacionTrabajo) || empty($nombreUsuario) || empty($cedulaUsuario) ||
-                empty($tipoDispositivo) || empty($errorReportado) || empty($accionesRealizadas)) {
+                empty($errorReportado) || empty($accionesRealizadas)) {
                 $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
             } else {
                 $request_mantenimiento = $this->model->insertMantenimiento(
                     $idEquipo, $tipoEquipo, $fechaMantenimiento, $estacionTrabajo,
-                    $nombreUsuario, $cedulaUsuario, $tipoDispositivo, $errorReportado,
+                    $nombreUsuario, $cedulaUsuario, $tipoEquipo, $errorReportado,
                     $accionesRealizadas, $tecnicoServicio
                 );
                 
