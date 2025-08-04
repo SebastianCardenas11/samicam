@@ -888,3 +888,30 @@
 [2025-07-30 17:28:59] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
 [2025-07-30 17:29:14] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
 [2025-07-30 17:29:15] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-08-03 20:58:58] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 127.0.0.1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0 | Acción: Inicio de sesión
+[2025-08-03 20:58:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-08-03 20:59:29] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:13:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:16:40] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:21:13] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:22:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Funcionarios Planta
+[2025-08-03 21:23:22] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:23:24] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:23:32] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:23:35] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:23:56] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:26:34] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:26:45] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:29:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:31:23] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:33:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:33:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:34:53] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:37:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:38:52] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:40:55] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:41:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:42:25] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:45:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:50:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario
+[2025-08-03 21:51:13] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Inventario

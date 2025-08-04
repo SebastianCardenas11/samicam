@@ -1,6 +1,6 @@
 <!-- Modal Inventario -->
 <div class="modal fade" id="modalInventario" tabindex="-1" role="dialog" aria-labelledby="modalInventarioLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalInventarioLabel">Gestionar Inventario</h5>
@@ -53,7 +53,7 @@
                                     <option value="Bueno">Bueno</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Malo">Malo</option>
-                                    <option value="De baja">De baja</option>
+                                    <option value="De Baja">De Baja</option>
                                 </select>
                             </div>
                         </div>
@@ -67,6 +67,13 @@
                                     <option value="Disponible">Disponible</option>
                                     <option value="No Disponible">No Disponible</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="fechasImpresora" style="display: none;">
+                            <div class="form-group">
+                                <label for="txtFechaEstado" id="labelFechaEstado">Fecha</label>
+                                <input type="date" class="form-control" id="txtFechaEstado" name="txtFechaEstado">
+                                <small class="text-muted" id="helpFechaEstado">Fecha del cambio de estado</small>
                             </div>
                         </div>
                     </div>
@@ -124,6 +131,22 @@
                                     <option value="Disponible">Disponible</option>
                                     <option value="No Disponible">No Disponible</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="fechasEscaner" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaDanoEscaner">Fecha de Daño</label>
+                                <input type="date" class="form-control" id="txtFechaDanoEscaner" name="txtFechaDano">
+                                <small class="text-muted">Se llena cuando el estado es 'Malo'</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaBajaEscaner">Fecha de Baja</label>
+                                <input type="date" class="form-control" id="txtFechaBajaEscaner" name="txtFechaBaja">
+                                <small class="text-muted">Se llena cuando está fuera de servicio</small>
                             </div>
                         </div>
                     </div>
@@ -315,6 +338,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" id="fechasPcTorre" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaDanoPcTorre">Fecha de Daño</label>
+                                <input type="date" class="form-control" id="txtFechaDanoPcTorre" name="txtFechaDano">
+                                <small class="text-muted">Se llena cuando el estado es 'Malo'</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaBajaPcTorre">Fecha de Baja</label>
+                                <input type="date" class="form-control" id="txtFechaBajaPcTorre" name="txtFechaBaja">
+                                <small class="text-muted">Se llena cuando está fuera de servicio</small>
+                            </div>
+                        </div>
+                    </div>
                 </form>
 
                 <!-- Formulario PC Todo en Uno -->
@@ -426,6 +465,22 @@
                                     <option value="Disponible">Disponible</option>
                                     <option value="No Disponible">No Disponible</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="fechasTodoEnUno" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaDanoTodoEnUno">Fecha de Daño</label>
+                                <input type="date" class="form-control" id="txtFechaDanoTodoEnUno" name="txtFechaDano">
+                                <small class="text-muted">Se llena cuando el estado es 'Malo'</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaBajaTodoEnUno">Fecha de Baja</label>
+                                <input type="date" class="form-control" id="txtFechaBajaTodoEnUno" name="txtFechaBaja">
+                                <small class="text-muted">Se llena cuando está fuera de servicio</small>
                             </div>
                         </div>
                     </div>
@@ -543,6 +598,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" id="fechasPortatil" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaDanoPortatil">Fecha de Daño</label>
+                                <input type="date" class="form-control" id="txtFechaDanoPortatil" name="txtFechaDano">
+                                <small class="text-muted">Se llena cuando el estado es 'Malo'</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFechaBajaPortatil">Fecha de Baja</label>
+                                <input type="date" class="form-control" id="txtFechaBajaPortatil" name="txtFechaBaja">
+                                <small class="text-muted">Se llena cuando está fuera de servicio</small>
+                            </div>
+                        </div>
+                    </div>
                 </form>
 
                 <!-- Formulario Herramientas -->
@@ -577,16 +648,16 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="btnActionForm">Guardar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" id="btnActionForm">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal Ver Inventario (Solo Lectura) -->
-<div class="modal fade" id="modalVerInventario" tabindex="-1" role="dialog" aria-labelledby="modalVerInventarioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+<div class="modal fade" id="modalVerInventario" tabindex="-1" role="dialog" aria-labelledby="modalVerInventarioLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalVerInventarioLabel">Detalles del Registro</h5>
@@ -598,7 +669,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
