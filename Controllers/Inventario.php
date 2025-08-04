@@ -546,8 +546,18 @@ class Inventario extends Controllers
                     $serial_monitor = strClean($_POST['txtSerialMonitorPcTorre']);
                     $estado = strClean($_POST['txtEstadoPcTorre']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadPcTorre']);
-                    $fechaDano = !empty($_POST['txtFechaDano']) ? strClean($_POST['txtFechaDano']) : null;
-                    $fechaBaja = !empty($_POST['txtFechaBaja']) ? strClean($_POST['txtFechaBaja']) : null;
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($estado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($estado === 'De baja' || $estado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
                     $request = "";
                     if ($intIdPcTorre == 0) {

@@ -346,6 +346,13 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4" id="fechasPcTorre" style="display: none;">
+                            <div class="form-group">
+                                <label for="txtFechaEstadoPcTorre" id="labelFechaEstadoPcTorre">Fecha</label>
+                                <input type="date" class="form-control" id="txtFechaEstadoPcTorre" name="txtFechaEstado">
+                                <small class="text-muted" id="helpFechaEstadoPcTorre">Fecha del cambio de estado</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="row" id="fechasPcTorre" style="display: none;">
                         <div class="col-md-6">

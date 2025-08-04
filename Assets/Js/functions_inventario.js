@@ -665,10 +665,10 @@ function setupFechaEventListeners() {
     const disponibilidadPcTorre = document.getElementById('txtDisponibilidadPcTorre');
     if (estadoPcTorre && disponibilidadPcTorre) {
         estadoPcTorre.addEventListener('change', function() {
-            toggleFechaFields('fechasPcTorre', this.value, disponibilidadPcTorre.value);
+            toggleFechaFieldsPcTorre('fechasPcTorre', this.value, disponibilidadPcTorre.value);
         });
         disponibilidadPcTorre.addEventListener('change', function() {
-            toggleFechaFields('fechasPcTorre', estadoPcTorre.value, this.value);
+            toggleFechaFieldsPcTorre('fechasPcTorre', estadoPcTorre.value, this.value);
         });
     }
 
@@ -739,6 +739,38 @@ function toggleFechaFieldsEscaner(containerId, estado, disponibilidad) {
     const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
     const label = container.querySelector('#labelFechaEstadoEscaner');
     const help = container.querySelector('#helpFechaEstadoEscaner');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para PC Torre
+function toggleFechaFieldsPcTorre(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoPcTorre');
+    const help = container.querySelector('#helpFechaEstadoPcTorre');
     
     // Ocultar por defecto
     container.style.display = 'none';
@@ -1375,6 +1407,20 @@ function editPcTorre(idPcTorre) {
                 document.getElementById('txtSerialMonitorPcTorre').value = pc.serial_monitor;
                 document.getElementById('txtEstadoPcTorre').value = pc.estado;
                 document.getElementById('txtDisponibilidadPcTorre').value = pc.disponibilidad;
+                
+                // Mostrar campo de fecha si es necesario PRIMERO
+                toggleFechaFieldsPcTorre('fechasPcTorre', pc.estado, pc.disponibilidad);
+                
+                // DESPUÉS llenar campo de fecha según el estado
+                const fechaInput = document.getElementById('txtFechaEstadoPcTorre');
+                if (fechaInput) {
+                    if (pc.estado === 'Malo' && pc.fecha_dano) {
+                        fechaInput.value = pc.fecha_dano;
+                    } else if ((pc.estado === 'De baja' || pc.estado === 'De Baja') && pc.fecha_baja) {
+                        fechaInput.value = pc.fecha_baja;
+                    }
+                }
+                
                 $('#modalInventario').modal('show');
             }
         })
