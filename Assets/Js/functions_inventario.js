@@ -677,10 +677,10 @@ function setupFechaEventListeners() {
     const disponibilidadTodoEnUno = document.getElementById('txtDisponibilidadTodoEnUno');
     if (estadoTodoEnUno && disponibilidadTodoEnUno) {
         estadoTodoEnUno.addEventListener('change', function() {
-            toggleFechaFields('fechasTodoEnUno', this.value, disponibilidadTodoEnUno.value);
+            toggleFechaFieldsTodoEnUno('fechasTodoEnUno', this.value, disponibilidadTodoEnUno.value);
         });
         disponibilidadTodoEnUno.addEventListener('change', function() {
-            toggleFechaFields('fechasTodoEnUno', estadoTodoEnUno.value, this.value);
+            toggleFechaFieldsTodoEnUno('fechasTodoEnUno', estadoTodoEnUno.value, this.value);
         });
     }
 
@@ -689,10 +689,10 @@ function setupFechaEventListeners() {
     const disponibilidadPortatil = document.getElementById('txtDisponibilidadPortatil');
     if (estadoPortatil && disponibilidadPortatil) {
         estadoPortatil.addEventListener('change', function() {
-            toggleFechaFields('fechasPortatil', this.value, disponibilidadPortatil.value);
+            toggleFechaFieldsPortatil('fechasPortatil', this.value, disponibilidadPortatil.value);
         });
         disponibilidadPortatil.addEventListener('change', function() {
-            toggleFechaFields('fechasPortatil', estadoPortatil.value, this.value);
+            toggleFechaFieldsPortatil('fechasPortatil', estadoPortatil.value, this.value);
         });
     }
 }
@@ -771,6 +771,70 @@ function toggleFechaFieldsPcTorre(containerId, estado, disponibilidad) {
     const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
     const label = container.querySelector('#labelFechaEstadoPcTorre');
     const help = container.querySelector('#helpFechaEstadoPcTorre');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para PC Todo en Uno
+function toggleFechaFieldsTodoEnUno(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoTodoEnUno');
+    const help = container.querySelector('#helpFechaEstadoTodoEnUno');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para Portátiles
+function toggleFechaFieldsPortatil(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoPortatil');
+    const help = container.querySelector('#helpFechaEstadoPortatil');
     
     // Ocultar por defecto
     container.style.display = 'none';
@@ -896,12 +960,18 @@ function openModalPcTorre() {
 function openModalTodoEnUno() {
     currentForm = 'todoEnUno';
     showForm('todoEnUno');
+    document.getElementById('modalInventarioLabel').textContent = 'Nuevo PC Todo en Uno';
+    document.getElementById('formTodoEnUno').reset();
+    document.getElementById('idTodoEnUno').value = '';
     $('#modalInventario').modal('show');
 }
 
 function openModalPortatil() {
     currentForm = 'portatil';
     showForm('portatil');
+    document.getElementById('modalInventarioLabel').textContent = 'Nuevo Portátil';
+    document.getElementById('formPortatil').reset();
+    document.getElementById('idPortatil').value = '';
     $('#modalInventario').modal('show');
 }
 

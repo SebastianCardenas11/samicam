@@ -688,8 +688,18 @@ class Inventario extends Controllers
                     $numero_activo = strClean($_POST['txtNumeroActivoTodoEnUno']);
                     $estado = strClean($_POST['txtEstadoTodoEnUno']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadTodoEnUno']);
-                    $fechaDano = !empty($_POST['txtFechaDano']) ? strClean($_POST['txtFechaDano']) : null;
-                    $fechaBaja = !empty($_POST['txtFechaBaja']) ? strClean($_POST['txtFechaBaja']) : null;
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($estado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($estado === 'De baja' || $estado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
                     $request = "";
                     if ($intIdTodoEnUno == 0) {
@@ -820,8 +830,18 @@ class Inventario extends Controllers
                     $numero_activo = strClean($_POST['txtNumeroActivoPortatil']);
                     $estado = strClean($_POST['txtEstadoPortatil']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadPortatil']);
-                    $fechaDano = !empty($_POST['txtFechaDano']) ? strClean($_POST['txtFechaDano']) : null;
-                    $fechaBaja = !empty($_POST['txtFechaBaja']) ? strClean($_POST['txtFechaBaja']) : null;
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($estado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($estado === 'De baja' || $estado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
                     $request = "";
                     if ($intIdPortatil == 0) {

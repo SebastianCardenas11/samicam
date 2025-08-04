@@ -483,20 +483,11 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" id="fechasTodoEnUno" style="display: none;">
-                        <div class="col-md-6">
+                        <div class="col-md-4" id="fechasTodoEnUno" style="display: none;">
                             <div class="form-group">
-                                <label for="txtFechaDanoTodoEnUno">Fecha de Daño</label>
-                                <input type="date" class="form-control" id="txtFechaDanoTodoEnUno" name="txtFechaDano">
-                                <small class="text-muted">Se llena cuando el estado es 'Malo'</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtFechaBajaTodoEnUno">Fecha de Baja</label>
-                                <input type="date" class="form-control" id="txtFechaBajaTodoEnUno" name="txtFechaBaja">
-                                <small class="text-muted">Se llena cuando está fuera de servicio</small>
+                                <label for="txtFechaEstadoTodoEnUno" id="labelFechaEstadoTodoEnUno">Fecha</label>
+                                <input type="date" class="form-control" id="txtFechaEstadoTodoEnUno" name="txtFechaEstado">
+                                <small class="text-muted" id="helpFechaEstadoTodoEnUno">Fecha del cambio de estado</small>
                             </div>
                         </div>
                     </div>
@@ -613,20 +604,11 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" id="fechasPortatil" style="display: none;">
-                        <div class="col-md-6">
+                        <div class="col-md-4" id="fechasPortatil" style="display: none;">
                             <div class="form-group">
-                                <label for="txtFechaDanoPortatil">Fecha de Daño</label>
-                                <input type="date" class="form-control" id="txtFechaDanoPortatil" name="txtFechaDano">
-                                <small class="text-muted">Se llena cuando el estado es 'Malo'</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtFechaBajaPortatil">Fecha de Baja</label>
-                                <input type="date" class="form-control" id="txtFechaBajaPortatil" name="txtFechaBaja">
-                                <small class="text-muted">Se llena cuando está fuera de servicio</small>
+                                <label for="txtFechaEstadoPortatil" id="labelFechaEstadoPortatil">Fecha</label>
+                                <input type="date" class="form-control" id="txtFechaEstadoPortatil" name="txtFechaEstado">
+                                <small class="text-muted" id="helpFechaEstadoPortatil">Fecha del cambio de estado</small>
                             </div>
                         </div>
                     </div>
