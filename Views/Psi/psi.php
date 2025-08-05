@@ -66,10 +66,15 @@
                 <tr>
                   <th>ID</th>
                   <th>Fecha</th>
-                  <th>Responsable</th>
-                  <th>Elemento</th>
-                  <th>Cantidad</th>
-                  <th>Motivo</th>
+                  <th>Ítem</th>
+                  <th>Tipo Dispositivo</th>
+                  <th>Descripción Dispositivo</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Número Activo</th>
+                  <th>Serial</th>
+                  <th>Dependencia</th>
+                  <th>Observaciones</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -87,10 +92,15 @@
                 <tr>
                   <th>ID</th>
                   <th>Fecha</th>
-                  <th>Responsable</th>
-                  <th>Elemento</th>
-                  <th>Cantidad</th>
-                  <th>Origen</th>
+                  <th>Ítem</th>
+                  <th>Tipo Dispositivo</th>
+                  <th>Descripción Dispositivo</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Número Activo</th>
+                  <th>Serial</th>
+                  <th>Dependencia</th>
+                  <th>Observaciones</th>
                   <th>Acciones</th>
                 </tr>
               </thead>

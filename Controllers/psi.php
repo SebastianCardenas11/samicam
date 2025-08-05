@@ -46,7 +46,7 @@ class psi extends Controllers
     {
         if ($_SESSION['permisosMod']['w']) {
             $data = $_POST;
-            $id = isset($data['id_prestamo']) ? intval($data['id_prestamo']) : 0;
+            $id = isset($data['id_prestamos']) ? intval($data['id_prestamos']) : 0;
             if ($id > 0) {
                 $result = $this->model->updatePrestamo($id, $data);
             } else {
@@ -85,11 +85,26 @@ class psi extends Controllers
     }
     public function setSalida()
     {
-        // Lógica para crear/editar salida
+        if ($_SESSION['permisosMod']['w']) {
+            $data = $_POST;
+            $id = isset($data['id_salida']) ? intval($data['id_salida']) : 0;
+            if ($id > 0) {
+                $result = $this->model->updateSalida($id, $data);
+            } else {
+                $result = $this->model->insertSalida($data);
+            }
+            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
     public function delSalida()
     {
-        // Lógica para eliminar salida
+        if ($_SESSION['permisosMod']['d']) {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $result = $this->model->deleteSalida($id);
+            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
 
     // ==================== INGRESOS ====================
@@ -111,11 +126,26 @@ class psi extends Controllers
     }
     public function setIngreso()
     {
-        // Lógica para crear/editar ingreso
+        if ($_SESSION['permisosMod']['w']) {
+            $data = $_POST;
+            $id = isset($data['id_ingreso']) ? intval($data['id_ingreso']) : 0;
+            if ($id > 0) {
+                $result = $this->model->updateIngreso($id, $data);
+            } else {
+                $result = $this->model->insertIngreso($data);
+            }
+            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
     public function delIngreso()
     {
-        // Lógica para eliminar ingreso
+        if ($_SESSION['permisosMod']['d']) {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            $result = $this->model->deleteIngreso($id);
+            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+        }
+        die();
     }
 
     public function getFuncionariosPlanta()

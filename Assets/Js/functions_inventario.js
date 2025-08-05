@@ -108,6 +108,7 @@ function initDataTables() {
                 { "data": "marca" },
                 { "data": "modelo" },
                 { "data": "serial" },
+                { "data": "numero_activo" },
                 { "data": "consumible" },
                 {
                     "data": "estado",
@@ -178,6 +179,7 @@ function initDataTables() {
                 { "data": "marca" },
                 { "data": "modelo" },
                 { "data": "serial" },
+                { "data": "numero_activo" },
                 { 
                     "data": "estado",
                     "render": function(data, type, row) {

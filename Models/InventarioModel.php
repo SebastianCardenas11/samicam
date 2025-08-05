@@ -22,18 +22,18 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad)
+    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, consumible, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, 1);
+        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, numero_activo, consumible, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad)
+    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ? WHERE id_impresora = ?";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $idImpresora);
+        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, numero_activo = ?, consumible = ?, estado = ?, disponibilidad = ? WHERE id_impresora = ?";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $idImpresora);
         $request = $this->update($sql, $arrData);
         return $request;
     }
@@ -61,18 +61,18 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad)
+    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad)
     {
-        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?)";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, 1);
+        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, numero_activo, estado, disponibilidad, status) VALUES(?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad)
+    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad)
     {
-        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ? WHERE id_escaner = ?";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $idEscaner);
+        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, numero_activo = ?, estado = ?, disponibilidad = ? WHERE id_escaner = ?";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $idEscaner);
         $request = $this->update($sql, $arrData);
         return $request;
     }
