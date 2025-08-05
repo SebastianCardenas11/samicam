@@ -20,7 +20,7 @@ class HojaVidaEquipos extends Controllers
             header("Location:" . base_url() . '/dashboard');
         }
         $data['page_tag'] = "Hoja de Vida Equipos";
-        $data['page_title'] = "HOJA DE VIDA EQUIPOS";
+        $data['page_title'] = "Hoja de Vida Equipos";
         $data['page_name'] = "hoja_vida_equipos";
         $data['page_functions_js'] = "functions_hoja_vida_equipos.js";
         $this->views->getView($this, "hoja_vida_equipos", $data);
@@ -91,14 +91,19 @@ class HojaVidaEquipos extends Controllers
     private function generarPdfConPlantilla($data, $tipo)
     {
         try {
-            require_once 'vendor/autoload.php';
+            require_once dirname(__DIR__) . '/vendor/autoload.php';
             
             // Verificar si existe la plantilla
-            $plantillaPath = 'Assets/plantillas/plantilla_viaticos.pdf';
+            $plantillaPath = dirname(__DIR__) . '/Assets/plantillas/plantilla_viaticos.pdf';
             if (!file_exists($plantillaPath)) {
                 // Si no existe la plantilla, usar mPDF normal
                 $this->generarPdfSinPlantilla($data, $tipo);
                 return;
+            }
+            
+            // Limpiar buffer de salida
+            if (ob_get_level()) {
+                ob_end_clean();
             }
             
             // Usar FPDI para trabajar con la plantilla
@@ -107,14 +112,26 @@ class HojaVidaEquipos extends Controllers
             $tplId = $pdf->importPage(1);
             
             $pdf->AddPage();
-            $pdf->useTemplate($tplId, 0, 0);
+            $pdf->useTemplate($tplId, 0, 0, 210);
             
-            // Configurar fuente
+            // Configurar fuente y color
             $pdf->SetFont('Arial', '', 10);
             $pdf->SetTextColor(0, 0, 0);
             
+            // Función para convertir texto a Latin1
+            $toLatin1 = function($text) {
+                // Reemplazar caracteres problemáticos manualmente
+                $replacements = [
+                    'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+                    'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U',
+                    'ñ' => 'n', 'Ñ' => 'N', 'ü' => 'u', 'Ü' => 'U'
+                ];
+                $text = str_replace(array_keys($replacements), array_values($replacements), $text);
+                return iconv('UTF-8', 'ISO-8859-1//IGNORE', $text);
+            };
+            
             // Agregar contenido sobre la plantilla
-            $this->agregarContenidoSobrePlantilla($pdf, $data, $tipo);
+            $this->agregarContenidoSobrePlantilla($pdf, $data, $tipo, $toLatin1);
             
             $filename = 'Hoja_Vida_' . str_replace([' ', 'á', 'é', 'í', 'ó', 'ú', 'ñ'], ['_', 'a', 'e', 'i', 'o', 'u', 'n'], $tipo) . '_' . $data['numero_equipo'] . '.pdf';
             
@@ -127,7 +144,11 @@ class HojaVidaEquipos extends Controllers
             $pdf->Output('D', $filename);
             exit;
         } catch (Exception $e) {
-            echo 'Error al generar PDF: ' . $e->getMessage();
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+            header('Content-Type: application/json');
+            echo json_encode(['status' => false, 'msg' => 'Error: ' . $e->getMessage()]);
             exit;
         }
     }
@@ -135,6 +156,13 @@ class HojaVidaEquipos extends Controllers
     private function generarPdfSinPlantilla($data, $tipo)
     {
         try {
+            require_once dirname(__DIR__) . '/vendor/autoload.php';
+            
+            // Limpiar buffer de salida
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+            
             $mpdf = new \Mpdf\Mpdf([
                 'format' => 'A4',
                 'margin_left' => 15,
@@ -156,172 +184,228 @@ class HojaVidaEquipos extends Controllers
             $mpdf->Output($filename, 'D');
             exit;
         } catch (Exception $e) {
-            echo 'Error al generar PDF: ' . $e->getMessage();
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+            header('Content-Type: application/json');
+            echo json_encode(['status' => false, 'msg' => 'Error: ' . $e->getMessage()]);
             exit;
         }
     }
     
-    private function agregarContenidoSobrePlantilla($pdf, $data, $tipo)
+    private function agregarContenidoSobrePlantilla($pdf, $data, $tipo, $toLatin1)
     {
         // Título del documento
         $pdf->SetFont('Arial', 'B', 14);
-        $pdf->SetXY(50, 60);
-        $pdf->Cell(0, 10, utf8_decode('HOJA DE VIDA DE EQUIPO - ' . strtoupper($tipo)), 0, 1, 'C');
+        $pdf->SetXY(0, 38);
+        $pdf->Cell(210, 8, $toLatin1('HOJA DE VIDA DE EQUIPO - ' . strtoupper($tipo)), 0, 1, 'C');
         
-        // Tabla de información básica
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->SetXY(30, 80);
-        $pdf->Cell(0, 8, utf8_decode('INFORMACIÓN BÁSICA'), 0, 1, 'L');
+        // Configuración de tabla
+        $startX = 14;
+        $startY = 50;
+        $h = 6;
         
-        $y = 90;
-        $this->crearTablaInformacion($pdf, $data, $tipo, $y);
+        // Información básica
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->SetXY($startX, $startY);
+        $pdf->Cell(186, $h, $toLatin1('INFORMACIÓN BÁSICA'), 1, 1, 'C');
         
-        // Obtener movimientos del equipo
+        $y = $startY + $h;
+        $this->crearTablaInformacion($pdf, $data, $tipo, $y, $toLatin1, $startX, $h);
+        
+        // Especificaciones técnicas (si aplica)
+        if (in_array($tipo, ['PC Torre', 'Portátil', 'Todo en Uno', 'Impresora'])) {
+            $y += 10;
+            $pdf->SetFont('Arial', 'B', 9);
+            $pdf->SetXY($startX, $y);
+            $pdf->Cell(186, $h, $toLatin1('ESPECIFICACIONES TÉCNICAS'), 1, 1, 'C');
+            $y += $h;
+            $this->crearTablaEspecificaciones($pdf, $data, $tipo, $y, $toLatin1, $startX, $h);
+        }
+        
+        // Mantenimientos del equipo
+        $mantenimientos = $this->model->selectMantenimientos($data['id'], $tipo);
+        $y += 15;
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->SetXY($startX, $y);
+        $pdf->Cell(186, $h, $toLatin1('HISTORIAL DE MANTENIMIENTOS'), 1, 1, 'C');
+        $y += $h;
+        $this->crearTablaMantenimientos($pdf, $mantenimientos, $y, $toLatin1, $startX, $h);
+        
+        // Movimientos del equipo
         $movimientos = $this->model->getMovimientosEquipo($data['id'], $tipo);
+        $y += 15;
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->SetXY($startX, $y);
+        $pdf->Cell(186, $h, $toLatin1('MOVIMIENTOS DEL EQUIPO'), 1, 1, 'C');
+        $y += $h;
+        $this->crearTablaMovimientos($pdf, $movimientos, $y, $toLatin1, $startX, $h);
         
-        // Tabla de movimientos
-        $yMovimientos = $y + 20;
-        $pdf->SetFont('Arial', 'B', 11);
-        $pdf->SetXY(30, $yMovimientos);
-        $pdf->Cell(0, 8, 'MOVIMIENTOS', 0, 1, 'L');
-        
-        $this->crearTablaMovimientos($pdf, $movimientos, $yMovimientos + 10);
-        
-        // Pie de página
+        // Pie de página (ajustar posición según contenido)
+        $footerY = max($y + 10, 250);
         $pdf->SetFont('Arial', '', 8);
-        $pdf->SetXY(30, 250);
-        $pdf->Cell(0, 6, utf8_decode('Documento generado el ' . date('d/m/Y H:i:s')), 0, 1, 'C');
-        $pdf->SetXY(30, 260);
-        $pdf->Cell(0, 6, utf8_decode('Alcaldía de La Jagua de Ibirico - Cesar, Colombia'), 0, 1, 'C');
+        $pdf->SetXY($startX, $footerY);
+        $pdf->Cell(186, 6, $toLatin1('Documento generado el ' . date('d/m/Y H:i:s')), 0, 1, 'C');
     }
     
-    private function crearTablaInformacion($pdf, $data, $tipo, &$y)
+    private function crearTablaInformacion($pdf, $data, $tipo, &$y, $toLatin1, $startX, $h)
     {
         $pdf->SetFont('Arial', '', 9);
-        $pdf->SetFillColor(240, 240, 240);
-        
-        // Encabezados de tabla
-        $pdf->SetXY(30, $y);
-        $pdf->Cell(60, 8, utf8_decode('Campo'), 1, 0, 'C', true);
-        $pdf->Cell(100, 8, utf8_decode('Información'), 1, 1, 'C', true);
-        
-        $y += 8;
-        $pdf->SetFillColor(255, 255, 255);
         
         // Datos básicos
         $campos = [
-            ['Número de Equipo', $data['numero_equipo']],
-            ['Marca', $data['marca']],
-            ['Modelo', $data['modelo']],
-            ['Serial', $data['serial']],
-            ['Estado', $data['estado']],
-            ['Disponibilidad', $data['disponibilidad']],
-            ['Fecha de Registro', date('d/m/Y', strtotime($data['fecha_registro']))]
+            ['Número de Equipo', $data['numero_equipo'] ?? 'N/A'],
+            ['Marca', $data['marca'] ?? 'N/A'],
+            ['Modelo', $data['modelo'] ?? 'N/A'],
+            ['Serial', $data['serial'] ?? 'N/A'],
+            ['Estado', $data['estado'] ?? 'N/A'],
+            ['Disponibilidad', $data['disponibilidad'] ?? 'N/A'],
+            ['Fecha de Registro', isset($data['fecha_registro']) ? date('d/m/Y', strtotime($data['fecha_registro'])) : 'N/A']
         ];
         
-        // Agregar campos específicos según el tipo
-        if (in_array($tipo, ['PC Torre', 'Portátil', 'Todo en Uno'])) {
-            $campos[] = ['RAM', $data['ram'] . ($data['velocidad_ram'] != 'N/A' ? ' - ' . $data['velocidad_ram'] : '')];
-            $campos[] = ['Procesador', $data['procesador'] . ($data['velocidad_procesador'] != 'N/A' ? ' - ' . $data['velocidad_procesador'] : '')];
-            $campos[] = ['Disco Duro', $data['disco_duro'] . ($data['capacidad'] != 'N/A' ? ' - ' . $data['capacidad'] : '')];
-            $campos[] = ['Sistema Operativo', $data['sistema_operativo']];
-        } elseif ($tipo === 'Impresora') {
-            $campos[] = ['Consumible', $data['consumible']];
-        }
-        
         foreach ($campos as $campo) {
-            $pdf->SetXY(30, $y);
-            $pdf->Cell(60, 6, utf8_decode($campo[0]), 1, 0, 'L');
-            $pdf->Cell(100, 6, utf8_decode($campo[1]), 1, 1, 'L');
-            $y += 6;
+            $pdf->SetX($startX);
+            $pdf->SetFont('Arial', 'B', 9);
+            $pdf->Cell(60, $h, $toLatin1($campo[0] . ':'), 1, 0, 'L');
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->Cell(126, $h, $toLatin1($campo[1]), 1, 1, 'L');
+            $y += $h;
         }
     }
     
-    private function crearTablaMovimientos($pdf, $movimientos, $y)
+    private function crearTablaEspecificaciones($pdf, $data, $tipo, &$y, $toLatin1, $startX, $h)
     {
+        $pdf->SetFont('Arial', '', 9);
+        
+        if (in_array($tipo, ['PC Torre', 'Portátil', 'Todo en Uno'])) {
+            $campos = [
+                ['RAM', ($data['ram'] ?? 'N/A') . (isset($data['velocidad_ram']) && $data['velocidad_ram'] != 'N/A' ? ' - ' . $data['velocidad_ram'] : '')],
+                ['Procesador', ($data['procesador'] ?? 'N/A') . (isset($data['velocidad_procesador']) && $data['velocidad_procesador'] != 'N/A' ? ' - ' . $data['velocidad_procesador'] : '')],
+                ['Disco Duro', ($data['disco_duro'] ?? 'N/A') . (isset($data['capacidad']) && $data['capacidad'] != 'N/A' ? ' - ' . $data['capacidad'] : '')],
+                ['Sistema Operativo', $data['sistema_operativo'] ?? 'N/A']
+            ];
+        } elseif ($tipo === 'Impresora') {
+            $campos = [
+                ['Consumible', $data['consumible'] ?? 'N/A']
+            ];
+        } else {
+            $campos = [];
+        }
+        
+        foreach ($campos as $campo) {
+            $pdf->SetX($startX);
+            $pdf->SetFont('Arial', 'B', 9);
+            $pdf->Cell(60, $h, $toLatin1($campo[0] . ':'), 1, 0, 'L');
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->Cell(126, $h, $toLatin1($campo[1]), 1, 1, 'L');
+            $y += $h;
+        }
+    }
+    
+    private function crearTablaMovimientos($pdf, $movimientos, &$y, $toLatin1, $startX, $h)
+    {
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetX($startX);
+        $pdf->Cell(30, $h, $toLatin1('Fecha'), 1, 0, 'C');
+        $pdf->Cell(40, $h, $toLatin1('Tipo'), 1, 0, 'C');
+        $pdf->Cell(70, $h, $toLatin1('Descripción'), 1, 0, 'C');
+        $pdf->Cell(46, $h, $toLatin1('Usuario'), 1, 1, 'C');
+        $y += $h;
+        
         $pdf->SetFont('Arial', '', 8);
-        $pdf->SetFillColor(240, 240, 240);
-        
-        // Encabezados de tabla de movimientos
-        $pdf->SetXY(30, $y);
-        $pdf->Cell(25, 8, 'Fecha', 1, 0, 'C', true);
-        $pdf->Cell(40, 8, 'Tipo', 1, 0, 'C', true);
-        $pdf->Cell(50, 8, utf8_decode('Descripción'), 1, 0, 'C', true);
-        $pdf->Cell(45, 8, 'Usuario', 1, 1, 'C', true);
-        
-        $y += 8;
-        $pdf->SetFillColor(255, 255, 255);
-        
         if (empty($movimientos)) {
-            $pdf->SetXY(30, $y);
-            $pdf->Cell(160, 6, utf8_decode('No hay movimientos registrados'), 1, 1, 'C');
+            $pdf->SetX($startX);
+            $pdf->Cell(186, $h, $toLatin1('No hay movimientos registrados'), 1, 1, 'C');
+            $y += $h;
         } else {
             foreach ($movimientos as $mov) {
-                $pdf->SetXY(30, $y);
-                $pdf->Cell(25, 6, date('d/m/Y', strtotime($mov['fecha'])), 1, 0, 'C');
-                $pdf->Cell(40, 6, utf8_decode($mov['tipo']), 1, 0, 'L');
-                $pdf->Cell(50, 6, utf8_decode($mov['descripcion']), 1, 0, 'L');
-                $pdf->Cell(45, 6, utf8_decode($mov['usuario']), 1, 1, 'L');
-                $y += 6;
+                $pdf->SetX($startX);
+                $pdf->Cell(30, $h, isset($mov['fecha']) ? date('d/m/Y', strtotime($mov['fecha'])) : 'N/A', 1, 0, 'C');
+                $pdf->Cell(40, $h, $toLatin1($mov['tipo'] ?? 'N/A'), 1, 0, 'L');
+                $pdf->Cell(70, $h, $toLatin1($mov['descripcion'] ?? 'N/A'), 1, 0, 'L');
+                $pdf->Cell(46, $h, $toLatin1($mov['usuario'] ?? 'N/A'), 1, 1, 'L');
+                $y += $h;
                 
-                if ($y > 230) break; // Evitar que se salga de la página
+                if ($y > 230) break;
             }
         }
     }
 
     public function generarPdfTodos()
     {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectEquipos();
-            $this->generarPdfTodosEquipos($arrData);
-        }
-        die();
-    }
-
-    private function generarPdfEquipo($data, $tipo)
-    {
-        require_once 'vendor/autoload.php';
-        
-        try {
-            $mpdf = new \Mpdf\Mpdf([
-                'format' => 'A4',
-                'margin_left' => 15,
-                'margin_right' => 15,
-                'margin_top' => 20,
-                'margin_bottom' => 20
-            ]);
-            
-            $html = $this->getHtmlEquipo($data, $tipo);
-            $mpdf->WriteHTML($html);
-            
-            $filename = 'Hoja_Vida_' . str_replace(' ', '_', $tipo) . '_' . $data['numero_equipo'] . '.pdf';
-            
-            // Forzar descarga directa
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
-            header('Cache-Control: private, max-age=0, must-revalidate');
-            header('Pragma: public');
-            
-            $mpdf->Output($filename, 'D');
-            exit;
-        } catch (Exception $e) {
-            echo 'Error al generar PDF: ' . $e->getMessage();
+        if (!$_SESSION['permisosMod']['r']) {
+            header("Location:" . base_url() . '/dashboard');
             exit;
         }
+        
+        $arrData = $this->model->selectEquipos();
+        
+        if (empty($arrData)) {
+            echo 'No hay equipos registrados';
+            exit;
+        }
+        
+        require_once dirname(__DIR__) . '/vendor/autoload.php';
+        
+        $plantillaPath = dirname(__DIR__) . '/Assets/plantillas/plantilla_viaticos.pdf';
+        
+        $pdf = new \setasign\Fpdi\Fpdi();
+        $pdf->setSourceFile($plantillaPath);
+        $tplId = $pdf->importPage(1);
+        
+        $pdf->AddPage();
+        $pdf->useTemplate($tplId, 0, 0, 210);
+        
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetXY(0, 40);
+        $pdf->Cell(210, 8, iconv('UTF-8', 'ISO-8859-1', 'INVENTARIO GENERAL DE EQUIPOS'), 0, 1, 'C');
+        
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->SetXY(15, 60);
+        $pdf->Cell(35, 6, 'Tipo', 1, 0, 'C');
+        $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', 'Número'), 1, 0, 'C');
+        $pdf->Cell(35, 6, 'Marca', 1, 0, 'C');
+        $pdf->Cell(35, 6, 'Modelo', 1, 0, 'C');
+        $pdf->Cell(25, 6, 'Estado', 1, 0, 'C');
+        $pdf->Cell(25, 6, 'Disponible', 1, 1, 'C');
+        
+        $pdf->SetFont('Arial', '', 8);
+        $y = 66;
+        foreach ($arrData as $equipo) {
+            if ($y > 250) {
+                $pdf->AddPage();
+                $pdf->useTemplate($tplId, 0, 0, 210);
+                $y = 60;
+                $pdf->SetFont('Arial', 'B', 9);
+                $pdf->SetXY(15, $y);
+                $pdf->Cell(35, 6, 'Tipo', 1, 0, 'C');
+                $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', 'Número'), 1, 0, 'C');
+                $pdf->Cell(35, 6, 'Marca', 1, 0, 'C');
+                $pdf->Cell(35, 6, 'Modelo', 1, 0, 'C');
+                $pdf->Cell(25, 6, 'Estado', 1, 0, 'C');
+                $pdf->Cell(25, 6, 'Disponible', 1, 1, 'C');
+                $pdf->SetFont('Arial', '', 8);
+                $y += 6;
+            }
+            
+            $pdf->SetXY(15, $y);
+            $pdf->Cell(35, 6, iconv('UTF-8', 'ISO-8859-1', $equipo['tipo']), 1, 0, 'L');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', $equipo['numero_equipo']), 1, 0, 'C');
+            $pdf->Cell(35, 6, iconv('UTF-8', 'ISO-8859-1', $equipo['marca']), 1, 0, 'L');
+            $pdf->Cell(35, 6, iconv('UTF-8', 'ISO-8859-1', $equipo['modelo']), 1, 0, 'L');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', $equipo['estado']), 1, 0, 'C');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', $equipo['disponibilidad']), 1, 1, 'C');
+            $y += 6;
+        }
+        
+        $filename = 'Inventario_Equipos_' . date('Y-m-d') . '.pdf';
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        $pdf->Output('D', $filename);
+        exit;
     }
 
-    private function generarPdfTodosEquipos($data)
-    {
-        require_once 'vendor/autoload.php';
-        
-        $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
-        
-        $html = $this->getHtmlTodosEquipos($data);
-        $mpdf->WriteHTML($html);
-        
-        $filename = 'hoja_vida_todos_equipos.pdf';
-        $mpdf->Output($filename, 'D');
-    }
+
 
     private function getHtmlEquipo($data, $tipo)
     {
@@ -379,6 +463,29 @@ class HojaVidaEquipos extends Controllers
             </div>';
         }
         
+        // Agregar mantenimientos
+        $mantenimientos = $this->model->selectMantenimientos($data['id'], $tipo);
+        $html .= '<div class="section">
+            <div class="section-title">HISTORIAL DE MANTENIMIENTOS</div>';
+        if (empty($mantenimientos)) {
+            $html .= '<p>No hay mantenimientos registrados</p>';
+        } else {
+            $html .= '<table class="table">
+                <tr><th>Fecha</th><th>Estación</th><th>Usuario</th><th>Tipo</th><th>Error</th><th>Técnico</th></tr>';
+            foreach ($mantenimientos as $mant) {
+                $html .= '<tr>
+                    <td>' . date('d/m/Y', strtotime($mant['fecha_mantenimiento'])) . '</td>
+                    <td>' . $mant['estacion_trabajo'] . '</td>
+                    <td>' . $mant['nombre_usuario'] . '</td>
+                    <td>' . $mant['tipo_dispositivo'] . '</td>
+                    <td>' . substr($mant['error_reportado'], 0, 50) . '...</td>
+                    <td>' . $mant['tecnico_servicio'] . '</td>
+                </tr>';
+            }
+            $html .= '</table>';
+        }
+        $html .= '</div>';
+        
         $html .= '<div style="margin-top: 40px; text-align: center; font-size: 10px; color: #666;">
             <p>Documento generado el ' . date('d/m/Y H:i:s') . '</p>
             <p>Alcaldía de La Jagua de Ibirico - Cesar, Colombia</p>
@@ -389,44 +496,68 @@ class HojaVidaEquipos extends Controllers
 
     private function getHtmlTodosEquipos($data)
     {
-        $html = '
-        <style>
-            body { font-family: Arial, sans-serif; font-size: 10px; }
-            .header { text-align: center; margin-bottom: 20px; }
-            .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-            .table th, .table td { border: 1px solid #ddd; padding: 4px; text-align: left; }
-            .table th { background-color: #f2f2f2; }
+        $totalEquipos = count($data);
+        
+        $html = '<style>
+            body { font-family: Arial, sans-serif; font-size: 10px; margin: 15px; }
+            .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #004884; padding-bottom: 15px; }
+            .title { color: #004884; font-size: 16px; font-weight: bold; margin: 10px 0; }
+            .subtitle { color: #666; font-size: 12px; }
+            .stats { background-color: #f8f9fa; padding: 10px; margin-bottom: 15px; border-radius: 5px; }
+            .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 9px; }
+            .table th { background-color: #004884; color: white; padding: 6px 4px; text-align: center; font-weight: bold; }
+            .table td { border: 1px solid #ddd; padding: 4px; text-align: left; }
+            .table tr:nth-child(even) { background-color: #f9f9f9; }
+            .footer { text-align: center; margin-top: 20px; font-size: 8px; color: #666; }
         </style>
+        
         <div class="header">
-            <h2>INVENTARIO GENERAL DE EQUIPOS</h2>
-            <p>Sistema SAMICAM - CAM La Jagua de Ibirico</p>
-            <p>Fecha: ' . date('d/m/Y') . '</p>
+            <h1 class="title">ALCALDÍA DE LA JAGUA DE IBIRICO</h1>
+            <p class="subtitle">Sistema SAMICAM - Inventario General de Equipos</p>
+            <p style="color: #004884; font-weight: bold;">Fecha de Generación: ' . date('d/m/Y H:i:s') . '</p>
         </div>
+        
+        <div class="stats">
+            <strong>Total de Equipos Registrados: ' . $totalEquipos . '</strong>
+        </div>
+        
         <table class="table">
             <thead>
                 <tr>
-                    <th>Tipo</th>
-                    <th>Número</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Estado</th>
-                    <th>Dependencia</th>
+                    <th style="width: 15%;">Tipo</th>
+                    <th style="width: 12%;">Número</th>
+                    <th style="width: 15%;">Marca</th>
+                    <th style="width: 18%;">Modelo</th>
+                    <th style="width: 15%;">Serial</th>
+                    <th style="width: 12%;">Estado</th>
+                    <th style="width: 13%;">Disponibilidad</th>
                 </tr>
             </thead>
             <tbody>';
         
-        foreach ($data as $equipo) {
-            $html .= '<tr>
-                <td>' . $equipo['tipo'] . '</td>
-                <td>' . $equipo['numero_equipo'] . '</td>
-                <td>' . $equipo['marca'] . '</td>
-                <td>' . $equipo['modelo'] . '</td>
-                <td>' . $equipo['estado'] . '</td>
-                <td>' . (isset($equipo['dependencia']) ? $equipo['dependencia'] : 'N/A') . '</td>
-            </tr>';
+        if (empty($data)) {
+            $html .= '<tr><td colspan="7" style="text-align: center; padding: 20px;">No hay equipos registrados</td></tr>';
+        } else {
+            foreach ($data as $equipo) {
+                $html .= '<tr>
+                    <td>' . htmlspecialchars($equipo['tipo']) . '</td>
+                    <td>' . htmlspecialchars($equipo['numero_equipo']) . '</td>
+                    <td>' . htmlspecialchars($equipo['marca']) . '</td>
+                    <td>' . htmlspecialchars($equipo['modelo']) . '</td>
+                    <td>' . htmlspecialchars($equipo['serial']) . '</td>
+                    <td>' . htmlspecialchars($equipo['estado']) . '</td>
+                    <td>' . htmlspecialchars($equipo['disponibilidad']) . '</td>
+                </tr>';
+            }
         }
         
-        $html .= '</tbody></table>';
+        $html .= '</tbody></table>
+        
+        <div class="footer">
+            <p>Documento generado automáticamente por el Sistema SAMICAM</p>
+            <p>Alcaldía de La Jagua de Ibirico - Cesar, Colombia</p>
+        </div>';
+        
         return $html;
     }
     
@@ -532,5 +663,169 @@ class HojaVidaEquipos extends Controllers
         </div>';
         
         return $html;
+    }
+    
+    public function getMantenimientos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idequipo = $_GET['id'] ?? 0;
+            $tipo = $_GET['tipo'] ?? '';
+            
+            $arrData = $this->model->selectMantenimientos($idequipo, $tipo);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([]);
+        }
+        die();
+    }
+    
+    public function setMantenimiento()
+    {
+        if ($_SESSION['permisosMod']['w']) {
+            $idEquipo = intval($_POST['idEquipoMantenimiento']);
+            $tipoEquipo = strClean($_POST['tipoEquipoMantenimiento']);
+            $fechaMantenimiento = strClean($_POST['fechaMantenimiento']);
+            $estacionTrabajo = strClean($_POST['estacionTrabajo']);
+            $nombreUsuario = strClean($_POST['nombreUsuario']);
+            $cedulaUsuario = strClean($_POST['cedulaUsuario']);
+            $errorReportado = strClean($_POST['errorReportado']);
+            $accionesRealizadas = strClean($_POST['accionesRealizadas']);
+            $tecnicoServicio = strClean($_POST['tecnicoServicio']);
+            
+            if (empty($idEquipo) || empty($tipoEquipo) || empty($fechaMantenimiento) || 
+                empty($estacionTrabajo) || empty($nombreUsuario) || empty($cedulaUsuario) ||
+                empty($errorReportado) || empty($accionesRealizadas)) {
+                $arrResponse = array('status' => false, 'msg' => 'Todos los campos son obligatorios.');
+            } else {
+                $request_mantenimiento = $this->model->insertMantenimiento(
+                    $idEquipo, $tipoEquipo, $fechaMantenimiento, $estacionTrabajo,
+                    $nombreUsuario, $cedulaUsuario, $tipoEquipo, $errorReportado,
+                    $accionesRealizadas, $tecnicoServicio
+                );
+                
+                if ($request_mantenimiento > 0) {
+                    $arrResponse = array('status' => true, 'msg' => 'Mantenimiento registrado correctamente.');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'No es posible registrar el mantenimiento.');
+                }
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+    
+    public function getCurrentUser()
+    {
+        $arrResponse = array(
+            'status' => true, 
+            'user' => $_SESSION['userData']['nombres'] ?? 'Usuario Actual'
+        );
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    
+    private function crearTablaMantenimientos($pdf, $mantenimientos, &$y, $toLatin1, $startX, $h)
+    {
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetX($startX);
+        $pdf->Cell(25, $h, $toLatin1('Fecha'), 1, 0, 'C');
+        $pdf->Cell(30, $h, $toLatin1('Estación'), 1, 0, 'C');
+        $pdf->Cell(35, $h, 'Usuario', 1, 0, 'C');
+        $pdf->Cell(25, $h, 'Tipo', 1, 0, 'C');
+        $pdf->Cell(35, $h, 'Error', 1, 0, 'C');
+        $pdf->Cell(36, $h, $toLatin1('Técnico'), 1, 1, 'C');
+        $y += $h;
+        
+        $pdf->SetFont('Arial', '', 7);
+        if (empty($mantenimientos)) {
+            $pdf->SetX($startX);
+            $pdf->Cell(186, $h, $toLatin1('No hay mantenimientos registrados'), 1, 1, 'C');
+            $y += $h;
+        } else {
+            foreach ($mantenimientos as $mant) {
+                $pdf->SetX($startX);
+                $pdf->Cell(25, $h, date('d/m/Y', strtotime($mant['fecha_mantenimiento'])), 1, 0, 'C');
+                $pdf->Cell(30, $h, $toLatin1(substr($mant['estacion_trabajo'], 0, 15)), 1, 0, 'L');
+                $pdf->Cell(35, $h, $toLatin1(substr($mant['nombre_usuario'], 0, 18)), 1, 0, 'L');
+                $pdf->Cell(25, $h, $toLatin1(substr($mant['tipo_dispositivo'], 0, 12)), 1, 0, 'L');
+                $pdf->Cell(35, $h, $toLatin1(substr($mant['error_reportado'], 0, 20)), 1, 0, 'L');
+                $pdf->Cell(36, $h, $toLatin1(substr($mant['tecnico_servicio'], 0, 18)), 1, 1, 'L');
+                $y += $h;
+                
+                if ($y > 230) break;
+            }
+        }
+    }
+    
+    public function generarPdfMantenimientos()
+    {
+        if (!$_SESSION['permisosMod']['r']) {
+            header("Location:" . base_url() . '/dashboard');
+            exit;
+        }
+        
+        $arrData = $this->model->selectTodosMantenimientos();
+        
+        require_once dirname(__DIR__) . '/vendor/autoload.php';
+        
+        $plantillaPath = dirname(__DIR__) . '/Assets/plantillas/plantilla_viaticos.pdf';
+        
+        $pdf = new \setasign\Fpdi\Fpdi();
+        $pdf->setSourceFile($plantillaPath);
+        $tplId = $pdf->importPage(1);
+        
+        $pdf->AddPage();
+        $pdf->useTemplate($tplId, 0, 0, 210);
+        
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetXY(0, 40);
+        $pdf->Cell(210, 8, iconv('UTF-8', 'ISO-8859-1', 'REPORTE GENERAL DE MANTENIMIENTOS'), 0, 1, 'C');
+        
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetXY(10, 60);
+        $pdf->Cell(20, 6, 'Fecha', 1, 0, 'C');
+        $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', 'Equipo'), 1, 0, 'C');
+        $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Estación'), 1, 0, 'C');
+        $pdf->Cell(25, 6, 'Usuario', 1, 0, 'C');
+        $pdf->Cell(20, 6, 'Tipo', 1, 0, 'C');
+        $pdf->Cell(40, 6, 'Error', 1, 0, 'C');
+        $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Técnico'), 1, 1, 'C');
+        
+        $pdf->SetFont('Arial', '', 7);
+        $y = 66;
+        foreach ($arrData as $mantenimiento) {
+            if ($y > 250) {
+                $pdf->AddPage();
+                $pdf->useTemplate($tplId, 0, 0, 210);
+                $y = 60;
+                $pdf->SetFont('Arial', 'B', 8);
+                $pdf->SetXY(10, $y);
+                $pdf->Cell(20, 6, 'Fecha', 1, 0, 'C');
+                $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', 'Equipo'), 1, 0, 'C');
+                $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Estación'), 1, 0, 'C');
+                $pdf->Cell(25, 6, 'Usuario', 1, 0, 'C');
+                $pdf->Cell(20, 6, 'Tipo', 1, 0, 'C');
+                $pdf->Cell(40, 6, 'Error', 1, 0, 'C');
+                $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', 'Técnico'), 1, 1, 'C');
+                $pdf->SetFont('Arial', '', 7);
+                $y += 6;
+            }
+            
+            $pdf->SetXY(10, $y);
+            $pdf->Cell(20, 6, date('d/m/Y', strtotime($mantenimiento['fecha_mantenimiento'])), 1, 0, 'C');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', $mantenimiento['numero_equipo']), 1, 0, 'C');
+            $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['estacion_trabajo'], 0, 15)), 1, 0, 'L');
+            $pdf->Cell(25, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['nombre_usuario'], 0, 12)), 1, 0, 'L');
+            $pdf->Cell(20, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['tipo_dispositivo'], 0, 10)), 1, 0, 'L');
+            $pdf->Cell(40, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['error_reportado'], 0, 25)), 1, 0, 'L');
+            $pdf->Cell(30, 6, iconv('UTF-8', 'ISO-8859-1', substr($mantenimiento['tecnico_servicio'], 0, 15)), 1, 1, 'L');
+            $y += 6;
+        }
+        
+        $filename = 'Mantenimientos_' . date('Y-m-d') . '.pdf';
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        $pdf->Output('D', $filename);
+        exit;
     }
 }

@@ -5,7 +5,21 @@ document.addEventListener('DOMContentLoaded', function(){
         "aProcessing":true,
         "aServerSide":true,
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
+            "processing":     "Procesando...",
+            "lengthMenu":     "Mostrar _MENU_ registros",
+            "zeroRecords":    "No se encontraron resultados",
+            "emptyTable":     "Ningún dato disponible en esta tabla",
+            "info":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "infoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "search":         "Buscar:",
+            "loadingRecords": "Cargando...",
+            "paginate": {
+                "first":    "Primero",
+                "last":     "Último",
+                "next":     "Siguiente",
+                "previous": "Anterior"
+            }
         },
         "ajax":{
             "url": " "+base_url+"/Tareas/getTareas",
@@ -132,8 +146,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 body: formData
             });
             let objData = await response.json();
-            modalLoading.hide();
             if(objData.status) {
+                modalLoading.hide();
                 var modalTarea = bootstrap.Modal.getInstance(document.getElementById('modalFormTareas'));
                 modalTarea.hide();
                 formTarea.reset();
@@ -172,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     });
                 }
             } else {
+                modalLoading.hide();
                 Swal.fire("Error", objData.msg, "error");
             }
         } catch (err) {
@@ -301,6 +316,32 @@ function fntViewTarea(idtarea) {
                 document.querySelector("#celTiempoRestante").innerHTML = tiempoHtml;
                 
                 document.querySelector("#celFechaCompletada").innerHTML = objTarea.fecha_completada ? objTarea.fecha_completada : 'No completada';
+                
+                // Mostrar archivo adjunto si existe
+                const filaArchivo = document.getElementById('filaArchivoAdjunto');
+                if(objTarea.archivo_adjunto && objTarea.nombre_archivo_original) {
+                    filaArchivo.style.display = 'table-row';
+                    const linkArchivo = document.getElementById('linkArchivoAdjunto');
+                    const nombreArchivo = document.getElementById('nombreArchivoAdjunto');
+                    
+                    linkArchivo.href = base_url + '/uploads/tareas/' + objTarea.archivo_adjunto;
+                    nombreArchivo.textContent = objTarea.nombre_archivo_original;
+                    
+                    // Configurar variables globales para previsualización
+                    if (typeof window.archivoActual === 'undefined') {
+                        window.archivoActual = {};
+                    }
+                    window.archivoActual = {
+                        nombre: objTarea.nombre_archivo_original,
+                        ruta: base_url + '/uploads/tareas/' + objTarea.archivo_adjunto,
+                        extension: objTarea.nombre_archivo_original.split('.').pop()
+                    };
+                } else {
+                    filaArchivo.style.display = 'none';
+                    if (typeof window.archivoActual !== 'undefined') {
+                        window.archivoActual = { nombre: '', ruta: '', extension: '' };
+                    }
+                }
                 
                 let divAgregarObservacion = document.querySelector("#divAgregarObservacion");
                 let idUsuarioActual = document.querySelector("#idUser") ? document.querySelector("#idUser").value : 0;
@@ -769,3 +810,4 @@ function fntDependencias() {
         }
     }
 }
+

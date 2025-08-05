@@ -94,14 +94,26 @@ class Inventario extends Controllers
                     $strConsumible = strClean($_POST['txtConsumible']);
                     $strEstado = strClean($_POST['txtEstado']);
                     $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($strEstado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($strEstado === 'De baja' || $strEstado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
-                    error_log('Datos procesados - ID: ' . $intIdImpresora . ', Numero: ' . $strNumeroImpresora);
+                    error_log('Datos procesados - ID: ' . $intIdImpresora . ', Numero: ' . $strNumeroImpresora . ', FechaDano: ' . $fechaDano . ', FechaBaja: ' . $fechaBaja);
 
                     $request = "";
                     if ($intIdImpresora == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nueva impresora...');
-                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad);
+                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                             $option = 1;
                             error_log('Resultado insert: ' . $request);
                         } else {
@@ -110,7 +122,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando impresora ID: ' . $intIdImpresora);
-                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad);
+                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -228,16 +240,30 @@ class Inventario extends Controllers
                 $strNumeroActivo = strClean($_POST['txtNumeroActivo']);
                 $strEstado = strClean($_POST['txtEstado']);
                 $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
+                $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                
+                // Determinar en qué campo guardar la fecha según el estado
+                $fechaDano = null;
+                $fechaBaja = null;
+                if ($fechaEstado) {
+                    if ($strEstado === 'Malo') {
+                        $fechaDano = $fechaEstado;
+                    } else if ($strEstado === 'De baja' || $strEstado === 'De Baja') {
+                        $fechaBaja = $fechaEstado;
+                    }
+                }
 
                 $request = "";
                 if ($intIdEscaner == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad);
+
+
+                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad);
+                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                         $option = 2;
                     }
                 }
@@ -524,12 +550,24 @@ class Inventario extends Controllers
                     $serial_monitor = strClean($_POST['txtSerialMonitorPcTorre']);
                     $estado = strClean($_POST['txtEstadoPcTorre']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadPcTorre']);
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($estado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($estado === 'De baja' || $estado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
                     $request = "";
                     if ($intIdPcTorre == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nueva PC Torre...');
-                            $request = $this->model->insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad);
+                            $request = $this->model->insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 1;
                             error_log('Resultado insert: ' . print_r($request, true));
                         } else {
@@ -538,7 +576,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando PC Torre ID: ' . $intIdPcTorre);
-                            $request = $this->model->updatePcTorre($intIdPcTorre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad);
+                            $request = $this->model->updatePcTorre($intIdPcTorre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -654,12 +692,24 @@ class Inventario extends Controllers
                     $numero_activo = strClean($_POST['txtNumeroActivoTodoEnUno']);
                     $estado = strClean($_POST['txtEstadoTodoEnUno']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadTodoEnUno']);
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($estado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($estado === 'De baja' || $estado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
                     $request = "";
                     if ($intIdTodoEnUno == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nuevo PC Todo en Uno...');
-                            $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 1;
                             error_log('Resultado insert: ' . print_r($request, true));
                         } else {
@@ -668,7 +718,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando PC Todo en Uno ID: ' . $intIdTodoEnUno);
-                            $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -788,12 +838,24 @@ class Inventario extends Controllers
                     $numero_activo = strClean($_POST['txtNumeroActivoPortatil']);
                     $estado = strClean($_POST['txtEstadoPortatil']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadPortatil']);
+                    $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    
+                    // Determinar en qué campo guardar la fecha según el estado
+                    $fechaDano = null;
+                    $fechaBaja = null;
+                    if ($fechaEstado) {
+                        if ($estado === 'Malo') {
+                            $fechaDano = $fechaEstado;
+                        } else if ($estado === 'De baja' || $estado === 'De Baja') {
+                            $fechaBaja = $fechaEstado;
+                        }
+                    }
 
                     $request = "";
                     if ($intIdPortatil == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nuevo Portátil...');
-                            $request = $this->model->insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $request = $this->model->insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 1;
                             error_log('Resultado insert: ' . print_r($request, true));
                         } else {
@@ -802,7 +864,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando Portátil ID: ' . $intIdPortatil);
-                            $request = $this->model->updatePortatil($intIdPortatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad);
+                            $request = $this->model->updatePortatil($intIdPortatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {

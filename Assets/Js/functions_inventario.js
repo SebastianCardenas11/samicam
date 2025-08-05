@@ -55,27 +55,24 @@ async function fetchJSON(url, options = {}) {
 
 // Configuración de idioma para DataTables
 const dataTableLanguage = {
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-        "sFirst":    "Primero",
-        "sLast":     "Último",
-        "sNext":     "Siguiente",
-        "sPrevious": "Anterior"
+    "processing":     "Procesando...",
+    "lengthMenu":     "Mostrar _MENU_ registros",
+    "zeroRecords":    "No se encontraron resultados",
+    "emptyTable":     "Ningún dato disponible en esta tabla",
+    "info":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    "infoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+    "infoFiltered":   "(filtrado de un total de _MAX_ registros)",
+    "search":         "Buscar:",
+    "loadingRecords": "Cargando...",
+    "paginate": {
+        "first":    "Primero",
+        "last":     "Último",
+        "next":     "Siguiente",
+        "previous": "Anterior"
     },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+    "aria": {
+        "sortAscending":  ": Activar para ordenar la columna de manera ascendente",
+        "sortDescending": ": Activar para ordenar la columna de manera descendente"
     }
 };
 
@@ -99,6 +96,7 @@ function initDataTables() {
             "processing": true,
             "serverSide": false,
             "language": dataTableLanguage,
+            "retrieve": true,
             "ajax": {
                 "url": base_url + "/Inventario/getImpresoras",
                 "dataSrc": ""
@@ -252,7 +250,19 @@ function initDataTables() {
         "columns": [
             { "data": "item" },
             { "data": "disponibilidad" },
-            { "data": "options", "orderable": false, "searchable": false }
+            { 
+                "data": "id_papeleria",
+                "render": function(data, type, row) {
+                    let buttons = '';
+                    buttons += `<div class="btn-group" role="group">`;
+                    buttons += `<button class="btn btn-warning btn-sm" onclick="editArticuloPapeleria(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                    buttons += `<button class="btn btn-danger btn-sm" onclick="delArticuloPapeleria(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                    buttons += `</div>`;
+                    return buttons;
+                },
+                "orderable": false, 
+                "searchable": false 
+            }
         ],
         "responsive": true,
         "bDestroy": true,
@@ -277,7 +287,19 @@ function initDataTables() {
             { "data": "disponibles" },
             { "data": "numero_impresora" },
             { "data": "modelos_compatibles" },
-            { "data": "options", "orderable": false, "searchable": false }
+            { 
+                "data": "id_tinta_toner",
+                "render": function(data, type, row) {
+                    let buttons = '';
+                    buttons += `<div class="btn-group" role="group">`;
+                    buttons += `<button class="btn btn-warning btn-sm" onclick="editTintaToner(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                    buttons += `<button class="btn btn-danger btn-sm" onclick="delTintaToner(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                    buttons += `</div>`;
+                    return buttons;
+                },
+                "orderable": false, 
+                "searchable": false 
+            }
         ],
         "responsive": true,
         "bDestroy": true,
@@ -555,7 +577,19 @@ function initDataTables() {
                     }
                 }
             },
-            { "data": "options", "orderable": false, "searchable": false }
+            { 
+                "data": "id_herramienta",
+                "render": function(data, type, row) {
+                    let buttons = '';
+                    buttons += `<div class="btn-group" role="group">`;
+                    buttons += `<button class="btn btn-warning btn-sm" onclick="editHerramienta(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                    buttons += `<button class="btn btn-danger btn-sm" onclick="delHerramienta(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>`;
+                    buttons += `</div>`;
+                    return buttons;
+                },
+                "orderable": false, 
+                "searchable": false 
+            }
         ],
         "responsive": true,
         "bDestroy": true,
@@ -585,6 +619,9 @@ function setupEventListeners() {
             saveHerramienta();
         }
     });
+
+    // Event listeners para mostrar/ocultar campos de fecha
+    setupFechaEventListeners();
 
     // Cambio de pestañas
     document.getElementById('impresoras-tab').addEventListener('click', function() {
@@ -631,6 +668,231 @@ function setupEventListeners() {
         initHistoricoGlobal();
         loadEstadisticas();
     });
+}
+
+// Función para configurar los event listeners de los campos de fecha
+function setupFechaEventListeners() {
+    // Impresoras
+    const estadoImpresora = document.getElementById('txtEstado');
+    const disponibilidadImpresora = document.getElementById('txtDisponibilidad');
+    if (estadoImpresora && disponibilidadImpresora) {
+        estadoImpresora.addEventListener('change', function() {
+            toggleFechaFields('fechasImpresora', this.value, disponibilidadImpresora.value);
+        });
+        disponibilidadImpresora.addEventListener('change', function() {
+            toggleFechaFields('fechasImpresora', estadoImpresora.value, this.value);
+        });
+    }
+
+    // Escáneres
+    const estadoEscaner = document.getElementById('txtEstadoEscaner');
+    const disponibilidadEscaner = document.getElementById('txtDisponibilidadEscaner');
+    if (estadoEscaner && disponibilidadEscaner) {
+        estadoEscaner.addEventListener('change', function() {
+            toggleFechaFieldsEscaner('fechasEscaner', this.value, disponibilidadEscaner.value);
+        });
+        disponibilidadEscaner.addEventListener('change', function() {
+            toggleFechaFieldsEscaner('fechasEscaner', estadoEscaner.value, this.value);
+        });
+    }
+
+    // PC Torre
+    const estadoPcTorre = document.getElementById('txtEstadoPcTorre');
+    const disponibilidadPcTorre = document.getElementById('txtDisponibilidadPcTorre');
+    if (estadoPcTorre && disponibilidadPcTorre) {
+        estadoPcTorre.addEventListener('change', function() {
+            toggleFechaFieldsPcTorre('fechasPcTorre', this.value, disponibilidadPcTorre.value);
+        });
+        disponibilidadPcTorre.addEventListener('change', function() {
+            toggleFechaFieldsPcTorre('fechasPcTorre', estadoPcTorre.value, this.value);
+        });
+    }
+
+    // Todo en Uno
+    const estadoTodoEnUno = document.getElementById('txtEstadoTodoEnUno');
+    const disponibilidadTodoEnUno = document.getElementById('txtDisponibilidadTodoEnUno');
+    if (estadoTodoEnUno && disponibilidadTodoEnUno) {
+        estadoTodoEnUno.addEventListener('change', function() {
+            toggleFechaFieldsTodoEnUno('fechasTodoEnUno', this.value, disponibilidadTodoEnUno.value);
+        });
+        disponibilidadTodoEnUno.addEventListener('change', function() {
+            toggleFechaFieldsTodoEnUno('fechasTodoEnUno', estadoTodoEnUno.value, this.value);
+        });
+    }
+
+    // Portátiles
+    const estadoPortatil = document.getElementById('txtEstadoPortatil');
+    const disponibilidadPortatil = document.getElementById('txtDisponibilidadPortatil');
+    if (estadoPortatil && disponibilidadPortatil) {
+        estadoPortatil.addEventListener('change', function() {
+            toggleFechaFieldsPortatil('fechasPortatil', this.value, disponibilidadPortatil.value);
+        });
+        disponibilidadPortatil.addEventListener('change', function() {
+            toggleFechaFieldsPortatil('fechasPortatil', estadoPortatil.value, this.value);
+        });
+    }
+}
+
+// Función para mostrar/ocultar campos de fecha según el estado
+function toggleFechaFields(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstado');
+    const help = container.querySelector('#helpFechaEstado');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        // Solo auto-llenar si está vacío
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        // Solo auto-llenar si está vacío
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para escáner
+function toggleFechaFieldsEscaner(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoEscaner');
+    const help = container.querySelector('#helpFechaEstadoEscaner');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para PC Torre
+function toggleFechaFieldsPcTorre(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoPcTorre');
+    const help = container.querySelector('#helpFechaEstadoPcTorre');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para PC Todo en Uno
+function toggleFechaFieldsTodoEnUno(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoTodoEnUno');
+    const help = container.querySelector('#helpFechaEstadoTodoEnUno');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
+}
+
+// Función específica para Portátiles
+function toggleFechaFieldsPortatil(containerId, estado, disponibilidad) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const fechaInput = container.querySelector('input[name="txtFechaEstado"]');
+    const label = container.querySelector('#labelFechaEstadoPortatil');
+    const help = container.querySelector('#helpFechaEstadoPortatil');
+    
+    // Ocultar por defecto
+    container.style.display = 'none';
+    
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Mostrar campo según el estado
+    if (estado === 'Malo') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Daño';
+        if (help) help.textContent = 'Fecha cuando el equipo se dañó';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    } else if (estado === 'De baja' || estado === 'De Baja') {
+        container.style.display = 'block';
+        if (label) label.textContent = 'Fecha de Baja';
+        if (help) help.textContent = 'Fecha cuando el equipo se dio de baja';
+        if (fechaInput && !fechaInput.value) {
+            fechaInput.value = today;
+        }
+    }
 }
 
 // ==================== FUNCIONES DE CARGA ====================
@@ -734,12 +996,18 @@ function openModalPcTorre() {
 function openModalTodoEnUno() {
     currentForm = 'todoEnUno';
     showForm('todoEnUno');
+    document.getElementById('modalInventarioLabel').textContent = 'Nuevo PC Todo en Uno';
+    document.getElementById('formTodoEnUno').reset();
+    document.getElementById('idTodoEnUno').value = '';
     $('#modalInventario').modal('show');
 }
 
 function openModalPortatil() {
     currentForm = 'portatil';
     showForm('portatil');
+    document.getElementById('modalInventarioLabel').textContent = 'Nuevo Portátil';
+    document.getElementById('formPortatil').reset();
+    document.getElementById('idPortatil').value = '';
     $('#modalInventario').modal('show');
 }
 
@@ -773,6 +1041,19 @@ function editImpresora(idImpresora) {
                 $('#txtEstado').val(impresora.estado || '');
                 $('#txtDisponibilidad').val(impresora.disponibilidad || '');
                 
+                // Mostrar campo de fecha si es necesario PRIMERO
+                toggleFechaFields('fechasImpresora', impresora.estado, impresora.disponibilidad);
+                
+                // DESPUÉS llenar campo de fecha según el estado
+                const fechaInput = document.getElementById('txtFechaEstado');
+                if (fechaInput) {
+                    if (impresora.estado === 'Malo' && impresora.fecha_dano) {
+                        fechaInput.value = impresora.fecha_dano;
+                    } else if ((impresora.estado === 'De baja' || impresora.estado === 'De Baja') && impresora.fecha_baja) {
+                        fechaInput.value = impresora.fecha_baja;
+                    }
+                }
+                
                 $('#modalInventario').modal('show');
             }
         })
@@ -789,8 +1070,11 @@ function saveImpresora() {
         'txtSerial': $('#txtSerial').val(),
         'txtConsumible': $('#txtConsumible').val(),
         'txtEstado': $('#txtEstado').val(),
-        'txtDisponibilidad': $('#txtDisponibilidad').val()
+        'txtDisponibilidad': $('#txtDisponibilidad').val(),
+        'txtFechaEstado': $('#txtFechaEstado').val()
     };
+    
+    console.log('Datos a enviar:', campos);
     
     
     // Verificar campos obligatorios
@@ -809,6 +1093,7 @@ function saveImpresora() {
     
     if ($('#formImpresora')[0].checkValidity()) {
         const formData = $('#formImpresora').serialize();
+        console.log('FormData serializado:', formData);
         
         $.ajax({
             url: base_url + '/Inventario/setImpresora',
@@ -910,6 +1195,19 @@ function editEscaner(idEscaner) {
                 document.getElementById('txtSerialEscaner').value = escaner.serial;
                 document.getElementById('txtEstadoEscaner').value = escaner.estado;
                 document.getElementById('txtDisponibilidadEscaner').value = escaner.disponibilidad;
+                
+                // Mostrar campo de fecha si es necesario PRIMERO
+                toggleFechaFieldsEscaner('fechasEscaner', escaner.estado, escaner.disponibilidad);
+                
+                // DESPUÉS llenar campo de fecha según el estado
+                const fechaInput = document.getElementById('txtFechaEstadoEscaner');
+                if (fechaInput) {
+                    if (escaner.estado === 'Malo' && escaner.fecha_dano) {
+                        fechaInput.value = escaner.fecha_dano;
+                    } else if ((escaner.estado === 'De baja' || escaner.estado === 'De Baja') && escaner.fecha_baja) {
+                        fechaInput.value = escaner.fecha_baja;
+                    }
+                }
                 
                 $('#modalInventario').modal('show');
             }
@@ -1215,6 +1513,20 @@ function editPcTorre(idPcTorre) {
                 document.getElementById('txtSerialMonitorPcTorre').value = pc.serial_monitor;
                 document.getElementById('txtEstadoPcTorre').value = pc.estado;
                 document.getElementById('txtDisponibilidadPcTorre').value = pc.disponibilidad;
+                
+                // Mostrar campo de fecha si es necesario PRIMERO
+                toggleFechaFieldsPcTorre('fechasPcTorre', pc.estado, pc.disponibilidad);
+                
+                // DESPUÉS llenar campo de fecha según el estado
+                const fechaInput = document.getElementById('txtFechaEstadoPcTorre');
+                if (fechaInput) {
+                    if (pc.estado === 'Malo' && pc.fecha_dano) {
+                        fechaInput.value = pc.fecha_dano;
+                    } else if ((pc.estado === 'De baja' || pc.estado === 'De Baja') && pc.fecha_baja) {
+                        fechaInput.value = pc.fecha_baja;
+                    }
+                }
+                
                 $('#modalInventario').modal('show');
             }
         })
@@ -1620,7 +1932,7 @@ function verImpresora(idImpresora) {
         .then(data => {
             if (data.status) {
                 const d = data.data;
-                showVerModal('Detalles de Impresora', [
+                const filas = [
                     { label: 'Número', value: d.numero_impresora },
                     { label: 'Marca', value: d.marca },
                     { label: 'Modelo', value: d.modelo },
@@ -1628,7 +1940,10 @@ function verImpresora(idImpresora) {
                     { label: 'Consumible', value: d.consumible },
                     { label: 'Estado', value: badgeEstado(d.estado) },
                     { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
-                ]);
+                ];
+                if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
+                if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
+                showVerModal('Detalles de Impresora', filas);
             }
         });
 }
@@ -1639,15 +1954,18 @@ function verEscaner(idEscaner) {
         .then(data => {
             if (data.status) {
                 const d = data.data;
-                showVerModal('Detalles de Escáner', [
+                const filas = [
                     { label: 'Número', value: d.numero_escaner },
                     { label: 'Marca', value: d.marca },
                     { label: 'Modelo', value: d.modelo },
                     { label: 'Serial', value: d.serial },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
-                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idEscaner}, 'escaner')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
-                ]);
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ];
+                if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
+                if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
+
+                showVerModal('Detalles de Escáner', filas);
             }
         });
 }
@@ -1658,7 +1976,7 @@ function verPcTorre(idPcTorre) {
         .then(data => {
             if (data.status) {
                 const d = data.data;
-                showVerModal('Detalles de PC Torre', [
+                const filas = [
                     { label: 'Número', value: d.numero_pc },
                     { label: 'Marca', value: d.marca },
                     { label: 'Modelo', value: d.modelo },
@@ -1667,9 +1985,12 @@ function verPcTorre(idPcTorre) {
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
-                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idPcTorre}, 'pc_torre')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
-                ]);
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ];
+                if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
+                if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
+
+                showVerModal('Detalles de PC Torre', filas);
             }
         });
 }
@@ -1682,7 +2003,7 @@ function verTodoEnUno(idTodoEnUno) {
         success: function(response) {
             if (response.status) {
                 const d = response.data;
-                showVerModal('Detalles de PC Todo en Uno', [
+                const filas = [
                     { label: 'Número', value: d.numero_pc },
                     { label: 'Marca', value: d.marca },
                     { label: 'Modelo', value: d.modelo },
@@ -1691,9 +2012,12 @@ function verTodoEnUno(idTodoEnUno) {
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
-                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idTodoEnUno}, 'todo_en_uno')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
-                ]);
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ];
+                if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
+                if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
+
+                showVerModal('Detalles de PC Todo en Uno', filas);
             }
         },
         error: function() {
@@ -1710,7 +2034,7 @@ function verPortatil(idPortatil) {
         success: function(response) {
             if (response.status) {
                 const d = response.data;
-                showVerModal('Detalles de Portátil', [
+                const filas = [
                     { label: 'Número', value: d.numero_pc },
                     { label: 'Marca', value: d.marca },
                     { label: 'Modelo', value: d.modelo },
@@ -1719,9 +2043,12 @@ function verPortatil(idPortatil) {
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
                     { label: 'Estado', value: badgeEstado(d.estado) },
-                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) },
-                    { label: 'Acciones', value: `<button class="btn btn-secondary btn-sm mt-2" onclick="cargarHistoricoMovimientos(${idPortatil}, 'portatil')" title="Ver histórico"><i class="fas fa-history"></i> Ver histórico de movimientos</button>` }
-                ]);
+                    { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
+                ];
+                if (d.fecha_dano) filas.push({ label: 'Fecha de Daño', value: d.fecha_dano });
+                if (d.fecha_baja) filas.push({ label: 'Fecha de Baja', value: d.fecha_baja });
+
+                showVerModal('Detalles de Portátil', filas);
             }
         },
         error: function() {
@@ -1744,7 +2071,7 @@ function badgeEstado(estado) {
     if (['Bueno', 'BUENO'].includes(estado)) return '<span class="badge bg-success">' + estado.toUpperCase() + '</span>';
     if (['Regular', 'REGULAR'].includes(estado)) return '<span class="badge bg-warning">' + estado.toUpperCase() + '</span>';
     if (['Malo', 'MALO'].includes(estado)) return '<span class="badge bg-danger">' + estado.toUpperCase() + '</span>';
-    if (['De Baja', 'DE BAJA'].includes(estado)) return '<span class="badge bg-dark">' + estado.toUpperCase() + '</span>';
+    if (['De Baja', 'DE BAJA'].includes(estado)) return '<span class="badge bg-dark text-white">' + estado.toUpperCase() + '</span>';
     return '<span class="badge bg-secondary">' + estado + '</span>';
 }
 function badgeDisponibilidad(disp) {

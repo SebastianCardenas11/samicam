@@ -238,7 +238,8 @@
         // Crear una nueva tarea
         public function insertTarea(int $id_usuario_creador, array $usuarios_asignados, string $tipo, 
                                    string $descripcion, int $dependencia_fk, string $fecha_inicio, 
-                                   string $fecha_fin, string $observacion = null)
+                                   string $fecha_fin, string $observacion = null, string $archivo_adjunto = null, 
+                                   string $nombre_archivo_original = null)
         {
             $this->id_usuario_creador = $id_usuario_creador;
             $this->tipo = $tipo;
@@ -251,8 +252,8 @@
             $id_usuario_principal = $usuarios_asignados[0];
             
             $sql = "INSERT INTO tbl_tareas (id_usuario_creador, id_usuario_asignado, tipo, descripcion, 
-                    dependencia_fk, fecha_inicio, fecha_fin) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    dependencia_fk, fecha_inicio, fecha_fin, archivo_adjunto, nombre_archivo_original) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             // Formatear las fechas para eliminar la hora
             $this->fecha_inicio = date('Y-m-d', strtotime($this->fecha_inicio));
@@ -260,7 +261,7 @@
             
             $arrData = array($this->id_usuario_creador, $id_usuario_principal, $this->tipo, 
                             $this->descripcion, $this->dependencia_fk, $this->fecha_inicio, 
-                            $this->fecha_fin);
+                            $this->fecha_fin, $archivo_adjunto, $nombre_archivo_original);
             
             $id_tarea = $this->insert($sql, $arrData);
             
@@ -296,7 +297,8 @@
         // Actualizar una tarea
         public function updateTarea(int $id_tarea, array $usuarios_asignados, string $tipo, 
                                    string $descripcion, int $dependencia_fk, string $estado,
-                                   string $fecha_inicio, string $fecha_fin, string $observacion = null)
+                                   string $fecha_inicio, string $fecha_fin, string $observacion = null,
+                                   string $archivo_adjunto = null, string $nombre_archivo_original = null)
         {
             $this->id_tarea = $id_tarea;
             $this->tipo = $tipo;
@@ -309,16 +311,27 @@
             // Asignar el primer usuario como principal para mantener compatibilidad
             $id_usuario_principal = $usuarios_asignados[0];
             
-            $sql = "UPDATE tbl_tareas SET id_usuario_asignado = ?, tipo = ?, descripcion = ?, 
-                    dependencia_fk = ?, estado = ?, fecha_inicio = ?, fecha_fin = ? 
-                    WHERE id_tarea = ?";
+            // Solo actualizar archivo si se proporciona uno nuevo
+            if ($archivo_adjunto !== null) {
+                $sql = "UPDATE tbl_tareas SET id_usuario_asignado = ?, tipo = ?, descripcion = ?, 
+                        dependencia_fk = ?, estado = ?, fecha_inicio = ?, fecha_fin = ?, 
+                        archivo_adjunto = ?, nombre_archivo_original = ? 
+                        WHERE id_tarea = ?";
+                $arrData = array($id_usuario_principal, $this->tipo, $this->descripcion, 
+                                $this->dependencia_fk, $this->estado, $this->fecha_inicio, 
+                                $this->fecha_fin, $archivo_adjunto, $nombre_archivo_original, $this->id_tarea);
+            } else {
+                $sql = "UPDATE tbl_tareas SET id_usuario_asignado = ?, tipo = ?, descripcion = ?, 
+                        dependencia_fk = ?, estado = ?, fecha_inicio = ?, fecha_fin = ? 
+                        WHERE id_tarea = ?";
+                $arrData = array($id_usuario_principal, $this->tipo, $this->descripcion, 
+                                $this->dependencia_fk, $this->estado, $this->fecha_inicio, 
+                                $this->fecha_fin, $this->id_tarea);
+            }
             
             // Formatear las fechas para eliminar la hora
             $this->fecha_inicio = date('Y-m-d', strtotime($this->fecha_inicio));
             $this->fecha_fin = date('Y-m-d', strtotime($this->fecha_fin));
-            $arrData = array($id_usuario_principal, $this->tipo, $this->descripcion, 
-                            $this->dependencia_fk, $this->estado, $this->fecha_inicio, 
-                            $this->fecha_fin, $this->id_tarea);
             
             $result = $this->update($sql, $arrData);
             

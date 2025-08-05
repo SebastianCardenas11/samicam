@@ -2,6 +2,7 @@
     headerAdmin($data);
     getModal('modalInventario', $data);
 ?>
+<script src="<?= media() ?>/Js/export_functions.js"></script>
 <style>
 /* Estilo personalizado para tabs tipo "borde inferior" y resaltado */
 .nav-tabs.custom-tabs {
@@ -116,7 +117,7 @@
                                                         <h5><i class="fas fa-print"></i> Gestión de Impresoras</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalImpresora()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalImpresora()">
                                                                     <i class="fas fa-plus"></i> Nueva Impresora
                                                                 </button>
                                                             <?php } ?>
@@ -160,7 +161,7 @@
                                                         <h5><i class="fas fa-scanner"></i> Gestión de Escáneres</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalEscaner()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalEscaner()">
                                                                     <i class="fas fa-plus"></i> Nuevo Escáner
                                                                 </button>
                                                             <?php } ?>
@@ -203,7 +204,7 @@
                                                         <h5><i class="fas fa-paperclip"></i> Gestión de Papelería</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalPapeleria()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalPapeleria()">
                                                                     <i class="fas fa-plus"></i> Nuevo Artículo
                                                                 </button>
                                                             <?php } ?>
@@ -241,7 +242,7 @@
                                                         <h5><i class="fas fa-tint"></i> Gestión de Tintas y Tóner</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalTintaToner()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalTintaToner()">
                                                                     <i class="fas fa-plus"></i> Nuevo Tinta/Tóner
                                                                 </button>
                                                             <?php } ?>
@@ -281,7 +282,7 @@
                                                         <h5><i class="fas fa-desktop"></i> Gestión de PC Torre</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalPcTorre()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalPcTorre()">
                                                                     <i class="fas fa-plus"></i> Nuevo PC Torre
                                                                 </button>
                                                             <?php } ?>
@@ -334,7 +335,7 @@
                                                         <h5><i class="fas fa-tv"></i> Gestión de PC Todo en Uno</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalTodoEnUno()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalTodoEnUno()">
                                                                     <i class="fas fa-plus"></i> Nuevo PC Todo en Uno
                                                                 </button>
                                                             <?php } ?>
@@ -384,7 +385,7 @@
                                                         <h5><i class="fas fa-laptop"></i> Gestión de Portátiles</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalPortatil()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalPortatil()">
                                                                     <i class="fas fa-plus"></i> Nuevo Portátil
                                                                 </button>
                                                             <?php } ?>
@@ -434,7 +435,7 @@
                                                         <h5><i class="fas fa-tools"></i> Gestión de Herramientas</h5>
                                                         <div class="d-flex gap-2">
                                                             <?php if ($_SESSION['permisosMod']['w']) { ?>
-                                                                <button class="btn btn-primary" type="button" onclick="openModalHerramienta()">
+                                                                <button class="btn btn-warning" type="button" onclick="openModalHerramienta()">
                                                                     <i class="fas fa-plus"></i> Nueva Herramienta
                                                                 </button>
                                                             <?php } ?>
@@ -547,6 +548,7 @@
     </div>
 </main>
 <?php footerAdmin($data); ?>
+<script src="<?= media() ?>/Js/export_functions.js"></script>
 <!-- Modal para Histórico de Movimientos -->
 <div class="modal fade" id="modalHistoricoMovimientos" tabindex="-1" aria-labelledby="modalHistoricoMovimientosLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
