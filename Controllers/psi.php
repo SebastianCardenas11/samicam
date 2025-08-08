@@ -160,4 +160,186 @@ class psi extends Controllers
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    // ==================== MÉTODOS PARA ACCEDER AL INVENTARIO ====================
+    
+    public function getPcTorre()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $arrData = $inventarioModel->selectPcTorre();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getPcTorreById($idPcTorre)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $intIdPcTorre = intval(strClean($idPcTorre));
+            if ($intIdPcTorre > 0) {
+                $arrData = $inventarioModel->selectPcTorreById($intIdPcTorre);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function getTodoEnUno()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $arrData = $inventarioModel->selectTodoEnUno();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getTodoEnUnoById($idTodoEnUno)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $intIdTodoEnUno = intval(strClean($idTodoEnUno));
+            if ($intIdTodoEnUno > 0) {
+                $arrData = $inventarioModel->selectTodoEnUnoById($intIdTodoEnUno);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function getPortatiles()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $arrData = $inventarioModel->selectPortatiles();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getPortatilById($idPortatil)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $intIdPortatil = intval(strClean($idPortatil));
+            if ($intIdPortatil > 0) {
+                $arrData = $inventarioModel->selectPortatilById($intIdPortatil);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function getImpresoras()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $arrData = $inventarioModel->selectImpresoras();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getImpresoraById($idImpresora)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $intIdImpresora = intval(strClean($idImpresora));
+            if ($intIdImpresora > 0) {
+                $arrData = $inventarioModel->selectImpresora($intIdImpresora);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function getEscaneres()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $arrData = $inventarioModel->selectEscaneres();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getEscanerById($idEscaner)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $intIdEscaner = intval(strClean($idEscaner));
+            if ($intIdEscaner > 0) {
+                $arrData = $inventarioModel->selectEscaner($intIdEscaner);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
+
+    public function getHerramientas()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $arrData = $inventarioModel->selectHerramientas();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getHerramientaById($idHerramienta)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            require_once "Models/InventarioModel.php";
+            $inventarioModel = new InventarioModel();
+            $intIdHerramienta = intval(strClean($idHerramienta));
+            if ($intIdHerramienta > 0) {
+                $arrData = $inventarioModel->selectHerramientaById($intIdHerramienta);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
 }

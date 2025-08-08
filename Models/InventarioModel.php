@@ -22,8 +22,6 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-<<< HEAD
-
     public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
         $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, numero_activo, consumible, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?)";

@@ -15,7 +15,7 @@ const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = IP_LOCAL.":3307";
+const DB_HOST = IP_LOCAL.":3306";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";

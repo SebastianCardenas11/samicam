@@ -588,10 +588,23 @@ function cargarDatosInventario(tipo) {
 
 // Función para cargar una tabla específica del inventario
 function cargarTablaInventario(categoria, tipo) {
-    const tablaId = `tabla${categoria.charAt(0).toUpperCase() + categoria.slice(1)}${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`;
+    // Mapear categorías a IDs de tabla correctos
+    const tablaIdMap = {
+        'pc_torre': `tablaPcTorre${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'todo_en_uno': `tablaTodoEnUno${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'portatiles': `tablaPortatiles${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'impresoras': `tablaImpresoras${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'escaneres': `tablaEscaneres${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'herramientas': `tablaHerramientas${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`
+    };
+    
+    const tablaId = tablaIdMap[categoria];
     const tbody = document.querySelector(`#${tablaId} tbody`);
     
-    if (!tbody) return;
+    if (!tbody) {
+        console.error(`No se encontró el tbody para la tabla: ${tablaId}`);
+        return;
+    }
     
     // Limpiar tabla
     tbody.innerHTML = '';
@@ -607,23 +620,72 @@ function cargarTablaInventario(categoria, tipo) {
     };
     
     const metodo = metodoMap[categoria];
-    if (!metodo) return;
+    if (!metodo) {
+        console.error(`Método no encontrado para categoría: ${categoria}`);
+        return;
+    }
+    
+    console.log(`Cargando ${categoria} para ${tipo} desde: ${base_url}/psi/${metodo}`);
     
     // Hacer petición AJAX para obtener datos
-    fetch(base_url + `/inventario/${metodo}`)
-        .then(res => res.json())
+    fetch(`${base_url}/psi/${metodo}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
         .then(data => {
+            console.log(`Datos recibidos para ${categoria}:`, data);
+            
+            if (!Array.isArray(data)) {
+                console.error(`Los datos no son un array para ${categoria}:`, data);
+                return;
+            }
+            
             data.forEach(item => {
                 const row = document.createElement('tr');
+                
+                // Mapear campos según la categoría
+                let numero = '';
+                let id = '';
+                
+                switch(categoria) {
+                    case 'pc_torre':
+                        numero = item.numero_pc || '';
+                        id = item.id_pc_torre || item.id || '';
+                        break;
+                    case 'todo_en_uno':
+                        numero = item.numero_pc || '';
+                        id = item.id_todo_en_uno || item.id || '';
+                        break;
+                    case 'portatiles':
+                        numero = item.numero_pc || '';
+                        id = item.id_portatil || item.id || '';
+                        break;
+                    case 'impresoras':
+                        numero = item.numero_impresora || '';
+                        id = item.id_impresora || item.id || '';
+                        break;
+                    case 'escaneres':
+                        numero = item.numero_escaner || '';
+                        id = item.id_escaner || item.id || '';
+                        break;
+                    case 'herramientas':
+                        numero = item.numero_herramienta || item.item || '';
+                        id = item.id_herramienta || item.id || '';
+                        break;
+                }
+                
                 row.innerHTML = `
-                    <td>${item.numero_pc || item.numero_impresora || item.numero_escaner || item.numero_herramienta || ''}</td>
+                    <td>${numero}</td>
                     <td>${item.marca || ''}</td>
                     <td>${item.modelo || ''}</td>
                     <td>${item.serial || ''}</td>
                     <td>${item.numero_activo || ''}</td>
                     <td>${item.estado || ''}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="seleccionarEquipo('${categoria}', ${item.id || item.id_pc_torre || item.id_impresora || item.id_escaner || item.id_herramienta}, '${tipo}')">
+                        <button class="btn btn-sm btn-primary" onclick="seleccionarEquipo('${categoria}', ${id}, '${tipo}')">
                             Seleccionar
                         </button>
                     </td>
@@ -633,11 +695,14 @@ function cargarTablaInventario(categoria, tipo) {
         })
         .catch(error => {
             console.error(`Error cargando ${categoria}:`, error);
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar datos: ${error.message}</td></tr>`;
         });
 }
 
 // Función para seleccionar un equipo del inventario
 function seleccionarEquipo(categoria, id, tipo) {
+    console.log(`Seleccionando equipo: ${categoria}, ID: ${id}, Tipo: ${tipo}`);
+    
     // Mapear categorías a métodos del controlador
     const metodoMap = {
         'pc_torre': 'getPcTorreById',
@@ -649,21 +714,64 @@ function seleccionarEquipo(categoria, id, tipo) {
     };
     
     const metodo = metodoMap[categoria];
-    if (!metodo) return;
+    if (!metodo) {
+        console.error(`Método no encontrado para categoría: ${categoria}`);
+        return;
+    }
+    
+    console.log(`Obteniendo detalles desde: ${base_url}/psi/${metodo}/${id}`);
     
     // Hacer petición AJAX para obtener detalles del equipo
-    fetch(base_url + `/inventario/${metodo}/${id}`)
-        .then(res => res.json())
+    fetch(`${base_url}/psi/${metodo}/${id}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
         .then(response => {
+            console.log('Respuesta del servidor:', response);
+            
             if (response.status && response.data) {
                 const data = response.data;
+                
+                // Mapear campos según la categoría
+                let numero = '';
+                switch(categoria) {
+                    case 'pc_torre':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'todo_en_uno':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'portatiles':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'impresoras':
+                        numero = data.numero_impresora || '';
+                        break;
+                    case 'escaneres':
+                        numero = data.numero_escaner || '';
+                        break;
+                    case 'herramientas':
+                        numero = data.numero_herramienta || data.item || '';
+                        break;
+                }
+                
                 // Llenar los campos del formulario
-                document.querySelector(`[name="item_${tipo}"]`).value = data.numero_pc || data.numero_impresora || data.numero_escaner || data.numero_herramienta || '';
-                document.querySelector(`[name="descripcion_dispositivo_${tipo}"]`).value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
-                document.querySelector(`[name="marca_${tipo}"]`).value = data.marca || '';
-                document.querySelector(`[name="modelo_${tipo}"]`).value = data.modelo || '';
-                document.querySelector(`[name="numero_activo_${tipo}"]`).value = data.numero_activo || '';
-                document.querySelector(`[name="serial_${tipo}"]`).value = data.serial || '';
+                const itemField = document.querySelector(`[name="item_${tipo}"]`);
+                const descField = document.querySelector(`[name="descripcion_dispositivo_${tipo}"]`);
+                const marcaField = document.querySelector(`[name="marca_${tipo}"]`);
+                const modeloField = document.querySelector(`[name="modelo_${tipo}"]`);
+                const activoField = document.querySelector(`[name="numero_activo_${tipo}"]`);
+                const serialField = document.querySelector(`[name="serial_${tipo}"]`);
+                
+                if (itemField) itemField.value = numero;
+                if (descField) descField.value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                if (marcaField) marcaField.value = data.marca || '';
+                if (modeloField) modeloField.value = data.modelo || '';
+                if (activoField) activoField.value = data.numero_activo || '';
+                if (serialField) serialField.value = data.serial || '';
                 
                 // Mostrar mensaje de éxito
                 Swal.fire({
@@ -675,8 +783,12 @@ function seleccionarEquipo(categoria, id, tipo) {
                 });
                 
                 // Ocultar el tab de inventario
-                document.getElementById(`inventario_tab_${tipo}`).style.display = 'none';
+                const inventarioTab = document.getElementById(`inventario_tab_${tipo}`);
+                if (inventarioTab) {
+                    inventarioTab.style.display = 'none';
+                }
             } else {
+                console.error('Respuesta inválida del servidor:', response);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -689,7 +801,7 @@ function seleccionarEquipo(categoria, id, tipo) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Error al obtener los detalles del equipo'
+                text: `Error al obtener los detalles del equipo: ${error.message}`
             });
         });
 } 
