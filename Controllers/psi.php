@@ -47,14 +47,68 @@ class psi extends Controllers
         if ($_SESSION['permisosMod']['w']) {
             $data = $_POST;
             $id = isset($data['id_prestamos']) ? intval($data['id_prestamos']) : 0;
+            
+            // Verificar si es un préstamo con múltiples items
+            $cantidadItems = isset($data['cantidad_items']) ? intval($data['cantidad_items']) : 1;
+            
             if ($id > 0) {
+                // Actualización de préstamo existente
                 $result = $this->model->updatePrestamo($id, $data);
             } else {
-                $result = $this->model->insertPrestamo($data);
+                // Nuevo préstamo
+                if ($cantidadItems > 1) {
+                    // Procesar múltiples items
+                    $result = $this->procesarPrestamoMultiple($data);
+                } else {
+                    // Préstamo simple
+                    $result = $this->model->insertPrestamo($data);
+                }
             }
             echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
         }
         die();
+    }
+    
+    // Método para procesar préstamos con múltiples items
+    private function procesarPrestamoMultiple($data)
+    {
+        try {
+            $cantidadItems = intval($data['cantidad_items']);
+            $prestamosCreados = [];
+            
+            for ($i = 0; $i < $cantidadItems; $i++) {
+                // Crear datos para cada item
+                $itemData = [
+                    'funcionario_responsable' => $data['funcionario_responsable'],
+                    'dependencia' => $data['dependencia'],
+                    'cargo_funcionario' => $data['cargo_funcionario'],
+                    'fecha_prestamo' => $data['fecha_prestamo'],
+                    'fecha_devolucion' => $data['fecha_devolucion'],
+                    'observaciones' => $data['observaciones'],
+                    'item' => $data["item_$i"] ?? '',
+                    'dispositivo' => $data["dispositivo_$i"] ?? '',
+                    'marca_modelo' => $data["marca_modelo_$i"] ?? '',
+                    'activo' => $data["activo_$i"] ?? '',
+                    'serial' => $data["serial_$i"] ?? '',
+                    'estado' => $data["estado_$i"] ?? '',
+                    'mac' => $data["mac_$i"] ?? '',
+                    'equipo_id' => $data["equipo_id_$i"] ?? '',
+                    'equipo_tipo' => $data["equipo_tipo_$i"] ?? ''
+                ];
+                
+                // Insertar el préstamo
+                $result = $this->model->insertPrestamo($itemData);
+                if ($result) {
+                    $prestamosCreados[] = $result;
+                }
+            }
+            
+            return count($prestamosCreados) === $cantidadItems;
+            
+        } catch (Exception $e) {
+            error_log('Error en procesarPrestamoMultiple: ' . $e->getMessage());
+            return false;
+        }
     }
     public function delPrestamo()
     {

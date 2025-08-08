@@ -69,6 +69,37 @@ document.addEventListener('DOMContentLoaded', function() {
             tipoOperacion = 'ingreso';
         }
 
+        // Para préstamos, agregar datos de múltiples items
+        if (tipoOperacion === 'prestamo') {
+            const cantidadItems = document.getElementById('cantidad_items').value;
+            if (cantidadItems > 1) {
+                // Agregar datos de cada item al FormData
+                for (let i = 0; i < cantidadItems; i++) {
+                    const itemField = document.getElementById(`item_${i}`);
+                    const dispositivoField = document.getElementById(`dispositivo_${i}`);
+                    const marcaModeloField = document.getElementById(`marca_modelo_${i}`);
+                    const activoField = document.getElementById(`activo_${i}`);
+                    const serialField = document.getElementById(`serial_${i}`);
+                    const estadoField = document.getElementById(`estado_${i}`);
+                    const macField = document.getElementById(`mac_${i}`);
+                    const equipoIdField = document.getElementById(`equipo_id_${i}`);
+                    const equipoTipoField = document.getElementById(`equipo_tipo_${i}`);
+                    
+                    if (itemField && itemField.value) {
+                        formData.append(`item_${i}`, itemField.value);
+                        formData.append(`dispositivo_${i}`, dispositivoField ? dispositivoField.value : '');
+                        formData.append(`marca_modelo_${i}`, marcaModeloField ? marcaModeloField.value : '');
+                        formData.append(`activo_${i}`, activoField ? activoField.value : '');
+                        formData.append(`serial_${i}`, serialField ? serialField.value : '');
+                        formData.append(`estado_${i}`, estadoField ? estadoField.value : '');
+                        formData.append(`mac_${i}`, macField ? macField.value : '');
+                        formData.append(`equipo_id_${i}`, equipoIdField ? equipoIdField.value : '');
+                        formData.append(`equipo_tipo_${i}`, equipoTipoField ? equipoTipoField.value : '');
+                    }
+                }
+            }
+        }
+
         fetch(url, {
             method: 'POST',
             body: formData
@@ -76,10 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(res => res.json())
         .then(data => {
             if (data.result) {
-            $('#modalPsi').modal('hide');
+                $('#modalPsi').modal('hide');
                 // Recargar la tabla correspondiente
                 if (tipoOperacion === 'prestamo') {
-            tblPrestamos.ajax.reload();
+                    tblPrestamos.ajax.reload();
                 } else if (tipoOperacion === 'salida') {
                     tblSalidas.ajax.reload();
                 } else if (tipoOperacion === 'ingreso') {
@@ -304,6 +335,12 @@ function openModalPsi(tipo, id = null) {
         document.getElementById('id_prestamos').value = '';
         cargarFuncionariosPorTipo('planta');
         document.querySelector('input[name="tipo_funcionario"][value="planta"]').checked = true;
+        
+        // Limpiar contenedor de items
+        document.getElementById('items_container').innerHTML = '';
+        
+        // Ocultar tab de inventario inicialmente
+        document.getElementById('inventario_tab_prestamo').style.display = 'none';
         
         // Manejar campos required para evitar errores de validación
         document.querySelectorAll('#formPsi [required]').forEach(input => {
@@ -570,6 +607,313 @@ function toggleInventarioTab(tipo) {
     }
 }
 
+// Función para mostrar/ocultar el tab de inventario para préstamos
+function toggleInventarioTabPrestamo() {
+    const cantidadItems = document.getElementById('cantidad_items').value;
+    const inventarioTab = document.getElementById('inventario_tab_prestamo');
+    
+    if (cantidadItems > 0) {
+        inventarioTab.style.display = 'block';
+        // Cargar datos del inventario solo disponibles
+        cargarDatosInventarioDisponibles();
+        // Generar formularios dinámicos
+        generarFormulariosItems(cantidadItems);
+    } else {
+        inventarioTab.style.display = 'none';
+        document.getElementById('items_container').innerHTML = '';
+    }
+}
+
+// Función para cargar datos del inventario solo disponibles
+function cargarDatosInventarioDisponibles() {
+    // Cargar PC Torre disponibles
+    cargarTablaInventarioDisponibles('pc_torre', 'prestamo');
+    // Cargar Todo en Uno disponibles
+    cargarTablaInventarioDisponibles('todo_en_uno', 'prestamo');
+    // Cargar Portátiles disponibles
+    cargarTablaInventarioDisponibles('portatiles', 'prestamo');
+    // Cargar Impresoras disponibles
+    cargarTablaInventarioDisponibles('impresoras', 'prestamo');
+    // Cargar Escáneres disponibles
+    cargarTablaInventarioDisponibles('escaneres', 'prestamo');
+    // Cargar Herramientas disponibles
+    cargarTablaInventarioDisponibles('herramientas', 'prestamo');
+}
+
+// Función para cargar una tabla específica del inventario (solo disponibles)
+function cargarTablaInventarioDisponibles(categoria, tipo) {
+    // Mapear categorías a IDs de tabla correctos
+    const tablaIdMap = {
+        'pc_torre': `tablaPcTorre${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'todo_en_uno': `tablaTodoEnUno${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'portatiles': `tablaPortatiles${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'impresoras': `tablaImpresoras${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'escaneres': `tablaEscaneres${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`,
+        'herramientas': `tablaHerramientas${tipo.charAt(0).toUpperCase() + tipo.slice(1)}`
+    };
+    
+    const tablaId = tablaIdMap[categoria];
+    const tbody = document.querySelector(`#${tablaId} tbody`);
+    
+    if (!tbody) {
+        console.error(`No se encontró el tbody para la tabla: ${tablaId}`);
+        return;
+    }
+    
+    // Limpiar tabla
+    tbody.innerHTML = '';
+    
+    // Mapear categorías a métodos del controlador
+    const metodoMap = {
+        'pc_torre': 'getPcTorre',
+        'todo_en_uno': 'getTodoEnUno',
+        'portatiles': 'getPortatiles',
+        'impresoras': 'getImpresoras',
+        'escaneres': 'getEscaneres',
+        'herramientas': 'getHerramientas'
+    };
+    
+    const metodo = metodoMap[categoria];
+    if (!metodo) {
+        console.error(`Método no encontrado para categoría: ${categoria}`);
+        return;
+    }
+    
+    // Hacer petición AJAX para obtener datos
+    fetch(`${base_url}/psi/${metodo}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            
+            if (!Array.isArray(data)) {
+                return;
+            }
+            
+            // Filtrar solo equipos disponibles
+            const equiposDisponibles = data.filter(item => 
+                item.disponibilidad === 'Disponible' || item.estado === 'Bueno'
+            );
+            
+            equiposDisponibles.forEach(item => {
+                const row = document.createElement('tr');
+                
+                // Mapear campos según la categoría
+                let numero = '';
+                let id = '';
+                
+                switch(categoria) {
+                    case 'pc_torre':
+                        numero = item.numero_pc || '';
+                        id = item.id_pc_torre || item.id || '';
+                        break;
+                    case 'todo_en_uno':
+                        numero = item.numero_pc || '';
+                        id = item.id_todo_en_uno || item.id || '';
+                        break;
+                    case 'portatiles':
+                        numero = item.numero_pc || '';
+                        id = item.id_portatil || item.id || '';
+                        break;
+                    case 'impresoras':
+                        numero = item.numero_impresora || '';
+                        id = item.id_impresora || item.id || '';
+                        break;
+                    case 'escaneres':
+                        numero = item.numero_escaner || '';
+                        id = item.id_escaner || item.id || '';
+                        break;
+                    case 'herramientas':
+                        numero = item.numero_herramienta || item.item || '';
+                        id = item.id_herramienta || item.id || '';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>${numero}</td>
+                    <td>${item.marca || ''}</td>
+                    <td>${item.modelo || ''}</td>
+                    <td>${item.serial || ''}</td>
+                    <td>${item.numero_activo || ''}</td>
+                    <td>${item.estado || ''}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="seleccionarEquipoPrestamo('${categoria}', ${id}, 'prestamo')">
+                            Seleccionar
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar datos: ${error.message}</td></tr>`;
+        });
+}
+
+// Función para generar formularios dinámicos de items
+function generarFormulariosItems(cantidad) {
+    const container = document.getElementById('items_container');
+    container.innerHTML = '';
+    
+    for (let i = 0; i < cantidad; i++) {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'row mb-3 item-form';
+        itemDiv.innerHTML = `
+            <div class="col-12">
+                <h6 class="border-bottom pb-2">Item ${i + 1}</h6>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>Item</label>
+                <input type="text" class="form-control" name="item_${i}" id="item_${i}" required readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>Dispositivo</label>
+                <input type="text" class="form-control" name="dispositivo_${i}" id="dispositivo_${i}" required readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>Marca/Modelo</label>
+                <input type="text" class="form-control" name="marca_modelo_${i}" id="marca_modelo_${i}" required readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>Activo</label>
+                <input type="text" class="form-control" name="activo_${i}" id="activo_${i}" required readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>Serial</label>
+                <input type="text" class="form-control" name="serial_${i}" id="serial_${i}" required readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>Estado</label>
+                <input type="text" class="form-control" name="estado_${i}" id="estado_${i}" required readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>MAC</label>
+                <input type="text" class="form-control" name="mac_${i}" id="mac_${i}" readonly>
+            </div>
+            <div class="col-md-6 mb-2">
+                <label>ID del Equipo</label>
+                <input type="hidden" name="equipo_id_${i}" id="equipo_id_${i}">
+                <input type="hidden" name="equipo_tipo_${i}" id="equipo_tipo_${i}">
+            </div>
+        `;
+        container.appendChild(itemDiv);
+    }
+}
+
+// Función para seleccionar un equipo del inventario para préstamos
+function seleccionarEquipoPrestamo(categoria, id, tipo) {
+    // Mapear categorías a métodos del controlador
+    const metodoMap = {
+        'pc_torre': 'getPcTorreById',
+        'todo_en_uno': 'getTodoEnUnoById',
+        'portatiles': 'getPortatilById',
+        'impresoras': 'getImpresoraById',
+        'escaneres': 'getEscanerById',
+        'herramientas': 'getHerramientaById'
+    };
+    
+    const metodo = metodoMap[categoria];
+    if (!metodo) {
+        return;
+    }
+    
+    // Hacer petición AJAX para obtener detalles del equipo
+    fetch(`${base_url}/psi/${metodo}/${id}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(response => {
+            
+            if (response.status && response.data) {
+                const data = response.data;
+                
+                // Encontrar el próximo item vacío
+                const cantidadItems = document.getElementById('cantidad_items').value;
+                let itemIndex = -1;
+                
+                for (let i = 0; i < cantidadItems; i++) {
+                    const itemField = document.getElementById(`item_${i}`);
+                    if (itemField && !itemField.value) {
+                        itemIndex = i;
+                        break;
+                    }
+                }
+                
+                if (itemIndex === -1) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Aviso',
+                        text: 'Todos los items ya han sido seleccionados. Cambia la cantidad de items si necesitas agregar más.'
+                    });
+                    return;
+                }
+                
+                // Mapear campos según la categoría
+                let numero = '';
+                switch(categoria) {
+                    case 'pc_torre':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'todo_en_uno':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'portatiles':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'impresoras':
+                        numero = data.numero_impresora || '';
+                        break;
+                    case 'escaneres':
+                        numero = data.numero_escaner || '';
+                        break;
+                    case 'herramientas':
+                        numero = data.numero_herramienta || data.item || '';
+                        break;
+                }
+                
+                // Llenar los campos del formulario
+                document.getElementById(`item_${itemIndex}`).value = numero;
+                document.getElementById(`dispositivo_${itemIndex}`).value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                document.getElementById(`marca_modelo_${itemIndex}`).value = `${data.marca || ''} ${data.modelo || ''}`;
+                document.getElementById(`activo_${itemIndex}`).value = data.numero_activo || '';
+                document.getElementById(`serial_${itemIndex}`).value = data.serial || '';
+                document.getElementById(`estado_${itemIndex}`).value = data.estado || '';
+                document.getElementById(`mac_${itemIndex}`).value = data.mac || '';
+                document.getElementById(`equipo_id_${itemIndex}`).value = id;
+                document.getElementById(`equipo_tipo_${itemIndex}`).value = categoria;
+                
+                // Mostrar mensaje de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Equipo Seleccionado',
+                    text: `Equipo agregado al item ${itemIndex + 1}`,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.msg || 'Error al obtener los detalles del equipo'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Error al obtener los detalles del equipo: ${error.message}`
+            });
+        });
+}
+
 // Función para cargar datos del inventario
 function cargarDatosInventario(tipo) {
     // Cargar PC Torre
@@ -621,11 +965,8 @@ function cargarTablaInventario(categoria, tipo) {
     
     const metodo = metodoMap[categoria];
     if (!metodo) {
-        console.error(`Método no encontrado para categoría: ${categoria}`);
         return;
     }
-    
-    console.log(`Cargando ${categoria} para ${tipo} desde: ${base_url}/psi/${metodo}`);
     
     // Hacer petición AJAX para obtener datos
     fetch(`${base_url}/psi/${metodo}`)
@@ -636,10 +977,7 @@ function cargarTablaInventario(categoria, tipo) {
             return res.json();
         })
         .then(data => {
-            console.log(`Datos recibidos para ${categoria}:`, data);
-            
             if (!Array.isArray(data)) {
-                console.error(`Los datos no son un array para ${categoria}:`, data);
                 return;
             }
             
@@ -694,7 +1032,6 @@ function cargarTablaInventario(categoria, tipo) {
             });
         })
         .catch(error => {
-            console.error(`Error cargando ${categoria}:`, error);
             tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar datos: ${error.message}</td></tr>`;
         });
 }
@@ -715,11 +1052,8 @@ function seleccionarEquipo(categoria, id, tipo) {
     
     const metodo = metodoMap[categoria];
     if (!metodo) {
-        console.error(`Método no encontrado para categoría: ${categoria}`);
         return;
     }
-    
-    console.log(`Obteniendo detalles desde: ${base_url}/psi/${metodo}/${id}`);
     
     // Hacer petición AJAX para obtener detalles del equipo
     fetch(`${base_url}/psi/${metodo}/${id}`)
@@ -730,8 +1064,6 @@ function seleccionarEquipo(categoria, id, tipo) {
             return res.json();
         })
         .then(response => {
-            console.log('Respuesta del servidor:', response);
-            
             if (response.status && response.data) {
                 const data = response.data;
                 
@@ -788,7 +1120,6 @@ function seleccionarEquipo(categoria, id, tipo) {
                     inventarioTab.style.display = 'none';
                 }
             } else {
-                console.error('Respuesta inválida del servidor:', response);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -797,7 +1128,6 @@ function seleccionarEquipo(categoria, id, tipo) {
             }
         })
         .catch(error => {
-            console.error('Error obteniendo detalles del equipo:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
