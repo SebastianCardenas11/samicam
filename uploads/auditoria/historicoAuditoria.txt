@@ -1512,3 +1512,10 @@
 [2025-08-27 16:30:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-08-27 17:12:18] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Funcionarios Ops
 [2025-08-27 17:12:45] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Vacaciones
+[2025-08-27 19:17:48] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-08-27 19:17:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-08-27 19:17:50] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-08-27 19:21:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-08-27 20:12:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-08-27 20:12:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
+[2025-08-27 20:17:05] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Viáticos

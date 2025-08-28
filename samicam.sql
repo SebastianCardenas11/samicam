@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-08-2025 a las 17:57:37
+-- Tiempo de generación: 28-08-2025 a las 02:16:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -346,7 +346,15 @@ INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_reci
 (88, 'DECRETO 00101 23 JULIO 2025 “Por Medio Del Cual Se Regula La Publicidad YO Propaganda Electoral, Con Ocasión De Las Elecciones De Los Consejos .', '2025-08-06', 'gobierno@lajaguadeibirico-cesar.gov.co', 'DECRETO PARA PUBLICAR', '2025-08-08', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00101-23-julio-2025-por-medio-del-cual-se-regula', 3, 1),
 (89, 'EDICTO EMPLAZATORIO.', '2025-08-08', 'planeacion@lajaguadeibirico-cesar.gov.co', 'SOLICITUD DE PUBLICACION DEDE EDICTO EMPLAZATORIO EN LA PAGINA WEB INSTITUCIONAL', '2025-08-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/edicto-emplazatorio-129861', 9, 1),
 (90, 'CONTRATOS', '2025-08-11', 'contratacion@lajaguadeibirico-cesar.gov.co', 'CONTRATOS RENDIDOS MES DE JULIO', '2025-08-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
-(91, 'Plan de Mejoramiento Institucional 2025', '2025-08-13', 'loraine.mipg2024@gmail.com', 'Plan de Mejoramiento MIPG', '2025-08-13', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/plan-de-mejoramiento-institucional-2025', 9, 1);
+(91, 'Plan de Mejoramiento Institucional 2025', '2025-08-13', 'loraine.mipg2024@gmail.com', 'Plan de Mejoramiento MIPG', '2025-08-13', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/plan-de-mejoramiento-institucional-2025', 9, 1),
+(92, 'DECRETO 00113 15 de agosto POR MEDIO DEL CUAL SE DISPONEN MEDIDAS PARA LA CONSERVACIÓN DEL ORDEN PÚBLICO PARA EL XVII ENCUENTRO DE TAMBORA Y FIESTA', '2025-08-15', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'DECRETO 00113 DE 2025', '2025-08-15', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00113-15-de-agosto-por-medio-del-cual-se-disponen', 3, 1),
+(93, 'VEEDURÍA No. 007 DE 2025 CONSTRUCCIÓN DEL TRAMO VIAL Y OBRAS COMPLEMENTARIAS ENTRE LOS DOS 2 PUENTES DEL SECTOR LOS CARACOLÍSES EN LA VÍA QUE COND', '2025-08-22', 'desarrollocomunitario@lajaguadeibirico-cesar.gov.co', 'PUBLICACION VEEDURIAS 007 Y 008 DEL 2025', '2025-08-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-ciudadano/veeduria-no-007-de-2025-construccion-del-tramo-vial', 3, 1),
+(94, 'VEEDURÍA No. 008 DE 2025 “CONSTRUCCIÓN DE PAVIMENTO RÍGIDO Y OBRAS COMPLEMENTARIAS EN EL BARRIO NUEVO AMANECER DEL MUNICIPIO DE LA JAGUA DE IBIRICO', '2025-08-22', 'desarrollocomunitario@lajaguadeibirico-cesar.gov.co', 'PUBLICACION VEEDURIAS 007 Y 008 DEL 2025', '2025-08-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-ciudadano/veeduria-no-008-de-2025-construccion-de-pavimento-rigido', 3, 1),
+(95, 'RESOLUCIÓN 19082025 Consecutivo GGE – 00801 “POR MEDIO DE LA CUAL SE REALIZAN ACTIVACIÓN DE BENEFICIARIO DEL PROGRAMA PROSPERIDAD SOCIAL “COLOMBI', '2025-08-25', 'secretariadelamujer@lajaguadeibirico-cesar.gov.co', 'RESOLUCION ACTIVACION PROGRAMA ADULTO MAYOR', '2025-08-25', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-19082025-consecutivo-gge-00801-por-medio', 12, 1),
+(96, 'INFORME SEMESTRAL DECONTROL INTERNO', '2025-08-25', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'INFORME SEMESTRAL', '2025-08-25', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-semestral-decontrol-interno', 14, 1),
+(97, 'Informe semestral de control interno- 30 de junio 2025', '2025-08-25', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'INFORME SEMESTRAL', '2025-08-26', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-semestral-del-esta-de-control-interno-de-la', 14, 1),
+(98, 'Resolución N°002 13 DE AGOSTO DEL 2025 “POR MEDIO DE LA CUAL SE PUBLICAN LOS RESULTADOS DE LOS JÓVENES QUE CUMPLIERON LOS REQUISITOS PARA PARTICIPA', '2025-08-26', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'Resoliciónn', '2025-08-26', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-n002-13-de-agosto-del-2025-por-medio-de-la', 3, 1),
+(99, 'INFORME DE AUSTERIDAD Y EFICIENCIA DEL GASTO PÚBLICO VIGENCIA Segundo Trimestre 2025', '2025-08-26', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe de austeridad segundo trimestre', '2025-08-27', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-de-austeridad-y-eficiencia-del-gasto-publico-900868', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -403,6 +411,15 @@ CREATE TABLE `seguimiento_contrato` (
   `fecha_aprobacion_entidad` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `seguimiento_contrato`
+--
+
+INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fecha_terminacion`, `plazo`, `tipo_plazo`, `tipo_informe`, `cantidad_informes`, `valor_total_contrato`, `dia_corte_informe`, `observaciones_ejecucion`, `evidenciado_secop`, `fecha_verificacion`, `liquidacion`, `estado`, `numero_contrato`, `dependencia_id`, `fecha_aprobacion_entidad`) VALUES
+(6, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 1, 'meses', 'mes vencido', 1, 37591000.00, '2025-05-09', 'AMJI CMC 012 DE 2025', 'SI', '2025-05-28', 37591000.00, 3, '176-2025', 1, '2025-04-03'),
+(7, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-05-22', 10, 'dias', 'mes vencido', 1, 28920000.00, '2025-05-23', 'AMJI CMC 021 DE 2025', '', '0000-00-00', 28920000.00, 3, '215-2025', 1, '2025-05-12'),
+(8, 'COMPRAVENTA DE TINTAS Y TÓNER PARA LAS IMPRESORAS EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-08-08', '2025-08-22', 10, 'dias', 'mes vencido', 1, 36120000.00, '2025-08-25', 'Aun en espera de las entradas y salidas de Almancen para pasar informes', '', '0000-00-00', 0.00, 1, '274-2025', 1, '2025-08-05');
+
 -- --------------------------------------------------------
 
 --
@@ -423,7 +440,7 @@ CREATE TABLE `tbl_capital_viaticos` (
 --
 
 INSERT INTO `tbl_capital_viaticos` (`idCapital`, `anio`, `capital_total`, `capital_disponible`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(7, 2025, 50000000.00, 50000000.00, '2025-07-08 21:30:11', '2025-07-22 15:02:59'),
+(7, 2025, 70000000.00, 69750000.00, '2025-07-08 21:30:11', '2025-08-14 21:48:06'),
 (8, 2026, 500000000.00, 500000000.00, '2025-07-11 21:08:19', '2025-07-11 21:08:19');
 
 -- --------------------------------------------------------
@@ -840,7 +857,7 @@ INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `nm_
 (121, 'TAMAYO ARGOTE OSMEIRY', '32794032', 41, 3, 1, '3235126380', 'Calle 7A # 4-72', 'tamayoargoteosmeiry@gmail.com', '2023-05-23', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 50, 'viudo', 'catolico', 'tecnico', 'PREESCOLAR Y ATENCION A LA PRIMERA INFANCIA', NULL, 1, 0, 'Atlántico, Barranquilla', 'No Aplica', 'carrera_administrativa', 'ASISTENCIAL', 1863226.00, 'Resolucion 00419', '2023-05-03', '3030', '2023-05-23', '2 años, 1 mes', '407', '02', '1975-02-15', 'Atlántico, Barranquilla', 'A+', 'PREESCOLAR Y ATENCION A LA PRIMERA INFANCIA', 'No Aplica', 'NO', '599027166', 'BANCO DE BOGOTA', 'NUEVA EPS', 'COLPENSIONES', 'COLFONDOS', 'POSITIVA', 1, 1, 0, NULL),
 (122, 'TELLEZ RANGEL YASMER', '1003038374', 3, 3, 1, '3218975568', 'CALLE 9 # 2-92 La victoria de San Isidro', 'yasmertellez@gmail.com', '2023-05-12', 0, '', 'masculino', 'LA JAGUA DE IBIRICO', 29, 'casado', 'catolico', 'Profesional', 'ADMINISTRADOR DE EMPRESAS', NULL, 1, 0, 'Cesar, La Jagua de Ibirico', 'Si', 'carrera_administrativa', 'TECNICO', 2825896.00, 'Resolucion 00405', '2023-05-03', '3000', '2023-05-12', '2 años, 2 meses', '367', '03', '1996-04-21', 'Cesar, Becerril', 'A+', 'ADMINISTRADOR DE EMPRESAS', 'No', 'NO', '91252204984', 'BANCOLOMBIA', 'SALUD TOTAL', 'PORVENIR', 'COLFONDOS', 'POSITIVA', 1, 0, 0, NULL),
 (123, 'TRILLO JACOME LUIS FRANKLIN', '13175770', 46, 6, 1, '3506602042', 'CALLE 3 N° 7-23 B TOSCANO', 'ftjacome31@gmail.com', '2024-12-03', 0, '', 'masculino', 'LA JAGUA DE IBIRICO', 41, 'casado', 'catolico', 'Profesional', 'AGRONOMO', NULL, 1, 0, 'Norte de Santander, Ocaña', 'Si', 'carrera_administrativa', 'TECNICO', 2825896.00, 'Resolucion 00944', '2024-07-22', '4066', '2024-12-03', '7 meses', '214', '03', '1983-09-14', 'Cesar, La Jagua de Ibirico', 'A+', 'AGRONOMO', 'No', 'NO', '52400003669', 'BANCOLOMBIA', 'SALUD TOTAL', 'PORVENIR', 'PORVENIR', 'POSITIVA', 1, 0, 0, NULL),
-(124, 'URECHE COBO MARIA DEL PILAR', '26988705', 54, 16, 2, '3136103375', 'CALLE 5 4 3', 'pilarurechecob@gmail.com', '2025-01-14', 0, '', 'femenino', 'BARRANCAS', 42, 'divorciado', 'catolico', 'Profesional', 'ABOGADO', NULL, 1, 0, 'La Guajira, Barrancas', 'No Aplica', 'libre_nombramiento', 'DIRECTIVO', 5982216.00, 'Decreto 00008', '2025-01-14', '4076', '2025-01-14', '6 meses', '006', '01', '1982-10-12', 'La Guajira, Barrancas', 'B+', 'ABOGADO', 'No', 'ESPECIALISTA EN CONTRATACION ESTATAL', '599277738', 'BANCO DE BOGOTA', 'SANITAS', 'PORVENIR', 'COLFONDOS', 'POSITIVA', 0, 0, 0, NULL),
+(124, 'URECHE COBO MARIA DEL PILAR', '26988705', 54, 16, 2, '3136103375', 'CALLE 5 4 3', 'pilarurechecob@gmail.com', '2025-01-14', 0, '', 'femenino', 'BARRANCAS', 42, 'divorciado', 'catolico', 'Profesional', 'ABOGADO', NULL, 2, 0, 'La Guajira, Barrancas', 'No Aplica', 'libre_nombramiento', 'DIRECTIVO', 5982216.00, 'Decreto 00008', '2025-01-14', '4076', '2025-01-14', '6 meses', '006', '01', '1982-10-12', 'La Guajira, Barrancas', 'B+', 'ABOGADO', 'No', 'ESPECIALISTA EN CONTRATACION ESTATAL', '599277738', 'BANCO DE BOGOTA', 'SANITAS', 'PORVENIR', 'COLFONDOS', 'POSITIVA', 0, 0, 0, ''),
 (125, 'VARGAS CERPA JEAN CARLOS', '1064121351', 41, 11, 1, '3114201187', 'transversal 1F 2A 03', 'jeancarlos90lbs@gmail.com', '2023-08-02', 0, '', 'masculino', 'LA JAGUA DE IBIRICO', 26, 'soltero', 'catolico', 'Profesional', 'CONTADOR PUBLICO', NULL, 1, 0, 'Cesar, La Jagua de Ibirico', 'Si', 'carrera_administrativa', 'ASISTENCIAL', 1863226.00, 'Resolucion 00430', '2023-05-03', '3057', '2023-08-02', '1 año, 11 meses', '407', '02', '1998-08-23', 'Cesar, Valledupar', 'A+', 'CONTADOR PUBLICO', 'No', 'NO', '599269511', 'BANCO DE BOGOTA', 'COOSALUD', '', 'COLFONDOS', 'POSITIVA', 0, 0, 0, NULL),
 (126, 'VASQUEZ GUARIN LILA ALEJANDRA', '52727729', 63, 7, 1, '3205717491', 'calle 8 #1D 12 B Camilo Torres', 'lilitav18@hotmail.com', '2023-05-23', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 43, 'soltero', 'catolico', 'Profesional', 'BACTERIOLOGA Y LABORATORISTA CLINICO', NULL, 1, 0, 'Bogotá, Bogotá D.C.', 'No Aplica', 'carrera_administrativa', 'PROFESIONAL', 4202612.00, 'Resolución 00375', '2023-04-27', '2394', '2023-05-23', '2 años, 1 mes', '237', '01', '1981-10-18', 'Cesar, La Jagua de Ibirico', 'O+', 'BACTERIOLOGA Y LABORATORISTA CLINICO', 'No', 'NO', '52445647764', 'BANCOLOMBIA', 'SALUD TOTAL', 'COLPENSIONES', 'COLFONDOS', 'POSITIVA', 0, 0, 0, NULL),
 (127, 'VASQUEZ GUARIN MARIA MAGDALENA', '52765647', 38, 10, 9, '3166410923', 'carrera 3 N° 12 79 Brr Paraiso', 'mmvasquezg.mmv@gmail.com', '2025-04-10', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 45, 'casado', 'catolico', 'Profesional', 'ADMINISTRADORA DE EMPRESAS', NULL, 1, 0, 'Bogotá, Bogotá D.C.', 'No Aplica', 'periodo_de_prueba', 'ASISTENCIAL', 2775379.00, 'Resolucion 00237', '2025-01-31', '4104', '2025-04-10', '3 meses', '425', '04', '1979-10-18', 'Cesar, La Jagua de Ibirico', 'O+', 'ADMINISTRADORA DE EMPRESAS', 'No', 'NO', '51323316787', 'BANCOLOMBIA', 'SALUD TOTAL', 'COLPENSIONES', 'COLPENCIONES', 'POSITIVA', 0, 0, 0, NULL),
@@ -849,7 +866,8 @@ INSERT INTO `tbl_funcionarios_planta` (`idefuncionario`, `nombre_completo`, `nm_
 (130, 'VERA MARTINEZ DORA ARGEMIRA', '36572346', 50, 4, 2, '3126210729', 'Manzana 6 casa 190 Urb Sosororia', 'doravr94@gmail.com', '2025-03-03', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 48, 'soltero', 'catolico', 'Profesional', 'LICENCIADO EN EDUCACION BASICA CON ENFASIS EN EDUCACION ARTISTICA', NULL, 1, 0, 'Cesar, La Jagua de Ibirico', 'No Aplica', 'libre_nombramiento', 'DIRECTIVO', 5982216.00, 'Decreto 00039', '2025-02-19', '4090', '2025-03-03', '4 meses', '020', '01', '1976-10-01', 'Cesar, Chiriguaná', 'O+', 'LICENCIADO EN EDUCACION BASICA CON ENFASIS EN EDUCACION ARTISTICA', 'No', 'ESP PEDAGOGIA DE LA LUDICA', '489289077', 'BBVA COLOMBIA', 'ASMETSALUD', '', '', 'POSITIVA', 0, 0, 0, NULL),
 (131, 'VERA OSORIO CESAR ROLANDO', '88283325', 45, 5, 1, '3153719004', 'CRA 1c No. 3a-32', 'crvoss77@hotmail.com', '2023-06-27', 0, '', 'masculino', 'GONZALES', 48, 'casado', 'catolico', 'Profesional', 'ADMINISTRADOR PUBLICO', NULL, 1, 0, 'Norte de Santander, Ocaña', 'Si', 'carrera_administrativa', 'TECNICO', 2825896.00, 'Resolucion 00379', '2023-04-27', '3045', '2023-06-27', '2 años', '312', '03', '1977-07-07', 'Cesar, González', 'O+', 'ADMINISTRADOR PUBLICO', 'No', 'NO', '31809961209', 'BANCOLOMBIA', 'SANITAS', 'COLPENSIONES', 'COLFONDOS', 'POSITIVA', 1, 0, 0, NULL),
 (132, 'VILARDY ORTIZ LAID CAROLINA', '1065568790', 38, 3, 1, '3126774422', 'DIAGONAL 6 # 16-88 NUEVO MILENIO', 'lacavior3011@gmail.com', '2023-05-12', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 39, 'casado', 'catolico', 'tecnico', 'ASISTENCIA ADMINISTRATIVA', NULL, 1, 0, 'Cesar, La Jagua de Ibirico', 'No Aplica', 'carrera_administrativa', 'ASISTENCIAL', 2775379.00, 'Resolucion 00422', '2023-05-03', '3008', '2023-05-12', '2 años, 2 meses', '425', '02', '1985-11-30', 'Cesar, Chiriguaná', 'O+', 'ASISTENCIA ADMINISTRATIVA', 'No Aplica', 'NO', '599269610', 'BANCO DE BOGOTA', 'SALUD TOTAL', 'COLFONDOS', 'COLFONDOS', 'POSITIVA', 1, 0, 0, NULL),
-(133, 'ZULETA VEGA VERONICA', '1064115282', 50, 6, 2, '3218391342', 'Transversal 12 # 7 -14', 'zuleta_veronica@hotmail.com', '2025-03-13', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 31, 'soltero', 'catolico', 'Profesional', 'INGENIERA AMBIENTAL', NULL, 1, 0, 'Cesar, La Jagua de Ibirico', 'No Aplica', 'libre_nombramiento', 'DIRECTIVO', 5982216.00, 'Decreto 00048', '2025-03-13', '4096', '2025-03-13', '4 meses', '020', '01', '1994-05-09', 'Cesar, Manaure', 'O+', 'INGENIERO AMBIENTAL', 'Si', 'ESPECIALISTA GESTION DE PROYECTOS', '91213852278', 'BANCOLOMBIA', 'SALUD TOTAL', 'PORVENIR', 'PORVENIR', 'POSITIVA', 0, 0, 0, NULL);
+(133, 'ZULETA VEGA VERONICA', '1064115282', 50, 6, 2, '3218391342', 'Transversal 12 # 7 -14', 'zuleta_veronica@hotmail.com', '2025-03-13', 0, '', 'femenino', 'LA JAGUA DE IBIRICO', 31, 'soltero', 'catolico', 'Profesional', 'INGENIERA AMBIENTAL', NULL, 1, 0, 'Cesar, La Jagua de Ibirico', 'No Aplica', 'libre_nombramiento', 'DIRECTIVO', 5982216.00, 'Decreto 00048', '2025-03-13', '4096', '2025-03-13', '4 meses', '020', '01', '1994-05-09', 'Cesar, Manaure', 'O+', 'INGENIERO AMBIENTAL', 'Si', 'ESPECIALISTA GESTION DE PROYECTOS', '91213852278', 'BANCOLOMBIA', 'SALUD TOTAL', 'PORVENIR', 'PORVENIR', 'POSITIVA', 0, 0, 0, NULL),
+(134, 'EDGAR ISAAC BELEÑO QUIROZ', '85446119', 54, 16, 2, '3164066227', 'CALLE 6C N° 33 75', 'edgarabogado2001@gmail.com', '2025-07-31', 2, 'YISELL CAROLINA BELEÑO SAMBRANO, ISAAC DAVID BELEÑO SAMBRANO', 'masculino', 'VALLEDUPAR', 49, 'casado', 'catolico', 'Profesional', 'ABOGADO', NULL, 1, 0, 'Magdalena, Ariguaní', 'Si', 'libre_nombramiento', 'DIRECTIVO', 6400971.00, 'DECRET 00106', '2025-07-30', '4113', '2025-07-31', '23 días', '006', '01', '1975-11-02', 'Magdalena, Ariguaní', 'O+', 'ABOGADO', 'Si', 'ESPECIALISTA EN DERECHO PUBLICO', '51322860424', 'BANCOLOMBIA', 'SANITAS', 'COLFONDOS', 'COLFONDOS', 'POSITIVA', 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -866,6 +884,25 @@ CREATE TABLE `tbl_herramientas` (
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_herramientas`
+--
+
+INSERT INTO `tbl_herramientas` (`id_herramienta`, `item`, `marca`, `disponibilidad`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(2, 'Kit de destornilladores', 'Generica', 'No Disponible', '2025-08-20 04:23:28', '2025-08-20 04:23:28', 1),
+(3, 'Pulsera antiestática', 'Generica', 'No Disponible', '2025-08-20 04:23:53', '2025-08-20 04:23:53', 1),
+(4, 'Pinzas de punta fina', 'Generica', 'No Disponible', '2025-08-20 04:24:14', '2025-08-20 04:24:14', 1),
+(5, 'Multímetro', 'Generica', 'No Disponible', '2025-08-20 04:24:45', '2025-08-20 04:24:45', 1),
+(6, 'Cautín y soldadura', 'Generica', 'Disponible', '2025-08-20 04:25:10', '2025-08-20 04:25:10', 1),
+(7, 'Líquido de limpieza de cabezales', 'Generico', 'Disponible', '2025-08-20 04:25:43', '2025-08-20 04:25:43', 1),
+(8, 'Alcohol isopropílico', 'Generica', 'No Disponible', '2025-08-20 04:26:15', '2025-08-20 04:26:15', 1),
+(9, 'Brochas', 'Generico', 'No Disponible', '2025-08-20 04:26:44', '2025-08-20 04:26:44', 1),
+(10, 'Paños de microfibra', 'Generico', 'No Disponible', '2025-08-20 04:27:04', '2025-08-20 04:27:04', 1),
+(11, 'Aire comprimido o soplador', 'Generico', 'No Disponible', '2025-08-20 04:27:32', '2025-08-20 04:27:32', 1),
+(12, 'Aspiradora de mano', 'Generico', 'No Disponible', '2025-08-20 04:28:57', '2025-08-20 04:28:57', 1),
+(13, 'Espuma limpiadora', 'Generico', 'No Disponible', '2025-08-20 04:29:34', '2025-08-20 04:29:34', 1),
+(14, 'Hojas de limpieza', 'Generico', 'No Disponible', '2025-08-20 04:30:06', '2025-08-20 04:30:06', 1);
 
 -- --------------------------------------------------------
 
@@ -929,7 +966,27 @@ INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_p
 (57, 120, '2025-08-22', 8, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-08 11:40:09', 'planta', 0, ''),
 (58, 80, '2025-08-15', 8, 2025, 'Diligencias personales', 'Aprobado', '2025-08-11 10:47:51', 'planta', 0, ''),
 (59, 93, '2025-08-12', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-11 10:49:12', 'planta', 0, ''),
-(60, 101, '2025-08-19', 8, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-12 09:44:30', 'planta', 0, '');
+(60, 101, '2025-08-19', 8, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-12 09:44:30', 'planta', 0, ''),
+(61, 86, '2025-08-19', 8, 2025, 'Diligencias personales', 'Aprobado', '2025-08-15 11:09:20', 'planta', 0, ''),
+(62, 109, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', '2025-08-15 11:12:12', 'planta', 0, ''),
+(63, 107, '2025-08-20', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-15 11:13:12', 'planta', 0, ''),
+(64, 78, '2025-08-19', 8, 2025, 'Trámites bancarios', 'Aprobado', '2025-08-15 11:14:05', 'planta', 0, ''),
+(65, 78, '2025-08-20', 8, 2025, 'Trámites bancarios', 'Aprobado', '2025-08-15 11:14:36', 'planta', 0, ''),
+(66, 78, '2025-08-21', 8, 2025, 'Gestión académica', 'Aprobado', '2025-08-15 11:15:21', 'planta', 0, ''),
+(67, 83, '2025-08-21', 8, 2025, 'Diligencias personales', 'Aprobado', '2025-08-20 11:09:49', 'planta', 0, ''),
+(68, 112, '2025-09-06', 9, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-20 11:14:07', 'planta', 0, ''),
+(69, 63, '2025-08-22', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-22 10:14:56', 'planta', 0, ''),
+(70, 73, '2025-08-22', 8, 2025, 'Diligencias personales', 'Aprobado', '2025-08-22 10:15:37', 'planta', 0, ''),
+(71, 39, '2025-08-25', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-22 10:16:28', 'planta', 0, ''),
+(72, 113, '2025-08-26', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-22 10:17:07', 'planta', 0, ''),
+(73, 121, '2025-08-26', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-22 10:17:29', 'planta', 0, ''),
+(74, 25, '2025-08-29', 8, 2025, 'Diligencias personales', 'Aprobado', '2025-08-27 09:57:44', 'planta', 0, ''),
+(75, 76, '2025-08-28', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-27 09:58:28', 'planta', 0, ''),
+(76, 49, '2025-08-27', 8, 2025, 'Emergencia familiar', 'Aprobado', '2025-08-27 09:59:24', 'planta', 0, ''),
+(77, 60, '2025-08-27', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-27 10:01:08', 'planta', 0, ''),
+(78, 55, '2025-09-01', 9, 2025, 'Cita médica', 'Aprobado', '2025-08-27 10:01:31', 'planta', 0, ''),
+(79, 55, '2025-09-02', 9, 2025, 'Dia del cumpleaños', 'Aprobado', '2025-08-27 10:01:47', 'planta', 0, ''),
+(80, 55, '2025-09-03', 9, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-27 10:02:10', 'planta', 0, '');
 
 -- --------------------------------------------------------
 
@@ -958,8 +1015,8 @@ CREATE TABLE `tbl_impresoras` (
 --
 
 INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `modelo`, `serial`, `consumible`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:58:54', '2025-08-01 14:58:54', 1),
-(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:58:54', '2025-08-20 04:04:13', 0),
+(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', 'Regular', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 04:03:55', 1),
 (13, 'IMP-2', 'RICOH', 'Aficio MP 305+SP', 'G582P350295', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (14, 'IMP-4', 'SAMSUNG', 'Xpress SL-M2070FW', '073YB8KG1A000GT', 'MLT-D111S', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (15, 'IMP-7', 'EPSON', 'EcoTank L5190', 'X5NQ139873', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:29', 1),
@@ -984,13 +1041,13 @@ INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `mode
 (34, 'IMP-48', 'HP', 'Laserjet Enterprise Mfp M630', 'MXBCM2237', 'CF281A - 81AX', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (35, 'IMP-50', 'EPSON', 'EcoTank L3210', 'XAGB487365', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:26:58', 1),
 (36, 'IMP-51', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W0BV', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(37, 'IMP-52', 'HP', 'LaserJet Pro MFP M227', 'WNG3210797', '230A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(37, 'IMP-52', 'HP', 'LaserJet Pro MFP M227fdw', 'WNG3210797', '230A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 03:52:34', 1),
 (38, 'IMP-54', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W65K', '83A', 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (39, 'IMP-55', 'EPSON', 'EcoTank L3110', 'X644509645', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:18', 1),
 (40, 'IMP-56', 'EPSON', 'EcoTank L3110', 'XAGB352710', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:28', 1),
 (41, 'IMP-57', 'EPSON', 'EcoTank L3110', 'X644507809', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:45', 1),
 (42, 'IMP-63', 'HP', 'Color LaserJet Pro M454dw', 'VNB3D23979', 'W2022XC AM- MG-CIAN-NEGRO', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(43, 'IMP-64', 'HP', 'LaserJet Pro M125a MFP', 'CNB9G42633', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(43, 'IMP-64', 'HP', 'LaserJet Pro M127a MFP', 'CNB9G42633', '83A', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 13:52:28', 1),
 (44, 'IMP-65', 'KYOCERA', 'Ecosys MA4500 IFX', 'WDE3802748', 'TK-3402', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (45, 'IMP-66', 'EPSON', 'EcoTank L3210', 'XAGB352835', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:14', 1),
 (46, 'IMP-67', 'HP', 'LaserJet Pro M203dw', 'VNB5D11419', '30A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
@@ -1029,7 +1086,8 @@ CREATE TABLE `tbl_mantenimientos_equipos` (
 --
 
 INSERT INTO `tbl_mantenimientos_equipos` (`id_mantenimiento`, `id_equipo`, `tipo_equipo`, `fecha_mantenimiento`, `estacion_trabajo`, `nombre_usuario`, `cedula_usuario`, `tipo_dispositivo`, `error_reportado`, `acciones_realizadas`, `tecnico_servicio`, `fecha_registro`, `status`) VALUES
-(5, 23, 'Todo en Uno', '2025-08-11', 'Almacen', 'Mariela Lopez', '1036989', 'Todo en Uno', 'Estrello el computador', 'Le partí la mesa en la cabeza', 'Elías Iguaran Márquez', '2025-08-11 10:10:28', 1);
+(5, 23, 'Todo en Uno', '2025-08-11', 'Almacen', 'Mariela Lopez', '1036989', 'Todo en Uno', 'Estrello el computador', 'Le partí la mesa en la cabeza', 'Elías Iguaran Márquez', '2025-08-11 10:10:28', 1),
+(6, 43, 'Impresora', '2025-08-20', 'Secretaría de Gobierno', 'LAID VILARDY ORTIZ', '1065568790', 'Impresora', 'SOLICITAN CAMBIO DE TONER POR FALLAS CON EL ACTUAL LUEGO DE LA RECARGA DE ESTE.', 'SE REALIZA EL CAMBIO DE TONER, LA IMPRESORA QUEDA EN TOTAL FUNCIONAMIENTO.', 'Elías Iguaran Márquez', '2025-08-20 09:01:24', 1);
 
 -- --------------------------------------------------------
 
@@ -1128,6 +1186,31 @@ CREATE TABLE `tbl_papeleria` (
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_papeleria`
+--
+
+INSERT INTO `tbl_papeleria` (`id_papeleria`, `item`, `disponibilidad`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(3, 'Resma Oficio', 9, '2025-08-20 04:07:41', '2025-08-20 04:07:41', 1),
+(4, 'Resma Carta', 5, '2025-08-20 04:07:55', '2025-08-20 04:07:55', 1),
+(5, 'Lapiceros Nunca Hay', 1, '2025-08-20 04:18:42', '2025-08-20 04:18:42', 1),
+(6, 'Caja de Clips', 6, '2025-08-20 04:19:02', '2025-08-20 04:19:02', 1),
+(7, 'Lápices', 1, '2025-08-20 04:31:31', '2025-08-20 04:31:31', 1),
+(8, 'Marcadores', 5, '2025-08-20 04:31:52', '2025-08-20 04:31:52', 1),
+(9, 'Resaltadores', 2, '2025-08-20 04:32:08', '2025-08-20 04:32:08', 1),
+(10, 'Correctores', 1, '2025-08-20 04:32:20', '2025-08-20 04:32:20', 1),
+(11, 'Sacapuntas', 2, '2025-08-20 04:32:31', '2025-08-20 04:32:31', 1),
+(12, 'Borradores', 2, '2025-08-20 04:32:48', '2025-08-20 04:32:48', 1),
+(13, 'Sobres', 25, '2025-08-20 04:33:08', '2025-08-20 04:33:08', 1),
+(14, 'Grapas', 6, '2025-08-20 04:33:37', '2025-08-20 04:33:37', 1),
+(15, 'Grapadora', 1, '2025-08-20 04:33:57', '2025-08-20 04:33:57', 1),
+(16, 'Carpetas', 15, '2025-08-20 04:34:21', '2025-08-20 04:34:21', 1),
+(17, 'Borrador de pizarra', 1, '2025-08-20 04:34:57', '2025-08-20 04:34:57', 1),
+(18, 'Tableros', 2, '2025-08-20 04:35:55', '2025-08-20 04:35:55', 1),
+(19, 'Perforadora de papel', 1, '2025-08-20 04:36:38', '2025-08-20 04:36:38', 1),
+(20, 'Tijeras', 1, '2025-08-20 04:36:55', '2025-08-20 04:36:55', 1),
+(21, 'Planilleros', 7, '2025-08-20 04:40:11', '2025-08-20 04:40:11', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1165,7 +1248,46 @@ CREATE TABLE `tbl_pc_torre` (
 --
 
 INSERT INTO `tbl_pc_torre` (`id_pc_torre`, `numero_pc`, `marca`, `serial`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `sistema_operativo`, `numero_activo`, `monitor`, `numero_activo_monitor`, `serial_monitor`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(5, 'PC-123', 'Dell', '9Q5JPY2', 'Vostro 3470', '4 GB', '2400 Mhz', 'Intel(R) Core(TM) i5-9400', '2.90 GHz', 'HDD', '1 TB', 'Windows 10 Pro', '', 'LG', '', '', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:54:38', '2025-08-01 14:54:38', 1);
+(5, 'PC-123', 'Dell', '9Q5JPY2', 'Vostro 3470', '4 GB', '2400 Mhz', 'Intel(R) Core(TM) i5-9400', '2.90 GHz', 'HDD', '1 TB', 'Windows 10 Pro', '', 'LG', '', '', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:54:38', '2025-08-01 14:54:38', 1),
+(6, 'PC-2', 'HP', 'MX2526001L', '', '8GB', '', 'Intel Xeon', '', 'HDD', '', 'WIN10', '', 'LENOVO', '', '1588-6782', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(7, 'PC-3', 'COMPUMAX', 'BRC41748R6', '', '8GB', '', 'Intel Xeon', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '04GYHCHN801617N', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(8, 'PC-4', 'COMPUMAX', '300SN49398', '', '4GB', '', 'Intel Core I5', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE13050104857', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(9, 'PC-7', 'JANUS', 'N/A', '', '4GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'LG', '', '901NTHMSX249', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(10, 'PC-10', 'COMPUMAX', 'ES07619390', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'HP', '', '50210NBUS073', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(11, 'PC-11', 'LENOVO', 'S02NDMJ59079', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', '209SN09423', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(12, 'PC-17', 'COMPUMAX', '102SN12521', '', '4GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE305010526', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(13, 'PC-20', 'COMPUMAX', 'N/A', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LG', '', '404DNBES639', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(14, 'PC-29', 'JANUS', '102SN30347', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', '102SN30324', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(15, 'PC-31', 'COMPUMAX', '2020CMHT7032047', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '045YHN6020D', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(16, 'PC-35', 'JANUS', 'N/A', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', 'VS-09A476', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(17, 'PC-39', 'LENOVO', 'MJ0H4JQ7', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LENOVO', '', 'CN-0HN22V-FCC004M-AY6B-A07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(18, 'PC-45', 'COMPUMAX', '102SN3857', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', '303NDJWHS719', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(19, 'PC-46', 'DELL', '102SN3857', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LG', '', '04GYCHN8016Z', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(20, 'PC-48', 'COMPUMAX', '102SN30381', '', '8GB', '', 'Intel Core i5', '', 'SSD', '', 'WIN10', '', 'SAMSUNG', '', 'J2015LE670302673', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(21, 'PC-49', 'JANUS', 'N/A', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE305010175', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(22, 'PC-50', 'COMPUMAX', '200SN69057', '', '8GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'cn-0kn22b-fcc00-973-apb-a07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(23, 'PC-52', 'COMPUMAX', 'N/A', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', '279bcn86002ae', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(24, 'PC-53', 'COMPUMAX', '102SN30332', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '04gyhcn80163w', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(25, 'PC-56', 'COMPUMAX', '102SN12522', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'N/A', '', '901nthm759', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(26, 'PC-57', 'COMPUMAX', '101SN00877', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', '2020CMHT7032063', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(27, 'PC-59', 'COMPUMAX', '200SN6989', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'cn-0hn22v-fcc00-35p-ac3b-a07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(28, 'PC-62', 'COMPUMAX', '300SN34397', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'UKX314J0059a', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(29, 'PC-63', 'COMPUMAX', '102SN30358', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'viewsonic', '', '412NDNX24589', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(30, 'PC-67', 'DELL', '9q7spq2', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN7', '', 'DELL', '', '412NDNX24583', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(31, 'PC-69', 'COMPUMAX', '102SN30394', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', 'J2213LE305010231', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(32, 'PC-70', 'COMPUMAX', '200SN66711', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', 'sn-0kn22b-fcc00-95p-ec4b-a07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(33, 'PC-73', 'COMPUMAX', '200SN86713', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'JANUS', '', '103021475', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(34, 'PC-74', 'DELL', '300SN58746', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'COM2020CMHT7031570', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(35, 'PC-81', 'COMPUMAX', '9u514t2', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'CN-0HL22V-FCC00-95P-CJ2B-07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(36, 'PC-85', 'COMPUMAX', '102SN30327', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(37, 'PC-100', 'HP', '4CE5932327', 'Generico', '8GB', '', 'Intel Core i5', '', 'SSD', '240 GB', 'WIN10', '', 'DELL', '', 'J2213LE305010', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 19:55:22', 1),
+(38, 'PC-100', 'DELL', 'N/A', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'HP', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(39, 'PC-103', 'COMPUMAX', '102SN30352', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'DELL', '', '901nthm523', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(40, 'PC-105', 'DELL', '9q4lt42', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'COM2020CMHT7031570', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(41, 'PC-106', 'COMPUMAX', 'N/A', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'CN-0HL22V-FCC00-95P-CJ2B-07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(42, 'PC-107', 'COMPUMAX', '102SN30339', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(43, 'PC-111', 'JANUS', '9J5JFY2', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(44, 'PC-123', 'DELL', '102SN12561', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1);
 
 -- --------------------------------------------------------
 
@@ -1229,7 +1351,27 @@ INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `me
 (88, 120, '2025-08-22', 8, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-08 11:40:09'),
 (89, 80, '2025-08-15', 8, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-11 10:47:51'),
 (90, 93, '2025-08-12', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-11 10:49:12'),
-(91, 101, '2025-08-19', 8, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-12 09:44:30');
+(91, 101, '2025-08-19', 8, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-12 09:44:30'),
+(92, 86, '2025-08-19', 8, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-15 11:09:20'),
+(93, 109, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-15 11:12:12'),
+(94, 107, '2025-08-20', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-15 11:13:12'),
+(95, 78, '2025-08-19', 8, 2025, 'Trámites bancarios', 'Aprobado', 'planta', 0, '', '2025-08-15 11:14:05'),
+(96, 78, '2025-08-20', 8, 2025, 'Trámites bancarios', 'Aprobado', 'planta', 0, '', '2025-08-15 11:14:36'),
+(97, 78, '2025-08-21', 8, 2025, 'Gestión académica', 'Aprobado', 'planta', 0, '', '2025-08-15 11:15:21'),
+(98, 83, '2025-08-21', 8, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-20 11:09:49'),
+(99, 112, '2025-09-06', 9, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-20 11:14:07'),
+(100, 63, '2025-08-22', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-22 10:14:56'),
+(101, 73, '2025-08-22', 8, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-22 10:15:37'),
+(102, 39, '2025-08-25', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-22 10:16:28'),
+(103, 113, '2025-08-26', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-22 10:17:07'),
+(104, 121, '2025-08-26', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-22 10:17:29'),
+(105, 25, '2025-08-29', 8, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-27 09:57:44'),
+(106, 76, '2025-08-28', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-27 09:58:28'),
+(107, 49, '2025-08-27', 8, 2025, 'Emergencia familiar', 'Aprobado', 'planta', 0, '', '2025-08-27 09:59:24'),
+(108, 60, '2025-08-27', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-27 10:01:08'),
+(109, 55, '2025-09-01', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-27 10:01:31'),
+(110, 55, '2025-09-02', 9, 2025, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-08-27 10:01:47'),
+(111, 55, '2025-09-03', 9, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-27 10:02:10');
 
 -- --------------------------------------------------------
 
@@ -1265,7 +1407,20 @@ CREATE TABLE `tbl_portatiles` (
 --
 
 INSERT INTO `tbl_portatiles` (`id_portatil`, `numero_pc`, `marca`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `serial`, `sistema_operativo`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(4, 'PC-109', 'Dell', 'Inspiron 3493', '8 GB', '2667 Mhz', 'Intel(R) Core(TM) i5-1035G1', '1.00GHz', 'Híbrido', '1.25 TB', 'CDJ7J33', 'Windows 11 Home', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-01 14:47:25', '2025-08-01 14:47:25', 1);
+(4, 'PC-109', 'Dell', 'Inspiron 3493', '8 GB', '2667 Mhz', 'Intel(R) Core(TM) i5-1035G1', '1.00GHz', 'Híbrido', '1.25 TB', 'CDJ7J33', 'Windows 11 Home', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-01 14:47:25', '2025-08-01 14:47:25', 1),
+(5, 'PC-65', 'DELL', '', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', '26832216927', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(6, 'PC-97', 'HP', '', '8GB', NULL, 'Intel Core i5', NULL, 'HDD', '', '5CG131G1K', 'WIN11', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(7, 'PC-109', 'DELL', '', '8GB', NULL, 'Core i5-1035G1', '1,00 GHZ', 'SSD', '240 GB', 'CD7J33', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(8, 'PC-110', 'DELL', '', '8GB', NULL, 'Intel Core i7', NULL, 'HDD', '', '6KP5FT2', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(9, 'PC-122', 'HP', '', '4GB', NULL, 'Intel Core i5', NULL, 'HDD', '', '5CG9391NN9', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(10, 'PC-00', 'LENOVO', 'PORTATILES', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB31509115', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(11, 'PC-00', 'LENOVO', 'B40-70', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB31508803', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(12, 'PC-00', 'LENOVO', 'B40-70', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB3148502B', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(13, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31508829', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:21', 1),
+(14, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31510561', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:28', 1),
+(15, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31508923', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:13:02', 1),
+(16, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '5100157C', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:58', 1),
+(17, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '?', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:53', 1);
 
 -- --------------------------------------------------------
 
@@ -1307,7 +1462,7 @@ INSERT INTO `tbl_practicantes` (`idepracticante`, `nombre_completo`, `numero_ide
 (11, 'DIOVANNYS RAFAEL TRESPALACIOS MONTESIO', '1003122944', '', 26, 'masculino', 'tresparafa20@gmail.com', '3225319080', 'LA JAGUA DE IBIRICO', 11, 'APOYO EN SECRETARIA DE HACIENDA', '2025-04-28', '2025-10-28', 1, 'Profesional', 'CONTADOR PUBLICO', 'UNIVERSIDAD DE PAMPLONA', 0, 1),
 (12, 'KATY YULIETH DIAZ GARCIA', '1064109129', 'Positiva', 19, 'femenino', 'katyjulieth16@gmail.com', '3207192975', 'calle 3A #2-22', 5, 'APOYO EN LAS ACTIVIDADES DE LEVANTAMIENTO DE CADAVERES EN SINIESTROS VIALES', '2025-03-15', '2025-05-30', 2, 'Técnico', 'T.P PROCESOS JUDICIALES', 'F.I.T', 0, 2),
 (13, 'ANDREA SANDRITH HERNANDEZ PAREJO', '1064121054', 'Positiva', 27, 'femenino', 'andreahzp67@gmail.com', '3017004637', 'MZ 1 CASA 30 ALTOS DE LA MINA', 9, 'APOYO A LA OFICINA DE VIVIENDA, ACTUALIZAR Y ORGANIZAR LA BASE DE DATOS RELACIONADA CON LOS PROCESOS DE INCLUSION Y EXCLUSION, BRINDAR ORIENTACION Y INFORMACION', '2025-04-01', '2025-08-01', 3, 'Profesional', 'AMINISTRACION PUBLICA TERRITORIAL', 'ESAP', 0, 1),
-(14, 'YEISO DAVID PALACIOS REAL', '1064118651', 'Positiva', 29, 'masculino', 'Ydpalaciosr@ufpso.edu.co', '3223846747', 'transversal 14 #9-18 juan ramon', 4, 'APOYO A PROCESOS DE EDUCACION SUPERIOR EN EL MUNICIPIO, APOYO A LA GESTION ADMINISTRATIVA DE LA SECTORIA DE EDUCACION, APOYO EN LA ASESORIA O LOS PROGRAMAS Y PROYECTOS ORIENTADOS', '2025-03-18', '2025-07-18', 2, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNIVERSIDAD FRANCISCO DE PAULA SANTANDER', 0, 1),
+(14, 'YEISO DAVID PALACIOS REAL', '1064118651', 'Positiva', 29, 'masculino', 'Ydpalaciosr@ufpso.edu.co', '3223846747', 'transversal 14 #9-18 juan ramon', 4, 'APOYO A PROCESOS DE EDUCACION SUPERIOR EN EL MUNICIPIO, APOYO A LA GESTION ADMINISTRATIVA DE LA SECTORIA DE EDUCACION, APOYO EN LA ASESORIA O LOS PROGRAMAS Y PROYECTOS ORIENTADOS', '2025-03-18', '2025-07-18', 2, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNIVERSIDAD FRANCISCO DE PAULA SANTANDER', 0, 2),
 (15, 'JESUS DAVIS USMA DIAZ', '1064108547', 'Positiva', 19, 'masculino', 'jesususma721@gmail.com', '3126067887', 'KR 4 3A 15 CENTRO', 1, 'APOYO EN LAS PLATAFORMAS', '2025-03-03', '2025-09-03', 2, 'Técnico', 'SISTEMAS TELEINFORMATICOS', 'SENA', 0, 1),
 (16, 'INGRID PAOLA LIÑAN TORRES', '1065580758', 'Positiva', 39, 'femenino', 'jesuvaleemma3@gmail.com', '3182964281', 'calle 9# 2-48 las malvinas', 3, 'APOYO', '2024-11-01', '2025-05-01', 2, 'Técnico', 'TECNICO EN RECURSOS HUMANOS', 'SENA', 0, 2),
 (17, 'JUAN SEBASTIAN CARDENAS GUERRERO', '1193579239', 'Positiva', 22, 'masculino', 'juan.cardenasg.89@gmail.com', '3242611872', 'calle 8 #2-30 las malvinas', 1, 'APOYO', '2025-03-14', '2025-09-14', 2, 'Técnico', 'PROGRAMACION DE SOFTWARE', 'SENA', 0, 1),
@@ -1315,7 +1470,36 @@ INSERT INTO `tbl_practicantes` (`idepracticante`, `nombre_completo`, `numero_ide
 (19, 'MARTHA LILIANA PEREZ CORDOBA', '10641080688', 'Positiva', 38, 'femenino', 'marlipercor@gmail.com', '3146356719', 'DIAGONAL 7 #16-23 NUEVO MILENIO', 10, 'APOYO', '2024-08-01', '2025-08-01', 2, 'Técnico', 'RECURSOS HUMANO', 'SENA', 0, 2),
 (20, 'JESSIKA JULIETH SAAVEDRA PAJARO', '1064124478', 'Positiva', 30, 'femenino', 'JESSIKASAAVEDRA4@GMAIL.COM', '3233934289', 'CARRERA 3 #10-39 LAS MALVINAS', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
 (21, 'CLERIS MARIA MONTERROSA DAZA', '1064122162', 'Positiva', 26, 'femenino', 'CLERI.MA852@GMAIL.COM', '3116885332', 'CRA 1A- 13 BARRIO ELPARAISO', 7, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
-(22, 'LINA MARCELA GUERRA FERNANDEZ', '36574072', 'Positiva', 40, 'femenino', 'lguerrafernandez@hotmail.com', '3156149783', 'carrera 6 #2-54', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2);
+(22, 'LINA MARCELA GUERRA FERNANDEZ', '36574072', 'Positiva', 40, 'femenino', 'lguerrafernandez@hotmail.com', '3156149783', 'carrera 6 #2-54', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(23, 'Juan Carlos Pérez López', '1', 'Sura', 18, 'masculino', 'juan.perez@ejemplo.com', '1', '1', 18, 'asd', '2025-08-11', '2025-08-21', 2, 'Tecnólogo', 'asdasd', 'asdasds', 0, 0),
+(24, 'ANA LAUDITH GUETTE VILORIA', '1065600302', 'Positiva', 37, 'femenino', 'alguettev@unadvirtual.edu.co', '3136801001', 'calle 2 # 2-103 barrio santander', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(25, 'SANDRA MILENA CONTRERAS OROZCO', '1064113576', 'Positiva', 32, 'femenino', 'MILENAC32@GMAIL.COM', '3205854186', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2025-03-03', '2025-05-08', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(26, 'ELIS JULIANA PACHECO ECHAVEZ', '1192773969', 'Positiva', 24, 'femenino', 'epacheco2001@oulook.com', '3207416837', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2025-03-03', '2025-05-08', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(27, 'NAYELIS SALINA BERMUDEZ', '1065653263', 'Positiva', 31, 'femenino', 'naye2013@oulook.com', '3205517204', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2025-03-03', '2025-05-08', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(28, 'AMIRA PAOLA GARCIA MOLINA', '1064121242', 'Positiva', 27, 'femenino', 'amira15@hotmail.com', '3004252594', 'CALLE 8 #5-14', 3, 'APOYO', '2025-03-03', '2025-05-08', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(29, 'MARIA CAMILA MOLINA RIVERA', '1003123459', 'Positiva', 23, 'femenino', 'XXXX@GMAL.COM', '3207805913', 'BOQUERON', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(30, 'DAIBELIS JENNIFER HERNANDEZ MARTINEZ', '1064719145', 'Positiva', 31, 'femenino', 'daibelista@gmail.com', '3148174080', 'DIAGONAL 8 #9-13', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(31, 'WILMARY CARDILES MORALES', '1066097271', 'Positiva', 28, 'femenino', 'dra.wilmarycardiles07@oulook.com', '3008682681', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(32, 'DIANA CAROLINA ISAZA RICO', '1064114553', 'Positiva', 22, 'femenino', 'dianarico2009@hotmail.com', '3216762121', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(33, 'ANDREA CAROLINA MORATO CAMPO', '1007561572', 'Positiva', 24, 'femenino', 'solimar222019@gmail.com', '3117993302', 'BOQUERON', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(34, 'LINA MARCELA BELTRAN PEREZ', '1082879514', 'Positiva', 22, 'femenino', 'XXXXXX@GMAIL.COM', '3208799814', 'MZ 2 CS 12 URB NANCY LOBO', 3, 'APOYO', '2024-10-01', '2025-02-03', 1, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNAD', 0, 1),
+(35, 'KATHERINE VERGEL RODRIGUEZ', '1007387317', 'Positiva', 32, 'femenino', 'vergel-katy@hotmail.com', '3215461263', 'calle 1 #2 este 31', 9, 'APOYO', '2024-10-02', '2025-02-02', 1, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNAD', 0, 2),
+(36, 'YUNEIDYS DURAN OROZCO', '1007356239', 'Positiva', 25, 'femenino', 'yuneidis.duran19@gmail.com', '3105208216', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(37, 'ALBA ROSA PADILLA CAMPO', '1085175962', 'Positiva', 32, 'femenino', 'padillacampoalba@gmail.com', '3013339315', 'tranversal 2 #4-21', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(38, 'ANYULI JOHANA MEDINA ZAPATA', '1065571281', 'Positiva', 40, 'femenino', 'anyulimedinaz1601@gmail.com', '3118918440', 'dg 6A #16-100 nuevo milenio', 7, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(39, 'CENITH MILENA TOSCANO QUINTERO', '1064112795', 'Positiva', 33, 'femenino', 'milena19922009@hotmail.com', '3126777801', 'calle 1 N # 1E-75', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(40, 'SANDRA MILENA BARRETO DITTA', '36572513', 'Positiva', 48, 'femenino', 'sandra77milena26@gmail.com', '3135027473', 'trsnsversal 10 #7-73', 3, 'APOYO', '2024-03-06', '2024-06-06', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(41, 'MAYERLIS URIBE ROZO', '1064110172', 'Positiva', 36, 'femenino', 'mauro.al@oulook.es', '3215897053', 'diagonal 6 #14-24 juan ramon', 14, 'APOYO', '2024-10-02', '2025-02-02', 1, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNAD', 0, 2),
+(42, 'SANDRITH JULIETH MARTINEZ CARRANZA', '1064115255', 'Positiva', 31, 'femenino', 'sandrithjmartinez@gmail.com', '3117993302', 'BOQUERON', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(43, 'SHIRLEY KATERINE PEREZ PUELLO', '1193097303', 'Positiva', 34, 'femenino', 'shirlyperezp@gmail.com', '3103521055', 'transversal 15 #6-32', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(44, 'WILSON REYES QUINTANA', '77182128', 'Positiva', 50, 'masculino', 'wilsonreyes70@hotmail.com', '0000000000', 'LA JAGUA DE IBIRICO', 6, 'APOYO', '2024-12-01', '2025-06-01', 1, 'Técnico', 'PRODUCCION EN AGROPECUARIA', 'SENA', 0, 2),
+(45, 'ANDERSON MAURICIO RIOS JULIO', '1064118243', 'Positiva', 29, 'masculino', 'gicear7@gmail.com', '3207870193', 'diagonal 6 #15-13 juan ramon', 11, 'APOYO', '2021-03-08', '2021-12-08', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UNIVERSIDAD POPULAR DEL CESAR', 0, 2),
+(46, 'EDGAR JOSE ROBLES BONETT', '1003123167', 'Positiva', 23, 'masculino', 'edgarrobles0328@gmail.com', '3108233839', 'carrero 3a #10-33', 11, 'APOYO', '2024-02-26', '2024-11-26', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UDES', 0, 1),
+(47, 'YISELL CAROLINA RIOS RUIDIAZ', '1007624710', 'Sura', 23, 'femenino', 'yisellrios19@gmail.com', '3208896634', 'diagonal 4 # 12-30', 14, 'APOYO', '2024-02-16', '2024-11-20', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UNIVERSIDAD COOPERATIVA DE COLOMBIA', 0, 1),
+(48, 'MARIA ALEJANDRA MUÑOZ PEÑALOZA', '1064122314', 'Positiva', 26, 'femenino', 'marialejamp69@gmail.com', '3117520996', 'tranversal 13 #4-58', 3, 'APOYO', '2024-04-12', '2024-10-12', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UDES', 0, 2),
+(49, 'JANY WINETH VEGA MEJIA', '1064118353', 'Positiva', 21, 'femenino', 'janyvegamejia09@gmail.com', '3012835220', 'LA JAGUA DE IBIRICO', 9, 'APOYO', '2025-02-12', '2025-04-23', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UNIVERSIDAD DEL MAGDALENA', 0, 1),
+(50, 'DANIELA VANESSA OCHOA CLAVIJO', '1003123848', 'Positiva', 22, 'femenino', 'danielaochoaclavijo@gmail.com', '3216147420', 'LA JAGUA DE IBIRICO', 16, 'APOYO', '2024-07-08', '2024-10-21', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UNIVERSIDAD DEL MAGDALENA', 0, 2),
+(51, 'DANIRIS ADRIANA MEDRANO GARCIA', '1193542764', 'Sura', 22, 'femenino', 'danirismedrano232@gmail.com', '3212930767', 'diagonal 10 1a-18', 10, 'APOYO', '2024-02-23', '2024-09-06', 1, 'Profesional', 'AUXILIAR JURIDICO AD HONOREM', 'UNIVERSIDAD AUTONOMA DEL CARIBE', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -1397,6 +1581,27 @@ CREATE TABLE `tbl_tintas_toner` (
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_tintas_toner`
+--
+
+INSERT INTO `tbl_tintas_toner` (`id_tinta_toner`, `item`, `disponibles`, `impresora`, `modelos_compatibles`, `fecha_ultima_actualizacion`, `fecha_registro`, `status`) VALUES
+(4, '83A', 11, '11', 'HP LaserJet Pro M125a MFP - M127fn -M201dw', '2025-08-20 03:27:42', '2025-08-20 03:20:59', 1),
+(5, '30A', 7, '17', 'HP LaserJet Pro M203dw - M227fdw', '2025-08-20 03:52:54', '2025-08-20 03:23:02', 1),
+(6, '32A', 5, '17', 'HP LaserJet Pro M203dw', '2025-08-20 03:28:00', '2025-08-20 03:24:10', 1),
+(7, '58X', 5, '25', 'HP Lasert Jet Pro MFP M428Fdw', '2025-08-20 03:36:21', '2025-08-20 03:26:27', 1),
+(8, 'Mp305', 33, '16', 'RICOH Aficio MP 305+SP', '2025-08-20 03:27:29', '2025-08-20 03:27:29', 1),
+(9, 'T544 Negro, Cyan, Yellow, Magenta', 2, '28', 'EPSON EcoTank - L3110 -L3210 - L5190 - L6490', '2025-08-20 03:38:23', '2025-08-20 03:31:57', 1),
+(10, '85A', 5, '29', 'HP LaserJet Pro P1102', '2025-08-20 03:55:15', '2025-08-20 03:39:23', 1),
+(11, '81A-X', 5, '34', 'HP Laserjet Enterprise Mfp M630', '2025-08-20 03:41:37', '2025-08-20 03:41:15', 1),
+(12, '55A-X', 5, '30', 'HP LaserJet Pro M521dn', '2025-08-20 03:43:35', '2025-08-20 03:42:56', 1),
+(13, 'Negro, Cyan, Yellow, Magenta', 0, '48', 'CANON Pixma G4170 Megatank', '2025-08-20 03:44:54', '2025-08-20 03:44:54', 1),
+(14, '05A-X', 5, '52', 'HP LaserJet Pro 400 MFP M425dn', '2025-08-20 03:46:53', '2025-08-20 03:46:29', 1),
+(15, 'MLT-D111S', 0, '14', 'SAMSUNG Xpress SL-M2070FW', '2025-08-20 03:49:05', '2025-08-20 03:48:45', 1),
+(16, 'Tinta Brother BTD60 y BT5001', 0, '53', 'Brother DCP-T710W', '2025-08-20 03:54:36', '2025-08-20 03:54:08', 1),
+(17, 'TK-3402', 5, '44', 'KYOCERA Ecosys MA4500 IFX', '2025-08-20 03:56:52', '2025-08-20 03:56:08', 1),
+(18, '105A', 3, '51', 'HP Laser MFP 137fnw', '2025-08-20 03:58:34', '2025-08-20 03:58:34', 1);
 
 -- --------------------------------------------------------
 
@@ -1615,6 +1820,13 @@ CREATE TABLE `tbl_viaticos` (
   `estatus` tinyint(1) NOT NULL DEFAULT 1,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_viaticos`
+--
+
+INSERT INTO `tbl_viaticos` (`idViatico`, `funci_fk`, `cargo`, `dependencia`, `motivo_gasto`, `lugar_comision_departamento`, `lugar_comision_ciudad`, `finalidad_comision`, `descripcion`, `valor_viatico`, `fecha_aprobacion`, `fecha_salida`, `fecha_regreso`, `n_dias`, `valor_dia`, `valor_transporte`, `total_liquidado`, `tipo_transporte`, `estatus`, `fecha_creacion`) VALUES
+(10, 91, 'Secretario de Despacho', 'Secretaría de Salud', 'CAPACITACION', 'Cesar', 'Valledupar', 'CAPACITACION SOBRE LA', 'CAPACITACION SOBRE LA', 180000.00, '2025-08-13', '2025-08-19', '2025-08-19', 1, 180000.00, 70000.00, 250000.00, 'Interno', 1, '2025-08-14 21:48:06');
 
 -- --------------------------------------------------------
 
@@ -1969,7 +2181,7 @@ ALTER TABLE `prorrogas_contrato`
 -- AUTO_INCREMENT de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -1981,7 +2193,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `seguimiento_contrato`
 --
 ALTER TABLE `seguimiento_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_capital_viaticos`
@@ -2035,19 +2247,19 @@ ALTER TABLE `tbl_funcionarios_ops`
 -- AUTO_INCREMENT de la tabla `tbl_funcionarios_planta`
 --
 ALTER TABLE `tbl_funcionarios_planta`
-  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `idefuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_herramientas`
 --
 ALTER TABLE `tbl_herramientas`
-  MODIFY `id_herramienta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_herramienta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_impresoras`
@@ -2059,7 +2271,7 @@ ALTER TABLE `tbl_impresoras`
 -- AUTO_INCREMENT de la tabla `tbl_mantenimientos_equipos`
 --
 ALTER TABLE `tbl_mantenimientos_equipos`
-  MODIFY `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_permisos`
@@ -2083,31 +2295,31 @@ ALTER TABLE `tbl_observaciones`
 -- AUTO_INCREMENT de la tabla `tbl_papeleria`
 --
 ALTER TABLE `tbl_papeleria`
-  MODIFY `id_papeleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_papeleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_pc_torre`
 --
 ALTER TABLE `tbl_pc_torre`
-  MODIFY `id_pc_torre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pc_torre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_portatiles`
 --
 ALTER TABLE `tbl_portatiles`
-  MODIFY `id_portatil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_portatil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_practicantes`
 --
 ALTER TABLE `tbl_practicantes`
-  MODIFY `idepracticante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idepracticante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas`
@@ -2125,7 +2337,7 @@ ALTER TABLE `tbl_tareas_usuarios`
 -- AUTO_INCREMENT de la tabla `tbl_tintas_toner`
 --
 ALTER TABLE `tbl_tintas_toner`
-  MODIFY `id_tinta_toner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tinta_toner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_todo_en_uno`
@@ -2155,7 +2367,7 @@ ALTER TABLE `tbl_vacaciones`
 -- AUTO_INCREMENT de la tabla `tbl_viaticos`
 --
 ALTER TABLE `tbl_viaticos`
-  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idViatico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `whatsapp_config`
