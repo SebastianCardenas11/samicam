@@ -9,7 +9,7 @@ document.addEventListener(
       "aProcessing": true,
       "aServerSide": true,
       "language": {
-        "url": base_url + "/Assets/js/es.json"
+        "url": base_url + "/es.json"
       },
       "ajax": {
         "url": " " + base_url + "/Practicantes/getPracticantes",
