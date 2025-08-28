@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function(){
             { "data": "liquidacion" },
             { "data": "tipo_informe" },
             { "data": "cantidad_informes" },
+            { "data": "tipo_proceso" },
+            { "data": "proceso_contratacion" },
             { "data": "estado" },
             { "data": "options" }
         ],
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 "titleAttr": "Exportar a Excel",
                 "className": "btn btn-success mt-3",
                 "exportOptions": {
-                    "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                    "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                     "format": {
                         "body": function(data, row, column, node) {
                             // Para la columna 3 (objeto_contrato), obtener el texto original
@@ -240,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function(){
         tableSeguimientoContrato.on('draw', function() {
             $('#tableSeguimientoContrato tbody tr').each(function() {
                 const $row = $(this);
-                const estadoHtml = $row.find('td:eq(13)').html();
+                const estadoHtml = $row.find('td:eq(15)').html();
                 if (estadoHtml && estadoHtml.includes('Liquidado')) {
                     // Oculta todos los botones excepto el de ver
                     $row.find('button, a').not('[title="Ver Contrato"]').hide();
@@ -256,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return $(this).find('button[onclick*="fntViewContrato(' + id + ')"]').length > 0;
         });
         if ($row.length) {
-            var estadoHtml = $row.find('td:eq(13)').html();
+            var estadoHtml = $row.find('td:eq(15)').html();
             if (estadoHtml && estadoHtml.includes('Liquidado') && window.idrol !== 1) {
                 // Oculta todos los botones del modal SOLO si NO es superadmin
                 $('#modalMoreOptions .modal-body button').hide();
@@ -315,6 +317,8 @@ function fntViewContrato(id) {
                     document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
                     document.querySelector('#celTipoInforme').textContent = objData.data.tipo_informe || '-';
                     document.querySelector('#celCantidadInformes').textContent = objData.data.cantidad_informes || '-';
+                    document.querySelector('#celTipoProceso').textContent = objData.data.tipo_proceso || '-';
+                    document.querySelector('#celProcesoContratacion').textContent = objData.data.proceso_contratacion || '-';
                     $('#modalViewContrato').modal('show');
                 } else {
                     Swal.fire("Error", objData.msg, "error");
@@ -376,6 +380,8 @@ function fntEditContrato(element, id) {
                     }
                     document.querySelector('#tipo_informe').value = objData.data.tipo_informe || 'acta parcial';
                     document.querySelector('#cantidad_informes').value = objData.data.cantidad_informes || 1;
+                    document.querySelector('#tipo_proceso').value = objData.data.tipo_proceso || '';
+                    document.querySelector('#proceso_contratacion').value = objData.data.proceso_contratacion || '';
                 }
             } catch (error) {
                 console.error('Error al cargar datos para editar:', error);
@@ -2006,7 +2012,7 @@ function fntCambiarEstadoContrato(id) {
         return $(this).find('button[onclick*="fntViewContrato(' + id + ')"]').length > 0;
     });
     if ($row.length) {
-        let estadoHtml = $row.find('td:eq(13)').html();
+        let estadoHtml = $row.find('td:eq(15)').html();
         if (estadoHtml) {
             if (estadoHtml.includes('Liquidado')) {
                 estadoActual = 3;

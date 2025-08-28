@@ -62,6 +62,8 @@ class SeguimientoContrato extends Controllers
             $strFechaAprobacionEntidad = strClean($_POST['fecha_aprobacion_entidad']);
             $strTipoInforme = isset($_POST['tipo_informe']) && in_array($_POST['tipo_informe'], ['acta parcial', 'mes vencido']) ? strClean($_POST['tipo_informe']) : 'acta parcial';
             $intCantidadInformes = isset($_POST['cantidad_informes']) ? intval($_POST['cantidad_informes']) : 1;
+            $strTipoProceso = isset($_POST['tipo_proceso']) ? strClean($_POST['tipo_proceso']) : 'No especificado';
+            $strProcesoContratacion = isset($_POST['proceso_contratacion']) ? strClean($_POST['proceso_contratacion']) : 'No especificado';
 
             if ($intId == 0) {
                 $option = 1;
@@ -83,7 +85,9 @@ class SeguimientoContrato extends Controllers
                         $strEvidenciadoSecop,
                         $strFechaVerificacion,
                         $decLiquidacion,
-                        $intEstado
+                        $intEstado,
+                        $strTipoProceso,
+                        $strProcesoContratacion
                     );
                 }
             } else {
@@ -107,7 +111,9 @@ class SeguimientoContrato extends Controllers
                         $strEvidenciadoSecop,
                         $strFechaVerificacion,
                         $decLiquidacion,
-                        $intEstado
+                        $intEstado,
+                        $strTipoProceso,
+                        $strProcesoContratacion
                     );
                 }
             }

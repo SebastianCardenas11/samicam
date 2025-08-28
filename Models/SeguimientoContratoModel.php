@@ -19,6 +19,8 @@ class SeguimientoContratoModel extends Mysql
     private $intDependenciaId;
     private $strTipoInforme;
     private $intCantidadInformes;
+    private $strTipoProceso;
+    private $strProcesoContratacion;
 
     public function __construct()
     {
@@ -42,7 +44,9 @@ class SeguimientoContratoModel extends Mysql
         string $evidenciado_secop,
         string $fecha_verificacion,
         float $liquidacion,
-        int $estado
+        int $estado,
+        string $tipo_proceso,
+        string $proceso_contratacion
     ) {
         $this->strObjetoContrato = $objeto_contrato;
         $this->strFechaInicio = $fecha_inicio;
@@ -61,8 +65,10 @@ class SeguimientoContratoModel extends Mysql
         $this->intDependenciaId = $dependencia_id;
         $this->strTipoInforme = $tipo_informe;
         $this->intCantidadInformes = $cantidad_informes;
+        $this->strTipoProceso = $tipo_proceso;
+        $this->strProcesoContratacion = $proceso_contratacion;
 
-        $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, dependencia_id, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo, tipo_plazo, tipo_informe, cantidad_informes, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query_insert = "INSERT INTO seguimiento_contrato(numero_contrato, dependencia_id, objeto_contrato, fecha_inicio, fecha_terminacion, fecha_aprobacion_entidad, plazo, tipo_plazo, tipo_informe, cantidad_informes, valor_total_contrato, dia_corte_informe, observaciones_ejecucion, evidenciado_secop, fecha_verificacion, liquidacion, estado, tipo_proceso, proceso_contratacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $arrData = array(
             $this->strNumeroContrato,
             $this->intDependenciaId,
@@ -80,7 +86,9 @@ class SeguimientoContratoModel extends Mysql
             $this->strEvidenciadoSecop,
             $this->strFechaVerificacion,
             $this->decLiquidacion,
-            $this->intEstado
+            $this->intEstado,
+            $this->strTipoProceso,
+            $this->strProcesoContratacion
         );
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
@@ -119,7 +127,9 @@ class SeguimientoContratoModel extends Mysql
         string $evidenciado_secop,
         string $fecha_verificacion,
         float $liquidacion,
-        int $estado
+        int $estado,
+        string $tipo_proceso,
+        string $proceso_contratacion
     ) {
         $this->intId = $id;
         $this->strObjetoContrato = $objeto_contrato;
@@ -139,8 +149,10 @@ class SeguimientoContratoModel extends Mysql
         $this->intDependenciaId = $dependencia_id;
         $this->strTipoInforme = $tipo_informe;
         $this->intCantidadInformes = $cantidad_informes;
+        $this->strTipoProceso = $tipo_proceso;
+        $this->strProcesoContratacion = $proceso_contratacion;
 
-        $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, dependencia_id=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo=?, tipo_plazo=?, tipo_informe=?, cantidad_informes=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=? WHERE id = ?";
+        $sql = "UPDATE seguimiento_contrato SET numero_contrato=?, dependencia_id=?, objeto_contrato=?, fecha_inicio=?, fecha_terminacion=?, fecha_aprobacion_entidad=?, plazo=?, tipo_plazo=?, tipo_informe=?, cantidad_informes=?, valor_total_contrato=?, dia_corte_informe=?, observaciones_ejecucion=?, evidenciado_secop=?, fecha_verificacion=?, liquidacion=?, estado=?, tipo_proceso=?, proceso_contratacion=? WHERE id = ?";
         $arrData = array(
             $this->strNumeroContrato,
             $this->intDependenciaId,
@@ -159,6 +171,8 @@ class SeguimientoContratoModel extends Mysql
             $this->strFechaVerificacion,
             $this->decLiquidacion,
             $this->intEstado,
+            $this->strTipoProceso,
+            $this->strProcesoContratacion,
             $this->intId
         );
         $request = $this->update($sql, $arrData);

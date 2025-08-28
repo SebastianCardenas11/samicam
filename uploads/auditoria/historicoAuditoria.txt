@@ -1519,3 +1519,7 @@
 [2025-08-27 20:12:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
 [2025-08-27 20:12:17] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Practicantes
 [2025-08-27 20:17:05] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Viáticos
+[2025-08-27 20:49:23] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-08-27 20:49:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-08-27 21:00:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-08-27 21:01:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Seguimiento de Contratos
