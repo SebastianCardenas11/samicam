@@ -288,7 +288,7 @@ function fntViewContrato(id) {
                             estadoHtml = '<span class="badge text-bg-warning">En ejecucion</span>';
                             break;
                         case 2:
-                            estadoHtml = '<span class="badge text-bg-danger">Finalizado</span>';
+                            estadoHtml = '<span class="badge text-bg-danger">Terminado</span>';
                             break;
                         case 3:
                             estadoHtml = '<span class="badge text-bg-info">Liquidado</span>';
@@ -368,7 +368,7 @@ function fntEditContrato(element, id) {
                         if (typeof estadoValue === 'string') {
                             if (estadoValue.includes('En ejecucion')) {
                                 estadoValue = '1';
-                            } else if (estadoValue.includes('Finalizado')) {
+                            } else if (estadoValue.includes('Terminado')) {
                                 estadoValue = '2';
                             } else if (estadoValue.includes('Liquidado')) {
                                 estadoValue = '3';
@@ -496,7 +496,7 @@ function cargarMetricas() {
 
                     animateCounter('totalContratos', totalContratos);
                     animateCounter('enProgreso', enProgreso);
-                    animateCounter('finalizados', finalizados);
+                    animateCounter('terminados', finalizados);
                     animateCounter('liquidados', liquidados);
 
                 } else {
@@ -1306,7 +1306,7 @@ function cargarDatosAnalisisValor(){
                     document.querySelector('#plazoPromedio').textContent = Math.round(plazoPromedio);
 
                     // Preparar datos para el gráfico
-                    let labels = ['En Ejecucion', 'Finalizado', 'Liquidado'];
+                    let labels = ['En Ejecucion', 'Terminado', 'Liquidado'];
                     let dataValues = [0, 0, 0];
 
                     objData.estado.forEach(item => {
@@ -2039,7 +2039,7 @@ function fntCambiarEstadoContrato(id) {
                     <label for="nuevo_estado_contrato" class="form-label">Nuevo Estado</label>
                     <select class="form-control" id="nuevo_estado_contrato" name="nuevo_estado_contrato" required>
                       <option value="1">En ejecucion</option>
-                      <option value="2">Finalizado</option>
+                      <option value="2">Terminado</option>
                       <option value="3">Liquidado</option>
                     </select>
                   </div>

@@ -150,8 +150,8 @@ getModal('modalSeguimientoContrato', $data);
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                      Finalizados</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="finalizados">0</div>
+                      Terminados</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="terminados">0</div>
                   </div>
                   <div class="col-auto">
                     <i class="fas fa-check-circle fa-2x text-gray-300"></i>

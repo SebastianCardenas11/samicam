@@ -413,7 +413,7 @@ class SeguimientoContrato extends Controllers
                         estado,
                         CASE 
                             WHEN estado = 3 THEN 'Liquidado'
-                            WHEN estado = 2 THEN 'Finalizado'
+                            WHEN estado = 2 THEN 'Terminado'
                             ELSE 'En Ejecucion'
                         END as estado_texto,
                         CASE 
