@@ -57,7 +57,33 @@ class PsiModel extends Mysql
         $sql = "SELECT * FROM tbl_psi_salidas WHERE id_salida = ? AND status != 0";
         return $this->select($sql, array($id));
     }
-    // Métodos insert/update/delete aquí...
+    public function insertSalida($data)
+    {
+        $sql = "INSERT INTO tbl_psi_salidas (fecha, item, tipo_dispositivo, descripcion_dispositivo, marca, modelo, numero_activo, serial, dependencia, observaciones, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $arrData = [
+            $data['fecha_salida'], $data['item_salida'], $data['tipo_dispositivo_salida'],
+            $data['descripcion_dispositivo_salida'], $data['marca_salida'], $data['modelo_salida'],
+            $data['numero_activo_salida'], $data['serial_salida'], $data['dependencia_salida'],
+            $data['observaciones_salida'], 1
+        ];
+        return $this->insert($sql, $arrData);
+    }
+    public function updateSalida($id, $data)
+    {
+        $sql = "UPDATE tbl_psi_salidas SET fecha=?, item=?, tipo_dispositivo=?, descripcion_dispositivo=?, marca=?, modelo=?, numero_activo=?, serial=?, dependencia=?, observaciones=? WHERE id_salida=?";
+        $arrData = [
+            $data['fecha_salida'], $data['item_salida'], $data['tipo_dispositivo_salida'],
+            $data['descripcion_dispositivo_salida'], $data['marca_salida'], $data['modelo_salida'],
+            $data['numero_activo_salida'], $data['serial_salida'], $data['dependencia_salida'],
+            $data['observaciones_salida'], $id
+        ];
+        return $this->update($sql, $arrData);
+    }
+    public function deleteSalida($id)
+    {
+        $sql = "UPDATE tbl_psi_salidas SET status = 0 WHERE id_salida = ?";
+        return $this->update($sql, [$id]);
+    }
 
     // ==================== INGRESOS ====================
     public function selectIngresos()
@@ -70,7 +96,33 @@ class PsiModel extends Mysql
         $sql = "SELECT * FROM tbl_psi_ingresos WHERE id_ingreso = ? AND status != 0";
         return $this->select($sql, array($id));
     }
-    // Métodos insert/update/delete aquí...
+    public function insertIngreso($data)
+    {
+        $sql = "INSERT INTO tbl_psi_ingresos (fecha, item, tipo_dispositivo, descripcion_dispositivo, marca, modelo, numero_activo, serial, dependencia, observaciones, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $arrData = [
+            $data['fecha_ingreso'], $data['item_ingreso'], $data['tipo_dispositivo_ingreso'],
+            $data['descripcion_dispositivo_ingreso'], $data['marca_ingreso'], $data['modelo_ingreso'],
+            $data['numero_activo_ingreso'], $data['serial_ingreso'], $data['dependencia_ingreso'],
+            $data['observaciones_ingreso'], 1
+        ];
+        return $this->insert($sql, $arrData);
+    }
+    public function updateIngreso($id, $data)
+    {
+        $sql = "UPDATE tbl_psi_ingresos SET fecha=?, item=?, tipo_dispositivo=?, descripcion_dispositivo=?, marca=?, modelo=?, numero_activo=?, serial=?, dependencia=?, observaciones=? WHERE id_ingreso=?";
+        $arrData = [
+            $data['fecha_ingreso'], $data['item_ingreso'], $data['tipo_dispositivo_ingreso'],
+            $data['descripcion_dispositivo_ingreso'], $data['marca_ingreso'], $data['modelo_ingreso'],
+            $data['numero_activo_ingreso'], $data['serial_ingreso'], $data['dependencia_ingreso'],
+            $data['observaciones_ingreso'], $id
+        ];
+        return $this->update($sql, $arrData);
+    }
+    public function deleteIngreso($id)
+    {
+        $sql = "UPDATE tbl_psi_ingresos SET status = 0 WHERE id_ingreso = ?";
+        return $this->update($sql, [$id]);
+    }
 
     public function getFuncionariosPlanta() {
         $sql = "SELECT fp.idefuncionario AS id, fp.nombre_completo, d.nombre AS dependencia, c.nombre AS cargo FROM tbl_funcionarios_planta fp LEFT JOIN tbl_dependencia d ON fp.dependencia_fk = d.dependencia_pk LEFT JOIN tbl_cargos c ON fp.cargo_fk = c.idecargos WHERE fp.status = 1 ORDER BY fp.nombre_completo";

@@ -137,6 +137,7 @@
                                                                     <th>Marca</th>
                                                                     <th>Modelo</th>
                                                                     <th>Serial</th>
+                                                                    <th>N° Activo</th>
                                                                     <th>Consumible</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
@@ -180,6 +181,7 @@
                                                                     <th>Marca</th>
                                                                     <th>Modelo</th>
                                                                     <th>Serial</th>
+                                                                    <th>N° Activo</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
                                                                     <th>Acciones</th>

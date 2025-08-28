@@ -22,21 +22,22 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
-        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, consumible, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, numero_activo, consumible, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
         // Obtener estado anterior
         $estadoAnterior = $this->select("SELECT estado FROM tbl_impresoras WHERE id_impresora = ?", [$idImpresora]);
         
-        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?, consumible = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_impresora = ?";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idImpresora);
+        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?,  numero_activo = ?, consumible = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_impresora = ?";
+        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idImpresora);
         $request = $this->update($sql, $arrData);
         
         // Registrar en hoja de vida si cambió a malo o de baja
@@ -72,21 +73,21 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
-        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
         // Obtener estado anterior
         $estadoAnterior = $this->select("SELECT estado FROM tbl_escaneres WHERE id_escaner = ?", [$idEscaner]);
         
-        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_escaner = ?";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idEscaner);
+        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, numero_activo = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_escaner = ?";
+        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idEscaner);
         $request = $this->update($sql, $arrData);
         
         // Registrar en hoja de vida si cambió a malo o de baja

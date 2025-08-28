@@ -90,6 +90,7 @@ class Inventario extends Controllers
                     $strMarca = strClean($_POST['txtMarca']);
                     $strModelo = strClean($_POST['txtModelo']);
                     $strSerial = strClean($_POST['txtSerial']);
+                    $strNumeroActivo = strClean($_POST['txtNumeroActivo']);
                     $strConsumible = strClean($_POST['txtConsumible']);
                     $strEstado = strClean($_POST['txtEstado']);
                     $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
@@ -112,7 +113,7 @@ class Inventario extends Controllers
                     if ($intIdImpresora == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nueva impresora...');
-                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                             $option = 1;
                             error_log('Resultado insert: ' . $request);
                         } else {
@@ -121,7 +122,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando impresora ID: ' . $intIdImpresora);
-                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -236,6 +237,7 @@ class Inventario extends Controllers
                 $strMarca = strClean($_POST['txtMarca']);
                 $strModelo = strClean($_POST['txtModelo']);
                 $strSerial = strClean($_POST['txtSerial']);
+                $strNumeroActivo = strClean($_POST['txtNumeroActivo']);
                 $strEstado = strClean($_POST['txtEstado']);
                 $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
                 $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
@@ -254,12 +256,14 @@ class Inventario extends Controllers
                 $request = "";
                 if ($intIdEscaner == 0) {
                     if ($_SESSION['permisosMod']['w']) {
-                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+
+
+                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
                         $option = 2;
                     }
                 }
@@ -796,7 +800,11 @@ class Inventario extends Controllers
                     $arrResponse = array('status' => true, 'data' => $arrData);
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode(array('status' => false, 'msg' => 'ID de portátil inválido.'), JSON_UNESCAPED_UNICODE);
             }
+        } else {
+            echo json_encode(array('status' => false, 'msg' => 'No tiene permisos para esta acción.'), JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -1169,6 +1177,49 @@ class Inventario extends Controllers
                 'msg' => 'Error al obtener las estadísticas',
                 'error' => $e->getMessage()
             ], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // ==================== MÉTODOS PARA PSI ====================
+    public function getImpresoraById($idImpresora)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $intIdImpresora = intval(strClean($idImpresora));
+            if ($intIdImpresora > 0) {
+                $arrData = $this->model->selectImpresora($intIdImpresora);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Impresora no encontrada.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode(array('status' => false, 'msg' => 'ID de impresora inválido.'), JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            echo json_encode(array('status' => false, 'msg' => 'No tiene permisos para esta acción.'), JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getEscanerById($idEscaner)
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $intIdEscaner = intval(strClean($idEscaner));
+            if ($intIdEscaner > 0) {
+                $arrData = $this->model->selectEscaner($intIdEscaner);
+                if (empty($arrData)) {
+                    $arrResponse = array('status' => false, 'msg' => 'Escáner no encontrado.');
+                } else {
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            } else {
+                echo json_encode(array('status' => false, 'msg' => 'ID de escáner inválido.'), JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            echo json_encode(array('status' => false, 'msg' => 'No tiene permisos para esta acción.'), JSON_UNESCAPED_UNICODE);
         }
         die();
     }

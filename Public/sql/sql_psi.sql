@@ -14,4 +14,42 @@ CREATE TABLE IF NOT EXISTS tbl_prestamos (
   mac VARCHAR(50) DEFAULT NULL,
   observaciones TEXT DEFAULT NULL,
   status TINYINT(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS tbl_psi_salidas (
+  id_salida INT AUTO_INCREMENT PRIMARY KEY,
+  fecha DATE NOT NULL,
+  item VARCHAR(100) NOT NULL,
+  tipo_dispositivo ENUM('interno', 'externo') NOT NULL,
+  descripcion_dispositivo VARCHAR(255) NOT NULL,
+  marca VARCHAR(100) NOT NULL,
+  modelo VARCHAR(100) NOT NULL,
+  numero_activo VARCHAR(100) NOT NULL,
+  serial VARCHAR(100) NOT NULL,
+  dependencia VARCHAR(100) NOT NULL,
+  observaciones TEXT DEFAULT NULL,
+  status TINYINT(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS tbl_psi_ingresos (
+  id_ingreso INT AUTO_INCREMENT PRIMARY KEY,
+  fecha DATE NOT NULL,
+  item VARCHAR(100) NOT NULL,
+  tipo_dispositivo ENUM('interno', 'externo') NOT NULL,
+  descripcion_dispositivo VARCHAR(255) NOT NULL,
+  marca VARCHAR(100) NOT NULL,
+  modelo VARCHAR(100) NOT NULL,
+  numero_activo VARCHAR(100) NOT NULL,
+  serial VARCHAR(100) NOT NULL,
+  dependencia VARCHAR(100) NOT NULL,
+  observaciones TEXT DEFAULT NULL,
+  status TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 
+
+-- para agregar el numero de activo a las tablas de impresoras y escaneres
+
+ALTER TABLE tbl_impresoras
+ADD COLUMN numero_activo VARCHAR(100);
+
+ALTER TABLE tbl_escaneres
+ADD COLUMN numero_activo VARCHAR(100);
