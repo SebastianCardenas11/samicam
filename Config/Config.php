@@ -13,7 +13,7 @@ const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
 date_default_timezone_set('America/Bogota');
 
 //Datos de conexión a Base de Datos
-const DB_HOST = IP_LOCAL.":3307 ";
+const DB_HOST = IP_LOCAL.":3307";
 const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
@@ -58,6 +58,7 @@ const MINVENTARIO = 15;
 const MWHATSAPP = 16;
 const MPSI = 17;
 const MHOJAVIDAEQUIPOS = 19;
+const MPETICIONES = 20;
 
 //Páginas           
 const PINICIO = 1;

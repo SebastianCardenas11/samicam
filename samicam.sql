@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 28-08-2025 a las 02:16:05
+-- Servidor: 127.0.0.1:3307
+-- Tiempo de generación: 02-09-2025 a las 04:19:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,71 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `samicam`
 --
+
+DELIMITER $$
+--
+-- Funciones
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `calcular_dias_habiles` (`fecha_inicio` DATE, `fecha_fin` DATE) RETURNS INT(11) DETERMINISTIC READS SQL DATA BEGIN
+    DECLARE dias_habiles INT DEFAULT 0;
+    DECLARE fecha_actual DATE;
+    DECLARE dia_semana INT;
+    DECLARE es_festivo INT;
+    
+    SET fecha_actual = fecha_inicio;
+    
+    WHILE fecha_actual <= fecha_fin DO
+        SET dia_semana = DAYOFWEEK(fecha_actual);
+        
+        -- Verificar si es día hábil (lunes a viernes)
+        IF dia_semana BETWEEN 2 AND 6 THEN
+            -- Verificar si no es día festivo
+            SELECT COUNT(*) INTO es_festivo 
+            FROM tbl_dias_festivos 
+            WHERE fecha = fecha_actual AND status = 1;
+            
+            IF es_festivo = 0 THEN
+                SET dias_habiles = dias_habiles + 1;
+            END IF;
+        END IF;
+        
+        SET fecha_actual = DATE_ADD(fecha_actual, INTERVAL 1 DAY);
+    END WHILE;
+    
+    RETURN dias_habiles;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `calcular_fecha_vencimiento` (`fecha_inicio` DATE, `dias_habiles` INT) RETURNS DATE DETERMINISTIC READS SQL DATA BEGIN
+    DECLARE fecha_vencimiento DATE;
+    DECLARE dias_agregados INT DEFAULT 0;
+    DECLARE fecha_actual DATE;
+    DECLARE dia_semana INT;
+    DECLARE es_festivo INT;
+    
+    SET fecha_actual = fecha_inicio;
+    
+    WHILE dias_agregados < dias_habiles DO
+        SET fecha_actual = DATE_ADD(fecha_actual, INTERVAL 1 DAY);
+        SET dia_semana = DAYOFWEEK(fecha_actual);
+        
+        -- Verificar si es día hábil (lunes a viernes)
+        IF dia_semana BETWEEN 2 AND 6 THEN
+            -- Verificar si no es día festivo
+            SELECT COUNT(*) INTO es_festivo 
+            FROM tbl_dias_festivos 
+            WHERE fecha = fecha_actual AND status = 1;
+            
+            IF es_festivo = 0 THEN
+                SET dias_agregados = dias_agregados + 1;
+            END IF;
+        END IF;
+    END WHILE;
+    
+    SET fecha_vencimiento = fecha_actual;
+    RETURN fecha_vencimiento;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -117,7 +182,8 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 (15, 'Inventario', 'Gestión de inventario', 1),
 (16, 'Registros WhatsApp', 'Gestión de Registros WhatsApp', 1),
 (18, 'PSI', 'Gestión de PSI', 1),
-(19, 'Hoja de Vida Equipos', 'Gestión de hojas de vida de equipos tecnológicos', 1);
+(19, 'Hoja de Vida Equipos', 'Gestión de hojas de vida de equipos tecnológicos', 1),
+(20, 'Peticiones PQRs', 'Gestión de Peticiones, Quejas, Reclamos y Sugerencias', 1);
 
 -- --------------------------------------------------------
 
@@ -224,7 +290,8 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (1335, 2, 16, 0, 0, 0, 0, 1),
 (1336, 2, 18, 0, 0, 0, 0, 1),
 (1337, 1, 19, 1, 1, 1, 1, 1),
-(1338, 5, 19, 1, 1, 1, 1, 1);
+(1338, 5, 19, 1, 1, 1, 1, 1),
+(1339, 1, 20, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -408,17 +475,21 @@ CREATE TABLE `seguimiento_contrato` (
   `estado` int(11) NOT NULL DEFAULT 1,
   `numero_contrato` varchar(50) DEFAULT NULL,
   `dependencia_id` int(11) DEFAULT NULL,
-  `fecha_aprobacion_entidad` date DEFAULT NULL
+  `fecha_aprobacion_entidad` date DEFAULT NULL,
+  `tipo_proceso` varchar(255) NOT NULL DEFAULT 'No especificado',
+  `proceso_contratacion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `seguimiento_contrato`
 --
 
-INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fecha_terminacion`, `plazo`, `tipo_plazo`, `tipo_informe`, `cantidad_informes`, `valor_total_contrato`, `dia_corte_informe`, `observaciones_ejecucion`, `evidenciado_secop`, `fecha_verificacion`, `liquidacion`, `estado`, `numero_contrato`, `dependencia_id`, `fecha_aprobacion_entidad`) VALUES
-(6, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 1, 'meses', 'mes vencido', 1, 37591000.00, '2025-05-09', 'AMJI CMC 012 DE 2025', 'SI', '2025-05-28', 37591000.00, 3, '176-2025', 1, '2025-04-03'),
-(7, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-05-22', 10, 'dias', 'mes vencido', 1, 28920000.00, '2025-05-23', 'AMJI CMC 021 DE 2025', '', '0000-00-00', 28920000.00, 3, '215-2025', 1, '2025-05-12'),
-(8, 'COMPRAVENTA DE TINTAS Y TÓNER PARA LAS IMPRESORAS EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-08-08', '2025-08-22', 10, 'dias', 'mes vencido', 1, 36120000.00, '2025-08-25', 'Aun en espera de las entradas y salidas de Almancen para pasar informes', '', '0000-00-00', 0.00, 1, '274-2025', 1, '2025-08-05');
+INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fecha_terminacion`, `plazo`, `tipo_plazo`, `tipo_informe`, `cantidad_informes`, `valor_total_contrato`, `dia_corte_informe`, `observaciones_ejecucion`, `evidenciado_secop`, `fecha_verificacion`, `liquidacion`, `estado`, `numero_contrato`, `dependencia_id`, `fecha_aprobacion_entidad`, `tipo_proceso`, `proceso_contratacion`) VALUES
+(6, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 1, 'meses', 'mes vencido', 1, 37591000.00, '2025-05-09', 'AMJI CMC 012 DE 2025', 'SI', '2025-05-28', 37591000.00, 3, '176-2025', 1, '2025-04-03', 'No especificado', ''),
+(7, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-05-22', 10, 'dias', 'mes vencido', 1, 28920000.00, '2025-05-23', 'AMJI CMC 021 DE 2025', '', '0000-00-00', 28920000.00, 3, '215-2025', 1, '2025-05-12', 'No especificado', ''),
+(8, 'COMPRAVENTA DE TINTAS Y TÓNER PARA LAS IMPRESORAS EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-08-08', '2025-08-22', 10, 'dias', 'mes vencido', 1, 36120000.00, '2025-08-25', 'Aun en espera de las entradas y salidas de Almancen para pasar informes', '', '0000-00-00', 0.00, 1, '274-2025', 1, '2025-08-05', 'No especificado', ''),
+(9, '12736jh3', '2025-08-04', '2025-08-29', 2, 'meses', 'mes vencido', 8, 8000000.00, '2025-08-18', '', 'SI', '2025-08-30', 0.00, 1, '1223', 18, '2025-08-14', 'Selección abreviada Menor Cuantía', ''),
+(10, '123', '2025-08-06', '2025-08-29', 12, 'meses', 'mes vencido', 3, 90000000.00, '2025-08-21', '123', 'NO', '2025-08-18', 0.00, 1, '123', 17, '2025-08-28', 'Selección abreviada', '123');
 
 -- --------------------------------------------------------
 
@@ -585,6 +656,46 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_dias_festivos`
+--
+
+CREATE TABLE `tbl_dias_festivos` (
+  `id_festivo` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `tipo` enum('nacional','local','religioso') DEFAULT 'nacional',
+  `anio` int(4) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_dias_festivos`
+--
+
+INSERT INTO `tbl_dias_festivos` (`id_festivo`, `fecha`, `descripcion`, `tipo`, `anio`, `status`, `fecha_creacion`) VALUES
+(1, '2025-01-01', 'Año Nuevo', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(2, '2025-01-06', 'Día de los Reyes Magos', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(3, '2025-03-24', 'Día de San José', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(4, '2025-04-17', 'Jueves Santo', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(5, '2025-04-18', 'Viernes Santo', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(6, '2025-05-01', 'Día del Trabajo', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(7, '2025-05-26', 'Ascensión del Señor', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(8, '2025-06-16', 'Corpus Christi', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(9, '2025-06-23', 'Sagrado Corazón de Jesús', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(10, '2025-06-30', 'San Pedro y San Pablo', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(11, '2025-07-20', 'Día de la Independencia', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(12, '2025-08-07', 'Batalla de Boyacá', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(13, '2025-08-18', 'Asunción de la Virgen', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(14, '2025-10-13', 'Día de la Raza', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(15, '2025-11-03', 'Todos los Santos', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(16, '2025-11-17', 'Independencia de Cartagena', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
+(17, '2025-12-08', 'Inmaculada Concepción', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
+(18, '2025-12-25', 'Navidad', 'religioso', 2025, 1, '2025-09-02 02:11:50');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_equipos_movimientos`
 --
 
@@ -610,6 +721,7 @@ CREATE TABLE `tbl_escaneres` (
   `marca` varchar(100) NOT NULL,
   `modelo` varchar(100) NOT NULL,
   `serial` varchar(100) DEFAULT NULL,
+  `numero_activo` varchar(100) DEFAULT NULL,
   `estado` enum('Bueno','Regular','Malo','De Baja') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','No Disponible') NOT NULL DEFAULT 'Disponible',
   `fecha_dano` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se marcó como dañado/malo',
@@ -623,8 +735,8 @@ CREATE TABLE `tbl_escaneres` (
 -- Volcado de datos para la tabla `tbl_escaneres`
 --
 
-INSERT INTO `tbl_escaneres` (`id_escaner`, `numero_escaner`, `marca`, `modelo`, `serial`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(3, 'ESC-1', 'EPSON', 'DS-530', 'X2HJ057752', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:56:46', '2025-08-01 14:56:46', 1);
+INSERT INTO `tbl_escaneres` (`id_escaner`, `numero_escaner`, `marca`, `modelo`, `serial`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(3, 'ESC-1', 'EPSON', 'DS-530', 'X2HJ057752', NULL, 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:56:46', '2025-08-01 14:56:46', 1);
 
 -- --------------------------------------------------------
 
@@ -1001,6 +1113,7 @@ CREATE TABLE `tbl_impresoras` (
   `modelo` varchar(100) NOT NULL,
   `serial` varchar(100) DEFAULT NULL,
   `consumible` varchar(200) DEFAULT NULL,
+  `numero_activo` varchar(100) DEFAULT NULL,
   `estado` enum('Bueno','Regular','Malo','De Baja') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','No Disponible') NOT NULL DEFAULT 'Disponible',
   `fecha_dano` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se marcó como dañado/malo',
@@ -1014,50 +1127,50 @@ CREATE TABLE `tbl_impresoras` (
 -- Volcado de datos para la tabla `tbl_impresoras`
 --
 
-INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `modelo`, `serial`, `consumible`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:58:54', '2025-08-20 04:04:13', 0),
-(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', 'Regular', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 04:03:55', 1),
-(13, 'IMP-2', 'RICOH', 'Aficio MP 305+SP', 'G582P350295', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(14, 'IMP-4', 'SAMSUNG', 'Xpress SL-M2070FW', '073YB8KG1A000GT', 'MLT-D111S', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(15, 'IMP-7', 'EPSON', 'EcoTank L5190', 'X5NQ139873', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:29', 1),
-(16, 'IMP-10', 'RICOH', 'Aficio MP 305+SP', 'G581PB50010', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(17, 'IMP-15', 'HP', 'LaserJet Pro M203dw', 'VNB5DD1188', '30A', 'Regular', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(18, 'IMP-16', 'RICOH', 'Aficio MP 305+SP', 'G581EPBS0016', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(19, 'IMP-17', 'HP', 'LaserJet Pro M203dw', 'VNB5D11429', '30A', 'Regular', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(20, 'IMP-22', 'RICOH', 'Aficio MP 305+SP', 'G582P350016', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(21, 'IMP-24', 'RICOH', 'Aficio MP 305+SP', 'G582P350012', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(22, 'IMP-26', 'EPSON', 'EcoTank L6490', 'X94Z000993', 'TINTA', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(23, 'IMP-27', 'HP', 'LaserJet Pro M203dw', 'VND3B28504', '30A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(24, 'IMP-28', 'HP', 'LaserJet Pro M201dw', 'VNB3F10071', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(25, 'IMP-30', 'HP', 'Lasert Jet Pro MFP M428Fdw', 'CNDRPBY352', '58X - CF258X', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(26, 'IMP-31', 'RICOH', 'Aficio MP 305+SP', 'G582P350284', 'MP305', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(27, 'IMP-32', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H280H5', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(28, 'IMP-35', 'EPSON', 'EcoTank L6490', 'X94Z001039', 'TINTA', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(29, 'IMP-36', 'HP', 'LaserJet Pro P1102', 'VND3T00859', '85A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(30, 'IMP-38', 'HP', 'LaserJet Pro M521dn', 'CNCKL1N325', '55A-X', 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(31, 'IMP-41', 'HP', 'LaserJet Pro MFP M127fn', 'SNB9G42633', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(32, 'IMP-42', 'HP', 'LaserJet 500 MFP M525', 'MXFCH6L0D2', 'CE255X', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(33, 'IMP-43', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H58LHW', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(34, 'IMP-48', 'HP', 'Laserjet Enterprise Mfp M630', 'MXBCM2237', 'CF281A - 81AX', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(35, 'IMP-50', 'EPSON', 'EcoTank L3210', 'XAGB487365', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:26:58', 1),
-(36, 'IMP-51', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W0BV', '83A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(37, 'IMP-52', 'HP', 'LaserJet Pro MFP M227fdw', 'WNG3210797', '230A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 03:52:34', 1),
-(38, 'IMP-54', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W65K', '83A', 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(39, 'IMP-55', 'EPSON', 'EcoTank L3110', 'X644509645', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:18', 1),
-(40, 'IMP-56', 'EPSON', 'EcoTank L3110', 'XAGB352710', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:28', 1),
-(41, 'IMP-57', 'EPSON', 'EcoTank L3110', 'X644507809', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:45', 1),
-(42, 'IMP-63', 'HP', 'Color LaserJet Pro M454dw', 'VNB3D23979', 'W2022XC AM- MG-CIAN-NEGRO', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(43, 'IMP-64', 'HP', 'LaserJet Pro M127a MFP', 'CNB9G42633', '83A', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 13:52:28', 1),
-(44, 'IMP-65', 'KYOCERA', 'Ecosys MA4500 IFX', 'WDE3802748', 'TK-3402', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(45, 'IMP-66', 'EPSON', 'EcoTank L3210', 'XAGB352835', 'Tinta Epson T544', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:14', 1),
-(46, 'IMP-67', 'HP', 'LaserJet Pro M203dw', 'VNB5D11419', '30A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(47, 'IMP-68', 'HP', 'LaserJet Pro M203dw', 'VNB5D59434', '30A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(48, 'IMP-69', 'CANON', 'Pixma G4170 Megatank', 'KPJT02303', 'TINTA', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(49, 'IMP-70', 'CANON', 'Pixma G4170 Megatank', 'KPJT02058', 'TINTA', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(50, 'IMP-71', 'CANON', 'Pixma G4170 Megatank', 'KPJT01495', 'TINTA', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(51, 'IMP-72', 'HP', 'Laser MFP 137fnw', 'CNB2N46M1G', '105A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(52, 'IMP-73', 'HP', 'LaserJet Pro 400 MFP M425dn', '', '05A - 80A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(53, 'IMP-74', 'Brother', 'DCP-T710W', '', 'Tinta Brother BTD60 y BT5001', 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:31:02', 1);
+INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `modelo`, `serial`, `consumible`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:58:54', '2025-08-20 04:04:13', 0),
+(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 04:03:55', 1),
+(13, 'IMP-2', 'RICOH', 'Aficio MP 305+SP', 'G582P350295', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(14, 'IMP-4', 'SAMSUNG', 'Xpress SL-M2070FW', '073YB8KG1A000GT', 'MLT-D111S', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(15, 'IMP-7', 'EPSON', 'EcoTank L5190', 'X5NQ139873', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:29', 1),
+(16, 'IMP-10', 'RICOH', 'Aficio MP 305+SP', 'G581PB50010', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(17, 'IMP-15', 'HP', 'LaserJet Pro M203dw', 'VNB5DD1188', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(18, 'IMP-16', 'RICOH', 'Aficio MP 305+SP', 'G581EPBS0016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(19, 'IMP-17', 'HP', 'LaserJet Pro M203dw', 'VNB5D11429', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(20, 'IMP-22', 'RICOH', 'Aficio MP 305+SP', 'G582P350016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(21, 'IMP-24', 'RICOH', 'Aficio MP 305+SP', 'G582P350012', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(22, 'IMP-26', 'EPSON', 'EcoTank L6490', 'X94Z000993', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(23, 'IMP-27', 'HP', 'LaserJet Pro M203dw', 'VND3B28504', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(24, 'IMP-28', 'HP', 'LaserJet Pro M201dw', 'VNB3F10071', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(25, 'IMP-30', 'HP', 'Lasert Jet Pro MFP M428Fdw', 'CNDRPBY352', '58X - CF258X', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(26, 'IMP-31', 'RICOH', 'Aficio MP 305+SP', 'G582P350284', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(27, 'IMP-32', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H280H5', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(28, 'IMP-35', 'EPSON', 'EcoTank L6490', 'X94Z001039', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(29, 'IMP-36', 'HP', 'LaserJet Pro P1102', 'VND3T00859', '85A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(30, 'IMP-38', 'HP', 'LaserJet Pro M521dn', 'CNCKL1N325', '55A-X', NULL, 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(31, 'IMP-41', 'HP', 'LaserJet Pro MFP M127fn', 'SNB9G42633', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(32, 'IMP-42', 'HP', 'LaserJet 500 MFP M525', 'MXFCH6L0D2', 'CE255X', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(33, 'IMP-43', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H58LHW', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(34, 'IMP-48', 'HP', 'Laserjet Enterprise Mfp M630', 'MXBCM2237', 'CF281A - 81AX', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(35, 'IMP-50', 'EPSON', 'EcoTank L3210', 'XAGB487365', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:26:58', 1),
+(36, 'IMP-51', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W0BV', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(37, 'IMP-52', 'HP', 'LaserJet Pro MFP M227fdw', 'WNG3210797', '230A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 03:52:34', 1),
+(38, 'IMP-54', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W65K', '83A', NULL, 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(39, 'IMP-55', 'EPSON', 'EcoTank L3110', 'X644509645', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:18', 1),
+(40, 'IMP-56', 'EPSON', 'EcoTank L3110', 'XAGB352710', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:28', 1),
+(41, 'IMP-57', 'EPSON', 'EcoTank L3110', 'X644507809', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:45', 1),
+(42, 'IMP-63', 'HP', 'Color LaserJet Pro M454dw', 'VNB3D23979', 'W2022XC AM- MG-CIAN-NEGRO', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(43, 'IMP-64', 'HP', 'LaserJet Pro M127a MFP', 'CNB9G42633', '83A', NULL, 'Bueno', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 13:52:28', 1),
+(44, 'IMP-65', 'KYOCERA', 'Ecosys MA4500 IFX', 'WDE3802748', 'TK-3402', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(45, 'IMP-66', 'EPSON', 'EcoTank L3210', 'XAGB352835', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:14', 1),
+(46, 'IMP-67', 'HP', 'LaserJet Pro M203dw', 'VNB5D11419', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(47, 'IMP-68', 'HP', 'LaserJet Pro M203dw', 'VNB5D59434', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(48, 'IMP-69', 'CANON', 'Pixma G4170 Megatank', 'KPJT02303', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(49, 'IMP-70', 'CANON', 'Pixma G4170 Megatank', 'KPJT02058', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(50, 'IMP-71', 'CANON', 'Pixma G4170 Megatank', 'KPJT01495', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(51, 'IMP-72', 'HP', 'Laser MFP 137fnw', 'CNB2N46M1G', '105A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(52, 'IMP-73', 'HP', 'LaserJet Pro 400 MFP M425dn', '', '05A - 80A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(53, 'IMP-74', 'Brother', 'DCP-T710W', '', 'Tinta Brother BTD60 y BT5001', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:31:02', 1);
 
 -- --------------------------------------------------------
 
@@ -1376,6 +1489,143 @@ INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `me
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_peticiones`
+--
+
+CREATE TABLE `tbl_peticiones` (
+  `id_peticion` int(11) NOT NULL,
+  `numero_radicado` varchar(50) NOT NULL,
+  `fecha_ingreso` date NOT NULL,
+  `nombre_peticionario` varchar(255) NOT NULL,
+  `descripcion_solicitud` text NOT NULL,
+  `id_tipo_peticion` int(11) NOT NULL,
+  `dependencia_responsable` int(11) DEFAULT NULL,
+  `fecha_vencimiento` date NOT NULL,
+  `dias_habiles_restantes` int(11) DEFAULT 0,
+  `estado_semaforo` enum('verde','amarillo','rojo') DEFAULT 'verde',
+  `estado` enum('radicada','en_proceso','respondida','desistida','remitida','vencida') DEFAULT 'radicada',
+  `fecha_respuesta` date DEFAULT NULL,
+  `dias_habiles_respuesta` int(11) DEFAULT NULL,
+  `archivo_respuesta` varchar(255) DEFAULT NULL,
+  `comentario_respuesta` text DEFAULT NULL,
+  `area_remitida` int(11) DEFAULT NULL,
+  `motivo_remision` text DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `usuario_creador` bigint(20) NOT NULL,
+  `usuario_responsable` bigint(20) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Disparadores `tbl_peticiones`
+--
+DELIMITER $$
+CREATE TRIGGER `actualizar_estado_peticion` BEFORE UPDATE ON `tbl_peticiones` FOR EACH ROW BEGIN
+    DECLARE dias_restantes INT;
+    
+    -- Solo actualizar si no está respondida, desistida o remitida
+    IF NEW.estado IN ('radicada', 'en_proceso') THEN
+        -- Calcular días hábiles restantes
+        SET dias_restantes = calcular_dias_habiles(CURDATE(), NEW.fecha_vencimiento);
+        
+        -- Si la fecha actual es mayor a la de vencimiento, días restantes = 0
+        IF CURDATE() > NEW.fecha_vencimiento THEN
+            SET dias_restantes = 0;
+            SET NEW.estado = 'vencida';
+        END IF;
+        
+        SET NEW.dias_habiles_restantes = dias_restantes;
+        
+        -- Actualizar estado del semáforo
+        IF dias_restantes <= 0 THEN
+            SET NEW.estado_semaforo = 'rojo';
+        ELSEIF dias_restantes <= 5 THEN
+            SET NEW.estado_semaforo = 'rojo';
+        ELSEIF dias_restantes <= 10 THEN
+            SET NEW.estado_semaforo = 'amarillo';
+        ELSE
+            SET NEW.estado_semaforo = 'verde';
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `calcular_vencimiento_peticion` BEFORE INSERT ON `tbl_peticiones` FOR EACH ROW BEGIN
+    DECLARE dias_plazo INT;
+    DECLARE dias_restantes INT;
+    
+    -- Obtener días de plazo según el tipo de petición
+    SELECT dias_habiles_plazo INTO dias_plazo 
+    FROM tbl_tipos_peticion 
+    WHERE id_tipo = NEW.id_tipo_peticion;
+    
+    -- Calcular fecha de vencimiento
+    SET NEW.fecha_vencimiento = calcular_fecha_vencimiento(NEW.fecha_ingreso, dias_plazo);
+    
+    -- Calcular días hábiles restantes
+    SET dias_restantes = calcular_dias_habiles(CURDATE(), NEW.fecha_vencimiento);
+    SET NEW.dias_habiles_restantes = dias_restantes;
+    
+    -- Establecer estado del semáforo
+    IF dias_restantes <= 0 THEN
+        SET NEW.estado_semaforo = 'rojo';
+    ELSEIF dias_restantes <= 5 THEN
+        SET NEW.estado_semaforo = 'rojo';
+    ELSEIF dias_restantes <= 10 THEN
+        SET NEW.estado_semaforo = 'amarillo';
+    ELSE
+        SET NEW.estado_semaforo = 'verde';
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `registrar_historial_peticion` AFTER UPDATE ON `tbl_peticiones` FOR EACH ROW BEGIN
+    IF OLD.estado != NEW.estado THEN
+        INSERT INTO tbl_peticiones_historial (id_peticion, estado_anterior, estado_nuevo, usuario)
+        VALUES (NEW.id_peticion, OLD.estado, NEW.estado, NEW.usuario_responsable);
+    END IF;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_peticiones_historial`
+--
+
+CREATE TABLE `tbl_peticiones_historial` (
+  `id_historial` int(11) NOT NULL,
+  `id_peticion` int(11) NOT NULL,
+  `estado_anterior` varchar(50) DEFAULT NULL,
+  `estado_nuevo` varchar(50) NOT NULL,
+  `comentario` text DEFAULT NULL,
+  `usuario` bigint(20) NOT NULL,
+  `fecha_cambio` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_peticiones_notificaciones`
+--
+
+CREATE TABLE `tbl_peticiones_notificaciones` (
+  `id_notificacion` int(11) NOT NULL,
+  `id_peticion` int(11) NOT NULL,
+  `tipo_notificacion` enum('creacion','vencimiento_proximo','vencida','respondida','remitida') NOT NULL,
+  `mensaje` text NOT NULL,
+  `usuarios_notificados` text DEFAULT NULL,
+  `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp(),
+  `enviado` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_portatiles`
 --
 
@@ -1602,6 +1852,34 @@ INSERT INTO `tbl_tintas_toner` (`id_tinta_toner`, `item`, `disponibles`, `impres
 (16, 'Tinta Brother BTD60 y BT5001', 0, '53', 'Brother DCP-T710W', '2025-08-20 03:54:36', '2025-08-20 03:54:08', 1),
 (17, 'TK-3402', 5, '44', 'KYOCERA Ecosys MA4500 IFX', '2025-08-20 03:56:52', '2025-08-20 03:56:08', 1),
 (18, '105A', 3, '51', 'HP Laser MFP 137fnw', '2025-08-20 03:58:34', '2025-08-20 03:58:34', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_tipos_peticion`
+--
+
+CREATE TABLE `tbl_tipos_peticion` (
+  `id_tipo` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `dias_habiles_plazo` int(11) NOT NULL,
+  `color_semaforo` varchar(7) DEFAULT '#28a745',
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_tipos_peticion`
+--
+
+INSERT INTO `tbl_tipos_peticion` (`id_tipo`, `nombre`, `descripcion`, `dias_habiles_plazo`, `color_semaforo`, `status`, `fecha_creacion`) VALUES
+(1, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 02:11:49'),
+(2, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 02:11:49'),
+(3, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 02:11:49'),
+(4, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 02:11:49'),
+(5, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 02:11:49'),
+(6, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 02:11:49');
 
 -- --------------------------------------------------------
 
@@ -1947,6 +2225,15 @@ ALTER TABLE `tbl_dependencia`
   ADD PRIMARY KEY (`dependencia_pk`);
 
 --
+-- Indices de la tabla `tbl_dias_festivos`
+--
+ALTER TABLE `tbl_dias_festivos`
+  ADD PRIMARY KEY (`id_festivo`),
+  ADD UNIQUE KEY `fecha` (`fecha`),
+  ADD KEY `idx_fecha` (`fecha`),
+  ADD KEY `idx_anio` (`anio`);
+
+--
 -- Indices de la tabla `tbl_equipos_movimientos`
 --
 ALTER TABLE `tbl_equipos_movimientos`
@@ -2051,6 +2338,37 @@ ALTER TABLE `tbl_permisos`
   ADD KEY `idx_fecha_registro` (`fecha_registro`);
 
 --
+-- Indices de la tabla `tbl_peticiones`
+--
+ALTER TABLE `tbl_peticiones`
+  ADD PRIMARY KEY (`id_peticion`),
+  ADD UNIQUE KEY `numero_radicado` (`numero_radicado`),
+  ADD KEY `idx_numero_radicado` (`numero_radicado`),
+  ADD KEY `idx_fecha_vencimiento` (`fecha_vencimiento`),
+  ADD KEY `idx_estado` (`estado`),
+  ADD KEY `idx_estado_semaforo` (`estado_semaforo`),
+  ADD KEY `id_tipo_peticion` (`id_tipo_peticion`),
+  ADD KEY `dependencia_responsable` (`dependencia_responsable`),
+  ADD KEY `area_remitida` (`area_remitida`),
+  ADD KEY `usuario_creador` (`usuario_creador`),
+  ADD KEY `usuario_responsable` (`usuario_responsable`);
+
+--
+-- Indices de la tabla `tbl_peticiones_historial`
+--
+ALTER TABLE `tbl_peticiones_historial`
+  ADD PRIMARY KEY (`id_historial`),
+  ADD KEY `idx_peticion` (`id_peticion`),
+  ADD KEY `usuario` (`usuario`);
+
+--
+-- Indices de la tabla `tbl_peticiones_notificaciones`
+--
+ALTER TABLE `tbl_peticiones_notificaciones`
+  ADD PRIMARY KEY (`id_notificacion`),
+  ADD KEY `idx_peticion` (`id_peticion`);
+
+--
 -- Indices de la tabla `tbl_portatiles`
 --
 ALTER TABLE `tbl_portatiles`
@@ -2090,6 +2408,12 @@ ALTER TABLE `tbl_tareas_usuarios`
 --
 ALTER TABLE `tbl_tintas_toner`
   ADD PRIMARY KEY (`id_tinta_toner`);
+
+--
+-- Indices de la tabla `tbl_tipos_peticion`
+--
+ALTER TABLE `tbl_tipos_peticion`
+  ADD PRIMARY KEY (`id_tipo`);
 
 --
 -- Indices de la tabla `tbl_todo_en_uno`
@@ -2163,13 +2487,13 @@ ALTER TABLE `categorias_archivos`
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1339;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1340;
 
 --
 -- AUTO_INCREMENT de la tabla `prorrogas_contrato`
@@ -2193,7 +2517,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `seguimiento_contrato`
 --
 ALTER TABLE `seguimiento_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_capital_viaticos`
@@ -2224,6 +2548,12 @@ ALTER TABLE `tbl_contratos_practicantes`
 --
 ALTER TABLE `tbl_dependencia`
   MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_dias_festivos`
+--
+ALTER TABLE `tbl_dias_festivos`
+  MODIFY `id_festivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_equipos_movimientos`
@@ -2310,6 +2640,24 @@ ALTER TABLE `tbl_permisos`
   MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_peticiones`
+--
+ALTER TABLE `tbl_peticiones`
+  MODIFY `id_peticion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_peticiones_historial`
+--
+ALTER TABLE `tbl_peticiones_historial`
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_peticiones_notificaciones`
+--
+ALTER TABLE `tbl_peticiones_notificaciones`
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_portatiles`
 --
 ALTER TABLE `tbl_portatiles`
@@ -2338,6 +2686,12 @@ ALTER TABLE `tbl_tareas_usuarios`
 --
 ALTER TABLE `tbl_tintas_toner`
   MODIFY `id_tinta_toner` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_tipos_peticion`
+--
+ALTER TABLE `tbl_tipos_peticion`
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_todo_en_uno`
@@ -2445,6 +2799,29 @@ ALTER TABLE `tbl_notificaciones`
 ALTER TABLE `tbl_observaciones`
   ADD CONSTRAINT `tbl_observaciones_ibfk_1` FOREIGN KEY (`id_tarea`) REFERENCES `tbl_tareas` (`id_tarea`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_observaciones_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuarios` (`ideusuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_peticiones`
+--
+ALTER TABLE `tbl_peticiones`
+  ADD CONSTRAINT `tbl_peticiones_ibfk_1` FOREIGN KEY (`id_tipo_peticion`) REFERENCES `tbl_tipos_peticion` (`id_tipo`),
+  ADD CONSTRAINT `tbl_peticiones_ibfk_2` FOREIGN KEY (`dependencia_responsable`) REFERENCES `tbl_dependencia` (`dependencia_pk`),
+  ADD CONSTRAINT `tbl_peticiones_ibfk_3` FOREIGN KEY (`area_remitida`) REFERENCES `tbl_dependencia` (`dependencia_pk`),
+  ADD CONSTRAINT `tbl_peticiones_ibfk_4` FOREIGN KEY (`usuario_creador`) REFERENCES `tbl_usuarios` (`ideusuario`),
+  ADD CONSTRAINT `tbl_peticiones_ibfk_5` FOREIGN KEY (`usuario_responsable`) REFERENCES `tbl_usuarios` (`ideusuario`);
+
+--
+-- Filtros para la tabla `tbl_peticiones_historial`
+--
+ALTER TABLE `tbl_peticiones_historial`
+  ADD CONSTRAINT `tbl_peticiones_historial_ibfk_1` FOREIGN KEY (`id_peticion`) REFERENCES `tbl_peticiones` (`id_peticion`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_peticiones_historial_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `tbl_usuarios` (`ideusuario`);
+
+--
+-- Filtros para la tabla `tbl_peticiones_notificaciones`
+--
+ALTER TABLE `tbl_peticiones_notificaciones`
+  ADD CONSTRAINT `tbl_peticiones_notificaciones_ibfk_1` FOREIGN KEY (`id_peticion`) REFERENCES `tbl_peticiones` (`id_peticion`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_tareas`

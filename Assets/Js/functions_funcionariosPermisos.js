@@ -15,7 +15,7 @@ document.addEventListener(
         "aProcessing": true,
         "aServerSide": true,
         "language": {
-            "url": "./es.json"
+            "url": base_url + "/es.json"
         },
         "ajax": {
             "url": " " + base_url + "/funcionariosPermisos/getFuncionarios",

@@ -9,7 +9,20 @@ document.addEventListener('DOMContentLoaded', function(){
         "aProcessing": true,
         "aServerSide": true,
         "language": {
-            "url": "./es.json"
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            }
         },
         "ajax": {
             "url": " " + base_url + "/SeguimientoContrato/getContratos",
@@ -1665,7 +1678,7 @@ function fntHistorialProrrogas(id) {
                         let nuevaFecha = formatearFecha(item.nueva_fecha);
                         let fechaRegistro = formatearFechaHora(item.fecha_registro);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${fechaAnterior}</td>
                             <td>${nuevaFecha}</td>
@@ -1703,7 +1716,7 @@ function cargarHistorialProrrogasGeneral() {
                         let nuevaFecha = formatearFecha(item.nueva_fecha);
                         let fechaRegistro = formatearFechaHora(item.fecha_registro);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.numero_contrato}</td>
                             <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
@@ -1898,7 +1911,7 @@ function cargarHistorialAdicionesGeneral() {
                     objData.data.forEach(function(item) {
                         let fecha = formatearFechaHora(item.fecha_adicion);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.numero_contrato}</td>
                             <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
@@ -1936,7 +1949,7 @@ function fntHistorialAdiciones(id) {
                     objData.data.forEach(function(item) {
                         let fecha = formatearFechaHora(item.fecha_adicion);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
                             <td>$${parseFloat(item.valor_adicion).toLocaleString('es-CO')}</td>
@@ -1955,7 +1968,15 @@ function fntHistorialAdiciones(id) {
     }
 }
 
-// ... existing code ...
+function openModal() {
+    document.querySelector('#idContrato').value = "";
+    document.querySelector('.modal-title').innerHTML = "Nuevo Contrato";
+    document.querySelector('#btnActionForm').innerHTML = '<i class="fas fa-save"></i> Guardar';
+    document.querySelector('#btnText').innerHTML = "Guardar";
+    document.querySelector("#formSeguimientoContrato").reset();
+    $('#modalFormSeguimientoContrato').modal('show');
+}
+
 function fntShowMoreOptions(id) {
     // Asignar el ID al input oculto
     document.getElementById('moreOptionsContratoId').value = id;

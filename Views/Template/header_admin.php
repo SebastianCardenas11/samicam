@@ -51,10 +51,10 @@
 
 <body class="g-sidenav-show  bg-gray-100">
   <!-- Loader Global -->
-  <div id="globalLoader" class="global-loader">
+  <!-- <div id="globalLoader" class="global-loader">
     <l-superballs size="40" speed="0.9" color="#004884"></l-superballs>
     <p class="loader-text" style="color: #004884;">Cargando sistema...</p>
-  </div>
+  </div> -->
   
   <?php require_once "nav_admin.php"; ?>
   <div class="container-fluid py-4">
