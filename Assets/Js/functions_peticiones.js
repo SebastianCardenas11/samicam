@@ -166,7 +166,7 @@ function fntEditPeticion(idpeticion){
                 document.querySelector("#txtPeticionario").value = peticion.nombre_peticionario;
                 document.querySelector("#txtDescripcion").value = peticion.descripcion_solicitud;
                 document.querySelector("#listTipoPeticion").value = peticion.id_tipo_peticion;
-                document.querySelector("#txtAreasResponsables").value = peticion.areas_responsables || '';
+                document.querySelector("#listDependencia").value = peticion.dependencia_responsable || '';
                 document.querySelector("#txtObservaciones").value = peticion.observaciones;
                 
                 // Recalcular fecha de vencimiento después de cargar los datos
@@ -184,12 +184,19 @@ function fntSavePeticion(){
     let strPeticionario = document.querySelector('#txtPeticionario').value;
     let strDescripcion = document.querySelector('#txtDescripcion').value;
     let intTipoPeticion = document.querySelector('#listTipoPeticion').value;
-    let strAreasResponsables = document.querySelector('#txtAreasResponsables').value;
+    let intDependencia = document.querySelector('#listDependencia').value;
 
-    if(strFechaIngreso == '' || strPeticionario == '' || strDescripcion == '' || intTipoPeticion == '' || strAreasResponsables == ''){
-        alert("Atención: Todos los campos marcados con (*) son obligatorios.");
+    if(strFechaIngreso == '' || strPeticionario == '' || strDescripcion == '' || intTipoPeticion == '' || intDependencia == ''){
+        swal("Atención", "Todos los campos marcados con (*) son obligatorios.", "warning");
         return false;
     }
+    
+    // Establecer valores por defecto para campos ocultos
+    let selectDependencia = document.querySelector('#listDependencia');
+    let dependenciaNombre = selectDependencia.options[selectDependencia.selectedIndex].text;
+    document.querySelector('#txtAreasResponsables').value = dependenciaNombre;
+    document.querySelector('#txtFechaRemision').value = '';
+    document.querySelector('#txtConsecutivo').value = '';
 
     let request = new XMLHttpRequest();
     let ajaxUrl = base_url+'/Peticiones/setPeticion';
@@ -204,9 +211,9 @@ function fntSavePeticion(){
                 document.querySelector("#formPeticion").reset();
                 tablePeticiones.ajax.reload();
                 fntLoadEstadisticas();
-                alert("Petición: " + objData.msg);
+                swal("Petición", objData.msg, "success");
             }else{
-                alert("Error: " + objData.msg);
+                swal("Error", objData.msg, "error");
             }
         }
     }

@@ -75,6 +75,7 @@
                                     <th>Radicado</th>
                                     <th>Peticionario</th>
                                     <th>Tipo</th>
+                                    <th>Vencimiento</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -120,12 +121,21 @@
                     
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label>Áreas responsables <span class="text-danger">*</span></label>
-                            <input class="form-control mb-3" id="txtAreasResponsables" name="txtAreasResponsables" type="text" placeholder="Escriba las áreas responsables" required>
+                            <label>Número de Radicado</label>
+                            <input class="form-control mb-3" id="txtNumeroRadicado" name="txtNumeroRadicado" type="text" placeholder="Se genera automáticamente si se deja vacío">
                         </div>
                         <div class="col-md-6">
-                            <label>Fecha de remisión al área</label>
-                            <input class="form-control mb-3" id="txtFechaRemision" name="txtFechaRemision" type="date">
+                            <label>Dependencia Responsable <span class="text-danger">*</span></label>
+                            <select class="form-control mb-3" id="listDependencia" name="listDependencia" required>
+                                <option value="">Seleccionar</option>
+                                <?php 
+                                if(count($data['dependencias']) > 0){
+                                    foreach($data['dependencias'] as $dependencia){
+                                        echo '<option value="'.$dependencia['dependencia_pk'].'">'.$dependencia['nombre'].'</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     
@@ -154,15 +164,16 @@
                     </div>
                     
                     <div class="row mb-4">
-                        <div class="col-md-6">
-                            <label>Consecutivo / Tipo de envío</label>
-                            <input class="form-control mb-3" id="txtConsecutivo" name="txtConsecutivo" type="text">
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Observaciones</label>
                             <textarea class="form-control mb-3" id="txtObservaciones" name="txtObservaciones" rows="4"></textarea>
                         </div>
                     </div>
+                    
+                    <!-- Campos ocultos para compatibilidad -->
+                    <input type="hidden" id="txtAreasResponsables" name="txtAreasResponsables" value="">
+                    <input type="hidden" id="txtFechaRemision" name="txtFechaRemision" value="">
+                    <input type="hidden" id="txtConsecutivo" name="txtConsecutivo" value="">
 
                     <div class="modal-footer">
                         <button id="btnActionForm" class="btn btn-success" type="submit">

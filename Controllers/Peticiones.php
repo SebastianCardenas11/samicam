@@ -137,16 +137,12 @@ class Peticiones extends Controllers
         if($_POST)
         {
             $idPeticion = intval($_POST['idPeticion']);
-            $numero_radicado = 'RAD-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT); // Generar radicado automático
+            $numero_radicado = !empty($_POST['txtNumeroRadicado']) ? strClean($_POST['txtNumeroRadicado']) : 'RAD-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
             $fecha_ingreso = $_POST['txtFechaIngreso'];
             $nombre_peticionario = strClean($_POST['txtPeticionario']);
             $descripcion_solicitud = strClean($_POST['txtDescripcion']);
             $id_tipo_peticion = intval($_POST['listTipoPeticion']);
-            $areas_responsables = strClean($_POST['txtAreasResponsables']);
-            $fecha_remision = !empty($_POST['txtFechaRemision']) ? $_POST['txtFechaRemision'] : null;
-            $consecutivo = strClean($_POST['txtConsecutivo']);
-            $dias_vencer = intval($_POST['txtDiasVencer']);
-            $fecha_vencimiento = !empty($_POST['txtVencimientoTotal']) ? $_POST['txtVencimientoTotal'] : null;
+            $dependencia_responsable = intval($_POST['listDependencia']);
             $observaciones = strClean($_POST['txtObservaciones']);
 
             if($idPeticion == 0)
@@ -167,8 +163,7 @@ class Peticiones extends Controllers
                     {
                         $request_peticion = $this->model->insertPeticion(
                             $numero_radicado, $fecha_ingreso, $nombre_peticionario,
-                            $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
-                            $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
+                            $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable,
                             $observaciones, $_SESSION['idUser']
                         );
 
@@ -200,8 +195,7 @@ class Peticiones extends Controllers
                     {
                         $request_peticion = $this->model->updatePeticion(
                             $idPeticion, $numero_radicado, $fecha_ingreso, $nombre_peticionario,
-                            $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
-                            $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
+                            $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable,
                             $observaciones, $_SESSION['idUser']
                         );
 
