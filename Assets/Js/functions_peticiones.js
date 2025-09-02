@@ -14,13 +14,9 @@ document.addEventListener('DOMContentLoaded', function(){
         },
         "columns": [
             {"data": "numero_radicado"},
-            {"data": "fecha_ingreso_format"},
             {"data": "nombre_peticionario"},
             {"data": "tipo_peticion_nombre"},
-            {"data": "dependencia_nombre"},
             {"data": "estado_badge"},
-            {"data": "semaforo"},
-            {"data": "fecha_vencimiento_format"},
             {"data": "options"}
         ],
         "responsive": true,
@@ -57,6 +53,10 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
+
+
+
+
     if(document.querySelector("#formDesistir")){
         let formDesistir = document.querySelector("#formDesistir");
         formDesistir.onsubmit = function(e) {
@@ -64,19 +64,38 @@ document.addEventListener('DOMContentLoaded', function(){
             fntDesistirPeticion();
         }
     }
+
+    // Manejar cambio de tipo de petición para establecer días automáticamente
+    if(document.querySelector("#listTipoPeticion")){
+        document.querySelector("#listTipoPeticion").addEventListener('change', function(){
+            calcularFechaVencimiento();
+        });
+    }
+
+    // Manejar cambio de fecha de ingreso para recalcular vencimiento
+    if(document.querySelector("#txtFechaIngreso")){
+        document.querySelector("#txtFechaIngreso").addEventListener('change', function(){
+            calcularFechaVencimiento();
+        });
+    }
 });
 
 function openModal(){
-    document.querySelector('#idPeticion').value = "";
-    document.querySelector('.modal-title').innerHTML = "Nueva Petición";
-    document.querySelector('#btnActionForm').innerHTML = '<i class="fas fa-save"></i> Guardar';
-    document.querySelector('#btnText').innerHTML = "Guardar";
-    document.querySelector("#formPeticion").reset();
+    let idPeticion = document.querySelector('#idPeticion');
+    let modalTitle = document.querySelector('#titleModal');
+    let btnText = document.querySelector('#btnText');
+    let formPeticion = document.querySelector("#formPeticion");
+    
+    if(idPeticion) idPeticion.value = "";
+    if(modalTitle) modalTitle.innerHTML = "Nueva Petición";
+    if(btnText) btnText.innerHTML = "Guardar";
+    if(formPeticion) formPeticion.reset();
+    
     $('#modalFormPeticion').modal('show');
 }
 
 function fntViewPeticion(idpeticion){
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let request = new XMLHttpRequest();
     let ajaxUrl = base_url+'/Peticiones/getPeticion/'+idpeticion;
     request.open("GET",ajaxUrl,true);
     request.send();
@@ -133,7 +152,7 @@ function fntEditPeticion(idpeticion){
     document.querySelector('#btnActionForm').innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
     document.querySelector('#btnText').innerHTML = "Actualizar";
 
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let request = new XMLHttpRequest();
     let ajaxUrl = base_url+'/Peticiones/getPeticion/'+idpeticion;
     request.open("GET",ajaxUrl,true);
     request.send();
@@ -143,13 +162,15 @@ function fntEditPeticion(idpeticion){
             if(objData.status){
                 let peticion = objData.data;
                 document.querySelector("#idPeticion").value = peticion.id_peticion;
-                document.querySelector("#txtRadicado").value = peticion.numero_radicado;
                 document.querySelector("#txtFechaIngreso").value = peticion.fecha_ingreso;
                 document.querySelector("#txtPeticionario").value = peticion.nombre_peticionario;
                 document.querySelector("#txtDescripcion").value = peticion.descripcion_solicitud;
                 document.querySelector("#listTipoPeticion").value = peticion.id_tipo_peticion;
-                document.querySelector("#listDependencia").value = peticion.dependencia_responsable;
+                document.querySelector("#txtAreasResponsables").value = peticion.areas_responsables || '';
                 document.querySelector("#txtObservaciones").value = peticion.observaciones;
+                
+                // Recalcular fecha de vencimiento después de cargar los datos
+                calcularFechaVencimiento();
                 $('#modalFormPeticion').modal('show');
             }else{
                 swal("Error", objData.msg, "error");
@@ -159,19 +180,18 @@ function fntEditPeticion(idpeticion){
 }
 
 function fntSavePeticion(){
-    let strRadicado = document.querySelector('#txtRadicado').value;
     let strFechaIngreso = document.querySelector('#txtFechaIngreso').value;
     let strPeticionario = document.querySelector('#txtPeticionario').value;
     let strDescripcion = document.querySelector('#txtDescripcion').value;
     let intTipoPeticion = document.querySelector('#listTipoPeticion').value;
-    let intDependencia = document.querySelector('#listDependencia').value;
+    let strAreasResponsables = document.querySelector('#txtAreasResponsables').value;
 
-    if(strRadicado == '' || strFechaIngreso == '' || strPeticionario == '' || strDescripcion == '' || intTipoPeticion == '' || intDependencia == ''){
-        swal("Atención", "Todos los campos marcados con (*) son obligatorios.", "error");
+    if(strFechaIngreso == '' || strPeticionario == '' || strDescripcion == '' || intTipoPeticion == '' || strAreasResponsables == ''){
+        alert("Atención: Todos los campos marcados con (*) son obligatorios.");
         return false;
     }
 
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let request = new XMLHttpRequest();
     let ajaxUrl = base_url+'/Peticiones/setPeticion';
     let formData = new FormData(document.querySelector("#formPeticion"));
     request.open("POST",ajaxUrl,true);
@@ -184,9 +204,9 @@ function fntSavePeticion(){
                 document.querySelector("#formPeticion").reset();
                 tablePeticiones.ajax.reload();
                 fntLoadEstadisticas();
-                swal("Petición", objData.msg, "success");
+                alert("Petición: " + objData.msg);
             }else{
-                swal("Error", objData.msg, "error");
+                alert("Error: " + objData.msg);
             }
         }
     }
@@ -222,7 +242,7 @@ function fntDelPeticion(idpeticion){
         closeOnCancel: true
     }, function(isConfirm) {
         if (isConfirm) {
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let request = new XMLHttpRequest();
             let ajaxUrl = base_url+'/Peticiones/delPeticion/';
             let strData = "idPeticion="+idpeticion;
             request.open("POST",ajaxUrl,true);
@@ -245,7 +265,7 @@ function fntDelPeticion(idpeticion){
 }
 
 function fntLoadEstadisticas(){
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let request = new XMLHttpRequest();
     let ajaxUrl = base_url+'/Peticiones/getEstadisticas';
     request.open("GET",ajaxUrl,true);
     request.send();
@@ -254,21 +274,21 @@ function fntLoadEstadisticas(){
             let objData = JSON.parse(request.responseText);
             
             // Actualizar widgets
-            document.querySelector("#totalPeticiones").innerHTML = objData.total_peticiones || 0;
-            document.querySelector("#enProceso").innerHTML = objData.por_estado?.en_proceso || 0;
-            document.querySelector("#proximasVencer").innerHTML = objData.proximas_vencer || 0;
-            document.querySelector("#vencidas").innerHTML = objData.vencidas || 0;
+            let totalPeticiones = document.querySelector("#totalPeticiones");
+            let enProceso = document.querySelector("#enProceso");
+            let proximasVencer = document.querySelector("#proximasVencer");
+            let vencidas = document.querySelector("#vencidas");
             
-            // Actualizar semáforo
-            document.querySelector("#semaforoVerde").innerHTML = objData.por_semaforo?.verde || 0;
-            document.querySelector("#semaforoAmarillo").innerHTML = objData.por_semaforo?.amarillo || 0;
-            document.querySelector("#semaforoRojo").innerHTML = objData.por_semaforo?.rojo || 0;
+            if(totalPeticiones) totalPeticiones.innerHTML = objData.total_peticiones || 0;
+            if(enProceso) enProceso.innerHTML = objData.por_estado?.en_proceso || 0;
+            if(proximasVencer) proximasVencer.innerHTML = objData.proximas_vencer || 0;
+            if(vencidas) vencidas.innerHTML = objData.vencidas || 0;
         }
     }
 }
 
 function fntActualizarEstados(){
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let request = new XMLHttpRequest();
     let ajaxUrl = base_url+'/Peticiones/actualizarEstados';
     request.open("POST",ajaxUrl,true);
     request.send();
@@ -286,6 +306,38 @@ function fntActualizarEstados(){
     }
 }
 
+function exportExcel(){
+    window.open(base_url + '/Peticiones/getReporte?export=excel', '_blank');
+}
+
 function fntGenerarReporte(tipo){
     window.open(base_url + '/Peticiones/getReporte?tipo=' + tipo + '&export=excel', '_blank');
 }
+
+function calcularFechaVencimiento(){
+    let selectTipo = document.querySelector('#listTipoPeticion');
+    let fechaIngreso = document.querySelector('#txtFechaIngreso').value;
+    let txtDiasVencer = document.querySelector('#txtDiasVencer');
+    let txtVencimientoTotal = document.querySelector('#txtVencimientoTotal');
+    
+    if(selectTipo.selectedIndex > 0 && fechaIngreso){
+        let selectedOption = selectTipo.options[selectTipo.selectedIndex];
+        let diasPlazo = parseInt(selectedOption.getAttribute('data-dias'));
+        
+        // Establecer días a vencer
+        txtDiasVencer.value = diasPlazo;
+        
+        // Calcular fecha de vencimiento
+        let fechaInicio = new Date(fechaIngreso);
+        let fechaVencimiento = new Date(fechaInicio);
+        fechaVencimiento.setDate(fechaVencimiento.getDate() + diasPlazo);
+        
+        // Formatear fecha para input date (YYYY-MM-DD)
+        let fechaFormateada = fechaVencimiento.toISOString().split('T')[0];
+        txtVencimientoTotal.value = fechaFormateada;
+    } else {
+        txtDiasVencer.value = '';
+        txtVencimientoTotal.value = '';
+    }
+}
+

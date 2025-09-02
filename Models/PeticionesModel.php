@@ -62,33 +62,38 @@ class PeticionesModel extends Mysql
 
     // Crear nueva petición
     public function insertPeticion($numero_radicado, $fecha_ingreso, $nombre_peticionario, 
-                                  $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable, 
+                                  $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
+                                  $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
                                   $observaciones, $usuario_creador)
     {
         $sql = "INSERT INTO tbl_peticiones (numero_radicado, fecha_ingreso, nombre_peticionario, 
-                descripcion_solicitud, id_tipo_peticion, dependencia_responsable, observaciones, 
-                usuario_creador, usuario_responsable) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                descripcion_solicitud, id_tipo_peticion, areas_responsables, fecha_remision,
+                consecutivo, dias_vencer, fecha_vencimiento, observaciones, usuario_creador) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $arrData = [$numero_radicado, $fecha_ingreso, $nombre_peticionario, $descripcion_solicitud, 
-                   $id_tipo_peticion, $dependencia_responsable, $observaciones, $usuario_creador, $usuario_creador];
+                   $id_tipo_peticion, $areas_responsables, $fecha_remision, $consecutivo, 
+                   $dias_vencer, $fecha_vencimiento, $observaciones, $usuario_creador];
         
         return $this->insert($sql, $arrData);
     }
 
     // Actualizar petición
     public function updatePeticion($id_peticion, $numero_radicado, $fecha_ingreso, $nombre_peticionario, 
-                                  $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable, 
+                                  $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
+                                  $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
                                   $observaciones, $usuario_responsable)
     {
         $sql = "UPDATE tbl_peticiones SET 
                 numero_radicado = ?, fecha_ingreso = ?, nombre_peticionario = ?, 
-                descripcion_solicitud = ?, id_tipo_peticion = ?, dependencia_responsable = ?, 
-                observaciones = ?, usuario_responsable = ?
+                descripcion_solicitud = ?, id_tipo_peticion = ?, areas_responsables = ?,
+                fecha_remision = ?, consecutivo = ?, dias_vencer = ?, fecha_vencimiento = ?,
+                observaciones = ?
                 WHERE id_peticion = ?";
         
         $arrData = [$numero_radicado, $fecha_ingreso, $nombre_peticionario, $descripcion_solicitud, 
-                   $id_tipo_peticion, $dependencia_responsable, $observaciones, $usuario_responsable, $id_peticion];
+                   $id_tipo_peticion, $areas_responsables, $fecha_remision, $consecutivo,
+                   $dias_vencer, $fecha_vencimiento, $observaciones, $id_peticion];
         
         return $this->update($sql, $arrData);
     }

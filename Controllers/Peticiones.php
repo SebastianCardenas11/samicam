@@ -19,9 +19,9 @@ class Peticiones extends Controllers
             header("Location:".base_url().'/dashboard');
         }
         
-        $data['page_tag'] = "Peticiones PQRs";
-        $data['page_title'] = "Gestión de Peticiones, Quejas, Reclamos y Sugerencias";
-        $data['page_name'] = "Peticiones PQRs";
+        $data['page_tag'] = "Peticiones";
+        $data['page_title'] = "Peticiones";
+        $data['page_name'] = "Peticiones";
         $data['page_functions_js'] = "functions_peticiones.js";
         
         // Obtener datos para los selectores
@@ -137,12 +137,16 @@ class Peticiones extends Controllers
         if($_POST)
         {
             $idPeticion = intval($_POST['idPeticion']);
-            $numero_radicado = strClean($_POST['txtRadicado']);
+            $numero_radicado = 'RAD-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT); // Generar radicado automático
             $fecha_ingreso = $_POST['txtFechaIngreso'];
             $nombre_peticionario = strClean($_POST['txtPeticionario']);
             $descripcion_solicitud = strClean($_POST['txtDescripcion']);
             $id_tipo_peticion = intval($_POST['listTipoPeticion']);
-            $dependencia_responsable = intval($_POST['listDependencia']);
+            $areas_responsables = strClean($_POST['txtAreasResponsables']);
+            $fecha_remision = !empty($_POST['txtFechaRemision']) ? $_POST['txtFechaRemision'] : null;
+            $consecutivo = strClean($_POST['txtConsecutivo']);
+            $dias_vencer = intval($_POST['txtDiasVencer']);
+            $fecha_vencimiento = !empty($_POST['txtVencimientoTotal']) ? $_POST['txtVencimientoTotal'] : null;
             $observaciones = strClean($_POST['txtObservaciones']);
 
             if($idPeticion == 0)
@@ -163,7 +167,8 @@ class Peticiones extends Controllers
                     {
                         $request_peticion = $this->model->insertPeticion(
                             $numero_radicado, $fecha_ingreso, $nombre_peticionario,
-                            $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable,
+                            $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
+                            $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
                             $observaciones, $_SESSION['idUser']
                         );
 
@@ -195,7 +200,8 @@ class Peticiones extends Controllers
                     {
                         $request_peticion = $this->model->updatePeticion(
                             $idPeticion, $numero_radicado, $fecha_ingreso, $nombre_peticionario,
-                            $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable,
+                            $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
+                            $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
                             $observaciones, $_SESSION['idUser']
                         );
 

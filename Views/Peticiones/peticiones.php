@@ -6,7 +6,6 @@
     <div class="app-title">
         <div>
             <h1><i class="fas fa-clipboard-list"></i> <?= $data['page_title'] ?></h1>
-            <p>Gestión de Peticiones, Quejas, Reclamos y Sugerencias (PQRs)</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -14,81 +13,39 @@
         </ul>
     </div>
 
-    <!-- Dashboard de estadísticas -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="widget-small primary coloured-icon">
-                <i class="icon fas fa-clipboard-list fa-3x"></i>
-                <div class="info">
-                    <h4 id="totalPeticiones">0</h4>
-                    <p><b>Total Peticiones</b></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="widget-small info coloured-icon">
-                <i class="icon fas fa-clock fa-3x"></i>
-                <div class="info">
-                    <h4 id="enProceso">0</h4>
-                    <p><b>En Proceso</b></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="widget-small warning coloured-icon">
-                <i class="icon fas fa-exclamation-triangle fa-3x"></i>
-                <div class="info">
-                    <h4 id="proximasVencer">0</h4>
-                    <p><b>Próximas a Vencer</b></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="widget-small danger coloured-icon">
-                <i class="icon fas fa-times-circle fa-3x"></i>
-                <div class="info">
-                    <h4 id="vencidas">0</h4>
-                    <p><b>Vencidas</b></p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Semáforo de alertas -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-title-w-btn">
-                    <h3 class="title"><i class="fas fa-traffic-light"></i> Semáforo de Peticiones</h3>
-                    <p><small>Estado actual de las peticiones según días hábiles restantes</small></p>
+
+    <!-- Tarjetas minimalistas -->
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-primary" id="totalPeticiones">0</h5>
+                    <p class="card-text">Total</p>
                 </div>
-                <div class="tile-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="alert alert-success" role="alert">
-                                <h4 class="alert-heading"><i class="fas fa-circle text-success"></i> Verde</h4>
-                                <p>Más de 10 días hábiles disponibles</p>
-                                <hr>
-                                <p class="mb-0"><strong id="semaforoVerde">0</strong> peticiones</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="alert alert-warning" role="alert">
-                                <h4 class="alert-heading"><i class="fas fa-circle text-warning"></i> Amarillo</h4>
-                                <p>Entre 6 y 10 días hábiles disponibles</p>
-                                <hr>
-                                <p class="mb-0"><strong id="semaforoAmarillo">0</strong> peticiones</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="alert alert-danger" role="alert">
-                                <h4 class="alert-heading"><i class="fas fa-circle text-danger"></i> Rojo</h4>
-                                <p>5 días hábiles o menos disponibles</p>
-                                <hr>
-                                <p class="mb-0"><strong id="semaforoRojo">0</strong> peticiones</p>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-info" id="enProceso">0</h5>
+                    <p class="card-text">En Proceso</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-warning" id="proximasVencer">0</h5>
+                    <p class="card-text">Próximas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-danger" id="vencidas">0</h5>
+                    <p class="card-text">Vencidas</p>
                 </div>
             </div>
         </div>
@@ -99,42 +56,26 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-title-w-btn">
-                    <h3 class="title">Listado de Peticiones</h3>
-                    <div class="btn-group">
-                        <?php if($_SESSION['permisosMod']['w']){ ?>
-                        <button class="btn btn-primary" type="button" onclick="openModal()">
-                            <i class="fas fa-plus-circle"></i> Nueva Petición
-                        </button>
-                        <?php } ?>
-                        <button class="btn btn-info" type="button" onclick="fntActualizarEstados()">
-                            <i class="fas fa-sync-alt"></i> Actualizar Estados
-                        </button>
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fas fa-download"></i> Reportes
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" onclick="fntGenerarReporte('vencidas')">Peticiones Vencidas</a>
-                                <a class="dropdown-item" href="#" onclick="fntGenerarReporte('proximas_vencer')">Próximas a Vencer</a>
-                                <a class="dropdown-item" href="#" onclick="fntGenerarReporte('respondidas')">Respondidas</a>
-                                <a class="dropdown-item" href="#" onclick="fntGenerarReporte('por_dependencia')">Por Dependencia</a>
-                            </div>
-                        </div>
-                    </div>
+                    <?php if($_SESSION['permisosMod']['w']){ ?>
+                    <button class="btn btn-warning" type="button" onclick="openModal()">
+                        <i class="fas fa-plus"></i> Nueva Peticion
+                    </button>
+                    <?php } ?>
                 </div>
                 <div class="tile-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered" id="tablePeticiones">
+                            <div class="mb-2">
+                                <button class="btn btn-success btn-sm" onclick="exportExcel()">
+                                    <i class="fas fa-file-excel"></i> Excel
+                                </button>
+                            </div>
                             <thead>
                                 <tr>
                                     <th>Radicado</th>
-                                    <th>Fecha Ingreso</th>
                                     <th>Peticionario</th>
                                     <th>Tipo</th>
-                                    <th>Dependencia</th>
                                     <th>Estado</th>
-                                    <th>Días Restantes</th>
-                                    <th>Fecha Vencimiento</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -147,90 +88,88 @@
         </div>
     </div>
 </main>
-
 <!-- Modal para Nueva/Editar Petición -->
 <div class="modal fade" id="modalFormPeticion" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header headerRegister">
+            <div class="modal-header">
                 <h5 class="modal-title" id="titleModal">Nueva Petición</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="formPeticion" name="formPeticion" class="form-horizontal">
+            <div class="modal-body p-4">
+                <form id="formPeticion" name="formPeticion">
                     <input type="hidden" id="idPeticion" name="idPeticion" value="">
                     
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Número de Radicado <span class="required">*</span></label>
-                                <input class="form-control" id="txtRadicado" name="txtRadicado" type="text" placeholder="Número de radicado" required="">
-                            </div>
+                            <label>Fecha de ingreso <span class="text-danger">*</span></label>
+                            <input class="form-control mb-3" id="txtFechaIngreso" name="txtFechaIngreso" type="date" required>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Fecha de Ingreso <span class="required">*</span></label>
-                                <input class="form-control" id="txtFechaIngreso" name="txtFechaIngreso" type="date" required="">
-                            </div>
+                            <label>Nombre del peticionario <span class="text-danger">*</span></label>
+                            <input class="form-control mb-3" id="txtPeticionario" name="txtPeticionario" type="text" required>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Nombre del Peticionario <span class="required">*</span></label>
-                        <input class="form-control" id="txtPeticionario" name="txtPeticionario" type="text" placeholder="Nombre completo del peticionario" required="">
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <label>Solicitud / Descripción <span class="text-danger">*</span></label>
+                            <textarea class="form-control mb-3" id="txtDescripcion" name="txtDescripcion" rows="4" required></textarea>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Descripción de la Solicitud <span class="required">*</span></label>
-                        <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción detallada de la solicitud" required=""></textarea>
-                    </div>
-
-                    <div class="row">
+                    
+                    <div class="row mb-4">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Tipo de Petición <span class="required">*</span></label>
-                                <select class="form-control" id="listTipoPeticion" name="listTipoPeticion" required="">
-                                    <option value="">Seleccionar tipo</option>
-                                    <?php 
-                                    if(count($data['tipos_peticion']) > 0){
-                                        foreach($data['tipos_peticion'] as $tipo){
-                                            echo '<option value="'.$tipo['id_tipo'].'">'.$tipo['nombre'].' ('.$tipo['dias_habiles_plazo'].' días hábiles)</option>';
-                                        }
+                            <label>Áreas responsables <span class="text-danger">*</span></label>
+                            <input class="form-control mb-3" id="txtAreasResponsables" name="txtAreasResponsables" type="text" placeholder="Escriba las áreas responsables" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Fecha de remisión al área</label>
+                            <input class="form-control mb-3" id="txtFechaRemision" name="txtFechaRemision" type="date">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label>Tipo de petición <span class="text-danger">*</span></label>
+                            <select class="form-control mb-3" id="listTipoPeticion" name="listTipoPeticion" required>
+                                <option value="">Seleccionar</option>
+                                <?php 
+                                if(count($data['tipos_peticion']) > 0){
+                                    foreach($data['tipos_peticion'] as $tipo){
+                                        echo '<option value="'.$tipo['id_tipo'].'" data-dias="'.$tipo['dias_habiles_plazo'].'">'.$tipo['nombre'].'</option>';
                                     }
-                                    ?>
-                                </select>
-                            </div>
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Días a vencer</label>
+                            <input class="form-control mb-3" id="txtDiasVencer" name="txtDiasVencer" type="number" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Fecha vencimiento total</label>
+                            <input class="form-control mb-3" id="txtVencimientoTotal" name="txtVencimientoTotal" type="date" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label>Consecutivo / Tipo de envío</label>
+                            <input class="form-control mb-3" id="txtConsecutivo" name="txtConsecutivo" type="text">
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Dependencia Responsable <span class="required">*</span></label>
-                                <select class="form-control" id="listDependencia" name="listDependencia" required="">
-                                    <option value="">Seleccionar dependencia</option>
-                                    <?php 
-                                    if(count($data['dependencias']) > 0){
-                                        foreach($data['dependencias'] as $dependencia){
-                                            echo '<option value="'.$dependencia['dependencia_pk'].'">'.$dependencia['nombre'].'</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                            <label>Observaciones</label>
+                            <textarea class="form-control mb-3" id="txtObservaciones" name="txtObservaciones" rows="4"></textarea>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Observaciones</label>
-                        <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="3" placeholder="Observaciones adicionales"></textarea>
-                    </div>
-
-                    <div class="tile-footer">
-                        <button id="btnActionForm" class="btn btn-primary" type="submit">
-                            <i class="fas fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span>
-                        </button>&nbsp;&nbsp;&nbsp;
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">
-                            <i class="fas fa-fw fa-lg fa-times-circle"></i>Cerrar
+                    <div class="modal-footer">
+                        <button id="btnActionForm" class="btn btn-success" type="submit">
+                            <span id="btnText">Guardar</span>
+                        </button>
+                        <button class="btn btn-danger" type="button" data-bs-dismiss="modal">
+                            Cancelar
                         </button>
                     </div>
                 </form>
@@ -314,16 +253,7 @@
                     
                     <div class="form-group">
                         <label class="control-label">Área a Remitir <span class="required">*</span></label>
-                        <select class="form-control" id="listAreaRemitida" name="listAreaRemitida" required="">
-                            <option value="">Seleccionar área</option>
-                            <?php 
-                            if(count($data['dependencias']) > 0){
-                                foreach($data['dependencias'] as $dependencia){
-                                    echo '<option value="'.$dependencia['dependencia_pk'].'">'.$dependencia['nombre'].'</option>';
-                                }
-                            }
-                            ?>
-                        </select>
+                        <input class="form-control" id="txtAreaRemitida" name="txtAreaRemitida" type="text" placeholder="Escriba el nombre del área" required="">
                     </div>
 
                     <div class="form-group">
@@ -381,5 +311,7 @@
         </div>
     </div>
 </div>
+
+
 
 <?php footerAdmin($data); ?>

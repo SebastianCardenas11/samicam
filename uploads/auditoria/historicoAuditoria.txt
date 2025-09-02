@@ -1678,3 +1678,77 @@
 [2025-09-01 21:36:29] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Publicaciones
 [2025-09-01 21:36:30] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Tareas
 [2025-09-01 21:36:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Tareas
+[2025-09-01 21:39:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:39:31] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:39:32] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:39:37] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Roles
+[2025-09-01 21:39:37] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Roles
+[2025-09-01 21:39:37] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Roles
+[2025-09-01 21:40:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:40:01] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:40:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:40:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Roles
+[2025-09-01 21:40:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Roles
+[2025-09-01 21:40:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Roles
+[2025-09-01 21:40:18] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:40:19] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:40:27] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:40:28] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:40:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:40:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:41:02] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:41:05] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:41:48] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:41:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Usuarios
+[2025-09-01 21:42:01] ID: 30 | Usuario: Juridica | Correo: juridica@lajaguadeibirico-cesar.gov.co | Rol: Juridica | IP: 127.0.0.1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0 | Acción: Inicio de sesión
+[2025-09-01 21:42:01] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:42:02] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:42:05] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:47:27] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:48:28] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:48:35] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:50:30] ID: 30 | Usuario: Juridica | Rol: Juridica | IP: 127.0.0.1 | Acción: Acceso al módulo Dashboard
+[2025-09-01 21:51:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:51:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:51:40] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:51:48] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:51:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:52:20] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:53:31] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:53:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:55:15] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:55:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:55:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:56:18] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 21:57:24] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:00:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:02:49] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:02:51] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:03:58] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:04:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:04:13] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:04:52] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:04:56] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:05:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:07:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:08:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:09:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:11:03] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:14:38] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:15:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:15:19] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:16:25] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:16:26] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:16:35] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:16:36] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:16:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:19:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:19:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:19:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:21:12] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:21:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:23:08] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:24:22] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:24:28] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:30:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones
+[2025-09-01 22:30:09] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 127.0.0.1 | Acción: Acceso al módulo Peticiones

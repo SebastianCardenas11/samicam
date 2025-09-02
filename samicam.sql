@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 02-09-2025 a las 04:19:17
+-- Tiempo de generación: 02-09-2025 a las 05:27:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -291,7 +291,25 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (1336, 2, 18, 0, 0, 0, 0, 1),
 (1337, 1, 19, 1, 1, 1, 1, 1),
 (1338, 5, 19, 1, 1, 1, 1, 1),
-(1339, 1, 20, 1, 1, 1, 1, 1);
+(1339, 1, 20, 1, 1, 1, 1, 1),
+(1340, 13, 1, 0, 0, 0, 0, 1),
+(1341, 13, 2, 0, 0, 0, 0, 1),
+(1342, 13, 3, 0, 0, 0, 0, 1),
+(1343, 13, 4, 0, 0, 0, 0, 1),
+(1344, 13, 5, 0, 0, 0, 0, 1),
+(1345, 13, 6, 0, 0, 0, 0, 1),
+(1346, 13, 7, 0, 0, 0, 0, 1),
+(1347, 13, 8, 0, 0, 0, 0, 1),
+(1348, 13, 10, 0, 0, 0, 0, 1),
+(1349, 13, 11, 0, 0, 0, 0, 1),
+(1350, 13, 12, 0, 0, 0, 0, 1),
+(1351, 13, 13, 0, 0, 0, 0, 1),
+(1352, 13, 14, 0, 0, 0, 0, 1),
+(1353, 13, 15, 0, 0, 0, 0, 1),
+(1354, 13, 16, 0, 0, 0, 0, 1),
+(1355, 13, 18, 0, 0, 0, 0, 1),
+(1356, 13, 19, 0, 0, 0, 0, 1),
+(1357, 13, 20, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -449,7 +467,8 @@ INSERT INTO `rol` (`idrol`, `nombrerol`, `descripcion`, `status`) VALUES
 (6, 'Usuario', 'el sugeto no presenta cambios', 0),
 (7, 'Secretaria Ntic', 'Apoyo administrativo en el área de Ntic ', 1),
 (11, 'Prueba', '1', 0),
-(12, 'Gobierno digital', 'Gestión de redes sociales', 1);
+(12, 'Gobierno digital', 'Gestión de redes sociales', 1),
+(13, 'Juridica', 'Gestion de peticiones', 1);
 
 -- --------------------------------------------------------
 
@@ -488,7 +507,7 @@ INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fe
 (6, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 1, 'meses', 'mes vencido', 1, 37591000.00, '2025-05-09', 'AMJI CMC 012 DE 2025', 'SI', '2025-05-28', 37591000.00, 3, '176-2025', 1, '2025-04-03', 'No especificado', ''),
 (7, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-05-22', 10, 'dias', 'mes vencido', 1, 28920000.00, '2025-05-23', 'AMJI CMC 021 DE 2025', '', '0000-00-00', 28920000.00, 3, '215-2025', 1, '2025-05-12', 'No especificado', ''),
 (8, 'COMPRAVENTA DE TINTAS Y TÓNER PARA LAS IMPRESORAS EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-08-08', '2025-08-22', 10, 'dias', 'mes vencido', 1, 36120000.00, '2025-08-25', 'Aun en espera de las entradas y salidas de Almancen para pasar informes', '', '0000-00-00', 0.00, 1, '274-2025', 1, '2025-08-05', 'No especificado', ''),
-(9, '12736jh3', '2025-08-04', '2025-08-29', 2, 'meses', 'mes vencido', 8, 8000000.00, '2025-08-18', '', 'SI', '2025-08-30', 0.00, 1, '1223', 18, '2025-08-14', 'Selección abreviada Menor Cuantía', ''),
+(9, '12736jh3', '2025-08-04', '2025-08-29', 2, 'meses', 'mes vencido', 8, 8000000.00, '2025-08-18', '', 'SI', '2025-08-30', 0.00, 1, '1223', 18, '2025-08-14', 'Menor Cuantía', '44444444'),
 (10, '123', '2025-08-06', '2025-08-29', 12, 'meses', 'mes vencido', 3, 90000000.00, '2025-08-21', '123', 'NO', '2025-08-18', 0.00, 1, '123', 17, '2025-08-28', 'Selección abreviada', '123');
 
 -- --------------------------------------------------------
@@ -651,7 +670,13 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 (19, 'Comunicaciones'),
 (20, 'PQRS'),
 (21, 'Oficina de SISBEN'),
-(22, 'OFICINA ASESORIA JURIDICA Y ASUNTOS LEGALES');
+(22, 'OFICINA ASESORIA JURIDICA Y ASUNTOS LEGALES'),
+(23, 'Secretaría General'),
+(24, 'Tesorería'),
+(25, 'Planeación'),
+(26, 'Obras Públicas'),
+(27, 'Salud'),
+(28, 'Educación');
 
 -- --------------------------------------------------------
 
@@ -1879,7 +1904,19 @@ INSERT INTO `tbl_tipos_peticion` (`id_tipo`, `nombre`, `descripcion`, `dias_habi
 (3, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 02:11:49'),
 (4, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 02:11:49'),
 (5, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 02:11:49'),
-(6, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 02:11:49');
+(6, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 02:11:49'),
+(7, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 03:26:25'),
+(8, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 03:26:25'),
+(9, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 03:26:25'),
+(10, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 03:26:25'),
+(11, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 03:26:25'),
+(12, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 03:26:25'),
+(13, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 03:26:56'),
+(14, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 03:26:56'),
+(15, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 03:26:56'),
+(16, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 03:26:56'),
+(17, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 03:26:56'),
+(18, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 03:26:56');
 
 -- --------------------------------------------------------
 
@@ -1994,7 +2031,8 @@ INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgp
 (26, 'Yuleima Aguilar', 'yuleimaaguilarlima@gmail.com', '24b9219619f4c73eb7dd95e7f4f29a9e97feaae912de00c78c876c51b1360c76', 'sin-imagen.png', 2, 1, 1),
 (27, 'Oscar Ivan Rojas', 'seguridadinformaticalajagua@gmail.com', '0128df21ed2cff855783da81cde5ec7ddf580d16d2fb44ab57199bb2f4920180', 'sin-imagen.png', 5, 1, 1),
 (28, 'Ing. Carlos Lopez', 'carloslxpxz@gmail.com', 'ee89131cb45aba511f7a06452717caabce0438b5d654e73a5ad15e58ea4cf717', 'sin-imagen.png', 5, 1, 1),
-(29, 'Sebastian Cardenas', 'sbt.cardenas.g@gmail.com', '33118bf33ad867c1e6dd2677584a15be9d7719d3085159818af590f8d97572e8', 'perfil_29.jpg', 5, 1, 1);
+(29, 'Sebastian Cardenas', 'sbt.cardenas.g@gmail.com', '33118bf33ad867c1e6dd2677584a15be9d7719d3085159818af590f8d97572e8', 'perfil_29.jpg', 5, 1, 1),
+(30, 'Juridica', 'juridica@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 13, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2104,7 +2142,7 @@ CREATE TABLE `tbl_viaticos` (
 --
 
 INSERT INTO `tbl_viaticos` (`idViatico`, `funci_fk`, `cargo`, `dependencia`, `motivo_gasto`, `lugar_comision_departamento`, `lugar_comision_ciudad`, `finalidad_comision`, `descripcion`, `valor_viatico`, `fecha_aprobacion`, `fecha_salida`, `fecha_regreso`, `n_dias`, `valor_dia`, `valor_transporte`, `total_liquidado`, `tipo_transporte`, `estatus`, `fecha_creacion`) VALUES
-(10, 91, 'Secretario de Despacho', 'Secretaría de Salud', 'CAPACITACION', 'Cesar', 'Valledupar', 'CAPACITACION SOBRE LA', 'CAPACITACION SOBRE LA', 180000.00, '2025-08-13', '2025-08-19', '2025-08-19', 1, 180000.00, 70000.00, 250000.00, 'Interno', 1, '2025-08-14 21:48:06');
+(10, 91, 'Secretario de Despacho', 'Secretaría de Salud', 'CAPACITACION', 'Cesar', 'Valledupar', 'CAPACITACION SOBRE LA  ', 'CAPACITACION SOBRE LA', 180000.00, '2025-08-13', '2025-08-19', '2025-08-19', 1, 180000.00, 70000.00, 250000.00, 'Interno', 1, '2025-08-14 21:48:06');
 
 -- --------------------------------------------------------
 
@@ -2493,7 +2531,7 @@ ALTER TABLE `modulo`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1340;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1358;
 
 --
 -- AUTO_INCREMENT de la tabla `prorrogas_contrato`
@@ -2511,7 +2549,7 @@ ALTER TABLE `publicaciones`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `seguimiento_contrato`
@@ -2547,13 +2585,13 @@ ALTER TABLE `tbl_contratos_practicantes`
 -- AUTO_INCREMENT de la tabla `tbl_dependencia`
 --
 ALTER TABLE `tbl_dependencia`
-  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_dias_festivos`
 --
 ALTER TABLE `tbl_dias_festivos`
-  MODIFY `id_festivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_festivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_equipos_movimientos`
@@ -2643,7 +2681,7 @@ ALTER TABLE `tbl_permisos`
 -- AUTO_INCREMENT de la tabla `tbl_peticiones`
 --
 ALTER TABLE `tbl_peticiones`
-  MODIFY `id_peticion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_peticion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_peticiones_historial`
@@ -2691,7 +2729,7 @@ ALTER TABLE `tbl_tintas_toner`
 -- AUTO_INCREMENT de la tabla `tbl_tipos_peticion`
 --
 ALTER TABLE `tbl_tipos_peticion`
-  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_todo_en_uno`
@@ -2703,7 +2741,7 @@ ALTER TABLE `tbl_todo_en_uno`
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
 --
 ALTER TABLE `tbl_usuarios`
-  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios_roles`
