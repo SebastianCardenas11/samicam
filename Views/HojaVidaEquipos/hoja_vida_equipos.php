@@ -29,7 +29,7 @@ getModal('modalMantenimiento', $data);
                             <button class="btn btn-primary" type="button" onclick="fntNuevoMantenimiento()">
                                 <i class="fas fa-tools"></i> Nuevo Mantenimiento
                             </button>
-                            <button class="btn btn-warning" type="button" onclick="fntPdfMantenimientos()">
+                            <button class="btn btn-warning" type="button" oncliNck="fntPdfMantenimientos()">
                                 <i class="fas fa-wrench"></i> PDF Mantenimientos
                             </button>
                             <button class="btn btn-success" type="button" onclick="fntPdfTodos()">

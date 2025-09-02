@@ -14,7 +14,7 @@ function initializeTable() {
         "aProcessing": true,
         "aServerSide": false,
         "language": {
-            "url": base_url + "/Assets/plugins/datatables/Spanish.json"
+            "url": base_url + "/es.json"
         },
         "ajax": {
             "url": base_url + "/Permisos/getPermisos",

@@ -1,13 +1,13 @@
 <?php
 
-class Errors extends Controllers
+class Error extends Controllers
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function notFound()
+    public function error()
     {
         $data['page_tag'] = NOMBRE_EMPESA;
         $data['page_title'] = NOMBRE_EMPESA . " - Error 404";
@@ -19,5 +19,5 @@ class Errors extends Controllers
     }
 }
 
-$notFound = new Errors();
-$notFound->notFound();
+$notFound = new Error();
+$notFound->error();

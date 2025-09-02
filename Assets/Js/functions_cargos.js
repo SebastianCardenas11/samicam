@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "aProcessing":true,
         "aServerSide":true,
         "language": {
-            "url": "./es.json"
+            "url": base_url + "/es.json"
         },
         "ajax":{
             "url": " "+base_url+"/Cargos/getCargos",

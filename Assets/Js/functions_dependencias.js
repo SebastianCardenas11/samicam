@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { "data": "options", "className": "text-center", "orderable": false }
         ],
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            "url": base_url + "/es.json"
         },
         "responsive": true,
         "destroy": true,
