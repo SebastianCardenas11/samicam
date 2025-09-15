@@ -1000,3 +1000,11 @@
 [2025-08-07 21:45:45] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Seguimiento de Contratos
 [2025-08-07 21:51:42] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
 [2025-08-07 22:13:21] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-09-15 15:42:26] ID: 31 | Usuario: 1 | Correo: 1 | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-15 15:42:26] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-09-15 15:44:30] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Inventario
+[2025-09-15 15:44:47] ID: 31 | Usuario: 1 | Correo: 1 | Rol: Superadministrador | IP: ::1 | Acción: Cierre de sesión
+[2025-09-15 15:45:38] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-15 15:45:38] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-09-15 15:45:42] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
+[2025-09-15 15:45:43] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dependencias
