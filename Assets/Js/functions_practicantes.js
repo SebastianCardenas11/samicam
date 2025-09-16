@@ -9,7 +9,7 @@ document.addEventListener(
       "aProcessing": true,
       "aServerSide": true,
       "language": {
-        "url": base_url + "/Assets/js/es.json"
+        "url": base_url + "/es.json"
       },
       "ajax": {
         "url": " " + base_url + "/Practicantes/getPracticantes",
@@ -19,7 +19,18 @@ document.addEventListener(
         { "data": "nombre_completo" },
         { "data": "numero_identificacion" },
         { "data": "arl" },
-        { "data": "eps" },
+        { 
+          "data": "eps",
+          "render": function(data) {
+            const epsNames = {
+              '1': 'Nueva EPS', '2': 'Asmet salud', '3': 'Fomag', '4': 'Cajacopi EPS',
+              '5': 'Eps suramericana S.A', '6': 'Salud Total EPS', '7': 'Coomeva Eps',
+              '8': 'Sanitas EPS', '9': 'Coosalud EPS', '10': 'Sura EPS',
+              '11': 'Aliansalud EPS', '12': 'Mutual SER EPS', '13': 'Salud Mía EPS'
+            };
+            return epsNames[data] || data;
+          }
+        },
         { "data": "edad" },
         { "data": "sexo" },
         { "data": "dependencia" },
@@ -182,7 +193,14 @@ function fntViewInfo(idepracticante) {
         document.querySelector("#viewNombre").innerHTML = objPracticante.nombre_completo;
         document.querySelector("#viewIdentificacion").innerHTML = objPracticante.numero_identificacion;
         document.querySelector("#viewArl").innerHTML = objPracticante.arl;
-        document.querySelector("#viewEps").innerHTML = objPracticante.eps;
+        // Mapear número de EPS a nombre
+        const epsNames = {
+          '1': 'Nueva EPS', '2': 'Asmet salud', '3': 'Fomag', '4': 'Cajacopi EPS',
+          '5': 'Eps suramericana S.A', '6': 'Salud Total EPS', '7': 'Coomeva Eps',
+          '8': 'Sanitas EPS', '9': 'Coosalud EPS', '10': 'Sura EPS',
+          '11': 'Aliansalud EPS', '12': 'Mutual SER EPS', '13': 'Salud Mía EPS'
+        };
+        document.querySelector("#viewEps").innerHTML = epsNames[objPracticante.eps] || objPracticante.eps;
         document.querySelector("#viewEdad").innerHTML = objPracticante.edad;
         document.querySelector("#viewSexo").innerHTML = objPracticante.sexo;
         document.querySelector("#viewCorreo").innerHTML = objPracticante.correo_electronico;

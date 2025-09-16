@@ -1,10 +1,11 @@
-/**
- * Archivo auxiliar para registrar accesos a módulos en la auditoría
- * Este archivo debe ser incluido en el footer_admin.php
- */
+
 
 // Función para registrar acceso al módulo en auditoría
 function registrarAccesoModulo(modulo) {
+  // Evita registrar si el módulo es nulo o vacío
+  if (!modulo) {
+    return;
+  }
   let request = window.XMLHttpRequest
     ? new XMLHttpRequest()
     : new ActiveXObject("Microsoft.XMLHTTP");
@@ -15,65 +16,67 @@ function registrarAccesoModulo(modulo) {
   request.send(formData);
 }
 
+// Mapeo de URLs a nombres de módulos para la auditoría
+const moduleMap = {
+  "/dashboard": "Dashboard",
+  "/usuarios": "Usuarios",
+  "/roles": "Roles",
+  "/funcionariosops": "Funcionarios Ops",
+  "/funcionariosplanta": "Funcionarios Planta",
+  "/vacaciones": "Vacaciones",
+  "/funcionariosviaticos": "Viáticos",
+  "/archivos": "Archivos",
+  "/categoriasarchivos": "Categorías de Archivos",
+  "/practicantes": "Practicantes",
+  "/tareas": "Tareas",
+  "/publicaciones": "Publicaciones",
+  "/dependencias": "Dependencias",
+  "/seguimientoContrato": "Seguimiento de Contratos",
+  "/inventario": "Inventario",
+  "/whatsapp": "Registros WhatsApp",
+  "/psi": "PSI",
+  "/hojavidaequipos": "Hoja de Vida Equipos",
+  "/cargos": "Cargos",
+  "/ajustes": "Ajustes de Perfil",
+  "/auditoria": "Auditoría",
+  "/motivopermiso": "Motivos de Permiso",
+  "/permisos": "Permisos",
+  "/peticiones": "Peticiones"
+};
+
+// Función para obtener el nombre del módulo desde la URL
+function getModuleFromUrl(url) {
+  for (const path in moduleMap) {
+    if (url.includes(path)) {
+      return moduleMap[path];
+    }
+  }
+  return null; // Retorna null si no hay coincidencia
+}
+
 // Detectar la página actual y registrar el acceso correspondiente
 document.addEventListener("DOMContentLoaded", function () {
-  // Obtener la URL actual
+  // 1. Registrar acceso en la carga inicial de la página
   const currentUrl = window.location.href;
-
-  // Registrar acceso según la URL
-  if (currentUrl.includes("/cargos")) {
-    registrarAccesoModulo("Cargos");
-  } else if (currentUrl.includes("/vacaciones")) {
-    registrarAccesoModulo("Vacaciones");
-  } else if (currentUrl.includes("/funcionariosviaticos")) {
-    registrarAccesoModulo("Viáticos");
-  } else if (currentUrl.includes("/tareas")) {
-    registrarAccesoModulo("Tareas");
-  } else if (currentUrl.includes("/publicaciones")) {
-    registrarAccesoModulo("Publicaciones");
-  } else if (currentUrl.includes("/ajustes")) {
-    registrarAccesoModulo("Ajustes de Perfil");
-  } else if (currentUrl.includes("/dependencias")) {
-    registrarAccesoModulo("Dependencias");
-  } else if (currentUrl.includes("/seguimientoContrato")) {
-    registrarAccesoModulo("Seguimiento de Contratos");
-  } else if (currentUrl.includes("/whatsapp")) {
-    registrarAccesoModulo("WhatsApp");
-  } else if (currentUrl.includes("/practicantes")) {
-    registrarAccesoModulo("Practicantes");
+  const initialModule = getModuleFromUrl(currentUrl);
+  if (initialModule) {
+    registrarAccesoModulo(initialModule);
   }
 
-  // Registrar acceso cuando se hace clic en enlaces de navegación
-  const navLinks = document.querySelectorAll(
-    'a[href*="/cargos"], a[href*="/vacaciones"], a[href*="/viaticos"], a[href*="/archivos"], a[href*="/ajustes"], a[href*="/dependencias"]'
-  );
-  navLinks.forEach((link) => {
-    link.addEventListener("click", function (e) {
-      const href = this.getAttribute("href");
-
-      if (href.includes("/cargos")) {
-        registrarAccesoModulo("Cargos");
-      } else if (href.includes("/vacaciones")) {
-        registrarAccesoModulo("Vacaciones");
-      } else if (href.includes("/funcionariosviaticos")) {
-        registrarAccesoModulo("Viáticos");
-      } else if (href.includes("/tareas")) {
-        registrarAccesoModulo("Tareas");
-      } else if (href.includes("/publicaciones")) {
-        registrarAccesoModulo("Publicaciones");
-      } else if (href.includes("/archivos")) {
-        registrarAccesoModulo("Archivos");
-      } else if (href.includes("/ajustes")) {
-        registrarAccesoModulo("Ajustes de Perfil");
-      } else if (href.includes("/dependencias")) {
-        registrarAccesoModulo("Dependencias");
-      } else if (href.includes("/seguimientoContrato")) {
-        registrarAccesoModulo("Seguimiento de Contratos");
-      } else if (href.includes("/whatsapp")) {
-        registrarAccesoModulo("WhatsApp");
-      } else if (href.includes("/practicantes")) {
-        registrarAccesoModulo("Practicantes");
+  // 2. Registrar acceso cuando se hace clic en enlaces de navegación
+  // Se asume que los enlaces de navegación del módulo están dentro del contenedor principal de navegación
+  const navContainer = document.getElementById("sidenav-main");
+  if (navContainer) {
+    navContainer.addEventListener("click", function (e) {
+      // Asegurarse de que el clic fue en un enlace (<a>)
+      const link = e.target.closest("a");
+      if (link && link.href) {
+        const href = link.getAttribute("href");
+        const clickedModule = getModuleFromUrl(href);
+        if (clickedModule) {
+          registrarAccesoModulo(clickedModule);
+        }
       }
     });
-  });
+  }
 });

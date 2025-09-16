@@ -36,7 +36,7 @@ function fntMotivos(){
             }
         ],
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            "url": base_url + "/es.json"
         },
         "responsive": true
     });

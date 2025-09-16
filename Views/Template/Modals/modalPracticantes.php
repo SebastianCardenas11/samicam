@@ -63,19 +63,19 @@
                                                 <label for="txtEpsPracticante" class="form-label">EPS <b class="required text-danger">*</b></label>
                                                 <select class="form-select" id="txtEpsPracticante" name="txtEpsPracticante">
                                                     <option value="">Selecciona una opción</option>
-                                                    <option value="Nueva EPS">Nueva EPS</option>
-                                                    <option value="Asmet salud">Asmet salud</option>
-                                                    <option value="Fomag">Fomag</option>
-                                                    <option value="Cajacopi EPS">Cajacopi EPS</option>
-                                                    <option value="eps_suramericana">Eps suramericana S.A</option>
-                                                    <option value="Salud Total EPS">Salud Total EPS</option>
-                                                    <option value="Coomeva Eps">Coomeva Eps</option>
-                                                    <option value="Sanitas EPS">Sanitas EPS</option>
-                                                    <option value="Coosalud EPS">Coosalud EPS</option>
-                                                    <option value="Sura EPS">Sura EPS</option>
-                                                    <option value="Aliansalud EPS">Aliansalud EPS</option>
-                                                    <option value="Mutual SER EPS">Mutual SER EPS</option>
-                                                    <option value="Salud Mía EPS">Salud Mía EPS</option>
+                                                    <option value="1">Nueva EPS</option>
+                                                    <option value="2">Asmet salud</option>
+                                                    <option value="3">Fomag</option>
+                                                    <option value="4">Cajacopi EPS</option>
+                                                    <option value="5">Eps suramericana S.A</option>
+                                                    <option value="6">Salud Total EPS</option>
+                                                    <option value="7">Coomeva Eps</option>
+                                                    <option value="8">Sanitas EPS</option>
+                                                    <option value="9">Coosalud EPS</option>
+                                                    <option value="10">Sura EPS</option>
+                                                    <option value="11">Aliansalud EPS</option>
+                                                    <option value="12">Mutual SER EPS</option>
+                                                    <option value="13">Salud Mía EPS</option>
                                                 </select>
                                             </div>
 

@@ -77,12 +77,36 @@
 
                     <div class="row">
                         <div class="col-md-6">
+                            <label for="tipo_proceso">Tipo de Proceso</label>
+                            <select class="form-control" id="tipo_proceso" name="tipo_proceso" required>
+                                <option value="">Seleccionar tipo de proceso</option>
+                                <option value="Mínima cuantía">Mínima cuantía</option>
+                                <option value="Selección abreviada">Selección abreviada</option>
+                                <option value="Menor Cuantía">Menor Cuantía</option>
+                                <option value="Selección Abreviada por Subasta Inversa">Selección Abreviada por Subasta Inversa</option>
+                                <option value="Licitación Publica">Licitación Publica</option>
+                                <option value="Concurso de Merito Abierto">Concurso de Merito Abierto</option>
+                                <option value="Contratación Directa">Contratación Directa</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="proceso_contratacion">Proceso de Contratación</label>
+                            <input type="text" class="form-control" id="proceso_contratacion" name="proceso_contratacion" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <label for="dia_corte_informe">Día de Corte de Informe</label>
                             <input type="date" class="form-control" id="dia_corte_informe" name="dia_corte_informe" required>
                         </div>
                          <div class="col-md-6">
                             <label for="evidenciado_secop">Evidenciado en SECOP 2</label>
-                            <input type="text" class="form-control" id="evidenciado_secop" name="evidenciado_secop">
+                            <select class="form-control" id="evidenciado_secop" name="evidenciado_secop" required>
+                                <option value="">Seleccionar opción</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
                         </div>
                     </div>
 
@@ -189,6 +213,14 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <strong>Cantidad de Informes:</strong>
             <span id="celCantidadInformes"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Tipo de Proceso:</strong>
+            <span id="celTipoProceso"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Proceso de Contratación:</strong>
+            <span id="celProcesoContratacion"></span>
           </li>
         </ul>
       </div>

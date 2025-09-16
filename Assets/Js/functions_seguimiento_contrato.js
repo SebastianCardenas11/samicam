@@ -9,7 +9,20 @@ document.addEventListener('DOMContentLoaded', function(){
         "aProcessing": true,
         "aServerSide": true,
         "language": {
-            "url": "./es.json"
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            }
         },
         "ajax": {
             "url": " " + base_url + "/SeguimientoContrato/getContratos",
@@ -39,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function(){
             { "data": "liquidacion" },
             { "data": "tipo_informe" },
             { "data": "cantidad_informes" },
+            { "data": "tipo_proceso" },
+            { "data": "proceso_contratacion" },
             { "data": "estado" },
             { "data": "options" }
         ],
@@ -50,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 "titleAttr": "Exportar a Excel",
                 "className": "btn btn-success mt-3",
                 "exportOptions": {
-                    "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                    "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                     "format": {
                         "body": function(data, row, column, node) {
                             // Para la columna 3 (objeto_contrato), obtener el texto original
@@ -240,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function(){
         tableSeguimientoContrato.on('draw', function() {
             $('#tableSeguimientoContrato tbody tr').each(function() {
                 const $row = $(this);
-                const estadoHtml = $row.find('td:eq(13)').html();
+                const estadoHtml = $row.find('td:eq(15)').html();
                 if (estadoHtml && estadoHtml.includes('Liquidado')) {
                     // Oculta todos los botones excepto el de ver
                     $row.find('button, a').not('[title="Ver Contrato"]').hide();
@@ -256,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return $(this).find('button[onclick*="fntViewContrato(' + id + ')"]').length > 0;
         });
         if ($row.length) {
-            var estadoHtml = $row.find('td:eq(13)').html();
+            var estadoHtml = $row.find('td:eq(15)').html();
             if (estadoHtml && estadoHtml.includes('Liquidado') && window.idrol !== 1) {
                 // Oculta todos los botones del modal SOLO si NO es superadmin
                 $('#modalMoreOptions .modal-body button').hide();
@@ -286,7 +301,7 @@ function fntViewContrato(id) {
                             estadoHtml = '<span class="badge text-bg-warning">En ejecucion</span>';
                             break;
                         case 2:
-                            estadoHtml = '<span class="badge text-bg-danger">Finalizado</span>';
+                            estadoHtml = '<span class="badge text-bg-danger">Terminado</span>';
                             break;
                         case 3:
                             estadoHtml = '<span class="badge text-bg-info">Liquidado</span>';
@@ -315,6 +330,8 @@ function fntViewContrato(id) {
                     document.querySelector("#celFechaAprobacionEntidad").innerHTML = objData.data.fecha_aprobacion_entidad;
                     document.querySelector('#celTipoInforme').textContent = objData.data.tipo_informe || '-';
                     document.querySelector('#celCantidadInformes').textContent = objData.data.cantidad_informes || '-';
+                    document.querySelector('#celTipoProceso').textContent = objData.data.tipo_proceso || '-';
+                    document.querySelector('#celProcesoContratacion').textContent = objData.data.proceso_contratacion || '-';
                     $('#modalViewContrato').modal('show');
                 } else {
                     Swal.fire("Error", objData.msg, "error");
@@ -364,7 +381,7 @@ function fntEditContrato(element, id) {
                         if (typeof estadoValue === 'string') {
                             if (estadoValue.includes('En ejecucion')) {
                                 estadoValue = '1';
-                            } else if (estadoValue.includes('Finalizado')) {
+                            } else if (estadoValue.includes('Terminado')) {
                                 estadoValue = '2';
                             } else if (estadoValue.includes('Liquidado')) {
                                 estadoValue = '3';
@@ -376,6 +393,8 @@ function fntEditContrato(element, id) {
                     }
                     document.querySelector('#tipo_informe').value = objData.data.tipo_informe || 'acta parcial';
                     document.querySelector('#cantidad_informes').value = objData.data.cantidad_informes || 1;
+                    document.querySelector('#tipo_proceso').value = objData.data.tipo_proceso || '';
+                    document.querySelector('#proceso_contratacion').value = objData.data.proceso_contratacion || '';
                 }
             } catch (error) {
                 console.error('Error al cargar datos para editar:', error);
@@ -490,7 +509,7 @@ function cargarMetricas() {
 
                     animateCounter('totalContratos', totalContratos);
                     animateCounter('enProgreso', enProgreso);
-                    animateCounter('finalizados', finalizados);
+                    animateCounter('terminados', finalizados);
                     animateCounter('liquidados', liquidados);
 
                 } else {
@@ -1300,7 +1319,7 @@ function cargarDatosAnalisisValor(){
                     document.querySelector('#plazoPromedio').textContent = Math.round(plazoPromedio);
 
                     // Preparar datos para el gráfico
-                    let labels = ['En Ejecucion', 'Finalizado', 'Liquidado'];
+                    let labels = ['En Ejecucion', 'Terminado', 'Liquidado'];
                     let dataValues = [0, 0, 0];
 
                     objData.estado.forEach(item => {
@@ -1659,7 +1678,7 @@ function fntHistorialProrrogas(id) {
                         let nuevaFecha = formatearFecha(item.nueva_fecha);
                         let fechaRegistro = formatearFechaHora(item.fecha_registro);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${fechaAnterior}</td>
                             <td>${nuevaFecha}</td>
@@ -1697,7 +1716,7 @@ function cargarHistorialProrrogasGeneral() {
                         let nuevaFecha = formatearFecha(item.nueva_fecha);
                         let fechaRegistro = formatearFechaHora(item.fecha_registro);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.numero_contrato}</td>
                             <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
@@ -1892,7 +1911,7 @@ function cargarHistorialAdicionesGeneral() {
                     objData.data.forEach(function(item) {
                         let fecha = formatearFechaHora(item.fecha_adicion);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.numero_contrato}</td>
                             <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
@@ -1930,7 +1949,7 @@ function fntHistorialAdiciones(id) {
                     objData.data.forEach(function(item) {
                         let fecha = formatearFechaHora(item.fecha_adicion);
                         let motivo = item.motivo;
-                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/\"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
+                        let motivoHtml = motivo.length > 30 ? `<span title="${motivo.replace(/"/g, '&quot;')}">${motivo.substring(0, 30)}...</span>` : motivo;
                         html += `<tr>
                             <td>${item.dependencia ? item.dependencia : 'N/A'}</td>
                             <td>$${parseFloat(item.valor_adicion).toLocaleString('es-CO')}</td>
@@ -1949,7 +1968,15 @@ function fntHistorialAdiciones(id) {
     }
 }
 
-// ... existing code ...
+function openModal() {
+    document.querySelector('#idContrato').value = "";
+    document.querySelector('.modal-title').innerHTML = "Nuevo Contrato";
+    document.querySelector('#btnActionForm').innerHTML = '<i class="fas fa-save"></i> Guardar';
+    document.querySelector('#btnText').innerHTML = "Guardar";
+    document.querySelector("#formSeguimientoContrato").reset();
+    $('#modalFormSeguimientoContrato').modal('show');
+}
+
 function fntShowMoreOptions(id) {
     // Asignar el ID al input oculto
     document.getElementById('moreOptionsContratoId').value = id;
@@ -2006,7 +2033,7 @@ function fntCambiarEstadoContrato(id) {
         return $(this).find('button[onclick*="fntViewContrato(' + id + ')"]').length > 0;
     });
     if ($row.length) {
-        let estadoHtml = $row.find('td:eq(13)').html();
+        let estadoHtml = $row.find('td:eq(15)').html();
         if (estadoHtml) {
             if (estadoHtml.includes('Liquidado')) {
                 estadoActual = 3;
@@ -2033,7 +2060,7 @@ function fntCambiarEstadoContrato(id) {
                     <label for="nuevo_estado_contrato" class="form-label">Nuevo Estado</label>
                     <select class="form-control" id="nuevo_estado_contrato" name="nuevo_estado_contrato" required>
                       <option value="1">En ejecucion</option>
-                      <option value="2">Finalizado</option>
+                      <option value="2">Terminado</option>
                       <option value="3">Liquidado</option>
                     </select>
                   </div>

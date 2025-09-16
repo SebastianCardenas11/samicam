@@ -9,8 +9,6 @@ const IP_SERVER = "100.85.55.128:4443";
 const IP_LOCAL = "localhost";
 const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
 
-
-
 //Zona horaria
 date_default_timezone_set('America/Bogota');
 
@@ -20,7 +18,6 @@ const DB_NAME = "samicam";
 const DB_USER = "root";
 const DB_PASSWORD = "";
 const DB_CHARSET = "utf8";
-
 
 //Datos Empresa
 const DIRECCION = "La Jagua - Cesar, Colombia"; 
@@ -61,6 +58,7 @@ const MINVENTARIO = 15;
 const MWHATSAPP = 16;
 const MPSI = 17;
 const MHOJAVIDAEQUIPOS = 19;
+const MPETICIONES = 20;
 
 //Páginas           
 const PINICIO = 1;
