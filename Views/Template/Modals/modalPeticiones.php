@@ -26,8 +26,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="txtNombrePeticionario" class="form-label">Nombre del Peticionario <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="txtNombrePeticionario" name="txtNombrePeticionario" required>
+                                <label for="txtPeticionario" class="form-label">Nombre del Peticionario <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="txtPeticionario" name="txtPeticionario" required>
                             </div>
                         </div>
                     </div>
@@ -52,11 +52,18 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="txtDescripcionSolicitud" class="form-label">Descripción de la Solicitud <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="txtDescripcionSolicitud" name="txtDescripcionSolicitud" rows="4" required></textarea>
+                                <label for="txtDescripcion" class="form-label">Descripción de la Solicitud <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" required></textarea>
                             </div>
                         </div>
                     </div>
+                    <!-- Campos ocultos para compatibilidad -->
+                    <input type="hidden" id="txtAreasResponsables" name="txtAreasResponsables" value="">
+                    <input type="hidden" id="txtFechaRemision" name="txtFechaRemision" value="">
+                    <input type="hidden" id="txtConsecutivo" name="txtConsecutivo" value="">
+                    <input type="hidden" id="txtDiasVencer" name="txtDiasVencer" value="">
+                    <input type="hidden" id="txtVencimientoTotal" name="txtVencimientoTotal" value="">
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

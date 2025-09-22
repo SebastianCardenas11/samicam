@@ -62,44 +62,39 @@ class PeticionesModel extends Mysql
 
     // Crear nueva petición
     public function insertPeticion($numero_radicado, $fecha_ingreso, $nombre_peticionario, 
-                                  $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
-                                  $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
+                                  $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable,
                                   $observaciones, $usuario_creador)
     {
         $sql = "INSERT INTO tbl_peticiones (numero_radicado, fecha_ingreso, nombre_peticionario, 
-                descripcion_solicitud, id_tipo_peticion, areas_responsables, fecha_remision,
-                consecutivo, dias_vencer, fecha_vencimiento, observaciones, usuario_creador) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                descripcion_solicitud, id_tipo_peticion, dependencia_responsable, 
+                observaciones, usuario_creador) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         $arrData = [$numero_radicado, $fecha_ingreso, $nombre_peticionario, $descripcion_solicitud, 
-                   $id_tipo_peticion, $areas_responsables, $fecha_remision, $consecutivo, 
-                   $dias_vencer, $fecha_vencimiento, $observaciones, $usuario_creador];
+                   $id_tipo_peticion, $dependencia_responsable, $observaciones, $usuario_creador];
         
         return $this->insert($sql, $arrData);
     }
 
     // Actualizar petición
     public function updatePeticion($id_peticion, $numero_radicado, $fecha_ingreso, $nombre_peticionario, 
-                                  $descripcion_solicitud, $id_tipo_peticion, $areas_responsables,
-                                  $fecha_remision, $consecutivo, $dias_vencer, $fecha_vencimiento,
+                                  $descripcion_solicitud, $id_tipo_peticion, $dependencia_responsable,
                                   $observaciones, $usuario_responsable)
     {
         $sql = "UPDATE tbl_peticiones SET 
                 numero_radicado = ?, fecha_ingreso = ?, nombre_peticionario = ?, 
-                descripcion_solicitud = ?, id_tipo_peticion = ?, areas_responsables = ?,
-                fecha_remision = ?, consecutivo = ?, dias_vencer = ?, fecha_vencimiento = ?,
-                observaciones = ?
+                descripcion_solicitud = ?, id_tipo_peticion = ?, dependencia_responsable = ?,
+                observaciones = ?, usuario_responsable = ?
                 WHERE id_peticion = ?";
         
         $arrData = [$numero_radicado, $fecha_ingreso, $nombre_peticionario, $descripcion_solicitud, 
-                   $id_tipo_peticion, $areas_responsables, $fecha_remision, $consecutivo,
-                   $dias_vencer, $fecha_vencimiento, $observaciones, $id_peticion];
+                   $id_tipo_peticion, $dependencia_responsable, $observaciones, $usuario_responsable, $id_peticion];
         
         return $this->update($sql, $arrData);
     }
 
     // Responder petición
-    public function responderPeticion($id_peticion, $comentario_respuesta, $usuario_responsable, $archivo_respuesta = null)
+    public function responderPeticion($id_peticion, $comentario_respuesta, $archivo_respuesta, $usuario_responsable)
     {
         $fecha_respuesta = date('Y-m-d');
         

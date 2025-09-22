@@ -29,10 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const tabId = e.target.closest('.tab-pane').id;
             if (tabId === 'prestamos') {
                 openModalPsi('prestamo');
-            } else if (tabId === 'salidas') {
-                openModalPsi('salida');
-            } else if (tabId === 'ingresos') {
-                openModalPsi('ingreso');
             }
         }
     });
@@ -57,17 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = e.target;
         const formData = new FormData(form);
         
-        // Determinar el tipo de operación basado en qué campos están visibles
+        // Solo manejar préstamos
         let url = base_url + '/psi/setPrestamo';
         let tipoOperacion = 'prestamo';
-        
-        if (document.querySelector('[data-field="salida"]').style.display !== 'none') {
-            url = base_url + '/psi/setSalida';
-            tipoOperacion = 'salida';
-        } else if (document.querySelector('[data-field="ingreso"]').style.display !== 'none') {
-            url = base_url + '/psi/setIngreso';
-            tipoOperacion = 'ingreso';
-        }
 
         // Para préstamos, agregar datos de múltiples items
         if (tipoOperacion === 'prestamo') {
@@ -108,14 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.result) {
                 $('#modalPsi').modal('hide');
-                // Recargar la tabla correspondiente
-                if (tipoOperacion === 'prestamo') {
-                    tblPrestamos.ajax.reload();
-                } else if (tipoOperacion === 'salida') {
-                    tblSalidas.ajax.reload();
-                } else if (tipoOperacion === 'ingreso') {
-                    tblIngresos.ajax.reload();
-                }
+                // Recargar la tabla de préstamos
+                tblPrestamos.ajax.reload();
                 // Mostrar mensaje de éxito
                 Swal.fire({
                     icon: 'success',
@@ -144,14 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('modalPsi').addEventListener('hidden.bs.modal', function () {
         const form = document.getElementById('formPsi');
         form.reset();
-        // Ocultar todos los campos
-        document.querySelectorAll('[data-field]').forEach(el => {
-            el.style.display = 'none';
-        });
-        // Mostrar campos de préstamo por defecto
-        document.querySelectorAll('[data-field="prestamo"]').forEach(el => {
-            el.style.display = 'block';
-        });
     });
 });
 
@@ -320,183 +294,49 @@ function openModalPsi(tipo, id = null) {
     // Resetear formulario
     form.reset();
     
-    // Ocultar todos los campos primero
-    document.querySelectorAll('[data-field]').forEach(el => {
-        el.style.display = 'none';
-    });
+    // Solo manejar préstamos
+    modalTitle.textContent = 'Registro de Préstamo';
     
-    if (tipo === 'prestamo') {
-        modalTitle.textContent = 'Registro de Préstamo';
-        // Mostrar campos específicos de préstamo
-        document.querySelectorAll('[data-field="prestamo"]').forEach(el => {
-            el.style.display = 'block';
-        });
-        
-        document.getElementById('id_prestamos').value = '';
-        cargarFuncionariosPorTipo('planta');
-        document.querySelector('input[name="tipo_funcionario"][value="planta"]').checked = true;
-        
-        // Limpiar contenedor de items
-        document.getElementById('items_container').innerHTML = '';
-        
-        // Ocultar tab de inventario inicialmente
-        document.getElementById('inventario_tab_prestamo').style.display = 'none';
-        
-        // Manejar campos required para evitar errores de validación
-        document.querySelectorAll('#formPsi [required]').forEach(input => {
-            const parentDataField = input.closest('[data-field]');
-            if (parentDataField && parentDataField.style.display === 'none') {
-                input.disabled = true;
-            } else {
-                input.disabled = false;
-            }
-        });
-        
-        if (id) {
-            fetch(base_url + '/psi/getPrestamo/' + id)
-                .then(res => res.json())
-                .then(data => {
-                    for (let key in data) {
-                        const element = document.getElementsByName(key)[0];
-                        if (element) {
-                            element.value = data[key];
-                        }
+    document.getElementById('id_prestamos').value = '';
+    cargarFuncionariosPorTipo('planta');
+    document.getElementById('tipo_planta').checked = true;
+    
+    // Limpiar contenedor de items
+    const itemsContainer = document.getElementById('items_container');
+    itemsContainer.innerHTML = '';
+    
+    // Mostrar tab de inventario por defecto
+    document.getElementById('inventario_tab_prestamo').style.display = 'block';
+    
+    // Cargar datos del inventario y generar formulario para 1 item
+    cargarDatosInventarioDisponibles();
+    generarFormulariosItems(1);
+    
+    if (id) {
+        fetch(base_url + '/psi/getPrestamo/' + id)
+            .then(res => res.json())
+            .then(data => {
+                for (let key in data) {
+                    const element = document.getElementsByName(key)[0];
+                    if (element) {
+                        element.value = data[key];
                     }
-                    if(document.getElementById('id_prestamos')){
-                        document.getElementById('id_prestamos').value = data.id_prestamos;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error cargando préstamo:', error);
-                });
-        }
-    } else if (tipo === 'salida') {
-        modalTitle.textContent = 'Registro de Salida';
-        // Mostrar campos específicos de salida
-        document.querySelectorAll('[data-field="salida"]').forEach(el => {
-            el.style.display = 'block';
-        });
-        
-        document.getElementById('id_salida').value = '';
-        
-        // Manejar campos required para evitar errores de validación
-        document.querySelectorAll('#formPsi [required]').forEach(input => {
-            const parentDataField = input.closest('[data-field]');
-            if (parentDataField && parentDataField.style.display === 'none') {
-                input.disabled = true;
-            } else {
-                input.disabled = false;
-            }
-        });
-        
-        if (id) {
-            fetch(base_url + '/psi/getSalida/' + id)
-                .then(res => res.json())
-                .then(data => {
-                    // Mapear los campos de la base de datos a los campos del formulario
-                    const fieldMapping = {
-                        'fecha': 'fecha_salida',
-                        'item': 'item_salida',
-                        'tipo_dispositivo': 'tipo_dispositivo_salida',
-                        'descripcion_dispositivo': 'descripcion_dispositivo_salida',
-                        'marca': 'marca_salida',
-                        'modelo': 'modelo_salida',
-                        'numero_activo': 'numero_activo_salida',
-                        'serial': 'serial_salida',
-                        'dependencia': 'dependencia_salida',
-                        'observaciones': 'observaciones_salida'
-                    };
-                    
-                    for (let key in data) {
-                        const formFieldName = fieldMapping[key];
-                        if (formFieldName) {
-                            const element = document.getElementsByName(formFieldName)[0];
-                            if (element) {
-                                element.value = data[key];
-                            }
-                        }
-                    }
-                    if(document.getElementById('id_salida')){
-                        document.getElementById('id_salida').value = data.id_salida;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error cargando salida:', error);
-                });
-        }
-    } else if (tipo === 'ingreso') {
-        modalTitle.textContent = 'Registro de Ingreso';
-        // Mostrar campos específicos de ingreso
-        document.querySelectorAll('[data-field="ingreso"]').forEach(el => {
-            el.style.display = 'block';
-        });
-        
-        document.getElementById('id_ingreso').value = '';
-        
-        // Manejar campos required para evitar errores de validación
-        document.querySelectorAll('#formPsi [required]').forEach(input => {
-            const parentDataField = input.closest('[data-field]');
-            if (parentDataField && parentDataField.style.display === 'none') {
-                input.disabled = true;
-            } else {
-                input.disabled = false;
-            }
-        });
-        
-        if (id) {
-            fetch(base_url + '/psi/getIngreso/' + id)
-                .then(res => res.json())
-                .then(data => {
-                    // Mapear los campos de la base de datos a los campos del formulario
-                    const fieldMapping = {
-                        'fecha': 'fecha_ingreso',
-                        'item': 'item_ingreso',
-                        'tipo_dispositivo': 'tipo_dispositivo_ingreso',
-                        'descripcion_dispositivo': 'descripcion_dispositivo_ingreso',
-                        'marca': 'marca_ingreso',
-                        'modelo': 'modelo_ingreso',
-                        'numero_activo': 'numero_activo_ingreso',
-                        'serial': 'serial_ingreso',
-                        'dependencia': 'dependencia_ingreso',
-                        'observaciones': 'observaciones_ingreso'
-                    };
-                    
-                    for (let key in data) {
-                        const formFieldName = fieldMapping[key];
-                        if (formFieldName) {
-                            const element = document.getElementsByName(formFieldName)[0];
-                            if (element) {
-                                element.value = data[key];
-                            }
-                        }
-                    }
-                    if(document.getElementById('id_ingreso')){
-                        document.getElementById('id_ingreso').value = data.id_ingreso;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error cargando ingreso:', error);
-                });
-        }
+                }
+                if(document.getElementById('id_prestamos')){
+                    document.getElementById('id_prestamos').value = data.id_prestamos;
+                }
+            })
+            .catch(error => {
+                console.error('Error cargando préstamo:', error);
+            });
     }
     
     $('#modalPsi').modal('show');
     
     // Event listener para cuando se cierre el modal
     $('#modalPsi').on('hidden.bs.modal', function () {
-        // Habilitar todos los campos required al cerrar el modal
-        document.querySelectorAll('#formPsi [required]').forEach(input => {
-            input.disabled = false;
-        });
-        
-        // Resetear formulario y mostrar campos de préstamo por defecto
+        // Resetear formulario
         form.reset();
-        document.querySelectorAll('[data-field]').forEach(el => {
-            el.style.display = 'none';
-        });
-        document.querySelectorAll('[data-field="prestamo"]').forEach(el => {
-            el.style.display = 'block';
-        });
     });
 }
 
@@ -611,8 +451,9 @@ function toggleInventarioTab(tipo) {
 function toggleInventarioTabPrestamo() {
     const cantidadItems = document.getElementById('cantidad_items').value;
     const inventarioTab = document.getElementById('inventario_tab_prestamo');
+    const itemsContainer = document.getElementById('items_container');
     
-    if (cantidadItems > 0) {
+    if (cantidadItems >= 1) {
         inventarioTab.style.display = 'block';
         // Cargar datos del inventario solo disponibles
         cargarDatosInventarioDisponibles();
@@ -620,7 +461,7 @@ function toggleInventarioTabPrestamo() {
         generarFormulariosItems(cantidadItems);
     } else {
         inventarioTab.style.display = 'none';
-        document.getElementById('items_container').innerHTML = '';
+        itemsContainer.innerHTML = '';
     }
 }
 
@@ -756,48 +597,59 @@ function cargarTablaInventarioDisponibles(categoria, tipo) {
 // Función para generar formularios dinámicos de items
 function generarFormulariosItems(cantidad) {
     const container = document.getElementById('items_container');
-    container.innerHTML = '';
+    container.innerHTML = '<h6 class="border-bottom pb-2 mb-3">Items Seleccionados</h6>';
     
     for (let i = 0; i < cantidad; i++) {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'row mb-3 item-form';
+        itemDiv.className = 'row mb-3 p-3 border rounded';
         itemDiv.innerHTML = `
-            <div class="col-12">
-                <h6 class="border-bottom pb-2">Item ${i + 1}</h6>
+            <div class="col-12 mb-2">
+                <h6 class="text-primary">Item ${i + 1}</h6>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Item</label>
-                <input type="text" class="form-control" name="item_${i}" id="item_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Item</label>
+                    <input type="text" class="form-control" name="item_${i}" id="item_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Dispositivo</label>
-                <input type="text" class="form-control" name="dispositivo_${i}" id="dispositivo_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Dispositivo</label>
+                    <input type="text" class="form-control" name="dispositivo_${i}" id="dispositivo_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Marca/Modelo</label>
-                <input type="text" class="form-control" name="marca_modelo_${i}" id="marca_modelo_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Marca/Modelo</label>
+                    <input type="text" class="form-control" name="marca_modelo_${i}" id="marca_modelo_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Activo</label>
-                <input type="text" class="form-control" name="activo_${i}" id="activo_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Activo</label>
+                    <input type="text" class="form-control" name="activo_${i}" id="activo_${i}" required>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Serial</label>
-                <input type="text" class="form-control" name="serial_${i}" id="serial_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Serial</label>
+                    <input type="text" class="form-control" name="serial_${i}" id="serial_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Estado</label>
-                <input type="text" class="form-control" name="estado_${i}" id="estado_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Estado</label>
+                    <input type="text" class="form-control" name="estado_${i}" id="estado_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>MAC</label>
-                <input type="text" class="form-control" name="mac_${i}" id="mac_${i}" readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>MAC</label>
+                    <input type="text" class="form-control" name="mac_${i}" id="mac_${i}">
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>ID del Equipo</label>
-                <input type="hidden" name="equipo_id_${i}" id="equipo_id_${i}">
-                <input type="hidden" name="equipo_tipo_${i}" id="equipo_tipo_${i}">
-            </div>
+            <input type="hidden" name="equipo_id_${i}" id="equipo_id_${i}">
+            <input type="hidden" name="equipo_tipo_${i}" id="equipo_tipo_${i}">
         `;
         container.appendChild(itemDiv);
     }
