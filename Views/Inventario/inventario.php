@@ -363,6 +363,8 @@
                                                                     <th>Serial</th>
                                                                     <th>Sistema Operativo</th>
                                                                     <th>N° Activo</th>
+                                                                    <th>Teclado</th>
+                                                                    <th>Mouse</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
                                                                     <th>Acciones</th>

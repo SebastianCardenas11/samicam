@@ -412,6 +412,8 @@ function initDataTables() {
             { "data": "serial" },
             { "data": "sistema_operativo" },
             { "data": "numero_activo" },
+            { "data": "teclado" },
+            { "data": "mouse" },
             { 
                 "data": "estado",
                 "render": function(data, type, row) {
@@ -1625,6 +1627,10 @@ function editTodoEnUno(idTodoEnUno) {
                 $('#txtSerialTodoEnUno').val(data.serial);
                 $('#txtSistemaOperativoTodoEnUno').val(data.sistema_operativo);
                 $('#txtNumeroActivoTodoEnUno').val(data.numero_activo);
+                $('#txtTecladoTodoEnUno').val(data.teclado);
+                $('#txtSerialTecladoTodoEnUno').val(data.serial_teclado);
+                $('#txtMouseTodoEnUno').val(data.mouse);
+                $('#txtSerialMouseTodoEnUno').val(data.serial_mouse);
                 $('#txtEstadoTodoEnUno').val(data.estado);
                 $('#txtDisponibilidadTodoEnUno').val(data.disponibilidad);
                 $('#modalInventario').modal('show');
@@ -2011,6 +2017,10 @@ function verTodoEnUno(idTodoEnUno) {
                     { label: 'Procesador', value: d.procesador },
                     { label: 'Disco Duro', value: d.disco_duro },
                     { label: 'Capacidad', value: d.capacidad },
+                    { label: 'Teclado', value: d.teclado || 'N/A' },
+                    { label: 'Serial Teclado', value: d.serial_teclado || 'N/A' },
+                    { label: 'Mouse', value: d.mouse || 'N/A' },
+                    { label: 'Serial Mouse', value: d.serial_mouse || 'N/A' },
                     { label: 'Estado', value: badgeEstado(d.estado) },
                     { label: 'Disponibilidad', value: badgeDisponibilidad(d.disponibilidad) }
                 ];

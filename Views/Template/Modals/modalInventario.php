@@ -461,6 +461,32 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txtTecladoTodoEnUno">Teclado</label>
+                                <input type="text" class="form-control" id="txtTecladoTodoEnUno" name="txtTecladoTodoEnUno" placeholder="Marca/modelo">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txtSerialTecladoTodoEnUno">Serial Teclado</label>
+                                <input type="text" class="form-control" id="txtSerialTecladoTodoEnUno" name="txtSerialTecladoTodoEnUno">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txtMouseTodoEnUno">Mouse</label>
+                                <input type="text" class="form-control" id="txtMouseTodoEnUno" name="txtMouseTodoEnUno" placeholder="Marca/modelo">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txtSerialMouseTodoEnUno">Serial Mouse</label>
+                                <input type="text" class="form-control" id="txtSerialMouseTodoEnUno" name="txtSerialMouseTodoEnUno">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="txtEstadoTodoEnUno">Estado *</label>

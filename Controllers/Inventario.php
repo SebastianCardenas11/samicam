@@ -690,6 +690,10 @@ class Inventario extends Controllers
                     $serial = strClean($_POST['txtSerialTodoEnUno']);
                     $sistema_operativo = strClean($_POST['txtSistemaOperativoTodoEnUno']);
                     $numero_activo = strClean($_POST['txtNumeroActivoTodoEnUno']);
+                    $teclado = strClean($_POST['txtTecladoTodoEnUno']);
+                    $serial_teclado = strClean($_POST['txtSerialTecladoTodoEnUno']);
+                    $mouse = strClean($_POST['txtMouseTodoEnUno']);
+                    $serial_mouse = strClean($_POST['txtSerialMouseTodoEnUno']);
                     $estado = strClean($_POST['txtEstadoTodoEnUno']);
                     $disponibilidad = strClean($_POST['txtDisponibilidadTodoEnUno']);
                     $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
@@ -709,7 +713,7 @@ class Inventario extends Controllers
                     if ($intIdTodoEnUno == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nuevo PC Todo en Uno...');
-                            $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+                            $request = $this->model->insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 1;
                             error_log('Resultado insert: ' . print_r($request, true));
                         } else {
@@ -718,7 +722,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando PC Todo en Uno ID: ' . $intIdTodoEnUno);
-                            $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+                            $request = $this->model->updateTodoEnUno($intIdTodoEnUno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {

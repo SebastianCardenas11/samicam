@@ -313,10 +313,10 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
-        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, teclado, serial_teclado, mouse, serial_mouse, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja);
         try {
             $request_insert = $this->insert($query_insert, $arrData);
             return $request_insert;
@@ -325,10 +325,10 @@ class InventarioModel extends Mysql
         }
     }
 
-    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
     {
-        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_todo_en_uno=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_todo_en_uno);
+        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, teclado=?, serial_teclado=?, mouse=?, serial_mouse=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_todo_en_uno=?";
+        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_todo_en_uno);
         $request = $this->update($sql, $arrData);
         return $request;
     }

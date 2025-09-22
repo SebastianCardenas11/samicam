@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 02-09-2025 a las 05:27:44
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 18-09-2025 a las 17:02:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -291,25 +291,7 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`, `v
 (1336, 2, 18, 0, 0, 0, 0, 1),
 (1337, 1, 19, 1, 1, 1, 1, 1),
 (1338, 5, 19, 1, 1, 1, 1, 1),
-(1339, 1, 20, 1, 1, 1, 1, 1),
-(1340, 13, 1, 0, 0, 0, 0, 1),
-(1341, 13, 2, 0, 0, 0, 0, 1),
-(1342, 13, 3, 0, 0, 0, 0, 1),
-(1343, 13, 4, 0, 0, 0, 0, 1),
-(1344, 13, 5, 0, 0, 0, 0, 1),
-(1345, 13, 6, 0, 0, 0, 0, 1),
-(1346, 13, 7, 0, 0, 0, 0, 1),
-(1347, 13, 8, 0, 0, 0, 0, 1),
-(1348, 13, 10, 0, 0, 0, 0, 1),
-(1349, 13, 11, 0, 0, 0, 0, 1),
-(1350, 13, 12, 0, 0, 0, 0, 1),
-(1351, 13, 13, 0, 0, 0, 0, 1),
-(1352, 13, 14, 0, 0, 0, 0, 1),
-(1353, 13, 15, 0, 0, 0, 0, 1),
-(1354, 13, 16, 0, 0, 0, 0, 1),
-(1355, 13, 18, 0, 0, 0, 0, 1),
-(1356, 13, 19, 0, 0, 0, 0, 1),
-(1357, 13, 20, 1, 1, 1, 1, 1);
+(1339, 1, 20, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -423,7 +405,7 @@ INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_reci
 (80, 'Servicios que presta la oficina del Sisben IV Municipal', '2025-07-11', 'sisben@lajaguadeibirico-cesar.gov.co', 'información solicitada para publicación', '2025-07-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/sisben-651780/servicios-que-presta-la-oficina-del-sisben-iv-municipal', 21, 1),
 (81, 'RESOLUCION GGE-00504 del 27 de junio de 2025', '2025-07-09', 'secretariadelamujer@lajaguadeibirico-cesar.gov.co', 'RESOLUCION PARA PUBLICAR', '2025-07-09', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-gge00504-del-27-de-junio-de-2025', 12, 1),
 (82, 'CONTRATOS', '2025-07-14', 'lajaguasigep20@gmail.com', 'CONTRATOS RENDIDOS EN EL MES DE JUNIO DE 2025', '2025-07-14', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
-(83, 'DECRETO GGE-00094 DEL 15 DE JULIO DE 2025', '2025-07-15', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'DECRETO GGE-00094 DEL 15 DE JULIO DE 2025', '2025-07-15', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-gge00094-del-15-de-julio-de-2025', 3, 1),
+(83, 'DECRETO GGE-00094 DEL 15 DE JULIO DE 2025', '2025-07-15', 'gobierno@lajaguadeibirico-cesar.gov.co', 'DECRETO GGE-00094 DEL 15 DE JULIO DE 2025', '2025-07-15', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-gge00094-del-15-de-julio-de-2025', 3, 1),
 (84, 'INFORME CONSOLIDADO DE PQRS Y PQRD - PRIMER SEMESTRE 2025', '2025-07-25', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe consoplidado de PQR', '2025-07-25', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-consolidado-de-pqrs-y-pqrd-primer-semestre-2025', 14, 1),
 (85, 'Política de Administración de Riesgo', '2025-08-04', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Polita de Riesgo Actualizada 2025', '2025-08-04', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/politica-de-administracion-de-riesgo', 14, 1),
 (86, 'INFORME DE AUDITORIA DE CONTROL INTERNO DE GESTIÓN REALIZADA A LA OFICINA DE TALENTO HUMANO DEL CENTRO ADMINISTRATIVO MUNICIPAL DE LA JAGUA DE IBIRICO', '2025-08-04', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe de la Auditoría Interna de Carrera Administrativa de la Alcaldía de La Jagua de Ibirico, Cesar, vigencia 2025.', '2025-08-04', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-de-auditoria-de-control-interno-de-gestion-realizada-346652', 14, 1),
@@ -432,14 +414,22 @@ INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_reci
 (89, 'EDICTO EMPLAZATORIO.', '2025-08-08', 'planeacion@lajaguadeibirico-cesar.gov.co', 'SOLICITUD DE PUBLICACION DEDE EDICTO EMPLAZATORIO EN LA PAGINA WEB INSTITUCIONAL', '2025-08-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/edicto-emplazatorio-129861', 9, 1),
 (90, 'CONTRATOS', '2025-08-11', 'contratacion@lajaguadeibirico-cesar.gov.co', 'CONTRATOS RENDIDOS MES DE JULIO', '2025-08-11', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
 (91, 'Plan de Mejoramiento Institucional 2025', '2025-08-13', 'loraine.mipg2024@gmail.com', 'Plan de Mejoramiento MIPG', '2025-08-13', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/plan-de-mejoramiento-institucional-2025', 9, 1),
-(92, 'DECRETO 00113 15 de agosto POR MEDIO DEL CUAL SE DISPONEN MEDIDAS PARA LA CONSERVACIÓN DEL ORDEN PÚBLICO PARA EL XVII ENCUENTRO DE TAMBORA Y FIESTA', '2025-08-15', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'DECRETO 00113 DE 2025', '2025-08-15', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00113-15-de-agosto-por-medio-del-cual-se-disponen', 3, 1),
+(92, 'DECRETO 00113 15 de agosto POR MEDIO DEL CUAL SE DISPONEN MEDIDAS PARA LA CONSERVACIÓN DEL ORDEN PÚBLICO PARA EL XVII ENCUENTRO DE TAMBORA Y FIESTA', '2025-08-15', 'gobierno@lajaguadeibirico-cesar.gov.co', 'DECRETO 00113 DE 2025', '2025-08-15', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00113-15-de-agosto-por-medio-del-cual-se-disponen', 3, 1),
 (93, 'VEEDURÍA No. 007 DE 2025 CONSTRUCCIÓN DEL TRAMO VIAL Y OBRAS COMPLEMENTARIAS ENTRE LOS DOS 2 PUENTES DEL SECTOR LOS CARACOLÍSES EN LA VÍA QUE COND', '2025-08-22', 'desarrollocomunitario@lajaguadeibirico-cesar.gov.co', 'PUBLICACION VEEDURIAS 007 Y 008 DEL 2025', '2025-08-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-ciudadano/veeduria-no-007-de-2025-construccion-del-tramo-vial', 3, 1),
 (94, 'VEEDURÍA No. 008 DE 2025 “CONSTRUCCIÓN DE PAVIMENTO RÍGIDO Y OBRAS COMPLEMENTARIAS EN EL BARRIO NUEVO AMANECER DEL MUNICIPIO DE LA JAGUA DE IBIRICO', '2025-08-22', 'desarrollocomunitario@lajaguadeibirico-cesar.gov.co', 'PUBLICACION VEEDURIAS 007 Y 008 DEL 2025', '2025-08-22', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-ciudadano/veeduria-no-008-de-2025-construccion-de-pavimento-rigido', 3, 1),
 (95, 'RESOLUCIÓN 19082025 Consecutivo GGE – 00801 “POR MEDIO DE LA CUAL SE REALIZAN ACTIVACIÓN DE BENEFICIARIO DEL PROGRAMA PROSPERIDAD SOCIAL “COLOMBI', '2025-08-25', 'secretariadelamujer@lajaguadeibirico-cesar.gov.co', 'RESOLUCION ACTIVACION PROGRAMA ADULTO MAYOR', '2025-08-25', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-19082025-consecutivo-gge-00801-por-medio', 12, 1),
 (96, 'INFORME SEMESTRAL DECONTROL INTERNO', '2025-08-25', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'INFORME SEMESTRAL', '2025-08-25', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-semestral-decontrol-interno', 14, 1),
 (97, 'Informe semestral de control interno- 30 de junio 2025', '2025-08-25', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'INFORME SEMESTRAL', '2025-08-26', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-semestral-del-esta-de-control-interno-de-la', 14, 1),
-(98, 'Resolución N°002 13 DE AGOSTO DEL 2025 “POR MEDIO DE LA CUAL SE PUBLICAN LOS RESULTADOS DE LOS JÓVENES QUE CUMPLIERON LOS REQUISITOS PARA PARTICIPA', '2025-08-26', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'Resoliciónn', '2025-08-26', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-n002-13-de-agosto-del-2025-por-medio-de-la', 3, 1),
-(99, 'INFORME DE AUSTERIDAD Y EFICIENCIA DEL GASTO PÚBLICO VIGENCIA Segundo Trimestre 2025', '2025-08-26', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe de austeridad segundo trimestre', '2025-08-27', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-de-austeridad-y-eficiencia-del-gasto-publico-900868', 14, 1);
+(98, 'Resolución N°002 13 DE AGOSTO DEL 2025 “POR MEDIO DE LA CUAL SE PUBLICAN LOS RESULTADOS DE LOS JÓVENES QUE CUMPLIERON LOS REQUISITOS PARA PARTICIPA', '2025-08-26', 'gobierno@lajaguadeibirico-cesar.gov.co', 'Resoliciónn', '2025-08-26', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-n002-13-de-agosto-del-2025-por-medio-de-la', 3, 1),
+(99, 'INFORME DE AUSTERIDAD Y EFICIENCIA DEL GASTO PÚBLICO VIGENCIA Segundo Trimestre 2025', '2025-08-26', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Informe de austeridad segundo trimestre', '2025-08-27', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/control-interno/informe-de-austeridad-y-eficiencia-del-gasto-publico-900868', 14, 1),
+(100, 'DECRETO 00115 21Agosto2025 “POR EL CUAL SE CREA Y REGLAMENTA EL CONSEJO MUNICIPAL DE LA ECONOMÍA POPULAR Y SE DICTAN OTRAS DISPOSICIONES”', '2025-08-29', 'gobierno@lajaguadeibirico-cesar.gov.co', 'DECRETO 00115', '2025-08-29', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00115-21agosto2025-por-el-cual-se-crea-y-reglamenta', 3, 1),
+(101, 'NOTIFICACIÓN POR AVISO EN EL PORTAL WEB', '2025-08-29', 'contratacion@lajaguadeibirico-cesar.gov.co', 'NOTIFICACIÓN POR AVISO EN EL PORTAL WEB Y POR CARTELERA', '2025-09-01', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/gaceta/notificacion-por-aviso-en-el-portal-web', 16, 1),
+(102, 'DECRETO No 00118 27 agosto 2025 POR MEDIO DEL CUAL SE DEROGA EL ARTÍCULO SEGUNDO DEL DECRETO 00040 DEL 15 DE ENERO DE 2024 Y SE DICTAN OTRAS DIS.', '2025-09-02', 'gobierno@lajaguadeibirico-cesar.gov.co', 'DECRETO N° 00118 DEL 27 DE AGOSTO 2025', '2025-09-03', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-no-00118-27-agosto-2025-por-medio-del-cual-se', 3, 1),
+(103, 'Programa de Transparencia y Ética Pública -PTEP 2025', '2025-09-05', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Matriz de plan de transparencia', '2025-09-05', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/planes/programa-de-transparencia-y-etica-publica-ptep-2025', 14, 1),
+(104, 'Resolución No 00826 del 02-09-2025 “POR MEDIO DEL CUAL SE HACE LA DESIGNACIÓN DEL JOVEN REPRESENTANTE A LA CURUL ESPECIAL DE LA POBLACIÓN', '2025-09-10', 'gobierno@lajaguadeibirico-cesar.gov.co', 'RESOLUCIÒN Nª 00826', '2025-09-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-no-00826-02-09-2025-por-medio-del-cual-se', 3, 1),
+(105, 'CONTRATOS', '2025-09-08', 'lajaguasigep20@gmail.com', 'RELACION CONTRATOS RENDIDOS DEL MES DE AGOSTO', '2025-09-08', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
+(106, '“Renta Ciudadana Participa y haz parte del cambio en tu comunidad”', '2025-09-15', 'desarrollocomunitario@lajaguadeibirico-cesar.gov.co', 'INFORMACION PARA PUBLICACION', '2025-09-15', 'Si', 'https://la-jagua-de-ibirico.micolombiadigital.gov.co/descripcion-general-del-menu-participa/renta-ciudadana-participa-y-haz-parte-del-cambio-en', 3, 1),
+(107, 'PROGRAMA DE GESTIÓN DOCUMENTAL', '2025-08-08', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Solicitud de información sobre la Tabla de Retención Documental y el Programa de Gestión Documental', '2025-09-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/instrumento-de-gestion-de-la-informacion/programa-de-gestion-documental-378260', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -467,8 +457,7 @@ INSERT INTO `rol` (`idrol`, `nombrerol`, `descripcion`, `status`) VALUES
 (6, 'Usuario', 'el sugeto no presenta cambios', 0),
 (7, 'Secretaria Ntic', 'Apoyo administrativo en el área de Ntic ', 1),
 (11, 'Prueba', '1', 0),
-(12, 'Gobierno digital', 'Gestión de redes sociales', 1),
-(13, 'Juridica', 'Gestion de peticiones', 1);
+(12, 'Gobierno digital', 'Gestión de redes sociales', 1);
 
 -- --------------------------------------------------------
 
@@ -491,24 +480,22 @@ CREATE TABLE `seguimiento_contrato` (
   `evidenciado_secop` varchar(255) DEFAULT NULL,
   `fecha_verificacion` date DEFAULT NULL,
   `liquidacion` decimal(20,2) DEFAULT 0.00,
+  `tipo_proceso` varchar(255) DEFAULT NULL,
+  `proceso_contratacion` varchar(255) DEFAULT NULL,
   `estado` int(11) NOT NULL DEFAULT 1,
   `numero_contrato` varchar(50) DEFAULT NULL,
   `dependencia_id` int(11) DEFAULT NULL,
-  `fecha_aprobacion_entidad` date DEFAULT NULL,
-  `tipo_proceso` varchar(255) NOT NULL DEFAULT 'No especificado',
-  `proceso_contratacion` varchar(255) NOT NULL
+  `fecha_aprobacion_entidad` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `seguimiento_contrato`
 --
 
-INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fecha_terminacion`, `plazo`, `tipo_plazo`, `tipo_informe`, `cantidad_informes`, `valor_total_contrato`, `dia_corte_informe`, `observaciones_ejecucion`, `evidenciado_secop`, `fecha_verificacion`, `liquidacion`, `estado`, `numero_contrato`, `dependencia_id`, `fecha_aprobacion_entidad`, `tipo_proceso`, `proceso_contratacion`) VALUES
-(6, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 1, 'meses', 'mes vencido', 1, 37591000.00, '2025-05-09', 'AMJI CMC 012 DE 2025', 'SI', '2025-05-28', 37591000.00, 3, '176-2025', 1, '2025-04-03', 'No especificado', ''),
-(7, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-05-22', 10, 'dias', 'mes vencido', 1, 28920000.00, '2025-05-23', 'AMJI CMC 021 DE 2025', '', '0000-00-00', 28920000.00, 3, '215-2025', 1, '2025-05-12', 'No especificado', ''),
-(8, 'COMPRAVENTA DE TINTAS Y TÓNER PARA LAS IMPRESORAS EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-08-08', '2025-08-22', 10, 'dias', 'mes vencido', 1, 36120000.00, '2025-08-25', 'Aun en espera de las entradas y salidas de Almancen para pasar informes', '', '0000-00-00', 0.00, 1, '274-2025', 1, '2025-08-05', 'No especificado', ''),
-(9, '12736jh3', '2025-08-04', '2025-08-29', 2, 'meses', 'mes vencido', 8, 8000000.00, '2025-08-18', '', 'SI', '2025-08-30', 0.00, 1, '1223', 18, '2025-08-14', 'Menor Cuantía', '44444444'),
-(10, '123', '2025-08-06', '2025-08-29', 12, 'meses', 'mes vencido', 3, 90000000.00, '2025-08-21', '123', 'NO', '2025-08-18', 0.00, 1, '123', 17, '2025-08-28', 'Selección abreviada', '123');
+INSERT INTO `seguimiento_contrato` (`id`, `objeto_contrato`, `fecha_inicio`, `fecha_terminacion`, `plazo`, `tipo_plazo`, `tipo_informe`, `cantidad_informes`, `valor_total_contrato`, `dia_corte_informe`, `observaciones_ejecucion`, `evidenciado_secop`, `fecha_verificacion`, `liquidacion`, `tipo_proceso`, `proceso_contratacion`, `estado`, `numero_contrato`, `dependencia_id`, `fecha_aprobacion_entidad`) VALUES
+(6, 'SUMINISTRO DE REPUESTOS Y MANO DE OBRA PARA LA REPARACIÓN DE LOS EQUIPOS DE IMPRESIÓN Y ESCÁNER EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-04-09', '2025-05-09', 1, 'meses', 'mes vencido', 1, 37591000.00, '2025-05-09', 'AMJI CMC 012 DE 2025', 'SI', '2025-05-28', 37591000.00, NULL, NULL, 3, '176-2025', 1, '2025-04-03'),
+(7, 'COMPRAVENTA DE LICENCIAS DE ANTIVIRUS PARA LOS EQUIPOS DE CÓMPUTO DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR.', '2025-05-13', '2025-05-22', 10, 'dias', 'mes vencido', 1, 28920000.00, '2025-05-23', 'AMJI CMC 021 DE 2025', 'NO', '0000-00-00', 28920000.00, NULL, NULL, 3, '215-2025', 1, '2025-05-12'),
+(8, 'COMPRAVENTA DE TINTAS Y TÓNER PARA LAS IMPRESORAS EXISTENTES DE LA ALCALDÍA MUNICIPAL DE LA JAGUA DE IBIRICO, CESAR', '2025-08-08', '2025-08-22', 10, 'dias', 'mes vencido', 1, 36120000.00, '2025-08-25', 'Aun en espera de las entradas y salidas de Almancen para pasar informes', 'NO', '0000-00-00', 0.00, NULL, NULL, 1, '274-2025', 1, '2025-08-05');
 
 -- --------------------------------------------------------
 
@@ -670,13 +657,7 @@ INSERT INTO `tbl_dependencia` (`dependencia_pk`, `nombre`) VALUES
 (19, 'Comunicaciones'),
 (20, 'PQRS'),
 (21, 'Oficina de SISBEN'),
-(22, 'OFICINA ASESORIA JURIDICA Y ASUNTOS LEGALES'),
-(23, 'Secretaría General'),
-(24, 'Tesorería'),
-(25, 'Planeación'),
-(26, 'Obras Públicas'),
-(27, 'Salud'),
-(28, 'Educación');
+(22, 'OFICINA ASESORIA JURIDICA Y ASUNTOS LEGALES');
 
 -- --------------------------------------------------------
 
@@ -699,24 +680,24 @@ CREATE TABLE `tbl_dias_festivos` (
 --
 
 INSERT INTO `tbl_dias_festivos` (`id_festivo`, `fecha`, `descripcion`, `tipo`, `anio`, `status`, `fecha_creacion`) VALUES
-(1, '2025-01-01', 'Año Nuevo', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(2, '2025-01-06', 'Día de los Reyes Magos', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(3, '2025-03-24', 'Día de San José', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(4, '2025-04-17', 'Jueves Santo', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(5, '2025-04-18', 'Viernes Santo', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(6, '2025-05-01', 'Día del Trabajo', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(7, '2025-05-26', 'Ascensión del Señor', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(8, '2025-06-16', 'Corpus Christi', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(9, '2025-06-23', 'Sagrado Corazón de Jesús', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(10, '2025-06-30', 'San Pedro y San Pablo', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(11, '2025-07-20', 'Día de la Independencia', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(12, '2025-08-07', 'Batalla de Boyacá', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(13, '2025-08-18', 'Asunción de la Virgen', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(14, '2025-10-13', 'Día de la Raza', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(15, '2025-11-03', 'Todos los Santos', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(16, '2025-11-17', 'Independencia de Cartagena', 'nacional', 2025, 1, '2025-09-02 02:11:50'),
-(17, '2025-12-08', 'Inmaculada Concepción', 'religioso', 2025, 1, '2025-09-02 02:11:50'),
-(18, '2025-12-25', 'Navidad', 'religioso', 2025, 1, '2025-09-02 02:11:50');
+(1, '2025-01-01', 'Año Nuevo', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(2, '2025-01-06', 'Día de los Reyes Magos', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(3, '2025-03-24', 'Día de San José', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(4, '2025-04-17', 'Jueves Santo', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(5, '2025-04-18', 'Viernes Santo', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(6, '2025-05-01', 'Día del Trabajo', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(7, '2025-05-26', 'Ascensión del Señor', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(8, '2025-06-16', 'Corpus Christi', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(9, '2025-06-23', 'Sagrado Corazón de Jesús', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(10, '2025-06-30', 'San Pedro y San Pablo', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(11, '2025-07-20', 'Día de la Independencia', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(12, '2025-08-07', 'Batalla de Boyacá', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(13, '2025-08-18', 'Asunción de la Virgen', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(14, '2025-10-13', 'Día de la Raza', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(15, '2025-11-03', 'Todos los Santos', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(16, '2025-11-17', 'Independencia de Cartagena', 'nacional', 2025, 1, '2025-09-02 03:09:50'),
+(17, '2025-12-08', 'Inmaculada Concepción', 'religioso', 2025, 1, '2025-09-02 03:09:50'),
+(18, '2025-12-25', 'Navidad', 'religioso', 2025, 1, '2025-09-02 03:09:50');
 
 -- --------------------------------------------------------
 
@@ -1031,12 +1012,12 @@ INSERT INTO `tbl_herramientas` (`id_herramienta`, `item`, `marca`, `disponibilid
 (3, 'Pulsera antiestática', 'Generica', 'No Disponible', '2025-08-20 04:23:53', '2025-08-20 04:23:53', 1),
 (4, 'Pinzas de punta fina', 'Generica', 'No Disponible', '2025-08-20 04:24:14', '2025-08-20 04:24:14', 1),
 (5, 'Multímetro', 'Generica', 'No Disponible', '2025-08-20 04:24:45', '2025-08-20 04:24:45', 1),
-(6, 'Cautín y soldadura', 'Generica', 'Disponible', '2025-08-20 04:25:10', '2025-08-20 04:25:10', 1),
-(7, 'Líquido de limpieza de cabezales', 'Generico', 'Disponible', '2025-08-20 04:25:43', '2025-08-20 04:25:43', 1),
+(6, 'Cautín y soldadura', 'Generica', 'No Disponible', '2025-08-20 04:25:10', '2025-09-01 19:06:58', 1),
+(7, 'Líquido de limpieza de cabezales', 'Generico', 'Disponible', '2025-08-20 04:25:43', '2025-09-01 19:07:21', 1),
 (8, 'Alcohol isopropílico', 'Generica', 'No Disponible', '2025-08-20 04:26:15', '2025-08-20 04:26:15', 1),
 (9, 'Brochas', 'Generico', 'No Disponible', '2025-08-20 04:26:44', '2025-08-20 04:26:44', 1),
 (10, 'Paños de microfibra', 'Generico', 'No Disponible', '2025-08-20 04:27:04', '2025-08-20 04:27:04', 1),
-(11, 'Aire comprimido o soplador', 'Generico', 'No Disponible', '2025-08-20 04:27:32', '2025-08-20 04:27:32', 1),
+(11, 'Sopladora de Aire', 'Generico', 'No Disponible', '2025-08-20 04:27:32', '2025-09-01 19:07:44', 1),
 (12, 'Aspiradora de mano', 'Generico', 'No Disponible', '2025-08-20 04:28:57', '2025-08-20 04:28:57', 1),
 (13, 'Espuma limpiadora', 'Generico', 'No Disponible', '2025-08-20 04:29:34', '2025-08-20 04:29:34', 1),
 (14, 'Hojas de limpieza', 'Generico', 'No Disponible', '2025-08-20 04:30:06', '2025-08-20 04:30:06', 1);
@@ -1123,7 +1104,35 @@ INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_p
 (77, 60, '2025-08-27', 8, 2025, 'Cita médica', 'Aprobado', '2025-08-27 10:01:08', 'planta', 0, ''),
 (78, 55, '2025-09-01', 9, 2025, 'Cita médica', 'Aprobado', '2025-08-27 10:01:31', 'planta', 0, ''),
 (79, 55, '2025-09-02', 9, 2025, 'Dia del cumpleaños', 'Aprobado', '2025-08-27 10:01:47', 'planta', 0, ''),
-(80, 55, '2025-09-03', 9, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-27 10:02:10', 'planta', 0, '');
+(80, 55, '2025-09-03', 9, 2025, 'Dia de la Familia', 'Aprobado', '2025-08-27 10:02:10', 'planta', 0, ''),
+(81, 103, '2025-09-01', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-08-28 16:54:14', 'planta', 0, ''),
+(82, 26, '2025-09-01', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-08-28 17:07:06', 'planta', 0, ''),
+(83, 26, '2025-09-02', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-08-28 17:07:20', 'planta', 0, ''),
+(84, 115, '2025-09-01', 9, 2025, 'Cita médica', 'Aprobado', '2025-08-29 10:26:44', 'planta', 0, ''),
+(85, 40, '2025-09-04', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-01 16:00:49', 'planta', 0, ''),
+(86, 40, '2025-09-05', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-01 16:01:15', 'planta', 0, ''),
+(87, 79, '2025-09-05', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-02 15:33:10', 'planta', 0, ''),
+(88, 37, '2025-09-08', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-02 15:33:46', 'planta', 0, ''),
+(89, 90, '2025-09-08', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-02 15:35:21', 'planta', 0, ''),
+(90, 35, '2025-09-08', 9, 2025, 'Dia del cumpleaños', 'Aprobado', '2025-09-02 15:36:04', 'planta', 0, ''),
+(91, 35, '2025-09-12', 9, 2025, 'Dia de la Familia', 'Aprobado', '2025-09-02 15:36:24', 'planta', 0, ''),
+(92, 109, '2025-09-16', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-02 16:45:43', 'planta', 0, ''),
+(93, 119, '2025-09-09', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-02 16:50:45', 'planta', 0, ''),
+(94, 121, '2025-09-11', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-05 11:17:52', 'planta', 0, ''),
+(95, 105, '2025-10-14', 10, 2025, 'Diligencias personales', 'Aprobado', '2025-09-05 11:18:40', 'planta', 0, ''),
+(96, 32, '2025-09-12', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-10 15:19:42', 'planta', 0, ''),
+(97, 57, '2025-09-15', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-10 15:21:26', 'planta', 0, ''),
+(98, 57, '2025-09-30', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-10 15:21:46', 'planta', 0, ''),
+(99, 39, '2025-09-19', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-10 15:23:03', 'planta', 0, ''),
+(100, 39, '2025-09-22', 9, 2025, 'Dia del cumpleaños', 'Aprobado', '2025-09-10 15:23:26', 'planta', 0, ''),
+(101, 63, '2025-09-23', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-11 16:41:13', 'planta', 0, ''),
+(102, 63, '2025-09-24', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-11 16:41:59', 'planta', 0, ''),
+(103, 63, '2025-09-25', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-11 16:42:17', 'planta', 0, ''),
+(104, 87, '2025-09-15', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-11 16:42:52', 'planta', 0, ''),
+(105, 54, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-16 15:21:54', 'planta', 0, ''),
+(106, 107, '2025-09-17', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-16 15:22:26', 'planta', 0, ''),
+(107, 101, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-16 15:23:41', 'planta', 0, ''),
+(108, 131, '2025-09-16', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-16 15:24:45', 'planta', 0, '');
 
 -- --------------------------------------------------------
 
@@ -1281,7 +1290,8 @@ INSERT INTO `tbl_notificaciones` (`id_notificacion`, `id_funcionario`, `tipo`, `
 (52, 22, 'tarea', 'Se te ha asignado una nueva tarea: Diligenciar los formatos f20_cgdc del SIA Contraloria Departamental para reportarlo', '2025-07-17 08:58:06', 0, 'planta'),
 (53, 25, 'tarea', 'Se te ha asignado una nueva tarea: Diligenciar los formatos f20_cgdc del SIA Contraloria Departamental para reportarlo', '2025-07-17 08:58:06', 0, 'planta'),
 (55, 22, 'tarea', 'Se te ha asignado una nueva tarea: reporte del SIA CONTRALORÍAS - Primer semestre, seguimiento con control interno de gestión', '2025-07-17 08:59:01', 0, 'planta'),
-(56, 25, 'tarea', 'Se te ha asignado una nueva tarea: reporte del SIA CONTRALORÍAS - Primer semestre, seguimiento con control interno de gestión', '2025-07-17 08:59:01', 0, 'planta');
+(56, 25, 'tarea', 'Se te ha asignado una nueva tarea: reporte del SIA CONTRALORÍAS - Primer semestre, seguimiento con control interno de gestión', '2025-07-17 08:59:01', 0, 'planta'),
+(58, 22, 'tarea', 'Se te ha asignado una nueva tarea: prueba ', '2025-08-29 10:52:15', 0, 'planta');
 
 -- --------------------------------------------------------
 
@@ -1509,7 +1519,35 @@ INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `me
 (108, 60, '2025-08-27', 8, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-27 10:01:08'),
 (109, 55, '2025-09-01', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-27 10:01:31'),
 (110, 55, '2025-09-02', 9, 2025, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-08-27 10:01:47'),
-(111, 55, '2025-09-03', 9, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-27 10:02:10');
+(111, 55, '2025-09-03', 9, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-08-27 10:02:10'),
+(112, 103, '2025-09-01', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-28 16:54:14'),
+(113, 26, '2025-09-01', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-28 17:07:06'),
+(114, 26, '2025-09-02', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-08-28 17:07:20'),
+(115, 115, '2025-09-01', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-08-29 10:26:44'),
+(116, 40, '2025-09-04', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-01 16:00:49'),
+(117, 40, '2025-09-05', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-01 16:01:15'),
+(118, 79, '2025-09-05', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-02 15:33:10'),
+(119, 37, '2025-09-08', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-02 15:33:46'),
+(120, 90, '2025-09-08', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-02 15:35:21'),
+(121, 35, '2025-09-08', 9, 2025, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-09-02 15:36:04'),
+(122, 35, '2025-09-12', 9, 2025, 'Dia de la Familia', 'Aprobado', 'planta', 0, '', '2025-09-02 15:36:24'),
+(123, 109, '2025-09-16', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-02 16:45:43'),
+(124, 119, '2025-09-09', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-02 16:50:45'),
+(125, 121, '2025-09-11', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-05 11:17:52'),
+(126, 105, '2025-10-14', 10, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-05 11:18:40'),
+(127, 32, '2025-09-12', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-10 15:19:42'),
+(128, 57, '2025-09-15', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-10 15:21:26'),
+(129, 57, '2025-09-30', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-10 15:21:46'),
+(130, 39, '2025-09-19', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-10 15:23:03'),
+(131, 39, '2025-09-22', 9, 2025, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-09-10 15:23:26'),
+(132, 63, '2025-09-23', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-11 16:41:13'),
+(133, 63, '2025-09-24', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-11 16:41:59'),
+(134, 63, '2025-09-25', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-11 16:42:17'),
+(135, 87, '2025-09-15', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-11 16:42:52'),
+(136, 54, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-16 15:21:54'),
+(137, 107, '2025-09-17', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-16 15:22:26'),
+(138, 101, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-16 15:23:41'),
+(139, 131, '2025-09-16', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-16 15:24:45');
 
 -- --------------------------------------------------------
 
@@ -1740,7 +1778,7 @@ INSERT INTO `tbl_practicantes` (`idepracticante`, `nombre_completo`, `numero_ide
 (14, 'YEISO DAVID PALACIOS REAL', '1064118651', 'Positiva', 29, 'masculino', 'Ydpalaciosr@ufpso.edu.co', '3223846747', 'transversal 14 #9-18 juan ramon', 4, 'APOYO A PROCESOS DE EDUCACION SUPERIOR EN EL MUNICIPIO, APOYO A LA GESTION ADMINISTRATIVA DE LA SECTORIA DE EDUCACION, APOYO EN LA ASESORIA O LOS PROGRAMAS Y PROYECTOS ORIENTADOS', '2025-03-18', '2025-07-18', 2, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNIVERSIDAD FRANCISCO DE PAULA SANTANDER', 0, 2),
 (15, 'JESUS DAVIS USMA DIAZ', '1064108547', 'Positiva', 19, 'masculino', 'jesususma721@gmail.com', '3126067887', 'KR 4 3A 15 CENTRO', 1, 'APOYO EN LAS PLATAFORMAS', '2025-03-03', '2025-09-03', 2, 'Técnico', 'SISTEMAS TELEINFORMATICOS', 'SENA', 0, 1),
 (16, 'INGRID PAOLA LIÑAN TORRES', '1065580758', 'Positiva', 39, 'femenino', 'jesuvaleemma3@gmail.com', '3182964281', 'calle 9# 2-48 las malvinas', 3, 'APOYO', '2024-11-01', '2025-05-01', 2, 'Técnico', 'TECNICO EN RECURSOS HUMANOS', 'SENA', 0, 2),
-(17, 'JUAN SEBASTIAN CARDENAS GUERRERO', '1193579239', 'Positiva', 22, 'masculino', 'juan.cardenasg.89@gmail.com', '3242611872', 'calle 8 #2-30 las malvinas', 1, 'APOYO', '2025-03-14', '2025-09-14', 2, 'Técnico', 'PROGRAMACION DE SOFTWARE', 'SENA', 0, 1),
+(17, 'JUAN SEBASTIAN CARDENAS GUERRERO', '1193579239', 'Positiva', 22, 'masculino', 'juan.cardenasg.89@gmail.com', '3242611872', 'calle 8 #2-30 las malvinas', 1, 'APOYO', '2025-03-14', '2025-09-14', 2, 'Técnico', 'PROGRAMACION DE SOFTWARE', 'SENA', 6, 1),
 (18, 'JICETH PAOLA MANCERA PALOMINO', '1064107559', 'Positiva', 28, 'femenino', 'mjiceth@gmail.com', '3146741318', 'Dg 2 1f-17', 14, 'APOYO', '2025-03-06', '2025-09-06', 3, 'Profesional', 'INGENIERIA INDUSTRIAL', 'UNAD', 0, 1),
 (19, 'MARTHA LILIANA PEREZ CORDOBA', '10641080688', 'Positiva', 38, 'femenino', 'marlipercor@gmail.com', '3146356719', 'DIAGONAL 7 #16-23 NUEVO MILENIO', 10, 'APOYO', '2024-08-01', '2025-08-01', 2, 'Técnico', 'RECURSOS HUMANO', 'SENA', 0, 2),
 (20, 'JESSIKA JULIETH SAAVEDRA PAJARO', '1064124478', 'Positiva', 30, 'femenino', 'JESSIKASAAVEDRA4@GMAIL.COM', '3233934289', 'CARRERA 3 #10-39 LAS MALVINAS', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
@@ -1759,7 +1797,7 @@ INSERT INTO `tbl_practicantes` (`idepracticante`, `nombre_completo`, `numero_ide
 (33, 'ANDREA CAROLINA MORATO CAMPO', '1007561572', 'Positiva', 24, 'femenino', 'solimar222019@gmail.com', '3117993302', 'BOQUERON', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
 (34, 'LINA MARCELA BELTRAN PEREZ', '1082879514', 'Positiva', 22, 'femenino', 'XXXXXX@GMAIL.COM', '3208799814', 'MZ 2 CS 12 URB NANCY LOBO', 3, 'APOYO', '2024-10-01', '2025-02-03', 1, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNAD', 0, 1),
 (35, 'KATHERINE VERGEL RODRIGUEZ', '1007387317', 'Positiva', 32, 'femenino', 'vergel-katy@hotmail.com', '3215461263', 'calle 1 #2 este 31', 9, 'APOYO', '2024-10-02', '2025-02-02', 1, 'Profesional', 'ADMINISTRACION DE EMPRESAS', 'UNAD', 0, 2),
-(36, 'YUNEIDYS DURAN OROZCO', '1007356239', 'Positiva', 25, 'femenino', 'yuneidis.duran19@gmail.com', '3105208216', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
+(36, 'YUNEIDYS DURAN OROZCO', '1007356239', 'Positiva', 25, 'femenino', 'yuneidis.duran19@gmail.com', '3105208216', 'LA JAGUA DE IBIRICO', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 10, 2),
 (37, 'ALBA ROSA PADILLA CAMPO', '1085175962', 'Positiva', 32, 'femenino', 'padillacampoalba@gmail.com', '3013339315', 'tranversal 2 #4-21', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
 (38, 'ANYULI JOHANA MEDINA ZAPATA', '1065571281', 'Positiva', 40, 'femenino', 'anyulimedinaz1601@gmail.com', '3118918440', 'dg 6A #16-100 nuevo milenio', 7, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
 (39, 'CENITH MILENA TOSCANO QUINTERO', '1064112795', 'Positiva', 33, 'femenino', 'milena19922009@hotmail.com', '3126777801', 'calle 1 N # 1E-75', 3, 'APOYO', '2024-09-11', '2024-11-27', 3, 'Profesional', 'PSICOLOGA', 'UNAD', 0, 2),
@@ -1899,24 +1937,12 @@ CREATE TABLE `tbl_tipos_peticion` (
 --
 
 INSERT INTO `tbl_tipos_peticion` (`id_tipo`, `nombre`, `descripcion`, `dias_habiles_plazo`, `color_semaforo`, `status`, `fecha_creacion`) VALUES
-(1, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 02:11:49'),
-(2, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 02:11:49'),
-(3, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 02:11:49'),
-(4, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 02:11:49'),
-(5, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 02:11:49'),
-(6, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 02:11:49'),
-(7, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 03:26:25'),
-(8, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 03:26:25'),
-(9, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 03:26:25'),
-(10, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 03:26:25'),
-(11, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 03:26:25'),
-(12, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 03:26:25'),
-(13, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 03:26:56'),
-(14, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 03:26:56'),
-(15, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 03:26:56'),
-(16, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 03:26:56'),
-(17, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 03:26:56'),
-(18, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 03:26:56');
+(1, 'Derecho de petición', 'Solicitudes de información o documentos bajo derecho de petición', 15, '#ffc107', 1, '2025-09-02 03:09:50'),
+(2, 'Tutela', 'Acciones de tutela según disposición judicial', 1, '#dc3545', 1, '2025-09-02 03:09:50'),
+(3, 'Documentos e información', 'Solicitudes de documentos e información general', 10, '#17a2b8', 1, '2025-09-02 03:09:50'),
+(4, 'Consulta', 'Consultas generales y orientación', 30, '#28a745', 1, '2025-09-02 03:09:50'),
+(5, 'Entre entidades', 'Comunicaciones oficiales entre entidades', 10, '#6f42c1', 1, '2025-09-02 03:09:50'),
+(6, 'Ente de control', 'Solicitudes de entes de control y supervisión', 5, '#fd7e14', 1, '2025-09-02 03:09:50');
 
 -- --------------------------------------------------------
 
@@ -2021,7 +2047,7 @@ INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgp
 (16, 'Tatiana Alejandra Martínez Meneses', 'gobiernodigital@lajaguadeibirico-cesar.gov.co', 'b3bac4078570ff255b11047d393c5a94a5e94767c426e7fc52e6eba3f44a6b8c', 'sin-imagen.png', 12, 1, 1),
 (17, 'Maria Del Pilar Ureche Cobo', 'contratacion@lajaguadeibirico-cesar.gov.co', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'sin-imagen.png', 4, 1, 1),
 (18, 'Moises Xavier Paternina', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'f6ab67656b99857c4a0c4970886a9bc70fb18b4ac99173732a46a743846bc4ea', 'sin-imagen.png', 2, 1, 1),
-(19, 'Fabián Duran Ortiz', 'fabianduran18@hotmail.com', '33882b27b999581a5679bcbe699e4cc2e3cfd37067791c051f17473843e009e8', 'sin-imagen.png', 5, 1, 1),
+(19, 'Fabián Duran Ortiz', 'fabianduran18@hotmail.com', '33882b27b999581a5679bcbe699e4cc2e3cfd37067791c051f17473843e009e8', 'sin-imagen.png', 5, 0, 1),
 (20, 'Jesus David Usma Días', 'jesususma721@gmail.com', '34fc34ff9be8e43e04aa773835016ce53a88749408ad81e891bc39e971399ba1', 'sin-imagen.png', 5, 1, 1),
 (21, 'Frank Luis Salcedo Redondo', 'fsalcedoredondo@gmail.com', '7cfd9a952732762e1ab94b5cadc90db27bf74720fd24d5aa8876e65f706ab6f4', 'perfil_21.jpg', 5, 1, 1),
 (22, 'Elías Iguaran Márquez', 'helias.iguaran@gmail.com', '7e82e7429c766d829ecd23ea74961495b99a065422a670c0a9404716c7343451', 'perfil_22.png', 5, 1, 1),
@@ -2029,10 +2055,11 @@ INSERT INTO `tbl_usuarios` (`ideusuario`, `nombres`, `correo`, `password`, `imgp
 (24, 'Ana Carolina Mendoza', 'anacarolinamendozamojica@gmail.com', '0352709ad6ec43c6d165e948957d5e9b55e2519116147eed3e9f41fab47d91e6', 'sin-imagen.png', 12, 1, 1),
 (25, 'Luilly Navas', 'lnavas1981@gmail.com', '1628b489ba589115ec0cf8c41702470d4c3059c9a217638ef0f7af7e82b3af9b', 'perfil_25.png', 5, 1, 1),
 (26, 'Yuleima Aguilar', 'yuleimaaguilarlima@gmail.com', '24b9219619f4c73eb7dd95e7f4f29a9e97feaae912de00c78c876c51b1360c76', 'sin-imagen.png', 2, 1, 1),
-(27, 'Oscar Ivan Rojas', 'seguridadinformaticalajagua@gmail.com', '0128df21ed2cff855783da81cde5ec7ddf580d16d2fb44ab57199bb2f4920180', 'sin-imagen.png', 5, 1, 1),
-(28, 'Ing. Carlos Lopez', 'carloslxpxz@gmail.com', 'ee89131cb45aba511f7a06452717caabce0438b5d654e73a5ad15e58ea4cf717', 'sin-imagen.png', 5, 1, 1),
+(27, 'Oscar Ivan Rojas', 'seguridadinformaticalajagua@gmail.com', '0128df21ed2cff855783da81cde5ec7ddf580d16d2fb44ab57199bb2f4920180', 'sin-imagen.png', 5, 0, 1),
+(28, 'Carlos Lopez', 'carloslxpxz@gmail.com', 'ee89131cb45aba511f7a06452717caabce0438b5d654e73a5ad15e58ea4cf717', 'sin-imagen.png', 5, 1, 1),
 (29, 'Sebastian Cardenas', 'sbt.cardenas.g@gmail.com', '33118bf33ad867c1e6dd2677584a15be9d7719d3085159818af590f8d97572e8', 'perfil_29.jpg', 5, 1, 1),
-(30, 'Juridica', 'juridica@lajaguadeibirico-cesar.gov.co', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 13, 1, 1);
+(30, '1', '1', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 1, 0, 1),
+(31, '1', '1', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 'sin-imagen.png', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2142,7 +2169,7 @@ CREATE TABLE `tbl_viaticos` (
 --
 
 INSERT INTO `tbl_viaticos` (`idViatico`, `funci_fk`, `cargo`, `dependencia`, `motivo_gasto`, `lugar_comision_departamento`, `lugar_comision_ciudad`, `finalidad_comision`, `descripcion`, `valor_viatico`, `fecha_aprobacion`, `fecha_salida`, `fecha_regreso`, `n_dias`, `valor_dia`, `valor_transporte`, `total_liquidado`, `tipo_transporte`, `estatus`, `fecha_creacion`) VALUES
-(10, 91, 'Secretario de Despacho', 'Secretaría de Salud', 'CAPACITACION', 'Cesar', 'Valledupar', 'CAPACITACION SOBRE LA  ', 'CAPACITACION SOBRE LA', 180000.00, '2025-08-13', '2025-08-19', '2025-08-19', 1, 180000.00, 70000.00, 250000.00, 'Interno', 1, '2025-08-14 21:48:06');
+(10, 91, 'Secretario de Despacho', 'Secretaría de Salud', 'CAPACITACION', 'Cesar', 'Valledupar', 'CAPACITACION SOBRE LA', 'CAPACITACION SOBRE LA', 180000.00, '2025-08-13', '2025-08-19', '2025-08-19', 1, 180000.00, 70000.00, 250000.00, 'Interno', 1, '2025-08-14 21:48:06');
 
 -- --------------------------------------------------------
 
@@ -2531,7 +2558,7 @@ ALTER TABLE `modulo`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1358;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1340;
 
 --
 -- AUTO_INCREMENT de la tabla `prorrogas_contrato`
@@ -2543,19 +2570,19 @@ ALTER TABLE `prorrogas_contrato`
 -- AUTO_INCREMENT de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `seguimiento_contrato`
 --
 ALTER TABLE `seguimiento_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_capital_viaticos`
@@ -2585,13 +2612,13 @@ ALTER TABLE `tbl_contratos_practicantes`
 -- AUTO_INCREMENT de la tabla `tbl_dependencia`
 --
 ALTER TABLE `tbl_dependencia`
-  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `dependencia_pk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_dias_festivos`
 --
 ALTER TABLE `tbl_dias_festivos`
-  MODIFY `id_festivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_festivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_equipos_movimientos`
@@ -2627,7 +2654,7 @@ ALTER TABLE `tbl_herramientas`
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_impresoras`
@@ -2651,13 +2678,13 @@ ALTER TABLE `tbl_motivos_permisos`
 -- AUTO_INCREMENT de la tabla `tbl_notificaciones`
 --
 ALTER TABLE `tbl_notificaciones`
-  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id_notificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_observaciones`
 --
 ALTER TABLE `tbl_observaciones`
-  MODIFY `id_observacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_observacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_papeleria`
@@ -2675,13 +2702,13 @@ ALTER TABLE `tbl_pc_torre`
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_peticiones`
 --
 ALTER TABLE `tbl_peticiones`
-  MODIFY `id_peticion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_peticion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_peticiones_historial`
@@ -2711,13 +2738,13 @@ ALTER TABLE `tbl_practicantes`
 -- AUTO_INCREMENT de la tabla `tbl_tareas`
 --
 ALTER TABLE `tbl_tareas`
-  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tareas_usuarios`
 --
 ALTER TABLE `tbl_tareas_usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tintas_toner`
@@ -2729,7 +2756,7 @@ ALTER TABLE `tbl_tintas_toner`
 -- AUTO_INCREMENT de la tabla `tbl_tipos_peticion`
 --
 ALTER TABLE `tbl_tipos_peticion`
-  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_todo_en_uno`
@@ -2741,7 +2768,7 @@ ALTER TABLE `tbl_todo_en_uno`
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`
 --
 ALTER TABLE `tbl_usuarios`
-  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `ideusuario` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios_roles`
