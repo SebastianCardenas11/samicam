@@ -1,0 +1,65 @@
+/* CSS personalizado para corregir el layout del modal PSI */
+
+/* Forzar el layout de columnas en el modal PSI */
+#modalPsi .modal-dialog {
+    max-width: 1200px !important;
+    width: 90% !important;
+}
+
+/* Forzar el sistema de grid de Bootstrap */
+#modalPsi .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-right: -15px !important;
+    margin-left: -15px !important;
+}
+
+/* Columnas de 4 (33.33%) */
+#modalPsi .col-md-4 {
+    flex: 0 0 33.333333% !important;
+    max-width: 33.333333% !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    width: 33.333333% !important;
+    float: left !important;
+}
+
+/* Columnas de 6 (50%) */
+#modalPsi .col-md-6 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    width: 50% !important;
+    float: left !important;
+}
+
+/* Columnas de 12 (100%) */
+#modalPsi .col-12 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    width: 100% !important;
+    float: left !important;
+}
+
+/* Limpiar floats */
+#modalPsi .row::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Asegurar que los campos se muestren correctamente */
+#modalPsi .form-group {
+    margin-bottom: 1rem !important;
+}
+
+#modalPsi .form-control {
+    width: 100% !important;
+}
+
+#modalPsi .form-label {
+    display: block !important;
+}
