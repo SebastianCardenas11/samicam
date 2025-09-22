@@ -337,10 +337,15 @@ function openModalPsi(tipo, id = null) {
         document.querySelector('input[name="tipo_funcionario"][value="planta"]').checked = true;
         
         // Limpiar contenedor de items
-        document.getElementById('items_container').innerHTML = '';
+        const itemsContainer = document.getElementById('items_container');
+        itemsContainer.innerHTML = '';
         
-        // Ocultar tab de inventario inicialmente
-        document.getElementById('inventario_tab_prestamo').style.display = 'none';
+        // Mostrar tab de inventario por defecto
+        document.getElementById('inventario_tab_prestamo').style.display = 'block';
+        
+        // Cargar datos del inventario y generar formulario para 1 item
+        cargarDatosInventarioDisponibles();
+        generarFormulariosItems(1);
         
         // Manejar campos required para evitar errores de validación
         document.querySelectorAll('#formPsi [required]').forEach(input => {
@@ -611,8 +616,9 @@ function toggleInventarioTab(tipo) {
 function toggleInventarioTabPrestamo() {
     const cantidadItems = document.getElementById('cantidad_items').value;
     const inventarioTab = document.getElementById('inventario_tab_prestamo');
+    const itemsContainer = document.getElementById('items_container');
     
-    if (cantidadItems > 0) {
+    if (cantidadItems >= 1) {
         inventarioTab.style.display = 'block';
         // Cargar datos del inventario solo disponibles
         cargarDatosInventarioDisponibles();
@@ -620,7 +626,7 @@ function toggleInventarioTabPrestamo() {
         generarFormulariosItems(cantidadItems);
     } else {
         inventarioTab.style.display = 'none';
-        document.getElementById('items_container').innerHTML = '';
+        itemsContainer.innerHTML = '';
     }
 }
 
@@ -756,48 +762,59 @@ function cargarTablaInventarioDisponibles(categoria, tipo) {
 // Función para generar formularios dinámicos de items
 function generarFormulariosItems(cantidad) {
     const container = document.getElementById('items_container');
-    container.innerHTML = '';
+    container.innerHTML = '<h6 class="border-bottom pb-2 mb-3">Items Seleccionados</h6>';
     
     for (let i = 0; i < cantidad; i++) {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'row mb-3 item-form';
+        itemDiv.className = 'row mb-3 p-3 border rounded';
         itemDiv.innerHTML = `
-            <div class="col-12">
-                <h6 class="border-bottom pb-2">Item ${i + 1}</h6>
+            <div class="col-12 mb-2">
+                <h6 class="text-primary">Item ${i + 1}</h6>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Item</label>
-                <input type="text" class="form-control" name="item_${i}" id="item_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Item</label>
+                    <input type="text" class="form-control" name="item_${i}" id="item_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Dispositivo</label>
-                <input type="text" class="form-control" name="dispositivo_${i}" id="dispositivo_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Dispositivo</label>
+                    <input type="text" class="form-control" name="dispositivo_${i}" id="dispositivo_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Marca/Modelo</label>
-                <input type="text" class="form-control" name="marca_modelo_${i}" id="marca_modelo_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Marca/Modelo</label>
+                    <input type="text" class="form-control" name="marca_modelo_${i}" id="marca_modelo_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Activo</label>
-                <input type="text" class="form-control" name="activo_${i}" id="activo_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Activo</label>
+                    <input type="text" class="form-control" name="activo_${i}" id="activo_${i}" required>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Serial</label>
-                <input type="text" class="form-control" name="serial_${i}" id="serial_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Serial</label>
+                    <input type="text" class="form-control" name="serial_${i}" id="serial_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>Estado</label>
-                <input type="text" class="form-control" name="estado_${i}" id="estado_${i}" required readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Estado</label>
+                    <input type="text" class="form-control" name="estado_${i}" id="estado_${i}" required readonly>
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>MAC</label>
-                <input type="text" class="form-control" name="mac_${i}" id="mac_${i}" readonly>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>MAC</label>
+                    <input type="text" class="form-control" name="mac_${i}" id="mac_${i}">
+                </div>
             </div>
-            <div class="col-md-6 mb-2">
-                <label>ID del Equipo</label>
-                <input type="hidden" name="equipo_id_${i}" id="equipo_id_${i}">
-                <input type="hidden" name="equipo_tipo_${i}" id="equipo_tipo_${i}">
-            </div>
+            <input type="hidden" name="equipo_id_${i}" id="equipo_id_${i}">
+            <input type="hidden" name="equipo_tipo_${i}" id="equipo_tipo_${i}">
         `;
         container.appendChild(itemDiv);
     }

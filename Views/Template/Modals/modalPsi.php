@@ -1,40 +1,5 @@
 <div class="modal fade" id="modalPsi" tabindex="-1" aria-labelledby="modalPsiLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <style>
-    .inventario-tab {
-      border: 1px solid #dee2e6;
-      border-radius: 0.375rem;
-      margin-bottom: 1rem;
-    }
-    .inventario-tab .card-header {
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #dee2e6;
-      padding: 0.75rem 1rem;
-    }
-    .inventario-tab .nav-tabs {
-      border-bottom: 1px solid #dee2e6;
-    }
-    .inventario-tab .nav-tabs .nav-link {
-      border: none;
-      color: #6c757d;
-      font-size: 0.875rem;
-      padding: 0.5rem 0.75rem;
-    }
-    .inventario-tab .nav-tabs .nav-link.active {
-      color: #0d6efd;
-      background-color: transparent;
-      border-bottom: 2px solid #0d6efd;
-    }
-    .inventario-tab .table-sm th,
-    .inventario-tab .table-sm td {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.875rem;
-    }
-    .inventario-tab .btn-sm {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.75rem;
-    }
-  </style>
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalPsiLabel">Registro de Préstamo</h5>
@@ -45,46 +10,66 @@
           <!-- Campos para Préstamos -->
           <input type="hidden" id="id_prestamos" name="id_prestamos" value="">
           <div class="row" data-field="prestamo">
-            <div class="col-md-6 mb-2">
-              <label>Tipo de funcionario:</label><br>
-              <input type="radio" name="tipo_funcionario" value="planta" checked> Planta
-              <input type="radio" name="tipo_funcionario" value="ops" class="ms-2"> OPS
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Tipo de funcionario</label><br>
+                    <input type="radio" name="tipo_funcionario" value="planta" checked> Planta
+                    <input type="radio" name="tipo_funcionario" value="ops" class="ms-2"> OPS
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Funcionario Responsable</label>
+                    <select class="form-control" name="funcionario_responsable" id="funcionario_responsable" required>
+                      <option value="">Seleccione un funcionario</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Dependencia</label>
+                    <input type="text" class="form-control" name="dependencia" id="dependencia" required readonly>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Funcionario Responsable</label>
-              <select class="form-control" name="funcionario_responsable" id="funcionario_responsable" required>
-                <option value="">Seleccione un funcionario</option>
-              </select>
-            </div>
-            <div class="col-md-6 mb-2">
-              <label>Dependencia</label>
-              <input type="text" class="form-control" name="dependencia" id="dependencia" required readonly>
-            </div>
-            <div class="col-md-6 mb-2">
-              <label>Cargo Funcionario</label>
-              <input type="text" class="form-control" name="cargo_funcionario" id="cargo_funcionario" required readonly>
-            </div>
-            <div class="col-md-6 mb-2">
-              <label>Fecha Préstamo</label>
-              <input type="date" class="form-control" name="fecha_prestamo" required>
-            </div>
-            <div class="col-md-6 mb-2">
-              <label>Fecha Devolución</label>
-              <input type="date" class="form-control" name="fecha_devolucion">
-            </div>
-            
-            <!-- Nuevo campo para cantidad de items -->
-            <div class="col-md-6 mb-2">
-              <label>Cantidad de Items</label>
-              <input type="number" class="form-control" name="cantidad_items" id="cantidad_items" min="1" max="5" value="1" onchange="toggleInventarioTabPrestamo()">
-              <small class="text-muted">Máximo 5 items por préstamo</small>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Cargo Funcionario</label>
+                    <input type="text" class="form-control" name="cargo_funcionario" id="cargo_funcionario" required readonly>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Fecha Préstamo</label>
+                    <input type="date" class="form-control" name="fecha_prestamo" required>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Fecha Devolución</label>
+                    <input type="date" class="form-control" name="fecha_devolucion">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Cantidad de Items</label>
+                    <input type="number" class="form-control" name="cantidad_items" id="cantidad_items" min="1" max="5" value="1" onchange="toggleInventarioTabPrestamo()">
+                    <small class="text-muted">Máximo 5 items por préstamo</small>
+                  </div>
+                </div>
+              </div>
             </div>
             
             <!-- Tab de Inventario para Préstamos -->
-            <div class="col-12 mb-3" id="inventario_tab_prestamo" style="display: none;">
-              <div class="card inventario-tab">
+            <div class="col-12 mb-3" id="inventario_tab_prestamo">
+              <div class="card">
                 <div class="card-header">
-                  <h6 class="mb-0"><i class="fas fa-boxes"></i> Seleccionar Equipos del Inventario (Solo Disponibles)</h6>
+                  <h6 class="mb-0">Seleccionar Equipos del Inventario</h6>
                 </div>
                 <div class="card-body">
                   <ul class="nav nav-tabs" id="inventarioTabsPrestamo" role="tablist">
@@ -234,41 +219,49 @@
             </div>
             
             <!-- Contenedor dinámico para múltiples items -->
-            <div id="items_container" class="col-12 mb-3">
+            <div id="items_container" class="col-12">
               <!-- Los items se generarán dinámicamente aquí -->
             </div>
             
-            <div class="col-md-12 mb-2">
-              <label>Observaciones</label>
-              <textarea class="form-control" name="observaciones"></textarea>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Observaciones</label>
+                <textarea class="form-control" name="observaciones" rows="3"></textarea>
+              </div>
             </div>
           </div>
 
           <!-- Campos para Salidas -->
           <input type="hidden" id="id_salida" name="id_salida" value="">
           <div class="row" data-field="salida" style="display: none;">
-            <div class="col-md-6 mb-2">
-              <label>Fecha</label>
-              <input type="date" class="form-control" name="fecha_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" class="form-control" name="fecha_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Ítem</label>
-              <input type="text" class="form-control" name="item_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Ítem</label>
+                <input type="text" class="form-control" name="item_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Tipo de Dispositivo</label>
-              <select class="form-control" name="tipo_dispositivo_salida" id="tipo_dispositivo_salida" required onchange="toggleInventarioTab('salida')">
-                <option value="">Seleccione tipo</option>
-                <option value="interno">Interno</option>
-                <option value="externo">Externo</option>
-              </select>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Tipo de Dispositivo</label>
+                <select class="form-control" name="tipo_dispositivo_salida" id="tipo_dispositivo_salida" required onchange="toggleInventarioTab('salida')">
+                  <option value="">Seleccione tipo</option>
+                  <option value="interno">Interno</option>
+                  <option value="externo">Externo</option>
+                </select>
+              </div>
             </div>
             
             <!-- Tab de Inventario para Salidas -->
             <div class="col-12 mb-3" id="inventario_tab_salida" style="display: none;">
-              <div class="card inventario-tab">
+              <div class="card">
                 <div class="card-header">
-                  <h6 class="mb-0"><i class="fas fa-boxes"></i> Seleccionar Equipo del Inventario</h6>
+                  <h6 class="mb-0">Seleccionar Equipo del Inventario</h6>
                 </div>
                 <div class="card-body">
                   <ul class="nav nav-tabs" id="inventarioTabsSalida" role="tablist">
@@ -413,61 +406,81 @@
               </div>
             </div>
             
-            <div class="col-md-6 mb-2">
-              <label>Descripción Dispositivo</label>
-              <input type="text" class="form-control" name="descripcion_dispositivo_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Descripción Dispositivo</label>
+                <input type="text" class="form-control" name="descripcion_dispositivo_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Marca</label>
-              <input type="text" class="form-control" name="marca_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Marca</label>
+                <input type="text" class="form-control" name="marca_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Modelo</label>
-              <input type="text" class="form-control" name="modelo_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" class="form-control" name="modelo_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Número Activo</label>
-              <input type="text" class="form-control" name="numero_activo_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Número Activo</label>
+                <input type="text" class="form-control" name="numero_activo_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Serial</label>
-              <input type="text" class="form-control" name="serial_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Serial</label>
+                <input type="text" class="form-control" name="serial_salida" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Dependencia</label>
-              <input type="text" class="form-control" name="dependencia_salida" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Dependencia</label>
+                <input type="text" class="form-control" name="dependencia_salida" required>
+              </div>
             </div>
-            <div class="col-md-12 mb-2">
-              <label>Observaciones</label>
-              <textarea class="form-control" name="observaciones_salida"></textarea>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Observaciones</label>
+                <textarea class="form-control" name="observaciones_salida" rows="3"></textarea>
+              </div>
             </div>
           </div>
 
           <!-- Campos para Ingresos -->
           <input type="hidden" id="id_ingreso" name="id_ingreso" value="">
           <div class="row" data-field="ingreso" style="display: none;">
-            <div class="col-md-6 mb-2">
-              <label>Fecha</label>
-              <input type="date" class="form-control" name="fecha_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" class="form-control" name="fecha_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Ítem</label>
-              <input type="text" class="form-control" name="item_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Ítem</label>
+                <input type="text" class="form-control" name="item_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Tipo de Dispositivo</label>
-              <select class="form-control" name="tipo_dispositivo_ingreso" id="tipo_dispositivo_ingreso" required onchange="toggleInventarioTab('ingreso')">
-                <option value="">Seleccione tipo</option>
-                <option value="interno">Interno</option>
-                <option value="externo">Externo</option>
-              </select>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Tipo de Dispositivo</label>
+                <select class="form-control" name="tipo_dispositivo_ingreso" id="tipo_dispositivo_ingreso" required onchange="toggleInventarioTab('ingreso')">
+                  <option value="">Seleccione tipo</option>
+                  <option value="interno">Interno</option>
+                  <option value="externo">Externo</option>
+                </select>
+              </div>
             </div>
             
             <!-- Tab de Inventario para Ingresos -->
             <div class="col-12 mb-3" id="inventario_tab_ingreso" style="display: none;">
-              <div class="card inventario-tab">
+              <div class="card">
                 <div class="card-header">
-                  <h6 class="mb-0"><i class="fas fa-boxes"></i> Seleccionar Equipo del Inventario</h6>
+                  <h6 class="mb-0">Seleccionar Equipo del Inventario</h6>
                 </div>
                 <div class="card-body">
                   <ul class="nav nav-tabs" id="inventarioTabsIngreso" role="tablist">
@@ -612,40 +625,54 @@
               </div>
             </div>
             
-            <div class="col-md-6 mb-2">
-              <label>Descripción Dispositivo</label>
-              <input type="text" class="form-control" name="descripcion_dispositivo_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Descripción Dispositivo</label>
+                <input type="text" class="form-control" name="descripcion_dispositivo_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Marca</label>
-              <input type="text" class="form-control" name="marca_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Marca</label>
+                <input type="text" class="form-control" name="marca_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Modelo</label>
-              <input type="text" class="form-control" name="modelo_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" class="form-control" name="modelo_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Número Activo</label>
-              <input type="text" class="form-control" name="numero_activo_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Número Activo</label>
+                <input type="text" class="form-control" name="numero_activo_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Serial</label>
-              <input type="text" class="form-control" name="serial_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Serial</label>
+                <input type="text" class="form-control" name="serial_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-6 mb-2">
-              <label>Dependencia</label>
-              <input type="text" class="form-control" name="dependencia_ingreso" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Dependencia</label>
+                <input type="text" class="form-control" name="dependencia_ingreso" required>
+              </div>
             </div>
-            <div class="col-md-12 mb-2">
-              <label>Observaciones</label>
-              <textarea class="form-control" name="observaciones_ingreso"></textarea>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Observaciones</label>
+                <textarea class="form-control" name="observaciones_ingreso" rows="3"></textarea>
+              </div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary" form="formPsi" id="btnGuardarPsi">Guardar</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-success" form="formPsi" id="btnGuardarPsi">Guardar</button>
       </div>
     </div>
   </div>

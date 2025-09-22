@@ -1779,3 +1779,7 @@
 [2025-09-02 17:43:58] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Funcionarios Planta
 [2025-09-16 15:08:11] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
 [2025-09-16 15:08:11] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-09-17 14:59:28] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-17 14:59:28] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
+[2025-09-19 23:15:50] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-19 23:15:50] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: ::1 | Acción: Acceso al módulo Dashboard
