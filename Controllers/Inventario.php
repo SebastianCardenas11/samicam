@@ -33,20 +33,12 @@ class Inventario extends Controllers
         if ($_SESSION['permisosMod']['r']) {
             try {
                 $arrData = $this->model->selectImpresoras();
-                // Agregar el último movimiento a cada impresora
-                foreach ($arrData as &$impresora) {
-                    $ultimo = $this->model->getUltimoMovimientoEquipo($impresora['id_impresora'], 'impresora');
-                    $impresora['ultimo_movimiento'] = $ultimo ? $ultimo['tipo_movimiento'] : null;
-                }
-                unset($impresora);
-                error_log('Datos obtenidos: ' . print_r($arrData, true));
                 echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             } catch (Exception $e) {
-                error_log('Error en getImpresoras: ' . $e->getMessage());
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
             }
         } else {
-            error_log('Sin permisos de lectura');
+            echo json_encode([], JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -95,6 +87,8 @@ class Inventario extends Controllers
                     $strEstado = strClean($_POST['txtEstado']);
                     $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
                     $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                    $funcionario_ops_id = !empty($_POST['txtFuncionarioOps']) ? intval($_POST['txtFuncionarioOps']) : null;
+                    $funcionario_planta_id = !empty($_POST['txtFuncionarioPlanta']) ? intval($_POST['txtFuncionarioPlanta']) : null;
                     
                     // Determinar en qué campo guardar la fecha según el estado
                     $fechaDano = null;
@@ -113,7 +107,7 @@ class Inventario extends Controllers
                     if ($intIdImpresora == 0) {
                         if ($_SESSION['permisosMod']['w']) {
                             error_log('Insertando nueva impresora...');
-                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                            $request = $this->model->insertImpresora($strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
                             $option = 1;
                             error_log('Resultado insert: ' . $request);
                         } else {
@@ -122,7 +116,7 @@ class Inventario extends Controllers
                     } else {
                         if ($_SESSION['permisosMod']['u']) {
                             error_log('Actualizando impresora ID: ' . $intIdImpresora);
-                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                            $request = $this->model->updateImpresora($intIdImpresora, $strNumeroImpresora, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strConsumible, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
                             $option = 2;
                             error_log('Resultado update: ' . $request);
                         } else {
@@ -199,6 +193,8 @@ class Inventario extends Controllers
             } catch (Exception $e) {
                 echo json_encode([], JSON_UNESCAPED_UNICODE);
             }
+        } else {
+            echo json_encode([], JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -475,6 +471,25 @@ class Inventario extends Controllers
     {
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectDependencias();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // ==================== FUNCIONARIOS ====================
+    public function getFuncionariosOps()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->getFuncionariosOps();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function getFuncionariosPlanta()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->getFuncionariosPlanta();
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
         die();

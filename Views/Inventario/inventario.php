@@ -139,6 +139,7 @@
                                                                     <th>Serial</th>
                                                                     <th>N° Activo</th>
                                                                     <th>Consumible</th>
+                                                                    <th>Asignado a</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
                                                                     <th>Acciones</th>

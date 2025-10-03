@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-09-2025 a las 17:02:36
+-- Tiempo de generación: 30-09-2025 a las 20:08:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -429,7 +429,10 @@ INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_reci
 (104, 'Resolución No 00826 del 02-09-2025 “POR MEDIO DEL CUAL SE HACE LA DESIGNACIÓN DEL JOVEN REPRESENTANTE A LA CURUL ESPECIAL DE LA POBLACIÓN', '2025-09-10', 'gobierno@lajaguadeibirico-cesar.gov.co', 'RESOLUCIÒN Nª 00826', '2025-09-10', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/resolucion-no-00826-02-09-2025-por-medio-del-cual-se', 3, 1),
 (105, 'CONTRATOS', '2025-09-08', 'lajaguasigep20@gmail.com', 'RELACION CONTRATOS RENDIDOS DEL MES DE AGOSTO', '2025-09-08', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/tema/contrataciones', 16, 1),
 (106, '“Renta Ciudadana Participa y haz parte del cambio en tu comunidad”', '2025-09-15', 'desarrollocomunitario@lajaguadeibirico-cesar.gov.co', 'INFORMACION PARA PUBLICACION', '2025-09-15', 'Si', 'https://la-jagua-de-ibirico.micolombiadigital.gov.co/descripcion-general-del-menu-participa/renta-ciudadana-participa-y-haz-parte-del-cambio-en', 3, 1),
-(107, 'PROGRAMA DE GESTIÓN DOCUMENTAL', '2025-08-08', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Solicitud de información sobre la Tabla de Retención Documental y el Programa de Gestión Documental', '2025-09-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/instrumento-de-gestion-de-la-informacion/programa-de-gestion-documental-378260', 14, 1);
+(107, 'PROGRAMA DE GESTIÓN DOCUMENTAL', '2025-08-08', 'controlinterno@lajaguadeibirico-cesar.gov.co', 'Solicitud de información sobre la Tabla de Retención Documental y el Programa de Gestión Documental', '2025-09-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/instrumento-de-gestion-de-la-informacion/programa-de-gestion-documental-378260', 14, 1),
+(108, 'BANCO DE PROGRAMAS Y PROYECTOS AÑO 2025 - Alcaldía de La Jagua de Ibirico - Cesar', '2025-09-16', 'sistema@lajaguadeibirico-cesar.gov.co', 'BANCO DE PROGRAMAS Y PROYECTOS AÑO 2025 - Alcaldía de La Jagua de Ibirico - Cesar', '2025-09-17', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/proyectos-de-inversion/banco-de-programas-y-proyectos-ano-2025', 1, 1),
+(109, 'DECRETO GGE-00130 del 22 de septiembre de 2025 POR EL CUAL SE DECLARAN DIAS CIVICOS EN EL MUNICIPIO DE LA JAGUA DE IBIRICO - CESAR', '2025-09-23', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'DECRETO GGE-00130 del 22 de septiembre de 2025', '2025-09-23', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-gce00130-del-22-de-septiembre-de-2025-por-el', 13, 1),
+(110, 'DECRETO 00132 - 22 DE SEPTIEMBRE DE 2025 - POR MEDIO DEL CUAL SE DISPONEN MEDIDAS PARA LA CONSERVACIÓN DEL ORDEN PÚBLICO PARA EL 42° FESTIVAL FOLCLÓR.', '2025-09-23', 'talentohumano@lajaguadeibirico-cesar.gov.co', 'DECRETO 00132_ORDEN PÚBLICO FFAM 42°', '2025-09-24', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/normatividad/decreto-00132-22-de-septiembre-de-2025-por-medio-del', 13, 1);
 
 -- --------------------------------------------------------
 
@@ -1132,7 +1135,23 @@ INSERT INTO `tbl_historial_permisos` (`id_historial`, `id_funcionario`, `fecha_p
 (105, 54, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-16 15:21:54', 'planta', 0, ''),
 (106, 107, '2025-09-17', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-16 15:22:26', 'planta', 0, ''),
 (107, 101, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-16 15:23:41', 'planta', 0, ''),
-(108, 131, '2025-09-16', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-16 15:24:45', 'planta', 0, '');
+(108, 131, '2025-09-16', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-16 15:24:45', 'planta', 0, ''),
+(109, 84, '2025-09-22', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-18 10:16:27', 'planta', 0, ''),
+(110, 74, '0000-00-00', 8, 2005, 'Dia del cumpleaños', 'Aprobado', '2025-09-18 10:16:58', 'planta', 0, ''),
+(111, 113, '2025-09-22', 9, 2025, 'Realizar examenes medicos', 'Aprobado', '2025-09-18 10:19:49', 'planta', 0, ''),
+(112, 93, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-18 10:20:32', 'planta', 0, ''),
+(113, 77, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-18 10:21:12', 'planta', 0, ''),
+(114, 113, '2025-09-26', 9, 2025, 'Cita médica', 'Aprobado', '2025-09-19 17:51:45', 'planta', 0, ''),
+(115, 74, '2025-09-22', 9, 2025, 'Dia del cumpleaños', 'Aprobado', '2025-09-19 17:53:29', 'planta', 0, ''),
+(116, 64, '2025-10-02', 10, 2025, 'Cita médica', 'Aprobado', '2025-09-23 15:44:46', 'planta', 0, ''),
+(117, 64, '2025-10-03', 10, 2025, 'Cita médica', 'Aprobado', '2025-09-23 15:45:31', 'planta', 0, ''),
+(118, 71, '2025-10-03', 10, 2025, 'Diligencias personales', 'Aprobado', '2025-09-23 15:46:30', 'planta', 0, ''),
+(119, 40, '2025-09-25', 9, 2025, 'Diligencias personales', 'Aprobado', '2025-09-23 15:49:41', 'planta', 0, ''),
+(120, 89, '2025-09-30', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', '2025-09-23 15:51:11', 'planta', 0, ''),
+(121, 89, '2025-10-01', 10, 2025, 'Diligencias personales', 'Aprobado', '2025-09-23 15:51:31', 'planta', 0, ''),
+(122, 26, '2025-09-24', 9, 2025, 'Dia del cumpleaños', 'Aprobado', '2025-09-23 15:52:24', 'planta', 0, ''),
+(123, 105, '2025-10-09', 10, 2025, 'Diligencias personales', 'Aprobado', '2025-09-23 16:05:05', 'planta', 0, ''),
+(124, 105, '2025-10-10', 10, 2025, 'Diligencias personales', 'Aprobado', '2025-09-23 16:05:30', 'planta', 0, '');
 
 -- --------------------------------------------------------
 
@@ -1152,6 +1171,8 @@ CREATE TABLE `tbl_impresoras` (
   `disponibilidad` enum('Disponible','No Disponible') NOT NULL DEFAULT 'Disponible',
   `fecha_dano` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se marcó como dañado/malo',
   `fecha_baja` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se dio de baja',
+  `funcionario_ops_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario OPS asignado',
+  `funcionario_planta_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario de planta asignado',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
@@ -1161,50 +1182,50 @@ CREATE TABLE `tbl_impresoras` (
 -- Volcado de datos para la tabla `tbl_impresoras`
 --
 
-INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `modelo`, `serial`, `consumible`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:58:54', '2025-08-20 04:04:13', 0),
-(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 04:03:55', 1),
-(13, 'IMP-2', 'RICOH', 'Aficio MP 305+SP', 'G582P350295', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(14, 'IMP-4', 'SAMSUNG', 'Xpress SL-M2070FW', '073YB8KG1A000GT', 'MLT-D111S', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(15, 'IMP-7', 'EPSON', 'EcoTank L5190', 'X5NQ139873', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:29', 1),
-(16, 'IMP-10', 'RICOH', 'Aficio MP 305+SP', 'G581PB50010', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(17, 'IMP-15', 'HP', 'LaserJet Pro M203dw', 'VNB5DD1188', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(18, 'IMP-16', 'RICOH', 'Aficio MP 305+SP', 'G581EPBS0016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(19, 'IMP-17', 'HP', 'LaserJet Pro M203dw', 'VNB5D11429', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(20, 'IMP-22', 'RICOH', 'Aficio MP 305+SP', 'G582P350016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(21, 'IMP-24', 'RICOH', 'Aficio MP 305+SP', 'G582P350012', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(22, 'IMP-26', 'EPSON', 'EcoTank L6490', 'X94Z000993', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(23, 'IMP-27', 'HP', 'LaserJet Pro M203dw', 'VND3B28504', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(24, 'IMP-28', 'HP', 'LaserJet Pro M201dw', 'VNB3F10071', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(25, 'IMP-30', 'HP', 'Lasert Jet Pro MFP M428Fdw', 'CNDRPBY352', '58X - CF258X', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(26, 'IMP-31', 'RICOH', 'Aficio MP 305+SP', 'G582P350284', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(27, 'IMP-32', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H280H5', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(28, 'IMP-35', 'EPSON', 'EcoTank L6490', 'X94Z001039', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(29, 'IMP-36', 'HP', 'LaserJet Pro P1102', 'VND3T00859', '85A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(30, 'IMP-38', 'HP', 'LaserJet Pro M521dn', 'CNCKL1N325', '55A-X', NULL, 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(31, 'IMP-41', 'HP', 'LaserJet Pro MFP M127fn', 'SNB9G42633', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(32, 'IMP-42', 'HP', 'LaserJet 500 MFP M525', 'MXFCH6L0D2', 'CE255X', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(33, 'IMP-43', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H58LHW', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(34, 'IMP-48', 'HP', 'Laserjet Enterprise Mfp M630', 'MXBCM2237', 'CF281A - 81AX', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(35, 'IMP-50', 'EPSON', 'EcoTank L3210', 'XAGB487365', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:26:58', 1),
-(36, 'IMP-51', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W0BV', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(37, 'IMP-52', 'HP', 'LaserJet Pro MFP M227fdw', 'WNG3210797', '230A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 03:52:34', 1),
-(38, 'IMP-54', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W65K', '83A', NULL, 'Malo', 'No Disponible', '2025-08-04', NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(39, 'IMP-55', 'EPSON', 'EcoTank L3110', 'X644509645', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:18', 1),
-(40, 'IMP-56', 'EPSON', 'EcoTank L3110', 'XAGB352710', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:28', 1),
-(41, 'IMP-57', 'EPSON', 'EcoTank L3110', 'X644507809', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:45', 1),
-(42, 'IMP-63', 'HP', 'Color LaserJet Pro M454dw', 'VNB3D23979', 'W2022XC AM- MG-CIAN-NEGRO', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(43, 'IMP-64', 'HP', 'LaserJet Pro M127a MFP', 'CNB9G42633', '83A', NULL, 'Bueno', 'No Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 13:52:28', 1),
-(44, 'IMP-65', 'KYOCERA', 'Ecosys MA4500 IFX', 'WDE3802748', 'TK-3402', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(45, 'IMP-66', 'EPSON', 'EcoTank L3210', 'XAGB352835', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:14', 1),
-(46, 'IMP-67', 'HP', 'LaserJet Pro M203dw', 'VNB5D11419', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(47, 'IMP-68', 'HP', 'LaserJet Pro M203dw', 'VNB5D59434', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(48, 'IMP-69', 'CANON', 'Pixma G4170 Megatank', 'KPJT02303', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(49, 'IMP-70', 'CANON', 'Pixma G4170 Megatank', 'KPJT02058', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(50, 'IMP-71', 'CANON', 'Pixma G4170 Megatank', 'KPJT01495', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(51, 'IMP-72', 'HP', 'Laser MFP 137fnw', 'CNB2N46M1G', '105A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(52, 'IMP-73', 'HP', 'LaserJet Pro 400 MFP M425dn', '', '05A - 80A', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
-(53, 'IMP-74', 'Brother', 'DCP-T710W', '', 'Tinta Brother BTD60 y BT5001', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:31:02', 1);
+INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `modelo`, `serial`, `consumible`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `funcionario_ops_id`, `funcionario_planta_id`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-01 14:58:54', '2025-08-20 04:04:13', 0),
+(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 04:03:55', 1),
+(13, 'IMP-2', 'RICOH', 'Aficio MP 305+SP', 'G582P350295', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(14, 'IMP-4', 'SAMSUNG', 'Xpress SL-M2070FW', '073YB8KG1A000GT', 'MLT-D111S', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(15, 'IMP-7', 'EPSON', 'EcoTank L5190', 'X5NQ139873', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:29', 1),
+(16, 'IMP-10', 'RICOH', 'Aficio MP 305+SP', 'G581PB50010', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(17, 'IMP-15', 'HP', 'LaserJet Pro M203dw', 'VNB5DD1188', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(18, 'IMP-16', 'RICOH', 'Aficio MP 305+SP', 'G581EPBS0016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(19, 'IMP-17', 'HP', 'LaserJet Pro M203dw', 'VNB5D11429', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(20, 'IMP-22', 'RICOH', 'Aficio MP 305+SP', 'G582P350016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(21, 'IMP-24', 'RICOH', 'Aficio MP 305+SP', 'G582P350012', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(22, 'IMP-26', 'EPSON', 'EcoTank L6490', 'X94Z000993', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(23, 'IMP-27', 'HP', 'LaserJet Pro M203dw', 'VND3B28504', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(24, 'IMP-28', 'HP', 'LaserJet Pro M201dw', 'VNB3F10071', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(25, 'IMP-30', 'HP', 'Lasert Jet Pro MFP M428Fdw', 'CNDRPBY352', '58X - CF258X', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(26, 'IMP-31', 'RICOH', 'Aficio MP 305+SP', 'G582P350284', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(27, 'IMP-32', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H280H5', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(28, 'IMP-35', 'EPSON', 'EcoTank L6490', 'X94Z001039', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(29, 'IMP-36', 'HP', 'LaserJet Pro P1102', 'VND3T00859', '85A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(30, 'IMP-38', 'HP', 'LaserJet Pro M521dn', 'CNCKL1N325', '55A-X', NULL, 'Malo', 'No Disponible', '2025-08-04', NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(31, 'IMP-41', 'HP', 'LaserJet Pro MFP M127fn', 'SNB9G42633', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(32, 'IMP-42', 'HP', 'LaserJet 500 MFP M525', 'MXFCH6L0D2', 'CE255X', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(33, 'IMP-43', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H58LHW', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(34, 'IMP-48', 'HP', 'Laserjet Enterprise Mfp M630', 'MXBCM2237', 'CF281A - 81AX', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(35, 'IMP-50', 'EPSON', 'EcoTank L3210', 'XAGB487365', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:26:58', 1),
+(36, 'IMP-51', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W0BV', '83A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(37, 'IMP-52', 'HP', 'LaserJet Pro MFP M227fdw', 'WNG3210797', '230A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 03:52:34', 1),
+(38, 'IMP-54', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H3W65K', '83A', NULL, 'Malo', 'No Disponible', '2025-08-04', NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(39, 'IMP-55', 'EPSON', 'EcoTank L3110', 'X644509645', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:18', 1),
+(40, 'IMP-56', 'EPSON', 'EcoTank L3110', 'XAGB352710', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:28', 1),
+(41, 'IMP-57', 'EPSON', 'EcoTank L3110', 'X644507809', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:27:45', 1),
+(42, 'IMP-63', 'HP', 'Color LaserJet Pro M454dw', 'VNB3D23979', 'W2022XC AM- MG-CIAN-NEGRO', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(43, 'IMP-64', 'HP', 'LaserJet Pro M127a MFP', 'CNB9G42633', '83A', NULL, 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-20 13:52:28', 1),
+(44, 'IMP-65', 'KYOCERA', 'Ecosys MA4500 IFX', 'WDE3802748', 'TK-3402', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(45, 'IMP-66', 'EPSON', 'EcoTank L3210', 'XAGB352835', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:14', 1),
+(46, 'IMP-67', 'HP', 'LaserJet Pro M203dw', 'VNB5D11419', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(47, 'IMP-68', 'HP', 'LaserJet Pro M203dw', 'VNB5D59434', '30A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(48, 'IMP-69', 'CANON', 'Pixma G4170 Megatank', 'KPJT02303', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(49, 'IMP-70', 'CANON', 'Pixma G4170 Megatank', 'KPJT02058', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(50, 'IMP-71', 'CANON', 'Pixma G4170 Megatank', 'KPJT01495', 'TINTA', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(51, 'IMP-72', 'HP', 'Laser MFP 137fnw', 'CNB2N46M1G', '105A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(52, 'IMP-73', 'HP', 'LaserJet Pro 400 MFP M425dn', '', '05A - 80A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
+(53, 'IMP-74', 'Brother', 'DCP-T710W', '', 'Tinta Brother BTD60 y BT5001', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:31:02', 1);
 
 -- --------------------------------------------------------
 
@@ -1264,7 +1285,8 @@ INSERT INTO `tbl_motivos_permisos` (`id_motivo`, `nombre`, `descripcion`, `statu
 (6, 'Gestión académica', 'Permiso para asuntos relacionados con estudios', 1, '2025-07-08 13:50:15', '2025-07-08 13:50:15'),
 (8, 'Dia del cumpleaños', 'Permiso compensatorio por el día del cumpleaños', 1, '2025-07-22 20:51:55', '2025-07-23 16:33:13'),
 (9, 'Dia de la Familia', 'Permiso compensatorio por el día de la familia', 1, '2025-07-23 16:32:05', '2025-07-23 16:33:37'),
-(10, 'Acompañamiento a familiar en exámenes médicos', 'Permiso para acompañar a familiar', 1, '2025-07-29 14:53:24', '2025-07-29 14:53:24');
+(10, 'Acompañamiento a familiar en exámenes médicos', 'Permiso para acompañar a familiar', 1, '2025-07-29 14:53:24', '2025-07-29 14:53:24'),
+(11, 'Realizar examenes medicos', 'Ecografis, Radiografias', 1, '2025-09-18 15:19:08', '2025-09-18 15:19:08');
 
 -- --------------------------------------------------------
 
@@ -1386,6 +1408,8 @@ CREATE TABLE `tbl_pc_torre` (
   `disponibilidad` enum('Disponible','No Disponible') NOT NULL DEFAULT 'Disponible',
   `fecha_dano` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se marcó como dañado/malo',
   `fecha_baja` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se dio de baja',
+  `funcionario_ops_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario OPS asignado',
+  `funcionario_planta_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario de planta asignado',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
@@ -1395,47 +1419,47 @@ CREATE TABLE `tbl_pc_torre` (
 -- Volcado de datos para la tabla `tbl_pc_torre`
 --
 
-INSERT INTO `tbl_pc_torre` (`id_pc_torre`, `numero_pc`, `marca`, `serial`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `sistema_operativo`, `numero_activo`, `monitor`, `numero_activo_monitor`, `serial_monitor`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(5, 'PC-123', 'Dell', '9Q5JPY2', 'Vostro 3470', '4 GB', '2400 Mhz', 'Intel(R) Core(TM) i5-9400', '2.90 GHz', 'HDD', '1 TB', 'Windows 10 Pro', '', 'LG', '', '', 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:54:38', '2025-08-01 14:54:38', 1),
-(6, 'PC-2', 'HP', 'MX2526001L', '', '8GB', '', 'Intel Xeon', '', 'HDD', '', 'WIN10', '', 'LENOVO', '', '1588-6782', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(7, 'PC-3', 'COMPUMAX', 'BRC41748R6', '', '8GB', '', 'Intel Xeon', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '04GYHCHN801617N', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(8, 'PC-4', 'COMPUMAX', '300SN49398', '', '4GB', '', 'Intel Core I5', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE13050104857', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(9, 'PC-7', 'JANUS', 'N/A', '', '4GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'LG', '', '901NTHMSX249', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(10, 'PC-10', 'COMPUMAX', 'ES07619390', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'HP', '', '50210NBUS073', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(11, 'PC-11', 'LENOVO', 'S02NDMJ59079', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', '209SN09423', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(12, 'PC-17', 'COMPUMAX', '102SN12521', '', '4GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE305010526', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(13, 'PC-20', 'COMPUMAX', 'N/A', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LG', '', '404DNBES639', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(14, 'PC-29', 'JANUS', '102SN30347', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', '102SN30324', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(15, 'PC-31', 'COMPUMAX', '2020CMHT7032047', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '045YHN6020D', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(16, 'PC-35', 'JANUS', 'N/A', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', 'VS-09A476', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(17, 'PC-39', 'LENOVO', 'MJ0H4JQ7', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LENOVO', '', 'CN-0HN22V-FCC004M-AY6B-A07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(18, 'PC-45', 'COMPUMAX', '102SN3857', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', '303NDJWHS719', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(19, 'PC-46', 'DELL', '102SN3857', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LG', '', '04GYCHN8016Z', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(20, 'PC-48', 'COMPUMAX', '102SN30381', '', '8GB', '', 'Intel Core i5', '', 'SSD', '', 'WIN10', '', 'SAMSUNG', '', 'J2015LE670302673', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(21, 'PC-49', 'JANUS', 'N/A', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE305010175', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(22, 'PC-50', 'COMPUMAX', '200SN69057', '', '8GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'cn-0kn22b-fcc00-973-apb-a07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(23, 'PC-52', 'COMPUMAX', 'N/A', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', '279bcn86002ae', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(24, 'PC-53', 'COMPUMAX', '102SN30332', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '04gyhcn80163w', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(25, 'PC-56', 'COMPUMAX', '102SN12522', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'N/A', '', '901nthm759', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(26, 'PC-57', 'COMPUMAX', '101SN00877', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', '2020CMHT7032063', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(27, 'PC-59', 'COMPUMAX', '200SN6989', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'cn-0hn22v-fcc00-35p-ac3b-a07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(28, 'PC-62', 'COMPUMAX', '300SN34397', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'UKX314J0059a', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(29, 'PC-63', 'COMPUMAX', '102SN30358', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'viewsonic', '', '412NDNX24589', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(30, 'PC-67', 'DELL', '9q7spq2', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN7', '', 'DELL', '', '412NDNX24583', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(31, 'PC-69', 'COMPUMAX', '102SN30394', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', 'J2213LE305010231', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(32, 'PC-70', 'COMPUMAX', '200SN66711', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', 'sn-0kn22b-fcc00-95p-ec4b-a07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(33, 'PC-73', 'COMPUMAX', '200SN86713', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'JANUS', '', '103021475', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(34, 'PC-74', 'DELL', '300SN58746', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'COM2020CMHT7031570', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(35, 'PC-81', 'COMPUMAX', '9u514t2', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'CN-0HL22V-FCC00-95P-CJ2B-07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(36, 'PC-85', 'COMPUMAX', '102SN30327', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(37, 'PC-100', 'HP', '4CE5932327', 'Generico', '8GB', '', 'Intel Core i5', '', 'SSD', '240 GB', 'WIN10', '', 'DELL', '', 'J2213LE305010', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 19:55:22', 1),
-(38, 'PC-100', 'DELL', 'N/A', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'HP', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(39, 'PC-103', 'COMPUMAX', '102SN30352', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'DELL', '', '901nthm523', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(40, 'PC-105', 'DELL', '9q4lt42', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'COM2020CMHT7031570', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(41, 'PC-106', 'COMPUMAX', 'N/A', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'CN-0HL22V-FCC00-95P-CJ2B-07', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(42, 'PC-107', 'COMPUMAX', '102SN30339', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(43, 'PC-111', 'JANUS', '9J5JFY2', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
-(44, 'PC-123', 'DELL', '102SN12561', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1);
+INSERT INTO `tbl_pc_torre` (`id_pc_torre`, `numero_pc`, `marca`, `serial`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `sistema_operativo`, `numero_activo`, `monitor`, `numero_activo_monitor`, `serial_monitor`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `funcionario_ops_id`, `funcionario_planta_id`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(5, 'PC-123', 'Dell', '9Q5JPY2', 'Vostro 3470', '4 GB', '2400 Mhz', 'Intel(R) Core(TM) i5-9400', '2.90 GHz', 'HDD', '1 TB', 'Windows 10 Pro', '', 'LG', '', '', 'Regular', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-01 14:54:38', '2025-08-01 14:54:38', 1),
+(6, 'PC-2', 'HP', 'MX2526001L', '', '8GB', '', 'Intel Xeon', '', 'HDD', '', 'WIN10', '', 'LENOVO', '', '1588-6782', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(7, 'PC-3', 'COMPUMAX', 'BRC41748R6', '', '8GB', '', 'Intel Xeon', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '04GYHCHN801617N', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(8, 'PC-4', 'COMPUMAX', '300SN49398', '', '4GB', '', 'Intel Core I5', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE13050104857', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(9, 'PC-7', 'JANUS', 'N/A', '', '4GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'LG', '', '901NTHMSX249', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(10, 'PC-10', 'COMPUMAX', 'ES07619390', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'HP', '', '50210NBUS073', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(11, 'PC-11', 'LENOVO', 'S02NDMJ59079', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', '209SN09423', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(12, 'PC-17', 'COMPUMAX', '102SN12521', '', '4GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE305010526', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(13, 'PC-20', 'COMPUMAX', 'N/A', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LG', '', '404DNBES639', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(14, 'PC-29', 'JANUS', '102SN30347', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', '102SN30324', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(15, 'PC-31', 'COMPUMAX', '2020CMHT7032047', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '045YHN6020D', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(16, 'PC-35', 'JANUS', 'N/A', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', 'VS-09A476', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(17, 'PC-39', 'LENOVO', 'MJ0H4JQ7', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LENOVO', '', 'CN-0HN22V-FCC004M-AY6B-A07', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(18, 'PC-45', 'COMPUMAX', '102SN3857', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', '303NDJWHS719', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(19, 'PC-46', 'DELL', '102SN3857', '', '4GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'LG', '', '04GYCHN8016Z', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(20, 'PC-48', 'COMPUMAX', '102SN30381', '', '8GB', '', 'Intel Core i5', '', 'SSD', '', 'WIN10', '', 'SAMSUNG', '', 'J2015LE670302673', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(21, 'PC-49', 'JANUS', 'N/A', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'J2213LE305010175', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(22, 'PC-50', 'COMPUMAX', '200SN69057', '', '8GB', '', 'Pentium', '', 'HDD', '', 'WIN10', '', 'JANUS', '', 'cn-0kn22b-fcc00-973-apb-a07', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(23, 'PC-52', 'COMPUMAX', 'N/A', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', '279bcn86002ae', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(24, 'PC-53', 'COMPUMAX', '102SN30332', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'SAMSUNG', '', '04gyhcn80163w', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(25, 'PC-56', 'COMPUMAX', '102SN12522', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'N/A', '', '901nthm759', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(26, 'PC-57', 'COMPUMAX', '101SN00877', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', '2020CMHT7032063', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(27, 'PC-59', 'COMPUMAX', '200SN6989', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'cn-0hn22v-fcc00-35p-ac3b-a07', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(28, 'PC-62', 'COMPUMAX', '300SN34397', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'UKX314J0059a', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(29, 'PC-63', 'COMPUMAX', '102SN30358', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'viewsonic', '', '412NDNX24589', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(30, 'PC-67', 'DELL', '9q7spq2', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN7', '', 'DELL', '', '412NDNX24583', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(31, 'PC-69', 'COMPUMAX', '102SN30394', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', 'J2213LE305010231', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(32, 'PC-70', 'COMPUMAX', '200SN66711', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'LG', '', 'sn-0kn22b-fcc00-95p-ec4b-a07', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(33, 'PC-73', 'COMPUMAX', '200SN86713', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'JANUS', '', '103021475', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(34, 'PC-74', 'DELL', '300SN58746', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'COM2020CMHT7031570', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(35, 'PC-81', 'COMPUMAX', '9u514t2', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'CN-0HL22V-FCC00-95P-CJ2B-07', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(36, 'PC-85', 'COMPUMAX', '102SN30327', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(37, 'PC-100', 'HP', '4CE5932327', 'Generico', '8GB', '', 'Intel Core i5', '', 'SSD', '240 GB', 'WIN10', '', 'DELL', '', 'J2213LE305010', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 19:55:22', 1),
+(38, 'PC-100', 'DELL', 'N/A', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'HP', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(39, 'PC-103', 'COMPUMAX', '102SN30352', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'DELL', '', '901nthm523', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(40, 'PC-105', 'DELL', '9q4lt42', '', '8GB', '', 'Intel Core i7', '', 'HDD', '', 'WIN10', '', 'DELL', '', 'COM2020CMHT7031570', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(41, 'PC-106', 'COMPUMAX', 'N/A', '', '8GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'CN-0HL22V-FCC00-95P-CJ2B-07', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(42, 'PC-107', 'COMPUMAX', '102SN30339', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(43, 'PC-111', 'JANUS', '9J5JFY2', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
+(44, 'PC-123', 'DELL', '102SN12561', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1);
 
 -- --------------------------------------------------------
 
@@ -1547,7 +1571,23 @@ INSERT INTO `tbl_permisos` (`id_permiso`, `id_funcionario`, `fecha_permiso`, `me
 (136, 54, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-16 15:21:54'),
 (137, 107, '2025-09-17', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-16 15:22:26'),
 (138, 101, '2025-09-19', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-16 15:23:41'),
-(139, 131, '2025-09-16', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-16 15:24:45');
+(139, 131, '2025-09-16', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-16 15:24:45'),
+(140, 84, '2025-09-22', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-18 10:16:27'),
+(141, 74, '0000-00-00', 8, 2005, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-09-18 10:16:58'),
+(142, 113, '2025-09-22', 9, 2025, 'Realizar examenes medicos', 'Aprobado', 'planta', 0, '', '2025-09-18 10:19:49'),
+(143, 93, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-18 10:20:32'),
+(144, 77, '2025-09-23', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-18 10:21:12'),
+(145, 113, '2025-09-26', 9, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-19 17:51:45'),
+(146, 74, '2025-09-22', 9, 2025, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-09-19 17:53:29'),
+(147, 64, '2025-10-02', 10, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-23 15:44:46'),
+(148, 64, '2025-10-03', 10, 2025, 'Cita médica', 'Aprobado', 'planta', 0, '', '2025-09-23 15:45:31'),
+(149, 71, '2025-10-03', 10, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-23 15:46:30'),
+(150, 40, '2025-09-25', 9, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-23 15:49:41'),
+(151, 89, '2025-09-30', 9, 2025, 'Acompañamiento a familiar en exámenes médicos', 'Aprobado', 'planta', 0, '', '2025-09-23 15:51:11'),
+(152, 89, '2025-10-01', 10, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-23 15:51:31'),
+(153, 26, '2025-09-24', 9, 2025, 'Dia del cumpleaños', 'Aprobado', 'planta', 0, '', '2025-09-23 15:52:24'),
+(154, 105, '2025-10-09', 10, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-23 16:05:05'),
+(155, 105, '2025-10-10', 10, 2025, 'Diligencias personales', 'Aprobado', 'planta', 0, '', '2025-09-23 16:05:30');
 
 -- --------------------------------------------------------
 
@@ -1710,6 +1750,8 @@ CREATE TABLE `tbl_portatiles` (
   `disponibilidad` enum('Disponible','No Disponible') NOT NULL DEFAULT 'Disponible',
   `fecha_dano` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se marcó como dañado/malo',
   `fecha_baja` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se dio de baja',
+  `funcionario_ops_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario OPS asignado',
+  `funcionario_planta_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario de planta asignado',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
@@ -1719,21 +1761,21 @@ CREATE TABLE `tbl_portatiles` (
 -- Volcado de datos para la tabla `tbl_portatiles`
 --
 
-INSERT INTO `tbl_portatiles` (`id_portatil`, `numero_pc`, `marca`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `serial`, `sistema_operativo`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(4, 'PC-109', 'Dell', 'Inspiron 3493', '8 GB', '2667 Mhz', 'Intel(R) Core(TM) i5-1035G1', '1.00GHz', 'Híbrido', '1.25 TB', 'CDJ7J33', 'Windows 11 Home', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-01 14:47:25', '2025-08-01 14:47:25', 1),
-(5, 'PC-65', 'DELL', '', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', '26832216927', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(6, 'PC-97', 'HP', '', '8GB', NULL, 'Intel Core i5', NULL, 'HDD', '', '5CG131G1K', 'WIN11', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(7, 'PC-109', 'DELL', '', '8GB', NULL, 'Core i5-1035G1', '1,00 GHZ', 'SSD', '240 GB', 'CD7J33', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(8, 'PC-110', 'DELL', '', '8GB', NULL, 'Intel Core i7', NULL, 'HDD', '', '6KP5FT2', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(9, 'PC-122', 'HP', '', '4GB', NULL, 'Intel Core i5', NULL, 'HDD', '', '5CG9391NN9', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(10, 'PC-00', 'LENOVO', 'PORTATILES', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB31509115', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(11, 'PC-00', 'LENOVO', 'B40-70', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB31508803', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(12, 'PC-00', 'LENOVO', 'B40-70', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB3148502B', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
-(13, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31508829', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:21', 1),
-(14, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31510561', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:28', 1),
-(15, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31508923', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:13:02', 1),
-(16, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '5100157C', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:58', 1),
-(17, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '?', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:53', 1);
+INSERT INTO `tbl_portatiles` (`id_portatil`, `numero_pc`, `marca`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `serial`, `sistema_operativo`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `funcionario_ops_id`, `funcionario_planta_id`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(4, 'PC-109', 'Dell', 'Inspiron 3493', '8 GB', '2667 Mhz', 'Intel(R) Core(TM) i5-1035G1', '1.00GHz', 'Híbrido', '1.25 TB', 'CDJ7J33', 'Windows 11 Home', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-01 14:47:25', '2025-08-01 14:47:25', 1),
+(5, 'PC-65', 'DELL', '', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', '26832216927', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(6, 'PC-97', 'HP', '', '8GB', NULL, 'Intel Core i5', NULL, 'HDD', '', '5CG131G1K', 'WIN11', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(7, 'PC-109', 'DELL', '', '8GB', NULL, 'Core i5-1035G1', '1,00 GHZ', 'SSD', '240 GB', 'CD7J33', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(8, 'PC-110', 'DELL', '', '8GB', NULL, 'Intel Core i7', NULL, 'HDD', '', '6KP5FT2', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(9, 'PC-122', 'HP', '', '4GB', NULL, 'Intel Core i5', NULL, 'HDD', '', '5CG9391NN9', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(10, 'PC-00', 'LENOVO', 'PORTATILES', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB31509115', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(11, 'PC-00', 'LENOVO', 'B40-70', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB31508803', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(12, 'PC-00', 'LENOVO', 'B40-70', '4GB', NULL, 'Intel Core i3', NULL, 'HDD', '', 'CB3148502B', 'WIN10', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:11:57', 1),
+(13, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31508829', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:21', 1),
+(14, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31510561', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:28', 1),
+(15, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'CB31508923', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:13:02', 1),
+(16, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '5100157C', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:58', 1),
+(17, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '?', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:53', 1);
 
 -- --------------------------------------------------------
 
@@ -1964,10 +2006,16 @@ CREATE TABLE `tbl_todo_en_uno` (
   `serial` varchar(100) DEFAULT NULL,
   `sistema_operativo` varchar(100) DEFAULT NULL,
   `numero_activo` varchar(100) DEFAULT NULL,
+  `teclado` varchar(100) DEFAULT NULL COMMENT 'Marca/modelo del teclado',
+  `serial_teclado` varchar(100) DEFAULT NULL COMMENT 'Serial del teclado',
+  `mouse` varchar(100) DEFAULT NULL COMMENT 'Marca/modelo del mouse',
+  `serial_mouse` varchar(100) DEFAULT NULL COMMENT 'Serial del mouse',
   `estado` enum('Bueno','Regular','Malo','De Baja') NOT NULL DEFAULT 'Bueno',
   `disponibilidad` enum('Disponible','No Disponible') NOT NULL DEFAULT 'Disponible',
   `fecha_dano` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se marcó como dañado/malo',
   `fecha_baja` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se dio de baja',
+  `funcionario_ops_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario OPS asignado',
+  `funcionario_planta_id` int(11) DEFAULT NULL COMMENT 'ID del funcionario de planta asignado',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1
@@ -1977,49 +2025,50 @@ CREATE TABLE `tbl_todo_en_uno` (
 -- Volcado de datos para la tabla `tbl_todo_en_uno`
 --
 
-INSERT INTO `tbl_todo_en_uno` (`id_todo_en_uno`, `numero_pc`, `marca`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `serial`, `sistema_operativo`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(1, 'PC-OO', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503949', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(2, 'PC-8', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503949', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(3, 'PC-14', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393V', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(4, 'PC-15', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394J', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(5, 'PC-16', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393J', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(6, 'PC-18', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038MK', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(7, 'PC-19', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC10530NJ', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(8, 'PC-20', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038YF', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(9, 'PC-24', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '88CC150394C', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(10, 'PC-25', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394W', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(11, 'PC-26', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC8040FRS', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(12, 'PC-32', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038Y4', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(13, 'PC-34', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503944', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(14, 'PC-36', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393T', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(15, 'PC-38', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC0213224', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(16, 'PC-39', 'HP', '', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC0213224', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(17, 'PC-41', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393R', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(18, 'PC-42', 'HP', '200 G4 22 All-in-One', '16GB', '', 'Core i7', '', 'SSD', '512 GB', '', 'Windows 10 Pro', '', 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:32:01', 1),
-(19, 'PC-43', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503942', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(20, 'PC-47', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15037G4', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(21, 'PC-51', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I5 10210U', '1.60 GHz', 'SSD', '480 GB', '8CC14854CG', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(22, 'PC-54', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I5 10210U', '1.60 GHz', 'SSD', '480 GB', '8CC14854GX', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(23, 'PC-55', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150399S', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(24, 'PC-58', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393W', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(25, 'PC-61', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503943', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(26, 'PC-64', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503950', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(27, 'PC-66', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394F', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(28, 'PC-71', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394Y', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(29, 'PC-72', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503940', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(30, 'PC-76', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393L', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(31, 'PC-77', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC0133WNX', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(32, 'PC-80', 'HP', '200 G4 22 All-in-One', '8GB', '2400 MHz', 'I5 10210U', '1.60 GHz', 'SSD', '240 GB', '8C13226MNM', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(33, 'PC-82', 'HP', '200 G4 22 All-in-One', '8GB', '2400 MHz', 'I5 10210U', '1.60 GHz', 'SSD', '240 GB', '8CC13226M1', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(34, 'PC-84', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503947', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(35, 'PC-89', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC02132Z4', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(36, 'PC-93', 'HP', '', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC120PKB', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(37, 'PC-94', 'HP', '', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC01220033', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(38, 'PC-99', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394H', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(39, 'PC-101', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038PG', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(40, 'PC-104', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC0380ZZP', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(41, 'PC-121', 'HP', 'ProOne 400 G1', '4GB', '2400 MHz', 'i5 -4570T', '2.90GHz', 'HDD', '500 GB', 'MXL4281NXS', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
-(42, 'PC-124', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393Y', 'Windows 10 Pro', NULL, 'Bueno', 'Disponible', NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1);
+INSERT INTO `tbl_todo_en_uno` (`id_todo_en_uno`, `numero_pc`, `marca`, `modelo`, `ram`, `velocidad_ram`, `procesador`, `velocidad_procesador`, `disco_duro`, `capacidad`, `serial`, `sistema_operativo`, `numero_activo`, `teclado`, `serial_teclado`, `mouse`, `serial_mouse`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `funcionario_ops_id`, `funcionario_planta_id`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
+(1, 'PC-OO', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503949', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(2, 'PC-8', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503949', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(3, 'PC-14', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393V', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(4, 'PC-15', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394J', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(5, 'PC-16', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393J', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(6, 'PC-18', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038MK', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(7, 'PC-19', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC10530NJ', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(8, 'PC-20', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038YF', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(9, 'PC-24', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '88CC150394C', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(10, 'PC-25', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394W', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(11, 'PC-26', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC8040FRS', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(12, 'PC-32', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038Y4', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(13, 'PC-34', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503944', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(14, 'PC-36', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393T', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(15, 'PC-38', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC0213224', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(16, 'PC-39', 'HP', '', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC0213224', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(17, 'PC-41', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393R', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(18, 'PC-42', 'HP', '200 G4 22 All-in-One', '16GB', '', 'Core i7', '', 'SSD', '512 GB', '', 'Windows 10 Pro', '', NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:32:01', 1),
+(19, 'PC-43', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503942', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(20, 'PC-47', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15037G4', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(21, 'PC-51', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I5 10210U', '1.60 GHz', 'SSD', '480 GB', '8CC14854CG', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(22, 'PC-54', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I5 10210U', '1.60 GHz', 'SSD', '480 GB', '8CC14854GX', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(23, 'PC-55', 'HP', '200 G4 22 All-in-One', '8GB', '2400MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150399S', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(24, 'PC-58', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393W', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(25, 'PC-61', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503943', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(26, 'PC-64', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503950', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(27, 'PC-66', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394F', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(28, 'PC-71', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394Y', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(29, 'PC-72', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503940', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(30, 'PC-76', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393L', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(31, 'PC-77', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC0133WNX', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(32, 'PC-80', 'HP', '200 G4 22 All-in-One', '8GB', '2400 MHz', 'I5 10210U', '1.60 GHz', 'SSD', '240 GB', '8C13226MNM', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(33, 'PC-82', 'HP', '200 G4 22 All-in-One', '8GB', '2400 MHz', 'I5 10210U', '1.60 GHz', 'SSD', '240 GB', '8CC13226M1', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(34, 'PC-84', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC1503947', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(35, 'PC-89', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC02132Z4', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(36, 'PC-93', 'HP', '', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC120PKB', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(37, 'PC-94', 'HP', '', '4GB', '2400 MHz', 'Intel Core i5', NULL, 'HDD', '1 TB', '8CC01220033', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(38, 'PC-99', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150394H', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(39, 'PC-101', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC15038PG', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(40, 'PC-104', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC0380ZZP', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(41, 'PC-121', 'HP', 'ProOne 400 G1', '4GB', '2400 MHz', 'i5 -4570T', '2.90GHz', 'HDD', '500 GB', 'MXL4281NXS', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(42, 'PC-124', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393Y', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
+(51, '1', '1', '1', '1', '1', '1', '1', 'HDD', '200', '1', '1', '1', 'logitec', '1', 'logitec', '1', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-09-30 17:40:36', '2025-09-30 17:40:36', 1);
 
 -- --------------------------------------------------------
 
@@ -2570,7 +2619,7 @@ ALTER TABLE `prorrogas_contrato`
 -- AUTO_INCREMENT de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -2654,7 +2703,7 @@ ALTER TABLE `tbl_herramientas`
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
 --
 ALTER TABLE `tbl_historial_permisos`
-  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id_historial` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_impresoras`
@@ -2672,7 +2721,7 @@ ALTER TABLE `tbl_mantenimientos_equipos`
 -- AUTO_INCREMENT de la tabla `tbl_motivos_permisos`
 --
 ALTER TABLE `tbl_motivos_permisos`
-  MODIFY `id_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_notificaciones`
@@ -2702,7 +2751,7 @@ ALTER TABLE `tbl_pc_torre`
 -- AUTO_INCREMENT de la tabla `tbl_permisos`
 --
 ALTER TABLE `tbl_permisos`
-  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id_permiso` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_peticiones`
@@ -2762,7 +2811,7 @@ ALTER TABLE `tbl_tipos_peticion`
 -- AUTO_INCREMENT de la tabla `tbl_todo_en_uno`
 --
 ALTER TABLE `tbl_todo_en_uno`
-  MODIFY `id_todo_en_uno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_todo_en_uno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_usuarios`

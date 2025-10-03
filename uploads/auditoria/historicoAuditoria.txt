@@ -1895,3 +1895,143 @@
 [2025-09-19 17:51:04] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
 [2025-09-19 17:51:06] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
 [2025-09-19 17:51:08] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-09-23 14:41:05] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-09-23 14:41:45] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Correo: gobiernodigital@lajaguadeibirico-cesar.gov.co | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Cierre de sesión
+[2025-09-23 14:43:01] ID: 31 | Usuario: 1 | Correo: 1 | Rol: Superadministrador | IP: ::1 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-23 14:48:28] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Correo: gobiernodigital@lajaguadeibirico-cesar.gov.co | Rol: Gobierno digital | IP: 100.114.115.67 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-23 14:48:29] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-09-23 14:48:34] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-09-23 14:49:30] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-09-23 15:43:35] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-23 15:43:35] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-09-23 15:43:37] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-09-23 15:43:42] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-09-23 16:02:47] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-09-23 16:02:50] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-09-23 16:02:52] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-09-24 09:28:31] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-09-30 11:26:53] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-09-30 11:53:32] ID: 31 | Usuario: 1 | Correo: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-30 11:53:32] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-09-30 11:53:34] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-09-30 11:53:37] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 11:53:38] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 11:53:39] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-09-30 12:37:34] ID: 31 | Usuario: 1 | Correo: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-09-30 12:37:34] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-09-30 12:37:35] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Dashboard
+[2025-09-30 12:39:48] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:05:41] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:05:51] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:07:29] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:07:31] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:07:33] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:07:40] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:08:53] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:12:06] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:13:02] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:14:50] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:14:51] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:15:29] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:15:36] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:16:05] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:16:51] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:16:56] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:17:42] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:29:38] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:38:48] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 13:39:01] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 14:06:56] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:06:58] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:06:59] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-09-30 14:07:47] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 14:07:48] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 14:07:54] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Roles
+[2025-09-30 14:07:54] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Roles
+[2025-09-30 14:07:55] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Roles
+[2025-09-30 14:07:59] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:07:59] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:07:59] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:08:00] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-09-30 14:08:39] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 14:08:40] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 14:08:42] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Funcionarios Planta
+[2025-09-30 14:08:45] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-09-30 14:08:59] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:08:59] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Usuarios
+[2025-09-30 14:09:00] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-09-30 14:58:32] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 14:58:35] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 14:59:15] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-09-30 14:59:25] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-09-30 14:59:43] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-09-30 15:00:16] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 15:00:54] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 15:00:55] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Dependencias
+[2025-09-30 15:00:58] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Funcionarios Planta
+[2025-09-30 15:01:08] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-09-30 15:01:17] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-09-30 15:01:50] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Funcionarios Planta
+[2025-09-30 15:01:54] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:26:58] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-10-01 14:26:58] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-01 14:27:00] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-01 14:27:13] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:27:19] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:27:49] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:29:53] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:31:54] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:32:00] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:32:55] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:33:06] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:33:26] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:33:30] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:35:43] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-01 14:37:02] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Inventario
+[2025-10-02 11:07:52] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-10-02 11:07:52] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-10-02 11:07:55] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-10-02 15:46:05] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Inventario
+[2025-10-02 15:48:20] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-10-02 15:51:28] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Viáticos
+[2025-10-02 15:51:28] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Viáticos
+[2025-10-02 15:52:26] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-10-02 15:53:16] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-10-02 15:53:16] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Seguimiento de Contratos
+[2025-10-02 15:53:29] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Ops
+[2025-10-02 15:53:35] ID: 31 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Funcionarios Planta
+[2025-10-02 15:54:19] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-10-02 15:54:19] ID: 0 | Usuario: 1 | Rol: Superadministrador | IP: 100.85.55.128 | Acción: Acceso al módulo Vacaciones
+[2025-10-02 15:54:38] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-10-02 15:54:40] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-10-02 15:54:45] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-10-03 10:26:57] ID: 1 | Usuario: Luis Carlos Duran | Correo: sistema@lajaguadeibirico-cesar.gov.co | Rol: Superadministrador | IP: 100.86.68.89 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0 | Acción: Inicio de sesión
+[2025-10-03 10:26:57] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-10-03 10:26:59] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-10-03 10:27:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Roles
+[2025-10-03 10:27:04] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Roles
+[2025-10-03 10:27:04] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Roles
+[2025-10-03 10:27:11] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:31:13] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:32:31] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-10-03 10:32:31] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-03 10:32:34] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-03 10:35:01] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:35:14] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:38:18] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:39:53] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:42:54] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 10:43:50] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-10-03 10:43:58] ID: 16 | Usuario: Tatiana Alejandra Martínez Meneses | Rol: Gobierno digital | IP: 100.114.115.67 | Acción: Acceso al módulo Dashboard
+[2025-10-03 10:59:10] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Tareas
+[2025-10-03 11:11:30] ID: 26 | Usuario: Yuleima Aguilar | Correo: yuleimaaguilarlima@gmail.com | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-10-03 11:11:30] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-10-03 11:11:32] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Dashboard
+[2025-10-03 11:11:49] ID: 26 | Usuario: Yuleima Aguilar | Rol: Jefe Talento Humano | IP: 100.93.58.27 | Acción: Acceso al módulo Funcionarios Planta
+[2025-10-03 11:13:39] ID: 1 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-10-03 11:13:39] ID: 0 | Usuario: Luis Carlos Duran | Rol: Superadministrador | IP: 100.86.68.89 | Acción: Acceso al módulo Dashboard
+[2025-10-03 14:08:14] ID: 22 | Usuario: Elías Iguaran Márquez | Correo: helias.iguaran@gmail.com | Rol: Tecnico Ntic | IP: 100.112.66.56 | Navegador: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 | Acción: Inicio de sesión
+[2025-10-03 14:08:14] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-03 14:08:16] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-03 14:08:25] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard
+[2025-10-03 14:08:25] ID: 22 | Usuario: Elías Iguaran Márquez | Rol: Tecnico Ntic | IP: 100.112.66.56 | Acción: Acceso al módulo Dashboard

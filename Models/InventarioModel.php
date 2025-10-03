@@ -10,34 +10,82 @@ class InventarioModel extends Mysql
     // ==================== IMPRESORAS ====================
     public function selectImpresoras()
     {
-        $sql = "SELECT i.*, i.fecha_dano, i.fecha_baja FROM tbl_impresoras i WHERE i.status != 0 ORDER BY i.numero_impresora ASC";
+        $sql = "SELECT * FROM tbl_impresoras WHERE status = 1 ORDER BY numero_impresora ASC";
         $data = $this->select_all($sql);
+        
+        // Agregar nombres de funcionarios si existen
+        if (!empty($data)) {
+            foreach ($data as &$impresora) {
+                $impresora['funcionario_ops_nombre'] = null;
+                $impresora['funcionario_planta_nombre'] = null;
+                
+                if (!empty($impresora['funcionario_ops_id'])) {
+                    $ops = $this->select("SELECT nombres FROM tbl_funcionarios_ops WHERE id = ?", [$impresora['funcionario_ops_id']]);
+                    if ($ops) $impresora['funcionario_ops_nombre'] = $ops['nombres'];
+                }
+                
+                if (!empty($impresora['funcionario_planta_id'])) {
+                    $planta = $this->select("SELECT nombre_completo as nombres FROM tbl_funcionarios_planta WHERE idefuncionario = ?", [$impresora['funcionario_planta_id']]);
+                    if ($planta) $impresora['funcionario_planta_nombre'] = $planta['nombres'];
+                }
+            }
+        }
+        
         return $data;
     }
 
     public function selectImpresora($idImpresora)
     {
-        $sql = "SELECT i.*, i.fecha_dano, i.fecha_baja FROM tbl_impresoras i WHERE i.id_impresora = $idImpresora AND i.status != 0";
+        $sql = "SELECT * FROM tbl_impresoras WHERE id_impresora = $idImpresora AND status != 0";
         $data = $this->select($sql);
         return $data;
     }
 
-    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertImpresora($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, numero_activo, consumible, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+        try {
+            // Verificar si las columnas de funcionarios existen
+            $checkColumns = "SHOW COLUMNS FROM tbl_impresoras LIKE 'funcionario_%'";
+            $columnsExist = $this->select_all($checkColumns);
+            
+            if (count($columnsExist) >= 2) {
+                // Las columnas existen
+                $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, numero_activo, consumible, estado, disponibilidad, fecha_dano, fecha_baja, funcionario_ops_id, funcionario_planta_id, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, 1);
+            } else {
+                // Las columnas no existen, usar consulta sin funcionarios
+                $query_insert = "INSERT INTO tbl_impresoras(numero_impresora, marca, modelo, serial, numero_activo, consumible, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+            }
 
-        $request_insert = $this->insert($query_insert, $arrData);
-        return $request_insert;
+            $request_insert = $this->insert($query_insert, $arrData);
+            error_log('Insert result: ' . print_r($request_insert, true));
+            return $request_insert;
+        } catch (Exception $e) {
+            error_log('Error en insertImpresora: ' . $e->getMessage());
+            return false;
+        }
     }
 
-    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updateImpresora($idImpresora, $numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
         // Obtener estado anterior
         $estadoAnterior = $this->select("SELECT estado FROM tbl_impresoras WHERE id_impresora = ?", [$idImpresora]);
         
-        $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?,  numero_activo = ?, consumible = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_impresora = ?";
-        $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idImpresora);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_impresoras LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            // Las columnas existen
+            $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?,  numero_activo = ?, consumible = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ?, funcionario_ops_id = ?, funcionario_planta_id = ? WHERE id_impresora = ?";
+            $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, $idImpresora);
+        } else {
+            // Las columnas no existen
+            $sql = "UPDATE tbl_impresoras SET numero_impresora = ?, marca = ?, modelo = ?, serial = ?,  numero_activo = ?, consumible = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_impresora = ?";
+            $arrData = array($numeroImpresora, $marca, $modelo, $serial, $numero_activo, $consumible, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idImpresora);
+        }
+        
         $request = $this->update($sql, $arrData);
         
         // Registrar en hoja de vida si cambió a malo o de baja
@@ -181,6 +229,19 @@ class InventarioModel extends Mysql
         return $data;
     }
 
+    // ==================== FUNCIONARIOS ====================
+    public function getFuncionariosOps()
+    {
+        $sql = "SELECT id, nombres FROM tbl_funcionarios_ops WHERE status = 1 ORDER BY nombres ASC";
+        return $this->select_all($sql);
+    }
+
+    public function getFuncionariosPlanta()
+    {
+        $sql = "SELECT idefuncionario as id, nombre_completo as nombres FROM tbl_funcionarios_planta WHERE status = 1 ORDER BY nombre_completo ASC";
+        return $this->select_all($sql);
+    }
+
 
 
     // ==================== TINTAS Y TÓNER ====================
@@ -259,10 +320,19 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertPcTorre($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_pc_torre LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, fecha_dano, fecha_baja, funcionario_ops_id, funcionario_planta_id, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+            $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
+        } else {
+            $query_insert = "INSERT INTO tbl_pc_torre(numero_pc, marca, serial, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, sistema_operativo, numero_activo, monitor, numero_activo_monitor, serial_monitor, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+            $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        }
         try {
             $request_insert = $this->insert($query_insert, $arrData);
             return $request_insert;
@@ -271,13 +341,22 @@ class InventarioModel extends Mysql
         }
     }
 
-    public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updatePcTorre($id_pc_torre, $numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
         // Obtener estado anterior
         $estadoAnterior = $this->select("SELECT estado FROM tbl_pc_torre WHERE id_pc_torre = ?", [$id_pc_torre]);
         
-        $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_pc_torre=?";
-        $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_pc_torre);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_pc_torre LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=?, funcionario_ops_id=?, funcionario_planta_id=? WHERE id_pc_torre=?";
+            $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, $id_pc_torre);
+        } else {
+            $sql = "UPDATE tbl_pc_torre SET numero_pc=?, marca=?, serial=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, sistema_operativo=?, numero_activo=?, monitor=?, numero_activo_monitor=?, serial_monitor=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_pc_torre=?";
+            $arrData = array($numero_pc, $marca, $serial, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $sistema_operativo, $numero_activo, $monitor, $numero_activo_monitor, $serial_monitor, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_pc_torre);
+        }
         $request = $this->update($sql, $arrData);
         
         // Registrar en hoja de vida si cambió a malo o de baja
@@ -313,10 +392,19 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertTodoEnUno($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, teclado, serial_teclado, mouse, serial_mouse, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_todo_en_uno LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, teclado, serial_teclado, mouse, serial_mouse, estado, disponibilidad, fecha_dano, fecha_baja, funcionario_ops_id, funcionario_planta_id, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
+        } else {
+            $query_insert = "INSERT INTO tbl_todo_en_uno(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, teclado, serial_teclado, mouse, serial_mouse, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        }
         try {
             $request_insert = $this->insert($query_insert, $arrData);
             return $request_insert;
@@ -325,11 +413,31 @@ class InventarioModel extends Mysql
         }
     }
 
-    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updateTodoEnUno($id_todo_en_uno, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, teclado=?, serial_teclado=?, mouse=?, serial_mouse=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_todo_en_uno=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_todo_en_uno);
+        // Obtener estado anterior
+        $estadoAnterior = $this->select("SELECT estado FROM tbl_todo_en_uno WHERE id_todo_en_uno = ?", [$id_todo_en_uno]);
+        
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_todo_en_uno LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, teclado=?, serial_teclado=?, mouse=?, serial_mouse=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=?, funcionario_ops_id=?, funcionario_planta_id=? WHERE id_todo_en_uno=?";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, $id_todo_en_uno);
+        } else {
+            $sql = "UPDATE tbl_todo_en_uno SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, teclado=?, serial_teclado=?, mouse=?, serial_mouse=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_todo_en_uno=?";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $teclado, $serial_teclado, $mouse, $serial_mouse, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_todo_en_uno);
+        }
         $request = $this->update($sql, $arrData);
+        
+        // Registrar en hoja de vida si cambió a malo o de baja
+        if ($request && $estadoAnterior && $estadoAnterior['estado'] != $estado && ($estado == 'Malo' || $estado == 'De baja')) {
+            $fecha = ($estado == 'Malo' && $fechaDano) ? $fechaDano : (($estado == 'De baja' && $fechaBaja) ? $fechaBaja : date('Y-m-d'));
+            $observacion = "Equipo marcado como {$estado}";
+            $this->insertMovimientoEquipo($id_todo_en_uno, 'todo_en_uno', 'cambio_estado', $observacion, $_SESSION['userData']['nombres'] ?? 'Sistema');
+        }
+        
         return $request;
     }
 
@@ -356,10 +464,19 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertPortatil($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_portatiles LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, funcionario_ops_id, funcionario_planta_id, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
+        } else {
+            $query_insert = "INSERT INTO tbl_portatiles(numero_pc, marca, modelo, ram, velocidad_ram, procesador, velocidad_procesador, disco_duro, capacidad, serial, sistema_operativo, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja);
+        }
         try {
             $request_insert = $this->insert($query_insert, $arrData);
             return $request_insert;
@@ -368,11 +485,31 @@ class InventarioModel extends Mysql
         }
     }
 
-    public function updatePortatil($id_portatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updatePortatil($id_portatil, $numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_portatil=?";
-        $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_portatil);
+        // Obtener estado anterior
+        $estadoAnterior = $this->select("SELECT estado FROM tbl_portatiles WHERE id_portatil = ?", [$id_portatil]);
+        
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_portatiles LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=?, funcionario_ops_id=?, funcionario_planta_id=? WHERE id_portatil=?";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, $id_portatil);
+        } else {
+            $sql = "UPDATE tbl_portatiles SET numero_pc=?, marca=?, modelo=?, ram=?, velocidad_ram=?, procesador=?, velocidad_procesador=?, disco_duro=?, capacidad=?, serial=?, sistema_operativo=?, numero_activo=?, estado=?, disponibilidad=?, fecha_dano=?, fecha_baja=? WHERE id_portatil=?";
+            $arrData = array($numero_pc, $marca, $modelo, $ram, $velocidad_ram, $procesador, $velocidad_procesador, $disco_duro, $capacidad, $serial, $sistema_operativo, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $id_portatil);
+        }
         $request = $this->update($sql, $arrData);
+        
+        // Registrar en hoja de vida si cambió a malo o de baja
+        if ($request && $estadoAnterior && $estadoAnterior['estado'] != $estado && ($estado == 'Malo' || $estado == 'De baja')) {
+            $fecha = ($estado == 'Malo' && $fechaDano) ? $fechaDano : (($estado == 'De baja' && $fechaBaja) ? $fechaBaja : date('Y-m-d'));
+            $observacion = "Equipo marcado como {$estado}";
+            $this->insertMovimientoEquipo($id_portatil, 'portatil', 'cambio_estado', $observacion, $_SESSION['userData']['nombres'] ?? 'Sistema');
+        }
+        
         return $request;
     }
 

@@ -47,6 +47,32 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="txtNumeroActivo">N° Activo</label>
+                                <input type="text" class="form-control" id="txtNumeroActivo" name="txtNumeroActivo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFuncionarioOps">Funcionario OPS</label>
+                                <select class="form-control" id="txtFuncionarioOps" name="txtFuncionarioOps">
+                                    <option value="">Seleccione...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFuncionarioPlanta">Funcionario Planta</label>
+                                <select class="form-control" id="txtFuncionarioPlanta" name="txtFuncionarioPlanta">
+                                    <option value="">Seleccione...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label for="txtEstado">Estado *</label>
                                 <select class="form-control" id="txtEstado" name="txtEstado" required>
                                     <option value="">Seleccione...</option>
@@ -57,8 +83,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtDisponibilidad">Disponibilidad *</label>
@@ -69,7 +93,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6" id="fechasImpresora" style="display: none;">
+                    </div>
+                    <div class="row" id="fechasImpresora" style="display: none;">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtFechaEstado" id="labelFechaEstado">Fecha</label>
                                 <input type="date" class="form-control" id="txtFechaEstado" name="txtFechaEstado">

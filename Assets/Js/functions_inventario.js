@@ -90,8 +90,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initDataTables() {
+    // Destruir tablas existentes si existen
+    if ($.fn.DataTable.isDataTable('#tablaImpresoras')) {
+        $('#tablaImpresoras').DataTable().destroy();
+    }
+    
     // DataTable para Impresoras
-    if (tblImpresoras === undefined) {
+    try {
         tblImpresoras = $('#tablaImpresoras').DataTable({
             "processing": true,
             "serverSide": false,
@@ -99,7 +104,11 @@ function initDataTables() {
             "retrieve": true,
             "ajax": {
                 "url": base_url + "/Inventario/getImpresoras",
-                "dataSrc": ""
+                "dataSrc": "",
+                "error": function(xhr, error, code) {
+                    console.error('Error cargando impresoras:', error, xhr.responseText);
+                    Swal.fire('Error', 'No se pudieron cargar las impresoras', 'error');
+                }
             },
             "columns": [
                 { "data": "numero_impresora" },
@@ -108,6 +117,19 @@ function initDataTables() {
                 { "data": "serial" },
                 { "data": "numero_activo" },
                 { "data": "consumible" },
+                { 
+                    "data": null,
+                    "render": function(data, type, row) {
+                        let funcionario = '';
+                        if (row.funcionario_ops_nombre) {
+                            funcionario += '<small class="badge bg-info">OPS: ' + row.funcionario_ops_nombre + '</small><br>';
+                        }
+                        if (row.funcionario_planta_nombre) {
+                            funcionario += '<small class="badge bg-success">Planta: ' + row.funcionario_planta_nombre + '</small>';
+                        }
+                        return funcionario || '<small class="text-muted">Sin asignar</small>';
+                    }
+                },
                 {
                     "data": "estado",
                     "render": function(data, type, row) {
@@ -160,6 +182,8 @@ function initDataTables() {
             "iDisplayLength": 10,
             "order": [[0, "asc"]]
         });
+    } catch (error) {
+        console.error('Error inicializando tabla impresoras:', error);
     }
 
     // DataTable para Escáneres
@@ -170,7 +194,11 @@ function initDataTables() {
             "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getEscaneres",
-                "dataSrc": ""
+                "dataSrc": "",
+                "error": function(xhr, error, code) {
+                    console.error('Error cargando escáneres:', error, xhr.responseText);
+                    Swal.fire('Error', 'No se pudieron cargar los escáneres', 'error');
+                }
             },
             "columns": [
                 { "data": "numero_escaner" },
@@ -245,7 +273,11 @@ function initDataTables() {
         "language": dataTableLanguage,
         "ajax": {
             "url": base_url + "/Inventario/getPapeleria",
-            "dataSrc": ""
+            "dataSrc": "",
+            "error": function(xhr, error, code) {
+                console.error('Error cargando papelería:', error, xhr.responseText);
+                Swal.fire('Error', 'No se pudieron cargar los artículos de papelería', 'error');
+            }
         },
         "columns": [
             { "data": "item" },
@@ -280,7 +312,11 @@ function initDataTables() {
         "language": dataTableLanguage,
         "ajax": {
             "url": base_url + "/Inventario/getTintasToner",
-            "dataSrc": ""
+            "dataSrc": "",
+            "error": function(xhr, error, code) {
+                console.error('Error cargando tintas y tóner:', error, xhr.responseText);
+                Swal.fire('Error', 'No se pudieron cargar las tintas y tóner', 'error');
+            }
         },
         "columns": [
             { "data": "item" },
@@ -315,7 +351,11 @@ function initDataTables() {
             "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getPcTorre",
-                "dataSrc": ""
+                "dataSrc": "",
+                "error": function(xhr, error, code) {
+                    console.error('Error cargando PC Torre:', error, xhr.responseText);
+                    Swal.fire('Error', 'No se pudieron cargar los PC Torre', 'error');
+                }
             },
             "columns": [
                 { "data": "numero_pc" },
@@ -397,7 +437,11 @@ function initDataTables() {
         "language": dataTableLanguage,
         "ajax": {
             "url": base_url + "/Inventario/getTodoEnUno",
-            "dataSrc": ""
+            "dataSrc": "",
+            "error": function(xhr, error, code) {
+                console.error('Error cargando PC Todo en Uno:', error, xhr.responseText);
+                Swal.fire('Error', 'No se pudieron cargar los PC Todo en Uno', 'error');
+            }
         },
         "columns": [
             { "data": "numero_pc" },
@@ -477,7 +521,11 @@ function initDataTables() {
             "language": dataTableLanguage,
             "ajax": {
                 "url": base_url + "/Inventario/getPortatiles",
-                "dataSrc": ""
+                "dataSrc": "",
+                "error": function(xhr, error, code) {
+                    console.error('Error cargando portátiles:', error, xhr.responseText);
+                    Swal.fire('Error', 'No se pudieron cargar los portátiles', 'error');
+                }
             },
             "columns": [
                 { "data": "numero_pc" },
@@ -899,6 +947,36 @@ function toggleFechaFieldsPortatil(containerId, estado, disponibilidad) {
 
 // ==================== FUNCIONES DE CARGA ====================
 
+function loadFuncionariosImpresora() {
+    // Cargar funcionarios OPS
+    fetch(base_url + '/Inventario/getFuncionariosOps')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('txtFuncionarioOps');
+            if (select) {
+                select.innerHTML = '<option value="">Seleccione...</option>';
+                data.forEach(item => {
+                    select.innerHTML += `<option value="${item.id}">${item.nombres}</option>`;
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando funcionarios OPS:', error));
+
+    // Cargar funcionarios de planta
+    fetch(base_url + '/Inventario/getFuncionariosPlanta')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('txtFuncionarioPlanta');
+            if (select) {
+                select.innerHTML = '<option value="">Seleccione...</option>';
+                data.forEach(item => {
+                    select.innerHTML += `<option value="${item.id}">${item.nombres}</option>`;
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando funcionarios de planta:', error));
+}
+
 
 
 
@@ -946,6 +1024,7 @@ function openModalImpresora() {
     document.getElementById('modalInventarioLabel').textContent = 'Nueva Impresora';
     document.getElementById('formImpresora').reset();
     document.getElementById('idImpresora').value = '';
+    loadFuncionariosImpresora();
     $('#modalInventario').modal('show');
 }
 
@@ -1039,7 +1118,13 @@ function editImpresora(idImpresora) {
                 document.getElementById('txtMarca').value = impresora.marca;
                 document.getElementById('txtModelo').value = impresora.modelo;
                 document.getElementById('txtSerial').value = impresora.serial;
+                document.getElementById('txtNumeroActivo').value = impresora.numero_activo;
                 document.getElementById('txtConsumible').value = impresora.consumible;
+                loadFuncionariosImpresora();
+                setTimeout(() => {
+                    $('#txtFuncionarioOps').val(impresora.funcionario_ops_id || '');
+                    $('#txtFuncionarioPlanta').val(impresora.funcionario_planta_id || '');
+                }, 500);
                 $('#txtEstado').val(impresora.estado || '');
                 $('#txtDisponibilidad').val(impresora.disponibilidad || '');
                 
@@ -1109,7 +1194,10 @@ function saveImpresora() {
                 if (response.status) {
                     $('#modalInventario').modal('hide');
                     $('#formImpresora')[0].reset();
-                    tblImpresoras.ajax.reload();
+                    // Forzar recarga completa de la tabla
+                    if (typeof tblImpresoras !== 'undefined' && tblImpresoras) {
+                        tblImpresoras.ajax.reload(null, false);
+                    }
                     Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
                     console.error('Error en respuesta:', response.msg);
@@ -1229,9 +1317,9 @@ function saveEscaner() {
                     $('#modalInventario').modal('hide');
                     $('#formEscaner')[0].reset();
                     tblEscaneres.ajax.reload();
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1318,9 +1406,9 @@ function saveArticuloPapeleria() {
                     $('#modalInventario').modal('hide');
                     $('#formPapeleria')[0].reset();
                     tblPapeleria.ajax.reload();
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1424,9 +1512,9 @@ function saveTintaToner() {
                     $('#modalInventario').modal('hide');
                     $('#formTintaToner')[0].reset();
                     tblTintasToner.ajax.reload();
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1550,9 +1638,9 @@ function savePcTorre() {
                     if (typeof tblPcTorre !== 'undefined') {
                         tblPcTorre.ajax.reload(null, false);
                     }
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                    
                 }
             },
@@ -1635,11 +1723,11 @@ function editTodoEnUno(idTodoEnUno) {
                 $('#txtDisponibilidadTodoEnUno').val(data.disponibilidad);
                 $('#modalInventario').modal('show');
             } else {
-                swal.fire("Error", response.msg, "error");
+                Swal.fire("Error", response.msg, "error");
             }
         },
         error: function() {
-            swal.fire("Error", "Error al cargar los datos", "error");
+            Swal.fire("Error", "Error al cargar los datos", "error");
         }
     });
 }
@@ -1659,9 +1747,9 @@ function saveTodoEnUno() {
                     if (typeof tblTodoEnUno !== 'undefined') {
                         tblTodoEnUno.ajax.reload(null, false);
                     }
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1738,11 +1826,11 @@ function editPortatil(idPortatil) {
                 
                 $('#modalInventario').modal('show');
             } else {
-                swal.fire("Error", response.msg, "error");
+                Swal.fire("Error", response.msg, "error");
             }
         },
         error: function() {
-            swal.fire("Error", "Error al cargar los datos", "error");
+            Swal.fire("Error", "Error al cargar los datos", "error");
         }
     });
 }
@@ -1761,9 +1849,9 @@ function savePortatil() {
                     if (typeof tblPortatiles !== 'undefined') {
                         tblPortatiles.ajax.reload(null, false);
                     }
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -1857,9 +1945,9 @@ function saveHerramienta() {
                     $('#modalInventario').modal('hide');
                     $('#formHerramienta')[0].reset();
                     tblHerramientas.ajax.reload();
-                    swal.fire("¡Éxito!", response.msg, "success");
+                    Swal.fire("¡Éxito!", response.msg, "success");
                 } else {
-                    swal.fire("Error", response.msg, "error");
+                    Swal.fire("Error", response.msg, "error");
                 }
             },
             error: function() {
@@ -2031,7 +2119,7 @@ function verTodoEnUno(idTodoEnUno) {
             }
         },
         error: function() {
-            swal.fire("Error", "Error al cargar los datos", "error");
+            Swal.fire("Error", "Error al cargar los datos", "error");
         }
     });
 }
@@ -2062,7 +2150,7 @@ function verPortatil(idPortatil) {
             }
         },
         error: function() {
-            swal.fire("Error", "Error al cargar los datos", "error");
+            Swal.fire("Error", "Error al cargar los datos", "error");
         }
     });
 }
