@@ -59,22 +59,24 @@ class PsiModel extends Mysql
     }
     public function insertSalida($data)
     {
-        $sql = "INSERT INTO tbl_psi_salidas (fecha, item, tipo_dispositivo, descripcion_dispositivo, marca, modelo, numero_activo, serial, dependencia, observaciones, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tbl_psi_salidas (fecha, item, tipo_dispositivo, descripcion_dispositivo, marca, modelo, numero_activo, serial, dependencia, equipo_id, equipo_tipo, observaciones, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $arrData = [
             $data['fecha_salida'], $data['item_salida'], $data['tipo_dispositivo_salida'],
             $data['descripcion_dispositivo_salida'], $data['marca_salida'], $data['modelo_salida'],
             $data['numero_activo_salida'], $data['serial_salida'], $data['dependencia_salida'],
+            $data['equipo_id_salida'] ?? null, $data['equipo_tipo_salida'] ?? null,
             $data['observaciones_salida'], 1
         ];
         return $this->insert($sql, $arrData);
     }
     public function updateSalida($id, $data)
     {
-        $sql = "UPDATE tbl_psi_salidas SET fecha=?, item=?, tipo_dispositivo=?, descripcion_dispositivo=?, marca=?, modelo=?, numero_activo=?, serial=?, dependencia=?, observaciones=? WHERE id_salida=?";
+        $sql = "UPDATE tbl_psi_salidas SET fecha=?, item=?, tipo_dispositivo=?, descripcion_dispositivo=?, marca=?, modelo=?, numero_activo=?, serial=?, dependencia=?, equipo_id=?, equipo_tipo=?, observaciones=? WHERE id_salida=?";
         $arrData = [
             $data['fecha_salida'], $data['item_salida'], $data['tipo_dispositivo_salida'],
             $data['descripcion_dispositivo_salida'], $data['marca_salida'], $data['modelo_salida'],
             $data['numero_activo_salida'], $data['serial_salida'], $data['dependencia_salida'],
+            $data['equipo_id_salida'] ?? null, $data['equipo_tipo_salida'] ?? null,
             $data['observaciones_salida'], $id
         ];
         return $this->update($sql, $arrData);
@@ -98,22 +100,24 @@ class PsiModel extends Mysql
     }
     public function insertIngreso($data)
     {
-        $sql = "INSERT INTO tbl_psi_ingresos (fecha, item, tipo_dispositivo, descripcion_dispositivo, marca, modelo, numero_activo, serial, dependencia, observaciones, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tbl_psi_ingresos (fecha, item, tipo_dispositivo, descripcion_dispositivo, marca, modelo, numero_activo, serial, dependencia, equipo_id, equipo_tipo, observaciones, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $arrData = [
             $data['fecha_ingreso'], $data['item_ingreso'], $data['tipo_dispositivo_ingreso'],
             $data['descripcion_dispositivo_ingreso'], $data['marca_ingreso'], $data['modelo_ingreso'],
             $data['numero_activo_ingreso'], $data['serial_ingreso'], $data['dependencia_ingreso'],
+            $data['equipo_id_ingreso'] ?? null, $data['equipo_tipo_ingreso'] ?? null,
             $data['observaciones_ingreso'], 1
         ];
         return $this->insert($sql, $arrData);
     }
     public function updateIngreso($id, $data)
     {
-        $sql = "UPDATE tbl_psi_ingresos SET fecha=?, item=?, tipo_dispositivo=?, descripcion_dispositivo=?, marca=?, modelo=?, numero_activo=?, serial=?, dependencia=?, observaciones=? WHERE id_ingreso=?";
+        $sql = "UPDATE tbl_psi_ingresos SET fecha=?, item=?, tipo_dispositivo=?, descripcion_dispositivo=?, marca=?, modelo=?, numero_activo=?, serial=?, dependencia=?, equipo_id=?, equipo_tipo=?, observaciones=? WHERE id_ingreso=?";
         $arrData = [
             $data['fecha_ingreso'], $data['item_ingreso'], $data['tipo_dispositivo_ingreso'],
             $data['descripcion_dispositivo_ingreso'], $data['marca_ingreso'], $data['modelo_ingreso'],
             $data['numero_activo_ingreso'], $data['serial_ingreso'], $data['dependencia_ingreso'],
+            $data['equipo_id_ingreso'] ?? null, $data['equipo_tipo_ingreso'] ?? null,
             $data['observaciones_ingreso'], $id
         ];
         return $this->update($sql, $arrData);

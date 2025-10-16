@@ -120,4 +120,6 @@
   </div>
 </main>
 <?php require_once "Views/Template/Modals/modalPsi.php"; ?>
+<?php require_once "Views/Template/Modals/modalPsiSalidas.php"; ?>
+<?php require_once "Views/Template/Modals/modalPsiIngresos.php"; ?>
 <?php require_once "Views/Template/footer_admin.php"; ?>
