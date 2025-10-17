@@ -13,26 +13,26 @@
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Fecha</label>
-                <input type="date" class="form-control" name="fecha_ingreso" required>
+                <input type="date" class="form-control" name="fecha" required>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Ítem</label>
-                <input type="text" class="form-control" name="item_ingreso" required>
+                <input type="text" class="form-control" name="item" required>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Tipo Dispositivo</label>
-                <select class="form-control" name="tipo_dispositivo_ingreso" id="tipo_dispositivo_ingreso" onchange="toggleInventarioTabIngresos()" required>
+                <select class="form-control" name="tipo_dispositivo" id="tipo_dispositivo_ingreso" onchange="toggleInventarioTabIngresos()" required>
                   <option value="interno">Interno (desde inventario)</option>
                   <option value="externo">Externo</option>
                 </select>
               </div>
             </div>
             
-            <div class="col-12 mb-3" id="inventario_tab_ingreso" style="display: none;">
+            <div class="col-12 mb-3" id="inventario_tab_ingreso" style="display: block;">
               <div class="card">
                 <div class="card-header">
                   <h6 class="mb-0">Seleccionar Equipo del Inventario</h6>
@@ -187,49 +187,49 @@
             <div class="col-md-6">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Descripción Dispositivo</label>
-                <input type="text" class="form-control" name="descripcion_dispositivo_ingreso" required>
+                <input type="text" class="form-control" name="descripcion_dispositivo" required readonly>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Marca</label>
-                <input type="text" class="form-control" name="marca_ingreso" required>
+                <input type="text" class="form-control" name="marca" required readonly>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Modelo</label>
-                <input type="text" class="form-control" name="modelo_ingreso" required>
+                <input type="text" class="form-control" name="modelo" required readonly>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Número Activo</label>
-                <input type="text" class="form-control" name="numero_activo_ingreso" required>
+                <input type="text" class="form-control" name="numero_activo" required>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Serial</label>
-                <input type="text" class="form-control" name="serial_ingreso" required>
+                <input type="text" class="form-control" name="serial" required readonly>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Dependencia</label>
-                <input type="text" class="form-control" name="dependencia_ingreso" required>
+                <input type="text" class="form-control" name="dependencia" required>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Observaciones</label>
-                <textarea class="form-control" name="observaciones_ingreso" rows="3"></textarea>
+                <textarea class="form-control" name="observaciones" rows="3"></textarea>
               </div>
             </div>
             
             <!-- Campos ocultos para equipo_id y equipo_tipo -->
-            <input type="hidden" name="equipo_id_ingreso" id="equipo_id_ingreso" value="">
-            <input type="hidden" name="equipo_tipo_ingreso" id="equipo_tipo_ingreso" value="">
+            <input type="hidden" name="equipo_id" id="equipo_id_ingreso" value="">
+            <input type="hidden" name="equipo_tipo" id="equipo_tipo_ingreso" value="">
           </div>
         </form>
       </div>

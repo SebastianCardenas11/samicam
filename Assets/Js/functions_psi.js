@@ -23,19 +23,7 @@ function cargarFuncionariosPorTipo(tipo) {
 document.addEventListener('DOMContentLoaded', function() {
     initPsiTables();
     
-    // Eventos para los botones de nuevo registro
-    document.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('btn-primary') && e.target.textContent.includes('Nuevo')) {
-            const tabId = e.target.closest('.tab-pane').id;
-            if (tabId === 'prestamos') {
-                openModalPsi('prestamo');
-            } else if (tabId === 'salidas') {
-                openModalPsiSalidas();
-            } else if (tabId === 'ingresos') {
-                openModalPsiIngresos();
-            }
-        }
-    });
+    // Los botones ya están conectados directamente en el HTML
 
     // Evento para los radio buttons
     document.querySelectorAll('input[name="tipo_funcionario"]').forEach(radio => {
@@ -245,25 +233,29 @@ function initPsiTables() {
         },
         ajax: { url: base_url + '/psi/getPrestamos', dataSrc: '' },
         columns: [
-            { data: 'dependencia' },
             { data: 'funcionario_responsable' },
-            { data: 'cargo_funcionario' },
             { data: 'fecha_prestamo' },
             { data: 'fecha_devolucion' },
             { data: 'item' },
             { data: 'dispositivo' },
-            { data: 'marca_modelo' },
-            { data: 'activo' },
-            { data: 'serial' },
-            { data: 'estado' },
-            { data: 'mac' },
-            { data: 'observaciones' },
-            { data: 'status' },
             { data: null, render: function(data, type, row) {
                 return `
-                  <button class='btn btn-sm btn-info me-1' onclick='openModalPsi("prestamo", ${row.id_prestamos})'>Editar</button>
-                  <button class='btn btn-sm btn-danger me-1' onclick='eliminarPrestamoPsi(${row.id_prestamos})'>Eliminar</button>
-                  <button class='btn btn-sm btn-secondary' onclick='hojaVidaPsi(${row.id_prestamos})'>Hoja de Vida</button>
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" onclick="verPrestamoPsi(${row.id_prestamos})" title="Ver">
+                                <i class="far fa-eye"></i>
+                            </button>
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" onclick="openModalPsi('prestamo', ${row.id_prestamos})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" onclick="eliminarPrestamoPsi(${row.id_prestamos})" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark" onclick="imprimirPrestamoPsi(${row.id_prestamos})" title="Imprimir">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
                 `;
             }}
         ],
@@ -430,23 +422,19 @@ function openModalPsiSalidas(id = null) {
     form.reset();
     document.getElementById('id_salida').value = '';
     
-    // Ocultar inventario por defecto
+    // Mostrar inventario por defecto
     const invSalida = document.getElementById('inventario_tab_salida');
-    if (invSalida) invSalida.style.display = 'none';
+    if (invSalida) {
+        invSalida.style.display = 'block';
+        cargarDatosInventario('salida');
+    }
     
     if (id) {
         fetch(base_url + '/psi/getSalida/' + id)
             .then(res => res.json())
             .then(data => {
                 Object.keys(data).forEach(key => {
-                    const map = {
-                        'fecha': 'fecha_salida', 'item': 'item_salida', 'tipo_dispositivo': 'tipo_dispositivo_salida',
-                        'descripcion_dispositivo': 'descripcion_dispositivo_salida', 'marca': 'marca_salida', 'modelo': 'modelo_salida',
-                        'numero_activo': 'numero_activo_salida', 'serial': 'serial_salida', 'dependencia': 'dependencia_salida',
-                        'observaciones': 'observaciones_salida', 'equipo_id': 'equipo_id_salida', 'equipo_tipo': 'equipo_tipo_salida'
-                    };
-                    const name = map[key] || key;
-                    const el = form.querySelector(`[name="${name}"]`);
+                    const el = form.querySelector(`[name="${key}"]`);
                     if (el) el.value = data[key];
                 });
                 if (document.getElementById('id_salida')) document.getElementById('id_salida').value = data.id_salida;
@@ -465,23 +453,19 @@ function openModalPsiIngresos(id = null) {
     form.reset();
     document.getElementById('id_ingreso').value = '';
     
-    // Ocultar inventario por defecto
+    // Mostrar inventario por defecto
     const invIngreso = document.getElementById('inventario_tab_ingreso');
-    if (invIngreso) invIngreso.style.display = 'none';
+    if (invIngreso) {
+        invIngreso.style.display = 'block';
+        cargarDatosInventario('ingreso');
+    }
     
     if (id) {
         fetch(base_url + '/psi/getIngreso/' + id)
             .then(res => res.json())
             .then(data => {
                 Object.keys(data).forEach(key => {
-                    const map = {
-                        'fecha': 'fecha_ingreso', 'item': 'item_ingreso', 'tipo_dispositivo': 'tipo_dispositivo_ingreso',
-                        'descripcion_dispositivo': 'descripcion_dispositivo_ingreso', 'marca': 'marca_ingreso', 'modelo': 'modelo_ingreso',
-                        'numero_activo': 'numero_activo_ingreso', 'serial': 'serial_ingreso', 'dependencia': 'dependencia_ingreso',
-                        'observaciones': 'observaciones_ingreso', 'equipo_id': 'equipo_id_ingreso', 'equipo_tipo': 'equipo_tipo_ingreso'
-                    };
-                    const name = map[key] || key;
-                    const el = form.querySelector(`[name="${name}"]`);
+                    const el = form.querySelector(`[name="${key}"]`);
                     if (el) el.value = data[key];
                 });
                 if (document.getElementById('id_ingreso')) document.getElementById('id_ingreso').value = data.id_ingreso;
@@ -492,12 +476,48 @@ function openModalPsiIngresos(id = null) {
     $('#modalPsiIngresos').modal('show');
 }
 
-function hojaVidaPsi(id) {
-    // Aquí irá la lógica para la hoja de vida del préstamo
+function verPrestamoPsi(id) {
+    fetch(base_url + '/psi/getPrestamo/' + id)
+        .then(res => res.json())
+        .then(data => {
+            const detalles = `
+                <div class="row">
+                    <div class="col-md-6"><strong>Dependencia:</strong> ${data.dependencia || ''}</div>
+                    <div class="col-md-6"><strong>Funcionario:</strong> ${data.funcionario_responsable || ''}</div>
+                    <div class="col-md-6"><strong>Cargo:</strong> ${data.cargo_funcionario || ''}</div>
+                    <div class="col-md-6"><strong>Fecha Préstamo:</strong> ${data.fecha_prestamo || ''}</div>
+                    <div class="col-md-6"><strong>Fecha Devolución:</strong> ${data.fecha_devolucion || ''}</div>
+                    <div class="col-md-6"><strong>Item:</strong> ${data.item || ''}</div>
+                    <div class="col-md-6"><strong>Dispositivo:</strong> ${data.dispositivo || ''}</div>
+                    <div class="col-md-6"><strong>Marca/Modelo:</strong> ${data.marca_modelo || ''}</div>
+                    <div class="col-md-6"><strong>Activo:</strong> ${data.activo || ''}</div>
+                    <div class="col-md-6"><strong>Serial:</strong> ${data.serial || ''}</div>
+                    <div class="col-md-6"><strong>Estado:</strong> ${data.estado || ''}</div>
+                    <div class="col-md-6"><strong>MAC:</strong> ${data.mac || ''}</div>
+                    <div class="col-12 mt-2"><strong>Observaciones:</strong> ${data.observaciones || ''}</div>
+                </div>
+            `;
+            Swal.fire({
+                title: 'Detalles del Préstamo',
+                html: detalles,
+                width: '800px',
+                confirmButtonText: 'Cerrar'
+            });
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al cargar los detalles del préstamo'
+            });
+        });
+}
+
+function imprimirPrestamoPsi(id) {
     Swal.fire({
         icon: 'info',
-        title: 'Hoja de Vida',
-        text: 'Funcionalidad de Hoja de Vida próximamente. ID: ' + id
+        title: 'Imprimir Préstamo',
+        text: 'Funcionalidad de impresión próximamente. ID: ' + id
     });
 }
 
@@ -833,6 +853,79 @@ function generarFormulariosItems(cantidad) {
     }
 }
 
+// Función para seleccionar un equipo del inventario
+function seleccionarEquipo(categoria, id, tipo) {
+    // Mapear categorías a métodos del controlador
+    const metodoMap = {
+        'pc_torre': 'getPcTorreById',
+        'todo_en_uno': 'getTodoEnUnoById',
+        'portatiles': 'getPortatilById',
+        'impresoras': 'getImpresoraById',
+        'escaneres': 'getEscanerById',
+        'herramientas': 'getHerramientaById'
+    };
+    
+    const metodo = metodoMap[categoria];
+    if (!metodo) return;
+    
+    // Hacer petición AJAX para obtener detalles del equipo
+    fetch(`${base_url}/psi/${metodo}/${id}`)
+        .then(res => res.json())
+        .then(response => {
+            if (response.status && response.data) {
+                const data = response.data;
+                
+                // Mapear campos según la categoría
+                let numero = '';
+                switch(categoria) {
+                    case 'pc_torre':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'todo_en_uno':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'portatiles':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'impresoras':
+                        numero = data.numero_impresora || '';
+                        break;
+                    case 'escaneres':
+                        numero = data.numero_escaner || '';
+                        break;
+                    case 'herramientas':
+                        numero = data.numero_herramienta || data.item || '';
+                        break;
+                }
+                
+                // Llenar los campos del formulario según el tipo
+                document.querySelector(`[name="item"]`).value = numero;
+                document.querySelector(`[name="descripcion_dispositivo"]`).value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                document.querySelector(`[name="marca"]`).value = data.marca || '';
+                document.querySelector(`[name="modelo"]`).value = data.modelo || '';
+                document.querySelector(`[name="numero_activo"]`).value = data.numero_activo || '';
+                document.querySelector(`[name="serial"]`).value = data.serial || '';
+                document.getElementById(`equipo_id_${tipo}`).value = id;
+                document.getElementById(`equipo_tipo_${tipo}`).value = categoria;
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Equipo Seleccionado',
+                    text: 'Equipo agregado correctamente',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Error al obtener los detalles del equipo: ${error.message}`
+            });
+        });
+}
+
 // Función para seleccionar un equipo del inventario para préstamos
 function seleccionarEquipoPrestamo(categoria, id, tipo) {
     // Mapear categorías a métodos del controlador
@@ -1055,6 +1148,7 @@ function cargarTablaInventario(categoria, tipo) {
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="seleccionarEquipo('${categoria}', ${id}, '${tipo}')">
                             Seleccionar
+                        </button>
                         </button>
                     </td>
                 `;

@@ -13,19 +13,19 @@
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Fecha</label>
-                <input type="date" class="form-control" name="fecha_salida" required>
+                <input type="date" class="form-control" name="fecha" required>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Ítem</label>
-                <input type="text" class="form-control" name="item_salida" required>
+                <input type="text" class="form-control" name="item" required>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Tipo Dispositivo</label>
-                <select class="form-control" name="tipo_dispositivo_salida" id="tipo_dispositivo_salida" onchange="toggleInventarioTabSalidas()" required>
+                <select class="form-control" name="tipo_dispositivo" id="tipo_dispositivo_salida" onchange="toggleInventarioTabSalidas()" required>
                   <option value="interno">Interno (desde inventario)</option>
                   <option value="externo">Externo</option>
                 </select>
@@ -187,49 +187,48 @@
             <div class="col-md-6">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Descripción Dispositivo</label>
-                <input type="text" class="form-control" name="descripcion_dispositivo_salida" required>
+                <input type="text" class="form-control" name="descripcion_dispositivo" required readonly>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Marca</label>
-                <input type="text" class="form-control" name="marca_salida" required>
+                <input type="text" class="form-control" name="marca" required readonly>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Modelo</label>
-                <input type="text" class="form-control" name="modelo_salida" required>
+                <input type="text" class="form-control" name="modelo" required readonly>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Número Activo</label>
-                <input type="text" class="form-control" name="numero_activo_salida" required>
+                <input type="text" class="form-control" name="numero_activo" required>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Serial</label>
-                <input type="text" class="form-control" name="serial_salida" required>
+                <input type="text" class="form-control" name="serial" required readonly>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Dependencia</label>
-                <input type="text" class="form-control" name="dependencia_salida" required>
+                <input type="text" class="form-control" name="dependencia" required>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group mb-3">
                 <label class="form-label fw-bold">Observaciones</label>
-                <textarea class="form-control" name="observaciones_salida" rows="3"></textarea>
+                <textarea class="form-control" name="observaciones" rows="3"></textarea>
               </div>
             </div>
             
-            <!-- Campos ocultos para equipo_id y equipo_tipo -->
-            <input type="hidden" name="equipo_id_salida" id="equipo_id_salida" value="">
-            <input type="hidden" name="equipo_tipo_salida" id="equipo_tipo_salida" value="">
+            <input type="hidden" name="equipo_id" id="equipo_id_salida" value="">
+            <input type="hidden" name="equipo_tipo" id="equipo_tipo_salida" value="">
           </div>
         </form>
       </div>
