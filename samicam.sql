@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-10-2025 a las 18:14:10
+-- Tiempo de generación: 21-10-2025 a las 00:54:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -462,7 +462,8 @@ INSERT INTO `publicaciones` (`id_publicacion`, `nombre_publicacion`, `fecha_reci
 (135, 'Formato para Reporte de Sujetos de Retención', '2025-02-21', 'impuestos@lajaguadeibirico-cesar.gov.co', 'INFORMACION IMPUESTOS', '2025-10-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/formato-para-reporte-de-sujetos-de-retencion', 11, 1),
 (136, 'Formulario Oficial para la Declaración de Retenciones de Industria y Comercio ICA', '2025-02-21', 'impuestos@lajaguadeibirico-cesar.gov.co', 'INFORMACION IMPUESTOS', '2025-10-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/formulario-oficial-para-la-declaracion-de-retenciones', 11, 1),
 (137, 'Formulario Oficial para la Declaración de Autorretención de Industria y Comercio ICA', '2025-02-21', 'impuestos@lajaguadeibirico-cesar.gov.co', 'INFORMACION IMPUESTOS', '2025-10-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/formulario-oficial-para-la-declaracion-de-autorretencion', 11, 1),
-(138, 'Formato Oficial de Información Exógena - Medios Magnéticos Vigencia 2024', '2025-02-21', 'impuestos@lajaguadeibirico-cesar.gov.co', 'INFORMACION IMPUESTOS', '2025-10-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/formato-oficial-de-informacion-exogena-medios-magneticos', 11, 1);
+(138, 'Formato Oficial de Información Exógena - Medios Magnéticos Vigencia 2024', '2025-02-21', 'impuestos@lajaguadeibirico-cesar.gov.co', 'INFORMACION IMPUESTOS', '2025-10-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/formato-oficial-de-informacion-exogena-medios-magneticos', 11, 1),
+(139, 'FORMULARIO DE NOVEDADES IMPUESTO DE INDUSTRIA Y COMERCIO', '2025-02-21', 'impuestos@lajaguadeibirico-cesar.gov.co', 'INFORMACION IMPUESTOS', '2025-10-16', 'Si', 'https://www.lajaguadeibirico-cesar.gov.co/informacion-tributaria-municipal/formulario-de-novedades-impuesto-de-industria-y-comercio-50627', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -774,15 +775,41 @@ CREATE TABLE `tbl_escaneres` (
   `fecha_baja` date DEFAULT NULL COMMENT 'Fecha cuando el equipo se dio de baja',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` tinyint(1) NOT NULL DEFAULT 1
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `funcionario_planta_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_escaneres`
 --
 
-INSERT INTO `tbl_escaneres` (`id_escaner`, `numero_escaner`, `marca`, `modelo`, `serial`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
-(3, 'ESC-1', 'EPSON', 'DS-530', 'X2HJ057752', NULL, 'Regular', 'No Disponible', NULL, NULL, '2025-08-01 14:56:46', '2025-08-01 14:56:46', 1);
+INSERT INTO `tbl_escaneres` (`id_escaner`, `numero_escaner`, `marca`, `modelo`, `serial`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `fecha_registro`, `fecha_actualizacion`, `status`, `funcionario_planta_id`) VALUES
+(3, 'ESC-1', 'EPSON', 'DS-530', 'X2HJ057752', '', 'Regular', 'Disponible', NULL, NULL, '2025-08-01 14:56:46', '2025-10-20 19:34:17', 1, NULL);
+
+--
+-- Disparadores `tbl_escaneres`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_escaneres_funcionario_update` AFTER UPDATE ON `tbl_escaneres` FOR EACH ROW BEGIN
+    IF OLD.funcionario_planta_id != NEW.funcionario_planta_id THEN
+        IF OLD.funcionario_planta_id IS NOT NULL THEN
+            UPDATE tbl_historial_funcionarios_equipos 
+            SET estado = 'inactivo', fecha_desasignacion = NOW()
+            WHERE id_equipo = OLD.id_escaner 
+            AND tipo_equipo = 'Escáner' 
+            AND funcionario_planta_id = OLD.funcionario_planta_id 
+            AND estado = 'activo';
+        END IF;
+        
+        IF NEW.funcionario_planta_id IS NOT NULL THEN
+            INSERT INTO tbl_historial_funcionarios_equipos 
+            (id_equipo, tipo_equipo, funcionario_planta_id, usuario_registro)
+            VALUES (NEW.id_escaner, 'Escáner', NEW.funcionario_planta_id, 'Sistema');
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -1072,23 +1099,13 @@ CREATE TABLE `tbl_historial_funcionarios_equipos` (
   `id_historial` int(11) NOT NULL,
   `id_equipo` int(11) NOT NULL,
   `tipo_equipo` varchar(50) NOT NULL,
-  `funcionario_ops_id` int(11) DEFAULT NULL,
-  `funcionario_planta_id` int(11) DEFAULT NULL,
-  `tipo_funcionario` enum('ops','planta') NOT NULL,
+  `funcionario_planta_id` int(11) NOT NULL,
   `fecha_asignacion` datetime NOT NULL DEFAULT current_timestamp(),
   `fecha_desasignacion` datetime DEFAULT NULL,
   `estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
   `observaciones` text DEFAULT NULL,
   `usuario_registro` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_historial_funcionarios_equipos`
---
-
-INSERT INTO `tbl_historial_funcionarios_equipos` (`id_historial`, `id_equipo`, `tipo_equipo`, `funcionario_ops_id`, `funcionario_planta_id`, `tipo_funcionario`, `fecha_asignacion`, `fecha_desasignacion`, `estado`, `observaciones`, `usuario_registro`) VALUES
-(1, 16, 'Impresora', NULL, 40, 'planta', '2025-10-20 11:06:43', NULL, 'activo', NULL, 'Sistema'),
-(2, 53, 'Impresora', NULL, 0, 'planta', '2025-10-20 11:06:43', NULL, 'activo', NULL, 'Sistema');
 
 -- --------------------------------------------------------
 
@@ -1278,11 +1295,11 @@ CREATE TABLE `tbl_impresoras` (
 
 INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `modelo`, `serial`, `consumible`, `numero_activo`, `estado`, `disponibilidad`, `fecha_dano`, `fecha_baja`, `funcionario_ops_id`, `funcionario_planta_id`, `fecha_registro`, `fecha_actualizacion`, `status`) VALUES
 (11, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', NULL, 'Regular', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-01 14:58:54', '2025-08-20 04:04:13', 0),
-(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', '', 'Regular', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-10-20 15:58:52', 1),
+(12, 'IMP-1', 'HP', 'LaserJet Pro M125a MFP', 'CNB6H7582LJW', '83A', '', 'Regular', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-10-20 16:24:55', 1),
 (13, 'IMP-2', 'RICOH', 'Aficio MP 305+SP', 'G582P350295', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (14, 'IMP-4', 'SAMSUNG', 'Xpress SL-M2070FW', '073YB8KG1A000GT', 'MLT-D111S', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (15, 'IMP-7', 'EPSON', 'EcoTank L5190', 'X5NQ139873', 'Tinta Epson T544', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-06 19:28:29', 1),
-(16, 'IMP-10', 'RICOH', 'Aficio MP 305+SP', 'G581PB50010', 'MP305', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, 40, '2025-08-04 14:01:29', '2025-10-20 15:58:05', 1),
+(16, 'IMP-10', 'RICOH', 'Aficio MP 305+SP', 'G581PB50010', 'MP305', '', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-10-20 16:24:59', 1),
 (17, 'IMP-15', 'HP', 'LaserJet Pro M203dw', 'VNB5DD1188', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (18, 'IMP-16', 'RICOH', 'Aficio MP 305+SP', 'G581EPBS0016', 'MP305', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (19, 'IMP-17', 'HP', 'LaserJet Pro M203dw', 'VNB5D11429', '30A', NULL, 'Regular', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
@@ -1321,6 +1338,31 @@ INSERT INTO `tbl_impresoras` (`id_impresora`, `numero_impresora`, `marca`, `mode
 (52, 'IMP-73', 'HP', 'LaserJet Pro 400 MFP M425dn', '', '05A - 80A', NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-04 14:01:29', '2025-08-04 14:01:29', 1),
 (53, 'IMP-74', 'Brother', 'DCP-T710W', '', 'Tinta Brother BTD60 y BT5001', '', 'Bueno', 'Disponible', NULL, NULL, NULL, 0, '2025-08-04 14:01:29', '2025-09-30 18:18:39', 1),
 (54, '1', '1', '1', '1', '1', '1', 'Regular', 'No Disponible', NULL, NULL, NULL, NULL, '2025-10-20 15:58:31', '2025-10-20 15:59:04', 0);
+
+--
+-- Disparadores `tbl_impresoras`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_impresoras_funcionario_update` AFTER UPDATE ON `tbl_impresoras` FOR EACH ROW BEGIN
+    IF OLD.funcionario_planta_id != NEW.funcionario_planta_id THEN
+        IF OLD.funcionario_planta_id IS NOT NULL THEN
+            UPDATE tbl_historial_funcionarios_equipos 
+            SET estado = 'inactivo', fecha_desasignacion = NOW()
+            WHERE id_equipo = OLD.id_impresora 
+            AND tipo_equipo = 'Impresora' 
+            AND funcionario_planta_id = OLD.funcionario_planta_id 
+            AND estado = 'activo';
+        END IF;
+        
+        IF NEW.funcionario_planta_id IS NOT NULL THEN
+            INSERT INTO tbl_historial_funcionarios_equipos 
+            (id_equipo, tipo_equipo, funcionario_planta_id, usuario_registro)
+            VALUES (NEW.id_impresora, 'Impresora', NEW.funcionario_planta_id, 'Sistema');
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -1569,6 +1611,34 @@ INSERT INTO `tbl_pc_torre` (`id_pc_torre`, `numero_pc`, `marca`, `serial`, `mode
 (42, 'PC-107', 'COMPUMAX', '102SN30339', '', '4GB', '', 'Intel Core i3', '', 'HDD', '', 'WIN10', '', 'COMPUMAX', '', 'COM2020CMHT7032486', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
 (43, 'PC-111', 'JANUS', '9J5JFY2', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1),
 (44, 'PC-123', 'DELL', '102SN12561', '', '4GB', '', 'Intel Core i5', '', 'HDD', '', 'WIN10', '', 'LG', '', 'N/A', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:09:56', '2025-08-27 05:09:56', 1);
+
+--
+-- Disparadores `tbl_pc_torre`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_pc_torre_funcionario_update` AFTER UPDATE ON `tbl_pc_torre` FOR EACH ROW BEGIN
+    -- Si cambió el funcionario asignado
+    IF OLD.funcionario_planta_id != NEW.funcionario_planta_id THEN
+        -- Desactivar el registro anterior si existe
+        IF OLD.funcionario_planta_id IS NOT NULL THEN
+            UPDATE tbl_historial_funcionarios_equipos 
+            SET estado = 'inactivo', fecha_desasignacion = NOW()
+            WHERE id_equipo = OLD.id_pc_torre 
+            AND tipo_equipo = 'PC Torre' 
+            AND funcionario_planta_id = OLD.funcionario_planta_id 
+            AND estado = 'activo';
+        END IF;
+        
+        -- Crear nuevo registro si se asignó un funcionario
+        IF NEW.funcionario_planta_id IS NOT NULL THEN
+            INSERT INTO tbl_historial_funcionarios_equipos 
+            (id_equipo, tipo_equipo, funcionario_planta_id, usuario_registro)
+            VALUES (NEW.id_pc_torre, 'PC Torre', NEW.funcionario_planta_id, 'Sistema');
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -1915,6 +1985,31 @@ INSERT INTO `tbl_portatiles` (`id_portatil`, `numero_pc`, `marca`, `modelo`, `ra
 (16, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '5100157C', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:58', 1),
 (17, 'PC-00', 'LENOVO', 'B40-70', '4GB', '', 'Intel Core i3', '', 'HDD', '', '?', 'WIN10', '', 'Bueno', 'No Disponible', NULL, NULL, NULL, NULL, '2025-08-27 05:11:57', '2025-08-27 05:12:53', 1);
 
+--
+-- Disparadores `tbl_portatiles`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_portatiles_funcionario_update` AFTER UPDATE ON `tbl_portatiles` FOR EACH ROW BEGIN
+    IF OLD.funcionario_planta_id != NEW.funcionario_planta_id THEN
+        IF OLD.funcionario_planta_id IS NOT NULL THEN
+            UPDATE tbl_historial_funcionarios_equipos 
+            SET estado = 'inactivo', fecha_desasignacion = NOW()
+            WHERE id_equipo = OLD.id_portatil 
+            AND tipo_equipo = 'Portátil' 
+            AND funcionario_planta_id = OLD.funcionario_planta_id 
+            AND estado = 'activo';
+        END IF;
+        
+        IF NEW.funcionario_planta_id IS NOT NULL THEN
+            INSERT INTO tbl_historial_funcionarios_equipos 
+            (id_equipo, tipo_equipo, funcionario_planta_id, usuario_registro)
+            VALUES (NEW.id_portatil, 'Portátil', NEW.funcionario_planta_id, 'Sistema');
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -2248,6 +2343,31 @@ INSERT INTO `tbl_todo_en_uno` (`id_todo_en_uno`, `numero_pc`, `marca`, `modelo`,
 (42, 'PC-124', 'HP', '200 G4 22 All-in-One', '4GB', '2400 MHz', 'I3-10110U', '2.10 GHz', 'HDD', '1 TB', '8CC150393Y', 'Windows 10 Pro', NULL, NULL, NULL, NULL, NULL, 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-08-01 20:31:21', '2025-08-01 20:31:21', 1),
 (51, '1', '1', '1', '1', '1', '1', '1', 'HDD', '200', '1', '1', '1', 'logitec', '1', 'logitec', '1', 'Bueno', 'Disponible', NULL, NULL, NULL, NULL, '2025-09-30 17:40:36', '2025-09-30 17:40:36', 1);
 
+--
+-- Disparadores `tbl_todo_en_uno`
+--
+DELIMITER $$
+CREATE TRIGGER `tr_todo_en_uno_funcionario_update` AFTER UPDATE ON `tbl_todo_en_uno` FOR EACH ROW BEGIN
+    IF OLD.funcionario_planta_id != NEW.funcionario_planta_id THEN
+        IF OLD.funcionario_planta_id IS NOT NULL THEN
+            UPDATE tbl_historial_funcionarios_equipos 
+            SET estado = 'inactivo', fecha_desasignacion = NOW()
+            WHERE id_equipo = OLD.id_todo_en_uno 
+            AND tipo_equipo = 'Todo en Uno' 
+            AND funcionario_planta_id = OLD.funcionario_planta_id 
+            AND estado = 'activo';
+        END IF;
+        
+        IF NEW.funcionario_planta_id IS NOT NULL THEN
+            INSERT INTO tbl_historial_funcionarios_equipos 
+            (id_equipo, tipo_equipo, funcionario_planta_id, usuario_registro)
+            VALUES (NEW.id_todo_en_uno, 'Todo en Uno', NEW.funcionario_planta_id, 'Sistema');
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -2538,7 +2658,8 @@ ALTER TABLE `tbl_equipos_movimientos`
 ALTER TABLE `tbl_escaneres`
   ADD PRIMARY KEY (`id_escaner`),
   ADD KEY `idx_fecha_dano` (`fecha_dano`),
-  ADD KEY `idx_fecha_baja` (`fecha_baja`);
+  ADD KEY `idx_fecha_baja` (`fecha_baja`),
+  ADD KEY `idx_funcionario_planta` (`funcionario_planta_id`);
 
 --
 -- Indices de la tabla `tbl_funcionarios_ops`
@@ -2568,7 +2689,6 @@ ALTER TABLE `tbl_herramientas`
 ALTER TABLE `tbl_historial_funcionarios_equipos`
   ADD PRIMARY KEY (`id_historial`),
   ADD KEY `idx_equipo` (`id_equipo`,`tipo_equipo`),
-  ADD KEY `idx_funcionario_ops` (`funcionario_ops_id`),
   ADD KEY `idx_funcionario_planta` (`funcionario_planta_id`),
   ADD KEY `idx_fecha_asignacion` (`fecha_asignacion`),
   ADD KEY `idx_estado` (`estado`);
@@ -2818,7 +2938,7 @@ ALTER TABLE `prorrogas_contrato`
 -- AUTO_INCREMENT de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -2902,7 +3022,7 @@ ALTER TABLE `tbl_herramientas`
 -- AUTO_INCREMENT de la tabla `tbl_historial_funcionarios_equipos`
 --
 ALTER TABLE `tbl_historial_funcionarios_equipos`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historial_permisos`
