@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label for="txtFuncionarioOps">Funcionario OPS</label>
                                 <select class="form-control" id="txtFuncionarioOps" name="txtFuncionarioOps">
@@ -61,9 +61,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label for="txtFuncionarioPlanta">Funcionario Planta</label>
+                                <label for="txtFuncionarioPlanta">Funcionario Asignado</label>
                                 <select class="form-control" id="txtFuncionarioPlanta" name="txtFuncionarioPlanta">
                                     <option value="">Seleccione...</option>
                                 </select>
@@ -133,6 +133,22 @@
                             <div class="form-group">
                                 <label for="txtSerialEscaner">Serial</label>
                                 <input type="text" class="form-control" id="txtSerialEscaner" name="txtSerial">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtNumeroActivoEscaner">N° Activo</label>
+                                <input type="text" class="form-control" id="txtNumeroActivoEscaner" name="txtNumeroActivo">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFuncionarioPlantaEscaner">Funcionario Asignado</label>
+                                <select class="form-control" id="txtFuncionarioPlantaEscaner" name="txtFuncionarioPlantaEscaner">
+                                    <option value="">Seleccione...</option>
+                                </select>
                             </div>
                         </div>
                     </div>

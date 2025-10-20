@@ -53,6 +53,7 @@ function fntViewEquipo(idequipo, tipo) {
                 if (data.tipo === 'PC Torre' || data.tipo === 'Portátil' || data.tipo === 'Todo en Uno') {
                     document.querySelector("#especsComputadora").style.display = 'block';
                     document.querySelector("#especsImpresora").style.display = 'none';
+                    document.querySelector("#especsEscaner").style.display = 'none';
                     
                     document.querySelector("#celRam").innerHTML = (data.ram || 'N/A') + (data.velocidad_ram ? ' - ' + data.velocidad_ram : '');
                     document.querySelector("#celProcesador").innerHTML = (data.procesador || 'N/A') + (data.velocidad_procesador ? ' - ' + data.velocidad_procesador : '');
@@ -61,13 +62,21 @@ function fntViewEquipo(idequipo, tipo) {
                 } else if (data.tipo === 'Impresora') {
                     document.querySelector("#especsComputadora").style.display = 'none';
                     document.querySelector("#especsImpresora").style.display = 'block';
+                    document.querySelector("#especsEscaner").style.display = 'none';
                     document.querySelector("#celConsumible").innerHTML = data.consumible || 'N/A';
+                } else if (data.tipo === 'Escáner') {
+                    document.querySelector("#especsComputadora").style.display = 'none';
+                    document.querySelector("#especsImpresora").style.display = 'none';
+                    document.querySelector("#especsEscaner").style.display = 'block';
                 } else {
                     document.querySelector("#especsComputadora").style.display = 'none';
                     document.querySelector("#especsImpresora").style.display = 'none';
+                    document.querySelector("#especsEscaner").style.display = 'none';
                 }
                 
                 fntCargarMantenimientos(idequipo, tipo);
+                fntCargarFuncionarioActual(idequipo, tipo);
+                fntCargarHistorialFuncionarios(idequipo, tipo);
                 $('#modalViewEquipo').modal('show');
             } else {
                 Swal.fire("Error", objData.msg, "error");
@@ -217,4 +226,61 @@ document.addEventListener('DOMContentLoaded', function() {
 function fntPdfMantenimientos() {
     let url = base_url + '/HojaVidaEquipos/generarPdfMantenimientos';
     window.open(url, '_blank');
+}
+
+function fntCargarFuncionarioActual(idEquipo, tipoEquipo) {
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/HojaVidaEquipos/getFuncionarioActual?id=' + idEquipo + '&tipo=' + encodeURIComponent(tipoEquipo);
+    request.open("GET", ajaxUrl, true);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            
+            let funcionarioActual = document.querySelector('#celFuncionarioActual');
+            
+            if (objData && objData.nombre_funcionario) {
+                funcionarioActual.innerHTML = objData.nombre_funcionario;
+            } else {
+                funcionarioActual.innerHTML = 'Sin asignar';
+            }
+        }
+    }
+}
+
+function fntCargarHistorialFuncionarios(idEquipo, tipoEquipo) {
+    let tbody = document.querySelector('#tbodyHistorialFuncionarios');
+    if (!tbody) return;
+    
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url + '/HojaVidaEquipos/getHistorialFuncionarios?id=' + idEquipo + '&tipo=' + encodeURIComponent(tipoEquipo);
+    request.open("GET", ajaxUrl, true);
+    request.send();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            tbody.innerHTML = '';
+            
+            if (objData && objData.length > 0) {
+                objData.forEach(function(historial) {
+                    let fechaDesasignacion = historial.fecha_desasignacion ? formatDate(historial.fecha_desasignacion) : 'Activo';
+                    let estadoBadge = historial.estado === 'activo' ? 
+                        '<span class="badge bg-success">Activo</span>' : 
+                        '<span class="badge bg-secondary">Inactivo</span>';
+                    
+                    let row = '<tr>' +
+                        '<td>' + historial.nombre_funcionario + '</td>' +
+                        '<td>' + formatDate(historial.fecha_asignacion) + '</td>' +
+                        '<td>' + fechaDesasignacion + '</td>' +
+                        '<td>' + estadoBadge + '</td>' +
+                        '</tr>';
+                    tbody.innerHTML += row;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No hay historial de funcionarios</td></tr>';
+            }
+        }
+    }
 }

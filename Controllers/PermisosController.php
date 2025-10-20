@@ -296,4 +296,58 @@ class PermisosController extends Controllers
         }
         die();
     }
+
+    // API para obtener permisos para el calendario
+    public function getPermisosCalendario()
+    {
+        header('Content-Type: application/json');
+        
+        try {
+            require_once 'Models/PermisosModel.php';
+            $permisosModel = new PermisosModel();
+            $permisos = $permisosModel->getPermisosParaCalendario();
+            
+            $eventos = [];
+            foreach ($permisos as $permiso) {
+                $color = '#007bff'; // Color por defecto
+                
+                // Asignar colores según el tipo de permiso
+                switch($permiso['tipo_permiso']) {
+                    case 'Permiso por Calamidad Doméstica':
+                        $color = '#dc3545'; // Rojo
+                        break;
+                    case 'Permiso por Cita Médica':
+                        $color = '#28a745'; // Verde
+                        break;
+                    case 'Permiso por Diligencia Personal':
+                        $color = '#ffc107'; // Amarillo
+                        break;
+                    case 'Permiso por Capacitación':
+                        $color = '#17a2b8'; // Azul claro
+                        break;
+                    default:
+                        $color = '#6c757d'; // Gris
+                }
+                
+                $eventos[] = [
+                    'id' => $permiso['id_permiso'],
+                    'title' => $permiso['funcionario'] . ' - ' . $permiso['tipo_permiso'],
+                    'start' => $permiso['fecha_permiso'],
+                    'color' => $color,
+                    'extendedProps' => [
+                        'funcionario' => $permiso['funcionario'],
+                        'tipo_permiso' => $permiso['tipo_permiso'],
+                        'motivo' => $permiso['motivo'],
+                        'dependencia' => $permiso['dependencia'],
+                        'estado' => $permiso['estado'] ?? 'Aprobado'
+                    ]
+                ];
+            }
+            
+            echo json_encode($eventos, JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+        die();
+    }
 }

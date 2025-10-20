@@ -247,3 +247,49 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para detalles del permiso desde calendario -->
+<div class="modal fade" id="modalDetallePermisoCalendario" tabindex="-1" aria-labelledby="modalDetallePermisoCalendario" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title text-white"><i class="bi bi-calendar-check"></i> Detalle del Permiso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Funcionario:</strong></td>
+                                    <td id="detalleFuncionario">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fecha:</strong></td>
+                                    <td id="detalleFecha">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Motivo:</strong></td>
+                                    <td id="detalleMotivo">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tipo:</strong></td>
+                                    <td id="detalleTipo">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnDescargarPermisoCalendario">
+                    <i class="bi bi-file-pdf"></i> Descargar PDF
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

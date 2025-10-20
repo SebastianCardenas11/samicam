@@ -1,103 +1,48 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
 
-define('WHATSAPP_ENABLED', true);
-define('WHATSAPP_PROVIDER', 'callmebot');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-define('WHATSAPP_SEND_TO_SPECIFIC_NUMBER', true);
-define('WHATSAPP_SPECIFIC_NUMBER', '+573163819809
-');
+define('WHATSAPP_ENABLED', false);
+define('EMAIL_NOTIFICATIONS_ENABLED', true);
+define('EMAIL_RECIPIENT', 'sistema@lajaguadeibirico-cesar.gov.co');
 
-define('CALLMEBOT_API_KEY', '123456');
+define('WHATSAPP_PHONE_NUMBER', '573163819809');
+define('CALLMEBOT_API_KEY', '1234652');
 define('CALLMEBOT_API_URL', 'https://api.callmebot.com/whatsapp.php');
 
-define('CALLMEBOT_ALTERNATIVE_NUMBERS', [
-    '+34 644 51 95 23',
-]);
+define('NOTIFICATION_PREFIX', '🔔 *SAMICAM - Nueva Tarea*');
+define('NOTIFICATION_SUFFIX', '💻 Accede al sistema para más detalles.');
 
-define('WHATSAPP_BUSINESS_TOKEN', '');
-define('WHATSAPP_PHONE_NUMBER_ID', '');
-
-define('WAMR_API_KEY', '');
-define('WAMR_API_URL', 'https://api.wamr.com/v1/message');
-
-define('WHATSAPP_MESSAGE_TEMPLATE', true);
-define('WHATSAPP_RETRY_ATTEMPTS', 3);
-define('WHATSAPP_RETRY_DELAY', 5);
-
-define('WHATSAPP_MESSAGE_PREFIX', '🔔 *SAMICAM - Nueva Tarea*');
-define('WHATSAPP_MESSAGE_SUFFIX', '💻 Accede al sistema para más detalles.');
-
-define('DEFAULT_COUNTRY_CODE', '57');
-define('PHONE_NUMBER_FORMAT', 'international');
-
-define('WHATSAPP_LOG_ENABLED', true);
-define('WHATSAPP_LOG_FILE', 'uploads/whatsapp_log.txt');
-
-define('WHATSAPP_EMAIL_BACKUP_ENABLED', false);
-define('WHATSAPP_EMAIL_BACKUP_RECIPIENT', 'admin@samicam.com');
-
-define('WHATSAPP_TASK_NUMBER', '573183687660');
-define('CALLMEBOT_TASK_API_KEY', '8086746');
-define('WHATSAPP_GENERAL_NUMBER', '573163819809');
-define('CALLMEBOT_GENERAL_API_KEY', '1234652');
+define('NOTIFICATION_LOG_ENABLED', true);
+define('NOTIFICATION_LOG_FILE', 'uploads/notifications_log.txt');
 
 function getWhatsAppConfig()
 {
     return [
         'enabled' => WHATSAPP_ENABLED,
         'provider' => WHATSAPP_PROVIDER,
-        'send_to_specific_number' => WHATSAPP_SEND_TO_SPECIFIC_NUMBER,
-        'specific_number' => WHATSAPP_SPECIFIC_NUMBER,
-        'callmebot' => [
-            'api_key' => CALLMEBOT_API_KEY,
-            'api_url' => CALLMEBOT_API_URL
-        ],
-        'whatsapp_business' => [
-            'token' => WHATSAPP_BUSINESS_TOKEN,
-            'phone_number_id' => WHATSAPP_PHONE_NUMBER_ID
-        ],
-        'wamr' => [
-            'api_key' => WAMR_API_KEY,
-            'api_url' => WAMR_API_URL
-        ],
-        'general' => [
-            'message_template' => WHATSAPP_MESSAGE_TEMPLATE,
-            'retry_attempts' => WHATSAPP_RETRY_ATTEMPTS,
-            'retry_delay' => WHATSAPP_RETRY_DELAY
-        ],
-        'messages' => [
-            'prefix' => WHATSAPP_MESSAGE_PREFIX,
-            'suffix' => WHATSAPP_MESSAGE_SUFFIX
-        ],
-        'phone' => [
-            'default_country_code' => DEFAULT_COUNTRY_CODE,
-            'format' => PHONE_NUMBER_FORMAT
-        ],
-        'logging' => [
-            'enabled' => WHATSAPP_LOG_ENABLED,
-            'file' => WHATSAPP_LOG_FILE
-        ],
-        'email_backup' => [
-            'enabled' => WHATSAPP_EMAIL_BACKUP_ENABLED,
-            'recipient_email' => WHATSAPP_EMAIL_BACKUP_RECIPIENT
-        ],
-        'task_number' => WHATSAPP_TASK_NUMBER,
-        'task_api_key' => CALLMEBOT_TASK_API_KEY,
-        'general_number' => WHATSAPP_GENERAL_NUMBER,
-        'general_api_key' => CALLMEBOT_GENERAL_API_KEY,
+        'phone_number' => WHATSAPP_PHONE_NUMBER,
+        'api_key' => CALLMEBOT_API_KEY,
+        'api_url' => CALLMEBOT_API_URL,
+        'message_prefix' => WHATSAPP_MESSAGE_PREFIX,
+        'message_suffix' => WHATSAPP_MESSAGE_SUFFIX,
+        'log_enabled' => WHATSAPP_LOG_ENABLED,
+        'log_file' => WHATSAPP_LOG_FILE
     ];
 }
 
 function logWhatsAppMessage($message, $level = 'INFO')
 {
-    if (!WHATSAPP_LOG_ENABLED) {
+    if (!NOTIFICATION_LOG_ENABLED) {
         return;
     }
     
     $timestamp = date('Y-m-d H:i:s');
     $logMessage = "[{$timestamp}] [{$level}] {$message}" . PHP_EOL;
     
-    $logFile = WHATSAPP_LOG_FILE;
+    $logFile = NOTIFICATION_LOG_FILE;
     $logDir = dirname($logFile);
     
     if (!is_dir($logDir)) {
@@ -112,19 +57,52 @@ function isWhatsAppEnabled()
     return WHATSAPP_ENABLED && !empty(getWhatsAppConfig()['provider']);
 }
 
-function getWhatsAppApiKey()
+function sendNotification($message, $subject = 'Nueva Tarea')
 {
-    $config = getWhatsAppConfig();
-    $provider = $config['provider'];
+    $smtpHost = 'smtp.gmail.com';
+    $smtpPort = 587;
+    $smtpUser = 'ssamicamvpn@gmail.com';
+    $smtpPass = 'q v b w v l q o r a k h j r x m';
     
-    switch ($provider) {
-        case 'callmebot':
-            return $config['callmebot']['api_key'];
-        case 'whatsapp_business':
-            return $config['whatsapp_business']['token'];
-        case 'wamr':
-            return $config['wamr']['api_key'];
-        default:
-            return '';
+    $to = EMAIL_RECIPIENT;
+    $fullMessage = NOTIFICATION_PREFIX . "\n\n" . $message . "\n\n" . NOTIFICATION_SUFFIX;
+    
+    $mail = new PHPMailer(true);
+    
+    try {
+        $mail->isSMTP();
+        $mail->Host = $smtpHost;
+        $mail->SMTPAuth = true;
+        $mail->Username = $smtpUser;
+        $mail->Password = $smtpPass;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = $smtpPort;
+        
+        $mail->setFrom($smtpUser, 'SAMICAM');
+        $mail->addAddress($to);
+        
+        $mail->isHTML(false);
+        $mail->Subject = $subject;
+        $mail->Body = $fullMessage;
+        
+        $mail->send();
+        logWhatsAppMessage("Email enviado exitosamente a $to: $subject", 'INFO');
+        return true;
+    } catch (Exception $e) {
+        logWhatsAppMessage("Error al enviar email a $to: " . $mail->ErrorInfo, 'ERROR');
+        return false;
     }
+}
+
+function sendTaskNotification($taskTitle, $taskDescription, $assignedTo = '')
+{
+    $message = "Nueva tarea asignada:\n\n";
+    $message .= "Título: $taskTitle\n";
+    $message .= "Descripción: $taskDescription\n";
+    if ($assignedTo) {
+        $message .= "Asignado a: $assignedTo\n";
+    }
+    $message .= "Fecha: " . date('Y-m-d H:i:s');
+    
+    return sendNotification($message, "SAMICAM - Nueva Tarea: $taskTitle");
 }

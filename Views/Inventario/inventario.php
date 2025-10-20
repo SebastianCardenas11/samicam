@@ -183,6 +183,7 @@
                                                                     <th>Modelo</th>
                                                                     <th>Serial</th>
                                                                     <th>N° Activo</th>
+                                                                    <th>Asignado a</th>
                                                                     <th>Estado</th>
                                                                     <th>Disponibilidad</th>
                                                                     <th>Acciones</th>

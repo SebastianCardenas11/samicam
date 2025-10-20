@@ -338,8 +338,7 @@
                     //    fastcgi_finish_request();
                     //}
 
-                    // Enviar notificaciones externas (correo y WhatsApp) en segundo plano, sin bloquear
-                    // Usar shutdown function para intentar que se ejecute después de la respuesta
+                    // Enviar correos de notificación en segundo plano
                     if ($id_tarea == 0 && !empty($usuarios_info)) {
                         register_shutdown_function(function() use ($usuarios_info, $descripcion, $observacion, $tipo, $prioridad, $dependencia_fk, $fecha_inicio, $fecha_fin) {
                             try {
@@ -355,18 +354,6 @@
                                 ]);
                             } catch (\Throwable $e) {
                                 error_log("Error en envío de correo shutdown: " . $e->getMessage());
-                            }
-                            try {
-                                $this->enviarNotificacionesWhatsApp($usuarios_info, [
-                                    'descripcion' => $descripcion,
-                                    'tipo' => $tipo,
-                                    'dependencia_nombre' => $this->getDependenciaNombre($dependencia_fk),
-                                    'fecha_inicio' => $fecha_inicio,
-                                    'fecha_fin' => $fecha_fin,
-                                    'observacion' => $observacion
-                                ]);
-                            } catch (\Throwable $e) {
-                                error_log("Error en envío de WhatsApp shutdown: " . $e->getMessage());
                             }
                         });
                     }
@@ -407,14 +394,8 @@
             $request_tarea = $this->model->updateEstadoTarea($idTarea, 'en curso');
             
             if($request_tarea > 0) {
-                // Enviar WhatsApp
-                require_once "Helpers/WhatsAppHelper.php";
-                $whatsappHelper = new WhatsAppHelper();
-                $usuario = $_SESSION['userData']['nombres'];
-                $fecha = date('d/m/Y H:i');
-                $mensaje = "▶️ La tarea '{$arrTarea['descripcion']}' fue iniciada el {$fecha} por {$usuario}.";
-                $numero = $whatsappHelper->getNumeroPorTipo('general');
-                $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
+                // Enviar correo de notificación
+                $this->enviarCorreoTareaIniciada($arrTarea);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea iniciada correctamente.');
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al iniciar la tarea.');
@@ -440,14 +421,8 @@
             }
             $request_tarea = $this->model->updateEstadoTarea($idTarea, 'completada');
             if($request_tarea > 0) {
-                // Enviar WhatsApp
-                require_once "Helpers/WhatsAppHelper.php";
-                $whatsappHelper = new WhatsAppHelper();
-                $usuario = $_SESSION['userData']['nombres'];
-                $fecha = date('d/m/Y H:i');
-                $mensaje = "✅ La tarea '{$arrTarea['descripcion']}' cambió de estado a COMPLETADA el {$fecha} por {$usuario}.";
-                $numero = $whatsappHelper->getNumeroPorTipo('general');
-                $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
+                // Enviar correo de notificación
+                $this->enviarCorreoTareaCompletada($arrTarea);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea completada correctamente.');
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al completar la tarea.');
@@ -481,14 +456,6 @@
             }
             $request_obs = $this->model->insertObservacion($idTarea, $_SESSION['idUser'], $observacion);
             if($request_obs > 0) {
-                // Enviar WhatsApp
-                require_once "Helpers/WhatsAppHelper.php";
-                $whatsappHelper = new WhatsAppHelper();
-                $usuario = $_SESSION['userData']['nombres'];
-                $fecha = date('d/m/Y H:i');
-                $mensaje = "📝 Se agregó una observación a la tarea '{$arrTarea['descripcion']}' el {$fecha} por {$usuario}:\n'{$observacion}'";
-                $numero = $whatsappHelper->getNumeroPorTipo('general');
-                $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
                 $arrResponse = array('status' => true, 'msg' => 'Observación agregada correctamente.');
             } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al agregar la observación.');
@@ -517,32 +484,54 @@
 
         public function delTarea()
         {
-            $idTarea = intval($_POST['idTarea']);
-            
-            // Verificar si es el creador de la tarea
-            $arrTarea = $this->model->getTarea($idTarea);
-            if($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
-                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para eliminar esta tarea.');
-                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+                $arrResponse = array('status' => false, 'msg' => 'Método no permitido.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 die();
             }
 
-            // Enviar WhatsApp antes de eliminar
-            require_once "Helpers/WhatsAppHelper.php";
-            $whatsappHelper = new WhatsAppHelper();
-            $usuario = $_SESSION['userData']['nombres'];
-            $fecha = date('d/m/Y H:i');
-            $mensaje = "❌ La tarea '{$arrTarea['descripcion']}' fue eliminada el {$fecha} por {$usuario}.";
-            $numero = $whatsappHelper->getNumeroPorTipo('general');
-            $whatsappHelper->sendWhatsAppMessage($numero, $mensaje);
+            $idTarea = isset($_POST['idTarea']) ? intval($_POST['idTarea']) : 0;
+            
+            if ($idTarea <= 0) {
+                $arrResponse = array('status' => false, 'msg' => 'ID de tarea inválido.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            // Verificar permisos de eliminación
+            if (empty($_SESSION['permisosMod']['d'])) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para eliminar tareas.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            
+            // Verificar si la tarea existe
+            $arrTarea = $this->model->getTarea($idTarea);
+            if (empty($arrTarea)) {
+                $arrResponse = array('status' => false, 'msg' => 'La tarea no existe.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            // Verificar si es el creador de la tarea
+            if ($arrTarea['id_usuario_creador'] != $_SESSION['idUser']) {
+                $arrResponse = array('status' => false, 'msg' => 'No tiene permisos para eliminar esta tarea.');
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+
+            // Intentar eliminar la tarea
             $request_delete = $this->model->deleteTarea($idTarea);
-            if($request_delete)
-            {
+            
+            if ($request_delete) {
+                // Enviar correo de notificación
+                $this->enviarCorreoTareaEliminada($arrTarea);
                 $arrResponse = array('status' => true, 'msg' => 'Tarea eliminada correctamente.');
-            }else{
+            } else {
                 $arrResponse = array('status' => false, 'msg' => 'Error al eliminar la tarea.');
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             die();
         }
 
@@ -578,56 +567,132 @@
                 // Incluir el helper de correo
                 require_once "Helpers/enviar_correo.php";
                 
-                // Enviar correos a cada usuario
+                // Enviar correos a cada usuario asignado
                 foreach ($usuarios_info as $usuario) {
-                    // Usar el correo del usuario de la tabla tbl_usuarios
                     if (!empty($usuario['correo'])) {
                         enviarCorreoTareaAsignada(
                             $usuario['correo'],
                             $usuario['nombres'],
                             $tarea_info
                         );
-                        
-                        // Log de envío
                         error_log("Correo enviado a {$usuario['nombres']} ({$usuario['correo']})");
                     }
                 }
+                
+                // Enviar copia al correo del sistema
+                enviarCorreoTareaAsignada(
+                    'sistema@lajaguadeibirico-cesar.gov.co',
+                    'Sistema SAMICAM',
+                    $tarea_info
+                );
+                error_log("Correo enviado al sistema (sistema@lajaguadeibirico-cesar.gov.co)");
+                
             } catch (Exception $e) {
                 error_log("Error en envío de correos: " . $e->getMessage());
             }
         }
-
-        /**
-         * Envía notificaciones de WhatsApp a los usuarios asignados
-         * @param array $usuarios_info Información de los usuarios
-         * @param array $tarea_info Información de la tarea
-         */
-        private function enviarNotificacionesWhatsApp($usuarios_info, $tarea_info)
+        
+        private function enviarCorreoTareaIniciada($tarea)
         {
             try {
-                // Incluir el helper de WhatsApp
-                require_once "Helpers/WhatsAppHelper.php";
-                $whatsappHelper = new WhatsAppHelper();
+                require_once "Helpers/enviar_correo.php";
+                $usuario = $_SESSION['userData']['nombres'];
+                $fecha = date('d/m/Y H:i');
                 
-                // Configurar API key (deberías obtener esto de configuración)
-                // $whatsappHelper->setApiKey('TU_API_KEY_AQUI');
+                // Obtener usuarios asignados
+                $usuarios_asignados = $this->model->getUsuariosTarea($tarea['id_tarea']);
+                $nombres_asignados = array_map(function($u) { return $u['nombres']; }, $usuarios_asignados);
+                $asignados_texto = implode(', ', $nombres_asignados);
                 
-                // Enviar notificaciones
-                $resultados = $whatsappHelper->sendTareaNotification($usuarios_info, $tarea_info);
+                $tarea_info = [
+                    'titulo' => "REPORTE: Tarea Iniciada",
+                    'descripcion' => "Se inició la tarea '{$tarea['descripcion']}' el {$fecha} por {$usuario}. Asignada a: {$asignados_texto}",
+                    'tipo' => $tarea['tipo'],
+                    'dependencia_nombre' => $tarea['dependencia_nombre'],
+                    'fecha_inicio' => $tarea['fecha_inicio'],
+                    'fecha_fin' => $tarea['fecha_fin']
+                ];
                 
-                // Log de resultados
-                foreach ($resultados as $resultado) {
-                    if ($resultado['enviado']) {
-                        error_log("WhatsApp enviado a {$resultado['nombre']} ({$resultado['telefono']})");
-                    } else {
-                        error_log("Error enviando WhatsApp a {$resultado['nombre']}: {$resultado['mensaje']}");
+                enviarCorreoTareaAsignada(
+                    'sistema@lajaguadeibirico-cesar.gov.co',
+                    'Sistema SAMICAM',
+                    $tarea_info
+                );
+            } catch (Exception $e) {
+                error_log("Error enviando correo tarea iniciada: " . $e->getMessage());
+            }
+        }
+        
+        private function enviarCorreoTareaCompletada($tarea)
+        {
+            try {
+                require_once "Helpers/enviar_correo.php";
+                $usuario = $_SESSION['userData']['nombres'];
+                $fecha = date('d/m/Y H:i');
+                
+                // Obtener usuarios asignados
+                $usuarios_asignados = $this->model->getUsuariosTarea($tarea['id_tarea']);
+                $nombres_asignados = array_map(function($u) { return $u['nombres']; }, $usuarios_asignados);
+                $asignados_texto = implode(', ', $nombres_asignados);
+                
+                $tarea_info = [
+                    'titulo' => "REPORTE: Tarea Completada",
+                    'descripcion' => "Se completó la tarea '{$tarea['descripcion']}' el {$fecha} por {$usuario}. Asignada a: {$asignados_texto}",
+                    'tipo' => $tarea['tipo'],
+                    'dependencia_nombre' => $tarea['dependencia_nombre'],
+                    'fecha_inicio' => $tarea['fecha_inicio'],
+                    'fecha_fin' => $tarea['fecha_fin']
+                ];
+                
+                enviarCorreoTareaAsignada(
+                    'sistema@lajaguadeibirico-cesar.gov.co',
+                    'Sistema SAMICAM',
+                    $tarea_info
+                );
+            } catch (Exception $e) {
+                error_log("Error enviando correo tarea completada: " . $e->getMessage());
+            }
+        }
+        
+        private function enviarCorreoTareaEliminada($tarea)
+        {
+            try {
+                require_once "Helpers/enviar_correo.php";
+                $usuario = $_SESSION['userData']['nombres'];
+                
+                // Obtener usuarios asignados
+                $usuarios_asignados = $this->model->getUsuariosTarea($tarea['id_tarea']);
+                $usuarios_info = $this->model->getUsuariosInfoCompleta($usuarios_asignados);
+                
+                $tarea_info = [
+                    'titulo' => $tarea['descripcion'],
+                    'dependencia_nombre' => $tarea['dependencia_nombre'],
+                    'eliminada_por' => $usuario
+                ];
+                
+                // Enviar correos a cada usuario asignado
+                foreach ($usuarios_info as $usuario_info) {
+                    if (!empty($usuario_info['correo'])) {
+                        enviarCorreoTareaEliminada(
+                            $usuario_info['correo'],
+                            $usuario_info['nombres'],
+                            $tarea_info
+                        );
                     }
                 }
                 
+                // Enviar copia al sistema
+                enviarCorreoTareaEliminada(
+                    'sistema@lajaguadeibirico-cesar.gov.co',
+                    'Sistema SAMICAM',
+                    $tarea_info
+                );
             } catch (Exception $e) {
-                error_log("Error en envío de WhatsApp: " . $e->getMessage());
+                error_log("Error enviando correo tarea eliminada: " . $e->getMessage());
             }
         }
+
+
         
         /**
          * Obtiene el nombre de la dependencia por ID
@@ -669,37 +734,7 @@
             die();
         }
 
-    /**
-     * Endpoint para enviar notificación de WhatsApp de una tarea
-     * POST: idTarea
-     */
-    public function notificarWhatsApp()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $idTarea = isset($_POST['idTarea']) ? intval($_POST['idTarea']) : 0;
-            if ($idTarea <= 0) {
-                echo json_encode(['status' => false, 'msg' => 'ID de tarea inválido']);
-                die();
-            }
-            $arrTarea = $this->model->getTarea($idTarea);
-            $usuarios_asignados = $this->model->getUsuariosAsignados($idTarea);
-            $usuarios_info = $this->model->getUsuariosInfoCompleta($usuarios_asignados);
-            try {
-                $this->enviarNotificacionesWhatsApp($usuarios_info, [
-                    'descripcion' => $arrTarea['descripcion'],
-                    'tipo' => $arrTarea['tipo'],
-                    'dependencia_nombre' => $this->getDependenciaNombre($arrTarea['dependencia_fk']),
-                    'fecha_inicio' => $arrTarea['fecha_inicio'],
-                    'fecha_fin' => $arrTarea['fecha_fin'],
-                    'observacion' => $arrTarea['observacion'] ?? ''
-                ]);
-                echo json_encode(['status' => true, 'msg' => 'Notificación de WhatsApp enviada.']);
-            } catch (Exception $e) {
-                echo json_encode(['status' => false, 'msg' => 'Error enviando WhatsApp: ' . $e->getMessage()]);
-            }
-            die();
-        }
-    }
+
 
     /**
      * Endpoint para enviar notificación de correo de una tarea

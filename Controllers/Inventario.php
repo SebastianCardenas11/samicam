@@ -237,6 +237,8 @@ class Inventario extends Controllers
                 $strEstado = strClean($_POST['txtEstado']);
                 $strDisponibilidad = strClean($_POST['txtDisponibilidad']);
                 $fechaEstado = !empty($_POST['txtFechaEstado']) ? strClean($_POST['txtFechaEstado']) : null;
+                $funcionario_ops_id = !empty($_POST['txtFuncionarioOps']) ? intval($_POST['txtFuncionarioOps']) : null;
+                $funcionario_planta_id = !empty($_POST['txtFuncionarioPlanta']) ? intval($_POST['txtFuncionarioPlanta']) : null;
                 
                 // Determinar en qué campo guardar la fecha según el estado
                 $fechaDano = null;
@@ -254,12 +256,12 @@ class Inventario extends Controllers
                     if ($_SESSION['permisosMod']['w']) {
 
 
-                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                        $request = $this->model->insertEscaner($strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
                         $option = 1;
                     }
                 } else {
                     if ($_SESSION['permisosMod']['u']) {
-                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja);
+                        $request = $this->model->updateEscaner($intIdEscaner, $strNumeroEscaner, $strMarca, $strModelo, $strSerial, $strNumeroActivo, $strEstado, $strDisponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id);
                         $option = 2;
                     }
                 }
@@ -479,18 +481,38 @@ class Inventario extends Controllers
     // ==================== FUNCIONARIOS ====================
     public function getFuncionariosOps()
     {
+        header('Content-Type: application/json');
+        
         if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->getFuncionariosOps();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            try {
+                $arrData = $this->model->getFuncionariosOps();
+                error_log('Funcionarios OPS obtenidos: ' . count($arrData) . ' registros');
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            } catch (Exception $e) {
+                error_log('Error en getFuncionariosOps: ' . $e->getMessage());
+                echo json_encode([], JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            echo json_encode([], JSON_UNESCAPED_UNICODE);
         }
         die();
     }
 
     public function getFuncionariosPlanta()
     {
+        header('Content-Type: application/json');
+        
         if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->getFuncionariosPlanta();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            try {
+                $arrData = $this->model->getFuncionariosPlanta();
+                error_log('Funcionarios Planta obtenidos: ' . count($arrData) . ' registros');
+                echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            } catch (Exception $e) {
+                error_log('Error en getFuncionariosPlanta: ' . $e->getMessage());
+                echo json_encode([], JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            echo json_encode([], JSON_UNESCAPED_UNICODE);
         }
         die();
     }

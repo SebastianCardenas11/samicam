@@ -104,3 +104,14 @@
 [2025-10-03 10:40:00] [INFO] Intentando proveedor alternativo: whatsapp_business
 [2025-10-03 10:40:01] [ERROR] Todos los proveedores fallaron
 [2025-10-03 10:40:01] [ERROR] No se pudo enviar el mensaje de WhatsApp al número 573163819809
+[2025-10-06 21:36:20] [ERROR] Mensaje falló: 🧪 Mensaje de prueba desde SAMICAM
+
+Este es un mensaje de prueba para verificar la configuración de WhatsApp.
+
+2025-10-06 21:36:19
+[2025-10-06 21:37:11] [ERROR] Teléfono: 573163819809, HTTP: 208, Respuesta: <p>Message to: +573163819809<p>Text to send: 🔔 *SAMICAM*%0A%0A🧪 Mensaje de prueba desde SAMICAM%0A%0AEste es un mensaje de prueba para verificar la configuración de WhatsApp.%0A%0A2025-10-06 21:37:10%0A%0A💻 Accede al sistema para más detalles.<p style="color:red">Your Account is <b>Paused</b> due to technical issues.<br>
+    Please send the word "<b>resume</b>" to the bot to re-enable the service for your number.<br>
+    Thank you and sorry for the inconvenience.<br>
+    <br>
+    <img src="https://www.callmebot.com/wp-content/uploads/resume.png">
+    

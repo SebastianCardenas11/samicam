@@ -26,8 +26,13 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"id_tarea"},
-            {"data":"asignado_nombre"},
+            {"data":"asignado_nombre", "render": function(data) {
+                // Limitar la longitud del texto mostrado para múltiples usuarios
+                if (data && data.length > 50) {
+                    return `<div class="text-truncate" style="max-width: 200px;" title="${data}">${data}</div>`;
+                }
+                return data;
+            }},
             {"data":"tipo"},
             {"data":"descripcion", "render": function(data) {
                 return `<div class="text-truncate" style="max-width: 200px;" title="${data}">${data}</div>`;
@@ -87,12 +92,18 @@ document.addEventListener('DOMContentLoaded', function(){
                 "extend": "excelHtml5",
                 "text": "<i class='fas fa-file-excel'></i> Excel",
                 "titleAttr":"Exportar a Excel",
-                "className": "btn btn-success"
+                "className": "btn btn-success",
+                "exportOptions": {
+                    "columns": ":not(:last-child)"
+                }
             },{
                 "extend": "pdfHtml5",
                 "text": "<i class='fas fa-file-pdf'></i> PDF",
                 "titleAttr":"Exportar a PDF",
-                "className": "btn btn-danger"
+                "className": "btn btn-danger",
+                "exportOptions": {
+                    "columns": ":not(:last-child)"
+                }
             }
         ],
         "resonsieve":"true",
@@ -158,19 +169,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 let idTarea = objData.idTarea;
                 if(idTarea) {
-                    // Enviar notificación WhatsApp
-                    fetch(base_url+'/Tareas/notificarWhatsApp', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: 'idTarea='+encodeURIComponent(idTarea)
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        showToast(data.msg, data.status ? 'success' : 'error');
-                    })
-                    .catch(() => {
-                        showToast('Error al enviar notificación WhatsApp', 'error');
-                    });
                     // Enviar notificación Correo
                     fetch(base_url+'/Tareas/notificarCorreo', {
                         method: 'POST',

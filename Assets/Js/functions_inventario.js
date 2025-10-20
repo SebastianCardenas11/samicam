@@ -120,14 +120,10 @@ function initDataTables() {
                 { 
                     "data": null,
                     "render": function(data, type, row) {
-                        let funcionario = '';
-                        if (row.funcionario_ops_nombre) {
-                            funcionario += '<small class="badge bg-info">OPS: ' + row.funcionario_ops_nombre + '</small><br>';
-                        }
                         if (row.funcionario_planta_nombre) {
-                            funcionario += '<small class="badge bg-success">Planta: ' + row.funcionario_planta_nombre + '</small>';
+                            return '<small class="badge bg-success">' + row.funcionario_planta_nombre + '</small>';
                         }
-                        return funcionario || '<small class="text-muted">Sin asignar</small>';
+                        return '<small class="text-muted">Sin asignar</small>';
                     }
                 },
                 {
@@ -162,16 +158,17 @@ function initDataTables() {
                     "render": function(data, type, row) {
                         let buttons = '';
                         buttons += `<div class="btn-group" role="group">`;
-                        buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> &nbsp;`;
-                        buttons += `<button class="btn btn-warning btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> &nbsp;`;
-                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> &nbsp;`;
-                        buttons += `</div>`;
+                        buttons += `<button class="btn btn-info btn-sm" onclick="verImpresora(${data})" title="Ver"><i class="fas fa-eye"></i></button> `;
+                        buttons += `<button class="btn btn-warning btn-sm" onclick="editImpresora(${data})" title="Editar"><i class="fas fa-pencil-alt"></i></button> `;
+                        buttons += `<button class="btn btn-danger btn-sm" onclick="delImpresora(${data})" title="Eliminar"><i class="fas fa-trash-alt"></i></button> `;
+                        buttons += `<button class="btn btn-secondary btn-sm" onclick="cargarHistoricoMovimientos(${data}, 'impresora')" title="Historial"><i class="fas fa-history"></i></button>`;
+                        buttons += `</div> `;
                         
                         // Lógica basada en el último movimiento
                         if(row.ultimo_movimiento === 'entrada') {
-                            buttons += `<button class='btn btn-danger ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
+                            buttons += `<button class='btn btn-danger btn-sm' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "salida")' title='Salida de mantenimiento'><i class='fas fa-sign-out-alt'></i> Salida</button> `;
                         } else {
-                            buttons += `<button class='btn btn-success ' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
+                            buttons += `<button class='btn btn-success btn-sm' onclick='abrirModalMovimientoEquipo(${data}, "impresora", "entrada")' title='Entrada a mantenimiento'><i class='fas fa-sign-in-alt'></i> Entrada</button> `;
                         }
                         return buttons;
                     }
@@ -206,6 +203,15 @@ function initDataTables() {
                 { "data": "modelo" },
                 { "data": "serial" },
                 { "data": "numero_activo" },
+                { 
+                    "data": null,
+                    "render": function(data, type, row) {
+                        if (row.funcionario_planta_nombre) {
+                            return '<small class="badge bg-success">' + row.funcionario_planta_nombre + '</small>';
+                        }
+                        return '<small class="text-muted">Sin asignar</small>';
+                    }
+                },
                 { 
                     "data": "estado",
                     "render": function(data, type, row) {
@@ -948,33 +954,102 @@ function toggleFechaFieldsPortatil(containerId, estado, disponibilidad) {
 // ==================== FUNCIONES DE CARGA ====================
 
 function loadFuncionariosImpresora() {
-    // Cargar funcionarios OPS
-    fetch(base_url + '/Inventario/getFuncionariosOps')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById('txtFuncionarioOps');
-            if (select) {
-                select.innerHTML = '<option value="">Seleccione...</option>';
-                data.forEach(item => {
-                    select.innerHTML += `<option value="${item.id}">${item.nombres}</option>`;
-                });
-            }
-        })
-        .catch(error => console.error('Error cargando funcionarios OPS:', error));
-
-    // Cargar funcionarios de planta
+    // Solo cargar funcionarios de planta
     fetch(base_url + '/Inventario/getFuncionariosPlanta')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Funcionarios Planta cargados:', data);
             const select = document.getElementById('txtFuncionarioPlanta');
             if (select) {
                 select.innerHTML = '<option value="">Seleccione...</option>';
-                data.forEach(item => {
-                    select.innerHTML += `<option value="${item.id}">${item.nombres}</option>`;
-                });
+                if (Array.isArray(data) && data.length > 0) {
+                    data.forEach(item => {
+                        select.innerHTML += `<option value="${item.id}">${item.nombres}</option>`;
+                    });
+                } else {
+                    console.warn('No se encontraron funcionarios de planta o la respuesta no es un array');
+                }
             }
         })
-        .catch(error => console.error('Error cargando funcionarios de planta:', error));
+        .catch(error => {
+            console.error('Error cargando funcionarios de planta:', error);
+            const select = document.getElementById('txtFuncionarioPlanta');
+            if (select) {
+                select.innerHTML = '<option value="">Error al cargar funcionarios de planta</option>';
+            }
+        });
+
+    // Agregar event listeners para controlar disponibilidad
+    setupFuncionarioEventListeners();
+}
+
+function loadFuncionariosEscaner() {
+    // Solo cargar funcionarios de planta
+    fetch(base_url + '/Inventario/getFuncionariosPlanta')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Funcionarios Planta cargados para escáner:', data);
+            const select = document.getElementById('txtFuncionarioPlantaEscaner');
+            if (select) {
+                select.innerHTML = '<option value="">Seleccione...</option>';
+                if (Array.isArray(data) && data.length > 0) {
+                    data.forEach(item => {
+                        select.innerHTML += `<option value="${item.id}">${item.nombres}</option>`;
+                    });
+                } else {
+                    console.warn('No se encontraron funcionarios de planta o la respuesta no es un array');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error cargando funcionarios de planta para escáner:', error);
+            const select = document.getElementById('txtFuncionarioPlantaEscaner');
+            if (select) {
+                select.innerHTML = '<option value="">Error al cargar funcionarios de planta</option>';
+            }
+        });
+}
+
+// Nueva función para controlar la disponibilidad cuando se asigna funcionario
+function setupFuncionarioEventListeners() {
+    const funcionarioPlanta = document.getElementById('txtFuncionarioPlanta');
+    const disponibilidad = document.getElementById('txtDisponibilidad');
+    
+    if (funcionarioPlanta && disponibilidad) {
+        function checkFuncionarioAsignado() {
+            const hasPlanta = funcionarioPlanta.value && funcionarioPlanta.value !== '';
+            
+            if (hasPlanta) {
+                // Si hay funcionario asignado, cambiar a "No Disponible" y hacer readonly
+                disponibilidad.value = 'No Disponible';
+                disponibilidad.readOnly = true;
+                disponibilidad.style.backgroundColor = '#f8f9fa';
+                disponibilidad.style.pointerEvents = 'none';
+                disponibilidad.title = 'No se puede cambiar la disponibilidad cuando hay un funcionario asignado';
+            } else {
+                // Si no hay funcionario asignado, habilitar el campo
+                disponibilidad.readOnly = false;
+                disponibilidad.style.backgroundColor = '';
+                disponibilidad.style.pointerEvents = '';
+                disponibilidad.title = '';
+            }
+        }
+        
+        funcionarioPlanta.addEventListener('change', checkFuncionarioAsignado);
+        
+        // Verificar al cargar
+        setTimeout(checkFuncionarioAsignado, 100);
+    }
 }
 
 
@@ -1034,6 +1109,7 @@ function openModalEscaner() {
     document.getElementById('modalInventarioLabel').textContent = 'Nuevo Escáner';
     document.getElementById('formEscaner').reset();
     document.getElementById('idEscaner').value = '';
+    loadFuncionariosEscaner();
     $('#modalInventario').modal('show');
 }
 
@@ -1122,8 +1198,9 @@ function editImpresora(idImpresora) {
                 document.getElementById('txtConsumible').value = impresora.consumible;
                 loadFuncionariosImpresora();
                 setTimeout(() => {
-                    $('#txtFuncionarioOps').val(impresora.funcionario_ops_id || '');
                     $('#txtFuncionarioPlanta').val(impresora.funcionario_planta_id || '');
+                    // Aplicar lógica de disponibilidad después de cargar los datos
+                    setupFuncionarioEventListeners();
                 }, 500);
                 $('#txtEstado').val(impresora.estado || '');
                 $('#txtDisponibilidad').val(impresora.disponibilidad || '');
@@ -1283,6 +1360,11 @@ function editEscaner(idEscaner) {
                 document.getElementById('txtMarcaEscaner').value = escaner.marca;
                 document.getElementById('txtModeloEscaner').value = escaner.modelo;
                 document.getElementById('txtSerialEscaner').value = escaner.serial;
+                document.getElementById('txtNumeroActivoEscaner').value = escaner.numero_activo;
+                loadFuncionariosEscaner();
+                setTimeout(() => {
+                    $('#txtFuncionarioPlantaEscaner').val(escaner.funcionario_planta_id || '');
+                }, 500);
                 document.getElementById('txtEstadoEscaner').value = escaner.estado;
                 document.getElementById('txtDisponibilidadEscaner').value = escaner.disponibilidad;
                 

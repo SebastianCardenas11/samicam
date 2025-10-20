@@ -712,4 +712,16 @@ class FuncionariosPermisos extends Controllers
         }
         die();
     }
+
+    public function getPermisosCalendario()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $start = isset($_GET['start']) ? $_GET['start'] : date('Y-m-01');
+            $end = isset($_GET['end']) ? $_GET['end'] : date('Y-m-t');
+            
+            $data = $this->model->getPermisosCalendario($start, $end);
+            echo json_encode($data);
+        }
+        die();
+    }
 }

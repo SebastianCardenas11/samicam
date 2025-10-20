@@ -232,6 +232,15 @@ class HojaVidaEquipos extends Controllers
         $y += $h;
         $this->crearTablaMantenimientos($pdf, $mantenimientos, $y, $toLatin1, $startX, $h);
         
+        // Historial de funcionarios
+        $historialFuncionarios = $this->model->getHistorialFuncionarios($data['id'], $tipo);
+        $y += 15;
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->SetXY($startX, $y);
+        $pdf->Cell(186, $h, $toLatin1('HISTORIAL DE FUNCIONARIOS'), 1, 1, 'C');
+        $y += $h;
+        $this->crearTablaHistorialFuncionarios($pdf, $historialFuncionarios, $y, $toLatin1, $startX, $h);
+        
         // Movimientos del equipo
         $movimientos = $this->model->getMovimientosEquipo($data['id'], $tipo);
         $y += 15;
@@ -757,6 +766,36 @@ class HojaVidaEquipos extends Controllers
         }
     }
     
+    private function crearTablaHistorialFuncionarios($pdf, $historial, &$y, $toLatin1, $startX, $h)
+    {
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetX($startX);
+        $pdf->Cell(60, $h, 'Funcionario', 1, 0, 'C');
+        $pdf->Cell(40, $h, $toLatin1('F. Asignación'), 1, 0, 'C');
+        $pdf->Cell(40, $h, $toLatin1('F. Desasignación'), 1, 0, 'C');
+        $pdf->Cell(46, $h, 'Estado', 1, 1, 'C');
+        $y += $h;
+        
+        $pdf->SetFont('Arial', '', 8);
+        if (empty($historial)) {
+            $pdf->SetX($startX);
+            $pdf->Cell(186, $h, $toLatin1('No hay historial de funcionarios'), 1, 1, 'C');
+            $y += $h;
+        } else {
+            foreach ($historial as $func) {
+                $pdf->SetX($startX);
+                $pdf->Cell(60, $h, $toLatin1(substr($func['nombre_funcionario'], 0, 30)), 1, 0, 'L');
+                $pdf->Cell(40, $h, date('d/m/Y', strtotime($func['fecha_asignacion'])), 1, 0, 'C');
+                $fechaDesasignacion = $func['fecha_desasignacion'] ? date('d/m/Y', strtotime($func['fecha_desasignacion'])) : 'Activo';
+                $pdf->Cell(40, $h, $toLatin1($fechaDesasignacion), 1, 0, 'C');
+                $pdf->Cell(46, $h, $toLatin1(ucfirst($func['estado'])), 1, 1, 'C');
+                $y += $h;
+                
+                if ($y > 230) break;
+            }
+        }
+    }
+    
     public function generarPdfMantenimientos()
     {
         if (!$_SESSION['permisosMod']['r']) {
@@ -827,5 +866,33 @@ class HojaVidaEquipos extends Controllers
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         $pdf->Output('D', $filename);
         exit;
+    }
+    
+    public function getHistorialFuncionarios()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idequipo = $_GET['id'] ?? 0;
+            $tipo = $_GET['tipo'] ?? '';
+            
+            $arrData = $this->model->getHistorialFuncionarios($idequipo, $tipo);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([]);
+        }
+        die();
+    }
+    
+    public function getFuncionarioActual()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $idequipo = $_GET['id'] ?? 0;
+            $tipo = $_GET['tipo'] ?? '';
+            
+            $arrData = $this->model->getFuncionarioActual($idequipo, $tipo);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([]);
+        }
+        die();
     }
 }

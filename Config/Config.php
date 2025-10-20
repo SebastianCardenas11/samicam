@@ -59,6 +59,7 @@ const MWHATSAPP = 16;
 const MPSI = 17;
 const MHOJAVIDAEQUIPOS = 19;
 const MPETICIONES = 20;
+const MRADICADOS = 21;
 
 //Páginas           
 const PINICIO = 1;

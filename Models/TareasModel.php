@@ -27,7 +27,11 @@
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre,
-                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones
+                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones,
+                    (SELECT GROUP_CONCAT(u.nombres SEPARATOR ', ') 
+                     FROM tbl_tareas_usuarios tu 
+                     INNER JOIN tbl_usuarios u ON tu.id_usuario = u.ideusuario 
+                     WHERE tu.id_tarea = t.id_tarea) as usuarios_asignados_nombres
                     FROM tbl_tareas t
                     INNER JOIN tbl_usuarios uc ON t.id_usuario_creador = uc.ideusuario
                     INNER JOIN tbl_usuarios ua ON t.id_usuario_asignado = ua.ideusuario
@@ -51,6 +55,11 @@
                         $tarea['tiempo_restante'] = $intervalo->h.' horas';
                     }
                 }
+                
+                // Si hay usuarios asignados en la tabla de relación, usar esos; si no, usar el usuario principal
+                if (!empty($tarea['usuarios_asignados_nombres'])) {
+                    $tarea['asignado_nombre'] = $tarea['usuarios_asignados_nombres'];
+                }
             }
             
             return $tareas;
@@ -65,7 +74,11 @@
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre,
-                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones
+                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones,
+                    (SELECT GROUP_CONCAT(u.nombres SEPARATOR ', ') 
+                     FROM tbl_tareas_usuarios tu 
+                     INNER JOIN tbl_usuarios u ON tu.id_usuario = u.ideusuario 
+                     WHERE tu.id_tarea = t.id_tarea) as usuarios_asignados_nombres
                     FROM tbl_tareas t
                     INNER JOIN tbl_usuarios uc ON t.id_usuario_creador = uc.ideusuario
                     INNER JOIN tbl_usuarios ua ON t.id_usuario_asignado = ua.ideusuario
@@ -91,6 +104,11 @@
                         $tarea['tiempo_restante'] = $intervalo->h.' horas';
                     }
                 }
+                
+                // Si hay usuarios asignados en la tabla de relación, usar esos; si no, usar el usuario principal
+                if (!empty($tarea['usuarios_asignados_nombres'])) {
+                    $tarea['asignado_nombre'] = $tarea['usuarios_asignados_nombres'];
+                }
             }
             
             return $tareas;
@@ -103,7 +121,11 @@
                     uc.nombres as creador_nombre, 
                     ua.nombres as asignado_nombre,
                     d.nombre as dependencia_nombre,
-                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones
+                    (SELECT COUNT(*) FROM tbl_observaciones WHERE id_tarea = t.id_tarea) as num_observaciones,
+                    (SELECT GROUP_CONCAT(u.nombres SEPARATOR ', ') 
+                     FROM tbl_tareas_usuarios tu 
+                     INNER JOIN tbl_usuarios u ON tu.id_usuario = u.ideusuario 
+                     WHERE tu.id_tarea = t.id_tarea) as usuarios_asignados_nombres
                     FROM tbl_tareas t
                     INNER JOIN tbl_usuarios uc ON t.id_usuario_creador = uc.ideusuario
                     INNER JOIN tbl_usuarios ua ON t.id_usuario_asignado = ua.ideusuario
@@ -127,6 +149,11 @@
                     } else {
                         $tarea['tiempo_restante'] = $intervalo->h.' horas';
                     }
+                }
+                
+                // Si hay usuarios asignados en la tabla de relación, usar esos; si no, usar el usuario principal
+                if (!empty($tarea['usuarios_asignados_nombres'])) {
+                    $tarea['asignado_nombre'] = $tarea['usuarios_asignados_nombres'];
                 }
             }
             

@@ -589,3 +589,127 @@ $(document).on('shown.bs.tab', 'button[data-bs-target="#tabEstadisticasFunc"]', 
 $(document).on('change', '#filtroAnioEstadisticasFunc', function() {
     cargarGraficosPermisosFunc();
 });
+
+// Variables para el calendario simple
+let fechaActual = new Date();
+let permisosDelMes = [];
+
+// Inicializar calendario cuando se muestra la pestaña
+$(document).on('shown.bs.tab', 'button[data-bs-target="#tabCalendarioFunc"]', function () {
+    inicializarCalendarioSimple();
+});
+
+// Función para inicializar el calendario simple
+function inicializarCalendarioSimple() {
+    actualizarMesActual();
+    cargarPermisosDelMes();
+    
+    document.getElementById('btnAnterior').onclick = function() {
+        fechaActual.setMonth(fechaActual.getMonth() - 1);
+        actualizarMesActual();
+        cargarPermisosDelMes();
+    };
+    
+    document.getElementById('btnSiguiente').onclick = function() {
+        fechaActual.setMonth(fechaActual.getMonth() + 1);
+        actualizarMesActual();
+        cargarPermisosDelMes();
+    };
+}
+
+// Actualizar el texto del mes actual
+function actualizarMesActual() {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    document.getElementById('mesActual').textContent = meses[fechaActual.getMonth()] + ' ' + fechaActual.getFullYear();
+}
+
+// Cargar permisos del mes
+function cargarPermisosDelMes() {
+    const inicio = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1).toISOString().split('T')[0];
+    const fin = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0).toISOString().split('T')[0];
+    
+    let request = new XMLHttpRequest();
+    let ajaxUrl = base_url + '/funcionariosPermisos/getPermisosCalendario?start=' + inicio + '&end=' + fin;
+    
+    request.open('GET', ajaxUrl, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            try {
+                permisosDelMes = JSON.parse(request.responseText);
+                renderizarCalendario();
+            } catch (error) {
+                console.error('Error al cargar permisos:', error);
+            }
+        }
+    };
+}
+
+// Renderizar el calendario
+function renderizarCalendario() {
+    const calendario = document.getElementById('calendario-simple');
+    const primerDia = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+    const ultimoDia = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
+    
+    let html = '<table class="table table-bordered calendario-tabla">';
+    html += '<thead><tr><th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th></tr></thead><tbody>';
+    
+    let fecha = new Date(primerDia);
+    fecha.setDate(fecha.getDate() - primerDia.getDay());
+    
+    for (let semana = 0; semana < 6; semana++) {
+        html += '<tr>';
+        for (let dia = 0; dia < 7; dia++) {
+            const esDelMes = fecha.getMonth() === fechaActual.getMonth();
+            const fechaStr = fecha.toISOString().split('T')[0];
+            const permisosDelDia = permisosDelMes.filter(p => p.start === fechaStr);
+            
+            html += `<td class="calendario-dia ${esDelMes ? '' : 'otro-mes'}" data-fecha="${fechaStr}">`;
+            html += `<div class="numero-dia">${fecha.getDate()}</div>`;
+            
+            if (permisosDelDia.length > 0) {
+                permisosDelDia.slice(0, 2).forEach(permiso => {
+                    const color = permiso.es_permiso_especial == 1 ? '#6c757d' : '#e9ecef';
+                    const textColor = permiso.es_permiso_especial == 1 ? 'white' : '#495057';
+                    html += `<div class="evento-permiso" style="background-color: ${color}; color: ${textColor}" 
+                             onclick="mostrarDetallePermiso(${JSON.stringify(permiso).replace(/"/g, '&quot;')})">
+                             ${permiso.funcionario.split(' ')[0]}
+                             </div>`;
+                });
+                if (permisosDelDia.length > 2) {
+                    html += `<div class="mas-eventos">+${permisosDelDia.length - 2} más</div>`;
+                }
+            }
+            
+            html += '</td>';
+            fecha.setDate(fecha.getDate() + 1);
+        }
+        html += '</tr>';
+        
+        if (fecha.getMonth() !== fechaActual.getMonth() && semana > 3) break;
+    }
+    
+    html += '</tbody></table>';
+    calendario.innerHTML = html;
+}
+
+// Mostrar detalle del permiso
+function mostrarDetallePermiso(permiso) {
+    const tipoPermiso = permiso.es_permiso_especial == 1 ? 'Especial' : 'Normal';
+    const fecha = new Date(permiso.start + 'T12:00:00').toLocaleDateString('es-ES');
+    const colorBadge = permiso.es_permiso_especial == 1 ? '#6c757d' : '#e9ecef';
+    const textColor = permiso.es_permiso_especial == 1 ? 'white' : '#495057';
+    
+    document.getElementById('detalleFuncionario').textContent = permiso.funcionario;
+    document.getElementById('detalleFecha').textContent = fecha;
+    document.getElementById('detalleMotivo').textContent = permiso.motivo;
+    document.getElementById('detalleTipo').innerHTML = `<span class="badge" style="background-color: ${colorBadge}; color: ${textColor};">${tipoPermiso}</span>`;
+    
+    const btnDescargar = document.getElementById('btnDescargarPermisoCalendario');
+    btnDescargar.onclick = function() {
+        generarPermisoPDF(permiso.id_permiso);
+    };
+    
+    $('#modalDetallePermisoCalendario').modal('show');
+}

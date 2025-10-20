@@ -111,6 +111,25 @@ class InventarioModel extends Mysql
     {
         $sql = "SELECT *, fecha_dano, fecha_baja FROM tbl_escaneres WHERE status != 0 ORDER BY numero_escaner ASC";
         $data = $this->select_all($sql);
+        
+        // Agregar nombres de funcionarios si existen
+        if (!empty($data)) {
+            foreach ($data as &$escaner) {
+                $escaner['funcionario_ops_nombre'] = null;
+                $escaner['funcionario_planta_nombre'] = null;
+                
+                if (!empty($escaner['funcionario_ops_id'])) {
+                    $ops = $this->select("SELECT nombres FROM tbl_funcionarios_ops WHERE id = ?", [$escaner['funcionario_ops_id']]);
+                    if ($ops) $escaner['funcionario_ops_nombre'] = $ops['nombres'];
+                }
+                
+                if (!empty($escaner['funcionario_planta_id'])) {
+                    $planta = $this->select("SELECT nombre_completo as nombres FROM tbl_funcionarios_planta WHERE idefuncionario = ?", [$escaner['funcionario_planta_id']]);
+                    if ($planta) $escaner['funcionario_planta_nombre'] = $planta['nombres'];
+                }
+            }
+        }
+        
         return $data;
     }
 
@@ -121,21 +140,39 @@ class InventarioModel extends Mysql
         return $data;
     }
 
-    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function insertEscaner($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
-        $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?)";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_escaneres LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, funcionario_ops_id, funcionario_planta_id, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, 1);
+        } else {
+            $query_insert = "INSERT INTO tbl_escaneres(numero_escaner, marca, modelo, serial, numero_activo, estado, disponibilidad, fecha_dano, fecha_baja, status) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, 1);
+        }
         $request_insert = $this->insert($query_insert, $arrData);
         return $request_insert;
     }
 
-    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null)
+    public function updateEscaner($idEscaner, $numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano = null, $fechaBaja = null, $funcionario_ops_id = null, $funcionario_planta_id = null)
     {
         // Obtener estado anterior
         $estadoAnterior = $this->select("SELECT estado FROM tbl_escaneres WHERE id_escaner = ?", [$idEscaner]);
         
-        $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, numero_activo = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_escaner = ?";
-        $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idEscaner);
+        // Verificar si las columnas de funcionarios existen
+        $checkColumns = "SHOW COLUMNS FROM tbl_escaneres LIKE 'funcionario_%'";
+        $columnsExist = $this->select_all($checkColumns);
+        
+        if (count($columnsExist) >= 2) {
+            $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, numero_activo = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ?, funcionario_ops_id = ?, funcionario_planta_id = ? WHERE id_escaner = ?";
+            $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $funcionario_ops_id, $funcionario_planta_id, $idEscaner);
+        } else {
+            $sql = "UPDATE tbl_escaneres SET numero_escaner = ?, marca = ?, modelo = ?, serial = ?, numero_activo = ?, estado = ?, disponibilidad = ?, fecha_dano = ?, fecha_baja = ? WHERE id_escaner = ?";
+            $arrData = array($numeroEscaner, $marca, $modelo, $serial, $numero_activo, $estado, $disponibilidad, $fechaDano, $fechaBaja, $idEscaner);
+        }
         $request = $this->update($sql, $arrData);
         
         // Registrar en hoja de vida si cambió a malo o de baja
@@ -232,14 +269,56 @@ class InventarioModel extends Mysql
     // ==================== FUNCIONARIOS ====================
     public function getFuncionariosOps()
     {
-        $sql = "SELECT id, nombres FROM tbl_funcionarios_ops WHERE status = 1 ORDER BY nombres ASC";
-        return $this->select_all($sql);
+        try {
+            // Verificar si la tabla existe
+            $checkTable = "SHOW TABLES LIKE 'tbl_funcionarios_ops'";
+            $tableExists = $this->select_all($checkTable);
+            
+            if (empty($tableExists)) {
+                error_log('Tabla tbl_funcionarios_ops no existe');
+                return [];
+            }
+            
+            $sql = "SELECT id, nombres FROM tbl_funcionarios_ops WHERE status = 1 ORDER BY nombres ASC";
+            $result = $this->select_all($sql);
+            
+            if ($result === false) {
+                error_log('Error en consulta getFuncionariosOps');
+                return [];
+            }
+            
+            return $result ? $result : [];
+        } catch (Exception $e) {
+            error_log('Excepción en getFuncionariosOps: ' . $e->getMessage());
+            return [];
+        }
     }
 
     public function getFuncionariosPlanta()
     {
-        $sql = "SELECT idefuncionario as id, nombre_completo as nombres FROM tbl_funcionarios_planta WHERE status = 1 ORDER BY nombre_completo ASC";
-        return $this->select_all($sql);
+        try {
+            // Verificar si la tabla existe
+            $checkTable = "SHOW TABLES LIKE 'tbl_funcionarios_planta'";
+            $tableExists = $this->select_all($checkTable);
+            
+            if (empty($tableExists)) {
+                error_log('Tabla tbl_funcionarios_planta no existe');
+                return [];
+            }
+            
+            $sql = "SELECT idefuncionario as id, nombre_completo as nombres FROM tbl_funcionarios_planta WHERE status = 1 ORDER BY nombre_completo ASC";
+            $result = $this->select_all($sql);
+            
+            if ($result === false) {
+                error_log('Error en consulta getFuncionariosPlanta');
+                return [];
+            }
+            
+            return $result ? $result : [];
+        } catch (Exception $e) {
+            error_log('Excepción en getFuncionariosPlanta: ' . $e->getMessage());
+            return [];
+        }
     }
 
 

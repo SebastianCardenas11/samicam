@@ -75,6 +75,56 @@
             <p><strong>Consumible:</strong> <span id="celConsumible"></span></p>
           </div>
         </div>
+        
+        <!-- Especificaciones Escáner -->
+        <div class="card mb-3" id="especsEscaner" style="display: none;">
+          <div class="card-header bg-light">
+            <h6 class="mb-0"><i class="fas fa-scanner"></i> Especificaciones</h6>
+          </div>
+          <div class="card-body">
+            <p><strong>Tipo:</strong> Escáner</p>
+          </div>
+        </div>
+        
+        <!-- Funcionario Actual -->
+        <div class="card mb-3">
+          <div class="card-header bg-light">
+            <h6 class="mb-0"><i class="fas fa-user"></i> Funcionario Asignado</h6>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <p><strong>Funcionario Actual:</strong> <span id="celFuncionarioActual">Sin asignar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Historial de Funcionarios -->
+        <div class="card mb-3">
+          <div class="card-header bg-light">
+            <h6 class="mb-0"><i class="fas fa-history"></i> Historial de Funcionarios</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-sm table-striped">
+                <thead>
+                  <tr>
+                    <th>Funcionario</th>
+                    <th>Fecha Asignación</th>
+                    <th>Fecha Desasignación</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyHistorialFuncionarios">
+                  <tr>
+                    <td colspan="4" class="text-center">Cargando historial...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
       </div>
       <div class="modal-footer">

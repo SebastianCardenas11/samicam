@@ -30,8 +30,9 @@
       if ($showAdminSection) {
       ?>
         <li class="nav-item mt-2">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestion Administrativa</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6" data-bs-toggle="collapse" data-bs-target="#adminSection" aria-expanded="true" aria-controls="adminSection" style="cursor: pointer;">Gestion Administrativa</h6>
         </li>
+        <ul class="navbar-nav collapse show ps-3" id="adminSection">
         <?php if (!empty($_SESSION['permisos'][MROLES]['r']) && (!isset($_SESSION['permisos'][MROLES]['v']) || $_SESSION['permisos'][MROLES]['v'] == 1)) { ?>
           <li class="nav-item">
             <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 3) ? 'active' : ''; ?>" href="<?= base_url(); ?>/roles">
@@ -52,6 +53,7 @@
             </a>
           </li>
         <?php } ?>
+        </ul>
       <?php } ?>
       <!-- RECURSOS HUMANOS -->
       <?php
@@ -65,8 +67,9 @@
       if ($showHRSection) {
       ?>
         <li class="nav-item mt-2">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Recursos Humanos</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6" data-bs-toggle="collapse" data-bs-target="#hrSection" aria-expanded="true" aria-controls="hrSection" style="cursor: pointer;">Recursos Humanos</h6>
         </li>
+        <ul class="navbar-nav collapse show ps-3" id="hrSection">
         <?php if (!empty($_SESSION['permisos'][MCARGOS]['r']) && (!isset($_SESSION['permisos'][MCARGOS]['v']) || $_SESSION['permisos'][MCARGOS]['v'] == 1)) { ?>
           <li class="nav-item">
             <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/cargos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/cargos">
@@ -137,12 +140,14 @@
             </a>
           </li>
         <?php } ?>
+        </ul>
       <?php } ?>
       <!-- GESTIÓN OPERATIVA -->
       <?php if (!empty($_SESSION['permisos'][MSEGUIMIENTOCONTRATO]['r']) || !empty($_SESSION['permisos'][MINVENTARIO]['r'])) { ?>
         <li class="nav-item mt-2">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión Operativa</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6" data-bs-toggle="collapse" data-bs-target="#operativaSection" aria-expanded="true" aria-controls="operativaSection" style="cursor: pointer;">Gestión Operativa</h6>
         </li>
+        <ul class="navbar-nav collapse show ps-3" id="operativaSection">
         <?php if (!empty($_SESSION['permisos'][MSEGUIMIENTOCONTRATO]['r'])) { ?>
           <li class="nav-item">
             <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/seguimientoContrato')) ? 'active' : '' ?>" href="<?= base_url(); ?>/seguimientoContrato">
@@ -183,6 +188,7 @@
             </a>
           </li>
         <?php } ?>
+        </ul>
       <?php } ?>
       <!-- GESTIÓN DE CONTENIDOS -->
       <?php
@@ -193,8 +199,9 @@
       if ($showContentSection) {
       ?>
         <li class="nav-item mt-2">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión de Contenidos</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6" data-bs-toggle="collapse" data-bs-target="#contenidosSection" aria-expanded="true" aria-controls="contenidosSection" style="cursor: pointer;">Gestión de Contenidos</h6>
         </li>
+        <ul class="navbar-nav collapse show ps-3" id="contenidosSection">
         <?php if (!empty($_SESSION['permisos'][MARCHIVOS]['r']) && (!isset($_SESSION['permisos'][MARCHIVOS]['v']) || $_SESSION['permisos'][MARCHIVOS]['v'] == 1)) { ?>
           <li class="nav-item">
             <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/archivos')) ? 'active' : '' ?>" href="<?= base_url(); ?>/archivos">
@@ -225,11 +232,13 @@
             </a>
           </li>
         <?php } ?>
+        </ul>
       <?php } ?>
       <!-- CONTROL Y SEGURIDAD -->
       <li class="nav-item mt-2">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Control y seguridad</h6>
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6" data-bs-toggle="collapse" data-bs-target="#seguridadSection" aria-expanded="true" aria-controls="seguridadSection" style="cursor: pointer;">Control y seguridad</h6>
       </li>
+      <ul class="navbar-nav collapse show ps-3" id="seguridadSection">
       <?php if (!empty($_SESSION['permisos'][MPETICIONES]['r']) && (!isset($_SESSION['permisos'][MPETICIONES]['v']) || $_SESSION['permisos'][MPETICIONES]['v'] == 1)) { ?>
         <li class="nav-item">
           <a class="nav-link <?= (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], '/peticiones')) ? 'active' : '' ?>" href="<?= base_url(); ?>/peticiones">
@@ -237,6 +246,16 @@
               <i class="fas fa-clipboard-list text-dark"></i>
             </div>
             <span class="nav-link-text ms-1">Peticiones PQRs</span>
+          </a>
+        </li>
+      <?php } ?>
+      <?php if (!empty($_SESSION['permisos'][MRADICADOS]['r']) && (!isset($_SESSION['permisos'][MRADICADOS]['v']) || $_SESSION['permisos'][MRADICADOS]['v'] == 1)) { ?>
+        <li class="nav-item">
+          <a class="nav-link <?= (isset($data['page_id']) && $data['page_id'] == 21) ? 'active' : ''; ?>" href="<?= base_url(); ?>/radicados">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fas fa-file-alt text-dark"></i>
+            </div>
+            <span class="nav-link-text ms-1">Radicados</span>
           </a>
         </li>
       <?php } ?>
@@ -268,6 +287,7 @@
           </a>
         </li>
       <?php } ?>
+      </ul>
      
       <!-- AJUSTES Y SALIR -->
       <li class="nav-item mt-3">

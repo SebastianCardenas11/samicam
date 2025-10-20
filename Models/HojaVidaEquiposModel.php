@@ -322,4 +322,40 @@ class HojaVidaEquiposModel extends MySql
         $request = $this->select_all($sql);
         return $request ?? [];
     }
+    
+    public function getHistorialFuncionarios($idequipo, $tipo)
+    {
+        $sql = "SELECT 
+                    h.fecha_asignacion,
+                    h.fecha_desasignacion,
+                    h.estado,
+                    h.observaciones,
+                    fp.nombre_completo as nombre_funcionario,
+                    'Funcionario Planta' as tipo_funcionario_desc
+                FROM tbl_historial_funcionarios_equipos h
+                LEFT JOIN tbl_funcionarios_planta fp ON h.funcionario_planta_id = fp.idefuncionario
+                WHERE h.id_equipo = $idequipo 
+                AND h.tipo_equipo = '$tipo'
+                ORDER BY h.fecha_asignacion DESC";
+        
+        $request = $this->select_all($sql);
+        return $request ?? [];
+    }
+    
+    public function getFuncionarioActual($idequipo, $tipo)
+    {
+        $sql = "SELECT 
+                    fp.nombre_completo as nombre_funcionario,
+                    'Funcionario Planta' as tipo_funcionario_desc
+                FROM tbl_historial_funcionarios_equipos h
+                LEFT JOIN tbl_funcionarios_planta fp ON h.funcionario_planta_id = fp.idefuncionario
+                WHERE h.id_equipo = $idequipo 
+                AND h.tipo_equipo = '$tipo'
+                AND h.estado = 'activo'
+                ORDER BY h.fecha_asignacion DESC
+                LIMIT 1";
+        
+        $request = $this->select($sql);
+        return $request ?? [];
+    }
 }

@@ -266,7 +266,6 @@
                 <table class="table table-hover table-bordered" id="tableTareas">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Asignado</th>
                       <th>Tipo</th>
                       <th>Descripción</th>

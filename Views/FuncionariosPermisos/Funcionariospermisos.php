@@ -72,10 +72,13 @@ headerAdmin($data);
         </div>
     </div>
 
-    <!-- Tabs para lista y estadísticas -->
+    <!-- Tabs para lista, calendario y estadísticas -->
     <ul class="nav nav-tabs mb-3" id="funcionariosPermisosTabs" role="tablist" style="margin-top: 1rem;">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="tab-lista-func" data-bs-toggle="tab" data-bs-target="#tabListaFunc" type="button" role="tab" aria-controls="tabListaFunc" aria-selected="true">Lista de Funcionarios</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-calendario-func" data-bs-toggle="tab" data-bs-target="#tabCalendarioFunc" type="button" role="tab" aria-controls="tabCalendarioFunc" aria-selected="false">Calendario</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="tab-estadisticas-func" data-bs-toggle="tab" data-bs-target="#tabEstadisticasFunc" type="button" role="tab" aria-controls="tabEstadisticasFunc" aria-selected="false">Estadísticas</button>
@@ -99,6 +102,35 @@ headerAdmin($data);
                     <tbody class="table-group-divider text-center">
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tabCalendarioFunc" role="tabpanel" aria-labelledby="tab-calendario-func">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0 text-white"><i class="bi bi-calendar3"></i> Calendario de Permisos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="legend">
+                                            <span class="badge" style="background-color: #e9ecef; color: #495057; margin-right: 10px;">Permiso Normal</span>
+                                            <span class="badge" style="background-color: #6c757d; color: white;">Permiso Especial</span>
+                                        </div>
+                                        <div class="calendar-controls">
+                                            <button id="btnAnterior" class="btn btn-sm btn-outline-secondary">‹</button>
+                                            <span id="mesActual" class="mx-3 fw-bold"></span>
+                                            <button id="btnSiguiente" class="btn btn-sm btn-outline-secondary">›</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="calendario-simple" class="calendario-minimalista"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="tabEstadisticasFunc" role="tabpanel" aria-labelledby="tab-estadisticas-func">

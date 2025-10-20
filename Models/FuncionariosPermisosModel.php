@@ -358,4 +358,26 @@ class FuncionariosPermisosModel extends Mysql
         $params = [$anio, $anio, $mes, $hoy];
         return $this->select($sql, $params);
     }
+
+    // Obtener permisos para el calendario
+    public function getPermisosCalendario($start, $end) {
+        $sql = "SELECT 
+                p.id_permiso,
+                p.fecha_permiso as start,
+                p.fecha_permiso as end,
+                CONCAT(f.nombre_completo, ' - ', p.motivo) as title,
+                f.nombre_completo as funcionario,
+                p.motivo,
+                p.es_permiso_especial,
+                CASE 
+                    WHEN p.es_permiso_especial = 1 THEN '#6c757d'
+                    ELSE '#e9ecef'
+                END as color
+            FROM tbl_permisos p
+            INNER JOIN tbl_funcionarios_planta f ON p.id_funcionario = f.idefuncionario
+            WHERE p.fecha_permiso BETWEEN ? AND ?
+            AND p.tipo_funcionario = 'planta'
+            ORDER BY p.fecha_permiso";
+        return $this->select_all($sql, [$start, $end]);
+    }
 }
