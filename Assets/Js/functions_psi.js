@@ -23,15 +23,7 @@ function cargarFuncionariosPorTipo(tipo) {
 document.addEventListener('DOMContentLoaded', function() {
     initPsiTables();
     
-    // Eventos para los botones de nuevo registro
-    document.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('btn-primary') && e.target.textContent.includes('Nuevo')) {
-            const tabId = e.target.closest('.tab-pane').id;
-            if (tabId === 'prestamos') {
-                openModalPsi('prestamo');
-            }
-        }
-    });
+    // Los botones ya están conectados directamente en el HTML
 
     // Evento para los radio buttons
     document.querySelectorAll('input[name="tipo_funcionario"]').forEach(radio => {
@@ -47,43 +39,39 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('cargo_funcionario').value = selected.getAttribute('data-cargo') || '';
     };
 
-    // Conectar el submit del formulario
+    // Conectar el submit del formulario de préstamos
     document.getElementById('formPsi').onsubmit = function(e) {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         
-        // Solo manejar préstamos
         let url = base_url + '/psi/setPrestamo';
-        let tipoOperacion = 'prestamo';
 
         // Para préstamos, agregar datos de múltiples items
-        if (tipoOperacion === 'prestamo') {
-            const cantidadItems = document.getElementById('cantidad_items').value;
-            if (cantidadItems > 1) {
-                // Agregar datos de cada item al FormData
-                for (let i = 0; i < cantidadItems; i++) {
-                    const itemField = document.getElementById(`item_${i}`);
-                    const dispositivoField = document.getElementById(`dispositivo_${i}`);
-                    const marcaModeloField = document.getElementById(`marca_modelo_${i}`);
-                    const activoField = document.getElementById(`activo_${i}`);
-                    const serialField = document.getElementById(`serial_${i}`);
-                    const estadoField = document.getElementById(`estado_${i}`);
-                    const macField = document.getElementById(`mac_${i}`);
-                    const equipoIdField = document.getElementById(`equipo_id_${i}`);
-                    const equipoTipoField = document.getElementById(`equipo_tipo_${i}`);
-                    
-                    if (itemField && itemField.value) {
-                        formData.append(`item_${i}`, itemField.value);
-                        formData.append(`dispositivo_${i}`, dispositivoField ? dispositivoField.value : '');
-                        formData.append(`marca_modelo_${i}`, marcaModeloField ? marcaModeloField.value : '');
-                        formData.append(`activo_${i}`, activoField ? activoField.value : '');
-                        formData.append(`serial_${i}`, serialField ? serialField.value : '');
-                        formData.append(`estado_${i}`, estadoField ? estadoField.value : '');
-                        formData.append(`mac_${i}`, macField ? macField.value : '');
-                        formData.append(`equipo_id_${i}`, equipoIdField ? equipoIdField.value : '');
-                        formData.append(`equipo_tipo_${i}`, equipoTipoField ? equipoTipoField.value : '');
-                    }
+        const cantidadItems = document.getElementById('cantidad_items').value;
+        if (cantidadItems > 1) {
+            // Agregar datos de cada item al FormData
+            for (let i = 0; i < cantidadItems; i++) {
+                const itemField = document.getElementById(`item_${i}`);
+                const dispositivoField = document.getElementById(`dispositivo_${i}`);
+                const marcaModeloField = document.getElementById(`marca_modelo_${i}`);
+                const activoField = document.getElementById(`activo_${i}`);
+                const serialField = document.getElementById(`serial_${i}`);
+                const estadoField = document.getElementById(`estado_${i}`);
+                const macField = document.getElementById(`mac_${i}`);
+                const equipoIdField = document.getElementById(`equipo_id_${i}`);
+                const equipoTipoField = document.getElementById(`equipo_tipo_${i}`);
+                
+                if (itemField && itemField.value) {
+                    formData.append(`item_${i}`, itemField.value);
+                    formData.append(`dispositivo_${i}`, dispositivoField ? dispositivoField.value : '');
+                    formData.append(`marca_modelo_${i}`, marcaModeloField ? marcaModeloField.value : '');
+                    formData.append(`activo_${i}`, activoField ? activoField.value : '');
+                    formData.append(`serial_${i}`, serialField ? serialField.value : '');
+                    formData.append(`estado_${i}`, estadoField ? estadoField.value : '');
+                    formData.append(`mac_${i}`, macField ? macField.value : '');
+                    formData.append(`equipo_id_${i}`, equipoIdField ? equipoIdField.value : '');
+                    formData.append(`equipo_tipo_${i}`, equipoTipoField ? equipoTipoField.value : '');
                 }
             }
         }
@@ -96,19 +84,17 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.result) {
                 $('#modalPsi').modal('hide');
-                // Recargar la tabla de préstamos
                 tblPrestamos.ajax.reload();
-                // Mostrar mensaje de éxito
                 Swal.fire({
                     icon: 'success',
                     title: 'Éxito',
-                    text: 'Registro guardado correctamente'
+                    text: 'Préstamo guardado correctamente'
                 });
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error al guardar el registro'
+                    text: 'Error al guardar el préstamo'
                 });
             }
         })
@@ -122,9 +108,99 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Limpiar formulario cuando se cierre el modal
+    // Conectar el submit del formulario de salidas
+    document.getElementById('formPsiSalidas').onsubmit = function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        
+        let url = base_url + '/psi/setSalida';
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.result) {
+                $('#modalPsiSalidas').modal('hide');
+                tblSalidas.ajax.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Salida guardada correctamente'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al guardar la salida'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de conexión'
+            });
+        });
+    };
+
+    // Conectar el submit del formulario de ingresos
+    document.getElementById('formPsiIngresos').onsubmit = function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        
+        let url = base_url + '/psi/setIngreso';
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.result) {
+                $('#modalPsiIngresos').modal('hide');
+                tblIngresos.ajax.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Ingreso guardado correctamente'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al guardar el ingreso'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de conexión'
+            });
+        });
+    };
+
+    // Limpiar formularios cuando se cierren los modales
     document.getElementById('modalPsi').addEventListener('hidden.bs.modal', function () {
         const form = document.getElementById('formPsi');
+        form.reset();
+    });
+
+    document.getElementById('modalPsiSalidas').addEventListener('hidden.bs.modal', function () {
+        const form = document.getElementById('formPsiSalidas');
+        form.reset();
+    });
+
+    document.getElementById('modalPsiIngresos').addEventListener('hidden.bs.modal', function () {
+        const form = document.getElementById('formPsiIngresos');
         form.reset();
     });
 });
@@ -157,25 +233,29 @@ function initPsiTables() {
         },
         ajax: { url: base_url + '/psi/getPrestamos', dataSrc: '' },
         columns: [
-            { data: 'dependencia' },
             { data: 'funcionario_responsable' },
-            { data: 'cargo_funcionario' },
             { data: 'fecha_prestamo' },
             { data: 'fecha_devolucion' },
             { data: 'item' },
             { data: 'dispositivo' },
-            { data: 'marca_modelo' },
-            { data: 'activo' },
-            { data: 'serial' },
-            { data: 'estado' },
-            { data: 'mac' },
-            { data: 'observaciones' },
-            { data: 'status' },
             { data: null, render: function(data, type, row) {
                 return `
-                  <button class='btn btn-sm btn-info me-1' onclick='openModalPsi("prestamo", ${row.id_prestamos})'>Editar</button>
-                  <button class='btn btn-sm btn-danger me-1' onclick='eliminarPrestamoPsi(${row.id_prestamos})'>Eliminar</button>
-                  <button class='btn btn-sm btn-secondary' onclick='hojaVidaPsi(${row.id_prestamos})'>Hoja de Vida</button>
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" onclick="verPrestamoPsi(${row.id_prestamos})" title="Ver">
+                                <i class="far fa-eye"></i>
+                            </button>
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" onclick="openModalPsi('prestamo', ${row.id_prestamos})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" onclick="eliminarPrestamoPsi(${row.id_prestamos})" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button class="btn btn-datatable btn-icon btn-transparent-dark" onclick="imprimirPrestamoPsi(${row.id_prestamos})" title="Imprimir">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
                 `;
             }}
         ],
@@ -224,7 +304,7 @@ function initPsiTables() {
             { data: 'observaciones' },
             { data: null, render: function(data, type, row) {
                 return `
-                  <button class='btn btn-sm btn-info me-1' onclick='openModalPsi("salida", ${row.id_salida})'>Editar</button>
+                  <button class='btn btn-sm btn-info me-1' onclick='openModalPsiSalidas(${row.id_salida})'>Editar</button>
                   <button class='btn btn-sm btn-danger me-1' onclick='eliminarSalidaPsi(${row.id_salida})'>Eliminar</button>
                 `;
             }}
@@ -274,7 +354,7 @@ function initPsiTables() {
             { data: 'observaciones' },
             { data: null, render: function(data, type, row) {
                 return `
-                  <button class='btn btn-sm btn-info me-1' onclick='openModalPsi("ingreso", ${row.id_ingreso})'>Editar</button>
+                  <button class='btn btn-sm btn-info me-1' onclick='openModalPsiIngresos(${row.id_ingreso})'>Editar</button>
                   <button class='btn btn-sm btn-danger me-1' onclick='eliminarIngresoPsi(${row.id_ingreso})'>Eliminar</button>
                 `;
             }}
@@ -332,20 +412,112 @@ function openModalPsi(tipo, id = null) {
     }
     
     $('#modalPsi').modal('show');
-    
-    // Event listener para cuando se cierre el modal
-    $('#modalPsi').on('hidden.bs.modal', function () {
-        // Resetear formulario
-        form.reset();
-    });
 }
 
-function hojaVidaPsi(id) {
-    // Aquí irá la lógica para la hoja de vida del préstamo
+function openModalPsiSalidas(id = null) {
+    const modal = document.getElementById('modalPsiSalidas');
+    const form = document.getElementById('formPsiSalidas');
+    
+    // Resetear formulario
+    form.reset();
+    document.getElementById('id_salida').value = '';
+    
+    // Mostrar inventario por defecto
+    const invSalida = document.getElementById('inventario_tab_salida');
+    if (invSalida) {
+        invSalida.style.display = 'block';
+        cargarDatosInventario('salida');
+    }
+    
+    if (id) {
+        fetch(base_url + '/psi/getSalida/' + id)
+            .then(res => res.json())
+            .then(data => {
+                Object.keys(data).forEach(key => {
+                    const el = form.querySelector(`[name="${key}"]`);
+                    if (el) el.value = data[key];
+                });
+                if (document.getElementById('id_salida')) document.getElementById('id_salida').value = data.id_salida;
+            })
+            .catch(err => console.error('Error cargando salida:', err));
+    }
+    
+    $('#modalPsiSalidas').modal('show');
+}
+
+function openModalPsiIngresos(id = null) {
+    const modal = document.getElementById('modalPsiIngresos');
+    const form = document.getElementById('formPsiIngresos');
+    
+    // Resetear formulario
+    form.reset();
+    document.getElementById('id_ingreso').value = '';
+    
+    // Mostrar inventario por defecto
+    const invIngreso = document.getElementById('inventario_tab_ingreso');
+    if (invIngreso) {
+        invIngreso.style.display = 'block';
+        cargarDatosInventario('ingreso');
+    }
+    
+    if (id) {
+        fetch(base_url + '/psi/getIngreso/' + id)
+            .then(res => res.json())
+            .then(data => {
+                Object.keys(data).forEach(key => {
+                    const el = form.querySelector(`[name="${key}"]`);
+                    if (el) el.value = data[key];
+                });
+                if (document.getElementById('id_ingreso')) document.getElementById('id_ingreso').value = data.id_ingreso;
+            })
+            .catch(err => console.error('Error cargando ingreso:', err));
+    }
+    
+    $('#modalPsiIngresos').modal('show');
+}
+
+function verPrestamoPsi(id) {
+    fetch(base_url + '/psi/getPrestamo/' + id)
+        .then(res => res.json())
+        .then(data => {
+            const detalles = `
+                <div class="row">
+                    <div class="col-md-6"><strong>Dependencia:</strong> ${data.dependencia || ''}</div>
+                    <div class="col-md-6"><strong>Funcionario:</strong> ${data.funcionario_responsable || ''}</div>
+                    <div class="col-md-6"><strong>Cargo:</strong> ${data.cargo_funcionario || ''}</div>
+                    <div class="col-md-6"><strong>Fecha Préstamo:</strong> ${data.fecha_prestamo || ''}</div>
+                    <div class="col-md-6"><strong>Fecha Devolución:</strong> ${data.fecha_devolucion || ''}</div>
+                    <div class="col-md-6"><strong>Item:</strong> ${data.item || ''}</div>
+                    <div class="col-md-6"><strong>Dispositivo:</strong> ${data.dispositivo || ''}</div>
+                    <div class="col-md-6"><strong>Marca/Modelo:</strong> ${data.marca_modelo || ''}</div>
+                    <div class="col-md-6"><strong>Activo:</strong> ${data.activo || ''}</div>
+                    <div class="col-md-6"><strong>Serial:</strong> ${data.serial || ''}</div>
+                    <div class="col-md-6"><strong>Estado:</strong> ${data.estado || ''}</div>
+                    <div class="col-md-6"><strong>MAC:</strong> ${data.mac || ''}</div>
+                    <div class="col-12 mt-2"><strong>Observaciones:</strong> ${data.observaciones || ''}</div>
+                </div>
+            `;
+            Swal.fire({
+                title: 'Detalles del Préstamo',
+                html: detalles,
+                width: '800px',
+                confirmButtonText: 'Cerrar'
+            });
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al cargar los detalles del préstamo'
+            });
+        });
+}
+
+function imprimirPrestamoPsi(id) {
     Swal.fire({
         icon: 'info',
-        title: 'Hoja de Vida',
-        text: 'Funcionalidad de Hoja de Vida próximamente. ID: ' + id
+        title: 'Imprimir Préstamo',
+        text: 'Funcionalidad de impresión próximamente. ID: ' + id
     });
 }
 
@@ -442,6 +614,32 @@ function toggleInventarioTab(tipo) {
         inventarioTab.style.display = 'block';
         // Cargar datos del inventario
         cargarDatosInventario(tipo);
+    } else {
+        inventarioTab.style.display = 'none';
+    }
+}
+
+// Función para mostrar/ocultar el tab de inventario para salidas
+function toggleInventarioTabSalidas() {
+    const selectElement = document.getElementById('tipo_dispositivo_salida');
+    const inventarioTab = document.getElementById('inventario_tab_salida');
+    
+    if (selectElement.value === 'interno') {
+        inventarioTab.style.display = 'block';
+        cargarDatosInventario('salida');
+    } else {
+        inventarioTab.style.display = 'none';
+    }
+}
+
+// Función para mostrar/ocultar el tab de inventario para ingresos
+function toggleInventarioTabIngresos() {
+    const selectElement = document.getElementById('tipo_dispositivo_ingreso');
+    const inventarioTab = document.getElementById('inventario_tab_ingreso');
+    
+    if (selectElement.value === 'interno') {
+        inventarioTab.style.display = 'block';
+        cargarDatosInventario('ingreso');
     } else {
         inventarioTab.style.display = 'none';
     }
@@ -653,6 +851,79 @@ function generarFormulariosItems(cantidad) {
         `;
         container.appendChild(itemDiv);
     }
+}
+
+// Función para seleccionar un equipo del inventario
+function seleccionarEquipo(categoria, id, tipo) {
+    // Mapear categorías a métodos del controlador
+    const metodoMap = {
+        'pc_torre': 'getPcTorreById',
+        'todo_en_uno': 'getTodoEnUnoById',
+        'portatiles': 'getPortatilById',
+        'impresoras': 'getImpresoraById',
+        'escaneres': 'getEscanerById',
+        'herramientas': 'getHerramientaById'
+    };
+    
+    const metodo = metodoMap[categoria];
+    if (!metodo) return;
+    
+    // Hacer petición AJAX para obtener detalles del equipo
+    fetch(`${base_url}/psi/${metodo}/${id}`)
+        .then(res => res.json())
+        .then(response => {
+            if (response.status && response.data) {
+                const data = response.data;
+                
+                // Mapear campos según la categoría
+                let numero = '';
+                switch(categoria) {
+                    case 'pc_torre':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'todo_en_uno':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'portatiles':
+                        numero = data.numero_pc || '';
+                        break;
+                    case 'impresoras':
+                        numero = data.numero_impresora || '';
+                        break;
+                    case 'escaneres':
+                        numero = data.numero_escaner || '';
+                        break;
+                    case 'herramientas':
+                        numero = data.numero_herramienta || data.item || '';
+                        break;
+                }
+                
+                // Llenar los campos del formulario según el tipo
+                document.querySelector(`[name="item"]`).value = numero;
+                document.querySelector(`[name="descripcion_dispositivo"]`).value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                document.querySelector(`[name="marca"]`).value = data.marca || '';
+                document.querySelector(`[name="modelo"]`).value = data.modelo || '';
+                document.querySelector(`[name="numero_activo"]`).value = data.numero_activo || '';
+                document.querySelector(`[name="serial"]`).value = data.serial || '';
+                document.getElementById(`equipo_id_${tipo}`).value = id;
+                document.getElementById(`equipo_tipo_${tipo}`).value = categoria;
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Equipo Seleccionado',
+                    text: 'Equipo agregado correctamente',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Error al obtener los detalles del equipo: ${error.message}`
+            });
+        });
 }
 
 // Función para seleccionar un equipo del inventario para préstamos
@@ -878,6 +1149,7 @@ function cargarTablaInventario(categoria, tipo) {
                         <button class="btn btn-sm btn-primary" onclick="seleccionarEquipo('${categoria}', ${id}, '${tipo}')">
                             Seleccionar
                         </button>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -942,20 +1214,59 @@ function seleccionarEquipo(categoria, id, tipo) {
                         break;
                 }
                 
-                // Llenar los campos del formulario
-                const itemField = document.querySelector(`[name="item_${tipo}"]`);
-                const descField = document.querySelector(`[name="descripcion_dispositivo_${tipo}"]`);
-                const marcaField = document.querySelector(`[name="marca_${tipo}"]`);
-                const modeloField = document.querySelector(`[name="modelo_${tipo}"]`);
-                const activoField = document.querySelector(`[name="numero_activo_${tipo}"]`);
-                const serialField = document.querySelector(`[name="serial_${tipo}"]`);
-                
-                if (itemField) itemField.value = numero;
-                if (descField) descField.value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
-                if (marcaField) marcaField.value = data.marca || '';
-                if (modeloField) modeloField.value = data.modelo || '';
-                if (activoField) activoField.value = data.numero_activo || '';
-                if (serialField) serialField.value = data.serial || '';
+                // Llenar los campos del formulario según el tipo
+                if (tipo === 'salida') {
+                    const itemField = document.querySelector('[name="item_salida"]');
+                    const descField = document.querySelector('[name="descripcion_dispositivo_salida"]');
+                    const marcaField = document.querySelector('[name="marca_salida"]');
+                    const modeloField = document.querySelector('[name="modelo_salida"]');
+                    const activoField = document.querySelector('[name="numero_activo_salida"]');
+                    const serialField = document.querySelector('[name="serial_salida"]');
+                    const equipoIdField = document.querySelector('[name="equipo_id_salida"]');
+                    const equipoTipoField = document.querySelector('[name="equipo_tipo_salida"]');
+                    
+                    if (itemField) itemField.value = numero;
+                    if (descField) descField.value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                    if (marcaField) marcaField.value = data.marca || '';
+                    if (modeloField) modeloField.value = data.modelo || '';
+                    if (activoField) activoField.value = data.numero_activo || '';
+                    if (serialField) serialField.value = data.serial || '';
+                    if (equipoIdField) equipoIdField.value = id;
+                    if (equipoTipoField) equipoTipoField.value = categoria;
+                } else if (tipo === 'ingreso') {
+                    const itemField = document.querySelector('[name="item_ingreso"]');
+                    const descField = document.querySelector('[name="descripcion_dispositivo_ingreso"]');
+                    const marcaField = document.querySelector('[name="marca_ingreso"]');
+                    const modeloField = document.querySelector('[name="modelo_ingreso"]');
+                    const activoField = document.querySelector('[name="numero_activo_ingreso"]');
+                    const serialField = document.querySelector('[name="serial_ingreso"]');
+                    const equipoIdField = document.querySelector('[name="equipo_id_ingreso"]');
+                    const equipoTipoField = document.querySelector('[name="equipo_tipo_ingreso"]');
+                    
+                    if (itemField) itemField.value = numero;
+                    if (descField) descField.value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                    if (marcaField) marcaField.value = data.marca || '';
+                    if (modeloField) modeloField.value = data.modelo || '';
+                    if (activoField) activoField.value = data.numero_activo || '';
+                    if (serialField) serialField.value = data.serial || '';
+                    if (equipoIdField) equipoIdField.value = id;
+                    if (equipoTipoField) equipoTipoField.value = categoria;
+                } else {
+                    // Para otros tipos (prestamo, etc.)
+                    const itemField = document.querySelector(`[name="item_${tipo}"]`);
+                    const descField = document.querySelector(`[name="descripcion_dispositivo_${tipo}"]`);
+                    const marcaField = document.querySelector(`[name="marca_${tipo}"]`);
+                    const modeloField = document.querySelector(`[name="modelo_${tipo}"]`);
+                    const activoField = document.querySelector(`[name="numero_activo_${tipo}"]`);
+                    const serialField = document.querySelector(`[name="serial_${tipo}"]`);
+                    
+                    if (itemField) itemField.value = numero;
+                    if (descField) descField.value = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${data.marca || ''} ${data.modelo || ''}`;
+                    if (marcaField) marcaField.value = data.marca || '';
+                    if (modeloField) modeloField.value = data.modelo || '';
+                    if (activoField) activoField.value = data.numero_activo || '';
+                    if (serialField) serialField.value = data.serial || '';
+                }
                 
                 // Mostrar mensaje de éxito
                 Swal.fire({
@@ -967,7 +1278,14 @@ function seleccionarEquipo(categoria, id, tipo) {
                 });
                 
                 // Ocultar el tab de inventario
-                const inventarioTab = document.getElementById(`inventario_tab_${tipo}`);
+                let inventarioTab;
+                if (tipo === 'salida') {
+                    inventarioTab = document.getElementById('inventario_tab_salida');
+                } else if (tipo === 'ingreso') {
+                    inventarioTab = document.getElementById('inventario_tab_ingreso');
+                } else {
+                    inventarioTab = document.getElementById(`inventario_tab_${tipo}`);
+                }
                 if (inventarioTab) {
                     inventarioTab.style.display = 'none';
                 }

@@ -35,20 +35,11 @@
             <table class="table table-hover table-bordered" id="tablaPrestamos">
               <thead>
                 <tr>
-                  <th>Dependencia</th>
                   <th>Funcionario Responsable</th>
-                  <th>Cargo Funcionario</th>
                   <th>Fecha Préstamo</th>
                   <th>Fecha Devolución</th>
                   <th>Item</th>
                   <th>Dispositivo</th>
-                  <th>Marca/Modelo</th>
-                  <th>Activo</th>
-                  <th>Serial</th>
-                  <th>Estado</th>
-                  <th>MAC</th>
-                  <th>Observaciones</th>
-                  <th>Status</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -58,7 +49,7 @@
         </div>
         <div class="tab-pane fade" id="salidas" role="tabpanel">
           <div class="d-flex justify-content-end mb-2">
-            <button class="btn btn-primary" onclick="openModalPsi('salida')"><i class="fas fa-plus"></i> Nueva Salida</button>
+            <button class="btn btn-primary" onclick="openModalPsiSalidas()"><i class="fas fa-plus"></i> Nueva Salida</button>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-bordered" id="tablaSalidas">
@@ -84,7 +75,7 @@
         </div>
         <div class="tab-pane fade" id="ingresos" role="tabpanel">
           <div class="d-flex justify-content-end mb-2">
-            <button class="btn btn-primary" onclick="openModalPsi('ingreso')"><i class="fas fa-plus"></i> Nuevo Ingreso</button>
+            <button class="btn btn-primary" onclick="openModalPsiIngresos()"><i class="fas fa-plus"></i> Nuevo Ingreso</button>
           </div>
           <div class="table-responsive">
             <table class="table table-hover table-bordered" id="tablaIngresos">
@@ -120,4 +111,6 @@
   </div>
 </main>
 <?php require_once "Views/Template/Modals/modalPsi.php"; ?>
+<?php require_once "Views/Template/Modals/modalPsiSalidas.php"; ?>
+<?php require_once "Views/Template/Modals/modalPsiIngresos.php"; ?>
 <?php require_once "Views/Template/footer_admin.php"; ?>
