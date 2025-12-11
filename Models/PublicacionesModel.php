@@ -16,16 +16,30 @@ class PublicacionesModel extends Mysql
         parent::__construct();
     }
 
-    // Obtener todas las publicaciones
-    public function selectPublicaciones()
+    // Obtener todas las publicaciones con filtros opcionales
+    public function selectPublicaciones($fechaInicio = null, $fechaFin = null)
     {
         try {
             $sql = "SELECT p.*, d.nombre as dependencia_nombre 
                     FROM publicaciones p 
                     LEFT JOIN tbl_dependencia d ON p.dependencia_fk = d.dependencia_pk 
-                    WHERE p.status != 0 
-                    ORDER BY p.id_publicacion DESC";
-            $request = $this->select_all($sql);
+                    WHERE p.status != 0";
+            
+            $params = array();
+            
+            if (!empty($fechaInicio) && !empty($fechaFin)) {
+                $sql .= " AND p.fecha_publicacion BETWEEN ? AND ?";
+                $params[] = $fechaInicio;
+                $params[] = $fechaFin;
+            }
+            
+            $sql .= " ORDER BY p.id_publicacion DESC";
+            
+            if (empty($params)) {
+                $request = $this->select_all($sql);
+            } else {
+                $request = $this->select_all($sql, $params);
+            }
             
             if (!is_array($request)) {
                 return array();

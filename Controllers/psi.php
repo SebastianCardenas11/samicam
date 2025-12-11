@@ -30,6 +30,32 @@ class psi extends Controllers
     {
         if ($_SESSION['permisosMod']['r']) {
             $arrData = $this->model->selectPrestamos();
+            
+            for ($i = 0; $i < count($arrData); $i++) {
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
+
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo(' . $arrData[$i]['id_prestamos'] . ')" title="Ver préstamo"><i class="far fa-eye"></i></button>';
+                }
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditInfo(' . $arrData[$i]['id_prestamos'] . ')" title="Editar préstamo"><i class="fas fa-pencil-alt"></i></button>';
+                }
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo(' . $arrData[$i]['id_prestamos'] . ')" title="Eliminar préstamo"><i class="far fa-trash-alt"></i></button>';
+                }
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                
+                // Formatear fechas
+                if(!empty($arrData[$i]['fecha_prestamo'])) {
+                    $arrData[$i]['fecha_prestamo'] = date('d/m/Y', strtotime($arrData[$i]['fecha_prestamo']));
+                }
+                if(!empty($arrData[$i]['fecha_devolucion'])) {
+                    $arrData[$i]['fecha_devolucion'] = date('d/m/Y', strtotime($arrData[$i]['fecha_devolucion']));
+                }
+            }
+            
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         }
         die();
@@ -44,27 +70,66 @@ class psi extends Controllers
     }
     public function setPrestamo()
     {
-        if ($_SESSION['permisosMod']['w']) {
-            $data = $_POST;
-            $id = isset($data['id_prestamos']) ? intval($data['id_prestamos']) : 0;
-            
-            // Verificar si es un préstamo con múltiples items
-            $cantidadItems = isset($data['cantidad_items']) ? intval($data['cantidad_items']) : 1;
-            
-            if ($id > 0) {
-                // Actualización de préstamo existente
-                $result = $this->model->updatePrestamo($id, $data);
+        if ($_POST) {
+            if (empty($_POST['listFuncionario']) || empty($_POST['txtFechaPrestamo']) || 
+                empty($_POST['listTipoEquipo']) || empty($_POST['listEquipo'])) {
+                $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
             } else {
-                // Nuevo préstamo
-                if ($cantidadItems > 1) {
-                    // Procesar múltiples items
-                    $result = $this->procesarPrestamoMultiple($data);
+                $intIdPrestamo = intval($_POST['idPrestamo']);
+                $intFuncionario = intval($_POST['listFuncionario']);
+                $strFechaPrestamo = strClean($_POST['txtFechaPrestamo']);
+                $strFechaDevolucion = strClean($_POST['txtFechaDevolucion']);
+                $strTipoEquipo = strClean($_POST['listTipoEquipo']);
+                $intEquipo = intval($_POST['listEquipo']);
+                $strObservaciones = strClean($_POST['txtObservaciones']);
+
+                // Obtener datos del funcionario
+                $funcionario_data = $this->model->getFuncionarioById($intFuncionario);
+
+                if(!$funcionario_data) {
+                    $arrResponse = array("status" => false, "msg" => 'Funcionario no encontrado.');
                 } else {
-                    // Préstamo simple
-                    $result = $this->model->insertPrestamo($data);
+                    if($intIdPrestamo == 0) {
+                        // Crear
+                        if($_SESSION['permisosMod']['w']) {
+                            $request_prestamo = $this->model->insertPrestamo(
+                                $funcionario_data,
+                                $strFechaPrestamo,
+                                $strFechaDevolucion,
+                                $strTipoEquipo,
+                                $intEquipo,
+                                $strObservaciones
+                            );
+                            $option = 1;
+                        }
+                    } else {
+                        // Actualizar
+                        if($_SESSION['permisosMod']['u']) {
+                            $request_prestamo = $this->model->updatePrestamo(
+                                $intIdPrestamo,
+                                $funcionario_data,
+                                $strFechaPrestamo,
+                                $strFechaDevolucion,
+                                $strTipoEquipo,
+                                $intEquipo,
+                                $strObservaciones
+                            );
+                            $option = 2;
+                        }
+                    }
+
+                    if($request_prestamo > 0) {
+                        if($option == 1) {
+                            $arrResponse = array('status' => true, 'msg' => 'Datos guardados correctamente.');
+                        } else {
+                            $arrResponse = array('status' => true, 'msg' => 'Datos actualizados correctamente.');
+                        }
+                    } else {
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                    }
                 }
             }
-            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -112,92 +177,17 @@ class psi extends Controllers
     }
     public function delPrestamo()
     {
-        if ($_SESSION['permisosMod']['d']) {
-            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-            $result = $this->model->deletePrestamo($id);
-            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-
-    // ==================== SALIDAS ====================
-    public function getSalidas()
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectSalidas();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    public function getSalida($id)
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectSalida($id);
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    public function setSalida()
-    {
-        if ($_SESSION['permisosMod']['w']) {
-            $data = $_POST;
-            $id = isset($data['id_salida']) ? intval($data['id_salida']) : 0;
-            if ($id > 0) {
-                $result = $this->model->updateSalida($id, $data);
-            } else {
-                $result = $this->model->insertSalida($data);
+        if ($_POST) {
+            if ($_SESSION['permisosMod']['d']) {
+                $intIdPrestamo = intval($_POST['idPrestamo']);
+                $requestDelete = $this->model->deletePrestamo($intIdPrestamo);
+                if ($requestDelete) {
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado el préstamo');
+                } else {
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el préstamo.');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             }
-            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    public function delSalida()
-    {
-        if ($_SESSION['permisosMod']['d']) {
-            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-            $result = $this->model->deleteSalida($id);
-            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-
-    // ==================== INGRESOS ====================
-    public function getIngresos()
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectIngresos();
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    public function getIngreso($id)
-    {
-        if ($_SESSION['permisosMod']['r']) {
-            $arrData = $this->model->selectIngreso($id);
-            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    public function setIngreso()
-    {
-        if ($_SESSION['permisosMod']['w']) {
-            $data = $_POST;
-            $id = isset($data['id_ingreso']) ? intval($data['id_ingreso']) : 0;
-            if ($id > 0) {
-                $result = $this->model->updateIngreso($id, $data);
-            } else {
-                $result = $this->model->insertIngreso($data);
-            }
-            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
-        }
-        die();
-    }
-    public function delIngreso()
-    {
-        if ($_SESSION['permisosMod']['d']) {
-            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-            $result = $this->model->deleteIngreso($id);
-            echo json_encode(['result' => $result], JSON_UNESCAPED_UNICODE);
         }
         die();
     }
@@ -208,10 +198,171 @@ class psi extends Controllers
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
-    public function getFuncionariosOps()
+
+    public function getDependencias()
     {
-        $arrData = $this->model->getFuncionariosOps();
-        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        try {
+            $arrData = $this->model->getDependencias();
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            echo json_encode(array('error' => $e->getMessage()), JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    // ==================== SALIDAS ====================
+    public function getSalidas()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->selectSalidas();
+            
+            for ($i = 0; $i < count($arrData); $i++) {
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
+
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewSalida(' . $arrData[$i]['id_salida'] . ')" title="Ver salida"><i class="far fa-eye"></i></button>';
+                    $btnPDF = '<a class="btn btn-success btn-sm" href="' . base_url() . '/psi/generarPDFSalida/' . $arrData[$i]['id_salida'] . '" target="_blank" title="Generar PDF"><i class="fas fa-file-pdf"></i></a>';
+                }
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditSalida(' . $arrData[$i]['id_salida'] . ')" title="Editar salida"><i class="fas fa-pencil-alt"></i></button>';
+                }
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelSalida(' . $arrData[$i]['id_salida'] . ')" title="Eliminar salida"><i class="far fa-trash-alt"></i></button>';
+                }
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPDF . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                
+                if(!empty($arrData[$i]['fecha'])) {
+                    $arrData[$i]['fecha'] = date('d/m/Y', strtotime($arrData[$i]['fecha']));
+                }
+            }
+            
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function setSalida()
+    {
+        if ($_POST) {
+            if (empty($_POST['txtFechaSalida']) || empty($_POST['listTipoEquipoSalida']) || 
+                empty($_POST['equiposSeleccionados']) || empty($_POST['listDependenciaSalida'])) {
+                $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+            } else {
+                $strFecha = strClean($_POST['txtFechaSalida']);
+                $strTipoEquipo = strClean($_POST['listTipoEquipoSalida']);
+                $arrEquipos = json_decode($_POST['equiposSeleccionados'], true);
+                $strDependencia = strClean($_POST['listDependenciaSalida']);
+                $strObservaciones = strClean($_POST['txtObservacionesSalida']);
+
+                if($_SESSION['permisosMod']['w']) {
+                    $request_salida = $this->model->insertSalidaConEquipos(
+                        $strFecha, $strDependencia, $strObservaciones, $arrEquipos, $strTipoEquipo
+                    );
+                    
+                    if($request_salida > 0) {
+                        $arrResponse = array('status' => true, 'msg' => 'Salida registrada correctamente con ' . count($arrEquipos) . ' equipos.');
+                    } else {
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                    }
+                }
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function generarPDFSalida($id_salida)
+    {
+        if($_SESSION['permisosMod']['r']) {
+            $salida = $this->model->selectSalida($id_salida);
+            if($salida) {
+                require_once 'Libraries/pdf_salida.php';
+                generarPDFSalida($salida);
+            }
+        }
+        die();
+    }
+
+    // ==================== INGRESOS ====================
+    public function getIngresos()
+    {
+        if ($_SESSION['permisosMod']['r']) {
+            $arrData = $this->model->selectIngresos();
+            
+            for ($i = 0; $i < count($arrData); $i++) {
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
+
+                if ($_SESSION['permisosMod']['r']) {
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewIngreso(' . $arrData[$i]['id_ingreso'] . ')" title="Ver ingreso"><i class="far fa-eye"></i></button>';
+                    $btnPDF = '<a class="btn btn-success btn-sm" href="' . base_url() . '/psi/generarPDFIngreso/' . $arrData[$i]['id_ingreso'] . '" target="_blank" title="Generar PDF"><i class="fas fa-file-pdf"></i></a>';
+                }
+                if ($_SESSION['permisosMod']['u']) {
+                    $btnEdit = '<button class="btn btn-warning btn-sm" onClick="fntEditIngreso(' . $arrData[$i]['id_ingreso'] . ')" title="Editar ingreso"><i class="fas fa-pencil-alt"></i></button>';
+                }
+                if ($_SESSION['permisosMod']['d']) {
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelIngreso(' . $arrData[$i]['id_ingreso'] . ')" title="Eliminar ingreso"><i class="far fa-trash-alt"></i></button>';
+                }
+                $arrData[$i]['options'] = '<div class="text-center">' . $btnView . ' ' . $btnPDF . ' ' . $btnEdit . ' ' . $btnDelete . '</div>';
+                
+                if(!empty($arrData[$i]['fecha'])) {
+                    $arrData[$i]['fecha'] = date('d/m/Y', strtotime($arrData[$i]['fecha']));
+                }
+            }
+            
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function setIngreso()
+    {
+        if ($_POST) {
+            if (empty($_POST['txtFechaIngreso']) || empty($_POST['listTipoEquipoIngreso']) || 
+                empty($_POST['equiposSeleccionados']) || empty($_POST['listDependenciaIngreso'])) {
+                $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+            } else {
+                $strFecha = strClean($_POST['txtFechaIngreso']);
+                $strTipoEquipo = strClean($_POST['listTipoEquipoIngreso']);
+                $arrEquipos = json_decode($_POST['equiposSeleccionados'], true);
+                $strDependencia = strClean($_POST['listDependenciaIngreso']);
+                $strObservaciones = strClean($_POST['txtObservacionesIngreso']);
+
+                if($_SESSION['permisosMod']['w']) {
+                    $ingresos_creados = [];
+                    foreach($arrEquipos as $equipo_id) {
+                        $request_ingreso = $this->model->insertIngresoFromInventario(
+                            $strFecha, $strTipoEquipo, intval($equipo_id), $strDependencia, $strObservaciones
+                        );
+                        if($request_ingreso) {
+                            $ingresos_creados[] = $request_ingreso;
+                        }
+                    }
+                    
+                    if(count($ingresos_creados) > 0) {
+                        $arrResponse = array('status' => true, 'msg' => 'Ingresos registrados correctamente.', 'ingresos' => $ingresos_creados);
+                    } else {
+                        $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                    }
+                }
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function generarPDFIngreso($id_ingreso)
+    {
+        if($_SESSION['permisosMod']['r']) {
+            $ingreso = $this->model->selectIngreso($id_ingreso);
+            if($ingreso) {
+                require_once 'Libraries/pdf_ingreso.php';
+                generarPDFIngreso($ingreso);
+            }
+        }
         die();
     }
 

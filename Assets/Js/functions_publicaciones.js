@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Inicializar la tabla al cargar la página ya que es la pestaña activa por defecto
     initializeTable();
+    
+    // Configurar filtros de tabla
+    setupTableFilters();
 
     // CREAR PUBLICACIÓN
     let formPublicacion = document.querySelector("#formPublicacion");
@@ -68,6 +71,106 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 });
 
+function setupTableFilters() {
+    const btnFiltrarTabla = document.getElementById('btnFiltrarTabla');
+    const btnLimpiarTabla = document.getElementById('btnLimpiarTabla');
+    const btnImprimirTabla = document.getElementById('btnImprimirTabla');
+    
+    if (btnFiltrarTabla) {
+        btnFiltrarTabla.addEventListener('click', function() {
+            const fechaInicio = document.getElementById('fechaInicioTabla').value;
+            const fechaFin = document.getElementById('fechaFinTabla').value;
+            
+            if (fechaInicio && fechaFin) {
+                if (fechaInicio > fechaFin) {
+                    Swal.fire('Error', 'La fecha de inicio no puede ser mayor que la fecha fin', 'error');
+                    return;
+                }
+                filtrarTabla(fechaInicio, fechaFin);
+            } else {
+                Swal.fire('Error', 'Por favor seleccione ambas fechas', 'error');
+            }
+        });
+    }
+    
+    if (btnLimpiarTabla) {
+        btnLimpiarTabla.addEventListener('click', function() {
+            document.getElementById('fechaInicioTabla').value = '';
+            document.getElementById('fechaFinTabla').value = '';
+            limpiarFiltrosTabla();
+        });
+    }
+    
+    if (btnImprimirTabla) {
+        btnImprimirTabla.addEventListener('click', function() {
+            imprimirTabla();
+        });
+    }
+}
+
+function filtrarTabla(fechaInicio, fechaFin) {
+    if (tablePublicaciones) {
+        tablePublicaciones.api().ajax.reload();
+    }
+}
+
+function limpiarFiltrosTabla() {
+    if (tablePublicaciones) {
+        tablePublicaciones.api().ajax.reload();
+    }
+}
+
+function imprimirTabla() {
+    const fechaInicio = document.getElementById('fechaInicioTabla').value;
+    const fechaFin = document.getElementById('fechaFinTabla').value;
+    
+    let titulo = 'Reporte de Publicaciones';
+    if (fechaInicio && fechaFin) {
+        titulo += ` (${fechaInicio} - ${fechaFin})`;
+    }
+    
+    // Crear ventana de impresión
+    const printWindow = window.open('', '_blank');
+    const tableHtml = document.getElementById('tablePublicaciones').outerHTML;
+    
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${titulo}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { text-align: center; color: #333; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background-color: #f2f2f2; }
+                .text-center { text-align: center; }
+                .badge { padding: 4px 8px; border-radius: 4px; color: white; }
+                .text-bg-success { background-color: #28a745; }
+                .text-bg-warning { background-color: #ffc107; color: black; }
+                .text-bg-danger { background-color: #dc3545; }
+                @media print {
+                    body { margin: 0; }
+                    .no-print { display: none; }
+                }
+            </style>
+        </head>
+        <body>
+            <h1>${titulo}</h1>
+            <p>Fecha de generación: ${new Date().toLocaleDateString('es-ES')}</p>
+            ${tableHtml.replace(/class="btn[^"]*"/g, 'style="display:none"')}
+        </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 250);
+}
+
 function fntGetDependencias() {
     let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     let ajaxUrl = base_url+'/Publicaciones/getDependencias';
@@ -94,6 +197,11 @@ function initializeTable() {
         },
         "ajax": {
             "url": base_url + "/Publicaciones/getPublicaciones",
+            "type": "POST",
+            "data": function(d) {
+                d.fechaInicio = document.getElementById('fechaInicioTabla')?.value || '';
+                d.fechaFin = document.getElementById('fechaFinTabla')?.value || '';
+            },
             "dataSrc": ""
         },
         "columns": [

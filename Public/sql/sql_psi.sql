@@ -24,39 +24,49 @@ CREATE TABLE IF NOT EXISTS tbl_prestamos (
 CREATE TABLE IF NOT EXISTS tbl_psi_salidas (
   id_salida INT AUTO_INCREMENT PRIMARY KEY,
   fecha DATE NOT NULL,
-  item VARCHAR(100) NOT NULL,
-  tipo_dispositivo ENUM('interno', 'externo') NOT NULL,
-  descripcion_dispositivo VARCHAR(255) NOT NULL,
-  marca VARCHAR(100) NOT NULL,
-  modelo VARCHAR(100) NOT NULL,
-  numero_activo VARCHAR(100) NOT NULL,
-  serial VARCHAR(100) NOT NULL,
   dependencia VARCHAR(100) NOT NULL,
-  equipo_id INT DEFAULT NULL,
-  equipo_tipo VARCHAR(50) DEFAULT NULL,
   observaciones TEXT DEFAULT NULL,
   status TINYINT(1) DEFAULT 1,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS tbl_psi_ingresos (
-  id_ingreso INT AUTO_INCREMENT PRIMARY KEY,
-  fecha DATE NOT NULL,
+CREATE TABLE IF NOT EXISTS tbl_psi_salidas_detalle (
+  id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+  id_salida INT NOT NULL,
   item VARCHAR(100) NOT NULL,
-  tipo_dispositivo ENUM('interno', 'externo') NOT NULL,
   descripcion_dispositivo VARCHAR(255) NOT NULL,
   marca VARCHAR(100) NOT NULL,
   modelo VARCHAR(100) NOT NULL,
   numero_activo VARCHAR(100) NOT NULL,
   serial VARCHAR(100) NOT NULL,
-  dependencia VARCHAR(100) NOT NULL,
   equipo_id INT DEFAULT NULL,
   equipo_tipo VARCHAR(50) DEFAULT NULL,
+  FOREIGN KEY (id_salida) REFERENCES tbl_psi_salidas(id_salida) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS tbl_psi_ingresos (
+  id_ingreso INT AUTO_INCREMENT PRIMARY KEY,
+  fecha DATE NOT NULL,
+  dependencia VARCHAR(100) NOT NULL,
   observaciones TEXT DEFAULT NULL,
   status TINYINT(1) DEFAULT 1,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS tbl_psi_ingresos_detalle (
+  id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+  id_ingreso INT NOT NULL,
+  item VARCHAR(100) NOT NULL,
+  descripcion_dispositivo VARCHAR(255) NOT NULL,
+  marca VARCHAR(100) NOT NULL,
+  modelo VARCHAR(100) NOT NULL,
+  numero_activo VARCHAR(100) NOT NULL,
+  serial VARCHAR(100) NOT NULL,
+  equipo_id INT DEFAULT NULL,
+  equipo_tipo VARCHAR(50) DEFAULT NULL,
+  FOREIGN KEY (id_ingreso) REFERENCES tbl_psi_ingresos(id_ingreso) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 
 
 -- Agregar numero_activo a tablas de inventario si no existen

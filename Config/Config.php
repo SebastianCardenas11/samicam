@@ -4,10 +4,10 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 //IP del servidor y local
-const PROTOCOL = "http";
-const IP_SERVER = "100.85.55.128:4443";
+const PROTOCOL = "https";
+const IP_SERVER = "26.114.216.81:4443";
 const IP_LOCAL = "localhost";
-const BASE_URL = PROTOCOL."://".IP_LOCAL."/samicam";
+const BASE_URL = PROTOCOL."://".IP_SERVER."/samicam";
 
 //Zona horaria
 date_default_timezone_set('America/Bogota');
@@ -56,7 +56,7 @@ const MDEPENDENCIAS = 13;
 const MSEGUIMIENTOCONTRATO = 14;
 const MINVENTARIO = 15;
 const MWHATSAPP = 16;
-const MPSI = 17;
+const MPSI = 18;
 const MHOJAVIDAEQUIPOS = 19;
 const MPETICIONES = 20;
 const MRADICADOS = 21;

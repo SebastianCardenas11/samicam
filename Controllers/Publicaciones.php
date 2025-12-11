@@ -29,7 +29,10 @@ class Publicaciones extends Controllers
     {
         try {
             if ($_SESSION['permisosMod']['r']) {
-                $arrData = $this->model->selectPublicaciones();
+                $fechaInicio = $_POST['fechaInicio'] ?? null;
+                $fechaFin = $_POST['fechaFin'] ?? null;
+                
+                $arrData = $this->model->selectPublicaciones($fechaInicio, $fechaFin);
                 
                 if (!is_array($arrData)) {
                     throw new Exception("Error al obtener los datos");
@@ -239,12 +242,36 @@ class Publicaciones extends Controllers
             
             if (!empty($fechaInicio) && !empty($fechaFin)) {
                 $estadisticas = $this->model->getEstadisticasFiltradas($fechaInicio, $fechaFin);
+                $publicaciones = $this->model->selectPublicaciones($fechaInicio, $fechaFin);
+                
+                $response = array(
+                    'estadisticas' => $estadisticas,
+                    'publicaciones' => $publicaciones
+                );
+                
                 header('Content-Type: application/json');
-                echo json_encode($estadisticas, JSON_UNESCAPED_UNICODE);
+                echo json_encode($response, JSON_UNESCAPED_UNICODE);
             } else {
                 header('Content-Type: application/json');
                 echo json_encode(array('error' => 'Fechas requeridas'), JSON_UNESCAPED_UNICODE);
             }
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => 'Sin permisos'), JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
+    public function exportarPublicaciones()
+    {
+        if ($_POST && $_SESSION['permisosMod']['r']) {
+            $fechaInicio = strClean($_POST['fechaInicio']);
+            $fechaFin = strClean($_POST['fechaFin']);
+            
+            $publicaciones = $this->model->selectPublicaciones($fechaInicio, $fechaFin);
+            
+            header('Content-Type: application/json');
+            echo json_encode($publicaciones, JSON_UNESCAPED_UNICODE);
         } else {
             header('Content-Type: application/json');
             echo json_encode(array('error' => 'Sin permisos'), JSON_UNESCAPED_UNICODE);

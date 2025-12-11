@@ -35,7 +35,32 @@
                     <div class="tab-content" id="myTabContent">
                         <!-- Tab de Tabla -->
                         <div class="tab-pane fade show active" id="tabla" role="tabpanel" aria-labelledby="tabla-tab">
-                            <div class="table-responsive mt-3">
+                            <!-- Filtros de fecha para tabla -->
+                            <div class="row mb-3 mt-3">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Filtros de Fecha</h6>
+                                            <div class="row align-items-end">
+                                                <div class="col-md-3">
+                                                    <label for="fechaInicioTabla" class="form-label">Fecha Inicio:</label>
+                                                    <input type="date" id="fechaInicioTabla" class="form-control form-control-sm">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="fechaFinTabla" class="form-label">Fecha Fin:</label>
+                                                    <input type="date" id="fechaFinTabla" class="form-control form-control-sm">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button type="button" id="btnFiltrarTabla" class="btn btn-primary btn-sm me-2">Filtrar</button>
+                                                    <button type="button" id="btnLimpiarTabla" class="btn btn-secondary btn-sm me-2">Limpiar</button>
+                                                    <button type="button" id="btnImprimirTabla" class="btn btn-success btn-sm"><i class="fas fa-print"></i> Imprimir</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
                                 <table class="table table-hover table-bordered" id="tablePublicaciones">
                             <thead class="table-success">
                                 <tr>
@@ -110,6 +135,7 @@
                                                     <input type="date" id="fechaFin" class="form-control form-control-sm" style="width: 150px;">
                                                     <button type="button" id="btnFiltrar" class="btn btn-primary btn-sm">Filtrar</button>
                                                     <button type="button" id="btnLimpiar" class="btn btn-secondary btn-sm">Limpiar</button>
+                                                    <button type="button" id="btnImprimirGraficos" class="btn btn-success btn-sm"><i class="fas fa-print"></i> Imprimir</button>
                                                 </div>
                                             </div>
                                             <div class="tile-body">
@@ -195,8 +221,44 @@
 #fechaInicio, #fechaFin {
     font-size: 0.875rem;
 }
-#btnFiltrar, #btnLimpiar {
+#btnFiltrar, #btnLimpiar, #btnImprimirGraficos, #btnFiltrarTabla, #btnLimpiarTabla, #btnImprimirTabla {
     white-space: nowrap;
+}
+
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+@media print {
+    .no-print, .btn, button, .d-flex.gap-2 {
+        display: none !important;
+    }
+    
+    .table {
+        font-size: 12px;
+    }
+    
+    .badge {
+        border: 1px solid #000;
+        padding: 2px 4px;
+    }
 }
 </style>
 
@@ -218,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupDateFilters() {
     const btnFiltrar = document.getElementById('btnFiltrar');
     const btnLimpiar = document.getElementById('btnLimpiar');
+    const btnImprimirGraficos = document.getElementById('btnImprimirGraficos');
     
     if (btnFiltrar) {
         btnFiltrar.addEventListener('click', function() {
@@ -241,6 +304,12 @@ function setupDateFilters() {
             document.getElementById('fechaInicio').value = '';
             document.getElementById('fechaFin').value = '';
             cargarGraficoOriginal();
+        });
+    }
+    
+    if (btnImprimirGraficos) {
+        btnImprimirGraficos.addEventListener('click', function() {
+            imprimirGraficos();
         });
     }
 }
@@ -308,7 +377,13 @@ function cargarGraficoFiltrado(fechaInicio, fechaFin) {
     })
     .then(response => response.json())
     .then(data => {
-        actualizarTodosLosGraficos(data);
+        actualizarTodosLosGraficos(data.estadisticas);
+        // Sincronizar filtros con la tabla
+        document.getElementById('fechaInicioTabla').value = fechaInicio;
+        document.getElementById('fechaFinTabla').value = fechaFin;
+        if (tablePublicaciones) {
+            tablePublicaciones.api().ajax.reload();
+        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -319,6 +394,12 @@ function cargarGraficoFiltrado(fechaInicio, fechaFin) {
 function cargarGraficoOriginal() {
     const estadisticas = <?= json_encode($data['estadisticas']) ?>;
     actualizarTodosLosGraficos(estadisticas);
+    // Limpiar filtros de tabla también
+    document.getElementById('fechaInicioTabla').value = '';
+    document.getElementById('fechaFinTabla').value = '';
+    if (tablePublicaciones) {
+        tablePublicaciones.api().ajax.reload();
+    }
 }
 
 function actualizarTodosLosGraficos(estadisticas) {
@@ -414,6 +495,85 @@ function actualizarGraficoDependencias(datos) {
             }
         }
     });
+}
+
+function imprimirGraficos() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    
+    let titulo = 'Reporte de Gráficos - Publicaciones';
+    if (fechaInicio && fechaFin) {
+        titulo += ` (${fechaInicio} - ${fechaFin})`;
+    }
+    
+    // Crear ventana de impresión
+    const printWindow = window.open('', '_blank');
+    
+    // Obtener las estadísticas actuales
+    const estadisticasContainer = document.querySelector('.row.mb-4').outerHTML;
+    const graficosContainer = document.querySelector('.graficos-container').outerHTML;
+    
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${titulo}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { text-align: center; color: #333; margin-bottom: 30px; }
+                .widget-small { 
+                    border: 1px solid #ddd; 
+                    padding: 15px; 
+                    margin: 10px; 
+                    border-radius: 5px;
+                    display: inline-block;
+                    width: 200px;
+                    text-align: center;
+                }
+                .widget-small.primary { background-color: #007bff; color: white; }
+                .widget-small.info { background-color: #17a2b8; color: white; }
+                .widget-small.warning { background-color: #ffc107; color: black; }
+                .widget-small.success { background-color: #28a745; color: white; }
+                .tile { 
+                    border: 1px solid #ddd; 
+                    margin: 20px 0; 
+                    padding: 20px;
+                    border-radius: 5px;
+                }
+                .tile-title { 
+                    font-size: 18px; 
+                    font-weight: bold; 
+                    margin-bottom: 15px;
+                    color: #333;
+                }
+                canvas { 
+                    max-width: 100%; 
+                    height: auto !important;
+                }
+                .row { display: flex; flex-wrap: wrap; }
+                .col-md-3, .col-md-4, .col-md-8 { flex: 1; min-width: 250px; }
+                @media print {
+                    body { margin: 0; }
+                    .no-print { display: none; }
+                    canvas { break-inside: avoid; }
+                }
+            </style>
+        </head>
+        <body>
+            <h1>${titulo}</h1>
+            <p>Fecha de generación: ${new Date().toLocaleDateString('es-ES')}</p>
+            ${estadisticasContainer}
+            ${graficosContainer.replace(/style="[^"]*"/g, '').replace(/class="d-flex[^"]*"/g, 'style="display:none"')}
+        </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 1000);
 }
 </script>
 
